@@ -11,7 +11,6 @@ import lombok.ToString;
 
 /**
  * GitHub Rate Limit API.
- *
  * @since 0.6
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
  */

@@ -10,7 +10,6 @@ import java.util.Map;
 
 /**
  * GitHub hooks.
- *
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
  * @since 0.8
  */

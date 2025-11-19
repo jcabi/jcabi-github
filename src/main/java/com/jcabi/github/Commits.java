@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Commits.
- *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
  */

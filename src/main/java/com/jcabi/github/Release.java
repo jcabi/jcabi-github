@@ -20,7 +20,6 @@ import lombok.ToString;
 
 /**
  * GitHub release.
- *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  * @checkstyle MultipleStringLiterals (500 lines)

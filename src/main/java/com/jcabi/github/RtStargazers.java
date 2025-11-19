@@ -12,7 +12,6 @@ import java.io.IOException;
 
 /**
  * GitHub stargazers.
- *
  * @since 1.7.1
  */
 public final class RtStargazers implements Stargazers {

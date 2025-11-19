@@ -9,7 +9,6 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Blobs.
- *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  */

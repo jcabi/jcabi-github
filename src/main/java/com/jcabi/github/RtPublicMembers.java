@@ -15,7 +15,6 @@ import org.hamcrest.Matchers;
 
 /**
  * Public members of a GitHub organization.
- *
  * @see <a href="https://developer.github.com/v3/orgs/members/">Organization Members API</a>
  * @since 0.24
  */

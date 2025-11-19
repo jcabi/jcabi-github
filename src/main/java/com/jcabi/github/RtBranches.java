@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Git branches.
- *
  * @since 0.24
  */
 @Immutable

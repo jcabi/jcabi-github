@@ -9,7 +9,6 @@ import java.io.IOException;
 
 /**
  * GitHub Assignees.
- *
  * @since 0.7
  */
 @Immutable

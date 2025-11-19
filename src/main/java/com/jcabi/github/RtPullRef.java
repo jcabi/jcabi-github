@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull request ref.
- *
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)

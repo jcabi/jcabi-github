@@ -12,7 +12,6 @@ import lombok.ToString;
 
 /**
  * GitHub Releases.
- *
  * @since 0.8
  */
 @Immutable
@@ -51,7 +50,6 @@ public interface Releases {
 
     /**
      * Remove a release.
-     *
      * @param number ID of the release to remove.
      * @throws IOException If an IO problem occurs.
      * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>

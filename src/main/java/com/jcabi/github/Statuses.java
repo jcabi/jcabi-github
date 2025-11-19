@@ -16,14 +16,11 @@ import lombok.ToString;
 
 /**
  * GitHub status.
- *
  * <p>The status exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
  * "smart" decorator, which helps you to get access to all JSON properties,
  * for example:
- *
  * <pre> URL url = new Status.Smart(status).url();</pre>
- *
  * @since 0.23
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
  */
@@ -60,8 +57,7 @@ public interface Statuses extends JsonReadable {
 
     /**
      * Data to use when creating a new GitHub commit status.
-     *
-             * @since 0.24
+     * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
     @ToString

@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * GitHub contents.
- *
  * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
@@ -27,7 +26,6 @@ public interface Contents {
 
     /**
      * Get the Readme file of the default branch (usually master).
-     *
      * @return The Content of the readme file.
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
@@ -36,7 +34,6 @@ public interface Contents {
 
     /**
      * Get the Readme file of the specified branch.
-     *
      * @param branch The branch name
      * @return The Content of the readme file.
      * @throws IOException If an IO Exception occurs.

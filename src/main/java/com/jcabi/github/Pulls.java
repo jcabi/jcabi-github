@@ -10,7 +10,6 @@ import java.util.Map;
 
 /**
  * GitHub pull requests.
- *
  * @since 0.3
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  */

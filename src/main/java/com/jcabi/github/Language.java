@@ -8,7 +8,6 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * GitHub repository language.
- *
  * @since 0.19
  * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
  */

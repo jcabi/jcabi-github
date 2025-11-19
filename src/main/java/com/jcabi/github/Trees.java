@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Trees.
- *
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
  * @since 0.8
  */

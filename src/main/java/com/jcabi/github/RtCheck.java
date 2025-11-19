@@ -6,7 +6,6 @@ package com.jcabi.github;
 
 /**
  * GitHub check.
- *
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
  */

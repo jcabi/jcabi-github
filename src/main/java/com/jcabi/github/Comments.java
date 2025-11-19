@@ -10,13 +10,10 @@ import java.util.Date;
 
 /**
  * GitHub comments.
- *
  * <p>Use this class to get access to all comments in an issue, for example:
- *
  * <pre> issue = // ... get it somewhere
  * Comments comments = issue.comments();
  * Comment comment = comments.post("Hi, how are you?");</pre>
- *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  */

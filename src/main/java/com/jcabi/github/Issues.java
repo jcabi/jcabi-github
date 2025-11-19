@@ -11,7 +11,6 @@ import java.util.Map;
 
 /**
  * GitHub issues.
- *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
  */
@@ -52,7 +51,6 @@ public interface Issues {
 
     /**
      * Search for issues within the given repository.
-     *
      * @param sort The sort field
      * @param direction The sort direction
      * @param qualifiers The search qualifier

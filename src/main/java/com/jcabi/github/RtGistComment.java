@@ -15,7 +15,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Gist comment.
- *
  * @since 0.8
  */
 @Immutable

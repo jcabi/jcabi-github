@@ -15,7 +15,6 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub Assignees.
- *
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */

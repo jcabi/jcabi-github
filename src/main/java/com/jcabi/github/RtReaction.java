@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 /**
  * Runtime Reaction.
- *
  * @since 1.0
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize")

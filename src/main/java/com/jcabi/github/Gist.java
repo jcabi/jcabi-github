@@ -16,7 +16,6 @@ import lombok.ToString;
 
 /**
  * GitHub gist.
- *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  */

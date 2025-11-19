@@ -10,7 +10,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Repository coordinates.
- *
  * @since 0.1
  */
 @Immutable
