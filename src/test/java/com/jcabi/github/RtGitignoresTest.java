@@ -20,8 +20,8 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link RtGitignores}.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
+ * @since 0.8
  */
 @Immutable
 public final class RtGitignoresTest {
@@ -47,7 +47,7 @@ public final class RtGitignoresTest {
             ).start(this.resource.port())
         ) {
             final RtGitignores gitignores = new RtGitignores(
-                    new RtGitHub(new JdkRequest(container.home()))
+                new RtGitHub(new JdkRequest(container.home()))
             );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",

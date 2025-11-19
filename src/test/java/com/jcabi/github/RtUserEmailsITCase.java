@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
+ * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.USER_EMAIL)
 public final class RtUserEmailsITCase {
@@ -40,7 +41,8 @@ public final class RtUserEmailsITCase {
                 Matchers.hasItem(email)
             );
             MatcherAssert.assertThat(
-                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email));
+                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email)
+            );
         } finally {
             emails.remove(Collections.singletonList(email));
         }
@@ -57,7 +59,8 @@ public final class RtUserEmailsITCase {
         emails.add(Collections.singletonList(email));
         try {
             MatcherAssert.assertThat(
-                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email));
+                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email)
+            );
         } finally {
             emails.remove(Collections.singletonList(email));
         }

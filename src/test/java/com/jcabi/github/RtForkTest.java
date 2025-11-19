@@ -49,7 +49,7 @@ public final class RtForkTest {
                     );
             MkContainer forksContainer = new MkGrizzlyContainer().start(
                 this.resource.port()
-        )) {
+            )) {
             final RtRepo repo =
                 new RtRepo(
                     new MkGitHub(),

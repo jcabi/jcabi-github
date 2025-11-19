@@ -25,7 +25,7 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void retrievesKeys() throws Exception {
+    public void retrievesKeys() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("key", this.key());
         MatcherAssert.assertThat(
@@ -41,7 +41,7 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void retrievesSingleKey() throws Exception {
+    public void retrievesSingleKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("Title", this.key());
         MatcherAssert.assertThat(
@@ -57,12 +57,12 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void removesKey() throws Exception {
+    public void removesKey() throws Exception {
         final PublicKeys keys = this.keys();
         final PublicKey key = keys.create("", this.key());
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
-            keys.iterate() ,
+            keys.iterate(),
             Matchers.hasItem(key)
         );
         keys.remove(key.number());
@@ -78,7 +78,7 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void createsKey() throws Exception {
+    public void createsKey() throws Exception {
         final PublicKeys keys = this.keys();
         // @checkstyle LineLength (1 line)
         final PublicKey key = keys.create("rsa", this.key());

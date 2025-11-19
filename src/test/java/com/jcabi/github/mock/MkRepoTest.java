@@ -47,7 +47,8 @@ public final class MkRepoTest {
         );
         final Milestones milestones = repo.milestones();
         MatcherAssert.assertThat(
-            "Value is null", milestones, Matchers.notNullValue());
+            "Value is null", milestones, Matchers.notNullValue()
+        );
     }
 
     /**
@@ -63,7 +64,8 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo")
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.commits(), Matchers.notNullValue());
+            "Value is null", repo.commits(), Matchers.notNullValue()
+        );
     }
 
     /**
@@ -79,7 +81,8 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo")
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.branches(), Matchers.notNullValue());
+            "Value is null", repo.branches(), Matchers.notNullValue()
+        );
     }
 
     @Test
@@ -110,7 +113,8 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo2")
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.stars(), Matchers.notNullValue());
+            "Value is null", repo.stars(), Matchers.notNullValue()
+        );
     }
 
     /**
@@ -126,7 +130,8 @@ public final class MkRepoTest {
             new Coordinates.Simple(user, "testrepo3")
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.notifications(), Matchers.notNullValue());
+            "Value is null", repo.notifications(), Matchers.notNullValue()
+        );
     }
 
     /**
@@ -143,7 +148,8 @@ public final class MkRepoTest {
         );
         final Iterable<Language> languages = repo.languages();
         MatcherAssert.assertThat(
-            "Value is null", languages, Matchers.notNullValue());
+            "Value is null", languages, Matchers.notNullValue()
+        );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             Lists.newArrayList(languages),
