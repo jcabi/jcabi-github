@@ -44,7 +44,8 @@ public final class CommitsComparisonTest {
         );
         MatcherAssert.assertThat(
             "Values are not equal",
-            comparison.commits().iterator().next().sha(), Matchers.equalTo(sha)
+            comparison.commits().iterator().next().sha(),
+            Matchers.equalTo(sha)
         );
     }
 

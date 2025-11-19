@@ -34,7 +34,6 @@ public final class RtPaginationTest {
 
     /**
      * RtPagination can jump to next page of results.
-     *
      */
     @Test
     public void jumpNextPage() throws IOException {
@@ -70,7 +69,6 @@ public final class RtPaginationTest {
 
     /**
      * RtPagination can throw if there is no more elements in pagination.
-     *
      */
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws IOException {
@@ -99,7 +97,7 @@ public final class RtPaginationTest {
      * @param msg Message to build MkAnswer.Simple
      * @return MkAnswer.Simple
      */
-    private static  MkAnswer.Simple simple(final String msg) {
+    private static MkAnswer.Simple simple(final String msg) {
         final String message = Json.createArrayBuilder()
             .add(Json.createObjectBuilder().add("msg", msg))
             .build().toString();

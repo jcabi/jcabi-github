@@ -33,7 +33,6 @@ public final class RtLabelTest {
 
     /**
      * RtLabel can  can fetch HTTP request and describe response as a JSON.
-     *
      */
     @Test
     public void sendHttpRequestAndWriteResponseAsJson() throws IOException {
@@ -61,7 +60,6 @@ public final class RtLabelTest {
 
     /**
      * GhLabel can execute PATCH request.
-     *
      */
     @Test
     public void executePatchRequest() throws IOException {
