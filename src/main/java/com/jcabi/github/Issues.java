@@ -11,8 +11,8 @@ import java.util.Map;
 
 /**
  * GitHub issues.
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
+ * @since 0.1
  */
 @Immutable
 public interface Issues {
@@ -55,8 +55,8 @@ public interface Issues {
      * @param direction The sort direction
      * @param qualifiers The search qualifier
      * @return Issues
-     * @since 0.22.0
      * @see <a href="https://developer.github.com/v3/issues/#list-issues-for-a-repository">List issues for a repository</a>
+     * @since 0.22.0
      */
     Iterable<Issue> search(
         Issues.Sort sort, Search.Order direction,

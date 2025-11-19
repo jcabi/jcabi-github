@@ -55,7 +55,7 @@ final class MkContents implements Contents {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkContents(
+    MkContents(
         final MkStorage stg,
         final String login,
         final Coordinates rep

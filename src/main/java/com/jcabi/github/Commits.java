@@ -10,8 +10,8 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Commits.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Commits {
@@ -40,8 +40,8 @@ public interface Commits {
     /**
      * Return a Statuses object for a given ref (sha, branch name, etc).
      * @param ref The ref of the Commit
-     * @since 0.23
      * @return Status
+     * @since 0.23
      */
     Statuses statuses(String ref);
 }

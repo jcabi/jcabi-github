@@ -8,8 +8,8 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * GitHub issue events.
- * @since 0.23
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
+ * @since 0.23
  */
 @Immutable
 public interface IssueEvents {

@@ -13,9 +13,8 @@ import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock for GitHub Notifications.
- *
- * @since 0.15
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.15
  * @todo #913:30min Implement markAsRead() and thread() operations in
  *  MkNotifications. Don't forget about unit tests.
  */

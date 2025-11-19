@@ -19,7 +19,6 @@ import java.util.Iterator;
  *     .uri().path("/notifications").back(),
  *   RtPagination.COPYING
  * );</pre>
- * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  * @since 0.11

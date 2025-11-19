@@ -40,22 +40,21 @@ import lombok.ToString;
 /**
  * Mock GitHub repo.
  * @since 0.5
+ * @todo #1061 Fix code to avoid CouplingBetweenObjects
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
- * @todo #1061 Fix code to avoid CouplingBetweenObjects
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords"})
-@SuppressWarnings
-    (
-        {
-            "PMD.TooManyMethods",
-            "PMD.ExcessiveImports",
-            "PMD.CouplingBetweenObjects"
-        }
-    )
+@SuppressWarnings(
+{
+    "PMD.TooManyMethods",
+    "PMD.ExcessiveImports",
+    "PMD.CouplingBetweenObjects"
+}
+)
 final class MkRepo implements Repo {
 
     /**

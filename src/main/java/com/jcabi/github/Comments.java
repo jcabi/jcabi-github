@@ -14,8 +14,8 @@ import java.util.Date;
  * <pre> issue = // ... get it somewhere
  * Comments comments = issue.comments();
  * Comment comment = comments.post("Hi, how are you?");</pre>
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @since 0.1
  */
 @Immutable
 public interface Comments {

@@ -63,7 +63,7 @@ final class MkContent implements Content {
      * @param ref Branch of this file
      * @checkstyle ParameterNumberCheck (6 lines)
      */
-    public MkContent(
+    MkContent(
         final MkStorage stg,
         final String login,
         final Coordinates rep,

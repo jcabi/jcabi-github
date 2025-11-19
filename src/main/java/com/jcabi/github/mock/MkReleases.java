@@ -48,7 +48,7 @@ final class MkReleases implements Releases {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkReleases(
+    MkReleases(
         final MkStorage stg,
         final String login,
         final Coordinates rep

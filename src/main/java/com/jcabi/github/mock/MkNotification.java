@@ -10,9 +10,8 @@ import com.jcabi.xml.XML;
 
 /**
  * Mock for GitHub Notification.
- *
- * @since 0.25
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.25
  */
 @Immutable
 final class MkNotification implements Notification {

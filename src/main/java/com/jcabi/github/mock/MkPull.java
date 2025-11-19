@@ -27,8 +27,8 @@ import lombok.ToString;
 
 /**
  * Mock GitHub pull.
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @since 0.5
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
