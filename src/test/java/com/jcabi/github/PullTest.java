@@ -60,13 +60,13 @@ public final class PullTest {
      */
     @Test
     public void getsPullComments() throws IOException {
-        final PullComments pullComments = Mockito.mock(PullComments.class);
+        final PullComments comments = Mockito.mock(PullComments.class);
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.when(pull.comments()).thenReturn(pullComments);
+        Mockito.when(pull.comments()).thenReturn(comments);
         MatcherAssert.assertThat(
             "Values are not equal",
             new Pull.Smart(pull).comments(),
-            Matchers.equalTo(pullComments)
+            Matchers.equalTo(comments)
         );
     }
 

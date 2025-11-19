@@ -96,9 +96,9 @@ public final class RtGistTest {
                     "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
                 )
             );
-            final String fileContent = "success";
+            final String success = "success";
             container.next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, success)
             );
             container.next(
                 new MkAnswer.Simple(
@@ -113,7 +113,7 @@ public final class RtGistTest {
                 )
             );
             container.next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, fileContent)
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, success)
             );
             container.start(this.resource.port());
             final Gist gist = new RtGist(
@@ -122,10 +122,10 @@ public final class RtGistTest {
                 "test"
             );
             final String content = gist.read("hello");
-            final Gist forkedGist = gist.fork();
+            final Gist fork = gist.fork();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                forkedGist.read("hello"),
+                fork.read("hello"),
                 Matchers.equalTo(content)
             );
             container.stop();
@@ -167,7 +167,7 @@ public final class RtGistTest {
     public void canRepresentAsString() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-            .start(this.resource.port())
+                .start(this.resource.port())
         ) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),

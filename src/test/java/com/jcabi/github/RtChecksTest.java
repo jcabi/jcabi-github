@@ -161,7 +161,8 @@ public final class RtChecksTest {
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect", all, Matchers.hasSize(1));
+                "Collection size is incorrect", all, Matchers.hasSize(1)
+            );
             for (final Check check : all) {
                 MatcherAssert.assertThat(
                     "Values are not equal",
@@ -202,7 +203,8 @@ public final class RtChecksTest {
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect", all, Matchers.hasSize(1));
+                "Collection size is incorrect", all, Matchers.hasSize(1)
+            );
             for (final Check check : all) {
                 MatcherAssert.assertThat(
                     "Values are not equal",
@@ -236,7 +238,8 @@ public final class RtChecksTest {
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect", all, Matchers.hasSize(1));
+                "Collection size is incorrect", all, Matchers.hasSize(1)
+            );
             for (final Check check : all) {
                 MatcherAssert.assertThat(
                     "Values are not equal",
@@ -311,8 +314,8 @@ public final class RtChecksTest {
         final Pull pull = Mockito.mock(Pull.class);
         final PullRef ref = Mockito.mock(PullRef.class);
         Mockito.doReturn(
-                new Coordinates.Simple("volodya-lombrozo", "jtcop")
-            ).when(repo)
+            new Coordinates.Simple("volodya-lombrozo", "jtcop")
+        ).when(repo)
             .coordinates();
         Mockito.doReturn(pulls).when(repo).pulls();
         Mockito.doReturn(pull).when(pulls).get(0);

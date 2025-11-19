@@ -29,7 +29,7 @@ public final class ClasspathRule implements TestRule {
      * Provides all classes in package 'com.jcabi.github'.
      * @return Classes
      */
-    public Iterable<Class<?>> allTypes() {
+    public static Iterable<Class<?>> allTypes() {
         return Iterables.filter(
             new Reflections(
                 new ConfigurationBuilder()
@@ -43,9 +43,9 @@ public final class ClasspathRule implements TestRule {
                             ClasspathHelper.staticClassLoader()
                         )
                     ).filterInputsBy(
-                    new FilterBuilder().include(
-                        FilterBuilder.prefix("com.jcabi.github")
-                    )
+                        new FilterBuilder().include(
+                            FilterBuilder.prefix("com.jcabi.github")
+                        )
                     )
             ).getSubTypesOf(Object.class),
             input -> {

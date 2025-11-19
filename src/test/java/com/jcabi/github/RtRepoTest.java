@@ -233,7 +233,8 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.commits(), Matchers.notNullValue());
+            "Value is null", repo.commits(), Matchers.notNullValue()
+        );
     }
 
     @Test
@@ -242,7 +243,8 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.git(), Matchers.notNullValue());
+            "Value is null", repo.git(), Matchers.notNullValue()
+        );
     }
 
     @Test
@@ -251,7 +253,8 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.stars(), Matchers.notNullValue());
+            "Value is null", repo.stars(), Matchers.notNullValue()
+        );
     }
 
     /**
@@ -289,7 +292,8 @@ public final class RtRepoTest {
             new FakeRequest()
         );
         MatcherAssert.assertThat(
-            "Value is null", repo.notifications(), Matchers.notNullValue());
+            "Value is null", repo.notifications(), Matchers.notNullValue()
+        );
     }
 
     @Test
@@ -308,7 +312,8 @@ public final class RtRepoTest {
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
-                "Value is null", repo.languages(), Matchers.notNullValue());
+                "Value is null", repo.languages(), Matchers.notNullValue()
+            );
             container.stop();
         }
     }

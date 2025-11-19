@@ -33,10 +33,21 @@ public final class RtCommitsComparisonTest {
         final int deletions = 2;
         final int changes = 9;
         final String patch = "some diff here";
-        // @checkstyle LineLength (3 lines)
-        final String bloburl = "https://api.jcabi-github.invalid/johndoe/my-repo/blob/fffffffffffffffffffffffffffffffffffffffe/bar/quux.txt";
-        final String rawurl = "https://api.jcabi-github.invalid/johndoe/my-repo/raw/fffffffffffffffffffffffffffffffffffffffe/bar/quux.txt";
-        final String contentsurl = "https://api.github.invalid/repos/johndoe/my-repo/contents/bar/quux.txt?ref=fffffffffffffffffffffffffffffffffffffffe";
+        final String bloburl = String.join(
+            "",
+            "https://api.jcabi-github.invalid/johndoe/my-repo/blob/",
+            "fffffffffffffffffffffffffffffffffffffffe/bar/quux.txt"
+        );
+        final String rawurl = String.join(
+            "",
+            "https://api.jcabi-github.invalid/johndoe/my-repo/raw/",
+            "fffffffffffffffffffffffffffffffffffffffe/bar/quux.txt"
+        );
+        final String contentsurl = String.join(
+            "",
+            "https://api.github.invalid/repos/johndoe/my-repo/contents/",
+            "bar/quux.txt?ref=fffffffffffffffffffffffffffffffffffffffe"
+        );
         final CommitsComparison comparison = new RtCommitsComparison(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
@@ -87,15 +98,20 @@ public final class RtCommitsComparisonTest {
             comparison.files().iterator().next()
         );
         MatcherAssert.assertThat(
-            "Values are not equal", file.sha(), Matchers.equalTo(sha));
+            "Values are not equal", file.sha(), Matchers.equalTo(sha)
+        );
         MatcherAssert.assertThat(
-            "Values are not equal", file.filename(), Matchers.equalTo(filename));
+            "Values are not equal", file.filename(), Matchers.equalTo(filename)
+        );
         MatcherAssert.assertThat(
-            "Values are not equal", file.additions(), Matchers.equalTo(additions));
+            "Values are not equal", file.additions(), Matchers.equalTo(additions)
+        );
         MatcherAssert.assertThat(
-            "Values are not equal", file.deletions(), Matchers.equalTo(deletions));
+            "Values are not equal", file.deletions(), Matchers.equalTo(deletions)
+        );
         MatcherAssert.assertThat(
-            "Values are not equal", file.changes(), Matchers.equalTo(changes));
+            "Values are not equal", file.changes(), Matchers.equalTo(changes)
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             file.status(),
