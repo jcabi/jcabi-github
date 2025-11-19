@@ -42,7 +42,8 @@ public final class RtBlobsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port())) {
+                .start(this.resource.port())
+        ) {
             final RtBlobs blobs = new RtBlobs(
                 new ApacheRequest(container.home()),
                 RtBlobsTest.repo()
@@ -75,7 +76,8 @@ public final class RtBlobsTest {
             RtBlobsTest.repo()
         );
         MatcherAssert.assertThat(
-            "Values are not equal", blobs.get(sha).sha(), Matchers.equalTo(sha));
+            "Values are not equal", blobs.get(sha).sha(), Matchers.equalTo(sha)
+        );
     }
 
     /**

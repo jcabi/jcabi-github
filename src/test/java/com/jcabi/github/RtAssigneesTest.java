@@ -43,7 +43,7 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
@@ -92,7 +92,7 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),

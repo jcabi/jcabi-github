@@ -69,9 +69,8 @@ public class RtStatuses implements Statuses {
         return new RtStatus(this.cmmt, response);
     }
 
-    /**
-     * @todo #1126:30min Implement this method which gets all status messages for a given commit.
-     */
+    // @todo #1126:30min Implement this method which gets all status
+    //  messages for a given commit.
     @Override
     public final Iterable<Status> list(
         final String ref

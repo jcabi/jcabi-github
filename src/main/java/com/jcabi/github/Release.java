@@ -20,8 +20,8 @@ import lombok.ToString;
 
 /**
  * GitHub release.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -55,6 +55,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
     /**
      * Smart release.
+     * @since 0.8
      */
     @Immutable
     @ToString

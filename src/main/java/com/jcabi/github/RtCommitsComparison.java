@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * Commits comparison.
+ * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -75,8 +76,9 @@ final class RtCommitsComparison implements CommitsComparison {
     /**
      * Iterator that yields FileChange objects converted
      * from JSON objects in a JSON list.
+     * @since 0.24
      */
-    @EqualsAndHashCode(of = { "iterator" })
+    @EqualsAndHashCode(of = "iterator")
     @ToString
     private static final class FileChangesIterator
         implements Iterator<FileChange> {
@@ -114,8 +116,9 @@ final class RtCommitsComparison implements CommitsComparison {
     /**
      * Trivial iterable that returns FileChangesIterators using
      * the given JSON list.
+     * @since 0.24
      */
-    @EqualsAndHashCode(of = { "list" })
+    @EqualsAndHashCode(of = "list")
     @Loggable(Loggable.DEBUG)
     @ToString
     private static final class FileChanges

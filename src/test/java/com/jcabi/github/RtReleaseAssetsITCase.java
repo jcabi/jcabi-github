@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration test for {@link RtReleaseAssets}.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
@@ -103,14 +103,14 @@ public final class RtReleaseAssetsITCase {
                 Matchers.is(name)
             );
             final String othername = "upload2.txt";
-            final ReleaseAsset otheruploaded = assets.upload(
+            final ReleaseAsset other = assets.upload(
                 "upload2".getBytes(),
                 "text/plain",
                 othername
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                otheruploaded.json().getString("name"),
+                other.json().getString("name"),
                 Matchers.is(othername)
             );
         } finally {
@@ -141,14 +141,14 @@ public final class RtReleaseAssetsITCase {
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
-            final ReleaseAsset otheruploaded = otherassets.upload(
+            final ReleaseAsset other = otherassets.upload(
                 "upload".getBytes(),
                 "text/plain",
                 name
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                otheruploaded.json().getString("name"),
+                other.json().getString("name"),
                 Matchers.is(name)
             );
         } finally {

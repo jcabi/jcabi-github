@@ -32,7 +32,8 @@ public final class RtBranchTest {
         final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
         MatcherAssert.assertThat(
-            "Values are not equal", commit.sha(), Matchers.equalTo(RtBranchTest.SHA));
+            "Values are not equal", commit.sha(), Matchers.equalTo(RtBranchTest.SHA)
+        );
         final Coordinates coords = commit.repo().coordinates();
         MatcherAssert.assertThat(
             "Values are not equal",

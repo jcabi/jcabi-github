@@ -40,10 +40,9 @@ import lombok.EqualsAndHashCode;
  * );</pre>
  *
  * <p>Now, there will be just two HTTP requests.
- *
- * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
+ * @since 0.4
  */
 @EqualsAndHashCode(of = "origin")
 public final class Bulk<T extends JsonReadable> implements Iterable<T> {

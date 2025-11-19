@@ -40,37 +40,38 @@ public final class RtGistCommentTest {
     @Test
     public void patchAndCheckJsonGistComment() throws IOException {
         final int identifier = 1;
-        final String idString = "id";
-        final String bodyString = "body";
+        final String idprop = "id";
+        final String bodyprop = "body";
         final String body = "somebody";
-        final String patchedBody = "some patchedbody";
+        final String patched = "some patchedbody";
         final MkAnswer first = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(bodyString, body)
-                .add(idString, identifier)
+                .add(bodyprop, body)
+                .add(idprop, identifier)
                 .build().toString()
         );
         final MkAnswer second = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(bodyString, patchedBody)
-                .add(idString, identifier)
+                .add(bodyprop, patched)
+                .add(idprop, identifier)
                 .build().toString()
         );
         final MkAnswer third = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(bodyString, body)
-                .add(idString, identifier)
+                .add(bodyprop, body)
+                .add(idprop, identifier)
                 .build().toString()
         );
         try (
             MkContainer container =
                 new MkGrizzlyContainer().next(first).next(second).next(third)
                     .start(this.resource.port());
-            final MkContainer gistContainer = new MkGrizzlyContainer()
-                .start(this.resource.port())) {
+            MkContainer gistContainer = new MkGrizzlyContainer()
+                .start(this.resource.port())
+        ) {
             final RtGist gist =
                 new RtGist(
                     new MkGitHub(),
@@ -80,14 +81,14 @@ public final class RtGistCommentTest {
                 new ApacheRequest(container.home()), gist, identifier
             );
             comment.patch(Json.createObjectBuilder()
-                .add(bodyString, patchedBody)
-                .add(idString, identifier)
+                .add(bodyprop, patched)
+                .add(idprop, identifier)
                 .build()
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                comment.json().getString(bodyString),
-                Matchers.equalTo(patchedBody)
+                comment.json().getString(bodyprop),
+                Matchers.equalTo(patched)
             );
             container.stop();
             gistContainer.stop();

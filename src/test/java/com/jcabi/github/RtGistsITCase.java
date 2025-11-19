@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link Gists}.
+ * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistsITCase {
