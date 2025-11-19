@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link Issue}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

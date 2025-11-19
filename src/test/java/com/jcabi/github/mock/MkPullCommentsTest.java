@@ -115,7 +115,8 @@ public final class MkPullCommentsTest {
             )
         );
         MatcherAssert.assertThat(
-            "Values are not equal", body.get(0), Matchers.equalTo(bodytext));
+            "Values are not equal", body.get(0), Matchers.equalTo(bodytext)
+        );
     }
 
     @Test

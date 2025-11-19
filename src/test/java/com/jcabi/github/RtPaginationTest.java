@@ -42,7 +42,7 @@ public final class RtPaginationTest {
                         "</s?page=3&per_page=100>; rel=\"next\""
                     )
             ).next(RtPaginationTest.simple("Hi Mark"))
-            .start(this.resource.port())
+                .start(this.resource.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(

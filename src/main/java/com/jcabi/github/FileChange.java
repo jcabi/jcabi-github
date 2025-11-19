@@ -62,6 +62,7 @@ public interface FileChange extends JsonReadable {
          * @param name Status string
          * @return Status enum value
          */
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static FileChange.Status forValue(final String name) {
             return FileChange.Status.valueOf(name.toUpperCase(Locale.ENGLISH));
         }

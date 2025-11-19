@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Test case for {@link RtPublicMembers}.
+ * @since 0.4
  */
 public final class RtPublicMembersITCase {
     /**

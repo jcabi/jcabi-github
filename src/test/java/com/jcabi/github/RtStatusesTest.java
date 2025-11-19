@@ -60,7 +60,7 @@ public final class RtStatusesTest {
     public void createsStatus() throws IOException {
         final String stateprop = "state";
         final String urlprop = "target_url";
-        final String descriptionprop = "description";
+        final String descprop = "description";
         final String contextprop = "context";
         final String url = "https://ci.example.com/1000/output";
         final String description = "Build has completed successfully";
@@ -70,7 +70,7 @@ public final class RtStatusesTest {
                 HttpURLConnection.HTTP_CREATED,
                 Json.createObjectBuilder().add(stateprop, "failure")
                     .add(urlprop, url)
-                    .add(descriptionprop, description)
+                    .add(descprop, description)
                     .add(contextprop, context)
                     .build().toString()
             )
@@ -112,7 +112,7 @@ public final class RtStatusesTest {
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                obj.getString(descriptionprop),
+                obj.getString(descprop),
                 Matchers.equalTo(description)
             );
             MatcherAssert.assertThat(

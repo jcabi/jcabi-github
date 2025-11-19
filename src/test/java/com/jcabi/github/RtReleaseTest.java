@@ -49,7 +49,7 @@ public final class RtReleaseTest {
      * Setting up the test fixture.
      */
     @Before
-    public final void setUp() {
+    public void setUp() {
         this.container = new MkGrizzlyContainer();
     }
 
@@ -57,7 +57,7 @@ public final class RtReleaseTest {
      * Tear down the test fixture to return to the original state.
      */
     @After
-    public final void tearDown() {
+    public void tearDown() {
         this.container.stop();
     }
 

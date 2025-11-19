@@ -16,6 +16,7 @@ import org.junit.Test;
 
 /**
  * Test case for {@link SmartJsonTest}.
+ * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class SmartJsonTest {

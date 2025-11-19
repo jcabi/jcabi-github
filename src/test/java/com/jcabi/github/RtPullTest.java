@@ -232,7 +232,8 @@ public final class RtPullTest {
                     new MkAnswer.Simple(
                         HttpURLConnection.HTTP_OK,
                         RtPullTest.check().toString()
-                    ))
+                    )
+                )
                 .start(this.resource.port())
         ) {
             final Collection<? extends Check> all = new RtPull(

@@ -124,7 +124,7 @@ public final class RtReleaseAssetTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
@@ -151,7 +151,7 @@ public final class RtReleaseAssetTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port());
+            ).start(this.resource.port())
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),

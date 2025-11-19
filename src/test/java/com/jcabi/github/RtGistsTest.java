@@ -35,12 +35,13 @@ public final class RtGistsTest {
     @Test
     public void canCreateFiles() throws IOException {
         try (
-        MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"id\":\"1\"}"
-            )
-        ).start(this.resource.port())) {
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"id\":\"1\"}"
+                )
+            ).start(this.resource.port())
+        ) {
             final Gists gists = new RtGists(
                 new MkGitHub(),
                 new ApacheRequest(container.home())

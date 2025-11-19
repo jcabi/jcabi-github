@@ -143,11 +143,11 @@ public final class RtPullCommentsTest {
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
-            final RtPullComments pullComments = new RtPullComments(
+            final RtPullComments comments = new RtPullComments(
                 new ApacheRequest(container.home()),
                     pull
             );
-            final PullComment pullComment = pullComments.post(
+            final PullComment comment = comments.post(
                 body, commit, path, position
             );
             MatcherAssert.assertThat(
@@ -157,7 +157,7 @@ public final class RtPullCommentsTest {
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new PullComment.Smart(pullComment).commitId(),
+                new PullComment.Smart(comment).commitId(),
                 Matchers.equalTo(commit)
             );
             container.stop();
@@ -188,11 +188,11 @@ public final class RtPullCommentsTest {
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
-            final RtPullComments pullComments = new RtPullComments(
+            final RtPullComments comments = new RtPullComments(
                 new ApacheRequest(container.home()),
                     pull
             );
-            final PullComment pullComment = pullComments.reply(
+            final PullComment comment = comments.reply(
                 body, number
             );
             MatcherAssert.assertThat(
@@ -202,7 +202,7 @@ public final class RtPullCommentsTest {
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new PullComment.Smart(pullComment).reply(),
+                new PullComment.Smart(comment).reply(),
                 Matchers.equalTo(number)
             );
             container.stop();

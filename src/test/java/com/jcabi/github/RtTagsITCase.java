@@ -17,6 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration testcase for RtTags.
+ * @since 0.15
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)

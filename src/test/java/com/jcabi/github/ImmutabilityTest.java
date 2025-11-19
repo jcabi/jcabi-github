@@ -31,9 +31,8 @@ public final class ImmutabilityTest {
 
     /**
      * Test for immutability.
-     * Checks that all classes in package {@code com.jcabi.github }
+     * Checks that all classes in package {@code com.jcabi.github}
      * have {@code @Immutable} annotation.
-     *
      */
     @Test
     public void checkImmutability() {
