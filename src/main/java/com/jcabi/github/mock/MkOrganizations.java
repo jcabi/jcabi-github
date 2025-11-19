@@ -21,7 +21,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage" })
+@EqualsAndHashCode(of = "storage")
 final class MkOrganizations implements Organizations {
     /**
      * Storage.
