@@ -20,11 +20,13 @@ public final class MkPullRefTest {
      * Test ref.
      */
     private static final String REF = "awesome-branch";
+
     /**
      * Test commit SHA.
      */
     private static final String SHA =
         "361bb23ed4c028914d45d53c3727c48b035ee643";
+
     /**
      * Test username.
      */

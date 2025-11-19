@@ -107,6 +107,7 @@ public interface Status extends JsonReadable {
          * Encapsulated status.
          */
         private final transient Status status;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

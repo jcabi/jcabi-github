@@ -40,6 +40,7 @@ final class MkTags implements Tags {
      * Repo's name.
      */
     private final transient Coordinates coords;
+
     /**
      * Public constructor.
      * @param stg The storage.

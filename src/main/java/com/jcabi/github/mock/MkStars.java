@@ -30,10 +30,12 @@ final class MkStars implements Stars {
      * Storage.
      */
     private final transient MkStorage storage;
+
     /**
      * Login of the user logged in.
      */
     private final transient String self;
+
     /**
      * Repo's name.
      */

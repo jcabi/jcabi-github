@@ -56,10 +56,12 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * Encapsulated repo commit.
          */
         private final transient RepoCommit commit;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param cmt RepoCommit

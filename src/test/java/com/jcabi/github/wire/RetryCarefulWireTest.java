@@ -29,10 +29,12 @@ public final class RetryCarefulWireTest {
      * HTTP 200 status reason.
      */
     private static final String OK = "OK";
+
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
+
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)

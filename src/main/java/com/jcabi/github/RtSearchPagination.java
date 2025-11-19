@@ -81,6 +81,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Inner request.
          */
         private final transient Request request;
+
         /**
          * Ctor.
          * @param req Request to wrap
@@ -155,6 +156,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Original response.
          */
         private final transient Response response;
+
         /**
          * Ctor.
          * @param resp Response
@@ -228,6 +230,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Underlying address.
          */
         private final transient RequestURI address;
+
         /**
          * Ctor.
          * @param uri The URI

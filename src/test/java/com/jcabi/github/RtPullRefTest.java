@@ -22,10 +22,12 @@ public final class RtPullRefTest {
      */
     private static final String SHA =
         "7a1f68e743e8a81e158136c8661011fb55abd703";
+
     /**
      * Test ref.
      */
     private static final String REF = "some-branch";
+
     /**
      * RtPullRef can fetch its repo.
      * @throws IOException If there is an I/O problem.

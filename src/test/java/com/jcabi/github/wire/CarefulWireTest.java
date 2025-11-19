@@ -21,10 +21,12 @@ public final class CarefulWireTest {
      * HTTP 200 status reason.
      */
     private static final String OK = "OK";
+
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
+
     /**
      * CarefulWire can wait until the limit reset.
      * @throws IOException If some problem inside

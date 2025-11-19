@@ -187,6 +187,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * Encapsulated Repo.
          */
         private final transient Repo repo;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

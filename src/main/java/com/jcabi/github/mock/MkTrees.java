@@ -41,6 +41,7 @@ final class MkTrees implements Trees {
      * Repo's name.
      */
     private final transient Coordinates coords;
+
     /**
      * Public constructor.
      * @param stg The storage.

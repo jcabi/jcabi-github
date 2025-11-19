@@ -26,6 +26,7 @@ final class MkNotifications implements Notifications {
      * Storage with notifications.
      */
     private final transient MkStorage storage;
+
     /**
      * XPath for the notifications in the storage.
      */

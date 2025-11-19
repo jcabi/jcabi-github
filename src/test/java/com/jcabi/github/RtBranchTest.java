@@ -20,6 +20,7 @@ public final class RtBranchTest {
      * Test branch name.
      */
     private static final String BRANCH_NAME = "topic";
+
     /**
      * Commit SHA for test branch.
      * @checkstyle LineLengthCheck (2 lines)

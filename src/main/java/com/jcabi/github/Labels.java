@@ -73,6 +73,7 @@ public interface Labels {
          * Encapsulated labels.
          */
         private final transient Labels labels;
+
         /**
          * Public ctor.
          * @param lbl Labels

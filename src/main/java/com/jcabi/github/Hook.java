@@ -44,10 +44,12 @@ public interface Hook extends JsonReadable {
          * Encapsulated Hook.
          */
         private final transient Hook hook;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param hoo Hook

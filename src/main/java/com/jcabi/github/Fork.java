@@ -40,10 +40,12 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * Encapsulated Fork.
          */
         private final transient Fork fork;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param frk Fork

@@ -50,6 +50,7 @@ public interface PullRef extends JsonReadable {
          * Encapsulated pull request ref.
          */
         private final transient PullRef pullref;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

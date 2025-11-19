@@ -35,6 +35,7 @@ final class RtForks implements Forks {
      * Restful Request.
      */
     private final transient Request request;
+
     /**
      * Repository.
      */

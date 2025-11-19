@@ -22,10 +22,12 @@ public final class StatusTest {
      * Name of state property in Status JSON object.
      */
     private static final String STATE_PROP = "state";
+
     /**
      * Name of description property in Status JSON object.
      */
     private static final String DESCRIPTION_PROP = "description";
+
     /**
      * Name of description property in Status JSON object.
      */

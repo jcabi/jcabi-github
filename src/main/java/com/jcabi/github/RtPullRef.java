@@ -19,6 +19,7 @@ final class RtPullRef implements PullRef {
      * API entry point.
      */
     private final transient GitHub github;
+
     /**
      * JSON of the pull request ref.
      */

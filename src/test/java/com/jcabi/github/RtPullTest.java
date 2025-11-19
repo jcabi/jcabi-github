@@ -34,6 +34,7 @@ public final class RtPullTest {
      * Property name for ref name in pull request ref JSON object.
      */
     private static final String REF_PROP = "ref";
+
     /**
      * Property name for commit SHA in pull request ref JSON object.
      */

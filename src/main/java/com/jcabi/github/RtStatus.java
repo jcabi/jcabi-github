@@ -23,6 +23,7 @@ public final class RtStatus implements Status {
      * Associated commit.
      */
     private final transient Commit cmmt;
+
     /**
      * Encapsulated status JSON.
      */

@@ -37,6 +37,7 @@ public interface Trees {
      * @see <a href="https://developer.github.com/v3/git/trees">Get a tree</a>
      */
     Tree getRec(String sha);
+
     /**
      * Create new tree.
      * @param params Parameters to create new tree

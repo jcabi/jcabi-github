@@ -30,6 +30,7 @@ public final class RtUserEmailsTest {
      */
     @Rule
     public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtUserEmails can fetch emails.
      */

@@ -41,6 +41,7 @@ public interface Limit extends JsonReadable {
          * Encapsulated limit.
          */
         private final transient Limit origin;
+
         /**
          * Public ctor.
          * @param limit Limit
@@ -107,14 +108,17 @@ public interface Limit extends JsonReadable {
          * Original.
          */
         private final transient Limit origin;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Maximum allowed, instead of default 5000.
          */
         private final transient int max;
+
         /**
          * Public ctor.
          * @param limit Original limit

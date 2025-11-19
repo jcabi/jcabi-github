@@ -153,10 +153,12 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * Encapsulated event.
          */
         private final transient Event event;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param evt Event

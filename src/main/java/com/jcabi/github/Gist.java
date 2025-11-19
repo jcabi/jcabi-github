@@ -99,6 +99,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * Encapsulated gist.
          */
         private final transient Gist gist;
+
         /**
          * Public ctor.
          * @param gst Gist

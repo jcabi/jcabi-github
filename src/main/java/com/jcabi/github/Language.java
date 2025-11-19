@@ -18,6 +18,7 @@ public interface Language {
      * @return Name
      */
     String name();
+
     /**
      * Number of bytes of code written in that language.
      * @return Number of bytes

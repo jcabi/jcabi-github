@@ -57,10 +57,12 @@ public interface Content extends Comparable<Content>,
          * Encapsulated content.
          */
         private final transient Content content;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param cont Content

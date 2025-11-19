@@ -80,6 +80,7 @@ public interface MkStorage {
          * File name.
          */
         private final transient String name;
+
         /**
          * Public ctor.
          * @throws IOException If there is any I/O problem
@@ -158,11 +159,13 @@ public interface MkStorage {
          * Original storage.
          */
         private final transient MkStorage origin;
+
         /**
          * Lock object.
          */
         private final transient ImmutableReentrantLock lock =
             new ImmutableReentrantLock();
+
         /**
          * Public ctor.
          * @param storage Original

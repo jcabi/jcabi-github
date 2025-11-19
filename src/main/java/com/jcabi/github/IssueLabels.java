@@ -78,6 +78,7 @@ public interface IssueLabels {
          * Encapsulated labels.
          */
         private final transient IssueLabels labels;
+
         /**
          * Public ctor.
          * @param lbl Labels

@@ -66,6 +66,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * Encapsulated Release Asset.
          */
         private final transient ReleaseAsset asset;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

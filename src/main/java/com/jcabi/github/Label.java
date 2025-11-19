@@ -49,6 +49,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Encapsulated label.
          */
         private final transient Label label;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -121,6 +122,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Encapsulated Repo.
          */
         private final transient Repo repo;
+
         /**
          * Encapsulated String.
          */

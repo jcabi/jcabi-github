@@ -32,6 +32,7 @@ final class MkRepoCommit implements RepoCommit {
      * The storage.
      */
     private final transient MkStorage storage;
+
     /**
      * The repository.
      */

@@ -40,6 +40,7 @@ public final class RtRepoTest {
      * Repo name for tests.
      */
     private static final String TEST_REPO = "testrepo";
+
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)

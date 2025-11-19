@@ -30,10 +30,12 @@ public final class MkPullTest {
      * Login of test user.
      */
     private static final String USERNAME = "patrick";
+
     /**
      * Base branch name.
      */
     private static final String BASE = "my-base-branch";
+
     /**
      * Head branch name.
      */

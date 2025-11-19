@@ -55,10 +55,12 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * Encapsulated commit.
          */
         private final transient Commit commit;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param cmt Commit

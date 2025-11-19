@@ -34,6 +34,7 @@ public final class RtReposTest {
      */
     @Rule
     public final transient RandomPort resource = new RandomPort();
+
     /**
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)

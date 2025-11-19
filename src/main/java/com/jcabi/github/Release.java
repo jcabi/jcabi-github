@@ -66,6 +66,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * Encapsulated release.
          */
         private final transient Release release;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

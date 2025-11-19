@@ -39,6 +39,7 @@ public final class RtPullCommentTest {
      */
     @Rule
     public final transient RandomPort resource = new RandomPort();
+
     /**
      * RtPullComment should be able to compare different instances.
      */

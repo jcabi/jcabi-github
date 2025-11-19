@@ -31,10 +31,12 @@ final class MkEvent implements Event {
      * Created at.
      */
     private static final String CREATED_AT = "created_at";
+
     /**
      * Event.
      */
     private static final String EVENT = "event";
+
     /**
      * Login.
      */

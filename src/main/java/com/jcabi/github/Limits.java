@@ -53,10 +53,12 @@ public interface Limits {
          * Original.
          */
         private final transient Limits origin;
+
         /**
          * Maximum allowed, instead of default 5000.
          */
         private final transient int max;
+
         /**
          * Public ctor.
          * @param limits Original limits

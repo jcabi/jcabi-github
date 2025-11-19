@@ -42,6 +42,7 @@ public interface Coordinates extends Comparable<Coordinates> {
          * User name.
          */
         private final transient String usr;
+
         /**
          * Repository name.
          */

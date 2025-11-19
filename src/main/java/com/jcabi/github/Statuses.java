@@ -73,14 +73,17 @@ public interface Statuses extends JsonReadable {
          * State.
          */
         private final transient Status.State state;
+
         /**
          * Description.
          */
         private final transient String description;
+
         /**
          * Context string.
          */
         private final transient Optional<String> context;
+
         /**
          * Target URL.
          */

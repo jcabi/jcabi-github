@@ -142,10 +142,12 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Encapsulated issue.
          */
         private final transient Issue issue;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param iss Issue

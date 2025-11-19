@@ -118,6 +118,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * Encapsulated pull request.
          */
         private final transient Pull pull;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

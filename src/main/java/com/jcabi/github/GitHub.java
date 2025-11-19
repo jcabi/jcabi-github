@@ -153,10 +153,12 @@ public interface GitHub {
          * Pattern to present day in ISO-8601.
          */
         public static final String FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
         /**
          * The time zone we're in.
          */
         public static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
+
         /**
          * Encapsulated time in milliseconds.
          */

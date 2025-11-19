@@ -21,11 +21,13 @@ public final class PullRefTest {
      * Test ref.
      */
     private static final String REF = "the-ref";
+
     /**
      * Test commit SHA.
      * @checkstyle LineLength (2 lines)
      */
     private static final String SHA = "7a1f68e743e8a81e158136c8661011fb55abd703";
+
     /**
      * Test pull request ref label.
      */

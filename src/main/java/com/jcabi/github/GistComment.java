@@ -73,6 +73,7 @@ public interface GistComment
          * Encapsulated gist comment.
          */
         private final transient GistComment comment;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

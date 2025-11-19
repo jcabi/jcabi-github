@@ -110,18 +110,22 @@ public final class RtValuePagination<T, P extends JsonValue> implements
          * Mapping to use.
          */
         private final transient RtValuePagination.Mapping<X, P> mapping;
+
         /**
          * Next entry to use.
          */
         private transient Request request;
+
         /**
          * Available objects.
          */
         private transient Queue<P> objects;
+
         /**
          * Current entry can be used to fetch objects.
          */
         private transient boolean more = true;
+
         /**
          * Ctor.
          * @param entry Entry

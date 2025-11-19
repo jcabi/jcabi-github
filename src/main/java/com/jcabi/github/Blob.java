@@ -23,6 +23,7 @@ public interface Blob extends JsonReadable {
      * @return SHA
      */
     String sha();
+
     /**
      * Smart Blob with extra features.
      */
@@ -35,10 +36,12 @@ public interface Blob extends JsonReadable {
          * Encapsulated blob.
          */
         private final transient Blob blob;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param blb Blob

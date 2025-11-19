@@ -81,6 +81,7 @@ public interface FileChange extends JsonReadable {
          * Encapsulated file change.
          */
         private final transient FileChange change;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
