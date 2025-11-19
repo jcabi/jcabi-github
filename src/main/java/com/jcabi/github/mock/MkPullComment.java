@@ -17,7 +17,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub pull comment.
- *
+ * @since 0.8
  */
 @Immutable
 @ToString

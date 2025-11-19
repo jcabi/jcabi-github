@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull comment.
- *
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

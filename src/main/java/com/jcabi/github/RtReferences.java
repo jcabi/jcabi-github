@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub references.
- *
+ * @since 0.24
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

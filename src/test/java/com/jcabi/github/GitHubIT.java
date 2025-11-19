@@ -15,6 +15,12 @@ import org.junit.Assume;
 public final class GitHubIT {
 
     /**
+     * Ctor.
+     */
+    private GitHubIT() {
+    }
+
+    /**
      * Return GitHub connected to live server.
      * @return The obj
      */

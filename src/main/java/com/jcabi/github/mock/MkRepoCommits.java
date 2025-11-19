@@ -20,6 +20,7 @@ import org.xembly.Directives;
 
 /**
  * Mock commits of a GitHub repository.
+ * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

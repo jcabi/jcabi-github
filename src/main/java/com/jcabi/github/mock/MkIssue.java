@@ -248,6 +248,10 @@ final class MkIssue implements Issue {
         );
     }
 
+    /**
+     * Mapping for MkIssueEvents.
+     * @since 0.5
+     */
     private static class MkIssueEventMapping
         implements MkIterable.Mapping<Event> {
         /**
@@ -260,7 +264,7 @@ final class MkIssue implements Issue {
          * @param issue Mock issue to get events from
          * @throws IOException If there is any I/O problem
          */
-        public MkIssueEventMapping(
+        MkIssueEventMapping(
             final MkIssue issue
         ) throws IOException {
             this.evts = new MkIssueEvents(

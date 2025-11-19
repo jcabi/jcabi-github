@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub release asset.
- *
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

@@ -83,9 +83,9 @@ public final class CarefulWire implements Wire {
     ) throws IOException {
         final Response resp = this.origin
             .send(req, home, method, headers, content, connect, read);
-        final int remaining = this.remainingHeader(resp);
+        final int remaining = CarefulWire.remainingHeader(resp);
         if (remaining < this.threshold) {
-            final long reset = this.resetHeader(resp);
+            final long reset = CarefulWire.resetHeader(resp);
             final long now = TimeUnit.MILLISECONDS
                 .toSeconds(System.currentTimeMillis());
             if (reset > now) {
@@ -133,7 +133,7 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @return Number of requests remaining before the rate limit will be hit
      */
-    private int remainingHeader(
+    private static int remainingHeader(
         final Response resp) {
         final String remainingstr = CarefulWire.headerOrNull(
             resp,
@@ -152,7 +152,7 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @return Timestamp (in seconds) at which the rate limit will reset
      */
-    private long resetHeader(
+    private static long resetHeader(
         final Response resp) {
         final String resetstr = CarefulWire.headerOrNull(resp, "X-RateLimit-Reset");
         long reset = 0;

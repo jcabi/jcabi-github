@@ -77,6 +77,10 @@ final class MkUserOrganizations implements UserOrganizations {
         );
     }
 
+    /**
+     * Mapping for Organizations.
+     * @since 0.24
+     */
     private static final class OrganizationMapping
         implements MkIterable.Mapping<Organization> {
         /**

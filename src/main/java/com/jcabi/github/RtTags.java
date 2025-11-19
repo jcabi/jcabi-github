@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Tags.
+ * @since 0.15
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

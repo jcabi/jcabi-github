@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub public keys.
- *
+ * @since 0.8
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
@@ -46,7 +46,7 @@ final class RtPublicKeys implements PublicKeys {
      * @param req Request
      * @param user User
      */
-    public RtPublicKeys(final Request req, final User user) {
+    RtPublicKeys(final Request req, final User user) {
         this.entry = req;
         this.owner = user;
         this.request = this.entry.uri().path("/user").path("/keys").back();
