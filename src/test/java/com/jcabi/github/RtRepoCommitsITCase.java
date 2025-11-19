@@ -16,16 +16,15 @@ import org.junit.Test;
 /**
  * Integration case for {@link RepoCommits}.
  * @since 0.1
- * <p>
- * WARNING: As there is no way to create Commit directly it was decided to use
- * real commits from jcabi-github repository for integration testing of
- * RtRepoCommits
+ * <p>WARNING: As there is no way to create Commit directly it was decided to
+ *  use real commits from jcabi-github repository for integration testing of
+ *  RtRepoCommits
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtRepoCommitsITCase {
 
     @Test
-    public final void fetchCommits() {
+    public void fetchCommits() {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
                 new ArrayMap<String, String>()
@@ -52,7 +51,7 @@ public final class RtRepoCommitsITCase {
     }
 
     @Test
-    public final void compareCommitsPatch() throws IOException {
+    public void compareCommitsPatch() throws IOException {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
             "5339b8e35b",
             "9b2e6efde9"
@@ -74,7 +73,7 @@ public final class RtRepoCommitsITCase {
     }
 
     @Test
-    public final void compareCommitsDiff() throws IOException {
+    public void compareCommitsDiff() throws IOException {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
             "2b3814e",
             "b828dfa"
@@ -87,7 +86,7 @@ public final class RtRepoCommitsITCase {
     }
 
     @Test
-    public final void getCommit() {
+    public void getCommit() {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
             "Values are not equal",

@@ -34,7 +34,7 @@ public final class RtCommitsTest {
     public final transient RandomPort resource = new RandomPort();
 
     @Test
-    public final void createsCommit() throws IOException {
+    public void createsCommit() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

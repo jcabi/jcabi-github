@@ -111,8 +111,7 @@ public final class RtNotificationsTest {
                     + "    \"updated_at\": \"2014-11-07T22:01:45Z\", \n"
                     + "    \"last_read_at\": \"2014-11-07T22:01:45Z\", \n"
                     + "    \"url\": \"https://api.github.com/notifications/threads/1\"\n"
-                    + "  }\n"
-                    + "]"
+                    + "  }\n]"
                 )
             ).iterate(),
             Matchers.not(Matchers.emptyIterable())

@@ -92,9 +92,9 @@ public final class RtPublicMembersTest {
     public void concealsMembers() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                    .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-                    .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-                    .start(this.resource.port())
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .start(this.resource.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -214,14 +214,14 @@ public final class RtPublicMembersTest {
     public void iteratesPublicMembers() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                    .next(
-                        new MkAnswer.Simple(
-                            HttpURLConnection.HTTP_OK,
-                            "[{\"login\":\"octobat\"}]"
-                        )
+                .next(
+                    new MkAnswer.Simple(
+                        HttpURLConnection.HTTP_OK,
+                        "[{\"login\":\"octobat\"}]"
                     )
-                    .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-                    .start(this.resource.port())
+                )
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .start(this.resource.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
