@@ -9,7 +9,6 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data References.
- *
  * @see <a href="https://developer.github.com/v3/git/references/">References API</a>
  * @since 0.8
  */

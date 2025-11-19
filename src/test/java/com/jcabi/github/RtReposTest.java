@@ -136,7 +136,6 @@ public final class RtReposTest {
 
     /**
      * Create and return JsonObject to test response.
-     *
      * @param owner Owner name
      * @param name Repo name
      * @return JsonObject

@@ -10,7 +10,6 @@ import java.util.Map;
 
 /**
  * GitHub gists.
- *
  * @since 0.1
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  */
@@ -25,7 +24,6 @@ public interface Gists {
 
     /**
      * Create a new gist.
-     *
      * @param files Names and content of files
      * @param visible Indicates whether the gist is public
      * @return Gist

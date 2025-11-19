@@ -9,7 +9,6 @@ import java.util.EnumMap;
 
 /**
  * GitHub search.
- *
  * @see <a href="https://developer.github.com/v3/search/">Search API</a>
  * @since 0.8
  */
@@ -19,14 +18,12 @@ public interface Search {
 
     /**
      * GitHub we're in.
-     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Search repositories.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -41,7 +38,6 @@ public interface Search {
 
     /**
      * Search issues.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -58,7 +54,6 @@ public interface Search {
 
     /**
      * Search users.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -72,7 +67,6 @@ public interface Search {
 
     /**
      * Search code.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
