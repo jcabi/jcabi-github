@@ -34,7 +34,6 @@ public final class LimitTest {
      * Limit reset() method properly converts time.
      * GitHub reset property is in seconds, but java.util.Date
      * constructor assumes miliseconds.
-     *
      */
     @Test
     public void timeIsCreatedForReset() throws IOException {
