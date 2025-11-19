@@ -55,6 +55,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * Smart ReleaseAsset with extra features.
+     * @since 0.8
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable

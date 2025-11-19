@@ -19,8 +19,8 @@ import lombok.ToString;
 
 /**
  * GitHub event.
- * @since 0.4
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
+ * @since 0.4
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

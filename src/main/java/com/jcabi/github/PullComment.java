@@ -28,8 +28,8 @@ import lombok.ToString;
  *
  * <pre>String id = new PullComment.Smart(comment).identifier();</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -62,6 +62,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
     /**
      * Smart PullComment with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString

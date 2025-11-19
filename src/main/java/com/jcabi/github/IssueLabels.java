@@ -15,8 +15,8 @@ import lombok.ToString;
 
 /**
  * GitHub labels of an issue.
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -68,6 +68,7 @@ public interface IssueLabels {
 
     /**
      * Smart IssueLabels with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString

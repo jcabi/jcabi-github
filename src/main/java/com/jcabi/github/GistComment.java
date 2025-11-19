@@ -34,8 +34,8 @@ import lombok.ToString;
  *
  * <pre>String login = new GistComment.Smart(comment).author().login();</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -57,12 +57,12 @@ public interface GistComment
     /**
      * Delete the comment.
      * @throws IOException If there is any I/O problem
-     * @see <a href="https://developer.github.com/v3/gists/comments/#delete-a-comment">Delete a Comment</a>
      */
     void remove() throws IOException;
 
     /**
      * Smart comment with additional features.
+     * @since 0.8
      */
     @Immutable
     @ToString

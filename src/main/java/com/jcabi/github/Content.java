@@ -18,8 +18,8 @@ import lombok.ToString;
 
 /**
  * GitHub content.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -40,13 +40,14 @@ public interface Content extends Comparable<Content>,
 
     /**
      * Get the raw contents.
-     * @throws IOException If an IO error occurs
      * @return Input stream of the raw content
+     * @throws IOException If an IO error occurs
      */
     InputStream raw() throws IOException;
 
     /**
      * Smart Content with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString

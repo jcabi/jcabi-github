@@ -18,9 +18,9 @@ import lombok.ToString;
 
 /**
  * GitHub user.
- * @checkstyle MultipleStringLiterals (500 lines)
  * @see <a href="https://developer.github.com/v3/users/">User API</a>
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount",
@@ -30,7 +30,6 @@ public interface User extends JsonReadable, JsonPatchable {
     /**
      * GitHub we're in.
      * @return GitHub
-     * @since 0.4
      */
     GitHub github();
 
@@ -56,7 +55,6 @@ public interface User extends JsonReadable, JsonPatchable {
     /**
      * Get user's emails.
      * @return User's emails
-     * @since 0.8
      */
     UserEmails emails();
 
@@ -64,10 +62,10 @@ public interface User extends JsonReadable, JsonPatchable {
      * Notifications for this user.
      * Wraps the call "List your notifications". See "List your notifications"
      * at https://developer.github.com/v3/activity/notifications/
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Notifications for this user.
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      */
     Notifications notifications() throws IOException;
 
@@ -75,15 +73,16 @@ public interface User extends JsonReadable, JsonPatchable {
      * Marks notifications as read.
      * @param lastread Describes the last point that notifications were
      *  checked.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      */
     void markAsRead(Date lastread) throws IOException;
 
     /**
      * Smart user with extra features.
      * @see <a href="https://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
+     * @since 0.1
      */
     @Immutable
     @ToString

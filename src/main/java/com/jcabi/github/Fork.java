@@ -16,8 +16,8 @@ import lombok.ToString;
 
 /**
  * GitHub fork.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -30,6 +30,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
     /**
      * Smart Fork with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString
