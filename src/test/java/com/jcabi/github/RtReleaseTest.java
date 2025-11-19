@@ -62,7 +62,7 @@ public final class RtReleaseTest {
     }
 
     @Test
-    public final void editRelease() throws IOException {
+    public void editRelease() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
         ).start(this.resource.port());
@@ -85,7 +85,7 @@ public final class RtReleaseTest {
     }
 
     @Test
-    public final void deleteRelease() throws IOException {
+    public void deleteRelease() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, RtReleaseTest.EMPTY_JSON)
         ).start(this.resource.port());
@@ -99,7 +99,7 @@ public final class RtReleaseTest {
     }
 
     @Test
-    public final void executePatchRequest() throws IOException {
+    public void executePatchRequest() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
         ).start(this.resource.port());

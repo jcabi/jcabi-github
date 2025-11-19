@@ -9,7 +9,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
+import org.junit.AfterAll;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public final class RtTreesITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtTreesITCase.repos != null && RtTreesITCase.repo != null) {
             RtTreesITCase.repos.remove(RtTreesITCase.repo.coordinates());

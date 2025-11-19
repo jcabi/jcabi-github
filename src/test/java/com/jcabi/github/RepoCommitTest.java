@@ -22,7 +22,7 @@ import org.mockito.Mockito;
 public final class RepoCommitTest {
 
     @Test
-    public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
+    public void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -39,7 +39,7 @@ public final class RepoCommitTest {
     }
 
     @Test
-    public final void fetchesMessage() throws IOException {
+    public void fetchesMessage() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -59,7 +59,7 @@ public final class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public final void verifiesStatus() throws IOException {
+    public void verifiesStatus() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -82,7 +82,7 @@ public final class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public final void readsAuthorLogin() throws IOException {
+    public void readsAuthorLogin() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         final String login = "jeff";
         Mockito.doReturn(

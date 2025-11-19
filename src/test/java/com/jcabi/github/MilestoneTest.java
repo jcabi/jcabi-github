@@ -18,7 +18,7 @@ import org.mockito.Mockito;
  */
 public final class MilestoneTest {
     @Test
-    public final void fetchesTitle() throws IOException {
+    public void fetchesTitle() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -33,7 +33,7 @@ public final class MilestoneTest {
     }
 
     @Test
-    public final void fetchesDescription() throws IOException {
+    public void fetchesDescription() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -48,7 +48,7 @@ public final class MilestoneTest {
     }
 
     @Test
-    public final void fetchesState() throws IOException {
+    public void fetchesState() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -63,7 +63,7 @@ public final class MilestoneTest {
     }
 
     @Test
-    public final void fetchesDueOn() throws IOException {
+    public void fetchesDueOn() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

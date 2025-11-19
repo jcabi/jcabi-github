@@ -38,7 +38,7 @@ public final class RtGistCommentTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public final void patchAndCheckJsonGistComment() throws IOException {
+    public void patchAndCheckJsonGistComment() throws IOException {
         final int identifier = 1;
         final String idString = "id";
         final String bodyString = "body";
@@ -99,7 +99,7 @@ public final class RtGistCommentTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public final void removeGistComment() throws IOException {
+    public void removeGistComment() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

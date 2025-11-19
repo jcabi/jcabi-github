@@ -24,7 +24,7 @@ public final class RtReposITCase {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public final void create() throws IOException {
+    public void create() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -49,7 +49,7 @@ public final class RtReposITCase {
     }
 
     @Test
-    public final void exists() throws IOException {
+    public void exists() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -64,7 +64,7 @@ public final class RtReposITCase {
     }
 
     @Test
-    public final void createWithOrganization() throws IOException {
+    public void createWithOrganization() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")

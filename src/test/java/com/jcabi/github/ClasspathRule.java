@@ -29,7 +29,7 @@ public final class ClasspathRule implements TestRule {
      * Provides all classes in package 'com.jcabi.github'.
      * @return Classes
      */
-    public static Iterable<Class<?>> allTypes() {
+    public Iterable<Class<?>> allTypes() {
         return Iterables.filter(
             new Reflections(
                 new ConfigurationBuilder()
