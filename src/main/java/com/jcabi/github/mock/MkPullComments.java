@@ -127,7 +127,7 @@ final class MkPullComments implements PullComments {
         final int number;
         try {
             number = 1 + this.storage.xml()
-                .nodes(String.format("%s/comment/id/text()", this.xpath()))
+                .nodes(this.xpath().concat("/comment/id/text()"))
                 .size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")

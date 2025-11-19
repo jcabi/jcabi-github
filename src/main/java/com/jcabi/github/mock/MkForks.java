@@ -97,7 +97,7 @@ final class MkForks implements Forks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/fork/id/text()", this.xpath())
+                this.xpath().concat("/fork/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")

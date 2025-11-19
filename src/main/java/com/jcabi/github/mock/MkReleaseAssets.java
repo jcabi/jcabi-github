@@ -108,7 +108,7 @@ final class MkReleaseAssets implements ReleaseAssets {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/asset/id/text()", this.xpath())
+                this.xpath().concat("/asset/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("asset")

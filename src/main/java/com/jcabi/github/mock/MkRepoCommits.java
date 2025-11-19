@@ -70,7 +70,7 @@ final class MkRepoCommits implements RepoCommits {
         final Map<String, String> params
     ) {
         return new MkIterable<>(
-            this.storage, String.format("%s/commit", this.xpath()),
+            this.storage, this.xpath().concat("/commit"),
             xml -> this.get(
                 xml.xpath("sha/text()").get(0)
             )

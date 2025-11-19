@@ -116,7 +116,7 @@ final class MkIssueEvents implements IssueEvents {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/issue-event/number/text()", this.xpath())
+                this.xpath().concat("/issue-event/number/text()")
             ).size();
             Directives directives = new Directives()
                 .xpath(this.xpath())

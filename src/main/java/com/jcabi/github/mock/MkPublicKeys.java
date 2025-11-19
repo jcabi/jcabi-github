@@ -82,7 +82,7 @@ final class MkPublicKeys implements PublicKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/key/id/text()", this.xpath())
+                this.xpath().concat("/key/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

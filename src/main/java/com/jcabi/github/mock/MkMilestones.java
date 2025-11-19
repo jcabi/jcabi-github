@@ -67,7 +67,7 @@ final class MkMilestones implements Milestones {
         final String title
     ) throws IOException {
         final int number = 1 + this.storage.xml().xpath(
-            String.format("%s/milestone/number/text()", this.xpath())
+            this.xpath().concat("/milestone/number/text()")
         ).size();
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("milestone")

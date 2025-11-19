@@ -93,16 +93,18 @@ final class MkUser implements User {
     public Notifications notifications() {
         return new MkNotifications(
             this.storage,
-            this.xpath() + "/notifications/notification"
+            this.xpath().concat("/notifications/notification")
         );
     }
 
     @Override
     public void markAsRead(final Date lastread) throws IOException {
         final Iterable<XML> ids = this.storage.xml().nodes(
-            this.xpath() + String.format(
-                "/notifications/notification[date <= %s]/id",
-                lastread.getTime()
+            this.xpath().concat(
+                String.format(
+                    "/notifications/notification[date <= %s]/id",
+                    lastread.getTime()
+                )
             )
         );
         final JsonPatch json = new JsonPatch(this.storage);
@@ -110,9 +112,11 @@ final class MkUser implements User {
             .add("read", true).build();
         for (final XML nid : ids) {
             json.patch(
-                String.format(
-                    this.xpath() + "/notifications/notification[id = %s]",
-                    nid.xpath("text()").get(0)
+                this.xpath().concat(
+                    String.format(
+                        "/notifications/notification[id = %s]",
+                        nid.xpath("text()").get(0)
+                    )
                 ),
                 read
             );

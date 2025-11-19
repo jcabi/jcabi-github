@@ -67,7 +67,7 @@ final class MkGists implements Gists {
         try {
             number = Integer.toString(
                 1 + this.storage.xml().xpath(
-                    String.format("%s/gist/id/text()", MkGists.xpath())
+                    MkGists.xpath().concat("/gist/id/text()")
                 ).size()
             );
             final Directives dirs = new Directives().xpath(MkGists.xpath())

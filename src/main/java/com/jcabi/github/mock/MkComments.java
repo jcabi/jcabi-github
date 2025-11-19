@@ -95,7 +95,7 @@ final class MkComments implements Comments {
     public Iterable<Comment> iterate(final Date since) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/comment", this.xpath()),
+            this.xpath().concat("/comment"),
             xml -> this.get(
                 Long.parseLong(xml.xpath("number/text()").get(0))
             )
