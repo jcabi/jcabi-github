@@ -13,9 +13,7 @@ import org.w3c.dom.Node;
 
 /**
  * Json node in XML.
- *
  * @since 0.5
- *
  */
 final class JsonNode {
 

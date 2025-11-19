@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * Mock iterable.
+ * @param <T> Type of iterable
  * @since 0.5
  */
 @Loggable(Loggable.DEBUG)

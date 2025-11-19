@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "cmmt" })
+@EqualsAndHashCode(of = "cmmt")
 final class MkStatuses implements Statuses {
     /**
      * Commit whose statuses this represents.

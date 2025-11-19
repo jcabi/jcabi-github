@@ -191,13 +191,13 @@ final class MkIssue implements Issue {
         final JsonObjectBuilder pull = Json.createObjectBuilder();
         final String html = "html_url";
         if (xml.nodes(
-                String.format(
-                    // @checkstyle LineLengthCheck (1 line)
-                    "/github/repos/repo[@coords='%s']/pulls/pull/number[text() = '%d']",
-                    this.coords,
-                    this.num
-                )
-            ).isEmpty()) {
+            String.format(
+                // @checkstyle LineLengthCheck (1 line)
+                "/github/repos/repo[@coords='%s']/pulls/pull/number[text() = '%d']",
+                this.coords,
+                this.num
+            )
+        ).isEmpty()) {
             pull.addNull(html);
         } else {
             pull.add(

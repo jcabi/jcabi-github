@@ -57,7 +57,7 @@ final class MkAssignees implements Assignees {
     public Iterable<User> iterate() {
         final Set<User> assignees = new HashSet<>();
         assignees.add(new MkUser(this.storage, this.self));
-        final Iterable<User> collaborators = new MkIterable<>(
+        final Iterable<User> collabs = new MkIterable<>(
             this.storage,
             String.format("%s/user", this.xpath()),
             xml -> new MkUser(
@@ -65,7 +65,7 @@ final class MkAssignees implements Assignees {
                 xml.xpath("login/text()").get(0)
             )
         );
-        for (final User collab : collaborators) {
+        for (final User collab : collabs) {
             assignees.add(collab);
         }
         return assignees;

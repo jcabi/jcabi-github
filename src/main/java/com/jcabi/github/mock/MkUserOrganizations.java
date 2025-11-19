@@ -86,19 +86,19 @@ final class MkUserOrganizations implements UserOrganizations {
         /**
          * Organizations.
          */
-        private final transient Organizations organizations;
+        private final transient Organizations orgs;
 
         /**
          * Ctor.
-         * @param orgs Organizations
+         * @param organizations Organizations
          */
-        OrganizationMapping(final Organizations orgs) {
-            this.organizations = orgs;
+        OrganizationMapping(final Organizations organizations) {
+            this.orgs = organizations;
         }
 
         @Override
         public Organization map(final XML xml) {
-            return this.organizations.get(
+            return this.orgs.get(
                 xml.xpath("login/text()").get(0)
             );
         }
