@@ -89,7 +89,7 @@ final class MkDeployKeys implements DeployKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/deploykey/id/text()", this.xpath())
+                this.xpath().concat("/deploykey/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

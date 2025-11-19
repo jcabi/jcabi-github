@@ -99,7 +99,7 @@ final class MkHooks implements Hooks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/hook/id/text()", this.xpath())
+                this.xpath().concat("/hook/id/text()")
             ).size();
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("hook")
