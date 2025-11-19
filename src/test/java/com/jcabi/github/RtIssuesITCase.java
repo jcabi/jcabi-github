@@ -12,9 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link GitHub}.
@@ -34,7 +34,7 @@ public final class RtIssuesITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtIssuesITCase.repos = github.repos();
@@ -44,7 +44,7 @@ public final class RtIssuesITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtIssuesITCase.repos != null && RtIssuesITCase.repo != null) {
             RtIssuesITCase.repos.remove(RtIssuesITCase.repo.coordinates());

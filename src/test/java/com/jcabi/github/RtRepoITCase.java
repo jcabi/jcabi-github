@@ -11,10 +11,10 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link GitHub}.
@@ -37,7 +37,7 @@ public final class RtRepoITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtRepoITCase.repos = github.repos();
@@ -64,7 +64,7 @@ public final class RtRepoITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtRepoITCase.repos != null && RtRepoITCase.repo != null) {
             RtRepoITCase.repos.remove(RtRepoITCase.repo.coordinates());

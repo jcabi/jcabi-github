@@ -12,9 +12,9 @@ import java.util.Collections;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link Milestones}.
@@ -36,7 +36,7 @@ public final class RtMilestonesITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new RtGitHub(
             new GitHubIT().connect().entry().through(RetryWire.class)
@@ -48,7 +48,7 @@ public final class RtMilestonesITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtMilestonesITCase.repos != null && RtMilestonesITCase.repo != null) {
             RtMilestonesITCase.repos.remove(RtMilestonesITCase.repo.coordinates());

@@ -7,9 +7,9 @@ package com.jcabi.github;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link Milestones}.
@@ -32,7 +32,7 @@ public final class RtIssueMilestoneITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtIssueMilestoneITCase.repos = github.repos();
@@ -42,7 +42,7 @@ public final class RtIssueMilestoneITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtIssueMilestoneITCase.repos != null && RtIssueMilestoneITCase.repo != null) {
             RtIssueMilestoneITCase.repos.remove(RtIssueMilestoneITCase.repo.coordinates());

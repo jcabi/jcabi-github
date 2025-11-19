@@ -11,9 +11,9 @@ import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration testcase for RtTags.
@@ -41,7 +41,7 @@ public final class RtTagsITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtTagsITCase.repos = github.repos();
@@ -51,7 +51,7 @@ public final class RtTagsITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtTagsITCase.repos != null && RtTagsITCase.repo != null) {
             RtTagsITCase.repos.remove(RtTagsITCase.repo.coordinates());

@@ -7,8 +7,8 @@ package com.jcabi.github;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Test case for {@link RtPublicMembers}.
@@ -37,7 +37,7 @@ public final class RtPublicMembersITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         final GitHub github = new GitHubIT().connect();
         final Users users = github.users();

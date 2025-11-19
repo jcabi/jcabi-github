@@ -7,9 +7,9 @@ package com.jcabi.github;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link Labels}.
@@ -31,7 +31,7 @@ public final class RtLabelsITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtLabelsITCase.repos = github.repos();
@@ -41,7 +41,7 @@ public final class RtLabelsITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtLabelsITCase.repos != null && RtLabelsITCase.repo != null) {
             RtLabelsITCase.repos.remove(RtLabelsITCase.repo.coordinates());

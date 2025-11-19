@@ -11,9 +11,9 @@ import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Test case for {@link RtRelease}.
@@ -42,7 +42,7 @@ public final class RtReleaseITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtReleaseITCase.repos = github.repos();
@@ -52,7 +52,7 @@ public final class RtReleaseITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtReleaseITCase.repos != null && RtReleaseITCase.repo != null) {
             RtReleaseITCase.repos.remove(RtReleaseITCase.repo.coordinates());

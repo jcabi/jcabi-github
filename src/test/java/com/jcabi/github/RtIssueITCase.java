@@ -10,11 +10,11 @@ import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.AfterClass;
 import org.junit.Assume;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link Issue}.
@@ -35,7 +35,7 @@ public final class RtIssueITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new GitHubIT().connect();
         RtIssueITCase.repos = github.repos();
@@ -45,7 +45,7 @@ public final class RtIssueITCase {
     /**
      * Tear down test fixtures.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         if (RtIssueITCase.repos != null && RtIssueITCase.repo != null) {
             RtIssueITCase.repos.remove(RtIssueITCase.repo.coordinates());
