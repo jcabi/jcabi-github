@@ -60,10 +60,10 @@ public final class RtChecksTest {
                     RtChecksTest.jsonWithCheckRuns()
                 )
             )
-            .start(this.resource.port())) {
+            .start(RandomPort.port())) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
@@ -86,12 +86,12 @@ public final class RtChecksTest {
                     RtChecksTest.empty()
                 )
             )
-            .start(this.resource.port())) {
+            .start(RandomPort.port())) {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
                 ((Checks) new RtChecks(
                     new JdkRequest(container.home()),
-                    this.repo().pulls().get(0)
+                    RtChecksTest.repo().pulls().get(0)
                 )).all(),
                 Matchers.iterableWithSize(0)
             );
@@ -111,11 +111,11 @@ public final class RtChecksTest {
                     HttpURLConnection.HTTP_NOT_FOUND,
                     RtChecksTest.jsonWithCheckRuns()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             try {
                 checks.all();
@@ -153,11 +153,11 @@ public final class RtChecksTest {
                             )
                     )
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
@@ -195,11 +195,11 @@ public final class RtChecksTest {
                             )
                     )
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
@@ -230,11 +230,11 @@ public final class RtChecksTest {
                         RtChecksTest.jsonCheck()
                     )
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
@@ -308,7 +308,7 @@ public final class RtChecksTest {
      * @return Repo
      * @throws IOException If some problem happens.
      */
-    private Repo repo() throws IOException {
+    private static Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         final Pulls pulls = Mockito.mock(Pulls.class);
         final Pull pull = Mockito.mock(Pull.class);

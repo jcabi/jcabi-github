@@ -22,7 +22,7 @@ public final class RtLimitTest {
     public void describeAsJson() throws IOException {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(GitHub.class),
-            new FakeRequest().withBody(this.body()),
+            new FakeRequest().withBody(RtLimitTest.body()),
             "core"
         );
         MatcherAssert.assertThat(
@@ -38,7 +38,7 @@ public final class RtLimitTest {
     public void throwsWhenResourceIsAbsent() throws IOException {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(GitHub.class),
-            new FakeRequest().withBody(this.body()),
+            new FakeRequest().withBody(RtLimitTest.body()),
             "absent"
         );
         MatcherAssert.assertThat(
@@ -52,7 +52,7 @@ public final class RtLimitTest {
      * Example response from rate API.
      * @return Body string.
      */
-    private String body() {
+    private static String body() {
         return new StringBuilder(Tv.HUNDRED)
             .append("{\"resources\":{\"core\":{\"limit\":5000, ")
             .append("\"remaining\":4999, \"reset\":1372700873}, ")

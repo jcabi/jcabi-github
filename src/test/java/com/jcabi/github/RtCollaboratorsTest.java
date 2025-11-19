@@ -52,10 +52,10 @@ public final class RtCollaboratorsTest {
                     .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
@@ -79,10 +79,10 @@ public final class RtCollaboratorsTest {
                     .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             users.add("dummy1");
             final MkQuery query = container.take();
@@ -110,11 +110,11 @@ public final class RtCollaboratorsTest {
                         .add(RtCollaboratorsTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -140,11 +140,11 @@ public final class RtCollaboratorsTest {
                         .add(RtCollaboratorsTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             users.remove("dummy");
             final MkQuery query = container.take();
@@ -172,7 +172,7 @@ public final class RtCollaboratorsTest {
      * Create and return repo for testing.
      * @return Repo
      */
-    private Repo repo() throws IOException {
+    private static Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "collaboratorrepo"))
             .when(repo).coordinates();

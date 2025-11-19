@@ -34,7 +34,7 @@ public final class RtContentsITCase {
 
     @Test
     public void canFetchReadmeFiles() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -49,14 +49,14 @@ public final class RtContentsITCase {
 
     @Test
     public void canUpdateFileContent() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String message = "commit message";
             final Content content = contents.create(
-                this.jsonObject(
+                RtContentsITCase.jsonObject(
                     path, new String(
                         Base64.encodeBase64("init content".getBytes())
                     ),
@@ -90,14 +90,14 @@ public final class RtContentsITCase {
 
     @Test
     public void canUpdateFileContentInSpecificBranch() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String message = "Commit message";
             final Content content = contents.create(
-                this.jsonObject(
+                RtContentsITCase.jsonObject(
                     path, new String(
                         Base64.encodeBase64("Initial.".getBytes())
                     ),
@@ -132,14 +132,14 @@ public final class RtContentsITCase {
 
     @Test(expected = AssertionError.class)
     public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             final String message = "commit message";
             final Content content = contents.create(
-                this.jsonObject(
+                RtContentsITCase.jsonObject(
                     path, new String(
                         Base64.encodeBase64("first content".getBytes())
                     ),
@@ -160,14 +160,14 @@ public final class RtContentsITCase {
 
     @Test
     public void canCreateFileContent() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
             MatcherAssert.assertThat(
                 "Values are not equal",
                 repos.get(repo.coordinates()).contents().create(
-                    this.jsonObject(
+                    RtContentsITCase.jsonObject(
                         path, new String(
                             Base64.encodeBase64("some content".getBytes())
                         ), "theMessage"
@@ -182,7 +182,7 @@ public final class RtContentsITCase {
 
     @Test
     public void getContent() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -194,7 +194,7 @@ public final class RtContentsITCase {
                 )
             );
             final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(this.jsonObject(path, cont, message));
+            contents.create(RtContentsITCase.jsonObject(path, cont, message));
             final Content content = contents.get(path, "master");
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -223,7 +223,7 @@ public final class RtContentsITCase {
     @Test
     @Ignore
     public void iteratesContent() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -236,7 +236,7 @@ public final class RtContentsITCase {
             final String message = String.format("testMessage");
             final Contents contents = repos.get(repo.coordinates()).contents();
             contents.create(
-                this.jsonObject(
+                RtContentsITCase.jsonObject(
                     afile,
                     new String(
                         Base64.encodeBase64(
@@ -250,7 +250,7 @@ public final class RtContentsITCase {
                 )
             );
             contents.create(
-                this.jsonObject(
+                RtContentsITCase.jsonObject(
                     bfile,
                     new String(
                         Base64.encodeBase64(
@@ -279,7 +279,7 @@ public final class RtContentsITCase {
 
     @Test
     public void checkExists() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -290,7 +290,7 @@ public final class RtContentsITCase {
                 )
             );
             final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(this.jsonObject(path, cont, "test exist"));
+            contents.create(RtContentsITCase.jsonObject(path, cont, "test exist"));
             final String branch = "master";
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -314,7 +314,7 @@ public final class RtContentsITCase {
      * @param message Message
      * @return JsonObject
      */
-    private JsonObject jsonObject(
+    private static JsonObject jsonObject(
         final String path, final String cont, final String message
     ) {
         return Json.createObjectBuilder()

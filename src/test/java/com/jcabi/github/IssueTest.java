@@ -126,7 +126,7 @@ public final class IssueTest {
             )
         ).build();
         final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), this.repo(), 1
+            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
         );
         final IssueLabels labels = new Issue.Smart(issue).roLabels();
         this.thrown.expect(UnsupportedOperationException.class);
@@ -149,7 +149,7 @@ public final class IssueTest {
      * Mock repo for GhIssue creation.
      * @return The mock repo.
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();

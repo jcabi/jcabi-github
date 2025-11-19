@@ -44,7 +44,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.url().toString(),
-            Matchers.equalTo(this.value(release, "url"))
+            Matchers.equalTo(MkReleaseTest.value(release, "url"))
         );
     }
 
@@ -59,7 +59,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.assetsUrl().toString(),
-            Matchers.equalTo(this.value(release, "assets_url"))
+            Matchers.equalTo(MkReleaseTest.value(release, "assets_url"))
         );
     }
 
@@ -74,7 +74,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.htmlUrl().toString(),
-            Matchers.equalTo(this.value(release, "html_url"))
+            Matchers.equalTo(MkReleaseTest.value(release, "html_url"))
         );
     }
 
@@ -89,7 +89,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.uploadUrl().toString(),
-            Matchers.equalTo(this.value(release, "upload_url"))
+            Matchers.equalTo(MkReleaseTest.value(release, "upload_url"))
         );
     }
 
@@ -104,7 +104,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.tag(),
-            Matchers.equalTo(this.value(release, "tag_name"))
+            Matchers.equalTo(MkReleaseTest.value(release, "tag_name"))
         );
     }
 
@@ -119,7 +119,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.commitish(),
-            Matchers.equalTo(this.value(release, "target_commitish"))
+            Matchers.equalTo(MkReleaseTest.value(release, "target_commitish"))
         );
     }
 
@@ -134,7 +134,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.name(),
-            Matchers.equalTo(this.value(release, "name"))
+            Matchers.equalTo(MkReleaseTest.value(release, "name"))
         );
     }
 
@@ -149,7 +149,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.body(),
-            Matchers.equalTo(this.value(release, "body"))
+            Matchers.equalTo(MkReleaseTest.value(release, "body"))
         );
     }
 
@@ -164,7 +164,7 @@ public final class MkReleaseTest {
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.createdAt(),
-            Matchers.equalTo(new GitHub.Time(this.value(release, "created_at"))
+            Matchers.equalTo(new GitHub.Time(MkReleaseTest.value(release, "created_at"))
                 .date()
             )
         );
@@ -199,7 +199,7 @@ public final class MkReleaseTest {
             "Values are not equal",
             smart.publishedAt(),
             Matchers.equalTo(
-                new GitHub.Time(this.value(release, "published_at")).date()
+                new GitHub.Time(MkReleaseTest.value(release, "published_at")).date()
             )
         );
     }
@@ -211,7 +211,7 @@ public final class MkReleaseTest {
      * @return Value as a string
      * @throws IOException If some problem inside
      */
-    private String value(final Release release, final String name)
+    private static String value(final Release release, final String name)
         throws IOException {
         final JsonValue json = release.json().get(name);
         String result = null;

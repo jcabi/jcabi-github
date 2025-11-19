@@ -37,7 +37,7 @@ public final class RtDeployKeysITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtDeployKeysITCase.repos = github.repos();
         RtDeployKeysITCase.repo = new RepoRule().repo(RtDeployKeysITCase.repos);
     }

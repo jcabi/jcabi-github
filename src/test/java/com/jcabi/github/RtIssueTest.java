@@ -38,7 +38,7 @@ public final class RtIssueTest {
 
     @Test
     public void fetchesComments() {
-        final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
+        final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
             "Value is null",
             issue.comments(),
@@ -48,7 +48,7 @@ public final class RtIssueTest {
 
     @Test
     public void fetchesLabels() {
-        final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
+        final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
             "Value is null",
             issue.labels(),
@@ -58,7 +58,7 @@ public final class RtIssueTest {
 
     @Test
     public void fetchesEvents() {
-        final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
+        final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
             "Value is null",
             issue.events(),
@@ -70,7 +70,7 @@ public final class RtIssueTest {
     public void fetchIssueAsJson() throws IOException {
         final RtIssue issue = new RtIssue(
             new FakeRequest().withBody("{\"issue\":\"json\"}"),
-            this.repo(),
+            RtIssueTest.repo(),
             1
         );
         MatcherAssert.assertThat(
@@ -85,11 +85,11 @@ public final class RtIssueTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtIssue issue = new RtIssue(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtIssueTest.repo(),
                 1
             );
             issue.patch(
@@ -112,8 +112,8 @@ public final class RtIssueTest {
 
     @Test
     public void canCompareInstances() {
-        final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
-        final RtIssue greater = new RtIssue(new FakeRequest(), this.repo(), 2);
+        final RtIssue less = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
+        final RtIssue greater = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 2);
         MatcherAssert.assertThat(
             "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
@@ -129,7 +129,7 @@ public final class RtIssueTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = new RtIssue(
                 new ApacheRequest(container.home()),
@@ -150,7 +150,7 @@ public final class RtIssueTest {
      * Mock repo for GhIssue creation.
      * @return The mock repo.
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();

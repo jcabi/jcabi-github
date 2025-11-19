@@ -29,7 +29,7 @@ public final class MkIssueEventsTest {
      */
     @Test
     public void createsIssueEvent() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final String login = "jack";
         final String type = "locked";
         final long before = MkIssueEventsTest.now();
@@ -81,7 +81,7 @@ public final class MkIssueEventsTest {
      */
     @Test
     public void createsIssueEventWithLabel() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final String label = "my label";
         final Event.Smart event = new Event.Smart(
             events.create(
@@ -104,7 +104,7 @@ public final class MkIssueEventsTest {
      */
     @Test
     public void getsIssueEvent() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final String type = "unlocked";
         final String login = "jill";
         final int eventnum = events.create(
@@ -137,7 +137,7 @@ public final class MkIssueEventsTest {
      */
     @Test
     public void iteratesIssueEvents() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final Event first = events.create(
             "closed",
             3,
@@ -174,7 +174,7 @@ public final class MkIssueEventsTest {
      * {@link MkIssueEvents#create(String, int, String, Optional)} method.
      * @return MkIssueEvents
      */
-    private MkIssueEvents issueEvents() throws IOException {
+    private static MkIssueEvents issueEvents() throws IOException {
         return MkIssueEvents.class.cast(
             new MkGitHub().randomRepo().issueEvents()
         );

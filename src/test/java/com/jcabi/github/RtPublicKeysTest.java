@@ -43,7 +43,7 @@ public final class RtPublicKeysTest {
                         .add(RtPublicKeysTest.key(2))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
@@ -66,7 +66,7 @@ public final class RtPublicKeysTest {
                     HttpURLConnection.HTTP_OK,
                     ""
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
@@ -89,7 +89,7 @@ public final class RtPublicKeysTest {
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
@@ -122,7 +122,7 @@ public final class RtPublicKeysTest {
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_CREATED, RtPublicKeysTest.key(1).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),

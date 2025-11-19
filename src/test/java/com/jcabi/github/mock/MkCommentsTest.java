@@ -23,7 +23,7 @@ public final class MkCommentsTest {
      */
     @Test
     public void iteratesComments() throws Exception {
-        final Comments comments = this.comments();
+        final Comments comments = MkCommentsTest.comments();
         comments.post("hello, dude!");
         comments.post("hello again");
         MatcherAssert.assertThat(
@@ -37,7 +37,7 @@ public final class MkCommentsTest {
      * Create a comments to work with.
      * @return Comments just created
      */
-    private Comments comments() throws IOException {
+    private static Comments comments() throws IOException {
         return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?")
             .comments();

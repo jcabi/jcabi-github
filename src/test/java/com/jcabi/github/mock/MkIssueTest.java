@@ -34,7 +34,7 @@ public final class MkIssueTest {
      */
     @Test
     public void opensAndCloses() throws Exception {
-        final Issue issue = this.issue();
+        final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
             new Issue.Smart(issue).isOpen(),
@@ -54,7 +54,7 @@ public final class MkIssueTest {
      */
     @Test
     public void pointsToAnEmptyPullRequest() throws Exception {
-        final Issue issue = this.issue();
+        final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
             new Issue.Smart(issue).isPull(),
@@ -68,7 +68,7 @@ public final class MkIssueTest {
      */
     @Test
     public void showsIssueAuthor() throws Exception {
-        final Issue issue = this.issue();
+        final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Value is null",
             new Issue.Smart(issue).author().login(),
@@ -82,7 +82,7 @@ public final class MkIssueTest {
      */
     @Test
     public void changesTitle() throws Exception {
-        final Issue issue = this.issue();
+        final Issue issue = MkIssueTest.issue();
         new Issue.Smart(issue).title("hey, works?");
         MatcherAssert.assertThat(
             "String does not start with expected value",
@@ -97,7 +97,7 @@ public final class MkIssueTest {
      */
     @Test
     public void changesBody() throws Exception {
-        final Issue issue = this.issue();
+        final Issue issue = MkIssueTest.issue();
         new Issue.Smart(issue).body("hey, body works?");
         MatcherAssert.assertThat(
             "String does not start with expected value",
@@ -112,7 +112,7 @@ public final class MkIssueTest {
      */
     @Test
     public void exponsesProperties() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(this.issue());
+        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         MatcherAssert.assertThat(
             "Value is null", issue.createdAt(), Matchers.notNullValue()
         );
@@ -130,7 +130,7 @@ public final class MkIssueTest {
      */
     @Test
     public void listsReadOnlyLabels() throws Exception {
-        final Issue issue = this.issue();
+        final Issue issue = MkIssueTest.issue();
         final String tag = "test-tag";
         issue.repo().labels().create(tag, "c0c0c0");
         issue.labels().add(Collections.singletonList(tag));
@@ -205,7 +205,7 @@ public final class MkIssueTest {
     @Test
     public void canCheckIfIssueExists() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal", this.issue().exists(), Matchers.is(true)
+            "Values are not equal", MkIssueTest.issue().exists(), Matchers.is(true)
         );
     }
 
@@ -232,7 +232,7 @@ public final class MkIssueTest {
      */
     @Test
     public void assignsUser() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(this.issue());
+        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.assign("walter");
         MatcherAssert.assertThat(
             "String does not start with expected value",
@@ -247,7 +247,7 @@ public final class MkIssueTest {
      */
     @Test
     public void createsClosedEvent() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(this.issue());
+        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.close();
         MatcherAssert.assertThat(
             "Collection size is incorrect",
@@ -270,7 +270,7 @@ public final class MkIssueTest {
      */
     @Test
     public void createsReopenedEvent() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(this.issue());
+        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.close();
         issue.open();
         MatcherAssert.assertThat(
@@ -297,7 +297,7 @@ public final class MkIssueTest {
      * Create an issue to work with.
      * @return Issue just created
      */
-    private Issue issue() throws IOException {
+    private static Issue issue() throws IOException {
         return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?");
     }

@@ -55,11 +55,11 @@ public final class RtPullTest {
                     HttpURLConnection.HTTP_OK,
                     "[{\"commits\":\"test\"}]"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPull pull = new RtPull(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtPullTest.repo(),
                 1
             );
             MatcherAssert.assertThat(
@@ -79,11 +79,11 @@ public final class RtPullTest {
                     HttpURLConnection.HTTP_OK,
                     "[{\"file1\":\"testFile\"}]"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPull pull = new RtPull(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtPullTest.repo(),
                 2
             );
             MatcherAssert.assertThat(
@@ -118,11 +118,11 @@ public final class RtPullTest {
                         .build()
                         .toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPull pull = new RtPull(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtPullTest.repo(),
                 1
             );
             final PullRef base = pull.base();
@@ -159,11 +159,11 @@ public final class RtPullTest {
                     HttpURLConnection.HTTP_OK,
                     RtPullTest.head(ref, sha).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPull pull = new RtPull(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtPullTest.repo(),
                 1
             );
             final PullRef head = pull.head();
@@ -191,11 +191,11 @@ public final class RtPullTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPull pull = new RtPull(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtPullTest.repo(),
                 3
             );
             pull.merge("Test commit.");
@@ -234,11 +234,11 @@ public final class RtPullTest {
                         RtPullTest.check().toString()
                     )
                 )
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Collection<? extends Check> all = new RtPull(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtPullTest.repo(),
                 new Random().nextInt()
             ).checks().all();
             MatcherAssert.assertThat(
@@ -257,8 +257,8 @@ public final class RtPullTest {
 
     @Test
     public void canCompareInstances() {
-        final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
-        final RtPull greater = new RtPull(new FakeRequest(), this.repo(), 2);
+        final RtPull less = new RtPull(new FakeRequest(), RtPullTest.repo(), 1);
+        final RtPull greater = new RtPull(new FakeRequest(), RtPullTest.repo(), 2);
         MatcherAssert.assertThat(
             "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
@@ -279,7 +279,7 @@ public final class RtPullTest {
      * Mock repository for testing purposes.
      * @return Repo the mock repository.
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();

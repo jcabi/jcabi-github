@@ -39,7 +39,7 @@ public final class ImmutabilityTest {
         MatcherAssert.assertThat(
             "Assertion failed",
             Iterables.filter(
-                this.classpath.allTypes(),
+                ClasspathRule.allTypes(),
                 input -> !ImmutabilityTest.skip().contains(
                     input.getName()
                 )

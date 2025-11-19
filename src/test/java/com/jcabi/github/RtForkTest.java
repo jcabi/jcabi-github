@@ -41,14 +41,14 @@ public final class RtForkTest {
         final String patched = "some patched organization";
         try (
             MkContainer container =
-                new MkGrizzlyContainer().next(this.answer(original))
+                new MkGrizzlyContainer().next(RtForkTest.answer(original))
                     .next(
-                        this.answer(patched)
-                    ).next(this.answer(original)).start(
-                        this.resource.port()
+                        RtForkTest.answer(patched)
+                    ).next(RtForkTest.answer(original)).start(
+                        RandomPort.port()
                     );
             MkContainer forksContainer = new MkGrizzlyContainer().start(
-                this.resource.port()
+                RandomPort.port()
             )) {
             final RtRepo repo =
                 new RtRepo(
@@ -78,7 +78,7 @@ public final class RtForkTest {
      * @param organization The organization of the fork
      * @return Success MkAnswer
      */
-    private MkAnswer.Simple answer(final String organization) {
+    private static MkAnswer.Simple answer(final String organization) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             RtForkTest.fork(organization).toString()

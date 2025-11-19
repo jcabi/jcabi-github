@@ -18,7 +18,7 @@ public final class GitHubIT {
      * Return GitHub connected to live server.
      * @return The obj
      */
-    public GitHub connect() {
+    public static GitHub connect() {
         final String key = System.getProperty("failsafe.github.key");
         Assume.assumeThat(
             key,

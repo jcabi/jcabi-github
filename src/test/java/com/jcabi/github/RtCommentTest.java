@@ -86,7 +86,7 @@ public final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing3", "issue3");
             final RtComment comment = new RtComment(
@@ -108,7 +108,7 @@ public final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing4", "issue4");
             final RtComment comment = new RtComment(
@@ -128,7 +128,7 @@ public final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing5", "issue5");
             final RtComment comment = new RtComment(
@@ -150,7 +150,7 @@ public final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create(
                 "Reaction adding test", "This is a test for adding a reaction"
@@ -182,7 +182,7 @@ public final class RtCommentTest {
                         .build()
                     ).build().toString()
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create(
                 "Reaction Listing test", "This is a test for listing reactions"
@@ -206,7 +206,7 @@ public final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = repo.issues().create("testing6", "issue6");
             final RtComment comment = new RtComment(

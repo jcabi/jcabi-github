@@ -41,7 +41,7 @@ public final class RtGistCommentsTest {
                     HttpURLConnection.HTTP_OK,
                     RtGistCommentsTest.comment(body).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("1").when(gist).identifier();
@@ -68,7 +68,7 @@ public final class RtGistCommentsTest {
                     .add(RtGistCommentsTest.comment("comment 2"))
                     .build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("2").when(gist).identifier();
             final RtGistComments comments = new RtGistComments(
@@ -95,7 +95,7 @@ public final class RtGistCommentsTest {
                 HttpURLConnection.HTTP_CREATED,
                 RtGistCommentsTest.comment(body).toString()
             )
-        ).next(answer).start(this.resource.port())
+        ).next(answer).start(RandomPort.port())
         ) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("3").when(gist).identifier();

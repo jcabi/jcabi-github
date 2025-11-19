@@ -20,7 +20,7 @@ public final class RtGitHubITCase {
 
     @Test
     public void authenticatesItself() {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Value is null",
             github.users().self(),
@@ -84,7 +84,7 @@ public final class RtGitHubITCase {
 
     @Test
     public void fetchesUsers() {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Iterating over github.users() should return something",
             github.users().iterate("").iterator().next(),

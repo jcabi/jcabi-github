@@ -39,7 +39,7 @@ public final class RtMilestonesITCase {
     @BeforeAll
     public static void setUp() throws IOException {
         final GitHub github = new RtGitHub(
-            new GitHubIT().connect().entry().through(RetryWire.class)
+            GitHubIT.connect().entry().through(RetryWire.class)
         );
         RtMilestonesITCase.repos = github.repos();
         RtMilestonesITCase.repo = new RepoRule().repo(RtMilestonesITCase.repos);

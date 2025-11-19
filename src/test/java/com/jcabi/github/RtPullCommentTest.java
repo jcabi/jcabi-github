@@ -72,7 +72,7 @@ public final class RtPullCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             Mockito.doReturn(RtPullCommentTest.repo()).when(pull).repo();
@@ -102,7 +102,7 @@ public final class RtPullCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             Mockito.doReturn(RtPullCommentTest.repo()).when(pull).repo();
@@ -136,7 +136,7 @@ public final class RtPullCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Repo repo = new MkGitHub().randomRepo();
             final Pull pull = repo.pulls().create(
                 "Reaction adding test",

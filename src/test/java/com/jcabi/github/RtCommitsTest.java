@@ -41,7 +41,7 @@ public final class RtCommitsTest {
                     HttpURLConnection.HTTP_CREATED,
                     "{\"sha\":\"0abcd89jcabitest\"}"
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Commits commits = new RtCommits(
                 new ApacheRequest(container.home()),
                 new MkGitHub().randomRepo()

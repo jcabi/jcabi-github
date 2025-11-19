@@ -36,7 +36,7 @@ public final class RtJsonTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"body\":\"hi\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtJson json = new RtJson(new ApacheRequest(container.home()));
             MatcherAssert.assertThat(
@@ -56,7 +56,7 @@ public final class RtJsonTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"body\":\"hj\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtJson json = new RtJson(new ApacheRequest(container.home()));
             json.patch(

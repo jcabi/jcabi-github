@@ -51,7 +51,7 @@ public final class VisibilityTest {
         MatcherAssert.assertThat(
             "String does not end with expected value",
             Iterables.filter(
-                this.classpath.allTypes(),
+                ClasspathRule.allTypes(),
                 input -> !(
                     input.isInterface()
                         || VisibilityTest.SKIP.contains(input.getName())

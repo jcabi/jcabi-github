@@ -44,7 +44,7 @@ public final class RtReleaseITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtReleaseITCase.repos = github.repos();
         RtReleaseITCase.repo = RtReleaseITCase.rule.repo(RtReleaseITCase.repos);
     }

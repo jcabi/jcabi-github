@@ -17,7 +17,7 @@ public final class RtOrganizationsITCase {
     @Test
     public void getOrganization() {
         final String login = "github";
-        final Organization org = new GitHubIT().connect()
+        final Organization org = GitHubIT.connect()
             .organizations().get(login);
         MatcherAssert.assertThat(
             "Values are not equal",

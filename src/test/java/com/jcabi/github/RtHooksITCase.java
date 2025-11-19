@@ -94,7 +94,7 @@ public final class RtHooksITCase {
      * @return Repos
      */
     private static Repos repos() {
-        return new GitHubIT().connect().repos();
+        return GitHubIT.connect().repos();
     }
 
     /**

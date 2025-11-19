@@ -27,7 +27,7 @@ public final class MkCommentTest {
      */
     @Test
     public void changesBody() throws Exception {
-        final Comment comment = this.comment("hey buddy");
+        final Comment comment = MkCommentTest.comment("hey buddy");
         new Comment.Smart(comment).body("hello, this is a new body");
         MatcherAssert.assertThat(
             "String does not start with expected value",
@@ -73,7 +73,7 @@ public final class MkCommentTest {
     public void dataStoredProperly() throws Exception {
         final String cmt = "what's up?";
         final long before = MkCommentTest.now();
-        final Comment comment = this.comment(cmt);
+        final Comment comment = MkCommentTest.comment(cmt);
         final long after = MkCommentTest.now();
         MatcherAssert.assertThat(
             "Value is not greater than expected",
@@ -133,7 +133,7 @@ public final class MkCommentTest {
      * @param text Text of comment
      * @return Comment just created
      */
-    private Comment comment(final String text) throws IOException {
+    private static Comment comment(final String text) throws IOException {
         return new MkGitHub().repos().create(
             new Repos.RepoCreate("blueharvest", false)
         ).issues().create("hey", "how are you?").comments().post(text);

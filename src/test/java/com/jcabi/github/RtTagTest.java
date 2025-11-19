@@ -37,7 +37,7 @@ public final class RtTagTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"sha\":\"abdes00test\", \"tag\":\"v.0.1\"}"
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Tag tag = new RtTag(
             new ApacheRequest(container.home()),
             new MkGitHub().randomRepo(),

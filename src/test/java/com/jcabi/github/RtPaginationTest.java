@@ -42,7 +42,7 @@ public final class RtPaginationTest {
                         "</s?page=3&per_page=100>; rel=\"next\""
                     )
             ).next(RtPaginationTest.simple("Hi Mark"))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(
@@ -68,7 +68,7 @@ public final class RtPaginationTest {
     public void throwsIfNoMoreElement() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                .next(RtPaginationTest.simple("Hi there")).start(this.resource.port())
+                .next(RtPaginationTest.simple("Hi there")).start(RandomPort.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(

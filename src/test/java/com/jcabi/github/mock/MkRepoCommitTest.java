@@ -37,7 +37,7 @@ public final class MkRepoCommitTest {
     @Test
     public void getRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = this.repo(storage);
+        final Repo repo = MkRepoCommitTest.repo(storage);
         MatcherAssert.assertThat(
             "Values are not equal",
             new MkRepoCommit(
@@ -55,7 +55,7 @@ public final class MkRepoCommitTest {
         final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new MkRepoCommit(storage, this.repo(storage), MkRepoCommitTest.SHA2).sha(),
+            new MkRepoCommit(storage, MkRepoCommitTest.repo(storage), MkRepoCommitTest.SHA2).sha(),
             Matchers.equalTo(MkRepoCommitTest.SHA2)
         );
     }
@@ -98,7 +98,7 @@ public final class MkRepoCommitTest {
                 .add("commits").add("commit").add("sha").set(MkRepoCommitTest.SHA1)
         );
         final MkRepoCommit commit = new MkRepoCommit(
-            storage, this.repo(storage), MkRepoCommitTest.SHA1
+            storage, MkRepoCommitTest.repo(storage), MkRepoCommitTest.SHA1
         );
         MatcherAssert.assertThat(
             "Value is null",
@@ -110,7 +110,7 @@ public final class MkRepoCommitTest {
     public void compareEqual() throws IOException {
         final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = this.repo(storage);
+        final Repo repo = MkRepoCommitTest.repo(storage);
         final MkRepoCommit commit = new MkRepoCommit(storage, repo, sha);
         final MkRepoCommit other = new MkRepoCommit(storage, repo, sha);
         MatcherAssert.assertThat(
@@ -126,7 +126,7 @@ public final class MkRepoCommitTest {
     @Test
     public void compareDifferent() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = this.repo(storage);
+        final Repo repo = MkRepoCommitTest.repo(storage);
         final MkRepoCommit commit = new MkRepoCommit(
             storage, repo, "6dcd4ce23d88e2ee9568ba546c007c63d9131c1b"
         );
@@ -148,7 +148,7 @@ public final class MkRepoCommitTest {
      * @param storage The storage
      * @return Repo
      */
-    private Repo repo(final MkStorage storage) {
+    private static Repo repo(final MkStorage storage) {
         final String login = "test_login";
         return new MkRepo(
             storage,

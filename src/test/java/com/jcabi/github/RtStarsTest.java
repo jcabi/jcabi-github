@@ -39,7 +39,7 @@ public final class RtStarsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Stars starred = new RtStars(
                 new ApacheRequest(container.home()),
@@ -66,7 +66,7 @@ public final class RtStarsTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final String user = "staruser";
             final String repo = "starrepo";
@@ -101,7 +101,7 @@ public final class RtStarsTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final String user = "unstaruser";
             final String repo = "unstarrepo";

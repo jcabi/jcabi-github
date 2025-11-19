@@ -94,7 +94,7 @@ public final class RtPublicMembersTest {
             MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -133,7 +133,7 @@ public final class RtPublicMembersTest {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port())
+            .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -172,7 +172,7 @@ public final class RtPublicMembersTest {
                 .next(
                     new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
                 )
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
@@ -221,7 +221,7 @@ public final class RtPublicMembersTest {
                     )
                 )
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),

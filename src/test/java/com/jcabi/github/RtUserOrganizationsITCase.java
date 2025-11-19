@@ -18,7 +18,7 @@ import org.junit.Test;
 public final class RtUserOrganizationsITCase {
     @Test
     public void iterateOrganizations() throws IOException {
-        final UserOrganizations orgs = new GitHubIT().connect()
+        final UserOrganizations orgs = GitHubIT.connect()
             .users().get("yegor256")
             .organizations();
         MatcherAssert.assertThat(

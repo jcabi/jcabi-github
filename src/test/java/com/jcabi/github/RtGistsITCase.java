@@ -87,6 +87,6 @@ public final class RtGistsITCase {
      * @return Gists
      */
     private static Gists gists() {
-        return new GitHubIT().connect().gists();
+        return GitHubIT.connect().gists();
     }
 }

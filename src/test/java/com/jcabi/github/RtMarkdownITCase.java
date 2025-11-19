@@ -19,7 +19,7 @@ public final class RtMarkdownITCase {
 
     @Test
     public void rendersMarkdown() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Values are not equal",
             github.markdown().render(
@@ -33,7 +33,7 @@ public final class RtMarkdownITCase {
 
     @Test
     public void rendersRawMarkdown() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Values are not equal",
             github.markdown().raw(

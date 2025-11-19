@@ -35,7 +35,7 @@ public final class RtMilestonesTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtMilestones milestones = new RtMilestones(
                 new ApacheRequest(container.home()),

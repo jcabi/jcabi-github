@@ -41,7 +41,7 @@ public final class RtLabelsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtLabels labels = new RtLabels(
                 new JdkRequest(container.home()),
@@ -77,7 +77,7 @@ public final class RtLabelsTest {
                     HttpURLConnection.HTTP_OK,
                     RtLabelsTest.label(name, color).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabels issues = new RtLabels(
                 new JdkRequest(container.home()),
@@ -98,7 +98,7 @@ public final class RtLabelsTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabels issues = new RtLabels(
                 new JdkRequest(container.home()),
@@ -131,7 +131,7 @@ public final class RtLabelsTest {
                         .add(RtLabelsTest.label("new bug", "f29522"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabels labels = new RtLabels(
                 new JdkRequest(container.home()),

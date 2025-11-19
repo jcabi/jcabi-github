@@ -76,7 +76,7 @@ public final class RtPullCommentsTest {
                         .add(RtPullCommentsTest.comment("comment 2"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPullComments comments = new RtPullComments(
                 new JdkRequest(container.home()), pull
@@ -108,7 +108,7 @@ public final class RtPullCommentsTest {
                         .add(RtPullCommentsTest.comment("comment 4"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPullComments comments = new RtPullComments(
                 new JdkRequest(container.home()), pull
@@ -139,7 +139,7 @@ public final class RtPullCommentsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
@@ -184,7 +184,7 @@ public final class RtPullCommentsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
@@ -219,7 +219,7 @@ public final class RtPullCommentsTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
             final Repo repository = RtPullCommentsTest.repo();

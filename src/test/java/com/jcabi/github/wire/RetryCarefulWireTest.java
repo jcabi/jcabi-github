@@ -55,7 +55,7 @@ public final class RetryCarefulWireTest {
                 .withHeader(RetryCarefulWireTest.REMAINING_HEADER, "9")
                 .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             )
-            .start(this.resource.port());
+            .start(RandomPort.port());
         new JdkRequest(container.home())
             .through(RetryCarefulWire.class, threshold)
             .fetch()

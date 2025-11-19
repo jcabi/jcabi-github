@@ -68,9 +68,9 @@ public final class RtGistCommentTest {
         try (
             MkContainer container =
                 new MkGrizzlyContainer().next(first).next(second).next(third)
-                    .start(this.resource.port());
+                    .start(RandomPort.port());
             MkContainer gistContainer = new MkGrizzlyContainer()
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtGist gist =
                 new RtGist(
@@ -104,7 +104,7 @@ public final class RtGistCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),
                 new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),

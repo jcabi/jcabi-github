@@ -124,7 +124,7 @@ public final class RepositoryStatisticsTest {
         throws IOException {
         MatcherAssert.assertThat(
             "We expect to have basic statistics from repo",
-            new RepositoryStatistics(this.repo()).toMap(),
+            new RepositoryStatistics(RepositoryStatisticsTest.repo()).toMap(),
             Matchers.<Map<String, ?>>allOf(
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.LANGUAGE_KEY,
@@ -179,7 +179,7 @@ public final class RepositoryStatisticsTest {
     @Test
     public void retrievesSmartStatistics() throws IOException {
         final RepositoryStatistics.Smart smart =
-            new RepositoryStatistics.Smart(this.repo());
+            new RepositoryStatistics.Smart(RepositoryStatisticsTest.repo());
         MatcherAssert.assertThat(
             "Forks should be equal to 1",
             smart.forks(),
@@ -231,7 +231,7 @@ public final class RepositoryStatisticsTest {
      * @return Repo
      * @throws IOException If some problem with I/O happened.
      */
-    private Repo repo() throws IOException {
+    private static Repo repo() throws IOException {
         return new MkGitHub()
             .repos()
             .create(

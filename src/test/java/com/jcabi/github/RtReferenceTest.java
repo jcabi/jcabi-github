@@ -40,7 +40,7 @@ public final class RtReferenceTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureA\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
@@ -68,7 +68,7 @@ public final class RtReferenceTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureB\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
@@ -92,7 +92,7 @@ public final class RtReferenceTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureC\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),
@@ -117,7 +117,7 @@ public final class RtReferenceTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/featureD\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Reference reference = new RtReference(
                 new ApacheRequest(container.home()),

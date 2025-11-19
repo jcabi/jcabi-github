@@ -38,7 +38,7 @@ public final class RtCommitTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"sha\":\"a0b1c3\", \"commit\":{\"message\":\"hello\"}}"
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Commit.Smart commit = new Commit.Smart(
                 new RtCommit(
                     new JdkRequest(container.home()),

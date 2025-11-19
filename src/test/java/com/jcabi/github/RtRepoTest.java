@@ -59,7 +59,7 @@ public final class RtRepoTest {
                         .add(RtRepoTest.event(Event.MENTIONED))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
@@ -192,7 +192,7 @@ public final class RtRepoTest {
                     HttpURLConnection.HTTP_OK,
                     RtRepoTest.event(Event.ASSIGNED).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
@@ -273,7 +273,7 @@ public final class RtRepoTest {
                         .add("default_branch", expected)
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -306,7 +306,7 @@ public final class RtRepoTest {
                         .add("Ruby", 1)
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
@@ -331,7 +331,7 @@ public final class RtRepoTest {
                         .add(other, 2)
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
@@ -380,7 +380,7 @@ public final class RtRepoTest {
                         HttpURLConnection.HTTP_OK,
                         "[]"
                     )
-                ).start(this.resource.port())
+                ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())

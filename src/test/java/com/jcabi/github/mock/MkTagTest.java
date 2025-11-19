@@ -27,7 +27,7 @@ public final class MkTagTest {
     public void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
-            this.tag().json().getString("message"),
+            MkTagTest.tag().json().getString("message"),
             Matchers.is("\"test tag\"")
         );
     }
@@ -36,7 +36,7 @@ public final class MkTagTest {
      * Return a Tag for testing.
      * @return Tag
      */
-    private Tag tag() throws IOException {
+    private static Tag tag() throws IOException {
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "abcsha12").add("message", "test tag")
             .add("name", "v.0.1").build();

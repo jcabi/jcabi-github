@@ -39,7 +39,7 @@ public final class RtReferencesTest {
                     HttpURLConnection.HTTP_CREATED,
                     "{\"ref\":\"refs/heads/feature-a\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
@@ -67,7 +67,7 @@ public final class RtReferencesTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"ref\":\"refs/heads/feature-a\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
@@ -87,7 +87,7 @@ public final class RtReferencesTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
@@ -111,7 +111,7 @@ public final class RtReferencesTest {
                     HttpURLConnection.HTTP_OK,
                     "[{\"ref\":\"refs/tags/feature-b\"}]"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),
@@ -139,7 +139,7 @@ public final class RtReferencesTest {
                     HttpURLConnection.HTTP_OK,
                     "[{\"ref\":\"refs/heads/feature-c\"}]"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final References refs = new RtReferences(
                 new ApacheRequest(container.home()),

@@ -43,7 +43,7 @@ public final class RtForksTest {
     public void retrievesForks() {
         final RtForks forks = new RtForks(
             new FakeRequest()
-                .withBody("[]"), this.repo()
+                .withBody("[]"), RtForksTest.repo()
         );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
@@ -65,7 +65,7 @@ public final class RtForksTest {
                     HttpURLConnection.HTTP_ACCEPTED,
                     RtForksTest.fork(organization).toString()
                 )
-            ).next(answer).start(this.resource.port())) {
+            ).next(answer).start(RandomPort.port())) {
             final Repo owner = Mockito.mock(Repo.class);
             final Coordinates coordinates = new Coordinates.Simple(
                 "test_user", "test_repo"
@@ -93,7 +93,7 @@ public final class RtForksTest {
      * Create and return repo for testing.
      * @return Repo
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "forks"))
             .when(repo).coordinates();

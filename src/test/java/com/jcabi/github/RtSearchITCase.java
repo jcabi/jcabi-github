@@ -24,7 +24,7 @@ public final class RtSearchITCase {
     public void canSearchForRepos() {
         MatcherAssert.assertThat(
             "Collection is not empty",
-            new GitHubIT().connect()
+            GitHubIT.connect()
                 .search().repos("repo", "stars", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
         );
@@ -35,7 +35,7 @@ public final class RtSearchITCase {
      */
     @Test
     public void canFetchMultiplePages() {
-        final Iterator<Repo> iter = new GitHubIT().connect().search().repos(
+        final Iterator<Repo> iter = GitHubIT.connect().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
         int count = 0;
@@ -57,7 +57,7 @@ public final class RtSearchITCase {
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
             "Collection is not empty",
-            new GitHubIT().connect().search().issues(
+            GitHubIT.connect().search().issues(
                 "qualifiers",
                 "updated",
                 Search.Order.DESC,
@@ -71,7 +71,7 @@ public final class RtSearchITCase {
     public void canSearchForUsers() {
         MatcherAssert.assertThat(
             "Collection is not empty",
-            new GitHubIT().connect()
+            GitHubIT.connect()
                 .search().users("jcabi", "joined", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
@@ -85,7 +85,7 @@ public final class RtSearchITCase {
     public void canSearchForContents() {
         MatcherAssert.assertThat(
             "Collection is not empty",
-            new GitHubIT().connect().search().codes(
+            GitHubIT.connect().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC
             ),
             Matchers.not(Matchers.emptyIterableOf(Content.class))

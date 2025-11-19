@@ -42,7 +42,7 @@ public final class RtTreesITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtTreesITCase.repos = github.repos();
         RtTreesITCase.repo = RtTreesITCase.rule.repo(RtTreesITCase.repos);
     }

@@ -26,8 +26,8 @@ public final class RtPublicKeysITCase {
      */
     @Test
     public void retrievesKeys() throws Exception {
-        final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("key", this.key());
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("key", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
             keys.iterate(),
@@ -42,8 +42,8 @@ public final class RtPublicKeysITCase {
      */
     @Test
     public void retrievesSingleKey() throws Exception {
-        final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("Title", this.key());
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("Title", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
             "Values are not equal",
             keys.get(key.number()),
@@ -58,8 +58,8 @@ public final class RtPublicKeysITCase {
      */
     @Test
     public void removesKey() throws Exception {
-        final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("", this.key());
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
             keys.iterate(),
@@ -79,9 +79,9 @@ public final class RtPublicKeysITCase {
      */
     @Test
     public void createsKey() throws Exception {
-        final PublicKeys keys = this.keys();
+        final PublicKeys keys = RtPublicKeysITCase.keys();
         // @checkstyle LineLength (1 line)
-        final PublicKey key = keys.create("rsa", this.key());
+        final PublicKey key = keys.create("rsa", RtPublicKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 "Collection does not contain expected item",
@@ -109,7 +109,7 @@ public final class RtPublicKeysITCase {
      * Generates a random public key for test.
      * @return The encoded SSH public key.
      */
-    private String key() throws JSchException, IOException {
+    private static String key() throws JSchException, IOException {
         final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
@@ -125,8 +125,8 @@ public final class RtPublicKeysITCase {
      * Create and return PublicKeys object to test.
      * @return PublicKeys
      */
-    private PublicKeys keys() {
-        return new GitHubIT().connect().users().self().keys();
+    private static PublicKeys keys() {
+        return GitHubIT.connect().users().self().keys();
     }
 
 }

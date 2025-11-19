@@ -43,7 +43,7 @@ public final class RtPullsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
@@ -73,7 +73,7 @@ public final class RtPullsTest {
                     HttpURLConnection.HTTP_OK,
                     RtPullsTest.pull(title).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
@@ -100,7 +100,7 @@ public final class RtPullsTest {
                         .add(RtPullsTest.pull("Amazing new feature"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),

@@ -65,7 +65,7 @@ public final class RtReleaseTest {
     public void editRelease() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         final JsonObject json = Json.createObjectBuilder()
             .add("tag_name", "v1.0.0")
@@ -88,7 +88,7 @@ public final class RtReleaseTest {
     public void deleteRelease() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, RtReleaseTest.EMPTY_JSON)
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.delete();
         MatcherAssert.assertThat(
@@ -102,7 +102,7 @@ public final class RtReleaseTest {
     public void executePatchRequest() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final RtRelease release = RtReleaseTest.release(this.container.home());
         release.patch(Json.createObjectBuilder().add("name", "v1")
             .build()

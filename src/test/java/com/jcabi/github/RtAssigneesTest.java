@@ -43,11 +43,11 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtAssigneesTest.repo()
             );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
@@ -68,10 +68,10 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtAssigneesTest.repo()
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -92,11 +92,11 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtAssigneesTest.repo()
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -121,7 +121,7 @@ public final class RtAssigneesTest {
      * Create and return repo for testing.
      * @return Repo
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "assignee"))
             .when(repo).coordinates();

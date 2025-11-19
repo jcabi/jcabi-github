@@ -24,7 +24,7 @@ public final class MkPullCommentsTest {
 
     @Test
     public void fetchesPullComment() throws IOException {
-        final PullComments comments = this.comments();
+        final PullComments comments = MkPullCommentsTest.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -35,7 +35,7 @@ public final class MkPullCommentsTest {
 
     @Test
     public void iteratesRepoPullComments() throws IOException {
-        final PullComments comments = this.comments();
+        final PullComments comments = MkPullCommentsTest.comments();
         comments.pull()
             .repo()
             .pulls()
@@ -62,7 +62,7 @@ public final class MkPullCommentsTest {
 
     @Test
     public void iteratesPullRequestComments() throws IOException {
-        final PullComments comments = this.comments();
+        final PullComments comments = MkPullCommentsTest.comments();
         comments.post("comment 1", "commit 1", "/commit1", 1);
         comments.post("comment 2", "commit 2", "/commit2", 2);
         MatcherAssert.assertThat(
@@ -121,7 +121,7 @@ public final class MkPullCommentsTest {
 
     @Test
     public void createsPullCommentReply() throws IOException {
-        final PullComments comments = this.comments();
+        final PullComments comments = MkPullCommentsTest.comments();
         final int orig = comments.post(
             "Orig Comment",
             "6dcb09b5b57875f334f61aebed695e2e4193db5e",
@@ -144,7 +144,7 @@ public final class MkPullCommentsTest {
 
     @Test
     public void removesPullComment() throws IOException {
-        final PullComments comments = this.comments();
+        final PullComments comments = MkPullCommentsTest.comments();
         final int orig = comments.post(
             "Origg Comment",
             "6dcb09b5b57875f334f61aebed695e2e4193db5d",
@@ -173,7 +173,7 @@ public final class MkPullCommentsTest {
      * @return The pull comments
      * @throws IOException If an IO Exception occurs
      */
-    private PullComments comments() throws IOException {
+    private static PullComments comments() throws IOException {
         // @checkstyle MultipleStringLiteralsCheck (1 line)
         return new MkGitHub().randomRepo().pulls()
             .create("hello", "awesome-head", "awesome-base")

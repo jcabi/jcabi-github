@@ -26,7 +26,7 @@ public final class RtReposITCase {
 
     @Test
     public void create() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -39,7 +39,7 @@ public final class RtReposITCase {
 
     @Test(expected = AssertionError.class)
     public void failsOnCreationOfTwoRepos() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             repos.create(
@@ -52,7 +52,7 @@ public final class RtReposITCase {
 
     @Test
     public void exists() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
@@ -67,7 +67,7 @@ public final class RtReposITCase {
 
     @Test
     public void createWithOrganization() throws IOException {
-        final Repos repos = new GitHubIT().connect().repos();
+        final Repos repos = GitHubIT.connect().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")
         );

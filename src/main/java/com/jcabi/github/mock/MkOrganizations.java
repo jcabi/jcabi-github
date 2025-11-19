@@ -70,7 +70,7 @@ final class MkOrganizations implements Organizations {
     public Iterable<Organization> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/org", this.xpath()),
+            String.format("%s/org", MkOrganizations.xpath()),
             xml -> this.get(
                 xml.xpath("login/text()").get(0)
             )
@@ -81,7 +81,7 @@ final class MkOrganizations implements Organizations {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    private String xpath() {
+    private static String xpath() {
         return "/github/orgs";
     }
 }

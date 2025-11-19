@@ -16,7 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub forks.
- *
+ * @since 0.8
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
@@ -44,7 +44,7 @@ final class MkForks implements Forks {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkForks(
+    MkForks(
         final MkStorage stg,
         final String login,
         final Coordinates rep

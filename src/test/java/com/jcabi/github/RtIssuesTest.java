@@ -43,7 +43,7 @@ public final class RtIssuesTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
@@ -75,7 +75,7 @@ public final class RtIssuesTest {
                     HttpURLConnection.HTTP_OK,
                     RtIssuesTest.issue(title).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
@@ -102,7 +102,7 @@ public final class RtIssuesTest {
                         .add(RtIssuesTest.issue("code issue"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),
@@ -128,7 +128,7 @@ public final class RtIssuesTest {
                         .add(RtIssuesTest.issue("some other issue"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtIssues issues = new RtIssues(
                 new JdkRequest(container.home()),

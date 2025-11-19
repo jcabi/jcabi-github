@@ -63,7 +63,7 @@ public final class RtDeployKeysTest {
                     .build().toString()
             )
         )) {
-            container.start(this.resource.port());
+            container.start(RandomPort.port());
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
                 new RtDeployKeys(
@@ -108,7 +108,7 @@ public final class RtDeployKeysTest {
                 String.format("{\"id\":%d}", number)
             )
         )) {
-            container.start(this.resource.port());
+            container.start(RandomPort.port());
             final DeployKeys keys = new RtDeployKeys(
                 new ApacheRequest(container.home()), RtDeployKeysTest.repo()
             );

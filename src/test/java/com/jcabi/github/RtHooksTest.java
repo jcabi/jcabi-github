@@ -46,7 +46,7 @@ public final class RtHooksTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
@@ -82,7 +82,7 @@ public final class RtHooksTest {
                         )
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtHooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
@@ -109,7 +109,7 @@ public final class RtHooksTest {
                         Collections.emptyMap()
                     ).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
@@ -137,7 +137,7 @@ public final class RtHooksTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
@@ -165,7 +165,7 @@ public final class RtHooksTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),

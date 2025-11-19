@@ -39,7 +39,7 @@ public final class RtLabelTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"msg\": \"hi\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabel label = new RtLabel(
                 new ApacheRequest(container.home()),
@@ -63,7 +63,7 @@ public final class RtLabelTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"msg\":\"hi\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabel label = new RtLabel(
                 new ApacheRequest(container.home()),

@@ -27,7 +27,7 @@ public final class MkTreeTest {
     public void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
-            this.tree().json().getString("message"),
+            MkTreeTest.tree().json().getString("message"),
             Matchers.is("\"test tree\"")
         );
     }
@@ -36,7 +36,7 @@ public final class MkTreeTest {
      * Return a Tree for testing.
      * @return Tree
      */
-    private Tree tree() throws IOException {
+    private static Tree tree() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",
             Json.createArrayBuilder().add(

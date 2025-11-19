@@ -39,7 +39,7 @@ public final class RtDeployKeyTest {
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final DeployKey key = new RtDeployKey(
                 new ApacheRequest(container.home()),

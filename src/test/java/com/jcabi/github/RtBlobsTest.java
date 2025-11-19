@@ -42,7 +42,7 @@ public final class RtBlobsTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtBlobs blobs = new RtBlobs(
                 new ApacheRequest(container.home()),

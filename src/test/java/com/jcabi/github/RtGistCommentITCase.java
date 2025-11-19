@@ -114,7 +114,7 @@ public final class RtGistCommentITCase {
      * @return Gist
      */
     private static Gist gist() throws IOException {
-        return new GitHubIT()
+        return GitHubIT
             .connect()
             .gists()
             .create(

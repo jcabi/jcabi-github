@@ -52,7 +52,7 @@ public final class RtBranchesTest {
             MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),
@@ -105,7 +105,7 @@ public final class RtBranchesTest {
             MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),

@@ -59,7 +59,7 @@ public final class MkHookTest {
         final MkStorage storage = new MkStorage.InFile();
         final Coordinates coords = new Coordinates.Simple("user/repo");
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
         );
         MatcherAssert.assertThat(
             "Hook json returned wrong id",
@@ -78,7 +78,7 @@ public final class MkHookTest {
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
                 .add("url").set(url).up()
         );
         MatcherAssert.assertThat(
@@ -100,7 +100,7 @@ public final class MkHookTest {
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
                 .add("test_url").set(test).up()
         );
         MatcherAssert.assertThat(
@@ -122,7 +122,7 @@ public final class MkHookTest {
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
                 .add("ping_url").set(ping).up()
         );
         MatcherAssert.assertThat(
@@ -143,7 +143,7 @@ public final class MkHookTest {
         final Iterable<String> events = Arrays.asList("event1", "event2");
         final int number = 123;
         final Coordinates coords = new Coordinates.Simple("user/repo");
-        final Directives xml = this.hookDirs(number, coords).add("events")
+        final Directives xml = MkHookTest.hookDirs(number, coords).add("events")
             .attr("array", "true");
         events.forEach(e -> xml.add("event").set(e).up());
         final MkStorage storage = new MkStorage.InFile();
@@ -172,7 +172,7 @@ public final class MkHookTest {
      * @param coords Repo coords
      * @return Hook directives
      */
-    private Directives hookDirs(final int number, final Coordinates coords) {
+    private static Directives hookDirs(final int number, final Coordinates coords) {
         return new Directives().xpath("/github")
             .add("repos").add("repo").attr("coords", coords.toString())
             .add("hooks")

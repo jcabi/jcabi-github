@@ -44,7 +44,7 @@ public final class RtGitignoresTest {
                         .build()
                         .toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtGitignores gitignores = new RtGitignores(
                 new RtGitHub(new JdkRequest(container.home()))

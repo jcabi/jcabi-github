@@ -44,7 +44,7 @@ public final class RtTagsITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtTagsITCase.repos = github.repos();
         RtTagsITCase.repo = RtTagsITCase.rule.repo(RtTagsITCase.repos);
     }

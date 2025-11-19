@@ -45,7 +45,7 @@ public final class RtHookTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"test\":\"hook\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hook hook = new RtHook(
                 new ApacheRequest(container.home()),
@@ -77,7 +77,7 @@ public final class RtHookTest {
                     HttpURLConnection.HTTP_OK,
                     "{ \"id\": 1, \"events\": [ \"push\", \"pull_request\" ] }"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             MatcherAssert.assertThat(
                 "Assertion failed",

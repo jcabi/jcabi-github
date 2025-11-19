@@ -43,7 +43,7 @@ public final class RtValuePaginationTest {
             RtValuePaginationTest.simple(jeff, mark)
                 .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"")
         ).next(RtValuePaginationTest.simple(judy, jessy))
-            .start(this.resource.port());
+            .start(RandomPort.port());
         final Request request = new ApacheRequest(container.home());
         final RtValuePagination<JsonObject, JsonArray> page =
             new RtValuePagination<>(
@@ -79,7 +79,7 @@ public final class RtValuePaginationTest {
         final String mark = "other Mark";
         final MkContainer container = new MkGrizzlyContainer().next(
             RtValuePaginationTest.simple(jeff, mark)
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         try {
             final Request request = new ApacheRequest(container.home());
             final RtValuePagination<JsonObject, JsonArray> page =

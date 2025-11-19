@@ -33,7 +33,7 @@ public final class RtLabelsITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtLabelsITCase.repos = github.repos();
         RtLabelsITCase.repo = new RepoRule().repo(RtLabelsITCase.repos);
     }

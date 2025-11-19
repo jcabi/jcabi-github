@@ -65,7 +65,7 @@ public final class RtForksITCase {
      * @return GitHub repos.
      */
     private static Repos repos() {
-        return new GitHubIT().connect().repos();
+        return GitHubIT.connect().repos();
     }
 
 }

@@ -67,10 +67,10 @@ final class MkGists implements Gists {
         try {
             number = Integer.toString(
                 1 + this.storage.xml().xpath(
-                    String.format("%s/gist/id/text()", this.xpath())
+                    String.format("%s/gist/id/text()", MkGists.xpath())
                 ).size()
             );
-            final Directives dirs = new Directives().xpath(this.xpath())
+            final Directives dirs = new Directives().xpath(MkGists.xpath())
                 .add("gist")
                 .add("id").set(number).up()
                 .add("public").set(String.valueOf(visible)).up()
@@ -97,7 +97,7 @@ final class MkGists implements Gists {
     public Iterable<Gist> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/gist", this.xpath()),
+            String.format("%s/gist", MkGists.xpath()),
             xml -> this.get(xml.xpath("id/text()").get(0))
         );
     }
@@ -107,7 +107,7 @@ final class MkGists implements Gists {
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/gist[id='%s']", this.xpath(), identifier)
+                String.format("%s/gist[id='%s']", MkGists.xpath(), identifier)
             ).remove()
         );
     }
@@ -116,7 +116,7 @@ final class MkGists implements Gists {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    private String xpath() {
+    private static String xpath() {
         return "/github/gists";
     }
 

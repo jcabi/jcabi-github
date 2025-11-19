@@ -28,9 +28,10 @@ public final class ClasspathRule implements TestRule {
     /**
      * Provides all classes in package 'com.jcabi.github'.
      * @return Classes
+     * @checkstyle NonStaticMethodCheck (5 lines)
      */
     @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
-    public Iterable<Class<?>> allTypes() {
+    public static Iterable<Class<?>> allTypes() {
         return Iterables.filter(
             new Reflections(
                 new ConfigurationBuilder()
@@ -81,7 +82,7 @@ public final class ClasspathRule implements TestRule {
     public Iterable<Method> allPublicMethods() {
         return Iterables.concat(
             Iterables.transform(
-                this.allTypes(),
+                ClasspathRule.allTypes(),
                 input -> Iterables.filter(
                     Arrays.asList(input.getDeclaredMethods()),
                     method -> Modifier.isPublic(

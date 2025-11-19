@@ -74,7 +74,7 @@ public final class RtStatusesTest {
                     .add(contextprop, context)
                     .build().toString()
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Request entry = new ApacheRequest(container.home());
         final Statuses statuses = new RtStatuses(
             entry,

@@ -51,7 +51,7 @@ public final class RtReposTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtRepos repos = new RtRepos(
                 Mockito.mock(GitHub.class),
@@ -84,7 +84,7 @@ public final class RtReposTest {
                         .add(RtReposTest.response("dummy", "2"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtRepos repos = new RtRepos(
                 Mockito.mock(GitHub.class),
@@ -104,7 +104,7 @@ public final class RtReposTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repos repos = new RtRepos(
                 Mockito.mock(GitHub.class),

@@ -48,10 +48,11 @@ public class RandomPort extends ExternalResource {
      * Returns available port number.
      * @return Available port number
      * @throws IOException in case of IO error.
+     * @checkstyle NonStaticMethodCheck (5 lines)
      */
     @RetryOnFailure
     @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
-    public int port() throws IOException {
+    public static int port() throws IOException {
         final ServerSocket socket = new ServerSocket();
         try {
             socket.setReuseAddress(true);

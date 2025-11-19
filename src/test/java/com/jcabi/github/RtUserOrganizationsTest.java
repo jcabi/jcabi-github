@@ -45,7 +45,7 @@ public final class RtUserOrganizationsTest {
                     .add(RtUserOrganizationsTest.org(Tv.FIVE, "org13"))
                     .build().toString()
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         try {
             final UserOrganizations orgs = new RtUserOrganizations(
                 github,

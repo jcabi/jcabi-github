@@ -39,7 +39,7 @@ public final class RtMarkdownTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
                     .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtMarkdown markdown = new RtMarkdown(
                 new MkGitHub(),
@@ -67,7 +67,7 @@ public final class RtMarkdownTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
                     .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtMarkdown markdown = new RtMarkdown(
                 new MkGitHub(),

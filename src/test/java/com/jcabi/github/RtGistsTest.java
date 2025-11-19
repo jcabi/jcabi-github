@@ -40,7 +40,7 @@ public final class RtGistsTest {
                     HttpURLConnection.HTTP_CREATED,
                     "{\"id\":\"1\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gists gists = new RtGists(
                 new MkGitHub(),
@@ -65,7 +65,7 @@ public final class RtGistsTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gists gists = new RtGists(
                 new MkGitHub(),
@@ -88,7 +88,7 @@ public final class RtGistsTest {
                     HttpURLConnection.HTTP_OK,
                     "[{\"id\":\"hello\"}]"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gists gists = new RtGists(
                 new MkGitHub(),
@@ -111,7 +111,7 @@ public final class RtGistsTest {
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Gists gists = new RtGists(
                 new MkGitHub(),
                 new ApacheRequest(container.home())

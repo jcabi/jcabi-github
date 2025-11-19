@@ -33,7 +33,7 @@ public final class RtEventTest {
 
     @Test
     public void canRetrieveOwnRepo() {
-        final Repo repo = this.repo();
+        final Repo repo = RtEventTest.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
         MatcherAssert.assertThat(
             "Assertion failed",
@@ -44,7 +44,7 @@ public final class RtEventTest {
 
     @Test
     public void canRetrieveOwnNumber() {
-        final Repo repo = this.repo();
+        final Repo repo = RtEventTest.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -60,10 +60,10 @@ public final class RtEventTest {
                 HttpURLConnection.HTTP_OK,
                 "{\"test\":\"events\"}"
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final RtEvent event = new RtEvent(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtEventTest.repo(),
                 3
             );
             MatcherAssert.assertThat(
@@ -76,8 +76,8 @@ public final class RtEventTest {
 
     @Test
     public void canCompareInstances() {
-        final RtEvent less = new RtEvent(new FakeRequest(), this.repo(), 1);
-        final RtEvent greater = new RtEvent(new FakeRequest(), this.repo(), 2);
+        final RtEvent less = new RtEvent(new FakeRequest(), RtEventTest.repo(), 1);
+        final RtEvent greater = new RtEvent(new FakeRequest(), RtEventTest.repo(), 2);
         MatcherAssert.assertThat(
             "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
@@ -92,7 +92,7 @@ public final class RtEventTest {
      * Create and return repo for testing.
      * @return Repo
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "event"))
             .when(repo).coordinates();

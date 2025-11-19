@@ -43,7 +43,7 @@ public final class RtContentTest {
     public void fetchContentAsJson() throws IOException {
         final RtContent content = new RtContent(
             new FakeRequest().withBody("{\"content\":\"json\"}"),
-            this.repo(),
+            RtContentTest.repo(),
             "blah"
         );
         MatcherAssert.assertThat(
@@ -57,10 +57,10 @@ public final class RtContentTest {
     public void patchWithJson() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final RtContent content = new RtContent(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtContentTest.repo(),
                 "path"
             );
             content.patch(
@@ -84,12 +84,12 @@ public final class RtContentTest {
     public void canCompareInstances() {
         final RtContent less = new RtContent(
             new FakeRequest(),
-            this.repo(),
+            RtContentTest.repo(),
             "aaa"
         );
         final RtContent greater = new RtContent(
             new FakeRequest(),
-            this.repo(),
+            RtContentTest.repo(),
             "zzz"
         );
         MatcherAssert.assertThat(
@@ -111,10 +111,10 @@ public final class RtContentTest {
         final String raw = "the raw \u20ac";
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final InputStream stream = new RtContent(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtContentTest.repo(),
                 "raw"
             ).raw();
             MatcherAssert.assertThat(
@@ -134,7 +134,7 @@ public final class RtContentTest {
      * Mock repo for GhIssue creation.
      * @return The mock repo.
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();

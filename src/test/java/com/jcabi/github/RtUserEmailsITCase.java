@@ -75,7 +75,7 @@ public final class RtUserEmailsITCase {
      * @return UserEmails
      */
     private static UserEmails userEmails() {
-        return new GitHubIT().connect().users().self().emails();
+        return GitHubIT.connect().users().self().emails();
     }
 
 }

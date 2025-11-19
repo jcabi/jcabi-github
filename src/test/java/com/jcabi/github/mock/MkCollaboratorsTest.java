@@ -22,7 +22,7 @@ public final class MkCollaboratorsTest {
      */
     @Test
     public void addAndRemove() throws Exception {
-        final Collaborators collabs = this.collaborators();
+        final Collaborators collabs = MkCollaboratorsTest.collaborators();
         final String login = "some_user";
         collabs.add(login);
         MatcherAssert.assertThat(
@@ -49,7 +49,7 @@ public final class MkCollaboratorsTest {
      */
     @Test
     public void isCollaborator() throws Exception {
-        final Collaborators collabs = this.collaborators();
+        final Collaborators collabs = MkCollaboratorsTest.collaborators();
         final String collaborator = "collaborator";
         collabs.add(collaborator);
         MatcherAssert.assertThat(
@@ -69,7 +69,7 @@ public final class MkCollaboratorsTest {
      * Create a collaborators to work with.
      * @return Collaborators just created
      */
-    private Collaborators collaborators() throws IOException {
+    private static Collaborators collaborators() throws IOException {
         return new MkGitHub().randomRepo().collaborators();
     }
 }

@@ -48,7 +48,7 @@ public final class RtContentsTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -81,7 +81,7 @@ public final class RtContentsTest {
             .build();
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-        ).start(this.resource.port())
+        ).start(RandomPort.port())
         ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -127,7 +127,7 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start(this.resource.port())
+            .start(RandomPort.port())
         ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -184,7 +184,7 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start(this.resource.port())
+            .start(RandomPort.port())
         ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -237,7 +237,7 @@ public final class RtContentsTest {
                         .build()
                 ).build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
                 RtContentsTest.repo()
@@ -284,7 +284,7 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
-            .start(this.resource.port())
+            .start(RandomPort.port())
         ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
@@ -338,7 +338,7 @@ public final class RtContentsTest {
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
         ).next(new MkAnswer.Simple("{\"path\":\"README.md\"}"))
             .next(new MkAnswer.Simple("{\"path\":\".gitignore\"}"))
-            .start(this.resource.port())
+            .start(RandomPort.port())
         ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),

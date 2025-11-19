@@ -51,7 +51,7 @@ public final class RtOrganizationTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtOrganization org = new RtOrganization(
                 new MkGitHub(),
@@ -107,7 +107,7 @@ public final class RtOrganizationTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtOrganization org = new RtOrganization(
                 new MkGitHub(),

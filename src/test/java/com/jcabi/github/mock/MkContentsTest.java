@@ -63,7 +63,7 @@ public final class MkContentsTest {
     public void canCreateFile() throws Exception {
         final String path = "file.txt";
         final Content.Smart content = new Content.Smart(
-            this.createFile(new MkGitHub().randomRepo(), path)
+            MkContentsTest.createFile(new MkGitHub().randomRepo(), path)
         );
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -124,7 +124,7 @@ public final class MkContentsTest {
     public void canRemoveFile() throws Exception {
         final Repo repo = new MkGitHub().randomRepo();
         final String path = "removeme.txt";
-        this.createFile(repo, path);
+        MkContentsTest.createFile(repo, path);
         final JsonObject json = MkContentsTest
             .content(path, "theDeleteMessage")
             .add("committer", MkContentsTest.committer())
@@ -148,7 +148,7 @@ public final class MkContentsTest {
     public void canRemoveFileFromBranch() throws Exception {
         final Repo repo = new MkGitHub().randomRepo();
         final String path = "removeme.txt";
-        this.createFile(repo, path);
+        MkContentsTest.createFile(repo, path);
         final String branch = "branch-1";
         final JsonObject json = MkContentsTest
             .content(path, "theDeleteMessage")
@@ -306,10 +306,10 @@ public final class MkContentsTest {
     public void canIterate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkContentsTest.repo(storage);
-        final Content[] correct = this.addContent(
+        final Content[] correct = MkContentsTest.addContent(
             repo, "foo/bar/1", "foo/bar/2"
         );
-        this.addContent(repo, "foo/baz", "foo/boo");
+        MkContentsTest.addContent(repo, "foo/baz", "foo/boo");
         MatcherAssert.assertThat(
             "Assertion failed",
             repo.contents().iterate("foo/bar", "ref-1"),
@@ -324,7 +324,7 @@ public final class MkContentsTest {
      * @return Iterable with created items.
      * @throws IOException If any I/O error occurs.
      */
-    private Content[] addContent(final Repo repo,
+    private static Content[] addContent(final Repo repo,
         final String... paths) throws IOException {
         final Content[] result = new Content[paths.length];
         int index = 0;
@@ -345,7 +345,7 @@ public final class MkContentsTest {
      * @param path Content path
      * @return Created content
      */
-    private Content createFile(
+    private static Content createFile(
         final Repo repo, final String path) throws IOException {
         final Contents contents = repo.contents();
         final JsonObject json = MkContentsTest

@@ -56,7 +56,7 @@ public final class RtUserEmailsTest {
                 String.format("[{\"email\":\"%s\"}]", email)
             )
         );
-        container.start(this.resource.port());
+        container.start(RandomPort.port());
         try {
             final UserEmails emails = new RtUserEmails(
                 new ApacheRequest(container.home())

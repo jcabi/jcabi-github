@@ -43,7 +43,7 @@ public final class RtReleaseAssetsITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtReleaseAssetsITCase.repos = github.repos();
         RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
         RtReleaseAssetsITCase.repo.releases().create(

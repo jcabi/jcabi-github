@@ -90,7 +90,7 @@ public final class RtReleasesTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtReleases releases = new RtReleases(
                 new JdkRequest(container.home()),
@@ -119,7 +119,7 @@ public final class RtReleasesTest {
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Releases releases = new RtReleases(
                 new ApacheRequest(container.home()),

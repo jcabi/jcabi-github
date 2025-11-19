@@ -49,7 +49,7 @@ public final class RtTagsTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"ref\":\"refs/heads/feature-a\"}"
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Tags tags = new RtTags(
             new ApacheRequest(container.home()),
             new MkGitHub().randomRepo()

@@ -37,7 +37,7 @@ public final class RtIssuesITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtIssuesITCase.repos = github.repos();
         RtIssuesITCase.repo = new RepoRule().repo(RtIssuesITCase.repos);
     }

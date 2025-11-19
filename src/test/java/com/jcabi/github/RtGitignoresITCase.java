@@ -44,6 +44,6 @@ public final class RtGitignoresITCase {
      * @return Gitignores
      */
     private static Gitignores gitignores() {
-        return new RtGitignores(new GitHubIT().connect());
+        return new RtGitignores(GitHubIT.connect());
     }
 }

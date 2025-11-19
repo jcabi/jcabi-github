@@ -44,7 +44,7 @@ public final class RtGistTest {
                     "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
                 )
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
-                .start(this.resource.port())) {
+                .start(RandomPort.port())) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),
                 new ApacheRequest(container.home()),
@@ -64,7 +64,7 @@ public final class RtGistTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),
@@ -115,7 +115,7 @@ public final class RtGistTest {
             container.next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, success)
             );
-            container.start(this.resource.port());
+            container.start(RandomPort.port());
             final Gist gist = new RtGist(
                 new MkGitHub(),
                 new ApacheRequest(container.home()),
@@ -140,7 +140,7 @@ public final class RtGistTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gist.Smart smart = new Gist.Smart(
                 new RtGist(
@@ -167,7 +167,7 @@ public final class RtGistTest {
     public void canRepresentAsString() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),
@@ -188,7 +188,7 @@ public final class RtGistTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),
@@ -218,7 +218,7 @@ public final class RtGistTest {
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK, "{\"msg\":\"hi\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtGist gist = new RtGist(
                 new MkGitHub(),

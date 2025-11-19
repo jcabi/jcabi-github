@@ -72,7 +72,7 @@ final class MkRepos implements Repos {
             settings.name()
         );
         this.storage.apply(
-            new Directives().xpath(this.xpath()).add("repo")
+            new Directives().xpath(MkRepos.xpath()).add("repo")
                 .attr("coords", coords.toString())
                 .add("name").set(settings.name()).up()
                 .add("description").set("test repository").up()
@@ -93,7 +93,7 @@ final class MkRepos implements Repos {
     ) {
         try {
             final String xpath = String.format(
-                "%s/repo[@coords='%s']", this.xpath(), coords
+                "%s/repo[@coords='%s']", MkRepos.xpath(), coords
             );
             if (this.storage.xml().nodes(xpath).isEmpty()) {
                 throw new IllegalArgumentException(
@@ -112,7 +112,7 @@ final class MkRepos implements Repos {
         try {
             this.storage.apply(
                 new Directives().xpath(
-                    String.format("%s/repo[@coords='%s']", this.xpath(), coords)
+                    String.format("%s/repo[@coords='%s']", MkRepos.xpath(), coords)
                 ).remove()
             );
         } catch (final IOException ex) {
@@ -136,7 +136,7 @@ final class MkRepos implements Repos {
     @Override
     public boolean exists(final Coordinates coords) throws IOException {
         final String xpath = String.format(
-            "%s/repo[@coords='%s']", this.xpath(), coords
+            "%s/repo[@coords='%s']", MkRepos.xpath(), coords
         );
         return !this.storage.xml().nodes(xpath).isEmpty();
     }
@@ -145,7 +145,7 @@ final class MkRepos implements Repos {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    private String xpath() {
+    private static String xpath() {
         return "/github/repos";
     }
 

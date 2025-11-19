@@ -42,7 +42,7 @@ public final class RtUsersTest {
                     .add(RtUsersTest.json("dummy", "2"))
                     .build().toString()
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Users users = new RtUsers(
             Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())
@@ -63,7 +63,7 @@ public final class RtUsersTest {
                 HttpURLConnection.HTTP_OK,
                 RtUsersTest.json(login, "3").toString()
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Users users = new RtUsers(
             Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())
@@ -84,7 +84,7 @@ public final class RtUsersTest {
                 HttpURLConnection.HTTP_OK,
                 RtUsersTest.json(login, "4").toString()
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Users users = new RtUsers(
             Mockito.mock(GitHub.class),
             new ApacheRequest(container.home())

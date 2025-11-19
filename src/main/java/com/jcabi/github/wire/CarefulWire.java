@@ -113,8 +113,10 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @param headername Name of header to get
      * @return The value of the first header with the given name, or null.
+     * @checkstyle NonStaticMethodCheck (5 lines)
      */
-    private String headerOrNull(
+    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+    private static String headerOrNull(
         final Response resp,
         final String headername) {
         final List<String> values = resp.headers().get(headername);
@@ -133,7 +135,7 @@ public final class CarefulWire implements Wire {
      */
     private int remainingHeader(
         final Response resp) {
-        final String remainingstr = this.headerOrNull(
+        final String remainingstr = CarefulWire.headerOrNull(
             resp,
             "X-RateLimit-Remaining"
         );
@@ -152,7 +154,7 @@ public final class CarefulWire implements Wire {
      */
     private long resetHeader(
         final Response resp) {
-        final String resetstr = this.headerOrNull(resp, "X-RateLimit-Reset");
+        final String resetstr = CarefulWire.headerOrNull(resp, "X-RateLimit-Reset");
         long reset = 0;
         if (resetstr != null) {
             reset = Long.parseLong(resetstr);

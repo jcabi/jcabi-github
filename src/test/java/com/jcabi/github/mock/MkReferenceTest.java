@@ -27,7 +27,7 @@ public final class MkReferenceTest {
     public void returnsName() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
-            this.reference().ref(),
+            MkReferenceTest.reference().ref(),
             Matchers.is("refs/tags/hello")
         );
     }
@@ -40,7 +40,7 @@ public final class MkReferenceTest {
     public void returnsRepo() throws Exception {
         MatcherAssert.assertThat(
             "Value is null",
-            this.reference().repo(),
+            MkReferenceTest.reference().repo(),
             Matchers.notNullValue()
         );
     }
@@ -51,7 +51,7 @@ public final class MkReferenceTest {
      */
     @Test
     public void fetchesJson() throws Exception {
-        final Reference ref = this.reference();
+        final Reference ref = MkReferenceTest.reference();
         final JsonObject json = ref.json();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -71,7 +71,7 @@ public final class MkReferenceTest {
      */
     @Test
     public void patchesRef() throws Exception {
-        final Reference ref = this.reference();
+        final Reference ref = MkReferenceTest.reference();
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "testshaPATCH")
             .build();
@@ -87,7 +87,7 @@ public final class MkReferenceTest {
      * Return a Reference for testing.
      * @return Reference
      */
-    private Reference reference() throws IOException {
+    private static Reference reference() throws IOException {
         return new MkGitHub().randomRepo().git()
             .references().create("refs/tags/hello", "testsha");
     }

@@ -123,7 +123,7 @@ public final class RtSearchTest {
                 )
             ).next(new MkAnswer.Simple(first.toString()))
                 .next(new MkAnswer.Simple(second.toString()))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Search search = new RtGitHub(
                 new ApacheRequest(container.home())

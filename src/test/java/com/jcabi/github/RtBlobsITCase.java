@@ -40,7 +40,7 @@ public final class RtBlobsITCase {
      */
     @BeforeAll
     public static void setUp() throws IOException {
-        final GitHub github = new GitHubIT().connect();
+        final GitHub github = GitHubIT.connect();
         RtBlobsITCase.repos = github.repos();
         RtBlobsITCase.repo = RtBlobsITCase.rule.repo(RtBlobsITCase.repos);
     }

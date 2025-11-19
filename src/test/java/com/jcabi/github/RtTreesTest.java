@@ -41,7 +41,7 @@ public final class RtTreesTest {
                 HttpURLConnection.HTTP_CREATED,
                 "{\"sha\":\"0abcd89jcabitest\", \"url\":\"http://localhost/1\"}"
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Trees trees = new RtTrees(
             new ApacheRequest(container.home()),
             RtTreesTest.repo()
