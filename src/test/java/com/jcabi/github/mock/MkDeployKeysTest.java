@@ -18,10 +18,10 @@ import org.junit.Test;
 public final class MkDeployKeysTest {
     @Test
     public void canFetchEmptyListOfDeployKeys() throws IOException {
-        final DeployKeys deployKeys = new MkGitHub().randomRepo().keys();
+        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         MatcherAssert.assertThat(
             "Collection is not empty",
-            deployKeys.iterate(),
+            keys.iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -31,7 +31,10 @@ public final class MkDeployKeysTest {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title", "Key");
         MatcherAssert.assertThat(
-            "Values are not equal", keys.get(key.number()), Matchers.equalTo(key));
+            "Values are not equal",
+            keys.get(key.number()),
+            Matchers.equalTo(key)
+        );
     }
 
     @Test
@@ -39,7 +42,10 @@ public final class MkDeployKeysTest {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title1", "Key1");
         MatcherAssert.assertThat(
-            "Values are not equal", key, Matchers.equalTo(keys.get(key.number())));
+            "Values are not equal",
+            key,
+            Matchers.equalTo(keys.get(key.number()))
+        );
     }
 
     /**

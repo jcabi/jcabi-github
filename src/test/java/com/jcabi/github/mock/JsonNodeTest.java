@@ -25,7 +25,8 @@ public final class JsonNodeTest {
         );
         final JsonObject json = new JsonNode(xml.nodes("user").get(0)).json();
         MatcherAssert.assertThat(
-            "Value is null", json, Matchers.notNullValue());
+            "Value is null", json, Matchers.notNullValue()
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             json.getString("name"),

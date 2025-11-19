@@ -15,6 +15,7 @@ import org.junit.Test;
 
 /**
  * Test class for MkMilestones.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkMilestonesTest {
@@ -24,7 +25,8 @@ public final class MkMilestonesTest {
         final Repo repo = new MkGitHub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(
-            "Values are not equal", repo, Matchers.is(owner));
+            "Values are not equal", repo, Matchers.is(owner)
+        );
     }
 
     @Test
@@ -33,7 +35,8 @@ public final class MkMilestonesTest {
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
         MatcherAssert.assertThat(
-            "Value is null", milestone, Matchers.notNullValue());
+            "Value is null", milestone, Matchers.notNullValue()
+        );
         MatcherAssert.assertThat(
             "Value is null",
             milestones.create("another milestone"),
@@ -78,8 +81,8 @@ public final class MkMilestonesTest {
     }
 
     /**
-     * This tests that the iterate(Map<String, String> params)
-     * method in MkMilestones works fine.
+     * This tests that the iterate method with params
+     * in MkMilestones works fine.
      */
     @Test
     public void iteratesMilestones() throws IOException {

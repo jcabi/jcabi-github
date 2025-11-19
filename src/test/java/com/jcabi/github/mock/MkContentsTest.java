@@ -131,7 +131,8 @@ public final class MkContentsTest {
             .build();
         final RepoCommit commit = repo.contents().remove(json);
         MatcherAssert.assertThat(
-            "Value is null", commit, Matchers.notNullValue());
+            "Value is null", commit, Matchers.notNullValue()
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             commit.json().getString("message"),
@@ -156,7 +157,8 @@ public final class MkContentsTest {
             .build();
         final RepoCommit commit = repo.contents().remove(json);
         MatcherAssert.assertThat(
-            "Value is null", commit, Matchers.notNullValue());
+            "Value is null", commit, Matchers.notNullValue()
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             commit.json().getString("message"),

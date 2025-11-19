@@ -45,10 +45,10 @@ public final class MkGistTest {
             Collections.singletonMap(filename, ""), false
         );
         gist.write(filename, "Hello, github!");
-        final Gist forkedGist = gist.fork();
+        final Gist fork = gist.fork();
         MatcherAssert.assertThat(
             "Values are not equal",
-            forkedGist.read(filename),
+            fork.read(filename),
             Matchers.equalTo(gist.read(filename))
         );
     }
