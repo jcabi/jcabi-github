@@ -66,7 +66,8 @@ public final class RtBranchesTest {
             final Iterator<Branch> iter = branches.iterate().iterator();
             final Branch first = iter.next();
             MatcherAssert.assertThat(
-                "Values are not equal", first.name(), Matchers.equalTo(firstname));
+                "Values are not equal", first.name(), Matchers.equalTo(firstname)
+            );
             MatcherAssert.assertThat(
                 "Values are not equal",
                 first.commit().sha(),
@@ -104,7 +105,7 @@ public final class RtBranchesTest {
             MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
-                .start(this.resource.port());
+                .start(this.resource.port())
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),
@@ -155,8 +156,13 @@ public final class RtBranchesTest {
                 "commit",
                 Json.createObjectBuilder()
                     .add("sha", sha)
-                    // @checkstyle LineLengthCheck (1 line)
-                    .add("url", String.format("https://api.jcabi-github.invalid/repos/user/repo/commits/%s", sha))
+                    .add(
+                        "url",
+                        String.format(
+                            "https://api.jcabi-github.invalid/repos/user/repo/commits/%s",
+                            sha
+                        )
+                    )
             )
             .build();
     }

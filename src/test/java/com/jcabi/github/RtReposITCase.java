@@ -12,6 +12,7 @@ import org.junit.Test;
 
 /**
  * Integration case for {@link RtRepos}.
+ * @since 0.5
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.DELETE_REPO })
 public final class RtReposITCase {
@@ -29,14 +30,15 @@ public final class RtReposITCase {
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
-                "Value is null", repo, Matchers.notNullValue());
+                "Value is null", repo, Matchers.notNullValue()
+            );
         } finally {
             repos.remove(repo.coordinates());
         }
     }
 
     @Test(expected = AssertionError.class)
-    public final void failsOnCreationOfTwoRepos() throws IOException {
+    public void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {

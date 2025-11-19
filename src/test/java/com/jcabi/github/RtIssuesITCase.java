@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Integration case for {@link GitHub}.
+ * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtIssuesITCase {
@@ -71,10 +72,10 @@ public final class RtIssuesITCase {
 
     @Test
     public void searchesIssues() throws IOException {
-        final String targetLabel = "bug";
+        final String target = "bug";
         final EnumMap<Issues.Qualifier, String> qualifiers =
             new EnumMap<>(Issues.Qualifier.class);
-        qualifiers.put(Issues.Qualifier.LABELS, targetLabel);
+        qualifiers.put(Issues.Qualifier.LABELS, target);
         final Iterable<Issue.Smart> issues = new Smarts<>(
             new Bulk<>(
                 RtIssuesITCase.repo.issues().search(
@@ -85,7 +86,7 @@ public final class RtIssuesITCase {
             )
         );
         Date previous = null;
-        final Set<String> labelNames = new HashSet<>();
+        final Set<String> labels = new HashSet<>();
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
                 "Value is null",
@@ -100,14 +101,14 @@ public final class RtIssuesITCase {
                 );
             }
             previous = issue.updatedAt();
-            labelNames.clear();
+            labels.clear();
             for (final Label label : issue.roLabels().iterate()) {
-                labelNames.add(label.name());
+                labels.add(label.name());
             }
             MatcherAssert.assertThat(
                 "Assertion failed",
-                labelNames,
-                Matchers.contains(targetLabel)
+                labels,
+                Matchers.contains(target)
             );
         }
     }
