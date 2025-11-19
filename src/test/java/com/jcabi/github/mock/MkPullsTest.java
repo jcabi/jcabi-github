@@ -42,18 +42,12 @@ public final class MkPullsTest {
         );
     }
 
-    /**
-     * MkPulls can fetch empty list of pulls.
-     */
     @Test
     @Ignore
     public void canFetchEmptyListOfPulls() {
         // to be implemented
     }
 
-    /**
-     * MkPulls can fetch single pull.
-     */
     @Test
     @Ignore
     public void canFetchSinglePull() {

@@ -19,9 +19,6 @@ import org.junit.Test;
  */
 public final class MkForksTest {
 
-    /**
-     * RtForks should be able to create a new fork.
-     */
     @Test
     @Ignore
     public void createsFork() throws IOException {
@@ -36,9 +33,6 @@ public final class MkForksTest {
         );
     }
 
-    /**
-     * MkForks can list forks.
-     */
     @Test
     public void iteratesForks() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();

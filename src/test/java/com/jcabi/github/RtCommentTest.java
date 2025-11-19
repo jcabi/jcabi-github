@@ -38,9 +38,6 @@ public final class RtCommentTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtComment should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -69,9 +66,6 @@ public final class RtCommentTest {
             "Values are not equal",comment.issue(), Matchers.is(issue));
     }
 
-    /**
-     * RtComment can return its number.
-     */
     @Test
     public void returnsItsNumber() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -106,9 +100,6 @@ public final class RtCommentTest {
         }
     }
 
-    /**
-     * RtComment can return its JSon description.
-     */
     @Test
     public void returnsItsJSon() throws IOException {
         final String body = "{\"body\":\"test5\"}";
@@ -130,9 +121,6 @@ public final class RtCommentTest {
         }
     }
 
-    /**
-     * RtComment can patch a comment.
-     */
     @Test
     public void patchesComment() throws IOException {
         try (
@@ -155,9 +143,6 @@ public final class RtCommentTest {
         }
     }
 
-    /**
-     * RtComment can add a reaction.
-     */
     @Test
     public void reacts() throws IOException {
         try (
@@ -181,9 +166,6 @@ public final class RtCommentTest {
         }
     }
 
-    /**
-     * RtComment can list its reactions.
-     */
     @Test
     public void reactions() throws IOException {
         try (

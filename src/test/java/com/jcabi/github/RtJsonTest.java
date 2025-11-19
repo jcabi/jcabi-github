@@ -28,9 +28,6 @@ public final class RtJsonTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtJson can fetch HTTP request.
-     */
     @Test
     public void sendHttpRequest() throws IOException {
         try (
@@ -51,9 +48,6 @@ public final class RtJsonTest {
         }
     }
 
-    /**
-     * RtJson can execute PATCH request.
-     */
     @Test
     public void executePatchRequest() throws IOException {
         try (

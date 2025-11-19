@@ -32,9 +32,6 @@ public final class RtContentsITCase {
     @Rule
     public final transient RepoRule rule = new RepoRule();
 
-    /**
-     * RtContents can fetch readme file.
-     */
     @Test
     public void canFetchReadmeFiles() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -50,9 +47,6 @@ public final class RtContentsITCase {
         }
     }
 
-    /**
-     * RtContents can get update file content.
-     */
     @Test
     public void canUpdateFileContent() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -94,9 +88,6 @@ public final class RtContentsITCase {
         }
     }
 
-    /**
-     * RtContents can get update file content in specific branch.
-     */
     @Test
     public void canUpdateFileContentInSpecificBranch() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -139,9 +130,6 @@ public final class RtContentsITCase {
         }
     }
 
-    /**
-     * RtContents can remove and throw an exception when get an absent content.
-     */
     @Test(expected = AssertionError.class)
     public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -170,9 +158,6 @@ public final class RtContentsITCase {
         }
     }
 
-    /**
-     * RtContents can create file content.
-     */
     @Test
     public void canCreateFileContent() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -195,9 +180,6 @@ public final class RtContentsITCase {
         }
     }
 
-    /**
-     * RtContents can get content.
-     */
     @Test
     public void getContent() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -294,9 +276,6 @@ public final class RtContentsITCase {
         }
     }
 
-    /**
-     * RtContents can check whether content exists or not.
-     */
     @Test
     public void checkExists() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();

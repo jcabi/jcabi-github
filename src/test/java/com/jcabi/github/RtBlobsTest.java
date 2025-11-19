@@ -35,10 +35,6 @@ public final class RtBlobsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtBlobs can create a blob.
-     *
-     */
     @Test
     public void canCreateBlob() throws IOException {
         final String body = RtBlobsTest.blob().toString();
@@ -66,10 +62,6 @@ public final class RtBlobsTest {
         }
     }
 
-    /**
-     * RtBlobs can get blob.
-     *
-     */
     @Test
     public void getBlob() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";

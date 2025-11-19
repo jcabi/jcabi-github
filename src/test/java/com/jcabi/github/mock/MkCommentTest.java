@@ -36,9 +36,6 @@ public final class MkCommentTest {
         );
     }
 
-    /**
-     * MkComment should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() throws IOException {
         final MkComment less = new MkComment(

@@ -19,9 +19,6 @@ import org.junit.Test;
  */
 public final class MkGistsTest {
 
-    /**
-     * MkGists can work with gists.
-     */
     @Test
     public void worksWithMockedGists() throws IOException {
         final Gist gist = new MkGitHub().gists().create(

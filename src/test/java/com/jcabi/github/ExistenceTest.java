@@ -17,9 +17,6 @@ import org.mockito.Mockito;
  */
 public final class ExistenceTest {
 
-    /**
-     * Existence can tell when the given JsonReadable exists.
-     */
     @Test
     public void jsonExists() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
@@ -33,9 +30,6 @@ public final class ExistenceTest {
         );
     }
 
-    /**
-     * Existence can tell when the given JsonReadable does not exist.
-     */
     @Test
     public void jsonDoesNotExist() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
@@ -47,9 +41,6 @@ public final class ExistenceTest {
         );
     }
 
-    /**
-     * Existends throws the possible IOException resulted from the server call.
-     */
     @Test(expected = IOException.class)
     public void rethrowsIoException() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);

@@ -42,9 +42,6 @@ public final class RtUserTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtUser can understand who am I.
-     */
     @Test
     public void checksWhoAmI() throws IOException {
         final String login = "monalia";
@@ -63,9 +60,6 @@ public final class RtUserTest {
         );
     }
 
-    /**
-     * RtUser can check if he has a name.
-     */
     @Test
     public void checksIfHeHasAName() throws IOException {
         final User.Smart smart = new User.Smart(
@@ -87,9 +81,6 @@ public final class RtUserTest {
         );
     }
 
-    /**
-     * RtUser can check if he has NO name.
-     */
     @Test
     public void checksIfHeHasNoName() throws IOException {
         final User.Smart smart = new User.Smart(
@@ -110,10 +101,6 @@ public final class RtUserTest {
         );
     }
 
-    /**
-     * RtUser can describe as a JSON object.
-     *
-     */
     @Test
     public void describeAsJson() throws IOException {
         final RtUser user = new RtUser(
@@ -136,10 +123,6 @@ public final class RtUserTest {
         );
     }
 
-    /**
-     * RtUser can execute PATCH request.
-     *
-     */
     @Test
     public void executePatchRequest() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
@@ -165,9 +148,6 @@ public final class RtUserTest {
         container.stop();
     }
 
-    /**
-     * RtUser can fetch emails.
-     */
     @Test
     public void fetchesEmails() {
         final GitHub github = Mockito.mock(GitHub.class);
@@ -177,9 +157,6 @@ public final class RtUserTest {
             "Value is null",user.emails(), Matchers.notNullValue());
     }
 
-    /**
-     * RtUser can fetch organizations.
-     */
     @Test
     public void fetchesOrganizations() {
         final GitHub github = Mockito.mock(GitHub.class);
@@ -189,9 +166,6 @@ public final class RtUserTest {
             "Value is null",user.organizations(), Matchers.notNullValue());
     }
 
-    /**
-     * Tests if a User.Smart object handles html_url JSON property.
-     */
     @Test
     public void hasHtmlUrl() throws IOException {
         final String value = "http://github.example.com";
@@ -200,9 +174,6 @@ public final class RtUserTest {
             "Values are not equal",smart.htmlUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles followers_url JSON property.
-     */
     @Test
     public void hasFollwersUrl() throws IOException {
         final String value = "http://github.example.com/followers";
@@ -211,9 +182,6 @@ public final class RtUserTest {
             "Values are not equal",smart.followersUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles following_url JSON property.
-     */
     @Test
     public void hasFollowingUrl() throws IOException {
         final String value = "http://github.example.com/following";
@@ -222,9 +190,6 @@ public final class RtUserTest {
             "Values are not equal",smart.followingUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles gists_url JSON property.
-     */
     @Test
     public void hasGistsUrl() throws IOException {
         final String value = "http://github.example.com/gists";
@@ -233,9 +198,6 @@ public final class RtUserTest {
             "Values are not equal",smart.gistsUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles starred_url JSON property.
-     */
     @Test
     public void hasStarredUrl() throws IOException {
         final String value = "http://github.example.com/starred";
@@ -244,9 +206,6 @@ public final class RtUserTest {
             "Values are not equal",smart.starredUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles subscriptions_url JSON property.
-     */
     @Test
     public void hasSubscriptionsUrl() throws IOException {
         final String value = "http://github.example.com/subscriptions";
@@ -255,9 +214,6 @@ public final class RtUserTest {
             "Values are not equal",smart.subscriptionsUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles organizations_url JSON property.
-     */
     @Test
     public void hasOrganizationsUrl() throws IOException {
         final String value = "http://github.example.com/organizations";
@@ -266,9 +222,6 @@ public final class RtUserTest {
             "Values are not equal",smart.organizationsUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles repos_url JSON property.
-     */
     @Test
     public void hasReposUrl() throws IOException {
         final String value = "http://github.example.com/repos";
@@ -277,9 +230,6 @@ public final class RtUserTest {
             "Values are not equal",smart.reposUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles events_url JSON property.
-     */
     @Test
     public void hasEventsUrl() throws IOException {
         final String value = "http://github.example.com/events";
@@ -288,9 +238,6 @@ public final class RtUserTest {
             "Values are not equal",smart.eventsUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles received_events_url JSON property.
-     */
     @Test
     public void hasReceivedEventsUrl() throws IOException {
         final String value = "http://github.example.com/received_events";
@@ -299,9 +246,6 @@ public final class RtUserTest {
             "Values are not equal",smart.receivedEventsUrl(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles type JSON property.
-     */
     @Test
     public void hasType() throws IOException {
         final String value = "http://github.example.com/organizations";
@@ -310,9 +254,6 @@ public final class RtUserTest {
             "Values are not equal",smart.type(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles site_admin JSON property.
-     */
     @Test
     public void hasSiteAdmin() throws IOException {
         final User.Smart smart = this.userWith("site_admin", "true");
@@ -320,9 +261,6 @@ public final class RtUserTest {
             "Values are not equal",smart.siteAdmin(), Matchers.is(true));
     }
 
-    /**
-     * Tests if a User.Smart object handles blog JSON property.
-     */
     @Test
     public void hasBlog() throws IOException {
         final String value = "http://blog.example.com";
@@ -331,9 +269,6 @@ public final class RtUserTest {
             "Values are not equal",smart.blog(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles hireable JSON property.
-     */
     @Test
     public void hasHireable() throws IOException {
         final User.Smart smart = this.userWith("hireable", "true");
@@ -341,9 +276,6 @@ public final class RtUserTest {
             "Values are not equal",smart.hireable(), Matchers.is(true));
     }
 
-    /**
-     * Tests if a User.Smart object handles bio JSON property.
-     */
     @Test
     public void hasBio() throws IOException {
         final String value = "http://github.example.com/bio";
@@ -352,9 +284,6 @@ public final class RtUserTest {
             "Values are not equal",smart.bio(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles public_repos JSON property.
-     */
     @Test
     public void hasPublicRepos() throws IOException {
         final int value = Tv.THREE;
@@ -366,9 +295,6 @@ public final class RtUserTest {
             "Values are not equal",smart.publicRepos(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles public_gists JSON property.
-     */
     @Test
     public void hasPublicGists() throws IOException {
         final int value = Tv.FOUR;
@@ -380,9 +306,6 @@ public final class RtUserTest {
             "Values are not equal",smart.publicGists(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles followers JSON property.
-     */
     @Test
     public void hasFollowersCount() throws IOException {
         final int value = Tv.FIVE;
@@ -394,9 +317,6 @@ public final class RtUserTest {
             "Values are not equal",smart.followersCount(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles following JSON property.
-     */
     @Test
     public void hasFollowingCount() throws IOException {
         final int value = Tv.SIX;
@@ -408,9 +328,6 @@ public final class RtUserTest {
             "Values are not equal",smart.followingCount(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles created_at JSON property.
-     */
     @Test
     public void hasCreated() throws ParseException, IOException {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
@@ -419,9 +336,6 @@ public final class RtUserTest {
             "Values are not equal",smart.created(), Matchers.is(value));
     }
 
-    /**
-     * Tests if a User.Smart object handles updated_at JSON property.
-     */
     @Test
     public void hasUpdated() throws ParseException, IOException {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
@@ -430,9 +344,6 @@ public final class RtUserTest {
             "Values are not equal",smart.updated(), Matchers.is(value));
     }
 
-    /**
-     * Verifies the behaviour of the RtUser.notifications method.
-     */
     @Test
     public void notifications() throws IOException {
         MatcherAssert.assertThat(

@@ -42,9 +42,6 @@ public final class RtReposTest {
     @Rule
     public final transient RepoRule rule = new RepoRule();
 
-    /**
-     * RtRepos can create a repo.
-     */
     @Test
     public void createRepo() throws IOException {
         final String owner = "test-owner";
@@ -75,9 +72,6 @@ public final class RtReposTest {
         }
     }
 
-    /**
-     * RtUsers can iterate users.
-     */
     @Test
     public void iterateRepos() throws IOException {
         final String identifier = "1";
@@ -105,9 +99,6 @@ public final class RtReposTest {
         }
     }
 
-    /**
-     * RtRepos can remove a repo.
-     */
     @Test
     public void removeRepo() throws IOException {
         try (

@@ -19,9 +19,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtGitignoresITCase {
 
-    /**
-     * RtGitignores can iterate template names.
-     */
     @Test
     public void iterateTemplateNames() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
@@ -32,9 +29,6 @@ public final class RtGitignoresITCase {
         );
     }
 
-    /**
-     * RtGitignores can get raw template by name.
-     */
     @Test
     public void getRawTemplateByName() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();

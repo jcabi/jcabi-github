@@ -32,9 +32,6 @@ public final class RtReferenceTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtReference should be able to execute patch.
-     */
     @Test
     public void patchesContent() throws IOException {
         try (
@@ -63,9 +60,6 @@ public final class RtReferenceTest {
         }
     }
 
-    /**
-     * RtReference should be able to fetch its json.
-     */
     @Test
     public void fetchesContent() throws IOException {
         try (
@@ -90,9 +84,6 @@ public final class RtReferenceTest {
         }
     }
 
-    /**
-     * RtReference should be able to return its ref.
-     */
     @Test
     public void returnsRef() throws IOException {
         try (
@@ -117,9 +108,6 @@ public final class RtReferenceTest {
         }
     }
 
-    /**
-     * RtReference should be able to return its owner repo.
-     */
     @Test
     public void returnsOwner() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();

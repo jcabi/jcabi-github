@@ -119,9 +119,6 @@ public final class RtNotificationsTest {
         );
     }
 
-    /**
-     * RtNotifications can mark Notification as read.
-     */
     @Test
     @Ignore
     public void markNotificationAsRead() {

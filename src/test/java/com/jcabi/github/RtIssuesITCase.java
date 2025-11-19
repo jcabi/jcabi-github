@@ -51,9 +51,6 @@ public final class RtIssuesITCase {
         }
     }
 
-    /**
-     * RtIssues can iterate issues.
-     */
     @Test
     public void iteratesIssues() throws IOException {
         final Iterable<Issue.Smart> issues = new Smarts<>(
@@ -72,9 +69,6 @@ public final class RtIssuesITCase {
         }
     }
 
-    /**
-     * RtIssues can search issues within a repository.
-     */
     @Test
     public void searchesIssues() throws IOException {
         final String targetLabel = "bug";

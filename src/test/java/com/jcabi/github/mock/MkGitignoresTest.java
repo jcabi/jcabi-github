@@ -15,9 +15,6 @@ import org.junit.Test;
  * @since 0.8
  */
 public final class MkGitignoresTest {
-    /**
-     * MkGitignores can fetch single gitignore template.
-     */
     @Test
     public void canFetchSingleRawTemplate() throws IOException {
         final Gitignores gitignores = new MkGitHub().gitignores();
@@ -28,9 +25,6 @@ public final class MkGitignoresTest {
         );
     }
 
-    /**
-     * MkGitignores can iterate over templates.
-     */
     @Test
     public void canIterateOverTemplates() throws IOException {
         final Gitignores gitignores = new MkGitHub().gitignores();

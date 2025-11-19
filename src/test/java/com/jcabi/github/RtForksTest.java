@@ -39,9 +39,6 @@ public final class RtForksTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtForks should be able to iterate its forks.
-     */
     @Test
     public void retrievesForks() {
         final RtForks forks = new RtForks(
@@ -55,9 +52,6 @@ public final class RtForksTest {
         );
     }
 
-    /**
-     * RtForks should be able to create a new fork.
-     */
     @Test
     public void createsFork() throws IOException {
         final String organization = RandomStringUtils.randomAlphanumeric(10);

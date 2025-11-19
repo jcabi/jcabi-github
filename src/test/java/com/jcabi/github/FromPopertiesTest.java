@@ -14,9 +14,6 @@ import org.junit.Test;
  */
 public final class FromPopertiesTest {
 
-    /**
-     * FromProperties can format the user agent String.
-     */
     @Test
     public void formatsUserAgent() {
         MatcherAssert.assertThat(
@@ -26,9 +23,6 @@ public final class FromPopertiesTest {
         );
     }
 
-    /**
-     * FromProperties throws NullPointerException on missing file.
-     */
     @Test(expected = NullPointerException.class)
     public void throwsExceptionOnMissingFile() {
         new FromProperties("missing.properties").format();

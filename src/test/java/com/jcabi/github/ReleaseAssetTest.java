@@ -23,9 +23,6 @@ import org.mockito.Mockito;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class ReleaseAssetTest {
 
-    /**
-     * ReleaseAsset.Smart can fetch url property from ReleaseAsset.
-     */
     @Test
     public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
@@ -43,9 +40,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch name property from ReleaseAsset.
-     */
     @Test
     public final void fetchesName() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
@@ -62,9 +56,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch label property from ReleaseAsset.
-     */
     @Test
     public final void fetchesLabel() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
@@ -81,9 +72,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch state property from ReleaseAsset.
-     */
     @Test
     public final void fetchesState() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
@@ -100,9 +88,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch content_type property from ReleaseAsset.
-     */
     @Test
     public final void fetchesContentType() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
@@ -119,9 +104,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch size property from ReleaseAsset.
-     */
     @Test
     public final void fetchesSize() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
@@ -138,9 +120,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch download_count property from ReleaseAsset.
-     */
     @Test
     public final void fetchesDownloadCount() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
@@ -157,9 +136,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch created_at property from ReleaseAsset.
-     */
     @Test
     public final void fetchesCreatedAt() throws IOException, ParseException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
@@ -176,9 +152,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can fetch updated_at property from ReleaseAsset.
-     */
     @Test
     public final void fetchesUpdatedAt() throws IOException, ParseException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
@@ -195,9 +168,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can update the name property of ReleaseAsset.
-     */
     @Test
     public final void updatesName() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);
@@ -208,9 +178,6 @@ public final class ReleaseAssetTest {
         );
     }
 
-    /**
-     * ReleaseAsset.Smart can update the label property of ReleaseAsset.
-     */
     @Test
     public final void updatesLabel() throws IOException {
         final ReleaseAsset releaseAsset = Mockito.mock(ReleaseAsset.class);

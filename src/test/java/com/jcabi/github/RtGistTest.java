@@ -59,9 +59,6 @@ public final class RtGistTest {
         }
     }
 
-    /**
-     * RtGist should be able to do writes.
-     */
     @Test
     public void writesFileContents() throws IOException {
         try (
@@ -135,9 +132,6 @@ public final class RtGistTest {
         }
     }
 
-    /**
-     * Gist.Smart can iterate through its files.
-     */
     @Test
     public void canIterateFiles() throws IOException {
         try (
@@ -169,9 +163,6 @@ public final class RtGistTest {
         }
     }
 
-    /**
-     * RtGist can return a String representation correctly reflecting its URI.
-     */
     @Test
     public void canRepresentAsString() throws IOException {
         try (
@@ -192,9 +183,6 @@ public final class RtGistTest {
         }
     }
 
-    /**
-     * RtGist can unstar a starred Gist.
-     */
     @Test
     public void canUnstarAGist() throws IOException {
         try (
@@ -223,9 +211,6 @@ public final class RtGistTest {
         }
     }
 
-    /**
-     * RtGist can execute PATCH request.
-     */
     @Test
     public void executePatchRequest() throws IOException {
         try (

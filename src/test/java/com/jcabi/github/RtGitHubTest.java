@@ -17,10 +17,6 @@ import org.junit.Test;
  */
 public final class RtGitHubTest {
 
-    /**
-     * RtGitHub can retrieve its repos.
-     *
-     */
     @Test
     public void retrievesRepos() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
@@ -31,10 +27,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can retrieve its gists.
-     *
-     */
     @Test
     public void retrievesGists() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
@@ -45,10 +37,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can retrieve users.
-     *
-     */
     @Test
     public void retrievesUsers() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
@@ -59,10 +47,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can retrieve meta information in JSON format.
-     *
-     */
     @Test
     public void retrievesMetaAsJson() throws IOException {
         final RtGitHub github = new RtGitHub(
@@ -75,10 +59,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can retrieve emoji information in JSON format.
-     *
-     */
     @Test
     public void retrievesEmojisAsJson() throws IOException {
         final RtGitHub github = new RtGitHub(
@@ -93,10 +73,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can retrieve the markdown.
-     *
-     */
     @Test
     public void retrievesMarkdown() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
@@ -107,9 +83,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can retrieve the gitignores.
-     */
     @Test
     public void retrievesGitignores() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
@@ -120,9 +93,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * GitHub.Time can compare two same Times successfully.
-     */
     @Test
     public void testSameTimesAreEqual() {
         final long time = System.currentTimeMillis();
@@ -135,9 +105,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * GitHub.Time can compare two different Times successfully.
-     */
     @Test
     public void testDifferentTimesAreNotEqual() {
         final GitHub.Time first = new GitHub.Time(System.currentTimeMillis());
@@ -151,9 +118,6 @@ public final class RtGitHubTest {
         );
     }
 
-    /**
-     * RtGitHub can compare itself with another object.
-     */
     @Test
     public void equalsToAnotherGitHub() {
         MatcherAssert.assertThat(

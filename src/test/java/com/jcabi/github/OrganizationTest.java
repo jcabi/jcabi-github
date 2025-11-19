@@ -18,9 +18,6 @@ import org.mockito.Mockito;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class OrganizationTest {
 
-    /**
-     * Organization.Smart can fetch url from an Organization.
-     */
     @Test
     public void fetchesUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -36,9 +33,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch avatar_url from an Organization.
-     */
     @Test
     public void fetchesAvatarUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -54,9 +48,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch name from an Organization.
-     */
     @Test
     public void fetchesName() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -72,9 +63,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch company from an Organization.
-     */
     @Test
     public void fetchesCompany() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -90,9 +78,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch blog from an Organization.
-     */
     @Test
     public void fetchesBlog() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -108,9 +93,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch location from an Organization.
-     */
     @Test
     public void fetchesLocation() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -126,9 +108,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch email from an Organization.
-     */
     @Test
     public void fetchesEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -144,9 +123,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch billing_email from an Organization.
-     */
     @Test
     public void fetchesBillingEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -162,9 +138,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch public_repos from an Organization.
-     */
     @Test
     public void fetchesPublicRepos() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -180,9 +153,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch public_gists from an Organization.
-     */
     @Test
     public void fetchesPublicGists() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -198,9 +168,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch followers from an Organization.
-     */
     @Test
     public void fetchesFollowers() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -216,9 +183,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch following from an Organization.
-     */
     @Test
     public void fetchesFollowing() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -234,9 +198,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch html_url from an Organization.
-     */
     @Test
     public void fetchesHtmlUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -252,9 +213,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch created_at from an Organization.
-     */
     @Test
     public void fetchesCreatedAt() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
@@ -270,9 +228,6 @@ public final class OrganizationTest {
         );
     }
 
-    /**
-     * Organization.Smart can fetch type from an Organization.
-     */
     @Test
     public void fetchesType() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);

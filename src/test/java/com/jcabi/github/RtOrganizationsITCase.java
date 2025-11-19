@@ -14,9 +14,6 @@ import org.junit.Test;
  * @since 0.24
  */
 public final class RtOrganizationsITCase {
-    /**
-     * RtOrganizations can get an organization.
-     */
     @Test
     public void getOrganization() {
         final String login = "github";

@@ -18,9 +18,6 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 public final class MkUserOrganizationsTest {
-    /**
-     * MkUserOrganizations can list user organizations.
-     */
     @Test
     public void iteratesUserOrganizations() throws IOException {
         final String login = "orgTestIterate";

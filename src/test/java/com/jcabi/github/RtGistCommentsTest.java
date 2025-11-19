@@ -32,9 +32,6 @@ public final class RtGistCommentsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtGistComments can get a single comment.
-     */
     @Test
     public void getComment() throws IOException {
         final String body = "Just commenting";
@@ -61,9 +58,6 @@ public final class RtGistCommentsTest {
         }
     }
 
-    /**
-     * RtGistComments can iterate comments.
-     */
     @Test
     public void iterateComments() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
@@ -89,9 +83,6 @@ public final class RtGistCommentsTest {
         }
     }
 
-    /**
-     * RtGistComments can create a comment.
-     */
     @Test
     public void postComment() throws IOException {
         final String body = "new commenting";

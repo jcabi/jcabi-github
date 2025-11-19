@@ -34,9 +34,6 @@ public final class RtTreesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtTrees can create a tree.
-     */
     @Test
     public void createsTree() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
@@ -78,10 +75,6 @@ public final class RtTreesTest {
         }
     }
 
-    /**
-     * RtTrees can get tree.
-     *
-     */
     @Test
     public void getTree() {
         final String sha = "0abcd89jcabitest";
@@ -100,10 +93,6 @@ public final class RtTreesTest {
         );
     }
 
-    /**
-     * RtTrees can get tree recursively.
-     *
-     */
     @Test
     public void getTreeRec() {
         final String sha = "0abcd89jcabitest";

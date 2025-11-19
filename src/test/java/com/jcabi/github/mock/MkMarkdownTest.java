@@ -16,9 +16,6 @@ import org.junit.Test;
  */
 public final class MkMarkdownTest {
 
-    /**
-     * MkMarkdown can be rendered.
-     */
     @Test
     public final void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";

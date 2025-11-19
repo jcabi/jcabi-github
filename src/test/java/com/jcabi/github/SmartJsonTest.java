@@ -20,9 +20,6 @@ import org.junit.Test;
  */
 public final class SmartJsonTest {
 
-    /**
-     * SmartJson can fetch data from JSON.
-     */
     @Test
     public void fetchesStringFromJson() throws IOException {
         MatcherAssert.assertThat(
@@ -34,9 +31,6 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can fetch number from JSON.
-     */
     @Test
     public void fetchesNumberFromJson() throws IOException {
         MatcherAssert.assertThat(
@@ -48,9 +42,6 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can fetch an array from JSON.
-     */
     @Test
     public void fetchesArrayFromJson() throws IOException {
         MatcherAssert.assertThat(
@@ -62,9 +53,6 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can fetch an object from JSON.
-     */
     @Test
     public void fetchesObjectFromJson() throws IOException {
         MatcherAssert.assertThat(
@@ -76,9 +64,6 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can check for not null keys.
-     */
     @Test
     public void checksNotNullKeyNotPresent() throws IOException {
         MatcherAssert.assertThat(
@@ -90,9 +75,6 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can check for not null keys.
-     */
     @Test
     public void checksNotNullKeyPresentAndNull() throws IOException {
         MatcherAssert.assertThat(
@@ -104,9 +86,6 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can check for not null keys.
-     */
     @Test
     public void checksNotNullKeyPresentAndNotNull() throws IOException {
         MatcherAssert.assertThat(

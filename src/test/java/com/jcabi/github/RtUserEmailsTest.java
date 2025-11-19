@@ -31,9 +31,6 @@ public final class RtUserEmailsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtUserEmails can fetch emails.
-     */
     @Test
     public void fetchesEmails() throws IOException {
         final String email = "test@email.com";
@@ -50,9 +47,6 @@ public final class RtUserEmailsTest {
         );
     }
 
-    /**
-     * RtUserEmails can add emails.
-     */
     @Test
     public void addsEmails() throws IOException {
         final String email = "test1@email.com";
@@ -77,9 +71,6 @@ public final class RtUserEmailsTest {
         }
     }
 
-    /**
-     * RtUserEmails can remove emails.
-     */
     @Test
     public void removesEmails() throws IOException {
         final UserEmails emails = new RtUserEmails(

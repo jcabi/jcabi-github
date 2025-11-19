@@ -35,10 +35,6 @@ public final class RtPullsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtPulls can create a pull request.
-     *
-     */
     @Test
     public void createPull() throws IOException {
         final String title = "new feature";
@@ -68,9 +64,6 @@ public final class RtPullsTest {
         }
     }
 
-    /**
-     * RtPulls can get a single pull request.
-     */
     @Test
     public void getSinglePull() throws IOException {
         final String title = "new-feature";
@@ -96,9 +89,6 @@ public final class RtPullsTest {
         }
     }
 
-    /**
-     * RtPulls can iterate pulls.
-     */
     @Test
     public void iteratePulls() throws IOException {
         try (

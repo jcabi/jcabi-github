@@ -19,9 +19,6 @@ import org.junit.Test;
  * @since 0.1
  */
 public final class MkEventTest {
-    /**
-     * Can get created_at value from json object.
-     */
     @Test
     public void canGetCreatedAt() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -47,9 +44,6 @@ public final class MkEventTest {
         );
     }
 
-    /**
-     * MkEvent can get present label value from json object.
-     */
     @Test
     public void canGetPresentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -79,9 +73,6 @@ public final class MkEventTest {
         );
     }
 
-    /**
-     * MkEvent can get absent label value from json object.
-     */
     @Test
     public void canGetAbsentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();

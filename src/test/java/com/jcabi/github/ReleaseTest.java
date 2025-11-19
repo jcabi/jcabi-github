@@ -21,9 +21,6 @@ import org.mockito.Mockito;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class ReleaseTest {
 
-    /**
-     * Release.Smart can fetch url properties of an Release.
-     */
     @Test
     public void fetchesUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -41,9 +38,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch html url properties of an Release.
-     */
     @Test
     public void fetchesHtmlUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -61,9 +55,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch assets url properties of an Release.
-     */
     @Test
     public void fetchesAssetsHtmlUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -81,9 +72,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch upload url properties of an Release.
-     */
     @Test
     public void fetchesUploadHtmlUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -101,9 +89,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart returns correct number of Release.
-     */
     @Test
     public void testId() {
         final Release release = Mockito.mock(Release.class);
@@ -116,9 +101,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch tag of an Release.
-     */
     @Test
     public void fetchTag() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -136,9 +118,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch commitish of an Release.
-     */
     @Test
     public void fetchProperties() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -156,9 +135,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch name of an Release.
-     */
     @Test
     public void fetchName() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -202,9 +178,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch body of an Release.
-     */
     @Test
     public void fetchBody() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -222,9 +195,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch created date of an Release.
-     */
     @Test
     public void fetchDescription() throws IOException, ParseException {
         final Release release = Mockito.mock(Release.class);
@@ -242,9 +212,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can fetch published date of an Release.
-     */
     @Test
     public void fetchPublished() throws IOException, ParseException {
         final Release release = Mockito.mock(Release.class);
@@ -262,9 +229,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can tell when the release is a prerelease.
-     */
     @Test
     public void isPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -278,9 +242,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can tell when the release is not a prerelease.
-     */
     @Test
     public void isNotPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -294,9 +255,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart counts prerelease as false if its missing.
-     */
     @Test
     public void missingPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -310,9 +268,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can tell when the release is a draft.
-     */
     @Test
     public void isDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -326,9 +281,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart can tell when the release is not a draft.
-     */
     @Test
     public void isNotDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
@@ -342,9 +294,6 @@ public final class ReleaseTest {
         );
     }
 
-    /**
-     * Release.Smart counts draft as false if its missing.
-     */
     @Test
     public void missingDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);

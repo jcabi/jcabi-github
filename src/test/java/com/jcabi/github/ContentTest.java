@@ -22,9 +22,6 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class ContentTest {
-    /**
-     * Content.Smart can fetch type property from Content.
-     */
     @Test
     public final void fetchesType() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -41,9 +38,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch size property from Content.
-     */
     @Test
     public final void fetchesSize() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -62,9 +56,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch name property from Content.
-     */
     @Test
     public final void fetchesName() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -81,9 +72,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch path property from Content.
-     */
     @Test
     public final void fetchesPath() {
         final Content content = Mockito.mock(Content.class);
@@ -96,9 +84,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch sha property from Content.
-     */
     @Test
     public final void fetchesSha() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -115,9 +100,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch url property from Content.
-     */
     @Test
     public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
@@ -135,9 +117,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch git_url property from Content.
-     */
     @Test
     public final void fetchesGitUrl() throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
@@ -155,9 +134,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch html_url property from Content.
-     */
     @Test
     public final void fetchesHtmlUrl() throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
@@ -175,9 +151,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch encoded content.
-     */
     @Test
     public final void fetchesContent() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -194,9 +167,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can fetch decoded content.
-     */
     @Test
     public final void fetchesDecoded() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -215,9 +185,6 @@ public final class ContentTest {
         );
     }
 
-    /**
-     * Content.Smart can get underlying repo.
-     */
     @Test
     public final void smartCanGetUnderlyingRepo() {
         final Content content = Mockito.mock(Content.class);

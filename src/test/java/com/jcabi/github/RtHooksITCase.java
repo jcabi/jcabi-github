@@ -28,9 +28,6 @@ public final class RtHooksITCase {
     @Rule
     public final transient RepoRule rule = new RepoRule();
 
-    /**
-     * RtHooks can iterate hooks.
-     */
     @Test
     public void canFetchAllHooks() throws IOException {
         final Repos repos = RtHooksITCase.repos();
@@ -46,9 +43,6 @@ public final class RtHooksITCase {
         }
     }
 
-    /**
-     * RtHooks can create a hook.
-     */
     @Test
     public void canCreateAHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
@@ -63,10 +57,6 @@ public final class RtHooksITCase {
         }
     }
 
-    /**
-     * RtHooks can fetch a single hook.
-     *
-     */
     @Test
     public void canFetchSingleHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
@@ -83,10 +73,6 @@ public final class RtHooksITCase {
         }
     }
 
-    /**
-     * RtHooks can remove a hook by ID.
-     *
-     */
     @Test
     public void canRemoveHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();

@@ -31,10 +31,6 @@ public final class RtUserOrganizationsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtUserOrganizations can iterate organizations for
-     * an unauthenticated user.
-     */
     @Test
     public void canIterateOrganizationsForUnauthUser() throws IOException {
         final String username = "octopus";

@@ -41,9 +41,6 @@ public final class MkPullTest {
      */
     private static final String HEAD = "my-head-branch";
 
-    /**
-     * MkPull should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() throws IOException {
         final MkPull less = new MkPull(

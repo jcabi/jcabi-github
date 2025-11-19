@@ -16,9 +16,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.USER)
 public final class RtUserITCase {
 
-    /**
-     * RtUser can understand who am I.
-     */
     @Test
     public void checksWhoAmI() throws IOException {
         final GitHub github = new GitHubIT().connect();
@@ -30,9 +27,6 @@ public final class RtUserITCase {
         );
     }
 
-    /**
-     * RtUser can read verified public keys.
-     */
     @Test
     public void readKeys() {
         MatcherAssert.assertThat(

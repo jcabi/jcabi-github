@@ -24,9 +24,6 @@ import org.xembly.Directives;
 @SuppressWarnings("PMD.DoNotUseThreads")
 public final class MkStorageTest {
 
-    /**
-     * MkStorage can text and write.
-     */
     @Test
     public void readsAndWrites() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -46,9 +43,6 @@ public final class MkStorageTest {
         }
     }
 
-    /**
-     * MkStorage can lock and unlock files.
-     */
     @Test
     public void locksAndUnlocks() throws IOException, InterruptedException, ExecutionException {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());

@@ -73,9 +73,6 @@ public final class MkRepoCommitsTest {
         );
     }
 
-    /**
-     * MkRepoCommits can compare commits as diff fromat.
-     */
     @Test
     public void canCompareAsDiffFormat() throws IOException {
         final String user =  "testuser4";
@@ -92,9 +89,6 @@ public final class MkRepoCommitsTest {
         );
     }
 
-    /**
-     * MkRepoCommits can compare commits as patch.
-     */
     @Test
     public void canCompareAsPatch() throws IOException {
         final String user =  "testuser5";

@@ -19,9 +19,6 @@ import org.junit.Test;
  */
 public final class MkMilestonesTest {
 
-    /**
-     * This tests that MkMilestones can return its owner repo.
-     */
     @Test
     public void returnsRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -30,9 +27,6 @@ public final class MkMilestonesTest {
             "Values are not equal",repo, Matchers.is(owner));
     }
 
-    /**
-     * This tests that MkMilestones can create a MkMilestone.
-     */
     @Test
     public void createsMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()

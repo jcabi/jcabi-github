@@ -16,9 +16,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.USER_EMAIL)
 public final class RtUserEmailsITCase {
 
-    /**
-     * RtUserEmails can fetch emails.
-     */
     @Test
     public void fetchesEmails() throws IOException {
         MatcherAssert.assertThat(

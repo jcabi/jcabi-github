@@ -24,9 +24,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtRepoCommitsITCase {
 
-    /**
-     * RtRepoCommits can fetch repo commits.
-     */
     @Test
     public final void fetchCommits() {
         final Iterator<RepoCommit> iterator =
@@ -54,9 +51,6 @@ public final class RtRepoCommitsITCase {
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits and return result in patch mode.
-     */
     @Test
     public final void compareCommitsPatch() throws IOException {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
@@ -79,9 +73,6 @@ public final class RtRepoCommitsITCase {
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits and return result in diff mode.
-     */
     @Test
     public final void compareCommitsDiff() throws IOException {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
@@ -95,9 +86,6 @@ public final class RtRepoCommitsITCase {
         );
     }
 
-    /**
-     * Check that commit actually got.
-     */
     @Test
     public final void getCommit() {
         final String sha = "94e4216";

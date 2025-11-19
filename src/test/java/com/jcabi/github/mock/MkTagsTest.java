@@ -18,9 +18,6 @@ import org.junit.Test;
  */
 public final class MkTagsTest {
 
-    /**
-     * MkTags can create tags.
-     */
     @Test
     public void createsMkTag() throws IOException {
         final JsonObject tagger = Json.createObjectBuilder()

@@ -145,9 +145,6 @@ public final class MkIssueTest {
         );
     }
 
-    /**
-     * MkIssue should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() throws IOException {
         final MkIssue less = new MkIssue(

@@ -31,9 +31,6 @@ public final class RtDeployKeyTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtDeployKey can delete a deploy key.
-     */
     @Test
     public void canDeleteDeployKey() throws IOException {
         try (

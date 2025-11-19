@@ -105,9 +105,6 @@ public final class MkReposTest {
         );
     }
 
-    /**
-     * MkRepos can create a private repo.
-     */
     @Test
     public void createsPrivateRepo() throws IOException {
         final boolean priv = true;

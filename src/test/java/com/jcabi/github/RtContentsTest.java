@@ -39,9 +39,6 @@ public final class RtContentsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtContents can fetch the default branch readme file.
-     */
     @Test
     public void canFetchReadmeFile() throws IOException {
         final String path = "README.md";
@@ -76,9 +73,6 @@ public final class RtContentsTest {
         }
     }
 
-    /**
-     * RtContents can fetch the readme file from the specified branch.
-     */
     @Test
     public void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
         final String path = "README.md";
@@ -175,9 +169,6 @@ public final class RtContentsTest {
         }
     }
 
-    /**
-     * RtContents can create a file in the repository.
-     */
     @Test
     public void canCreateFileInRepository() throws IOException {
         final String path = "test/thefile";
@@ -280,9 +271,6 @@ public final class RtContentsTest {
         }
     }
 
-    /**
-     * RtContents can update files into the repository.
-     */
     @Test
     public void canUpdateFilesInRepository() throws IOException {
         final String sha = "2f97253a513bbe26658881c29e27910082fef900";

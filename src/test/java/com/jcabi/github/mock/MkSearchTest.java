@@ -21,9 +21,6 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkSearchTest {
 
-    /**
-     * MkSearch can search for repos.
-     */
     @Test
     public void canSearchForRepos() throws IOException {
         final MkGitHub github = new MkGitHub();
@@ -37,9 +34,6 @@ public final class MkSearchTest {
         );
     }
 
-    /**
-     * MkSearch can search for issues.
-     */
     @Test
     public void canSearchForIssues() throws IOException {
         final MkGitHub github = new MkGitHub();
@@ -59,9 +53,6 @@ public final class MkSearchTest {
         );
     }
 
-    /**
-     * MkSearch can search for users.
-     */
     @Test
     public void canSearchForUsers() throws IOException {
         final MkGitHub github = new MkGitHub("jeff");
@@ -73,9 +64,6 @@ public final class MkSearchTest {
         );
     }
 
-    /**
-     * MkSearch can search for codes.
-     */
     @Test
     public void canSearchForCodes() throws IOException {
         final MkGitHub github = new MkGitHub("jeff");

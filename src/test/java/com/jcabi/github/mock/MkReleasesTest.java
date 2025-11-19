@@ -17,9 +17,6 @@ import org.junit.Test;
  * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 public final class MkReleasesTest {
-    /**
-     * MkReleases can fetch empty list of releases.
-     */
     @Test
     public void canFetchEmptyListOfReleases() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
@@ -46,9 +43,6 @@ public final class MkReleasesTest {
         );
     }
 
-    /**
-     * MkReleases can fetch a single release.
-     */
     @Test
     public void canFetchSingleRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
@@ -56,9 +50,6 @@ public final class MkReleasesTest {
             "Value is null",releases.get(1), Matchers.notNullValue());
     }
 
-    /**
-     * MkReleases can create a release.
-     */
     @Test
     public void canCreateRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
@@ -71,9 +62,6 @@ public final class MkReleasesTest {
         );
     }
 
-    /**
-     * MkReleases can iterate through the releases.
-     */
     @Test
     public void iteratesReleases() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
@@ -86,9 +74,6 @@ public final class MkReleasesTest {
         );
     }
 
-    /**
-     * MkReleases can be removed.
-     */
     @Test
     public void canRemoveRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
@@ -107,9 +92,6 @@ public final class MkReleasesTest {
         );
     }
 
-    /**
-     * MkReleases can find release by tag.
-     */
     @Test
     public void findsReleaseByTag() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();

@@ -20,10 +20,6 @@ import org.mockito.Mockito;
  */
 public final class LimitTest {
 
-    /**
-     * Limit can throw exception when resource is absent.
-     *
-     */
     @Test(expected = IllegalStateException.class)
     public void throwsWhenResourceIsAbsent() throws IOException {
         final Limit limit = Mockito.mock(Limit.class);

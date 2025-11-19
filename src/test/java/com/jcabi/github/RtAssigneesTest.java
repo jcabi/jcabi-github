@@ -32,9 +32,6 @@ public final class RtAssigneesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtAssignees can iterate over assignees.
-     */
     @Test
     public void iteratesAssignees() throws IOException {
         try (
@@ -60,9 +57,6 @@ public final class RtAssigneesTest {
         }
     }
 
-    /**
-     * RtAssignees can check if user is assignee for this repo.
-     */
     @Test
     public void checkUserIsAssigneeForRepo() throws IOException {
         try (
@@ -87,9 +81,6 @@ public final class RtAssigneesTest {
         }
     }
 
-    /**
-     * RtAssignees can check if user is NOT assignee for this repo.
-     */
     @Test
     public void checkUserIsNotAssigneeForRepo() throws IOException {
         try (

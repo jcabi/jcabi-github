@@ -32,9 +32,6 @@ public final class RtLabelsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtLabels can create a label.
-     */
     @Test
     public void createLabel() throws IOException {
         final String name = "API";
@@ -70,9 +67,6 @@ public final class RtLabelsTest {
         }
     }
 
-    /**
-     * RtLabels can get a single label.
-     */
     @Test
     public void getSingleLabel() throws IOException {
         final String name = "bug";
@@ -99,9 +93,6 @@ public final class RtLabelsTest {
         }
     }
 
-    /**
-     * RtLabels can delete a label.
-     */
     @Test
     public void deleteLabel() throws IOException {
         try (
@@ -129,9 +120,6 @@ public final class RtLabelsTest {
         }
     }
 
-    /**
-     * RtLabels can iterate labels.
-     */
     @Test
     public void iterateLabels() throws IOException {
         try (

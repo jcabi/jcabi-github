@@ -20,9 +20,6 @@ import org.mockito.Mockito;
  */
 public final class IssueLabelsTest {
 
-    /**
-     * IssueLabels.Smart can fetch labels by color.
-     */
     @Test
     public void fetchesLabelsByColor() throws IOException {
         final Label first = Mockito.mock(Label.class);
@@ -68,9 +65,6 @@ public final class IssueLabelsTest {
         );
     }
 
-    /**
-     * IssueLabels.Smart can find label by name.
-     */
     @Test
     public void getsLabelByName() {
         final Label first = Mockito.mock(Label.class);
@@ -86,9 +80,6 @@ public final class IssueLabelsTest {
         );
     }
 
-    /**
-     * IssueLabels.Smart can throw when label is absent.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void throwsWhenLabelIsAbsent() {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);

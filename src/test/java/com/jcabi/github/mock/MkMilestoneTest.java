@@ -17,9 +17,6 @@ import org.junit.Test;
  */
 public final class MkMilestoneTest {
 
-    /**
-     * MkMilestone returns a repo with same coordinates.
-     */
     @Test
     public final void returnsSameCoordinatesRepo() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(

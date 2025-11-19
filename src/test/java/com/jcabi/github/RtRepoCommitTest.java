@@ -15,9 +15,6 @@ import org.junit.Test;
  * @since 0.1
  */
 public final class RtRepoCommitTest {
-    /**
-     * RtRepoCommit has proper request URL.
-     */
     @Test
     public final void hasProperRequestUrl() {
         final String sha = RandomStringUtils.randomAlphanumeric(50);

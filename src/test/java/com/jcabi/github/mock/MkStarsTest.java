@@ -16,9 +16,6 @@ import org.junit.Test;
  */
 public final class MkStarsTest {
 
-    /**
-     * MkStars can star repository.
-     */
     @Test
     public final void starsRepository() throws IOException {
         final Stars stars = new MkGitHub().randomRepo().stars();
@@ -30,9 +27,6 @@ public final class MkStarsTest {
         );
     }
 
-    /**
-     * MkStars can unstar repository.
-     */
     @Test
     public final void unstarsRepository() throws IOException {
         final Stars stars = new MkGitHub().randomRepo().stars();

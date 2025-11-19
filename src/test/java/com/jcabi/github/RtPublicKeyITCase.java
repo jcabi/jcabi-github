@@ -14,9 +14,6 @@ import org.junit.Test;
  */
 @OAuthScope(OAuthScope.Scope.READ_PUBLIC_KEY)
 public final class RtPublicKeyITCase {
-    /**
-     * RtPublicKey can retrieve correctly URI.
-     */
     @Test
     public void retrievesUri() {
         MatcherAssert.assertThat(

@@ -23,9 +23,6 @@ import org.junit.Test;
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
 public final class MkContentsTest {
-    /**
-     * MkContents can fetch the default branch readme file.
-     */
     @Test
     public void canFetchReadmeFile() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
@@ -41,9 +38,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents should be able to fetch readme from a branch.
-     */
     @Test
     public void canFetchReadmeFromBranch() throws IOException {
         final String branch = "branch-1";
@@ -88,9 +82,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents can create new file in non default branch.
-     */
     @Test
     public void canCreateFileInSomeBranch() throws IOException {
         final String path = "file-in-branch.txt";
@@ -173,9 +164,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents should be able to update a file.
-     */
     @Test
     public void updatesFile() throws IOException {
         final String path = "file.txt";
@@ -201,10 +189,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents is able to update the file content.
-     * During update new commit is created
-     */
     @Test
     public void updatesFileCreateCommit() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -241,9 +225,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents can update an content.
-     */
     @Test
     public void updateContent() throws IOException {
         final String path = "content-to-update.txt";
@@ -272,9 +253,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents can check whether content exists or not.
-     */
     @Test
     public void checkExists() throws IOException {
         final String path = "content-exist.txt";
@@ -297,9 +275,6 @@ public final class MkContentsTest {
         );
     }
 
-    /**
-     * MkContents can get content from default branch.
-     */
     @Test
     public void getContentFromDefaultBranch() throws IOException {
         final String path = "content-default-branch.txt";

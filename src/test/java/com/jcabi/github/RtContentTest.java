@@ -39,10 +39,6 @@ public final class RtContentTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtContent should be able to describe itself in JSON format.
-     *
-     */
     @Test
     public void fetchContentAsJson() throws IOException {
         final RtContent content = new RtContent(
@@ -57,10 +53,6 @@ public final class RtContentTest {
         );
     }
 
-    /**
-     * RtContent should be able to perform a patch request.
-     *
-     */
     @Test
     public void patchWithJson() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
@@ -88,10 +80,6 @@ public final class RtContentTest {
         }
     }
 
-    /**
-     * RtContent should be able to compare different instances.
-     *
-     */
     @Test
     public void canCompareInstances() {
         final RtContent less = new RtContent(
@@ -118,10 +106,6 @@ public final class RtContentTest {
         );
     }
 
-    /**
-     * RtContent should be able to fetch raw content.
-     *
-     */
     @Test
     public void fetchesRawContent() throws IOException {
         final String raw = "the raw \u20ac";

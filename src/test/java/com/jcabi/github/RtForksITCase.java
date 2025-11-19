@@ -25,9 +25,6 @@ public final class RtForksITCase {
     @Rule
     public final transient RepoRule rule = new RepoRule();
 
-    /**
-     * RtForks should be able to iterate its forks.
-     */
     @Test
     public final void retrievesForks() throws IOException {
         final String organization = System.getProperty(

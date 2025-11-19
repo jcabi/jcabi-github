@@ -33,9 +33,6 @@ public final class IssueTest {
     @SuppressWarnings("deprecation")
     public transient ExpectedException thrown = ExpectedException.none();
 
-    /**
-     * Issue.Smart can fetch key properties of an Issue.
-     */
     @Test
     public void fetchesProperties() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
@@ -58,9 +55,6 @@ public final class IssueTest {
         );
     }
 
-    /**
-     * Issue.Smart can detect a pull request.
-     */
     @Test
     public void detectsPullRequest() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
@@ -87,9 +81,6 @@ public final class IssueTest {
         Mockito.verify(pulls).get(Tv.THREE);
     }
 
-    /**
-     * Issue.Smart can detect an absence of a pull request.
-     */
     @Test
     public void detectsPullRequestAbsence() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
@@ -106,9 +97,6 @@ public final class IssueTest {
         );
     }
 
-    /**
-     * Issue.Smart can detect an full absence of a pull request.
-     */
     @Test
     public void detectsFullPullRequestAbsence() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);

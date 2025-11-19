@@ -30,9 +30,6 @@ public final class RtTagTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtTag can fetch its json.
-     */
     @Test
     public void fetchesContent() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(

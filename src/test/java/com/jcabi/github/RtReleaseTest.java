@@ -61,9 +61,6 @@ public final class RtReleaseTest {
         this.container.stop();
     }
 
-    /**
-     * RtRelease can edit a release.
-     */
     @Test
     public final void editRelease() throws IOException {
         this.container.next(
@@ -87,9 +84,6 @@ public final class RtReleaseTest {
         );
     }
 
-    /**
-     * RtRelease can delete a release.
-     */
     @Test
     public final void deleteRelease() throws IOException {
         this.container.next(
@@ -104,9 +98,6 @@ public final class RtReleaseTest {
         );
     }
 
-    /**
-     * RtRelese can execute PATCH request.
-     */
     @Test
     public final void executePatchRequest() throws IOException {
         this.container.next(

@@ -57,9 +57,6 @@ public final class RtTreesITCase {
         }
     }
 
-    /**
-     * RtTags creates a tag.
-     */
     @Test
     public void createsAndObtainsTree() throws IOException {
         final Trees trees = RtTreesITCase.repo.git().trees();

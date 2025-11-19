@@ -41,9 +41,6 @@ public final class RtHooksTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtHooks can fetch empty list of hooks.
-     */
     @Test
     public void canFetchEmptyListOfHooks() throws IOException {
         try (
@@ -64,9 +61,6 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can fetch non empty list of hooks.
-     */
     @Test
     public void canFetchNonEmptyListOfHooks() throws IOException {
         try (
@@ -103,9 +97,6 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can fetch single hook.
-     */
     @Test
     public void canFetchSingleHook() throws IOException {
         final String name = "hook name";
@@ -134,9 +125,6 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can create a hook.
-     */
     @Test
     public void canCreateHook() throws IOException {
         final ConcurrentHashMap<String, String> config =
@@ -172,9 +160,6 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can delete a hook.
-     */
     @Test
     public void canDeleteHook() throws IOException {
         try (

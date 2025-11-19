@@ -18,9 +18,6 @@ import org.xembly.Directives;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkNotificationsTest {
 
-    /**
-     * MkNotifications can fetch empty list of Notification.
-     */
     @Test
     public void fetchesEmptyListOfNotifications() throws IOException {
         MatcherAssert.assertThat(
@@ -33,9 +30,6 @@ public final class MkNotificationsTest {
         );
     }
 
-    /**
-     * MkNotifications can fetch non empty list of Notifications.
-     */
     @Test
     public void fetchesNonEmptyListOfNotifications() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -60,9 +54,6 @@ public final class MkNotificationsTest {
         );
     }
 
-    /**
-     * MkNotifications can fetch a notification by id.
-     */
     @Test
     public void fetchesNotificationById() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -84,9 +75,6 @@ public final class MkNotificationsTest {
         );
     }
 
-    /**
-     * MkNotifications can fetch a notification by id.
-     */
     @Test(expected = IndexOutOfBoundsException.class)
     public void cannotFetchNotificationByNonExistentId() throws IOException {
         final MkStorage storage = new MkStorage.InFile();

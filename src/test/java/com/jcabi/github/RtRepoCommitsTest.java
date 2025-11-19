@@ -42,9 +42,6 @@ public final class RtRepoCommitsTest {
         );
     }
 
-    /**
-     * RtRepoCommits can get commit.
-     */
     @Test
     public void getCommit() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
@@ -64,9 +61,6 @@ public final class RtRepoCommitsTest {
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits.
-     */
     @Test
     public void comparesCommits() {
         final RepoCommits commits = new RtRepoCommits(
@@ -89,9 +83,6 @@ public final class RtRepoCommitsTest {
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits and present result in diff format.
-     */
     @Test
     public void comparesCommitsDiffFormat() throws IOException {
         final RepoCommits commits = new RtRepoCommits(
@@ -108,9 +99,6 @@ public final class RtRepoCommitsTest {
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits and present result in patch format.
-     */
     @Test
     public void comparesCommitsPatchFormat() throws IOException {
         final RepoCommits commits = new RtRepoCommits(
@@ -129,9 +117,6 @@ public final class RtRepoCommitsTest {
         );
     }
 
-    /**
-     * RtRepoCommits can read correctly URL.
-     */
     @Test
     public void readCorrectUrl() {
         MatcherAssert.assertThat(

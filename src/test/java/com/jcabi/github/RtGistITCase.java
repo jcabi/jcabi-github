@@ -18,9 +18,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistITCase {
 
-    /**
-     * RtGist can text and write files.
-     */
     @Test
     public void readsAndWritesGists() throws IOException {
         final Gists gists = RtGistITCase.github().gists();

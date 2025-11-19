@@ -37,9 +37,6 @@ public final class RtSearchTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtSearch can search for repos.
-     */
     @Test
     public void canSearchForRepos() {
         final String coords = "test-user1/test-repo1";
@@ -58,9 +55,6 @@ public final class RtSearchTest {
         );
     }
 
-    /**
-     * RtSearch can search for issues.
-     */
     @Test
     public void canSearchForIssues() {
         final int number = 1;
@@ -89,9 +83,6 @@ public final class RtSearchTest {
         );
     }
 
-    /**
-     * RtSearch can search for users.
-     */
     @Test
     public void canSearchForUsers() throws IOException {
         final String login = "test-user";
@@ -111,9 +102,6 @@ public final class RtSearchTest {
         );
     }
 
-    /**
-     * RtSearch can search for contents.
-     */
     @Test
     public void canSearchForContents() throws IOException {
         final JsonObject first = RtSearchTest.content(

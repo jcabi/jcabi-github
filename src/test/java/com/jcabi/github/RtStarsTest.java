@@ -33,9 +33,6 @@ public final class RtStarsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtStars can check if repo is starred.
-     */
     @Test
     public void checkIfRepoStarred() throws IOException {
         try (
@@ -64,9 +61,6 @@ public final class RtStarsTest {
         }
     }
 
-    /**
-     * RtStars can star repository.
-     */
     @Test
     public void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
@@ -101,9 +95,6 @@ public final class RtStarsTest {
         }
     }
 
-    /**
-     * RtStars can unstar repository.
-     */
     @Test
     public void unstarRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (

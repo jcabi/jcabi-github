@@ -15,9 +15,6 @@ import org.junit.Test;
  */
 public final class RtCheckTest {
 
-    /**
-     * RtCheck can check successful state.
-     */
     @Test
     public void checksSuccessfulState() {
         MatcherAssert.assertThat(
@@ -30,9 +27,6 @@ public final class RtCheckTest {
         );
     }
 
-    /**
-     * RtCheck can check not successful state if in progress.
-     */
     @Test
     public void checksNotSuccessfulStateIfInProgress() {
         MatcherAssert.assertThat(
@@ -45,9 +39,6 @@ public final class RtCheckTest {
         );
     }
 
-    /**
-     * RtCheck can check not successful state if cancelled.
-     */
     @Test
     public void checksNotSuccessfulState() {
         MatcherAssert.assertThat(
@@ -60,9 +51,6 @@ public final class RtCheckTest {
         );
     }
 
-    /**
-     * Can not create RtCheck with unexisting status.
-     */
     @Test
     public void createsWithUnexistingStatus() {
         try {
@@ -84,9 +72,6 @@ public final class RtCheckTest {
         }
     }
 
-    /**
-     * Can not create RtCheck with unexisting conclusion.
-     */
     @Test
     public void createsWithUnexistingConclusion() {
         try {

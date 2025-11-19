@@ -56,9 +56,6 @@ public final class RtReleasesITCase {
         }
     }
 
-    /**
-     * RtReleases can iterate releases.
-     */
     @Test
     public void canFetchAllReleases() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
@@ -76,9 +73,6 @@ public final class RtReleasesITCase {
         }
     }
 
-    /**
-     * RtReleases can fetch a single release.
-     */
     @Test
     public void canFetchRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
@@ -97,9 +91,6 @@ public final class RtReleasesITCase {
         releases.remove(release.number());
     }
 
-    /**
-     * RtReleases can create a release.
-     */
     @Test
     public void canCreateRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
@@ -122,9 +113,6 @@ public final class RtReleasesITCase {
         }
     }
 
-    /**
-     * RtReleases can remove a release.
-     */
     @Test
     public void canRemoveRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
@@ -144,9 +132,6 @@ public final class RtReleasesITCase {
         );
     }
 
-    /**
-     * RtReleases can edit release tag.
-     */
     @Test
     public void canEditTag() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
@@ -163,9 +148,6 @@ public final class RtReleasesITCase {
         releases.remove(release.number());
     }
 
-    /**
-     * RtReleases can edit release body.
-     */
     @Test
     public void canEditBody() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();

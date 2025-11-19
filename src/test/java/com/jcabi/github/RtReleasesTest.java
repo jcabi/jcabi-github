@@ -37,9 +37,6 @@ public final class RtReleasesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtReleases can fetch empty list of releases.
-     */
     @Test
     public void canFetchEmptyListOfReleases() {
         final Releases releases = new RtReleases(
@@ -53,9 +50,6 @@ public final class RtReleasesTest {
         );
     }
 
-    /**
-     * RtReleases can fetch non empty list of releases.
-     */
     @Test
     public void canFetchNonEmptyListOfReleases() {
         final int number = 1;
@@ -78,9 +72,6 @@ public final class RtReleasesTest {
         );
     }
 
-    /**
-     * RtReleases can fetch a single release.
-     */
     @Test
     public void canFetchSingleRelease() {
         final Releases releases = new RtReleases(
@@ -90,9 +81,6 @@ public final class RtReleasesTest {
             "Value is null", releases.get(1), Matchers.notNullValue());
     }
 
-    /**
-     * RtReleases can create a release.
-     */
     @Test
     public void canCreateRelease() throws IOException {
         final String tag = "v1.0.0";
@@ -122,9 +110,6 @@ public final class RtReleasesTest {
         }
     }
 
-    /**
-     * RtReleases can delete a release.
-     */
     @Test
     public void canDeleteRelease() throws IOException {
         try (

@@ -17,9 +17,6 @@ import org.junit.Test;
  */
 public final class MkPublicKeysTest {
 
-    /**
-     * MkPublicKeys should be able to iterate its keys.
-     */
     @Test
     public void retrievesKeys() throws IOException {
         final PublicKeys keys = new MkGitHub().users().self().keys();
@@ -31,9 +28,6 @@ public final class MkPublicKeysTest {
         );
     }
 
-    /**
-     * MkPublicKeys should be able to retrieve a single key.
-     */
     @Test
     public void canFetchSingleKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().add("jeff").keys();
@@ -44,9 +38,6 @@ public final class MkPublicKeysTest {
         );
     }
 
-    /**
-     * MkPublicKeys should be able to create a public key.
-     */
     @Test
     public void canCreatePublicKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().add("john").keys();
@@ -58,9 +49,6 @@ public final class MkPublicKeysTest {
         );
     }
 
-    /**
-     * MkPublicKeys should be able to remove a key.
-     */
     @Test
     public void canRemoveKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().self().keys();

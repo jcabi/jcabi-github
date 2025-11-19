@@ -16,9 +16,6 @@ import org.mockito.Mockito;
  */
 public final class LabelTest {
 
-    /**
-     * Label.Unmodified can be compared properly.
-     */
     @Test
     public void canBeComparedProperly() {
         final Label.Unmodified one = new Label.Unmodified(

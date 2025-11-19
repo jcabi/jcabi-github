@@ -59,9 +59,6 @@ public final class RtTagITCase {
         }
     }
 
-    /**
-     * RtTag should return its json representation.
-     */
     @Test
     public void fetchesJson() throws IOException {
         final String object = "object";

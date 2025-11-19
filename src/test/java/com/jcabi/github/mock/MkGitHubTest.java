@@ -40,9 +40,6 @@ public final class MkGitHubTest {
             false
         );
 
-    /**
-     * MkGitHub can work.
-     */
     @Test
     public void worksWithMockedData() throws IOException {
         final Repo repo = new MkGitHub().repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
@@ -67,9 +64,6 @@ public final class MkGitHubTest {
         );
     }
 
-    /**
-     * MkGitHub can relogin.
-     */
     @Test
     public void canRelogin() throws IOException {
         final String login = "mark";
@@ -100,9 +94,6 @@ public final class MkGitHubTest {
         );
     }
 
-    /**
-     * MkGitHub can retrieve the markdown.
-     */
     @Test
     public void retrievesMarkdown() throws IOException {
         final GitHub github = new MkGitHub();
@@ -113,9 +104,6 @@ public final class MkGitHubTest {
         );
     }
 
-    /**
-     * MkGitHub can create random repo.
-     */
     @Test
     public void canCreateRandomRepo() throws IOException {
         final MkGitHub github = new MkGitHub();
@@ -127,9 +115,6 @@ public final class MkGitHubTest {
         );
     }
 
-    /**
-     * MkGitHub can handle multiple threads in parallel.
-     */
     @Test
     public void canHandleMultipleThreads() throws IOException, InterruptedException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -154,9 +139,6 @@ public final class MkGitHubTest {
         );
     }
 
-    /**
-     * Can retrieve users.
-     */
     @Test
     public void canRetrieveUsers() throws IOException {
         MatcherAssert.assertThat(

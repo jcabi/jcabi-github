@@ -16,9 +16,6 @@ import org.junit.Test;
  */
 public final class RtSearchPaginationTest {
 
-    /**
-     * RtSearchPagination can iterate through items.
-     */
     @Test
     public void iteratesItems() {
         final String key = "key";

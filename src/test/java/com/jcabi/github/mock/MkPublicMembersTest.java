@@ -19,9 +19,6 @@ import org.junit.Test;
  * @since 0.1
  */
 public final class MkPublicMembersTest {
-    /**
-     * MkPublicMembers can fetch its organization.
-     */
     @Test
     public void fetchesOrg() throws IOException {
         final Organization org = MkPublicMembersTest.organization();
@@ -66,9 +63,6 @@ public final class MkPublicMembersTest {
         );
     }
 
-    /**
-     * MkPublicMembers can check whether a user is a public member.
-     */
     @Test
     public void checkPublicMembership() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();
@@ -104,9 +98,6 @@ public final class MkPublicMembersTest {
         );
     }
 
-    /**
-     * MkPublicMembers can iterate over all public members.
-     */
     @Test
     public void iteratesPublicMembers() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();

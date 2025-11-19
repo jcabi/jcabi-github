@@ -18,9 +18,6 @@ import org.junit.Test;
  */
 public final class CommitsComparisonTest {
 
-    /**
-     * CommitsComparison.Smart can fetch commits.
-     */
     @Test
     public void fetchesCommits() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db50";
@@ -49,9 +46,6 @@ public final class CommitsComparisonTest {
         );
     }
 
-    /**
-     * CommitsComparison.Smart can fetch files.
-     */
     @Test
     public void fetchesFiles() throws IOException {
         final String filename = "file.txt";

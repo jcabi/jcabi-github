@@ -30,9 +30,6 @@ public final class RtCommitTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * Commit.Smart can read message.
-     */
     @Test
     public final void readsMessage() throws IOException {
         try (

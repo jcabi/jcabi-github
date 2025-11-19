@@ -20,9 +20,6 @@ import org.junit.Test;
  * @since 0.24
  */
 public final class MkOrganizationsTest {
-    /**
-     * MkOrganizations can get specific organization.
-     */
     @Test
     public void getSingleOrganization() throws IOException {
         final String login = "orgTestGet";
@@ -41,9 +38,6 @@ public final class MkOrganizationsTest {
         );
     }
 
-    /**
-     * Organization created_at field should be variable.
-     */
     @Test
     public void testCreatedAt() throws IOException, ParseException, InterruptedException {
         final String name = "testCreatedAt";

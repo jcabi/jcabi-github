@@ -33,10 +33,6 @@ public final class RtMarkdownTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtMarkdown should be able to return JSON output.
-     *
-     */
     @Test
     public void returnsJsonOutput() throws IOException {
         try (
@@ -65,10 +61,6 @@ public final class RtMarkdownTest {
         }
     }
 
-    /**
-     * RtMarkdown should be able to return raw output.
-     *
-     */
     @Test
     public void returnsRawOutput() throws IOException {
         try (

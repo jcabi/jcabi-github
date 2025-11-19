@@ -17,9 +17,6 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MilestoneTest {
-    /**
-     * Milestone.Smart can fetch title property from Milestone.
-     */
     @Test
     public final void fetchesTitle() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
@@ -35,9 +32,6 @@ public final class MilestoneTest {
         );
     }
 
-    /**
-     * Milestone.Smart can fetch description property from Milestone.
-     */
     @Test
     public final void fetchesDescription() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
@@ -53,9 +47,6 @@ public final class MilestoneTest {
         );
     }
 
-    /**
-     * Milestone.Smart can fetch state property from Milestone.
-     */
     @Test
     public final void fetchesState() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
@@ -71,9 +62,6 @@ public final class MilestoneTest {
         );
     }
 
-    /**
-     * Milestone.Smart can fetch due_on property from Milestone.
-     */
     @Test
     public final void fetchesDueOn() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);

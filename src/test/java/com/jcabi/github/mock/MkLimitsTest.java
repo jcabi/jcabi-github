@@ -16,9 +16,6 @@ import org.junit.Test;
  */
 public final class MkLimitsTest {
 
-    /**
-     * MkLimits can work.
-     */
     @Test
     public void worksWithMockedData() throws IOException {
         final Limits limits = new MkGitHub().limits();

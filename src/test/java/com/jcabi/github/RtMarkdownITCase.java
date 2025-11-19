@@ -17,9 +17,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtMarkdownITCase {
 
-    /**
-     * RtMarkdown can render markdown.
-     */
     @Test
     public void rendersMarkdown() throws IOException {
         final GitHub github = new GitHubIT().connect();
@@ -34,9 +31,6 @@ public final class RtMarkdownITCase {
         );
     }
 
-    /**
-     * RtMarkdown can render raw markdown.
-     */
     @Test
     public void rendersRawMarkdown() throws IOException {
         final GitHub github = new GitHubIT().connect();

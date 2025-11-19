@@ -31,9 +31,6 @@ public final class RtUsersTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtUsers can iterate users.
-     */
     @Test
     public void iterateUsers() throws IOException {
         final String identifier = "1";
@@ -58,10 +55,6 @@ public final class RtUsersTest {
         container.stop();
     }
 
-    /**
-     * RtUsers can get a single user.
-     *
-     */
     @Test
     public void getSingleUser() throws IOException {
         final String login = "mark";
@@ -83,10 +76,6 @@ public final class RtUsersTest {
         container.stop();
     }
 
-    /**
-     * RtUsers can get a current  user.
-     *
-     */
     @Test
     public void getCurrentUser() throws IOException {
         final String login = "kendy";

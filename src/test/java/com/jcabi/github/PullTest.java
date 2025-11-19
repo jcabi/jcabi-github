@@ -19,9 +19,6 @@ import org.mockito.Mockito;
  */
 public final class PullTest {
 
-    /**
-     * Pull.Smart can fetch comments count from Pull.
-     */
     @Test
     public void canFetchCommentsCount() throws IOException {
         final int number = 1;
@@ -38,9 +35,6 @@ public final class PullTest {
         );
     }
 
-    /**
-     * Pull.Smart can get an issue where the pull request is submitted.
-     */
     @Test
     public void getsIssue() {
         final int number = 2;

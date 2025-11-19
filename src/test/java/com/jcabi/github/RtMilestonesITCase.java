@@ -55,9 +55,6 @@ public final class RtMilestonesITCase {
         }
     }
 
-    /**
-     * RtMilestones can iterate milestones.
-     */
     @Test
     public void iteratesIssues() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
@@ -75,9 +72,6 @@ public final class RtMilestonesITCase {
         }
     }
 
-    /**
-     * RtMilestones can create a new milestone.
-     */
     @Test
     public void createsNewMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
@@ -95,9 +89,6 @@ public final class RtMilestonesITCase {
         }
     }
 
-    /**
-     * RtMilestones can remove a milestone.
-     */
     @Test
     public void deleteMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();

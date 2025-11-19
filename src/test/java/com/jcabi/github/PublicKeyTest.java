@@ -18,9 +18,6 @@ import org.mockito.Mockito;
  */
 public final class PublicKeyTest {
 
-    /**
-     * PublicKey.Smart can fetch the key value from PublicKey.
-     */
     @Test
     public void fetchesKey() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
@@ -35,9 +32,6 @@ public final class PublicKeyTest {
         );
     }
 
-    /**
-     * PublicKey.Smart can update the key value of PublicKey.
-     */
     @Test
     public void updatesKey() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
@@ -48,9 +42,6 @@ public final class PublicKeyTest {
         );
     }
 
-    /**
-     * PublicKey.Smart can fetch URL property from PublicKey.
-     */
     @Test
     public void fetchesUrl() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
@@ -65,9 +56,6 @@ public final class PublicKeyTest {
         );
     }
 
-    /**
-     * PublicKey.Smart can fetch title property from PublicKey.
-     */
     @Test
     public void fetchesTitle() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
@@ -82,9 +70,6 @@ public final class PublicKeyTest {
         );
     }
 
-    /**
-     * PublicKey.Smart can update the title property of PublicKey.
-     */
     @Test
     public void updatesTitle() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);

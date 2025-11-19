@@ -15,9 +15,6 @@ import org.junit.Test;
  * @since 0.8
  */
 public final class MkForkTest {
-    /**
-     * MkFork can fetch as json object.
-     */
     @Test
     public void fetchAsJson() throws IOException {
         final Fork fork = new MkGitHub().randomRepo().forks().create("fork");

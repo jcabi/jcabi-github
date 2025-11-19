@@ -16,9 +16,6 @@ import org.junit.Test;
  * @since 0.8
  */
 public final class MkDeployKeysTest {
-    /**
-     * MkDeployKeys can fetch empty list of deploy keys.
-     */
     @Test
     public void canFetchEmptyListOfDeployKeys() throws IOException {
         final DeployKeys deployKeys = new MkGitHub().randomRepo().keys();
@@ -29,9 +26,6 @@ public final class MkDeployKeysTest {
         );
     }
 
-    /**
-     * MkDeployKeys can fetch a single deploy key.
-     */
     @Test
     public void canFetchSingleDeployKey() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
@@ -40,9 +34,6 @@ public final class MkDeployKeysTest {
             "Values are not equal", keys.get(key.number()), Matchers.equalTo(key));
     }
 
-    /**
-     * MkDeployKeys can create a deploy key.
-     */
     @Test
     public void canCreateDeployKey() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();

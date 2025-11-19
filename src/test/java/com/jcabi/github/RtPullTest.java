@@ -47,10 +47,6 @@ public final class RtPullTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtPull should be able to retrieve commits.
-     *
-     */
     @Test
     public void fetchesCommits() throws IOException {
         try (
@@ -75,10 +71,6 @@ public final class RtPullTest {
         }
     }
 
-    /**
-     * RtPull should be able to retrieve files.
-     *
-     */
     @Test
     public void fetchesFiles() throws IOException {
         try (
@@ -194,10 +186,6 @@ public final class RtPullTest {
         }
     }
 
-    /**
-     * RtPull should be able to perform a merge.
-     *
-     */
     @Test
     public void executeMerge() throws IOException {
         try (
@@ -266,10 +254,6 @@ public final class RtPullTest {
         }
     }
 
-    /**
-     * RtPull should be able to compare different instances.
-     *
-     */
     @Test
     public void canCompareInstances() {
         final RtPull less = new RtPull(new FakeRequest(), this.repo(), 1);
@@ -284,10 +268,6 @@ public final class RtPullTest {
         );
     }
 
-    /**
-     * RtPull should be able to fetch pull comments.
-     *
-     */
     @Test
     @Ignore
     public void canFetchComments() {

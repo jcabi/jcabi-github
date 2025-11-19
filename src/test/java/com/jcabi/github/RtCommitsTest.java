@@ -33,9 +33,6 @@ public final class RtCommitsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * Tests creating a Commit.
-     */
     @Test
     public final void createsCommit() throws IOException {
         try (

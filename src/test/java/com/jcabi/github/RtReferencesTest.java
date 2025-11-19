@@ -31,9 +31,6 @@ public final class RtReferencesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtReferences should create and return a Reference.
-     */
     @Test
     public void createsReference() throws IOException {
         try (
@@ -62,9 +59,6 @@ public final class RtReferencesTest {
         }
     }
 
-    /**
-     * RtReferences should be able to iterate over References.
-     */
     @Test
     public void iteratesReferences() throws IOException {
         try (
@@ -88,9 +82,6 @@ public final class RtReferencesTest {
         }
     }
 
-    /**
-     * RtReferences should be able to remove a Reference.
-     */
     @Test
     public void removesReference() throws IOException {
         try (
@@ -112,9 +103,6 @@ public final class RtReferencesTest {
         }
     }
 
-    /**
-     * RtReferences should be able to iterate over tags.
-     */
     @Test
     public void iteratesTags() throws IOException {
         try (
@@ -143,9 +131,6 @@ public final class RtReferencesTest {
         }
     }
 
-    /**
-     * RtReferences should be able to iterate over heads.
-     */
     @Test
     public void iteratesHeads() throws IOException {
         try (

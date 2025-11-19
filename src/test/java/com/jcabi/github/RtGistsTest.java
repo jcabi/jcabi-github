@@ -32,9 +32,6 @@ public final class RtGistsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtGists can create new files.
-     */
     @Test
     public void canCreateFiles() throws IOException {
         try (
@@ -62,9 +59,6 @@ public final class RtGistsTest {
         }
     }
 
-    /**
-     * RtGists can retrieve a specific Gist.
-     */
     @Test
     public void canRetrieveSpecificGist() throws IOException {
         try (
@@ -85,9 +79,6 @@ public final class RtGistsTest {
         }
     }
 
-    /**
-     * RtGists can iterate through its contents.
-     */
     @Test
     public void canIterateThrouRtGists() throws IOException {
         try (
@@ -111,9 +102,6 @@ public final class RtGistsTest {
         }
     }
 
-    /**
-     * RtGists can remove a gist by name.
-     */
     @Test
     public void removesGistByName() throws IOException {
         try (

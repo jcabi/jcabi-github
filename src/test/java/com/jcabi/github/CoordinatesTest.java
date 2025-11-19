@@ -14,9 +14,6 @@ import org.junit.Test;
  */
 public final class CoordinatesTest {
 
-    /**
-     * Coordinates.Https can retrieve user and repo from https coordinates.
-     */
     @Test
     public void retrievesUserAndRepoFromHttpsCoordinates() {
         final Coordinates coords = new Coordinates.Https(
@@ -44,9 +41,6 @@ public final class CoordinatesTest {
         );
     }
 
-    /**
-     * Coordinates.Https equal if they have the same url.
-     */
     @Test
     public void sameHttpsCoordinatesAreEqual() {
         final String same = "https://github.com/apache/tomcat.git";
@@ -57,9 +51,6 @@ public final class CoordinatesTest {
         );
     }
 
-    /**
-     * Coordinates.Https can be compared.
-     */
     @Test
     public void comparesHttpsCoordinates() {
         final String first = "https://github.com/apache/kafka.git";
@@ -85,9 +76,6 @@ public final class CoordinatesTest {
         );
     }
 
-    /**
-     * Coordinates.Simple can be compared with Coordinates.Https.
-     */
     @Test
     public void comparesSimpleAndHttpsCoordinates() {
         MatcherAssert.assertThat(

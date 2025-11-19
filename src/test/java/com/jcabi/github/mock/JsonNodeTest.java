@@ -18,9 +18,6 @@ import org.junit.Test;
  */
 public final class JsonNodeTest {
 
-    /**
-     * JsonNode can text XML to JSON.
-     */
     @Test
     public void convertsXmlToJson() {
         final XML xml = new XMLDocument(
@@ -41,9 +38,6 @@ public final class JsonNodeTest {
         );
     }
 
-    /**
-     * JsonNode can text XML to JSON array.
-     */
     @Test
     public void convertsXmlToJsonArray() {
         final XML xml = new XMLDocument(

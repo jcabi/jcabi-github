@@ -56,9 +56,6 @@ public final class RtStatusesTest {
         );
     }
 
-    /**
-     * Tests creating a Status.
-     */
     @Test
     public void createsStatus() throws IOException {
         final String stateprop = "state";

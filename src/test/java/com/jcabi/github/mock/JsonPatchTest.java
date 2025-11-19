@@ -17,9 +17,6 @@ import org.junit.Test;
  */
 public final class JsonPatchTest {
 
-    /**
-     * JsonPatch can patch an XML.
-     */
     @Test
     public void patchesXml() throws IOException {
         final MkStorage storage = new MkStorage.InFile();

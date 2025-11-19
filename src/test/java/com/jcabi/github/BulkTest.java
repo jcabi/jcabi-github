@@ -18,9 +18,6 @@ import org.mockito.Mockito;
  */
 public final class BulkTest {
 
-    /**
-     * Bulk can cache JSON data.
-     */
     @Test
     public void cachesJsonData() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);

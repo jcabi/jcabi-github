@@ -17,9 +17,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtLimitsITCase {
 
-    /**
-     * RtLimits can check remaining requests.
-     */
     @Test
     public void checksRemainingRequests() throws IOException {
         final GitHub github = new GitHubIT().connect();

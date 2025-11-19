@@ -18,9 +18,6 @@ import org.mockito.Mockito;
  */
 public final class SmartsTest {
 
-    /**
-     * Smarts can make instances of Comment.Smart.
-     */
     @Test
     public void decoratesObjectsOnFly() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);

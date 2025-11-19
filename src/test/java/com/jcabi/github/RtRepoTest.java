@@ -48,9 +48,6 @@ public final class RtRepoTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtRepo can fetch events.
-     */
     @Test
     public void iteratesEvents() throws IOException {
         try (
@@ -76,9 +73,6 @@ public final class RtRepoTest {
         }
     }
 
-    /**
-     * RtRepo can fetch its labels.
-     */
     @Test
     public void fetchesLabels() {
         final Repo repo = RtRepoTest.repo(
@@ -91,9 +85,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its issues.
-     */
     @Test
     public void fetchesIssues() {
         final Repo repo = RtRepoTest.repo(
@@ -106,9 +97,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its branches.
-     */
     @Test
     public void fetchesBranches() {
         final Repo repo = RtRepoTest.repo(
@@ -121,9 +109,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its pulls.
-     */
     @Test
     public void fetchesPulls() {
         final Repo repo = RtRepoTest.repo(
@@ -136,9 +121,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its hooks.
-     */
     @Test
     public void fetchHooks() {
         final Repo repo = RtRepoTest.repo(
@@ -151,9 +133,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its keys.
-     */
     @Test
     public void fetchKeys() {
         final Repo repo = RtRepoTest.repo(
@@ -166,9 +145,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its releases.
-     */
     @Test
     public void fetchReleases() {
         final Repo repo = RtRepoTest.repo(
@@ -181,9 +157,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch its contents.
-     */
     @Test
     public void fetchContents() {
         final Repo repo = RtRepoTest.repo(
@@ -196,9 +169,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can identify itself.
-     */
     @Test
     public void identifiesItself() {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
@@ -214,9 +184,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can execute PATCH request.
-     */
     @Test
     public void executePatchRequest() throws IOException {
         try (
@@ -240,9 +207,6 @@ public final class RtRepoTest {
         }
     }
 
-    /**
-     * RtRepo can describe as a JSON object.
-     */
     @Test
     public void describeAsJson() throws IOException {
         final Repo repo = RtRepoTest.repo(
@@ -263,9 +227,6 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch commits.
-     */
     @Test
     public void fetchCommits() {
         final Repo repo = RtRepoTest.repo(
@@ -275,9 +236,6 @@ public final class RtRepoTest {
             "Value is null", repo.commits(), Matchers.notNullValue());
     }
 
-    /**
-     * RtRepo can fetch Git.
-     */
     @Test
     public void fetchesGit() {
         final Repo repo = RtRepoTest.repo(
@@ -287,9 +245,6 @@ public final class RtRepoTest {
             "Value is null", repo.git(), Matchers.notNullValue());
     }
 
-    /**
-     * RtRepo can fetch stars.
-     */
     @Test
     public void fetchStars() {
         final Repo repo = RtRepoTest.repo(
@@ -328,9 +283,6 @@ public final class RtRepoTest {
         }
     }
 
-    /**
-     * RtRepo can fetch notifications.
-     */
     @Test
     public void fetchNotifications() {
         final Repo repo = RtRepoTest.repo(
@@ -340,9 +292,6 @@ public final class RtRepoTest {
             "Value is null", repo.notifications(), Matchers.notNullValue());
     }
 
-    /**
-     * RtRepo can fetch languages.
-     */
     @Test
     public void fetchLanguages() throws IOException {
         try (
@@ -364,9 +313,6 @@ public final class RtRepoTest {
         }
     }
 
-    /**
-     * RtRepo can iterate languages.
-     */
     @Test
     public void iteratesLanguages() throws IOException {
         final String lang = "C";

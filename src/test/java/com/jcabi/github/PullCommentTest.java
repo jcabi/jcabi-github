@@ -40,9 +40,6 @@ public final class PullCommentTest {
      */
     private static final String BODY = "body";
 
-    /**
-     * PullComment.Smart can fetch the id value from PullComment.
-     */
     @Test
     public void fetchesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -57,9 +54,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can update the id value of PullComment.
-     */
     @Test
     public void updatesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -70,9 +64,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can fetch the commit id value from PullComment.
-     */
     @Test
     public void fetchesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -87,9 +78,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can update the commit id value of PullComment.
-     */
     @Test
     public void updatesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -100,9 +88,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can fetch the url value from PullComment.
-     */
     @Test
     public void fetchesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -117,9 +102,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can update the url value of PullComment.
-     */
     @Test
     public void updatesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -130,9 +112,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can fetch the body value from PullComment.
-     */
     @Test
     public void fetchesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -147,9 +126,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can update the body value of PullComment.
-     */
     @Test
     public void updatesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
@@ -160,9 +136,6 @@ public final class PullCommentTest {
         );
     }
 
-    /**
-     * PullComment.Smart can retrieve who is the comment author.
-     */
     @Test
     public void retrievesAuthor() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);

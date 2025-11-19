@@ -21,9 +21,6 @@ import org.junit.Test;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public final class MkReleaseTest {
-    /**
-     * Check if a release can be deleted.
-     */
     @Test
     public void canDeleteRelease() throws IOException {
         final Releases releases = MkReleaseTest.releases();

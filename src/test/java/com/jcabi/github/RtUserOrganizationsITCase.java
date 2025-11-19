@@ -16,9 +16,6 @@ import org.junit.Test;
  */
 @OAuthScope(OAuthScope.Scope.READ_ORG)
 public final class RtUserOrganizationsITCase {
-    /**
-     * RtUserOrganizations can iterate all organizations of a user.
-     */
     @Test
     public void iterateOrganizations() throws IOException {
         final UserOrganizations orgs = new GitHubIT().connect()

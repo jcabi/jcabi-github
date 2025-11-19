@@ -61,9 +61,6 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can upload release assets.
-     */
     @Test
     public void uploadsAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
@@ -87,9 +84,6 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can upload two release assets.
-     */
     @Test
     public void uploadsTwoAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
@@ -124,9 +118,6 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can upload one release assets to two releases.
-     */
     @Test
     public void uploadsSameAssetInTwoReleases() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
@@ -166,9 +157,6 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can fetch release assets by asset ID.
-     */
     @Test
     public void fetchesAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
@@ -191,9 +179,6 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can iterate through multiple release assets.
-     */
     @Test
     public void iteratesAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
@@ -221,9 +206,6 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can return an empty list of release assets.
-     */
     @Test
     public void returnsNoAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();

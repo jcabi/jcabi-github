@@ -21,9 +21,6 @@ import org.mockito.Mockito;
  */
 public final class RepoCommitTest {
 
-    /**
-     * RepoCommit.Smart can fetch url property from RepoCommit.
-     */
     @Test
     public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
@@ -41,9 +38,6 @@ public final class RepoCommitTest {
         );
     }
 
-    /**
-     * RepoCommit.Smart can fetch message property from RepoCommit.
-     */
     @Test
     public final void fetchesMessage() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);

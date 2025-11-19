@@ -23,10 +23,6 @@ public final class RtReposITCase {
     @Rule
     public final transient RepoRule rule = new RepoRule();
 
-    /**
-     * RtRepos create repository test.
-     *
-     */
     @Test
     public final void create() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -39,9 +35,6 @@ public final class RtReposITCase {
         }
     }
 
-    /**
-     * RtRepos should fail on creation of two repos with the same name.
-     */
     @Test(expected = AssertionError.class)
     public final void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -55,10 +48,6 @@ public final class RtReposITCase {
         }
     }
 
-    /**
-     * RtRepos exists repository test.
-     *
-     */
     @Test
     public final void exists() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();
@@ -74,10 +63,6 @@ public final class RtReposITCase {
         }
     }
 
-    /**
-     * RtRepos create repository test.
-     *
-     */
     @Test
     public final void createWithOrganization() throws IOException {
         final Repos repos = new GitHubIT().connect().repos();

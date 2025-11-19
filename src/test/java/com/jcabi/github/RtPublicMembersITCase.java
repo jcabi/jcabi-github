@@ -46,10 +46,6 @@ public final class RtPublicMembersITCase {
         RtPublicMembersITCase.nonMember = users.get("charset");
     }
 
-    /**
-     * RtPublicMembers can check whether a user is a public member
-     * of an organization.
-     */
     @Test
     public void checksPublicMembership() throws IOException {
         MatcherAssert.assertThat(
@@ -64,9 +60,6 @@ public final class RtPublicMembersITCase {
         );
     }
 
-    /**
-     * RtPublicMembers can list the public members of an organization.
-     */
     @Test
     public void listsPublicMembers() {
         MatcherAssert.assertThat(

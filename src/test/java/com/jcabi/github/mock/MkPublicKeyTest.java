@@ -23,9 +23,6 @@ public final class MkPublicKeyTest {
      */
     public static final String KEY = "key";
 
-    /**
-     * MkPublicKey can be represented as JSON.
-     */
     @Test
     public void canRetrieveAsJson() throws IOException {
         final String title = "Title1";
@@ -49,9 +46,6 @@ public final class MkPublicKeyTest {
         );
     }
 
-    /**
-     * MkPublicKey can accept a PATCH request.
-     */
     @Test
     public void canBePatched() throws IOException {
         final String original = "PublicKey2";

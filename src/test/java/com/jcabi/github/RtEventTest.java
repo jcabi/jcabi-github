@@ -31,9 +31,6 @@ public final class RtEventTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtEvent can retrieve its own repo.
-     */
     @Test
     public void canRetrieveOwnRepo() {
         final Repo repo = this.repo();
@@ -45,9 +42,6 @@ public final class RtEventTest {
         );
     }
 
-    /**
-     * RtEvent can retrieve its own number.
-     */
     @Test
     public void canRetrieveOwnNumber() {
         final Repo repo = this.repo();
@@ -59,9 +53,6 @@ public final class RtEventTest {
         );
     }
 
-    /**
-     * RtEvent can be retrieved in JSON form.
-     */
     @Test
     public void retrieveEventAsJson() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
@@ -83,9 +74,6 @@ public final class RtEventTest {
         }
     }
 
-    /**
-     * RtEvent should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() {
         final RtEvent less = new RtEvent(new FakeRequest(), this.repo(), 1);

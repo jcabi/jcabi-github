@@ -15,9 +15,6 @@ import org.junit.Test;
  */
 @OAuthScope(OAuthScope.Scope.GIST)
 public final class RtGistsITCase {
-    /**
-     * RtGists can create a gist.
-     */
     @Test
     public void createGist() throws IOException {
         final String filename = "filename.txt";
@@ -35,9 +32,6 @@ public final class RtGistsITCase {
         gists.remove(smart.identifier());
     }
 
-    /**
-     * RtGists can iterate all gists.
-     */
     @Test
     public void iterateGists() throws IOException {
         final Gists gists = RtGistsITCase.gists();
@@ -52,9 +46,6 @@ public final class RtGistsITCase {
         gists.remove(gist.identifier());
     }
 
-    /**
-     * RtGists can get a single gist.
-     */
     @Test
     public void singleGist() throws IOException {
         final String filename = "single-name.txt";
@@ -70,9 +61,6 @@ public final class RtGistsITCase {
         gists.remove(gist.identifier());
     }
 
-    /**
-     * This tests that RtGists can remove a gist by name.
-     */
     @Test
     public void removesGistByName() throws IOException {
         final Gists gists = RtGistsITCase.gists();

@@ -16,9 +16,6 @@ import org.mockito.Mockito;
  */
 public final class DeployKeyTest {
 
-    /**
-     * DeployKey.Smart can update the key value of DeployKey.
-     */
     @Test
     public void updatesKey() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
@@ -29,9 +26,6 @@ public final class DeployKeyTest {
         );
     }
 
-    /**
-     * DeployKey.Smart can update the title property of DeployKey.
-     */
     @Test
     public void updatesTitle() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);

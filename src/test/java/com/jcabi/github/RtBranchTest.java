@@ -27,9 +27,6 @@ public final class RtBranchTest {
      */
     private static final String SHA = "b9b0b8a357bbf70f7c9f8ef17160ee31feb508a9";
 
-    /**
-     * RtBranch can fetch its commit.
-     */
     @Test
     public void fetchesCommit() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -49,9 +46,6 @@ public final class RtBranchTest {
         );
     }
 
-    /**
-     * RtBranch can fetch its branch name.
-     */
     @Test
     public void fetchesName() throws IOException {
         MatcherAssert.assertThat(
@@ -61,9 +55,6 @@ public final class RtBranchTest {
         );
     }
 
-    /**
-     * RtBranch can fetch its repo.
-     */
     @Test
     public void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();

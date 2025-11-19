@@ -62,9 +62,6 @@ public final class RtReleaseAssetITCase {
         }
     }
 
-    /**
-     * RtReleaseAsset can fetch as JSON object.
-     */
     @Test
     public void fetchAsJson() throws IOException {
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
@@ -80,9 +77,6 @@ public final class RtReleaseAssetITCase {
         }
     }
 
-    /**
-     * RtReleaseAsset can execute patch request.
-     */
     @Test
     public void executePatchRequest() throws IOException {
         final Release release = RtReleaseAssetITCase.repo.releases().create(
@@ -101,9 +95,6 @@ public final class RtReleaseAssetITCase {
         }
     }
 
-    /**
-     * RtReleaseAsset can do delete operation.
-     */
     @Test
     public void removesReleaseAsset() throws IOException {
         final Releases releases = RtReleaseAssetITCase.repo.releases();

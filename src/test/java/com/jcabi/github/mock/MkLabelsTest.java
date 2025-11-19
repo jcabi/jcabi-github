@@ -20,9 +20,6 @@ import org.junit.Test;
  */
 public final class MkLabelsTest {
 
-    /**
-     * MkLabels can list labels.
-     */
     @Test
     public void iteratesLabels() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -34,9 +31,6 @@ public final class MkLabelsTest {
         );
     }
 
-    /**
-     * MkLabels can delete labels.
-     */
     @Test
     public void deletesLabels() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -58,9 +52,6 @@ public final class MkLabelsTest {
         );
     }
 
-    /**
-     * MkLabels can set label color.
-     */
     @Test
     public void setsLabelColor() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();

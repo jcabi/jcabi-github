@@ -60,9 +60,6 @@ public final class MkRepoCommitTest {
         );
     }
 
-    /**
-     * MkRepoCommit should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -92,9 +89,6 @@ public final class MkRepoCommitTest {
         );
     }
 
-    /**
-     * MkRepoCommit can get a JSON.
-     */
     @Test
     public void canGetJson() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -112,9 +106,6 @@ public final class MkRepoCommitTest {
         );
     }
 
-    /**
-     * MkRepoCommit can compare equal commits.
-     */
     @Test
     public void compareEqual() throws IOException {
         final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
@@ -132,9 +123,6 @@ public final class MkRepoCommitTest {
         );
     }
 
-    /**
-     * MkRepoCommit can compare different commits.
-     */
     @Test
     public void compareDifferent() throws IOException {
         final MkStorage storage = new MkStorage.InFile();

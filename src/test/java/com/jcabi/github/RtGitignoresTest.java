@@ -32,9 +32,6 @@ public final class RtGitignoresTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtGitignores can iterate template names.
-     */
     @Test
     public void iterateTemplateNames() throws IOException {
         try (
@@ -61,9 +58,6 @@ public final class RtGitignoresTest {
         }
     }
 
-    /**
-     * RtGitignores can get raw template by name.
-     */
     @Test
     public void getRawTemplateByName() throws IOException {
         final RtGitignores gitignores = new RtGitignores(

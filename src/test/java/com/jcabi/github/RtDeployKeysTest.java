@@ -34,9 +34,6 @@ public final class RtDeployKeysTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtDeployKeys can fetch empty list of deploy keys.
-     */
     @Test
     public void canFetchEmptyListOfDeployKeys() {
         final DeployKeys keys = new RtDeployKeys(

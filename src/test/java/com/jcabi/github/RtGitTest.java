@@ -16,9 +16,6 @@ import org.mockito.Mockito;
  */
 public final class RtGitTest {
 
-    /**
-     * RtGit can fetch its own repo.
-     */
     @Test
     public void canFetchOwnRepo() {
         final Repo repo = RtGitTest.repo();

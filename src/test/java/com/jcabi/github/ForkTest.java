@@ -17,9 +17,6 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 public final class ForkTest {
-    /**
-     * Fork.Smart can fetch name property from Fork.
-     */
     @Test
     public final void fetchesName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -36,9 +33,6 @@ public final class ForkTest {
         );
     }
 
-    /**
-     * Fork.Smart can fetch full name property from Fork.
-     */
     @Test
     public final void fetchesFullName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -55,9 +49,6 @@ public final class ForkTest {
         );
     }
 
-    /**
-     * Fork.Smart can description property from Fork.
-     */
     @Test
     public final void fetchesDescription() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -74,9 +65,6 @@ public final class ForkTest {
         );
     }
 
-    /**
-     * Fork.Smart can fetch size property from Fork.
-     */
     @Test
     public final void fetchesSize() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -93,9 +81,6 @@ public final class ForkTest {
         );
     }
 
-    /**
-     * Fork.Smart can fetch the Fork URLs.
-     */
     @Test
     public final void fetchesUrls() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -197,9 +182,6 @@ public final class ForkTest {
         );
     }
 
-    /**
-     * Fork.Smart can fetch the number of open issues from Fork.
-     */
     @Test
     public final void openIssues() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -217,9 +199,6 @@ public final class ForkTest {
         );
     }
 
-    /**
-     * Fork.Smart can fetch the default branch from Fork.
-     */
     @Test
     public final void fetchesDefaultBranches() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);

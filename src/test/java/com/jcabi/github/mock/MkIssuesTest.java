@@ -22,9 +22,6 @@ import org.junit.Test;
  */
 public final class MkIssuesTest {
 
-    /**
-     * MkIssues can list issues.
-     */
     @Test
     public void iteratesIssues() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -38,9 +35,6 @@ public final class MkIssuesTest {
         );
     }
 
-    /**
-     * MkIssues can create a new issue with correct author.
-     */
     @Test
     public void createsNewIssueWithCorrectAuthor() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -54,9 +48,6 @@ public final class MkIssuesTest {
         );
     }
 
-    /**
-     * MkIssues can create a multiple issues.
-     */
     @Test
     public void createsMultipleIssues() throws IOException {
         final GitHub github = new MkGitHub("jeff");

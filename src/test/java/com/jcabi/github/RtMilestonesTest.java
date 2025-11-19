@@ -30,9 +30,6 @@ public final class RtMilestonesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtMilestones can remove a milestone.
-     */
     @Test
     public void deleteMilestone() throws IOException {
         try (

@@ -23,9 +23,6 @@ import org.junit.Test;
  */
 public final class MkRepoTest {
 
-    /**
-     * Repo can work.
-     */
     @Test
     public void works() throws IOException {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
@@ -85,9 +82,6 @@ public final class MkRepoTest {
             "Value is null",repo.branches(), Matchers.notNullValue());
     }
 
-    /**
-     * Repo can exponse attributes.
-     */
     @Test
     public void exposesAttributes() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();

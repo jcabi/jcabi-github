@@ -58,9 +58,6 @@ public final class RtTagsITCase {
         }
     }
 
-    /**
-     * RtTags creates a tag.
-     */
     @Test
     public void createsTag() throws IOException {
         final References refs = RtTagsITCase.repo.git().references();

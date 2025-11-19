@@ -25,9 +25,6 @@ public final class MkIssueLabelsTest {
      */
     private static final String USER = "jeff";
 
-    /**
-     * MkIssueLabels can list labels.
-     */
     @Test
     public void iteratesIssues() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -42,9 +39,6 @@ public final class MkIssueLabelsTest {
         );
     }
 
-    /**
-     * MkIssueLabels can create labels through Smart decorator.
-     */
     @Test
     public void createsLabelsThroughDecorator() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();

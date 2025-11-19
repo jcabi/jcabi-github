@@ -20,9 +20,6 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MkTreesTest {
 
-    /**
-     * MkTrees can create trees.
-     */
     @Test
     public void createsMkTree() throws IOException {
         final JsonObject tree = Json.createObjectBuilder()
@@ -44,9 +41,6 @@ public final class MkTreesTest {
         );
     }
 
-    /**
-     * MkTrees can get tree recursively.
-     */
     @Test
     public void getTreeRec() throws IOException {
         final String sha = "0abcd89jcabitest";

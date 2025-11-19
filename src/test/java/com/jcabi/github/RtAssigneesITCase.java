@@ -49,9 +49,6 @@ public final class RtAssigneesITCase {
         }
     }
 
-    /**
-     * RtAssignees can iterate over assignees.
-     */
     @Test
     public void iteratesAssignees() throws IOException {
         final Iterable<User> users = new Smarts<>(
@@ -68,9 +65,6 @@ public final class RtAssigneesITCase {
         }
     }
 
-    /**
-     * RtAssignees can check if user is assignee for this repo.
-     */
     @Test
     public void checkUserIsAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
@@ -80,9 +74,6 @@ public final class RtAssigneesITCase {
         );
     }
 
-    /**
-     * RtAssignees can check if user is NOT assignee for this repo.
-     */
     @Test
     public void checkUserIsNotAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(

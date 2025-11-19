@@ -16,9 +16,6 @@ import org.junit.Test;
  */
 public final class MkGitTest {
 
-    /**
-     * MkGit can fetch its own repo.
-     */
     @Test
     public void canFetchOwnRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -29,9 +26,6 @@ public final class MkGitTest {
         );
     }
 
-    /**
-     * MkGit can return references.
-     */
     @Test
     public void givesReferences() throws IOException {
         MatcherAssert.assertThat(

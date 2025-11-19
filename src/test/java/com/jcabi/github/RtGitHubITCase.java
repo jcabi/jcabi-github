@@ -18,9 +18,6 @@ import org.junit.Test;
 @OAuthScope(OAuthScope.Scope.REPO)
 public final class RtGitHubITCase {
 
-    /**
-     * RtGitHub can authenticate itself.
-     */
     @Test
     public void authenticatesItself() {
         final GitHub github = new GitHubIT().connect();
@@ -31,9 +28,6 @@ public final class RtGitHubITCase {
         );
     }
 
-    /**
-     * RtGitHub can connect anonymously.
-     */
     @Test
     public void connectsAnonymously() throws IOException {
         final GitHub github = new RtGitHub();
@@ -48,9 +42,6 @@ public final class RtGitHubITCase {
         );
     }
 
-    /**
-     * RtGitHub can fetch meta information.
-     */
     @Test
     public void fetchesMeta() throws IOException {
         final GitHub github = new RtGitHub();
@@ -61,9 +52,6 @@ public final class RtGitHubITCase {
         );
     }
 
-    /**
-     * RtGitHub can fetch emojis.
-     */
     @Test
     public void fetchesEmojis() throws IOException {
         final GitHub github = new RtGitHub();
@@ -74,9 +62,6 @@ public final class RtGitHubITCase {
         );
     }
 
-    /**
-     * RtGitHub can authenticate with username and password through HTTP Basic.
-     */
     @Test
     public void authenticatesWithUsernameAndPassword() throws IOException {
         final String user = System.getProperty("failsafe.github.user");
@@ -97,9 +82,6 @@ public final class RtGitHubITCase {
         );
     }
 
-    /**
-     * RtGitHub can fetch users.
-     */
     @Test
     public void fetchesUsers() {
         final GitHub github = new GitHubIT().connect();

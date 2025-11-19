@@ -17,9 +17,6 @@ import org.junit.Test;
  */
 public final class MkBlobsTest {
 
-    /**
-     * MkBlobs should be able to create a blob.
-     */
     @Test
     public void canCreateBlob() throws IOException {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
@@ -31,9 +28,6 @@ public final class MkBlobsTest {
         );
     }
 
-    /**
-     * MkBlobs can get a blob.
-     */
     @Test
     public void getBlob() throws IOException {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();

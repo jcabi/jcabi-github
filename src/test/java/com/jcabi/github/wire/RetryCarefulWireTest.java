@@ -42,10 +42,6 @@ public final class RetryCarefulWireTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RetryCarefulWire can make a few requests before giving up and
-     * can wait until the rate limit resets.
-     */
     @Test
     public void makesMultipleRequestsAndWaitUntilReset() throws IOException {
         final int threshold = 10;

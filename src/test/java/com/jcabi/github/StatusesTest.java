@@ -45,9 +45,6 @@ public final class StatusesTest {
      */
     private static final String CONTEXT = "jcabi/github/test";
 
-    /**
-     * StatusCreate can convert itself to JSON.
-     */
     @Test
     public void convertsToJsonWhenAllPresent() {
         final String success = "Everything is not so awesome";
@@ -69,9 +66,6 @@ public final class StatusesTest {
         );
     }
 
-    /**
-     * StatusCreate can convert itself to JSON when it has no URL.
-     */
     @Test
     public void convertsToJsonWhenUrlAbsent() {
         final String success = "Living the dream!";
@@ -91,9 +85,6 @@ public final class StatusesTest {
         );
     }
 
-    /**
-     * StatusCreate can convert itself to JSON when it has no description.
-     */
     @Test
     public void convertsToJsonWhenDescriptionAbsent() {
         MatcherAssert.assertThat(
@@ -113,9 +104,6 @@ public final class StatusesTest {
         );
     }
 
-    /**
-     * StatusCreate can convert itself to JSON when it has no context.
-     */
     @Test
     public void convertsToJsonWhenContextAbsent() {
         final String pending = "Kragle is drying...";

@@ -18,9 +18,6 @@ import org.junit.Test;
  */
 public final class MkReferencesTest {
 
-    /**
-     * MkReferences can create a MkReference.
-     */
     @Test
     public void createsMkReference() throws IOException {
         final References refs = new MkGitHub().randomRepo()
@@ -32,9 +29,6 @@ public final class MkReferencesTest {
         );
     }
 
-    /**
-     * MkReference can return its owner.
-     */
     @Test
     public void returnsRepo() throws IOException {
         final References refs = new MkGitHub().randomRepo()
@@ -46,9 +40,6 @@ public final class MkReferencesTest {
         );
     }
 
-    /**
-     * MkReferences can iterate over references.
-     */
     @Test
     public void iteratesReferences() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
@@ -113,9 +104,6 @@ public final class MkReferencesTest {
         );
     }
 
-    /**
-     * MkReferences can remove a Reference.
-     */
     @Test
     public void removesReference() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();

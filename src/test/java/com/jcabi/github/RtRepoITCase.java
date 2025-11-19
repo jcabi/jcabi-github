@@ -71,9 +71,6 @@ public final class RtRepoITCase {
         }
     }
 
-    /**
-     * RtRepo can identify itself.
-     */
     @Test
     public void identifiesItself() {
         MatcherAssert.assertThat(
@@ -83,9 +80,6 @@ public final class RtRepoITCase {
         );
     }
 
-    /**
-     * RtRepo can fetch events.
-     */
     @Test
     public void iteratesEvents() throws IOException {
         final Issue issue = RtRepoITCase.repo.issues().create("Test", "This is a bug");
@@ -97,9 +91,6 @@ public final class RtRepoITCase {
         );
     }
 
-    /**
-     * RtRepo can tell if it exists.
-     */
     @Test
     public void exists() throws IOException {
         MatcherAssert.assertThat(
@@ -108,9 +99,6 @@ public final class RtRepoITCase {
         );
     }
 
-    /**
-     * RtRepo can fetch its commits.
-     */
     @Test
     public void fetchCommits() {
         MatcherAssert.assertThat(
@@ -120,9 +108,6 @@ public final class RtRepoITCase {
         );
     }
 
-    /**
-     * RtRepo can fetch assignees.
-     */
     @Test
     public void iteratesAssignees() {
         MatcherAssert.assertThat(
@@ -132,9 +117,6 @@ public final class RtRepoITCase {
         );
     }
 
-    /**
-     * RtRepo can fetch languages.
-     */
     @Test
     public void fetchLanguages() throws IOException {
         MatcherAssert.assertThat(

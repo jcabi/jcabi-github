@@ -18,9 +18,6 @@ import org.mockito.Mockito;
  */
 public final class RtLimitTest {
 
-    /**
-     * RtLimit can describe as a JSON object.
-     */
     @Test
     public void describeAsJson() throws IOException {
         final JsonReadable limit = new RtLimit(
@@ -37,9 +34,6 @@ public final class RtLimitTest {
         );
     }
 
-    /**
-     * RtLimit can throw exception when resource is absent.
-     */
     @Test(expected = IllegalStateException.class)
     public void throwsWhenResourceIsAbsent() throws IOException {
         final JsonReadable limit = new RtLimit(

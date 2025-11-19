@@ -40,9 +40,6 @@ public final class RtPullCommentTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtPullComment should be able to compare different instances.
-     */
     @Test
     public void canCompareInstances() throws IOException {
         final Pull pull = Mockito.mock(Pull.class);
@@ -133,9 +130,6 @@ public final class RtPullCommentTest {
         }
     }
 
-    /**
-     * RtPullComment can add a reaction.
-     */
     @Test
     @Ignore
     public void reacts() throws IOException {

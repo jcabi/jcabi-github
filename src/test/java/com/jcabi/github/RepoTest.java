@@ -18,9 +18,6 @@ import org.mockito.Mockito;
  */
 public final class RepoTest {
 
-    /**
-     * Repo.Smart can fetch description from Repo.
-     */
     @Test
     public void canFetchDescription() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
@@ -36,9 +33,6 @@ public final class RepoTest {
         );
     }
 
-    /**
-     * Repo.Smart can fetch private status from Repo.
-     */
     @Test
     public void canFetchPrivateStatus() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();

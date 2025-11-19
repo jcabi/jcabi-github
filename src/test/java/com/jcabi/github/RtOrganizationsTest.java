@@ -32,9 +32,6 @@ public final class RtOrganizationsTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtOrganizations should be able to get a single organization.
-     */
     @Test
     public void fetchesSingleOrganization() throws IOException {
         try (

@@ -18,9 +18,6 @@ import org.junit.Test;
  */
 public final class MkUserEmailsTest {
 
-    /**
-     * MkUserEmails should be able to add emails to a user.
-     */
     @Test
     public void canAddEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("john").emails();
@@ -38,9 +35,6 @@ public final class MkUserEmailsTest {
         );
     }
 
-    /**
-     * MkUserEmails should be able to remove emails of a user.
-     */
     @Test
     public void canRemoveEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("joe").emails();
@@ -63,9 +57,6 @@ public final class MkUserEmailsTest {
         );
     }
 
-    /**
-     * MkUserEmails should be able to iterate emails of a user.
-     */
     @Test
     public void canIterateEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("matt").emails();
@@ -84,9 +75,6 @@ public final class MkUserEmailsTest {
         );
     }
 
-    /**
-     * MkUserEmails can be represented in JSON format.
-     */
     @Test
     public void canRepresentAsJson() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("jeff").emails();

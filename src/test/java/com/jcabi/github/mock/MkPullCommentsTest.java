@@ -22,9 +22,6 @@ import org.junit.Test;
  */
 public final class MkPullCommentsTest {
 
-    /**
-     * MkPullComments can fetch a single comment.
-     */
     @Test
     public void fetchesPullComment() throws IOException {
         final PullComments comments = this.comments();
@@ -36,9 +33,6 @@ public final class MkPullCommentsTest {
         );
     }
 
-    /**
-     * MkPullComments can fetch all pull comments for a repo.
-     */
     @Test
     public void iteratesRepoPullComments() throws IOException {
         final PullComments comments = this.comments();
@@ -66,9 +60,6 @@ public final class MkPullCommentsTest {
         );
     }
 
-    /**
-     * MkPullComments can fetch pull comments for a pull request.
-     */
     @Test
     public void iteratesPullRequestComments() throws IOException {
         final PullComments comments = this.comments();
@@ -84,9 +75,6 @@ public final class MkPullCommentsTest {
         );
     }
 
-    /**
-     * MkPullComments can create a pull comment.
-     */
     @Test
     public void postsPullComment() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -130,9 +118,6 @@ public final class MkPullCommentsTest {
             "Values are not equal", body.get(0), Matchers.equalTo(bodytext));
     }
 
-    /**
-     * MkPullComments can reply to an existing pull comment.
-     */
     @Test
     public void createsPullCommentReply() throws IOException {
         final PullComments comments = this.comments();
@@ -156,9 +141,6 @@ public final class MkPullCommentsTest {
         );
     }
 
-    /**
-     * MkPullComments can remove a pull comment.
-     */
     @Test
     public void removesPullComment() throws IOException {
         final PullComments comments = this.comments();

@@ -55,9 +55,6 @@ public final class RtBlobsITCase {
         }
     }
 
-    /**
-     * RtBlobs can create a blob.
-     */
     @Test
     public void createsBlob() throws IOException {
         final Blobs blobs = RtBlobsITCase.repo.git().blobs();
@@ -71,9 +68,6 @@ public final class RtBlobsITCase {
         );
     }
 
-    /**
-     * RtBlobs can get a blob.
-     */
     @Test
     public void getsBlob() throws IOException {
         final Blobs blobs = RtBlobsITCase.repo.git().blobs();

@@ -33,9 +33,6 @@ public final class MkCommitsComparisonTest {
         );
     }
 
-    /**
-     * MkCommitsComparison can get a JSON.
-     */
     @Test
     public void canGetJson() throws IOException {
         MatcherAssert.assertThat(
@@ -58,9 +55,6 @@ public final class MkCommitsComparisonTest {
         );
     }
 
-    /**
-     * MkCommitsComparison can get a JSON with commits.
-     */
     @Test
     public void canGetJsonWithCommits() throws IOException {
         final CommitsComparison cmp = new MkCommitsComparison(

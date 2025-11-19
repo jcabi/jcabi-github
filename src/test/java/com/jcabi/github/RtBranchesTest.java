@@ -35,9 +35,6 @@ public final class RtBranchesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtBranches can iterate over all branches.
-     */
     @Test
     public void iteratesOverBranches() throws IOException {
         final String firstname = "first";
@@ -90,9 +87,6 @@ public final class RtBranchesTest {
         }
     }
 
-    /**
-     * RtBranches can find one branck by name.
-     */
     @Test
     public void findBranch() throws IOException {
         final String thirdname = "third";

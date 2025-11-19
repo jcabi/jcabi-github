@@ -33,9 +33,6 @@ public final class RtValuePaginationTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtPagination can jump to next page of results.
-     */
     @Test
     public void jumpNextPage() throws IOException {
         final String jeff = "Jeff";
@@ -76,9 +73,6 @@ public final class RtValuePaginationTest {
         container.stop();
     }
 
-    /**
-     * RtValuePagination can throw if there is no more elements in pagination.
-     */
     @Test(expected = NoSuchElementException.class)
     public void throwsIfNoMoreElement() throws IOException {
         final String jeff = "other Jeff";

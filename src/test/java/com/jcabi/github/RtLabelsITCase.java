@@ -48,9 +48,6 @@ public final class RtLabelsITCase {
         }
     }
 
-    /**
-     * RtLabels can list all labels.
-     */
     @Test
     public void listsLabels() throws IOException {
         final Labels labels = RtLabelsITCase.repo.labels();
@@ -65,9 +62,6 @@ public final class RtLabelsITCase {
         }
     }
 
-    /**
-     * RtLabels can create a new label.
-     */
     @Test
     public void createsNewLabel() throws IOException {
         final Labels labels = RtLabelsITCase.repo.labels();

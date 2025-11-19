@@ -20,9 +20,6 @@ import org.junit.Test;
  */
 public final class MkCommitsTest {
 
-    /**
-     * MkCommits can create commits.
-     */
     @Test
     public final void createsMkCommit() throws IOException {
         final JsonObject author = Json.createObjectBuilder()

@@ -24,9 +24,6 @@ import org.junit.Test;
  */
 public final class MkContentTest {
 
-    /**
-     * MkContent should be able to fetch its own repo.
-     */
     @Test
     public void canGetOwnRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -41,9 +38,6 @@ public final class MkContentTest {
         );
     }
 
-    /**
-     * MkContent should be able to fetch its own path.
-     */
     @Test
     public void canGetOwnPath() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
@@ -58,9 +52,6 @@ public final class MkContentTest {
         );
     }
 
-    /**
-     * MkContent should be able to fetch its JSON representation.
-     */
     @Test
     public void fetchesJsonRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
@@ -76,9 +67,6 @@ public final class MkContentTest {
         );
     }
 
-    /**
-     * MkContent should be able to fetch its raw representation.
-     */
     @Test
     public void fetchesRawRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();

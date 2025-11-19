@@ -35,9 +35,6 @@ public final class RtIssuesTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtIssues can create an issue.
-     */
     @Test
     public void createIssue() throws IOException {
         final String title = "Found a bug";
@@ -69,9 +66,6 @@ public final class RtIssuesTest {
         }
     }
 
-    /**
-     * RtIssues can get a single issue.
-     */
     @Test
     public void getSingleIssue() throws IOException {
         final String title = "Unit test";
@@ -97,9 +91,6 @@ public final class RtIssuesTest {
         }
     }
 
-    /**
-     * RtIssues can iterate issues.
-     */
     @Test
     public void iterateIssues() throws IOException {
         try (
@@ -126,9 +117,6 @@ public final class RtIssuesTest {
         }
     }
 
-    /**
-     * RtIssues can search issues within a repository.
-     */
     @Test
     public void searchIssues() throws IOException {
         try (

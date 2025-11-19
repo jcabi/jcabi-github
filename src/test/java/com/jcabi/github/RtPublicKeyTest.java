@@ -17,9 +17,6 @@ import org.mockito.Mockito;
  */
 public final class RtPublicKeyTest {
 
-    /**
-     * RtPublicKey can be described as a JSON object.
-     */
     @Test
     public void canRepresentAsJson() throws IOException {
         final RtPublicKey key = new RtPublicKey(
@@ -34,9 +31,6 @@ public final class RtPublicKeyTest {
         );
     }
 
-    /**
-     * RtPublicKey can obtain its own user.
-     */
     @Test
     public void canObtainUser() {
         final User user = Mockito.mock(User.class);
@@ -48,9 +42,6 @@ public final class RtPublicKeyTest {
         );
     }
 
-    /**
-     * RtPublicKey can obtain its own number.
-     */
     @Test
     public void canObtainNumber() {
         final int number = 39;

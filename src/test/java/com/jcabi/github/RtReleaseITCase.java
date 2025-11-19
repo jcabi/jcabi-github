@@ -59,9 +59,6 @@ public final class RtReleaseITCase {
         }
     }
 
-    /**
-     * RtRelease can edit a release.
-     */
     @Test
     public void canEditRelease() throws IOException {
         final Release release = RtReleaseITCase.repo.releases().create(

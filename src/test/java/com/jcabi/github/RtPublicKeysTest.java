@@ -32,9 +32,6 @@ public final class RtPublicKeysTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtPublicKeys should be able to iterate its keys.
-     */
     @Test
     public void retrievesKeys() throws IOException {
         try (
@@ -61,9 +58,6 @@ public final class RtPublicKeysTest {
         }
     }
 
-    /**
-     * RtPublicKeys should be able to obtain a single key.
-     */
     @Test
     public void canFetchSingleKey() throws IOException {
         try (
@@ -87,9 +81,6 @@ public final class RtPublicKeysTest {
         }
     }
 
-    /**
-     * RtPublicKeys should be able to remove a key.
-     */
     @Test
     public void canRemoveKey() throws IOException {
         try (

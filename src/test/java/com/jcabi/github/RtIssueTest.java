@@ -36,10 +36,6 @@ public final class RtIssueTest {
     @Rule
     public final transient RandomPort resource = new RandomPort();
 
-    /**
-     * RtIssue should be able to fetch its comments.
-     *
-     */
     @Test
     public void fetchesComments() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
@@ -50,10 +46,6 @@ public final class RtIssueTest {
         );
     }
 
-    /**
-     * RtIssue should be able to fetch its labels.
-     *
-     */
     @Test
     public void fetchesLabels() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
@@ -64,10 +56,6 @@ public final class RtIssueTest {
         );
     }
 
-    /**
-     * RtIssue should be able to fetch its events.
-     *
-     */
     @Test
     public void fetchesEvents() {
         final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
@@ -78,10 +66,6 @@ public final class RtIssueTest {
         );
     }
 
-    /**
-     * RtIssue should be able to describe itself in JSON format.
-     *
-     */
     @Test
     public void fetchIssueAsJson() throws IOException {
         final RtIssue issue = new RtIssue(
@@ -96,10 +80,6 @@ public final class RtIssueTest {
         );
     }
 
-    /**
-     * RtIssue should be able to perform a patch request.
-     *
-     */
     @Test
     public void patchWithJson() throws IOException {
         try (
@@ -130,10 +110,6 @@ public final class RtIssueTest {
         }
     }
 
-    /**
-     * RtIssue should be able to compare different instances.
-     *
-     */
     @Test
     public void canCompareInstances() {
         final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
@@ -148,9 +124,6 @@ public final class RtIssueTest {
         );
     }
 
-    /**
-     * RtIssue can add a reaction.
-     */
     @Test
     public void reacts() throws IOException {
         try (

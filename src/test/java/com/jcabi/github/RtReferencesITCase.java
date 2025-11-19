@@ -58,9 +58,6 @@ public final class RtReferencesITCase {
         }
     }
 
-    /**
-     * RtReference can create a reference.
-     */
     @Test
     public void createsReference() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
@@ -82,9 +79,6 @@ public final class RtReferencesITCase {
         refs.remove(builder.toString());
     }
 
-    /**
-     * RtReference can iterate over references.
-     */
     @Test
     public void iteratesReferences() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
