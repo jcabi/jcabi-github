@@ -23,7 +23,7 @@ import org.mockito.Mockito;
 @SuppressWarnings("PMD.TooManyMethods")
 public final class ContentTest {
     @Test
-    public final void fetchesType() throws IOException {
+    public void fetchesType() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some type";
         Mockito.doReturn(
@@ -39,7 +39,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesSize() throws IOException {
+    public void fetchesSize() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final int prop = 5555;
         Mockito.doReturn(
@@ -57,7 +57,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesName() throws IOException {
+    public void fetchesName() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some name";
         Mockito.doReturn(
@@ -73,7 +73,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesPath() {
+    public void fetchesPath() {
         final Content content = Mockito.mock(Content.class);
         final String path = "this is some path";
         Mockito.doReturn(path).when(content).path();
@@ -85,7 +85,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesSha() throws IOException {
+    public void fetchesSha() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some sha";
         Mockito.doReturn(
@@ -101,10 +101,14 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
+    public void fetchesUrl()
+        throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
-        // @checkstyle LineLength (1 line)
-        final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
+        final String prop = String.join(
+            "",
+            "https://api.github.com/repos/pengwynn/",
+            "octokit/contents/README.md"
+        );
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("url", prop)
@@ -118,10 +122,14 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesGitUrl() throws IOException, MalformedURLException, URISyntaxException {
+    public void fetchesGitUrl()
+        throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
-        // @checkstyle LineLength (1 line)
-        final String prop = "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1";
+        final String prop = String.join(
+            "",
+            "https://api.github.com/repos/pengwynn/octokit/git/blobs/",
+            "3d21ec53a331a6f037a91c368710b99387d012c1"
+        );
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("git_url", prop)
@@ -135,10 +143,14 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesHtmlUrl() throws IOException, MalformedURLException, URISyntaxException {
+    public void fetchesHtmlUrl()
+        throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
-        // @checkstyle LineLength (1 line)
-        final String prop = "https://github.com/pengwynn/octokit/blob/master/README.md";
+        final String prop = String.join(
+            "",
+            "https://github.com/pengwynn/octokit/",
+            "blob/master/README.md"
+        );
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("html_url", prop)
@@ -152,7 +164,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesContent() throws IOException {
+    public void fetchesContent() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGU=";
         Mockito.doReturn(
@@ -168,7 +180,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void fetchesDecoded() throws IOException {
+    public void fetchesDecoded() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGXigqw=";
         Mockito.doReturn(
@@ -186,7 +198,7 @@ public final class ContentTest {
     }
 
     @Test
-    public final void smartCanGetUnderlyingRepo() {
+    public void smartCanGetUnderlyingRepo() {
         final Content content = Mockito.mock(Content.class);
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(repo).when(content).repo();

@@ -162,8 +162,12 @@ public final class FileChangeTest {
      */
     @Test
     public void getsRawUrl() throws IOException {
-        // @checkstyle LineLength (1 line)
-        final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/raw/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
+        final String url = String.join(
+            "",
+            "https://api.jcabi-github.invalid/octocat/",
+            "Hello-World/raw/",
+            "6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt"
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             FileChangeTest.stringFileChange(
@@ -180,8 +184,12 @@ public final class FileChangeTest {
      */
     @Test
     public void getsBlobUrl() throws IOException {
-        // @checkstyle LineLength (1 line)
-        final String url = "https://api.jcabi-github.invalid/octocat/Hello-World/blob/6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt";
+        final String url = String.join(
+            "",
+            "https://api.jcabi-github.invalid/octocat/",
+            "Hello-World/blob/",
+            "6dcb09b5b57875f334f61aebed695e2e4193db51/foo/bar.txt"
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             FileChangeTest.stringFileChange(
@@ -198,8 +206,12 @@ public final class FileChangeTest {
      */
     @Test
     public void getsContentsUrl() throws IOException {
-        // @checkstyle LineLength (1 line)
-        final String url = "https://api.jcabi-github.invalid/repos/octocat/Hello-World/contents/foo/bar.txt?ref=6dcb09b5b57875f334f61aebed695e2e4193db51";
+        final String url = String.join(
+            "",
+            "https://api.jcabi-github.invalid/repos/octocat/",
+            "Hello-World/contents/foo/bar.txt?ref=",
+            "6dcb09b5b57875f334f61aebed695e2e4193db51"
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             FileChangeTest.stringFileChange("contents_url", url)

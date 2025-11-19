@@ -63,7 +63,8 @@ public final class RtCommentTest {
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
         MatcherAssert.assertThat(
-            "Values are not equal", comment.issue(), Matchers.is(issue));
+            "Values are not equal", comment.issue(), Matchers.is(issue)
+        );
     }
 
     @Test
@@ -73,7 +74,8 @@ public final class RtCommentTest {
         final long num = 10L;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
         MatcherAssert.assertThat(
-            "Values are not equal", comment.number(), Matchers.is(num));
+            "Values are not equal", comment.number(), Matchers.is(num)
+        );
     }
 
     /**
@@ -82,7 +84,7 @@ public final class RtCommentTest {
     @Test
     public void removesComment() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();
@@ -104,7 +106,7 @@ public final class RtCommentTest {
     public void returnsItsJSon() throws IOException {
         final String body = "{\"body\":\"test5\"}";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();
@@ -124,7 +126,7 @@ public final class RtCommentTest {
     @Test
     public void patchesComment() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();
@@ -132,9 +134,9 @@ public final class RtCommentTest {
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10
             );
-            final JsonObject jsonPatch = Json.createObjectBuilder()
+            final JsonObject patch = Json.createObjectBuilder()
                 .add("title", "test comment").build();
-            comment.patch(jsonPatch);
+            comment.patch(patch);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -146,7 +148,7 @@ public final class RtCommentTest {
     @Test
     public void reacts() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(this.resource.port())) {
             final Repo repo = new MkGitHub().randomRepo();
@@ -210,14 +212,17 @@ public final class RtCommentTest {
             final RtComment comment = new RtComment(
                 new ApacheRequest(container.home()), issue, 10
             );
-            final String stringComment = comment.toString();
+            final String text = comment.toString();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                stringComment,
+                text,
                 Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
             );
             MatcherAssert.assertThat(
-                "String does not end with expected value", stringComment, Matchers.endsWith("10"));
+                "String does not end with expected value",
+                text,
+                Matchers.endsWith("10")
+            );
         }
     }
 }
