@@ -30,7 +30,7 @@ public final class MkBranchesTest {
         final Branch branch = ((MkBranches) repo.branches())
             .create(name, sha);
         MatcherAssert.assertThat(
-            "Values are not equal",branch.name(), Matchers.equalTo(name));
+            "Values are not equal", branch.name(), Matchers.equalTo(name));
         MatcherAssert.assertThat(
             "Values are not equal",
             branch.commit().sha(),
@@ -71,7 +71,7 @@ public final class MkBranchesTest {
         final Iterator<Branch> iter = branches.iterate().iterator();
         final Branch one = iter.next();
         MatcherAssert.assertThat(
-            "Values are not equal",one.name(), Matchers.equalTo(onename));
+            "Values are not equal", one.name(), Matchers.equalTo(onename));
         MatcherAssert.assertThat(
             "Values are not equal",
             one.commit().sha(),
@@ -79,7 +79,7 @@ public final class MkBranchesTest {
         );
         final Branch two = iter.next();
         MatcherAssert.assertThat(
-            "Values are not equal",two.name(), Matchers.equalTo(twoname));
+            "Values are not equal", two.name(), Matchers.equalTo(twoname));
         MatcherAssert.assertThat(
             "Values are not equal",
             two.commit().sha(),

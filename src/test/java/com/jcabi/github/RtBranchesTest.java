@@ -66,7 +66,7 @@ public final class RtBranchesTest {
             final Iterator<Branch> iter = branches.iterate().iterator();
             final Branch first = iter.next();
             MatcherAssert.assertThat(
-                "Values are not equal",first.name(), Matchers.equalTo(firstname));
+                "Values are not equal", first.name(), Matchers.equalTo(firstname));
             MatcherAssert.assertThat(
                 "Values are not equal",
                 first.commit().sha(),

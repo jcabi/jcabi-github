@@ -35,7 +35,7 @@ public final class RtTagTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
-                "{\"sha\":\"abdes00test\",\"tag\":\"v.0.1\"}"
+                "{\"sha\":\"abdes00test\", \"tag\":\"v.0.1\"}"
             )
         ).start(this.resource.port());
         final Tag tag = new RtTag(

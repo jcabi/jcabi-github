@@ -75,7 +75,7 @@ public final class RtBlobsTest {
             RtBlobsTest.repo()
         );
         MatcherAssert.assertThat(
-            "Values are not equal",blobs.get(sha).sha(), Matchers.equalTo(sha));
+            "Values are not equal", blobs.get(sha).sha(), Matchers.equalTo(sha));
     }
 
     /**

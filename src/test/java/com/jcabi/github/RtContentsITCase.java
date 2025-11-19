@@ -208,7 +208,7 @@ public final class RtContentsITCase {
             );
             final Content other = contents.get(path);
             MatcherAssert.assertThat(
-                "Values are not equal",content, Matchers.equalTo(other));
+                "Values are not equal", content, Matchers.equalTo(other));
         } finally {
             repos.remove(repo.coordinates());
         }

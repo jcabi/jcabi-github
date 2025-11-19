@@ -29,7 +29,7 @@ public final class RtLimitTest {
             "Values are not equal",
             limit.json().toString(),
             Matchers.equalTo(
-                "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
+                "{\"limit\":5000, \"remaining\":4999, \"reset\":1372700873}"
             )
         );
     }
@@ -54,11 +54,11 @@ public final class RtLimitTest {
      */
     private String body() {
         return new StringBuilder(Tv.HUNDRED)
-            .append("{\"resources\":{\"core\":{\"limit\":5000,")
-            .append("\"remaining\":4999,\"reset\":1372700873},")
-            .append("\"search\":{\"limit\":20,\"remaining\":18,")
-            .append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,")
-            .append("\"remaining\":4999,\"reset\":1372700873}}")
+            .append("{\"resources\":{\"core\":{\"limit\":5000, ")
+            .append("\"remaining\":4999, \"reset\":1372700873}, ")
+            .append("\"search\":{\"limit\":20, \"remaining\":18, ")
+            .append("\"reset\":1372697452}}, \"rate\":{\"limit\":5000, ")
+            .append("\"remaining\":4999, \"reset\":1372700873}}")
             .toString();
     }
 }

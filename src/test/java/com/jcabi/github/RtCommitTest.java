@@ -36,7 +36,7 @@ public final class RtCommitTest {
             final MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    "{\"sha\":\"a0b1c3\",\"commit\":{\"message\":\"hello\"}}"
+                    "{\"sha\":\"a0b1c3\", \"commit\":{\"message\":\"hello\"}}"
                 )
             ).start(this.resource.port())) {
             final Commit.Smart commit = new Commit.Smart(

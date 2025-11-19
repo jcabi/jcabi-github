@@ -42,7 +42,7 @@ public final class RtTagsTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
-                "{\"sha\":\"0abcd89jcabitest\",\"tag\":\"v.0.1\"}"
+                "{\"sha\":\"0abcd89jcabitest\", \"tag\":\"v.0.1\"}"
             )
         ).next(
             new MkAnswer.Simple(

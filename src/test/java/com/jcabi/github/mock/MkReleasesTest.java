@@ -47,7 +47,7 @@ public final class MkReleasesTest {
     public void canFetchSingleRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
-            "Value is null",releases.get(1), Matchers.notNullValue());
+            "Value is null", releases.get(1), Matchers.notNullValue());
     }
 
     @Test

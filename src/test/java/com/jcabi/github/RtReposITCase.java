@@ -29,7 +29,7 @@ public final class RtReposITCase {
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
-                "Value is null",repo, Matchers.notNullValue());
+                "Value is null", repo, Matchers.notNullValue());
         } finally {
             repos.remove(repo.coordinates());
         }

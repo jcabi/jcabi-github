@@ -119,7 +119,7 @@ public final class MkPullTest {
     public void canGetBase() throws Exception {
         final PullRef base = MkPullTest.pullRequest().base();
         MatcherAssert.assertThat(
-            "Value is null",base, Matchers.notNullValue());
+            "Value is null", base, Matchers.notNullValue());
         MatcherAssert.assertThat(
             "Values are not equal",
             base.ref(),
@@ -135,7 +135,7 @@ public final class MkPullTest {
     public void canGetHead() throws Exception {
         final PullRef head = MkPullTest.pullRequest().head();
         MatcherAssert.assertThat(
-            "Value is null",head, Matchers.notNullValue());
+            "Value is null", head, Matchers.notNullValue());
         MatcherAssert.assertThat(
             "Values are not equal",
             head.ref(),

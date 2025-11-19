@@ -114,11 +114,11 @@ public final class MkIssueTest {
     public void exponsesProperties() throws Exception {
         final Issue.Smart issue = new Issue.Smart(this.issue());
         MatcherAssert.assertThat(
-            "Value is null",issue.createdAt(), Matchers.notNullValue());
+            "Value is null", issue.createdAt(), Matchers.notNullValue());
         MatcherAssert.assertThat(
-            "Value is null",issue.updatedAt(), Matchers.notNullValue());
+            "Value is null", issue.updatedAt(), Matchers.notNullValue());
         MatcherAssert.assertThat(
-            "Value is null",issue.htmlUrl(), Matchers.notNullValue());
+            "Value is null", issue.htmlUrl(), Matchers.notNullValue());
     }
 
     /**
@@ -202,7 +202,7 @@ public final class MkIssueTest {
     @Test
     public void canCheckIfIssueExists() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",this.issue().exists(), Matchers.is(true));
+            "Values are not equal", this.issue().exists(), Matchers.is(true));
     }
 
     /**

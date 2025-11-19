@@ -143,7 +143,7 @@ public final class RtPublicKeysTest {
                 "Values are not equal",
                 query.body(),
                 Matchers.equalTo(
-                    "{\"title\":\"theTitle\",\"key\":\"theKey\"}"
+                    "{\"title\":\"theTitle\", \"key\":\"theKey\"}"
                 )
             );
             container.stop();

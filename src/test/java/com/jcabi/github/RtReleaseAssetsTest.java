@@ -28,7 +28,7 @@ public final class RtReleaseAssetsTest {
     public void listReleaseAssets() throws Exception {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
-                .withBody("[{\"id\":1},{\"id\":2}]"), RtReleaseAssetsTest.release()
+                .withBody("[{\"id\":1}, {\"id\":2}]"), RtReleaseAssetsTest.release()
         );
         MatcherAssert.assertThat(
             "Collection size is incorrect",

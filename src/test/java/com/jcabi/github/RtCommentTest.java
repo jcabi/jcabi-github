@@ -63,7 +63,7 @@ public final class RtCommentTest {
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
         MatcherAssert.assertThat(
-            "Values are not equal",comment.issue(), Matchers.is(issue));
+            "Values are not equal", comment.issue(), Matchers.is(issue));
     }
 
     @Test
@@ -73,7 +73,7 @@ public final class RtCommentTest {
         final long num = 10L;
         final RtComment comment = new RtComment(new FakeRequest(), issue, num);
         MatcherAssert.assertThat(
-            "Values are not equal",comment.number(), Matchers.is(num));
+            "Values are not equal", comment.number(), Matchers.is(num));
     }
 
     /**
@@ -217,7 +217,7 @@ public final class RtCommentTest {
                 Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
             );
             MatcherAssert.assertThat(
-                "String does not end with expected value",stringComment, Matchers.endsWith("10"));
+                "String does not end with expected value", stringComment, Matchers.endsWith("10"));
         }
     }
 }

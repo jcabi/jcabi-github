@@ -39,7 +39,7 @@ public final class RtTreesTest {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
-                "{\"sha\":\"0abcd89jcabitest\",\"url\":\"http://localhost/1\"}"
+                "{\"sha\":\"0abcd89jcabitest\", \"url\":\"http://localhost/1\"}"
             )
         ).start(this.resource.port());
         final Trees trees = new RtTrees(

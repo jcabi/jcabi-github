@@ -24,7 +24,7 @@ public final class MkMilestonesTest {
         final Repo repo = new MkGitHub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(
-            "Values are not equal",repo, Matchers.is(owner));
+            "Values are not equal", repo, Matchers.is(owner));
     }
 
     @Test
@@ -33,7 +33,7 @@ public final class MkMilestonesTest {
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
         MatcherAssert.assertThat(
-            "Value is null",milestone, Matchers.notNullValue());
+            "Value is null", milestone, Matchers.notNullValue());
         MatcherAssert.assertThat(
             "Value is null",
             milestones.create("another milestone"),

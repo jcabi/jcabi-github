@@ -40,7 +40,7 @@ public final class RtUserEmailsITCase {
                 Matchers.hasItem(email)
             );
             MatcherAssert.assertThat(
-                "Collection does not contain expected item",emails.iterate(), Matchers.hasItem(email));
+                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email));
         } finally {
             emails.remove(Collections.singletonList(email));
         }
@@ -57,7 +57,7 @@ public final class RtUserEmailsITCase {
         emails.add(Collections.singletonList(email));
         try {
             MatcherAssert.assertThat(
-                "Collection does not contain expected item",emails.iterate(), Matchers.hasItem(email));
+                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email));
         } finally {
             emails.remove(Collections.singletonList(email));
         }
