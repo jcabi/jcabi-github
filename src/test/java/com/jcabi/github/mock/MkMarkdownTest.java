@@ -17,7 +17,7 @@ import org.junit.Test;
 public final class MkMarkdownTest {
 
     @Test
-    public final void canBeRendered() throws IOException {
+    public void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
             "Values are not equal",
