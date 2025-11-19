@@ -23,6 +23,11 @@ import org.xembly.Directives;
 final class MkForks implements Forks {
 
     /**
+     * XPath suffix for fork ID text.
+     */
+    private static final String FORK_ID_TEXT_PATH = "/fork/id/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -82,7 +87,7 @@ final class MkForks implements Forks {
     ) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/fork", this.xpath()),
+            this.xpath().concat("/fork"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -97,7 +102,7 @@ final class MkForks implements Forks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat("/fork/id/text()")
+                this.xpath().concat(MkForks.FORK_ID_TEXT_PATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")

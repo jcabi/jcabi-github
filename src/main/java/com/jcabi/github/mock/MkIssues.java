@@ -33,6 +33,11 @@ import org.xembly.Directives;
 final class MkIssues implements Issues {
 
     /**
+     * XPath suffix for issue number text.
+     */
+    private static final String ISSUE_NUMBER_TEXT_PATH = "/issue/number/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -91,7 +96,7 @@ final class MkIssues implements Issues {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat("/issue/number/text()")
+                this.xpath().concat(MkIssues.ISSUE_NUMBER_TEXT_PATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("issue")

@@ -49,11 +49,11 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords"})
 @SuppressWarnings(
-{
-    "PMD.TooManyMethods",
-    "PMD.ExcessiveImports",
-    "PMD.CouplingBetweenObjects"
-}
+    {
+        "PMD.TooManyMethods",
+        "PMD.ExcessiveImports",
+        "PMD.CouplingBetweenObjects"
+    }
 )
 final class MkRepo implements Repo {
 

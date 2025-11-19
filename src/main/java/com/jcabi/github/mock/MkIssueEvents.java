@@ -29,6 +29,12 @@ import org.xembly.Directives;
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkIssueEvents implements IssueEvents {
     /**
+     * XPath suffix for issue event number text.
+     */
+    private static final String EVENT_NUMBER_TEXT_PATH =
+        "/issue-event/number/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -116,7 +122,7 @@ final class MkIssueEvents implements IssueEvents {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat("/issue-event/number/text()")
+                this.xpath().concat(MkIssueEvents.EVENT_NUMBER_TEXT_PATH)
             ).size();
             Directives directives = new Directives()
                 .xpath(this.xpath())

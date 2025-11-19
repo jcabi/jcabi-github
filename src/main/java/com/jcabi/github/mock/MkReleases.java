@@ -27,6 +27,11 @@ import org.xembly.Directives;
 final class MkReleases implements Releases {
 
     /**
+     * XPath suffix for release ID text.
+     */
+    private static final String RELEASE_ID_TEXT_PATH = "/release/id/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -75,7 +80,7 @@ final class MkReleases implements Releases {
     public Iterable<Release> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/release", this.xpath()),
+            this.xpath().concat("/release"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -95,7 +100,7 @@ final class MkReleases implements Releases {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat("/release/id/text()")
+                this.xpath().concat(MkReleases.RELEASE_ID_TEXT_PATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("release")
@@ -125,7 +130,7 @@ final class MkReleases implements Releases {
         try {
             this.storage.apply(
                 new Directives().xpath(
-                    String.format("%s/release[id='%d']", this.xpath(), number)
+                    this.xpath().concat(String.format("/release[id='%d']", number))
                 ).remove()
             );
         } finally {

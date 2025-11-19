@@ -27,6 +27,11 @@ import org.xembly.Directives;
 final class MkGists implements Gists {
 
     /**
+     * XPath suffix for gist ID text.
+     */
+    private static final String GIST_ID_TEXT_PATH = "/gist/id/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -67,7 +72,7 @@ final class MkGists implements Gists {
         try {
             number = Integer.toString(
                 1 + this.storage.xml().xpath(
-                    MkGists.xpath().concat("/gist/id/text()")
+                    MkGists.xpath().concat(MkGists.GIST_ID_TEXT_PATH)
                 ).size()
             );
             final Directives dirs = new Directives().xpath(MkGists.xpath())

@@ -26,6 +26,11 @@ import org.xembly.Directives;
 final class MkPublicKeys implements PublicKeys {
 
     /**
+     * XPath suffix for key ID text.
+     */
+    private static final String KEY_ID_TEXT_PATH = "/key/id/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -82,7 +87,7 @@ final class MkPublicKeys implements PublicKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat("/key/id/text()")
+                this.xpath().concat(MkPublicKeys.KEY_ID_TEXT_PATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

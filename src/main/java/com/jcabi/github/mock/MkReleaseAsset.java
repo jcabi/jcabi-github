@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import java.nio.charset.StandardCharsets;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
@@ -14,6 +13,7 @@ import jakarta.json.JsonObject;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;

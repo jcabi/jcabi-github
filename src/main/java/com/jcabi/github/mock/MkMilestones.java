@@ -21,6 +21,12 @@ import org.xembly.Directives;
 final class MkMilestones implements Milestones {
 
     /**
+     * XPath suffix for milestone number text.
+     */
+    private static final String MILESTONE_NUMBER_TEXT_PATH =
+        "/milestone/number/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -67,7 +73,7 @@ final class MkMilestones implements Milestones {
         final String title
     ) throws IOException {
         final int number = 1 + this.storage.xml().xpath(
-            this.xpath().concat("/milestone/number/text()")
+            this.xpath().concat(MkMilestones.MILESTONE_NUMBER_TEXT_PATH)
         ).size();
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("milestone")

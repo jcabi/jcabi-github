@@ -28,6 +28,16 @@ import org.xembly.Directives;
 final class MkHooks implements Hooks {
 
     /**
+     * XPath suffix for hook element.
+     */
+    private static final String HOOK_PATH = "/hook";
+
+    /**
+     * XPath suffix for hook ID text.
+     */
+    private static final String HOOK_ID_TEXT_PATH = "/hook/id/text()";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -76,7 +86,7 @@ final class MkHooks implements Hooks {
     public Iterable<Hook> iterate() {
         return new MkIterable<>(
             this.storage,
-            this.xpath().concat("/hook"),
+            this.xpath().concat(MkHooks.HOOK_PATH),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -99,7 +109,7 @@ final class MkHooks implements Hooks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat("/hook/id/text()")
+                this.xpath().concat(MkHooks.HOOK_ID_TEXT_PATH)
             ).size();
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("hook")
