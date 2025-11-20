@@ -133,9 +133,13 @@ public interface Coordinates extends Comparable<Coordinates> {
         public String repo() {
             final String repo = this.split()[1];
             final String suffix = ".git";
-            return repo.endsWith(suffix)
-                ? repo.substring(0, repo.length() - suffix.length())
-                : repo;
+            final String result;
+            if (repo.endsWith(suffix)) {
+                result = repo.substring(0, repo.length() - suffix.length());
+            } else {
+                result = repo;
+            }
+            return result;
         }
 
         @Override

@@ -35,6 +35,11 @@ final class MkComments implements Comments {
     private static final String COMMENT_PATH = "/comment";
 
     /**
+     * XPath for comment number.
+     */
+    private static final String COMMENT_NUMBER_XPATH = "//comment/number";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -116,7 +121,7 @@ final class MkComments implements Comments {
         try {
             final String timestamp = new GitHub.Time().toString();
             number = 1 + this.storage.xml()
-                .nodes("//comment/number").size();
+                .nodes(MkComments.COMMENT_NUMBER_XPATH).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Long.toString(number)).up()
