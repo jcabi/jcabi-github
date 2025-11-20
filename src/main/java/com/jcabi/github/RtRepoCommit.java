@@ -42,6 +42,7 @@ final class RtRepoCommit implements RepoCommit {
      * @param repo Owner of this commit
      * @param sha Number of the get
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtRepoCommit(final Request req, final Repo repo, final String sha) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()

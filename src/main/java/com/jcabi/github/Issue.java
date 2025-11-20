@@ -31,8 +31,8 @@ import lombok.ToString;
  *   issue.close();
  * }</pre>
  *
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
+ * @since 0.1
  * @todo #1462:30min Implement lock reason validation. According to
  *  documentation lock reason must belong to a specific value domain. This
  *  validation must be performed in lock method and tests must be added to
@@ -41,12 +41,11 @@ import lombok.ToString;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings
-    (
-        {
-            "PMD.TooManyMethods", "PMD.GodClass", "PMD.ExcessivePublicCount"
-        }
-    )
+@SuppressWarnings(
+    {
+        "PMD.TooManyMethods", "PMD.GodClass", "PMD.ExcessivePublicCount"
+    }
+)
 public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
