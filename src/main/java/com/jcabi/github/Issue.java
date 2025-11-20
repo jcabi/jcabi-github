@@ -131,6 +131,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Smart Issue with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -451,7 +452,6 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                     )
                 );
             }
-
             // @checkstyle AnonInnerLength (1 line)
             return new IssueLabels() {
                 @Override

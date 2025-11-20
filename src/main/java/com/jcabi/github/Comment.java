@@ -34,8 +34,8 @@ import lombok.ToString;
  *
  * <pre>String login = new Comment.Smart(comment).author().login();</pre>
  *
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -77,6 +77,7 @@ public interface Comment
 
     /**
      * Smart comment with additional features.
+     * @since 0.1
      */
     @Immutable
     @ToString

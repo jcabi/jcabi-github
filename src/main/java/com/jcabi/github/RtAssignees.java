@@ -40,8 +40,8 @@ final class RtAssignees implements Assignees {
 
     /**
      * Public ctor.
-     * @param repo Repo
      * @param req Request
+     * @param repo Repo
      */
     RtAssignees(final Request req, final Repo repo) {
         this.entry = req;

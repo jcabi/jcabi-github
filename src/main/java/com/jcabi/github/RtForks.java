@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub forks.
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -46,7 +46,7 @@ final class RtForks implements Forks {
      * @param req Request
      * @param repo Repository
      */
-    public RtForks(final Request req, final Repo repo) {
+    RtForks(final Request req, final Repo repo) {
         this.request = req.uri()
             .path("/repos")
             .path(repo.coordinates().user())

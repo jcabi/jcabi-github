@@ -76,9 +76,9 @@ final class SmartJson {
      * Get its property as custom type.
      * @param name Name of the property
      * @param type Type of result expected
+     * @param <T> Type expected
      * @return Value
      * @throws IOException If there is any I/O problem
-     * @param <T> Type expected
      */
     public <T> T value(
         final String name,

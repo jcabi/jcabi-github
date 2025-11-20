@@ -24,8 +24,8 @@ import lombok.ToString;
  *
  * <pre> URL url = new RepoCommit.Smart(commit).url();</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -46,6 +46,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
     /**
      * Smart commit.
+     * @since 0.8
      */
     @Immutable
     @ToString

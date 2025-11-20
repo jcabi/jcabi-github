@@ -10,8 +10,8 @@ import java.io.IOException;
 
 /**
  * GitHub contents.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
@@ -73,7 +73,7 @@ public interface Contents {
     /**
      * Get the contents of a directory in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag. Default: the repository's default branch (usually master)
+     * @param ref Commit/branch/tag name
      * @return Contents fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>

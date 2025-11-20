@@ -9,8 +9,8 @@ import java.io.IOException;
 
 /**
  * GitHub deploy keys.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @since 0.8
  */
 @Immutable
 public interface DeployKeys {

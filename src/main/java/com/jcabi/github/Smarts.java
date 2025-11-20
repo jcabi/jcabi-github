@@ -74,8 +74,8 @@ public final class Smarts<T> implements Iterable<T> {
 
     /**
      * Wrap an object, and make a "smart" decorator.
-     * @param <X> Type of result
      * @param object Object to wrap
+     * @param <X> Type of result
      * @return Decorator
      */
     @SuppressWarnings("unchecked")
