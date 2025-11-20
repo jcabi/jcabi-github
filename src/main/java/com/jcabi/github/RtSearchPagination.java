@@ -27,6 +27,7 @@ import lombok.EqualsAndHashCode;
  * GitHub search pagination.
  *
  * @param <T> Type of iterable objects
+ * @since 0.4
  */
 @Immutable
 @EqualsAndHashCode
@@ -74,6 +75,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
      * Request which hides everything but items.
+     * @since 0.4
      */
     @SuppressWarnings({ "PMD.TooManyMethods", "PMD.CyclomaticComplexity" })
     private static final class SearchRequest implements Request {

@@ -30,6 +30,11 @@ import org.xembly.Directives;
 final class MkComments implements Comments {
 
     /**
+     * XPath suffix for comment.
+     */
+    private static final String COMMENT_PATH = "/comment";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -95,7 +100,7 @@ final class MkComments implements Comments {
     public Iterable<Comment> iterate(final Date since) {
         return new MkIterable<>(
             this.storage,
-            this.xpath().concat("/comment"),
+            this.xpath().concat(MkComments.COMMENT_PATH),
             xml -> this.get(
                 Long.parseLong(xml.xpath("number/text()").get(0))
             )

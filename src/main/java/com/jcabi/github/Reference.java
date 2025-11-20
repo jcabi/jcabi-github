@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Reference.
- *
+ * @since 0.6
  */
 @Immutable
 public interface Reference {
