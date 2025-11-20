@@ -30,7 +30,7 @@ final class MkDeployKeys implements DeployKeys {
     /**
      * XPath suffix for deploykey ID text.
      */
-    private static final String DEPLOYKEY_ID_TEXT_PATH = "/deploykey/id/text()";
+    private static final String KEY_ID_XPATH = "/deploykey/id/text()";
 
     /**
      * Storage.
@@ -94,7 +94,7 @@ final class MkDeployKeys implements DeployKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkDeployKeys.DEPLOYKEY_ID_TEXT_PATH)
+                this.xpath().concat(MkDeployKeys.KEY_ID_XPATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

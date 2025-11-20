@@ -30,7 +30,7 @@ final class MkReleaseAssets implements ReleaseAssets {
     /**
      * XPath suffix for asset ID text.
      */
-    private static final String ASSET_ID_TEXT_PATH = "/asset/id/text()";
+    private static final String ASSET_ID_XPATH = "/asset/id/text()";
 
     /**
      * Storage.
@@ -113,7 +113,7 @@ final class MkReleaseAssets implements ReleaseAssets {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkReleaseAssets.ASSET_ID_TEXT_PATH)
+                this.xpath().concat(MkReleaseAssets.ASSET_ID_XPATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("asset")

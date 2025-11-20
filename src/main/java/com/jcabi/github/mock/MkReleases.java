@@ -29,7 +29,7 @@ final class MkReleases implements Releases {
     /**
      * XPath suffix for release ID text.
      */
-    private static final String RELEASE_ID_TEXT_PATH = "/release/id/text()";
+    private static final String RELEASE_ID_XPATH = "/release/id/text()";
 
     /**
      * Storage.
@@ -100,7 +100,7 @@ final class MkReleases implements Releases {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkReleases.RELEASE_ID_TEXT_PATH)
+                this.xpath().concat(MkReleases.RELEASE_ID_XPATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("release")
