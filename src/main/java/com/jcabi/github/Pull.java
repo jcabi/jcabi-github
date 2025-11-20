@@ -19,8 +19,8 @@ import lombok.ToString;
 
 /**
  * GitHub pull request.
- * @since 0.3
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

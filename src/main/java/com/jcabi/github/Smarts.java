@@ -25,8 +25,8 @@ import lombok.EqualsAndHashCode;
  *     System.out.println("state is: " + issue.state());
  * }</pre>
  *
- * @since 0.5
  * @param <T> Type of iterable objects
+ * @since 0.5
  */
 @EqualsAndHashCode(of = "origin")
 public final class Smarts<T> implements Iterable<T> {
@@ -74,9 +74,9 @@ public final class Smarts<T> implements Iterable<T> {
 
     /**
      * Wrap an object, and make a "smart" decorator.
+     * @param <X> Type of result
      * @param object Object to wrap
      * @return Decorator
-     * @param <X> Type of result
      */
     @SuppressWarnings("unchecked")
     private static <X> X wrap(final Object object) {

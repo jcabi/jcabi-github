@@ -10,8 +10,8 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Tags.
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/git/tags/">Tags API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Tags {

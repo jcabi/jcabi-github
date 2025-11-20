@@ -16,8 +16,8 @@ import java.io.IOException;
  * GistComments comments = gist.comments();
  * GistComment comment = comments.post("Hi, how are you?");</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+ * @since 0.8
  */
 @Immutable
 public interface GistComments {

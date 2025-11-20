@@ -16,8 +16,8 @@ import lombok.ToString;
 
 /**
  * GitHub gist.
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -67,8 +67,8 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Checks if Gist is starred.
-     * @throws IOException If there is any I/O problem
      * @return True if gist is starred
+     * @throws IOException If there is any I/O problem
      */
     boolean starred() throws IOException;
 
