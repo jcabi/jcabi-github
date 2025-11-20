@@ -151,6 +151,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
      * Response to return.
+     * @since 0.4
      */
     @Immutable
     private static final class Hidden implements Response {
@@ -224,6 +225,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
      * Wrapper of RequestURI that returns {@link RtSearchPagination.SearchRequest}.
+     * @since 0.4
      */
     @Immutable
     @EqualsAndHashCode(of = "address")
@@ -237,7 +239,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Ctor.
          * @param uri The URI
          */
-        public SearchUri(final RequestURI uri) {
+        SearchUri(final RequestURI uri) {
             this.address = uri;
         }
 

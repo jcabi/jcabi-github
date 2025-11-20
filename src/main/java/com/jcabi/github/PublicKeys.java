@@ -10,6 +10,7 @@ import java.io.IOException;
 /**
  * GitHub public keys.
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @since 0.8
  */
 @Immutable
 public interface PublicKeys {
