@@ -13,6 +13,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Locale;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -106,7 +107,7 @@ final class RtCollaborators implements Collaborators {
     ) throws IOException {
         final JsonObject obj = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
-            .add("permission", permission.toString().toLowerCase())
+            .add("permission", permission.toString().toLowerCase(Locale.ENGLISH))
             .build();
         this.request.method(Request.PUT)
             .body().set(obj).back()

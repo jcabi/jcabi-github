@@ -31,8 +31,7 @@ final class MkIssueEvents implements IssueEvents {
     /**
      * XPath suffix for issue event number text.
      */
-    private static final String EVENT_NUMBER_TEXT_PATH =
-        "/issue-event/number/text()";
+    private static final String EVENT_NUM_XPATH = "/issue-event/number/text()";
 
     /**
      * Storage.
@@ -122,7 +121,7 @@ final class MkIssueEvents implements IssueEvents {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkIssueEvents.EVENT_NUMBER_TEXT_PATH)
+                this.xpath().concat(MkIssueEvents.EVENT_NUM_XPATH)
             ).size();
             Directives directives = new Directives()
                 .xpath(this.xpath())

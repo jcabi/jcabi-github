@@ -30,7 +30,7 @@ final class MkPullComments implements PullComments {
     /**
      * XPath suffix for comment ID text.
      */
-    private static final String COMMENT_ID_TEXT_PATH = "/comment/id/text()";
+    private static final String COMMENT_ID_XPATH = "/comment/id/text()";
 
     /**
      * Storage.
@@ -132,7 +132,7 @@ final class MkPullComments implements PullComments {
         final int number;
         try {
             number = 1 + this.storage.xml()
-                .nodes(this.xpath().concat(MkPullComments.COMMENT_ID_TEXT_PATH))
+                .nodes(this.xpath().concat(MkPullComments.COMMENT_ID_XPATH))
                 .size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")

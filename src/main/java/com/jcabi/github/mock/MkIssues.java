@@ -35,7 +35,7 @@ final class MkIssues implements Issues {
     /**
      * XPath suffix for issue number text.
      */
-    private static final String ISSUE_NUMBER_TEXT_PATH = "/issue/number/text()";
+    private static final String ISSUE_NUM_XPATH = "/issue/number/text()";
 
     /**
      * Storage.
@@ -96,7 +96,7 @@ final class MkIssues implements Issues {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkIssues.ISSUE_NUMBER_TEXT_PATH)
+                this.xpath().concat(MkIssues.ISSUE_NUM_XPATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("issue")
