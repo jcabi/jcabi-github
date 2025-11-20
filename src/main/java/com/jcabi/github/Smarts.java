@@ -82,11 +82,11 @@ public final class Smarts<T> implements Iterable<T> {
     private static <X> X wrap(final Object object) {
         try {
             return (X) Smarts.type(object).newInstance(object);
-        } catch (final InvocationTargetException ex) {
-            throw new IllegalStateException(ex);
-        } catch (final InstantiationException ex) {
-            throw new IllegalStateException(ex);
-        } catch (final IllegalAccessException ex) {
+        } catch (
+            final InvocationTargetException
+            | InstantiationException
+            | IllegalAccessException ex
+        ) {
             throw new IllegalStateException(ex);
         }
     }

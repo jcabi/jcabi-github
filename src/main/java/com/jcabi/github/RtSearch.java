@@ -142,9 +142,7 @@ final class RtSearch implements Search {
                         // @checkstyle MagicNumber (1 line)
                         new Coordinates.Simple(parts[2], parts[3])
                     ).contents().get(object.getString("path"), ref);
-                } catch (final URISyntaxException ex) {
-                    throw new IllegalStateException(ex);
-                } catch (final IOException ex) {
+                } catch (final URISyntaxException | IOException ex) {
                     throw new IllegalStateException(ex);
                 }
             }
