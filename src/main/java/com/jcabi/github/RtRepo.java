@@ -24,13 +24,12 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"ghub", "entry", "coords"})
-@SuppressWarnings
-    (
-        {
-            "PMD.TooManyMethods",
-            "PMD.CouplingBetweenObjects"
-        }
-    )
+@SuppressWarnings(
+    {
+        "PMD.TooManyMethods",
+        "PMD.CouplingBetweenObjects"
+    }
+)
 final class RtRepo implements Repo {
 
     /**
