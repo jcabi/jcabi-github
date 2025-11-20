@@ -16,6 +16,7 @@ import lombok.ToString;
  * GitHub repository.
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassFanOutComplexityCheck (500 lines)
  */
 @Immutable
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount"})
