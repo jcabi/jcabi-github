@@ -32,7 +32,7 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @BeforeAll
-    public static void setUp() throws IOException  {
+    public void setUp() throws IOException  {
         final GitHub github = GitHubIT.connect();
         RtStarsITCase.repos = github.repos();
         RtStarsITCase.repo = new RepoRule().repo(RtStarsITCase.repos);
@@ -43,7 +43,7 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @AfterAll
-    public static void tearDown() throws IOException  {
+    public void tearDown() throws IOException  {
         if (RtStarsITCase.repos != null && RtStarsITCase.repo != null) {
             RtStarsITCase.repos.remove(RtStarsITCase.repo.coordinates());
         }

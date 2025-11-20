@@ -41,7 +41,7 @@ public final class RtTreesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public static void setUp() throws IOException {
+    public void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtTreesITCase.repos = github.repos();
         RtTreesITCase.repo = RtTreesITCase.rule.repo(RtTreesITCase.repos);
@@ -51,7 +51,7 @@ public final class RtTreesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public static void tearDown() throws IOException {
+    public void tearDown() throws IOException {
         if (RtTreesITCase.repos != null && RtTreesITCase.repo != null) {
             RtTreesITCase.repos.remove(RtTreesITCase.repo.coordinates());
         }

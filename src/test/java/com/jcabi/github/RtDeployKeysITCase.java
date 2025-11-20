@@ -36,7 +36,7 @@ public final class RtDeployKeysITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public static void setUp() throws IOException {
+    public void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtDeployKeysITCase.repos = github.repos();
         RtDeployKeysITCase.repo = new RepoRule().repo(RtDeployKeysITCase.repos);
@@ -46,7 +46,7 @@ public final class RtDeployKeysITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public static void tearDown() throws IOException {
+    public void tearDown() throws IOException {
         if (RtDeployKeysITCase.repos != null && RtDeployKeysITCase.repo != null) {
             RtDeployKeysITCase.repos.remove(RtDeployKeysITCase.repo.coordinates());
         }

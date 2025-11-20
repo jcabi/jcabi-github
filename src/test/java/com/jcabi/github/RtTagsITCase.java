@@ -43,7 +43,7 @@ public final class RtTagsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public static void setUp() throws IOException {
+    public void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtTagsITCase.repos = github.repos();
         RtTagsITCase.repo = RtTagsITCase.rule.repo(RtTagsITCase.repos);
@@ -53,7 +53,7 @@ public final class RtTagsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public static void tearDown() throws IOException {
+    public void tearDown() throws IOException {
         if (RtTagsITCase.repos != null && RtTagsITCase.repo != null) {
             RtTagsITCase.repos.remove(RtTagsITCase.repo.coordinates());
         }

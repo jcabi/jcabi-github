@@ -21,8 +21,8 @@ import lombok.ToString;
  * "smart" decorator, which helps you to get access to all JSON properties,
  * for example:
  * <pre> URL url = new Status.Smart(status).url();</pre>
- * @since 0.23
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
+ * @since 0.23
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -37,8 +37,8 @@ public interface Statuses extends JsonReadable {
     /**
      * Create new status.
      * @param status Add this status
-     * @throws IOException If there is any I/O problem
      * @return The added status
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
     Status create(
@@ -57,17 +57,19 @@ public interface Statuses extends JsonReadable {
 
     /**
      * Data to use when creating a new GitHub commit status.
-     * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
+     * @since 0.24
      */
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {
+    @EqualsAndHashCode(
+        of = {
             "state",
             "description",
             "context",
             "targeturl"
-            })
+        }
+    )
     final class StatusCreate implements JsonReadable {
         /**
          * State.
