@@ -108,6 +108,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Smart pull request with extra features.
+     * @since 0.3
      */
     @Immutable
     @ToString

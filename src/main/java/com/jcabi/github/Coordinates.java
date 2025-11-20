@@ -34,6 +34,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
     /**
      * Jcabi.http implementation.
+     * @since 0.1
      */
     @Immutable
     @EqualsAndHashCode(of = {"usr", "rpo"})
@@ -99,7 +100,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
     /**
      * Implementation of HTTPs coordinates.
-     * @author volodya-lombrozo
+     * @since 0.23
      */
     @Immutable
     @EqualsAndHashCode
@@ -132,11 +133,9 @@ public interface Coordinates extends Comparable<Coordinates> {
         public String repo() {
             final String repo = this.split()[1];
             final String suffix = ".git";
-            if (repo.endsWith(suffix)) {
-                return repo.substring(0, repo.length() - suffix.length());
-            } else {
-                return repo;
-            }
+            return repo.endsWith(suffix)
+                ? repo.substring(0, repo.length() - suffix.length())
+                : repo;
         }
 
         @Override

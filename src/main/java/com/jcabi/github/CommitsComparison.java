@@ -18,6 +18,7 @@ import lombok.ToString;
 /**
  * Commits comparison.
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @since 0.5
  */
 @Immutable
 public interface CommitsComparison extends JsonReadable {
@@ -38,6 +39,7 @@ public interface CommitsComparison extends JsonReadable {
 
     /**
      * Smart commits comparison with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString

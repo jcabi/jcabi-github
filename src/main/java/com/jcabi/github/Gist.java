@@ -89,6 +89,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Smart Gist with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString

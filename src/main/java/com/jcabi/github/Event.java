@@ -143,6 +143,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
      * Smart event with extra features.
+     * @since 0.6.1
      */
     @Immutable
     @ToString

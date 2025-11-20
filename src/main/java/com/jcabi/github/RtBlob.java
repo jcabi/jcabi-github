@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Blob.
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

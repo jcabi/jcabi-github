@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub deploy key.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
