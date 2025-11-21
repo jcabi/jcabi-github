@@ -75,7 +75,6 @@ public final class RtValuePaginationTest {
         container.stop();
     }
 
-    // TODO: Convert to Assertions.assertThrows(NoSuchElementException.class, () -> { ... });
     @Test
     public void throwsIfNoMoreElement() throws IOException {
         final String jeff = "other Jeff";
@@ -95,10 +94,10 @@ public final class RtValuePaginationTest {
                 );
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();
-            MatcherAssert.assertThat(
-                "Value is null",
-                iterator.next(),
-                Matchers.notNullValue()
+            Assertions.assertThrows(
+                NoSuchElementException.class,
+                iterator::next,
+                "Should throw when no more elements"
             );
         } finally {
             container.stop();

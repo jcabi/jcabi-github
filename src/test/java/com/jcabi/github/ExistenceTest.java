@@ -9,7 +9,6 @@ import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -43,12 +42,15 @@ public final class ExistenceTest {
         );
     }
 
-    // TODO: Convert to Assertions.assertThrows(IOException.class, () -> { ... });
     @Test
     public void rethrowsIoException() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new IOException()).when(object).json();
-        new Existence(object).check();
+        Assertions.assertThrows(
+            IOException.class,
+            () -> new Existence(object).check(),
+            "Should rethrow IOException"
+        );
     }
 
 }

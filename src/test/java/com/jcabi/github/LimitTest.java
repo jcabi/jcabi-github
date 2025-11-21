@@ -11,7 +11,6 @@ import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -22,7 +21,6 @@ import org.mockito.Mockito;
  */
 public final class LimitTest {
 
-    // TODO: Convert to Assertions.assertThrows(IllegalStateException.class, () -> { ... });
     @Test
     public void throwsWhenResourceIsAbsent() throws IOException {
         final Limit limit = Mockito.mock(Limit.class);
@@ -30,7 +28,11 @@ public final class LimitTest {
         Mockito.when(limit.json()).thenReturn(
             Json.createObjectBuilder().add("absent", "absentValue").build()
         );
-        throttled.json();
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            throttled::json,
+            "Should throw when resource is absent"
+        );
     }
 
     /**
