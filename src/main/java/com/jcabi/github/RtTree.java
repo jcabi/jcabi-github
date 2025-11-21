@@ -17,7 +17,6 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "request", "owner", "hash" })
 final class RtTree implements Tree {
 
     /**
@@ -77,5 +76,29 @@ final class RtTree implements Tree {
     @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final RtTree other = (RtTree) obj;
+            result = this.request.equals(other.request)
+                && this.owner.equals(other.owner)
+                && this.hash.equals(other.hash);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.request.hashCode();
+        result = 31 * result + this.owner.hashCode();
+        result = 31 * result + this.hash.hashCode();
+        return result;
     }
 }

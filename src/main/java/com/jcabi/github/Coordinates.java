@@ -37,7 +37,6 @@ public interface Coordinates extends Comparable<Coordinates> {
      * @since 0.1
      */
     @Immutable
-    @EqualsAndHashCode(of = {"usr", "rpo"})
     final class Simple implements Coordinates {
         /**
          * User name.
@@ -95,6 +94,28 @@ public interface Coordinates extends Comparable<Coordinates> {
                 .append(this.usr, other.user())
                 .append(this.rpo, other.repo())
                 .build();
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            final boolean result;
+            if (this == obj) {
+                result = true;
+            } else if (obj == null || this.getClass() != obj.getClass()) {
+                result = false;
+            } else {
+                final Coordinates.Simple other = (Coordinates.Simple) obj;
+                result = this.usr.equals(other.usr)
+                    && this.rpo.equals(other.rpo);
+            }
+            return result;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = this.usr.hashCode();
+            result = 31 * result + this.rpo.hashCode();
+            return result;
         }
     }
 

@@ -49,7 +49,7 @@ public final class JsonNodeTest {
         MatcherAssert.assertThat(
             "Assertion failed",
             json.toString(),
-            new IsEqual<>("{\"users\":[\"Jeff\", \"Bauer\", \"Iko\"]}")
+            new IsEqual<>("{\"users\":[\"Jeff\",\"Bauer\",\"Iko\"]}")
         );
     }
 
