@@ -11,7 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**

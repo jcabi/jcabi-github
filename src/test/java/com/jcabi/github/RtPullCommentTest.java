@@ -22,7 +22,7 @@ import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.IsEqual;
 import org.junit.Ignore;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**

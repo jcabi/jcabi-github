@@ -4,7 +4,7 @@
  */
 package com.jcabi.github;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Runtime Reaction.
