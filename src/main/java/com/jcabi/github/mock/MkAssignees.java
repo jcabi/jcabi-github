@@ -80,7 +80,7 @@ final class MkAssignees implements Assignees {
                 this.xpath().concat("/user/login/text()")
             );
             return this.self.equalsIgnoreCase(login) || !xpath.isEmpty()
-                && StringUtils.equalsIgnoreCase(login, xpath.get(0));
+                && login.equalsIgnoreCase(xpath.get(0));
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

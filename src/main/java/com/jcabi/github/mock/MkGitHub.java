@@ -6,7 +6,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Gists;
 import com.jcabi.github.GitHub;
 import com.jcabi.github.Gitignores;
@@ -193,7 +192,7 @@ public final class MkGitHub implements GitHub {
     public Repo randomRepo() throws IOException {
         return this.repos().create(
             new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TWENTY),
+                RandomStringUtils.secure().nextAlphanumeric(20),
                 true
             )
         );

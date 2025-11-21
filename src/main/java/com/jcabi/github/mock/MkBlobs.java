@@ -117,7 +117,7 @@ final class MkBlobs implements Blobs {
      */
     private static String fakeSha() {
         // @checkstyle MagicNumberCheck (1 line)
-        return RandomStringUtils.random(40, "0123456789abcdef");
+        return RandomStringUtils.secure().next(40, "0123456789abcdef");
     }
 
 }

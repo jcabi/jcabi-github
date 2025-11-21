@@ -74,7 +74,7 @@ final class MkStars implements Stars {
             this.xpath().concat("/star/login/text()")
         );
         return !xpath.isEmpty()
-            && StringUtils.equalsIgnoreCase(this.self, xpath.get(0));
+            && this.self.equalsIgnoreCase(xpath.get(0));
     }
 
     @Override

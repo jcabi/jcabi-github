@@ -131,7 +131,7 @@ public interface MkStorage {
                 FileUtils.write(
                     new File(this.name),
                     new XMLDocument(
-                        new Xembler(dirs).applyQuietly(this.xml().node())
+                        new Xembler(dirs).applyQuietly(this.xml().inner())
                     ).toString(),
                     StandardCharsets.UTF_8
                 );

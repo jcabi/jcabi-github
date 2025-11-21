@@ -144,10 +144,8 @@ final class MkGist implements Gist {
         final List<String> xpath = this.storage.xml().xpath(
             this.xpath().concat("/@starred")
         );
-        return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
-            Boolean.toString(true),
-            xpath.get(0)
-        );
+        return !xpath.isEmpty()
+            && Boolean.toString(true).equalsIgnoreCase(xpath.get(0));
     }
 
     @Override
