@@ -79,10 +79,10 @@ public final class RtPaginationTest {
             );
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();
-            MatcherAssert.assertThat(
-                "Value is null",
-                iterator.next(),
-                Matchers.notNullValue()
+            Assertions.assertThrows(
+                java.util.NoSuchElementException.class,
+                iterator::next,
+                "Should throw when no more elements"
             );
             container.stop();
         }

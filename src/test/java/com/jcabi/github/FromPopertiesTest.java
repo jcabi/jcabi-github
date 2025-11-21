@@ -24,10 +24,13 @@ public final class FromPopertiesTest {
         );
     }
 
-    // TODO: Convert to Assertions.assertThrows(NullPointerException.class, () -> { ... });
     @Test
     public void throwsExceptionOnMissingFile() {
-        new FromProperties("missing.properties").format();
+        Assertions.assertThrows(
+            NullPointerException.class,
+            () -> new FromProperties("missing.properties").format(),
+            "Should throw when properties file is missing"
+        );
     }
 
 }
