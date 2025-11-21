@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,10 +14,11 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.xembly.Directives;
 
 /**
- * Mock Github repository collaborators.
- *
+ * Mock GitHub repository collaborators.
+ * @since 0.1
  */
 @Immutable
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkCollaborators implements Collaborators {
 
     /**
@@ -42,7 +43,7 @@ final class MkCollaborators implements Collaborators {
      * @param crds Coordinates
      * @throws IOException If there is any I/O problem
      */
-    public MkCollaborators(
+    MkCollaborators(
         final MkStorage stg,
         final String login,
         final Coordinates crds
@@ -69,7 +70,7 @@ final class MkCollaborators implements Collaborators {
         final String user
     ) throws IOException {
         return !this.storage.xml().xpath(
-            String.format("%s/user[login='%s']/text()", this.xpath(), user)
+            this.xpath().concat(String.format("/user[login='%s']/text()", user))
         ).isEmpty();
     }
 
@@ -94,7 +95,7 @@ final class MkCollaborators implements Collaborators {
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/user[login='%s']", this.xpath(), user)
+                this.xpath().concat(String.format("/user[login='%s']", user))
             ).remove()
         );
     }
@@ -102,7 +103,7 @@ final class MkCollaborators implements Collaborators {
     @Override
     public Iterable<User> iterate() {
         return new MkIterable<>(
-            this.storage, String.format("%s/user", this.xpath()),
+            this.storage, this.xpath().concat("/user"),
             xml -> new MkUser(
                 this.storage,
                 xml.xpath("login/text()").get(0)

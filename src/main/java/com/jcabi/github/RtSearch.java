@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Search.
+ * GitHub Search.
  *
  * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
@@ -37,9 +37,9 @@ final class RtSearch implements Search {
     private static final Pattern QUERY = Pattern.compile("=");
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful Request to search.
@@ -48,16 +48,16 @@ final class RtSearch implements Search {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req RESTful API entry point
      */
-    RtSearch(final Github github, final Request req) {
+    RtSearch(final GitHub github, final Request req) {
         this.ghub = github;
         this.request = req.uri().path("/search").back();
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 
@@ -65,7 +65,7 @@ final class RtSearch implements Search {
     public Iterable<Repo> repos(
         final String keywords,
         final String sort,
-        final Order order) {
+        final Search.Order order) {
         return new RtSearchPagination<>(
             this.request, "repositories", keywords, sort, order.identifier(),
             object -> this.github().repos().get(
@@ -77,9 +77,9 @@ final class RtSearch implements Search {
     //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     public Iterable<Issue> issues(final String keywords, final String sort,
-        final Order order, final EnumMap<Qualifier, String> qualifiers) {
+        final Search.Order order, final EnumMap<Search.Qualifier, String> qualifiers) {
         final StringBuilder keyword = new StringBuilder(keywords);
-        for (final EnumMap.Entry<Qualifier, String> entry : qualifiers
+        for (final EnumMap.Entry<Search.Qualifier, String> entry : qualifiers
             .entrySet()) {
             keyword.append('+').append(entry.getKey().identifier())
                 .append(':').append(entry.getValue());
@@ -111,7 +111,7 @@ final class RtSearch implements Search {
     public Iterable<User> users(
         final String keywords,
         final String sort,
-        final Order order) {
+        final Search.Order order) {
         return new RtSearchPagination<>(
             this.request, "users", keywords, sort, order.identifier(),
             object -> this.ghub.users().get(
@@ -124,7 +124,7 @@ final class RtSearch implements Search {
     public Iterable<Content> codes(
         final String keywords,
         final String sort,
-        final Order order) {
+        final Search.Order order) {
         return new RtSearchPagination<>(
             this.request, "code", keywords, sort, order.identifier(),
             // @checkstyle AnonInnerLengthCheck (25 lines)
@@ -142,9 +142,7 @@ final class RtSearch implements Search {
                         // @checkstyle MagicNumber (1 line)
                         new Coordinates.Simple(parts[2], parts[3])
                     ).contents().get(object.getString("path"), ref);
-                } catch (final URISyntaxException ex) {
-                    throw new IllegalStateException(ex);
-                } catch (final IOException ex) {
+                } catch (final URISyntaxException | IOException ex) {
                     throw new IllegalStateException(ex);
                 }
             }

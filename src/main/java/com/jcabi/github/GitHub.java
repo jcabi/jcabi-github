@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,15 +14,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github client, starting point to the entire library.
+ * GitHub client, starting point to the entire library.
  *
- * <p>This is how you start communicating with Github API:
+ * <p>This is how you start communicating with GitHub API:
  *
- * <pre> Github github = new RtGithub(oauthKey);
+ * <pre> GitHub github = new RtGitHub(oauthKey);
  * Repo repo = github.repos().get(
  *     new Coordinates.Simple("jcabi/jcabi-github")
  * );
@@ -32,22 +32,22 @@ import lombok.EqualsAndHashCode;
  * {@link com.jcabi.http.wire.RetryWire} to avoid
  * accidental I/O exceptions:
  *
- * <pre> Github github = new RtGithub(
- *   new RtGithub(oauthKey)
+ * <pre> GitHub github = new RtGitHub(
+ *   new RtGitHub(oauthKey)
  *     .entry()
  *     .through(RetryWire.class)
  * );</pre>
  *
  * <p>The interfaces in this packages are trying to cover as much
- * as possible of Github API. However, there are parts of API that are
+ * as possible of GitHub API. However, there are parts of API that are
  * rarely used and making Java classes for them is not an effective
- * idea. That's why {@code Github} class has {@link #entry()} method,
+ * idea. That's why {@code GitHub} class has {@link #entry()} method,
  * which returns an entry point to the RESTful API. For example, you
  * want to use
  * <a href="https://developer.github.com/v3/search/#search-repositories">"Search
- * Repositories"</a> feature of Github:
+ * Repositories"</a> feature of GitHub:
  *
- * <pre> Github github = new RtGithub(oauthKey);
+ * <pre> GitHub github = new RtGitHub(oauthKey);
  * int found = github.entry()
  *   .uri().path("/search/repositories").back()
  *   .method(Request.GET)
@@ -60,10 +60,10 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
-public interface Github {
+public interface GitHub {
 
     /**
-     * RESTful request, an entry point to the Github API.
+     * RESTful request, an entry point to the GitHub API.
      * @return Request
      */
     Request entry();
@@ -142,21 +142,23 @@ public interface Github {
     JsonObject emojis() throws IOException;
 
     /**
-     * Time in Github JSON.
+     * Time in GitHub JSON.
      * @see <a href="https://developer.github.com/v3/#schema">Schema</a>
      * @since 0.2
      */
     @Immutable
-    @EqualsAndHashCode(of = { "msec" })
+    @EqualsAndHashCode(of = "msec")
     final class Time {
         /**
          * Pattern to present day in ISO-8601.
          */
         public static final String FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+
         /**
          * The time zone we're in.
          */
         public static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
+
         /**
          * Encapsulated time in milliseconds.
          */
@@ -175,7 +177,7 @@ public interface Github {
          * @throws ParseException If fails
          */
         public Time(final String text) throws ParseException {
-            this(Github.Time.format().parse(text));
+            this(GitHub.Time.format().parse(text));
         }
 
         /**
@@ -196,7 +198,7 @@ public interface Github {
 
         @Override
         public String toString() {
-            return Github.Time.format().format(this.date());
+            return GitHub.Time.format().format(this.date());
         }
 
         /**
@@ -213,9 +215,9 @@ public interface Github {
          */
         private static DateFormat format() {
             final DateFormat fmt = new SimpleDateFormat(
-                Github.Time.FORMAT_ISO, Locale.ENGLISH
+                GitHub.Time.FORMAT_ISO, Locale.ENGLISH
             );
-            fmt.setTimeZone(Github.Time.TIMEZONE);
+            fmt.setTimeZone(GitHub.Time.TIMEZONE);
             return fmt;
         }
     }

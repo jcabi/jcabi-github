@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,6 +6,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -13,13 +15,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github release asset.
+ * GitHub release asset.
  * @since 0.8
  */
 @Immutable
@@ -55,6 +55,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * Smart ReleaseAsset with extra features.
+     * @since 0.8
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable
@@ -66,6 +67,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * Encapsulated Release Asset.
          */
         private final transient ReleaseAsset asset;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -156,7 +158,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -171,7 +173,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

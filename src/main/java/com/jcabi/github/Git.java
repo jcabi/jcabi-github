@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,8 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github Git.
- *
+ * GitHub Git.
  * @since 0.8
  */
 @Immutable
@@ -24,8 +23,8 @@ public interface Git {
     /**
      * Get its blobs.
      * @return Blobs
-     * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
      * @throws IOException If some io problem occurs
+     * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
      */
     Blobs blobs() throws IOException;
 

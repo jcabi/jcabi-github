@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,22 +8,21 @@ import com.jcabi.http.request.FakeRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtRepoCommit}.
+ * @since 0.1
  */
-public class RtRepoCommitTest {
-    /**
-     * RtRepoCommit has proper request URL.
-     */
+final class RtRepoCommitTest {
     @Test
-    public final void hasProperRequestUrl() {
-        final String sha = RandomStringUtils.randomAlphanumeric(50);
+    void hasProperRequestUrl() {
+        final String sha = RandomStringUtils.secure().nextAlphanumeric(50);
         final RtRepoCommit commit = new RtRepoCommit(
-            new FakeRequest(), repo(), sha
+            new FakeRequest(), RtRepoCommitTest.repo(), sha
         );
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             commit.toString(),
             Matchers.endsWith(
                 String.format(
@@ -39,7 +38,7 @@ public class RtRepoCommitTest {
      * @return Repository
      */
     private static Repo repo() {
-        return new RtGithub().repos()
+        return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));
     }
 

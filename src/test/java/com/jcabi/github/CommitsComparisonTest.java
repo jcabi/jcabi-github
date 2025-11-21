@@ -1,27 +1,25 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link CommitsComparison}.
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (75 lines)
  */
-public final class CommitsComparisonTest {
+final class CommitsComparisonTest {
 
-    /**
-     * CommitsComparison.Smart can fetch commits.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesCommits() throws Exception {
+    void fetchesCommits() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db50";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(
@@ -42,16 +40,14 @@ public final class CommitsComparisonTest {
             )
         );
         MatcherAssert.assertThat(
-            comparison.commits().iterator().next().sha(), Matchers.equalTo(sha)
+            "Values are not equal",
+            comparison.commits().iterator().next().sha(),
+            Matchers.equalTo(sha)
         );
     }
 
-    /**
-     * CommitsComparison.Smart can fetch files.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesFiles() throws Exception {
+    void fetchesFiles() throws IOException {
         final String filename = "file.txt";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(
@@ -74,6 +70,7 @@ public final class CommitsComparisonTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new FileChange.Smart(
                 comparison.files().iterator().next()
             ).filename(),
@@ -86,7 +83,7 @@ public final class CommitsComparisonTest {
      * @return Repository
      */
     private static Repo repo() {
-        return new RtGithub().repos()
+        return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));
     }
 

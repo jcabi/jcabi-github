@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,15 +9,14 @@ import com.jcabi.github.Pull;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkCheck}.
- *
  * @since 1.6.1
  */
-public final class MkCheckTest {
+final class MkCheckTest {
 
     /**
      * Pull request.
@@ -26,11 +25,11 @@ public final class MkCheckTest {
 
     /**
      * Set up.
-     * @throws java.io.IOException If some problem with I/O.
+     * @throws IOException If some problem with I/O.
      */
-    @Before
-    public void setUp() throws IOException {
-        this.pull = new MkGithub()
+    @BeforeEach
+    void setUp() throws IOException {
+        this.pull = new MkGitHub()
             .randomRepo()
             .pulls()
             .create("Test PR", "abcdea8", "abcdea9");
@@ -41,8 +40,9 @@ public final class MkCheckTest {
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void createsSuccessfulCheck() throws IOException {
+    void createsSuccessfulCheck() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             ((MkChecks) this.pull.checks())
                 .create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS)
                 .successful(),
@@ -55,8 +55,9 @@ public final class MkCheckTest {
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void createsFailedCheck() throws IOException {
+    void createsFailedCheck() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             ((MkChecks) this.pull.checks())
                 .create(
                     Check.Status.COMPLETED,

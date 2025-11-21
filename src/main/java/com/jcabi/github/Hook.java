@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,16 +6,15 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github hook.
- *
- * @since 0.8
+ * GitHub hook.
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Hook extends JsonReadable {
@@ -34,6 +33,7 @@ public interface Hook extends JsonReadable {
 
     /**
      * Smart Hook with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -44,10 +44,12 @@ public interface Hook extends JsonReadable {
          * Encapsulated Hook.
          */
         private final transient Hook hook;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param hoo Hook
@@ -56,6 +58,7 @@ public interface Hook extends JsonReadable {
             this.hook = hoo;
             this.jsn = new SmartJson(hoo);
         }
+
         /**
          * Get its name.
          * @return Name of hook
@@ -64,14 +67,17 @@ public interface Hook extends JsonReadable {
         public String name() throws IOException {
             return this.jsn.text("name");
         }
+
         @Override
         public Repo repo() {
             return this.hook.repo();
         }
+
         @Override
         public int number() {
             return this.hook.number();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.hook.json();

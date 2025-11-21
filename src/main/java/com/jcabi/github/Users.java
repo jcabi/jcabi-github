@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,19 +7,18 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github users.
- *
- * @since 0.1
+ * GitHub users.
  * @see <a href="https://developer.github.com/v3/users/">Users API</a>
+ * @since 0.1
  */
 @Immutable
 public interface Users {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get myself.

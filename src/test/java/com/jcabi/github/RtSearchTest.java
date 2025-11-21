@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,39 +11,34 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.response.JsonResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import java.io.IOException;
 import java.util.EnumMap;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtSearch}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (300 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtSearchTest {
+@ExtendWith(RandomPort.class)
+final class RtSearchTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtSearch can search for repos.
-     *
-     */
     @Test
-    public void canSearchForRepos() {
+    void canSearchForRepos() {
         final String coords = "test-user1/test-repo1";
-        final Search search = new RtGithub(
+        final Search search = new RtGitHub(
             new FakeRequest().withBody(
                 RtSearchTest.search(
                     Json.createObjectBuilder().add("full_name", coords).build()
@@ -51,20 +46,17 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
+            "Values are not equal",
             search.repos("test", "stars", Search.Order.DESC).iterator().next()
                 .coordinates().toString(),
             Matchers.equalTo(coords)
         );
     }
 
-    /**
-     * RtSearch can search for issues.
-     *
-     */
     @Test
-    public void canSearchForIssues() {
+    void canSearchForIssues() {
         final int number = 1;
-        final Search search = new RtGithub(
+        final Search search = new RtGitHub(
             new FakeRequest().withBody(
                 RtSearchTest.search(
                     Json.createObjectBuilder().add(
@@ -78,6 +70,7 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
+            "Values are not equal",
             search.issues(
                 "test2",
                 "created",
@@ -88,15 +81,10 @@ public final class RtSearchTest {
         );
     }
 
-    /**
-     * RtSearch can search for users.
-     *
-     * @throws Exception if a problem occurs
-     */
     @Test
-    public void canSearchForUsers() throws Exception {
+    void canSearchForUsers() throws IOException {
         final String login = "test-user";
-        final Search search = new RtGithub(
+        final Search search = new RtGitHub(
             new FakeRequest().withBody(
                 RtSearchTest.search(
                     Json.createObjectBuilder()
@@ -105,19 +93,15 @@ public final class RtSearchTest {
             )
         ).search();
         MatcherAssert.assertThat(
+            "Values are not equal",
             search.users("test3", "joined", Search.Order.DESC)
                 .iterator().next().login(),
             Matchers.equalTo(login)
         );
     }
 
-    /**
-     * RtSearch can search for contents.
-     *
-     * @throws Exception if a problem occurs
-     */
     @Test
-    public void canSearchForContents() throws Exception {
+    void canSearchForContents() throws IOException {
         final JsonObject first = RtSearchTest.content(
             "test/unit/attributes.js",
             "attributes.js",
@@ -131,20 +115,21 @@ public final class RtSearchTest {
             "https://api.github.com/repos/user/repo/contents/src/attributes/classes.js?ref=f3b89ba0820882bd4ce4404b7e7c819e7b506de5"
         ).build();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     RtSearchTest.search(first, second).toString()
                 )
             ).next(new MkAnswer.Simple(first.toString()))
                 .next(new MkAnswer.Simple(second.toString()))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
-            final Search search = new RtGithub(
+            final Search search = new RtGitHub(
                 new ApacheRequest(container.home())
             ).search();
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 search.codes("test4", "joined", Search.Order.DESC),
-                Matchers.<Content>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -152,14 +137,14 @@ public final class RtSearchTest {
 
     /**
      * RtSearch can read non-unicode.
-     * @throws Exception if any problem inside
      */
     @Test
-    public void readNonUnicode() throws Exception {
+    void readNonUnicode() throws IOException {
         final Response resp = new FakeRequest()
             .withBody("{\"help\": \"\u001Fblah\u0001cwhoa\u0000!\"}").fetch();
         final JsonResponse response = new JsonResponse(resp);
         MatcherAssert.assertThat(
+            "Values are not equal",
             response.json().readObject().getString("help"),
             Matchers.is("\u001Fblah\u0001cwhoa\u0000!")
         );
@@ -186,7 +171,7 @@ public final class RtSearchTest {
      * @return JsonObject
      */
     private static JsonObject search(
-        final JsonObject ... contents) {
+        final JsonObject... contents) {
         final JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final JsonObject content : contents) {
             builder.add(content);

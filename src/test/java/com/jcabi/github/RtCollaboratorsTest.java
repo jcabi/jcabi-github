@@ -1,11 +1,10 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.github.mock.MkStorage;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
@@ -13,13 +12,14 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -29,22 +29,16 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtCollaboratorsTest {
-
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+@ExtendWith(RandomPort.class)
+final class RtCollaboratorsTest {
 
     /**
      * RtCollaborators can iterate over a list of collaborators.
      * @throws Exception if any error occurs.
      */
     @Test
-    public void canIterate() throws Exception {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+    void canIterate() throws Exception {
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
@@ -52,14 +46,15 @@ public final class RtCollaboratorsTest {
                     .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 users.iterate(),
-                Matchers.<User>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }
@@ -69,8 +64,8 @@ public final class RtCollaboratorsTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void userCanBeAddedAsCollaborator() throws Exception {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+    void userCanBeAddedAsCollaborator() throws Exception {
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
                 Json.createArrayBuilder()
@@ -78,14 +73,15 @@ public final class RtCollaboratorsTest {
                     .add(RtCollaboratorsTest.json("dummy"))
                     .build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             users.add("dummy1");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
@@ -98,9 +94,9 @@ public final class RtCollaboratorsTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void userCanBeTestForBeingCollaborator() throws Exception {
+    void userCanBeTestForBeingCollaborator() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     Json.createArrayBuilder()
@@ -108,13 +104,14 @@ public final class RtCollaboratorsTest {
                         .add(RtCollaboratorsTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 users.isCollaborator("octocat2"),
                 Matchers.equalTo(true)
             );
@@ -127,9 +124,9 @@ public final class RtCollaboratorsTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void userCanBeRemoved() throws Exception {
+    void userCanBeRemoved() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     Json.createArrayBuilder()
@@ -137,15 +134,16 @@ public final class RtCollaboratorsTest {
                         .add(RtCollaboratorsTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtCollaboratorsTest.repo()
             );
             users.remove("dummy");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
@@ -167,13 +165,12 @@ public final class RtCollaboratorsTest {
     /**
      * Create and return repo for testing.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private Repo repo() throws Exception {
+    private static Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "collaboratorrepo"))
             .when(repo).coordinates();
-        Mockito.doReturn(new MkGithub(new MkStorage.InFile(), "userLogin"))
+        Mockito.doReturn(new MkGitHub(new MkStorage.InFile(), "userLogin"))
             .when(repo).github();
         return repo;
     }

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,14 +9,14 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github releases.
+ * GitHub releases.
  *
  * @since 0.8
  */
@@ -45,7 +45,7 @@ final class RtReleases implements Releases {
      * @param req RESTful API entry point
      * @param repo Repository
      */
-    public RtReleases(final Request req, final Repo repo) {
+    RtReleases(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
         this.request = this.entry.uri()

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,6 +10,8 @@ import com.jcabi.http.RequestBody;
 import com.jcabi.http.RequestURI;
 import com.jcabi.http.Response;
 import com.jcabi.http.Wire;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -19,14 +21,13 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github search pagination.
+ * GitHub search pagination.
  *
  * @param <T> Type of iterable objects
+ * @since 0.4
  */
 @Immutable
 @EqualsAndHashCode
@@ -74,6 +75,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
      * Request which hides everything but items.
+     * @since 0.4
      */
     @SuppressWarnings({ "PMD.TooManyMethods", "PMD.CyclomaticComplexity" })
     private static final class SearchRequest implements Request {
@@ -81,6 +83,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Inner request.
          */
         private final transient Request request;
+
         /**
          * Ctor.
          * @param req Request to wrap
@@ -88,10 +91,12 @@ final class RtSearchPagination<T> implements Iterable<T> {
         SearchRequest(final Request req) {
             this.request = req;
         }
+
         @Override
         public RequestURI uri() {
-            return new SearchURI(this.request.uri());
+            return new RtSearchPagination.SearchUri(this.request.uri());
         }
+
         @Override
         public RequestBody body() {
             return this.request.body();
@@ -104,38 +109,38 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
         @Override
         public Request header(final String name, final Object value) {
-            return new SearchRequest(this.request.header(name, value));
-        }
-        @Override
-        public Request reset(final String name) {
-            return new SearchRequest(this.request.reset(name));
-        }
-        @Override
-        public Request method(final String method) {
-            return new SearchRequest(this.request.method(method));
-        }
-        @Override
-        public Request timeout(final int first, final int second) {
-            return new SearchRequest(this.request);
+            return new RtSearchPagination.SearchRequest(this.request.header(name, value));
         }
 
-        /**
-         * Hide everything from the body but items.
-         * @return Response
-         * @throws IOException If any I/O problem occurs
-         */
+        @Override
+        public Request reset(final String name) {
+            return new RtSearchPagination.SearchRequest(this.request.reset(name));
+        }
+
+        @Override
+        public Request method(final String method) {
+            return new RtSearchPagination.SearchRequest(this.request.method(method));
+        }
+
+        @Override
+        public Request timeout(final int first, final int second) {
+            return new RtSearchPagination.SearchRequest(this.request);
+        }
+
         @Override
         public Response fetch() throws IOException {
             return new RtSearchPagination.Hidden(this.request.fetch());
         }
+
         @Override
         public Response fetch(final InputStream stream) throws IOException {
             return new RtSearchPagination.Hidden(this.request.fetch(stream));
         }
+
         @Override
         public <T extends Wire> Request through(final Class<T> type,
             final Object... args) {
-            return new SearchRequest(this.request.through(type, args));
+            return new RtSearchPagination.SearchRequest(this.request.through(type, args));
         }
 
         @Override
@@ -146,6 +151,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
      * Response to return.
+     * @since 0.4
      */
     @Immutable
     private static final class Hidden implements Response {
@@ -153,6 +159,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
          * Original response.
          */
         private final transient Response response;
+
         /**
          * Ctor.
          * @param resp Response
@@ -160,27 +167,33 @@ final class RtSearchPagination<T> implements Iterable<T> {
         Hidden(final Response resp) {
             this.response = resp;
         }
+
         @Override
         public Request back() {
-            return new SearchRequest(this.response.back());
+            return new RtSearchPagination.SearchRequest(this.response.back());
         }
+
         @Override
         public int status() {
             return this.response.status();
         }
+
         @Override
         public String reason() {
             return this.response.reason();
         }
+
         @Override
         public Map<String, List<String>> headers() {
             return this.response.headers();
         }
+
         @Override
         public String body() {
             return Json.createReader(new StringReader(this.response.body()))
                 .readObject().getJsonArray("items").toString();
         }
+
         @Override
         public byte[] binary() {
             try {
@@ -189,73 +202,82 @@ final class RtSearchPagination<T> implements Iterable<T> {
                 throw new IllegalStateException(ex);
             }
         }
+
         // @checkstyle MethodName (4 lines)
+
         @Override
         @SuppressWarnings("PMD.ShortMethodName")
         public <T extends Response> T as(final Class<T> type) {
             try {
                 return type.getDeclaredConstructor(Response.class)
                     .newInstance(this);
-            } catch (final InstantiationException ex) {
-                throw new IllegalStateException(ex);
-            } catch (final IllegalAccessException ex) {
-                throw new IllegalStateException(ex);
-            } catch (final InvocationTargetException ex) {
-                throw new IllegalStateException(ex);
-            } catch (final NoSuchMethodException ex) {
+            } catch (final InstantiationException
+                | IllegalAccessException
+                | InvocationTargetException
+                | NoSuchMethodException ex) {
                 throw new IllegalStateException(ex);
             }
         }
     }
 
     /**
-     * Wrapper of RequestURI that returns {@link SearchRequest}.
+     * Wrapper of RequestURI that returns {@link RtSearchPagination.SearchRequest}.
+     * @since 0.4
      */
     @Immutable
     @EqualsAndHashCode(of = "address")
-    private static final class SearchURI implements RequestURI {
+    private static final class SearchUri implements RequestURI {
         /**
          * Underlying address.
          */
         private final transient RequestURI address;
+
         /**
          * Ctor.
          * @param uri The URI
          */
-        public SearchURI(final RequestURI uri) {
+        SearchUri(final RequestURI uri) {
             this.address = uri;
         }
+
         @Override
         public Request back() {
-            return new SearchRequest(this.address.back());
+            return new RtSearchPagination.SearchRequest(this.address.back());
         }
+
         @Override
         public URI get() {
             return this.address.get();
         }
+
         @Override
         public RequestURI set(final URI uri) {
-            return new SearchURI(this.address.set(uri));
+            return new RtSearchPagination.SearchUri(this.address.set(uri));
         }
+
         @Override
         public RequestURI queryParam(final String name, final Object value) {
-            return new SearchURI(this.address.queryParam(name, value));
+            return new RtSearchPagination.SearchUri(this.address.queryParam(name, value));
         }
+
         @Override
         public RequestURI queryParams(final Map<String, String> map) {
-            return new SearchURI(this.address.queryParams(map));
+            return new RtSearchPagination.SearchUri(this.address.queryParams(map));
         }
+
         @Override
         public RequestURI path(final String segment) {
-            return new SearchURI(this.address.path(segment));
+            return new RtSearchPagination.SearchUri(this.address.path(segment));
         }
+
         @Override
         public RequestURI userInfo(final String info) {
-            return new SearchURI(this.address.userInfo(info));
+            return new RtSearchPagination.SearchUri(this.address.userInfo(info));
         }
+
         @Override
         public RequestURI port(final int num) {
-            return new SearchURI(this.address.port(num));
+            return new RtSearchPagination.SearchUri(this.address.port(num));
         }
     }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,16 +9,16 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github pull comment.
- *
+ * GitHub pull comment.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

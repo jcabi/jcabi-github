@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,11 +8,12 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Milestone;
 import com.jcabi.github.Repo;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 
 /**
- * Mock Github milestone.
+ * Mock GitHub milestone.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

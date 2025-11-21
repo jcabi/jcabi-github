@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,15 +9,15 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github pull requests.
+ * GitHub pull requests.
  *
  * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -25,6 +25,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtPulls implements Pulls {
 
     /**

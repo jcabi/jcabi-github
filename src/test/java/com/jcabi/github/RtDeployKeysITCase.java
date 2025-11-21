@@ -1,25 +1,26 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtDeployKeys}.
  * @since 0.8
  */
-@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
-public final class RtDeployKeysITCase {
+@OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
+final class RtDeployKeysITCase {
 
     /**
      * Test repos.
@@ -33,36 +34,36 @@ public final class RtDeployKeysITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtDeployKeysITCase.repos = github.repos();
+        RtDeployKeysITCase.repo = new RepoRule().repo(RtDeployKeysITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtDeployKeysITCase.repos != null && RtDeployKeysITCase.repo != null) {
+            RtDeployKeysITCase.repos.remove(RtDeployKeysITCase.repo.coordinates());
         }
     }
+
     /**
      * RtDeployKeys can iterate deploy keys.
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchAllDeployKeys() throws Exception {
-        final DeployKeys keys = repo.keys();
+    void canFetchAllDeployKeys() throws Exception {
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Iterate Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 keys.iterate(),
                 Matchers.hasItem(key)
             );
@@ -76,12 +77,13 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createsDeployKey() throws Exception {
-        final DeployKeys keys = repo.keys();
+    void createsDeployKey() throws Exception {
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Create Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new DeployKey.Smart(key).title(),
                 Matchers.is(title)
             );
@@ -95,12 +97,13 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void getsDeployKey() throws Exception {
-        final DeployKeys keys = repo.keys();
+    void getsDeployKey() throws Exception {
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Get Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 keys.get(key.number()),
                 Matchers.is(key)
             );
@@ -114,12 +117,13 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void removesDeployKey() throws Exception {
-        final DeployKeys keys = repo.keys();
+    void removesDeployKey() throws Exception {
+        final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Remove Key";
-        final DeployKey key = keys.create(title, key());
+        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Value is null",
                 keys.get(key.number()),
                 Matchers.notNullValue()
             );
@@ -127,6 +131,7 @@ public final class RtDeployKeysITCase {
             key.remove();
         }
         MatcherAssert.assertThat(
+            "Assertion failed",
             keys.iterate(),
             Matchers.not(Matchers.contains(key))
         );
@@ -136,17 +141,13 @@ public final class RtDeployKeysITCase {
      * Generates a random public key for test.
      *
      * @return The encoded SSH public key.
-     * @throws Exception If a problem occurs.
      */
-    private static String key() throws Exception {
-        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        try {
+    private static String key() throws JSchException, IOException {
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
             kpair.writePublicKey(stream, "");
             kpair.dispose();
-        } finally {
-            stream.close();
+            return new String(stream.toByteArray());
         }
-        return new String(stream.toByteArray());
     }
 }

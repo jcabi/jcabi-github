@@ -1,17 +1,18 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
+import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
 /**
@@ -20,12 +21,12 @@ import org.xembly.Directives;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkHookTest {
+final class MkHookTest {
     /**
      * Test if {@link MkHook} is being created with the correct number.
      */
     @Test
-    public void createWithCorrectNumber() {
+    void createWithCorrectNumber() {
         final int number = 5;
         MatcherAssert.assertThat(
             "Hook returned wrong number",
@@ -36,10 +37,9 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct repository.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectRepo() throws Exception {
+    void createWithCorrectRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String login = "login";
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -52,15 +52,14 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct id.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectId() throws Exception {
+    void createWithCorrectId() throws IOException {
         final int number = 5;
         final MkStorage storage = new MkStorage.InFile();
         final Coordinates coords = new Coordinates.Simple("user/repo");
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
         );
         MatcherAssert.assertThat(
             "Hook json returned wrong id",
@@ -71,16 +70,15 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct url.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectUrl() throws Exception {
+    void createWithCorrectUrl() throws IOException {
         final String url = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
                 .add("url").set(url).up()
         );
         MatcherAssert.assertThat(
@@ -94,16 +92,15 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct test url.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectTestUrl() throws Exception {
+    void createWithCorrectTestUrl() throws IOException {
         final String test = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
                 .add("test_url").set(test).up()
         );
         MatcherAssert.assertThat(
@@ -117,16 +114,15 @@ public final class MkHookTest {
 
     /**
      * Test if {@link MkHook} is being created with the correct ping url.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectPingUrl() throws Exception {
+    void createWithCorrectPingUrl() throws IOException {
         final String ping = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
-            this.hookDirs(number, coords)
+            MkHookTest.hookDirs(number, coords)
                 .add("ping_url").set(ping).up()
         );
         MatcherAssert.assertThat(
@@ -141,20 +137,19 @@ public final class MkHookTest {
     /**
      * MkHook.json() should return the "events" json array with the given
      * event names.
-     * @throws Exception If something goes wrong
      */
     @Test
-    public void createWithCorrectEvents() throws Exception {
+    void createWithCorrectEvents() throws IOException {
         final Iterable<String> events = Arrays.asList("event1", "event2");
         final int number = 123;
         final Coordinates coords = new Coordinates.Simple("user/repo");
-        final Directives xml = this.hookDirs(number, coords).add("events")
+        final Directives xml = MkHookTest.hookDirs(number, coords).add("events")
             .attr("array", "true");
         events.forEach(e -> xml.add("event").set(e).up());
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(xml);
         MatcherAssert.assertThat(
-            "",
+            "Hook events are incorrect",
             new MkHook(
                 storage, "", coords, number
             ).json().getJsonArray("events")
@@ -177,7 +172,7 @@ public final class MkHookTest {
      * @param coords Repo coords
      * @return Hook directives
      */
-    private Directives hookDirs(final int number, final Coordinates coords) {
+    private static Directives hookDirs(final int number, final Coordinates coords) {
         return new Directives().xpath("/github")
             .add("repos").add("repo").attr("coords", coords.toString())
             .add("hooks")

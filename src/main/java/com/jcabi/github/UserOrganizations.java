@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Organizations of a Github user.
+ * Organizations of a GitHub user.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
@@ -16,10 +16,10 @@ import java.io.IOException;
 public interface UserOrganizations {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get its owner.

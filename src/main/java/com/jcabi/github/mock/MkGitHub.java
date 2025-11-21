@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,9 +6,8 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Gists;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Gitignores;
 import com.jcabi.github.Limits;
 import com.jcabi.github.Markdown;
@@ -19,19 +18,19 @@ import com.jcabi.github.Search;
 import com.jcabi.github.Users;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.RandomStringUtils;
 
 /**
- * Mock Github client.
+ * Mock GitHub client.
  *
  * <p>This is how you use it:
  *
- * <pre> GitHub gitHub = new MkGithub("username");
+ * <pre> GitHub gitHub = new MkGitHub("username");
  * Repos.RepoCreate create = new Repos.RepoCreate("dummy", false);
  * Repo repo = gitHub.repos().create(create);
  * Issue issue = repo.issues().create("title", "body");</pre>
@@ -39,7 +38,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  * <p>By default, it works with a temporary file, which will be deleted
  * on JVM exit:
  *
- * <pre> Github github = new MkGithub("jeff");</pre>
+ * <pre> GitHub github = new MkGitHub("jeff");</pre>
  * @since 0.5
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
@@ -47,7 +46,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self" })
 @SuppressWarnings("PMD.TooManyMethods")
-public final class MkGithub implements Github {
+public final class MkGitHub implements GitHub {
 
     /**
      * Storage.
@@ -63,7 +62,7 @@ public final class MkGithub implements Github {
      * Public ctor.
      * @throws IOException If there is any I/O problem
      */
-    public MkGithub() throws IOException {
+    public MkGitHub() throws IOException {
         this("jeff");
     }
 
@@ -72,7 +71,7 @@ public final class MkGithub implements Github {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    public MkGithub(
+    public MkGitHub(
         final String login
     ) throws IOException {
         this(new MkStorage.Synced(new MkStorage.InFile()), login);
@@ -83,7 +82,7 @@ public final class MkGithub implements Github {
      * @param stg Storage
      * @param login User to login
      */
-    public MkGithub(
+    public MkGitHub(
         final MkStorage stg,
         final String login
     ) {
@@ -178,11 +177,11 @@ public final class MkGithub implements Github {
     /**
      * Relogin.
      * @param login User to login
-     * @return Github
+     * @return GitHub
      */
-    public Github relogin(final String login
+    public GitHub relogin(final String login
     ) {
-        return new MkGithub(this.storage, login);
+        return new MkGitHub(this.storage, login);
     }
 
     /**
@@ -193,7 +192,7 @@ public final class MkGithub implements Github {
     public Repo randomRepo() throws IOException {
         return this.repos().create(
             new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TWENTY),
+                RandomStringUtils.secure().nextAlphanumeric(20),
                 true
             )
         );

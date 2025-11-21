@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github repositories.
+ * GitHub repositories.
  *
  * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
@@ -26,9 +26,9 @@ import lombok.EqualsAndHashCode;
 final class RtRepos implements Repos {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful entry.
@@ -37,10 +37,10 @@ final class RtRepos implements Repos {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
-    RtRepos(final Github github, final Request req) {
+    RtRepos(final GitHub github, final Request req) {
         this.ghub = github;
         this.entry = req;
     }
@@ -51,20 +51,20 @@ final class RtRepos implements Repos {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 
     @Override
-    public Repo create(final RepoCreate settings) throws IOException {
-        String uriPath = "user/repos";
+    public Repo create(final Repos.RepoCreate settings) throws IOException {
+        String path = "user/repos";
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
-            uriPath = "/orgs/".concat(org).concat("/repos");
+            path = "/orgs/".concat(org).concat("/repos");
         }
         return this.get(
             new Coordinates.Simple(
-                this.entry.uri().path(uriPath)
+                this.entry.uri().path(path)
                     .back().method(Request.POST)
                     .body().set(settings.json()).back()
                     .fetch().as(RestResponse.class)

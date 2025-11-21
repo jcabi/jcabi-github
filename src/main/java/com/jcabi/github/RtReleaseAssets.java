@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,20 +9,21 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release assets.
+ * GitHub release assets.
  *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtReleaseAssets implements ReleaseAssets {
 
     /**

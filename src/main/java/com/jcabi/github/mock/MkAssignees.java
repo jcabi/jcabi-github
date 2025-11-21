@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,10 +12,9 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.apache.commons.lang3.StringUtils;
 
 /**
- * Mock for Github Assignees.
+ * Mock for GitHub Assignees.
  *
  * @since 0.7
  */
@@ -57,15 +56,15 @@ final class MkAssignees implements Assignees {
     public Iterable<User> iterate() {
         final Set<User> assignees = new HashSet<>();
         assignees.add(new MkUser(this.storage, this.self));
-        final Iterable<User> collaborators = new MkIterable<>(
+        final Iterable<User> collabs = new MkIterable<>(
             this.storage,
-            String.format("%s/user", this.xpath()),
+            this.xpath().concat("/user"),
             xml -> new MkUser(
                 this.storage,
                 xml.xpath("login/text()").get(0)
             )
         );
-        for (final User collab : collaborators) {
+        for (final User collab : collabs) {
             assignees.add(collab);
         }
         return assignees;
@@ -77,10 +76,10 @@ final class MkAssignees implements Assignees {
     ) {
         try {
             final List<String> xpath = this.storage.xml().xpath(
-                String.format("%s/user/login/text()", this.xpath())
+                this.xpath().concat("/user/login/text()")
             );
             return this.self.equalsIgnoreCase(login) || !xpath.isEmpty()
-                && StringUtils.equalsIgnoreCase(login, xpath.get(0));
+                && login.equalsIgnoreCase(xpath.get(0));
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }

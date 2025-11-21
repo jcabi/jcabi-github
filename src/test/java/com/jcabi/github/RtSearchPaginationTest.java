@@ -1,26 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
-import javax.json.Json;
+import jakarta.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearchPagination}.
- *
+ * @since 0.9
  */
-public final class RtSearchPaginationTest {
+final class RtSearchPaginationTest {
 
-    /**
-     * RtSearchPagination can iterate through items.
-     */
     @Test
-    public void iteratesItems() {
+    void iteratesItems() {
         final String key = "key";
         final String value = "value";
         final Iterable<String> pagination = new RtSearchPagination<>(
@@ -35,6 +32,7 @@ public final class RtSearchPaginationTest {
             object -> object.getString(key)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             pagination.iterator().next(), Matchers.equalTo(value)
         );
     }

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,32 +9,32 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
 import com.jcabi.github.Repo;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import java.io.IOException;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github event.
+ * Mock GitHub event.
  *
  * @since 0.6.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
 final class MkEvent implements Event {
     /**
      * Created at.
      */
     private static final String CREATED_AT = "created_at";
+
     /**
      * Event.
      */
     private static final String EVENT = "event";
+
     /**
      * Login.
      */
@@ -97,14 +97,6 @@ final class MkEvent implements Event {
         throw new UnsupportedOperationException("#compareTo()");
     }
 
-    /**
-     * Describes the event in a JSON object.
-     * @return JSON object
-     * @throws IOException If there is any I/O problem
-     * @todo #1063:30min When the event has a label, retrieve and include the
-     *  label's color too. MkIssueEvents.create() will also need to be
-     *  updated accordingly.
-     */
     @Override
     public JsonObject json() throws IOException {
         final JsonObject obj = new JsonNode(
@@ -143,6 +135,32 @@ final class MkEvent implements Event {
             );
         }
         return builder.build();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkEvent other = (MkEvent) obj;
+            result = this.num == other.num
+                && this.storage.equals(other.storage)
+                && this.self.equals(other.self)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.num;
+        return result;
     }
 
     /**

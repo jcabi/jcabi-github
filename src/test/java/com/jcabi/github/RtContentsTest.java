@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,14 +11,15 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -29,78 +30,74 @@ import org.mockito.Mockito;
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtContentsTest {
+@ExtendWith(RandomPort.class)
+final class RtContentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtContents can fetch the default branch readme file.
-     *
-     * @throws Exception if some problem inside.
-     */
     @Test
-    public void canFetchReadmeFile() throws Exception {
+    void canFetchReadmeFile() throws IOException {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
             .build();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())
+        ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 contents.readme().path(),
                 Matchers.is(path)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/readme")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body().length(),
                 Matchers.is(0)
             );
         }
     }
 
-    /**
-     * RtContents can fetch the readme file from the specified branch.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void canFetchReadmeFileFromSpecifiedBranch() throws Exception {
+    void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
             .build();
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())
+        ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 contents.readme("test-branch").path(),
                 Matchers.is(path)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/readme")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is("{\"ref\":\"test-branch\"}")
             );
@@ -109,19 +106,17 @@ public final class RtContentsTest {
 
     /**
      * RtContents can fetch files from the repository.
-     *
-     * @throws Exception if some problem inside.
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canFetchFilesFromRepository() throws Exception {
+    void canFetchFilesFromRepository() throws IOException {
         final String path = "test/file";
         final String name = "file";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
             .add("name", name)
             .build();
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder()
@@ -130,34 +125,40 @@ public final class RtContentsTest {
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start(this.resource.port())) {
+            .start(RandomPort.port())
+        ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final Content.Smart smart = new Content.Smart(
                 contents.get(path, "branch1")
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith(
                     "/repos/test/contents/contents/test/file?ref=branch1"
                 )
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.path(),
                 Matchers.is(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.name(),
                 Matchers.is(name)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith(
                     "/repos/test/contents/contents/test/file?ref=branch1"
@@ -166,29 +167,26 @@ public final class RtContentsTest {
         }
     }
 
-    /**
-     * RtContents can create a file in the repository.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void canCreateFileInRepository() throws Exception {
+    void canCreateFileInRepository() throws IOException {
         final String path = "test/thefile";
         final String name = "thefile";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
             .add("name", name)
             .build();
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 Json.createObjectBuilder().add("content", body)
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString()))
-            .start(this.resource.port())) {
+            .start(RandomPort.port())
+        ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final JsonObject content = Json.createObjectBuilder()
                 .add("path", path)
@@ -199,18 +197,22 @@ public final class RtContentsTest {
                 contents.create(content)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.path(),
                 Matchers.is(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 smart.name(),
                 Matchers.is(name)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/contents/contents/test/thefile")
             );
@@ -219,13 +221,11 @@ public final class RtContentsTest {
 
     /**
      * RtContents can delete files from the repository.
-     *
-     * @throws Exception if a problem occurs.
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canDeleteFilesFromRepository() throws Exception {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+    void canDeleteFilesFromRepository() throws IOException {
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder().add(
@@ -235,10 +235,10 @@ public final class RtContentsTest {
                         .build()
                 ).build().toString()
             )
-        ).start(this.resource.port())) {
+        ).start(RandomPort.port())) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final RepoCommit commit = contents.remove(
                 Json.createObjectBuilder()
@@ -248,11 +248,13 @@ public final class RtContentsTest {
                     .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 commit.sha(),
                 Matchers.is("commitSha")
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.body(),
                 Matchers.allOf(
                     Matchers.containsString("\"message\":\"Delete me\""),
@@ -260,33 +262,31 @@ public final class RtContentsTest {
                 )
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/test/contents/contents/to/remove")
             );
         }
     }
 
-    /**
-     * RtContents can update files into the repository.
-     * @throws Exception If any problems during test execution occurs.
-     */
     @Test
-    public void canUpdateFilesInRepository() throws Exception {
+    void canUpdateFilesInRepository() throws IOException {
         final String sha = "2f97253a513bbe26658881c29e27910082fef900";
         final JsonObject resp = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
             .add("sha", sha).build();
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createObjectBuilder().add("commit", resp)
                     .build().toString()
             )
         ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, resp.toString()))
-            .start(this.resource.port())) {
+            .start(RandomPort.port())
+        ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             final String path = "test.txt";
             final JsonObject json = Json.createObjectBuilder()
@@ -295,19 +295,23 @@ public final class RtContentsTest {
                 .add("sha", "90b67dda6d5944ad167e20ec52bfed8fd56986c8")
                 .build();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new RepoCommit.Smart(contents.update(path, json)).sha(),
                 Matchers.is(sha)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().getPath(),
                 Matchers.endsWith(path)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo(json.toString())
             );
@@ -316,10 +320,9 @@ public final class RtContentsTest {
 
     /**
      * RtContents can iterate through a directory's contents.
-     * @throws Exception If something goes wrong.
      */
     @Test
-    public void canIterateDirectoryContents() throws Exception {
+    void canIterateDirectoryContents() throws IOException {
         final JsonArray body = Json.createArrayBuilder().add(
             Json.createObjectBuilder()
                 .add("path", "README.md")
@@ -329,18 +332,20 @@ public final class RtContentsTest {
                 .add("path", ".gitignore")
                 .build()
         ).build();
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body.toString())
         ).next(new MkAnswer.Simple("{\"path\":\"README.md\"}"))
             .next(new MkAnswer.Simple("{\"path\":\".gitignore\"}"))
-            .start(this.resource.port())) {
+            .start(RandomPort.port())
+        ) {
             final RtContents contents = new RtContents(
                 new ApacheRequest(container.home()),
-                repo()
+                RtContentsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 contents.iterate("dir", "branch2"),
-                Matchers.<Content>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }

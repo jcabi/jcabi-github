@@ -1,41 +1,37 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtUser}.
+ * @since 0.1
  */
-@OAuthScope(Scope.USER)
-public final class RtUserITCase {
+@OAuthScope(OAuthScope.Scope.USER)
+final class RtUserITCase {
 
-    /**
-     * RtUser can understand who am I.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void checksWhoAmI() throws Exception {
-        final Github github = new GithubIT().connect();
+    void checksWhoAmI() throws IOException {
+        final GitHub github = GitHubIT.connect();
         final User self = github.users().self();
         MatcherAssert.assertThat(
+            "Values are not equal",
             self.login(),
             Matchers.not(Matchers.is(Matchers.emptyString()))
         );
     }
 
-    /**
-     * RtUser can read verified public keys.
-     */
     @Test
-    public void readKeys() {
+    void readKeys() {
         MatcherAssert.assertThat(
-            new GithubIT().connect().users().self().keys().toString(),
+            "Values are not equal",
+            GitHubIT.connect().users().self().keys().toString(),
             Matchers.equalTo("https://api.github.com/user/keys")
         );
     }

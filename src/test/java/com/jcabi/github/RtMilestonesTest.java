@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,43 +9,39 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtMilestones}.
- *
+ * @since 0.1
  */
-public final class RtMilestonesTest {
+@ExtendWith(RandomPort.class)
+final class RtMilestonesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtMilestones can remove a milestone.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void deleteMilestone() throws Exception {
+    void deleteMilestone() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtMilestones milestones = new RtMilestones(
                 new ApacheRequest(container.home()),
-                repo()
+                RtMilestonesTest.repo()
             );
             milestones.remove(1);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );

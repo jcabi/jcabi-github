@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,13 +6,12 @@ package com.jcabi.github;
 
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonValue;
 import java.io.IOException;
-import javax.json.JsonReader;
-import javax.json.JsonValue;
 
 /**
  * GitHub stargazers.
- *
  * @since 1.7.1
  */
 public final class RtStargazers implements Stargazers {

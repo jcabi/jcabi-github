@@ -1,14 +1,15 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Milestones}.
@@ -17,7 +18,7 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtIssueMilestoneITCase {
+final class RtIssueMilestoneITCase {
     /**
      * Test repos.
      */
@@ -30,44 +31,44 @@ public final class RtIssueMilestoneITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(RtIssueMilestoneITCase.repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtIssueMilestoneITCase.repos = github.repos();
+        RtIssueMilestoneITCase.repo = new RepoRule().repo(RtIssueMilestoneITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtIssueMilestoneITCase.repos != null && RtIssueMilestoneITCase.repo != null) {
+            RtIssueMilestoneITCase.repos.remove(RtIssueMilestoneITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void addIssueToMilestone() throws Exception {
+    void addIssueToMilestone() throws Exception {
         final Issue issue = RtIssueMilestoneITCase.issue();
         final Milestone milestone = RtIssueMilestoneITCase.repo
             .milestones().create("one");
         new Issue.Smart(issue).milestone(milestone);
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             new Milestone.Smart(milestone).openIssues(),
             Matchers.greaterThan(0)
         );
     }
 
     @Test
-    public void checkMilestone() throws Exception {
+    void checkMilestone() throws Exception {
         final Issue.Smart issue = new Issue.Smart(
             RtIssueMilestoneITCase.issue()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.hasMilestone(),
             Matchers.is(false)
         );
@@ -75,13 +76,14 @@ public final class RtIssueMilestoneITCase {
             .milestones().create("two");
         issue.milestone(milestone);
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.hasMilestone(),
             Matchers.is(true)
         );
     }
 
     @Test
-    public void readMilestone() throws Exception {
+    void readMilestone() throws Exception {
         final String title = "three";
         final Issue.Smart issue = new Issue.Smart(
             RtIssueMilestoneITCase.issue()
@@ -90,6 +92,7 @@ public final class RtIssueMilestoneITCase {
             RtIssueMilestoneITCase.repo.milestones().create(title)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Milestone.Smart(
                 new Issue.Smart(
                     RtIssueMilestoneITCase.repo.issues().get(issue.number())
@@ -102,9 +105,8 @@ public final class RtIssueMilestoneITCase {
     /**
      * Create and return issue to test.
      * @return Issue
-     * @throws Exception If some problem inside
      */
-    private static Issue issue() throws Exception {
-        return repo.issues().create("test issue title", "test issue body");
+    private static Issue issue() throws IOException {
+        return RtIssueMilestoneITCase.repo.issues().create("test issue title", "test issue body");
     }
 }

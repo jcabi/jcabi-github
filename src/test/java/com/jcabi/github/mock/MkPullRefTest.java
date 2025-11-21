@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,23 +9,24 @@ import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullRef}.
- *
  * @since 0.24
  */
-public final class MkPullRefTest {
+final class MkPullRefTest {
     /**
      * Test ref.
      */
     private static final String REF = "awesome-branch";
+
     /**
      * Test commit SHA.
      */
     private static final String SHA =
         "361bb23ed4c028914d45d53c3727c48b035ee643";
+
     /**
      * Test username.
      */
@@ -36,11 +37,12 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repo = new MkGithub(storage, MkPullRefTest.USERNAME)
+        final Repo repo = new MkGitHub(storage, MkPullRefTest.USERNAME)
             .randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             MkPullRefTest.pullRef(storage, repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
@@ -51,9 +53,10 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().ref(),
+            "Values are not equal",
+            MkPullRefTest.pullRef().ref(),
             Matchers.equalTo(MkPullRefTest.REF)
         );
     }
@@ -63,9 +66,10 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
-            pullRef().sha(),
+            "Values are not equal",
+            MkPullRefTest.pullRef().sha(),
             Matchers.equalTo(MkPullRefTest.SHA)
         );
     }
@@ -79,7 +83,7 @@ public final class MkPullRefTest {
         final MkStorage storage = new MkStorage.InFile();
         return new MkPullRef(
             storage,
-            ((MkBranches) new MkGithub(storage, MkPullRefTest.USERNAME)
+            ((MkBranches) new MkGitHub(storage, MkPullRefTest.USERNAME)
                 .randomRepo()
                 .branches()).create(MkPullRefTest.REF, MkPullRefTest.SHA)
         );

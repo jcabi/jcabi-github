@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,7 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Release;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
@@ -17,14 +17,20 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github releases.
+ * Mock GitHub releases.
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkReleases implements Releases {
+
+    /**
+     * XPath suffix for release ID text.
+     */
+    private static final String RELEASE_ID_XPATH = "/release/id/text()";
 
     /**
      * Storage.
@@ -48,7 +54,7 @@ final class MkReleases implements Releases {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkReleases(
+    MkReleases(
         final MkStorage stg,
         final String login,
         final Coordinates rep
@@ -75,7 +81,7 @@ final class MkReleases implements Releases {
     public Iterable<Release> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/release", this.xpath()),
+            this.xpath().concat("/release"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -95,7 +101,7 @@ final class MkReleases implements Releases {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/release/id/text()", this.xpath())
+                this.xpath().concat(MkReleases.RELEASE_ID_XPATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("release")
@@ -106,8 +112,8 @@ final class MkReleases implements Releases {
                     .add("body").set("").up()
                     .add("draft").set("true").up()
                     .add("prerelease").set("false").up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("published_at").set(new Github.Time().toString()).up()
+                    .add("created_at").set(new GitHub.Time().toString()).up()
+                    .add("published_at").set(new GitHub.Time().toString()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("html_url").set("http://localhost/2").up()
                     .add("assets_url").set("http://localhost/3").up()
@@ -125,7 +131,7 @@ final class MkReleases implements Releases {
         try {
             this.storage.apply(
                 new Directives().xpath(
-                    String.format("%s/release[id='%d']", this.xpath(), number)
+                    this.xpath().concat(String.format("/release[id='%d']", number))
                 ).remove()
             );
         } finally {

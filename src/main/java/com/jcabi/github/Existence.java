@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,8 +10,7 @@ import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
 /**
- * Check if a Github JSON object actually exists on the server.
- *
+ * Check if a GitHub JSON object actually exists on the server.
  * @since 0.38
  */
 @Immutable
@@ -41,9 +40,7 @@ final class Existence {
         boolean exists = true;
         try {
             this.readable.json();
-        } catch (final AssertionError ex) {
-            exists = false;
-        } catch (final IndexOutOfBoundsException ex) {
+        } catch (final AssertionError | IndexOutOfBoundsException ex) {
             exists = false;
         }
         return exists;

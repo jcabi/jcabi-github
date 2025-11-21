@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,19 +7,20 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Collection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github pull comment.
+ * GitHub pull comment.
  *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtPullComment implements PullComment {
 
     /**

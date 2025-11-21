@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,7 +10,7 @@ import com.jcabi.http.Request;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github limit rate.
+ * GitHub limit rate.
  *
  * @since 0.6
  */
@@ -25,17 +25,17 @@ final class RtLimits implements Limits {
     private final transient Request entry;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
     RtLimits(
-        final Github github,
+        final GitHub github,
         final Request req
     ) {
         this.entry = req.uri().path("rate_limit").back();
@@ -43,7 +43,7 @@ final class RtLimits implements Limits {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

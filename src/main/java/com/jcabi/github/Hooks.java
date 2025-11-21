@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github hooks.
- *
- * @since 0.8
+ * GitHub hooks.
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Hooks {

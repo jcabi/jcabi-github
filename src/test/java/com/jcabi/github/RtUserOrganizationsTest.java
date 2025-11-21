@@ -1,56 +1,48 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtUserOrganizations}.
- *
+ * @since 0.1
  */
-public final class RtUserOrganizationsTest {
+@ExtendWith(RandomPort.class)
+final class RtUserOrganizationsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtUserOrganizations can iterate organizations for
-     * an unauthenticated user.
-     *
-     * @throws Exception If a problem occurs
-     */
     @Test
-    public void canIterateOrganizationsForUnauthUser() throws Exception {
+    void canIterateOrganizationsForUnauthUser() throws IOException {
         final String username = "octopus";
-        final Github github = new MkGithub();
+        final GitHub github = new MkGitHub();
         final User user = github.users().get(username);
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(org(Tv.THREE, "org11"))
-                    .add(org(Tv.FOUR, "org12"))
-                    .add(org(Tv.FIVE, "org13"))
+                    .add(RtUserOrganizationsTest.org(3, "org11"))
+                    .add(RtUserOrganizationsTest.org(4, "org12"))
+                    .add(RtUserOrganizationsTest.org(5, "org13"))
                     .build().toString()
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         try {
             final UserOrganizations orgs = new RtUserOrganizations(
                 github,
@@ -58,10 +50,12 @@ public final class RtUserOrganizationsTest {
                 user
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 orgs.iterate(),
-                Matchers.<Organization>iterableWithSize(Tv.THREE)
+                Matchers.iterableWithSize(3)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith(String.format("/users/%s/orgs", username))
             );

@@ -1,20 +1,20 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import jakarta.json.JsonObject;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
  * Bulk items, with pre-saved JSON.
  *
  * <p>This class should be used as a decorator for object obtained
- * from Github, when you want to keep their JSON values in memory. For
+ * from GitHub, when you want to keep their JSON values in memory. For
  * example:
  *
  * <pre> Iterable&lt;Issue&gt; issues = repo.issues().iterate(
@@ -24,8 +24,8 @@ import lombok.EqualsAndHashCode;
  *   System.out.println(new Issue.Smart(issue).title());
  * }</pre>
  *
- * <p>Let's say, there are 50 issues in Github's repo. This code will
- * make 52 HTTP requests to Github. The first one will fetch the first
+ * <p>Let's say, there are 50 issues in GitHub's repo. This code will
+ * make 52 HTTP requests to GitHub. The first one will fetch the first
  * 30 issues in JSON array. Then, for every one of them, in order
  * to retrieve issue title a separate HTTP request will be made. Then,
  * one more page will be fetched, with 20 issues. And again, 20 new
@@ -40,10 +40,9 @@ import lombok.EqualsAndHashCode;
  * );</pre>
  *
  * <p>Now, there will be just two HTTP requests.
- *
- * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
+ * @since 0.4
  */
 @EqualsAndHashCode(of = "origin")
 public final class Bulk<T extends JsonReadable> implements Iterable<T> {
@@ -58,7 +57,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
      * @param items Items original
      * @checkstyle AnonInnerLength (50 lines)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
     public Bulk(final Iterable<T> items) {
         if (items instanceof RtPagination) {
             final RtPagination<T> page = RtPagination.class.cast(items);
@@ -78,13 +77,8 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
                             } else {
                                 try {
                                     result = method.invoke(item, args);
-                                } catch (
-                                    final IllegalAccessException ex
-                                ) {
-                                    throw new IllegalStateException(ex);
-                                } catch (
-                                    final InvocationTargetException ex
-                                ) {
+                                } catch (final IllegalAccessException
+                                    | InvocationTargetException ex) {
                                     throw new IllegalStateException(ex);
                                 }
                             }

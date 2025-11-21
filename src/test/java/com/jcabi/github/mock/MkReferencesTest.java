@@ -1,135 +1,126 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Reference;
 import com.jcabi.github.References;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link MkReferences}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReferencesTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class MkReferencesTest {
 
-    /**
-     * MkReferences can create a MkReference.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void createsMkReference() throws Exception {
-        final References refs = new MkGithub().randomRepo()
+    void createsMkReference() throws IOException {
+        final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
+            "Value is null",
             refs.create("refs/heads/branch1", "abcderf122"),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * MkReference can return its owner.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void returnsRepo() throws Exception {
-        final References refs = new MkGithub().randomRepo()
+    void returnsRepo() throws IOException {
+        final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
+            "Value is null",
             refs.repo(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * MkReferences can iterate over references.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void iteratesReferences() throws Exception {
-        final Repo owner = new MkGithub().randomRepo();
+    void iteratesReferences() throws IOException {
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate(),
-            Matchers.<Reference>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
     /**
      * MkReferences can iterate over references in sub-namespace.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferencesInSubNamespace() throws Exception {
-        final Repo owner = new MkGithub().randomRepo();
+    void iteratesReferencesInSubNamespace() throws IOException {
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
         refs.create("refs/tags/t1", "111t222");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate("heads"),
-            Matchers.<Reference>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate("tags"),
-            Matchers.<Reference>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 
     /**
      * MkReferences can iterate over references in Tagsub-namespace.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesTags() throws Exception {
-        final Repo owner = new MkGithub().randomRepo();
+    void iteratesTags() throws IOException {
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/tags/t2", "2322f34");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.tags(),
-            Matchers.<Reference>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 
     /**
      * MkReferences can iterate over references in Tagsub-namespace.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesHeads() throws Exception {
-        final Repo owner = new MkGithub().randomRepo();
+    void iteratesHeads() throws IOException {
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/branch2", "blahblah");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.heads(),
-            Matchers.<Reference>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 
-    /**
-     * MkReferences can remove a Reference.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void removesReference() throws Exception {
-        final Repo owner = new MkGithub().randomRepo();
+    void removesReference() throws IOException {
+        final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/testbr", "qweqwe22");
         refs.create("refs/tags/t2", "111teee");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate(),
-            Matchers.<Reference>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         refs.remove("refs/tags/t2");
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             refs.iterate(),
-            Matchers.<Reference>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
     }
 }

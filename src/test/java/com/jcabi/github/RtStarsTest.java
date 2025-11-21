@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,45 +10,41 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriBuilderException;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtStars}.
- *
+ * @since 0.8
  */
-public final class RtStarsTest {
+@ExtendWith(RandomPort.class)
+final class RtStarsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtStars can check if repo is starred.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void checkIfRepoStarred() throws Exception {
+    void checkIfRepoStarred() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
-                    new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-                ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-                .start(this.resource.port())
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+                .start(RandomPort.port())
         ) {
             final Stars starred = new RtStars(
                 new ApacheRequest(container.home()),
                 RtStarsTest.repo("someuser", "starredrepo")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 starred.starred(), Matchers.is(true)
             );
             final Stars unstarred = new RtStars(
@@ -56,23 +52,20 @@ public final class RtStarsTest {
                 RtStarsTest.repo("otheruser", "notstarredrepo")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 unstarred.starred(), Matchers.is(false)
             );
             container.stop();
         }
     }
 
-    /**
-     * RtStars can star repository.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void starRepository() throws Exception {
+    @SuppressWarnings("PMD.AvoidUncheckedExceptionsInSignatures")
+    void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-            ).start(this.resource.port());
+            ).start(RandomPort.port())
         ) {
             final String user = "staruser";
             final String repo = "starrepo";
@@ -83,10 +76,12 @@ public final class RtStarsTest {
             stars.star();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath(user)
@@ -99,17 +94,14 @@ public final class RtStarsTest {
         }
     }
 
-    /**
-     * RtStars can unstar repository.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void unstarRepository() throws Exception {
+    @SuppressWarnings("PMD.AvoidUncheckedExceptionsInSignatures")
+    void unstarRepository()
+        throws IOException, IllegalArgumentException, UriBuilderException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final String user = "unstaruser";
             final String repo = "unstarrepo";
@@ -120,10 +112,12 @@ public final class RtStarsTest {
             stars.unstar();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath(user)

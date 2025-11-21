@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.User;
 import com.jcabi.github.Users;
 import java.io.IOException;
@@ -15,7 +15,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github users.
+ * Mock GitHub users.
  *
  * @since 0.5
  */
@@ -23,6 +23,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "himself" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkUsers implements Users {
 
     /**
@@ -54,8 +55,8 @@ final class MkUsers implements Users {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.himself);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.himself);
     }
 
     @Override

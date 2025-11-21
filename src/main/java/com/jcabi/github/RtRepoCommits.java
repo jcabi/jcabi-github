@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,20 +9,22 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.RequestURI;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
-import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
- * Commits of a Github repository.
+ * Commits of a GitHub repository.
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "entry" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtRepoCommits implements RepoCommits {
 
     /**
@@ -66,7 +68,7 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public  Iterable<RepoCommit> iterate(
+    public Iterable<RepoCommit> iterate(
         final Map<String, String> params
     ) {
         return new RtPagination<>(

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,14 +6,14 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -22,7 +22,7 @@ import lombok.ToString;
  *
  * <p>Gist Comment implements {@link JsonReadable}, that's how you can get
  * its full details in JSON format.
- * For example, to get its author's Github login
+ * For example, to get its author's GitHub login
  * you get the entire JSON and then gets its element:
  *
  * <pre>String login = comment.json()
@@ -34,8 +34,8 @@ import lombok.ToString;
  *
  * <pre>String login = new GistComment.Smart(comment).author().login();</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -56,13 +56,13 @@ public interface GistComment
 
     /**
      * Delete the comment.
-     * @throws java.io.IOException If there is any I/O problem
-     * @see <a href="https://developer.github.com/v3/gists/comments/#delete-a-comment">Delete a Comment</a>
+     * @throws IOException If there is any I/O problem
      */
     void remove() throws IOException;
 
     /**
      * Smart comment with additional features.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -73,6 +73,7 @@ public interface GistComment
          * Encapsulated gist comment.
          */
         private final transient GistComment comment;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -138,7 +139,7 @@ public interface GistComment
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -153,7 +154,7 @@ public interface GistComment
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

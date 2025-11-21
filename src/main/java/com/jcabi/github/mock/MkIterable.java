@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,7 +14,7 @@ import lombok.ToString;
 
 /**
  * Mock iterable.
- *
+ * @param <T> Type of iterable
  * @since 0.5
  */
 @Loggable(Loggable.DEBUG)
@@ -66,10 +66,12 @@ final class MkIterable<T> implements Iterable<T> {
             public boolean hasNext() {
                 return nodes.hasNext();
             }
+
             @Override
             public T next() {
                 return MkIterable.this.mapping.map(nodes.next());
             }
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException("#remove()");
@@ -79,6 +81,8 @@ final class MkIterable<T> implements Iterable<T> {
 
     /**
      * Mapping.
+     * @param <X> Type of item
+     * @since 0.5
      */
     @Immutable
     public interface Mapping<X> {

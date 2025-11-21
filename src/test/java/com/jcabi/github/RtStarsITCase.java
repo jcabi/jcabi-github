@@ -1,23 +1,22 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test case for {@link RtStars}.
- *
+ * @since 0.8
  */
-@OAuthScope({ Scope.REPO, Scope.USER })
-public final class RtStarsITCase {
+@OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
+final class RtStarsITCase {
     /**
      * Test repos.
      */
@@ -32,21 +31,21 @@ public final class RtStarsITCase {
      * Set up tests.
      * @throws IOException If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws IOException  {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException  {
+        final GitHub github = GitHubIT.connect();
+        RtStarsITCase.repos = github.repos();
+        RtStarsITCase.repo = new RepoRule().repo(RtStarsITCase.repos);
     }
 
     /**
      * Set up tests.
      * @throws IOException If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws IOException  {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException  {
+        if (RtStarsITCase.repos != null && RtStarsITCase.repo != null) {
+            RtStarsITCase.repos.remove(RtStarsITCase.repo.coordinates());
         }
     }
 
@@ -56,19 +55,22 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @Test
-    public void starsUnstarsChecksStar() throws IOException {
+    void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
-            repo.stars().starred(),
+            "Values are not equal",
+            RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );
-        repo.stars().star();
+        RtStarsITCase.repo.stars().star();
         MatcherAssert.assertThat(
-            repo.stars().starred(),
+            "Values are not equal",
+            RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(true)
         );
-        repo.stars().unstar();
+        RtStarsITCase.repo.stars().unstar();
         MatcherAssert.assertThat(
-            repo.stars().starred(),
+            "Values are not equal",
+            RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );
     }

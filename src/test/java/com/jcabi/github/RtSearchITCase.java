@@ -1,34 +1,29 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import java.util.EnumMap;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearch}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (140 lines)
  */
-@OAuthScope({ Scope.REPO, Scope.USER })
+@OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtSearchITCase {
+final class RtSearchITCase {
 
-    /**
-     * RtSearch can search for repos.
-     *
-     */
     @Test
-    public void canSearchForRepos() {
+    void canSearchForRepos() {
         MatcherAssert.assertThat(
-            new GithubIT().connect()
+            "Collection is not empty",
+            GitHubIT.connect()
                 .search().repos("repo", "stars", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(Repo.class))
         );
@@ -36,35 +31,32 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can fetch multiple pages of a large result (more than 25 items).
-     *
      */
     @Test
-    public void canFetchMultiplePages() {
-        final Iterator<Repo> iter = new GithubIT().connect().search().repos(
+    void canFetchMultiplePages() {
+        final Iterator<Repo> iter = GitHubIT.connect().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
         int count = 0;
-        while (iter.hasNext() && count < Tv.HUNDRED) {
+        while (iter.hasNext() && count < 100) {
             iter.next().coordinates();
             count += 1;
         }
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             count,
-            Matchers.greaterThanOrEqualTo(Tv.HUNDRED)
+            Matchers.greaterThanOrEqualTo(100)
         );
     }
 
-    /**
-     * RtSearch can search for issues.
-     *
-     */
     @Test
-    public void canSearchForIssues() {
+    void canSearchForIssues() {
         final EnumMap<Search.Qualifier, String> qualifiers =
             new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
-            new GithubIT().connect().search().issues(
+            "Collection is not empty",
+            GitHubIT.connect().search().issues(
                 "qualifiers",
                 "updated",
                 Search.Order.DESC,
@@ -74,14 +66,11 @@ public final class RtSearchITCase {
         );
     }
 
-    /**
-     * RtSearch can search for users.
-     *
-     */
     @Test
-    public void canSearchForUsers() {
+    void canSearchForUsers() {
         MatcherAssert.assertThat(
-            new GithubIT().connect()
+            "Collection is not empty",
+            GitHubIT.connect()
                 .search().users("jcabi", "joined", Search.Order.DESC),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
@@ -89,13 +78,13 @@ public final class RtSearchITCase {
 
     /**
      * RtSearch can search for contents.
-     *
      * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
     @Test
-    public void canSearchForContents() {
+    void canSearchForContents() {
         MatcherAssert.assertThat(
-            new GithubIT().connect().search().codes(
+            "Collection is not empty",
+            GitHubIT.connect().search().codes(
                 "addClass repo:jquery/jquery", "joined", Search.Order.DESC
             ),
             Matchers.not(Matchers.emptyIterableOf(Content.class))

@@ -1,8 +1,7 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -12,17 +11,19 @@ import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Statuses;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github Commits.
+ * Mock of GitHub Commits.
+ * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 public final class MkCommits implements Commits {
 
     /**
@@ -64,6 +65,7 @@ public final class MkCommits implements Commits {
             ).addIf("commits")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);

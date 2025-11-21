@@ -1,24 +1,25 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtTrees}.
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-@OAuthScope(Scope.REPO)
-public final class RtTreesITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtTreesITCase {
 
     /**
      * Test repos.
@@ -38,33 +39,27 @@ public final class RtTreesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtTreesITCase.repos = github.repos();
+        RtTreesITCase.repo = RtTreesITCase.rule.repo(RtTreesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtTreesITCase.repos != null && RtTreesITCase.repo != null) {
+            RtTreesITCase.repos.remove(RtTreesITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtTags creates a tag.
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void createsAndObtainsTree() throws Exception {
-        final Trees trees = repo.git().trees();
+    void createsAndObtainsTree() throws IOException {
+        final Trees trees = RtTreesITCase.repo.git().trees();
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",
             Json.createArrayBuilder().add(
@@ -77,6 +72,7 @@ public final class RtTreesITCase {
         ).build();
         final Tree tree = trees.create(json);
         MatcherAssert.assertThat(
+            "Values are not equal",
             trees.get(tree.json().getString("sha")),
             Matchers.is(tree)
         );

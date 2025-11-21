@@ -1,30 +1,33 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.google.common.base.Optional;
-import com.jcabi.github.mock.MkGithub;
-import javax.json.Json;
+import com.jcabi.github.mock.MkGitHub;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Status}.
  * @since 0.24
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public final class StatusTest {
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
+final class StatusTest {
     /**
      * Name of state property in Status JSON object.
      */
     private static final String STATE_PROP = "state";
+
     /**
      * Name of description property in Status JSON object.
      */
     private static final String DESCRIPTION_PROP = "description";
+
     /**
      * Name of description property in Status JSON object.
      */
@@ -35,9 +38,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCommit() throws Exception {
+    void fetchesCommit() throws Exception {
         final Commit cmmt = StatusTest.commit();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(cmmt, Json.createObjectBuilder().build())
             ).commit(),
@@ -50,9 +54,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesId() throws Exception {
+    void fetchesId() throws Exception {
         final int ident = 777;
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -68,9 +73,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/wherever";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -86,8 +92,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesErrorState() throws Exception {
+    void fetchesErrorState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -104,8 +111,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesFailureState() throws Exception {
+    void fetchesFailureState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -122,8 +130,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPendingState() throws Exception {
+    void fetchesPendingState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -140,8 +149,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesSuccessState() throws Exception {
+    void fetchesSuccessState() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -158,9 +168,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPresentTargetUrl() throws Exception {
+    void fetchesPresentTargetUrl() throws Exception {
         final String url = "http://api.jcabi-github.invalid/good-luck";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -177,8 +188,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAbsentTargetUrl() throws Exception {
+    void fetchesAbsentTargetUrl() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -194,8 +206,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNullTargetUrl() throws Exception {
+    void fetchesNullTargetUrl() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -212,9 +225,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesPresentDescription() throws Exception {
+    void fetchesPresentDescription() throws Exception {
         final String description = "Mostly harmless";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -231,8 +245,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesAbsentDescription() throws Exception {
+    void fetchesAbsentDescription() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -248,8 +263,9 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesNullDescription() throws Exception {
+    void fetchesNullDescription() throws Exception {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -266,9 +282,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesContext() throws Exception {
+    void fetchesContext() throws Exception {
         final String context = "jcabi/github/tester";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -284,16 +301,17 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreatedAt() throws Exception {
+    void fetchesCreatedAt() throws Exception {
         final String when = "2015-02-27T19:35:32Z";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
                     Json.createObjectBuilder().add("created_at", when).build()
                 )
             ).createdAt(),
-            Matchers.equalTo(new Github.Time(when).date())
+            Matchers.equalTo(new GitHub.Time(when).date())
         );
     }
 
@@ -302,16 +320,17 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesUpdatedAt() throws Exception {
+    void fetchesUpdatedAt() throws Exception {
         final String when = "2013-02-27T19:35:32Z";
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
                     Json.createObjectBuilder().add("updated_at", when).build()
                 )
             ).updatedAt(),
-            Matchers.equalTo(new Github.Time(when).date())
+            Matchers.equalTo(new GitHub.Time(when).date())
         );
     }
 
@@ -320,9 +339,10 @@ public final class StatusTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void fetchesCreator() throws Exception {
+    void fetchesCreator() throws Exception {
         final String login = "bob";
         MatcherAssert.assertThat(
+            "Assertion failed",
             new Status.Smart(
                 new RtStatus(
                     StatusTest.commit(),
@@ -341,10 +361,9 @@ public final class StatusTest {
     /**
      * Returns a test commit to work with.
      * @return Commit
-     * @throws Exception If some problem inside
      */
-    private static Commit commit() throws Exception {
-        return new MkGithub().randomRepo().git().commits()
+    private static Commit commit() throws IOException {
+        return new MkGitHub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");
     }
 }

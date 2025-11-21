@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,23 +9,21 @@ import com.jcabi.github.Event;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkEvent}.
+ * @since 0.1
  */
-public final class MkEventTest {
-    /**
-     * Can get created_at value from json object.
-     * @throws Exception If some problem inside
-     */
+final class MkEventTest {
     @Test
-    public void canGetCreatedAt() throws Exception {
+    void canGetCreatedAt() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
-        final Repo repo = new MkGithub(storage, user).randomRepo();
+        final Repo repo = new MkGitHub(storage, user).randomRepo();
         final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
         final int eventnum = events.create(
             "test_type",
@@ -34,6 +32,7 @@ public final class MkEventTest {
             Optional.of("test_label")
         ).number();
         MatcherAssert.assertThat(
+            "Value is null",
             new MkEvent(
                 storage,
                 user,
@@ -45,15 +44,11 @@ public final class MkEventTest {
         );
     }
 
-    /**
-     * MkEvent can get present label value from json object.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canGetPresentLabel() throws Exception {
+    void canGetPresentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "ken";
-        final Repo repo = new MkGithub(storage, user).repos().create(
+        final Repo repo = new MkGitHub(storage, user).repos().create(
             new Repos.RepoCreate("foo", false)
         );
         final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
@@ -65,6 +60,7 @@ public final class MkEventTest {
             Optional.of(label)
         ).number();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Event.Smart(
                 new MkEvent(
                     storage,
@@ -77,24 +73,21 @@ public final class MkEventTest {
         );
     }
 
-    /**
-     * MkEvent can get absent label value from json object.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canGetAbsentLabel() throws Exception {
+    void canGetAbsentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "barbie";
-        final Repo repo = new MkGithub(storage, user).repos().create(
+        final Repo repo = new MkGitHub(storage, user).repos().create(
             new Repos.RepoCreate("bar", false)
         );
         final int num = ((MkIssueEvents) repo.issueEvents()).create(
             Event.LABELED,
             1,
             user,
-            Optional.<String>absent()
+            Optional.absent()
         ).number();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Event.Smart(
                 new MkEvent(
                     storage,

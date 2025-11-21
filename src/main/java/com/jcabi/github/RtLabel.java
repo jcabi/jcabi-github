@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,12 +7,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github label.
+ * GitHub label.
  *
  * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -20,6 +20,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "txt" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtLabel implements Label {
 
     /**

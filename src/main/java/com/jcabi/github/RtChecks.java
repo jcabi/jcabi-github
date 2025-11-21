@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,17 +7,17 @@ package com.jcabi.github;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 
 /**
- * Github Checks.
+ * GitHub Checks.
  *
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
@@ -44,24 +44,6 @@ class RtChecks implements Checks {
         this.request = req;
     }
 
-    /**
-     * Get all checks.
-     * JSON schema:
-     * <p>{@code
-     * {
-     *   "total_count": 1,
-     *   "check_runs": [
-     *     {
-     *       "id": 4,
-     *       "status": "completed",
-     *       ...
-     *     }
-     *   ]
-     * }
-     * }</p>
-     * @return Checks.
-     * @throws IOException If there is any I/O problem.
-     */
     @Override
     public Collection<? extends Check> all() throws IOException {
         final Coordinates coords = this.pull.repo().coordinates();

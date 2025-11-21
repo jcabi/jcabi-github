@@ -1,27 +1,26 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtRelease}.
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@OAuthScope(Scope.REPO)
-public final class RtReleaseITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtReleaseITCase {
 
     /**
      * Test repos.
@@ -41,45 +40,40 @@ public final class RtReleaseITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtReleaseITCase.repos = github.repos();
+        RtReleaseITCase.repo = RtReleaseITCase.rule.repo(RtReleaseITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtReleaseITCase.repos != null && RtReleaseITCase.repo != null) {
+            RtReleaseITCase.repos.remove(RtReleaseITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtRelease can edit a release.
-     * @throws Exception If any problems during test execution occur.
-     */
     @Test
-    public void canEditRelease() throws Exception {
-        final Release release = repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+    void canEditRelease() throws IOException {
+        final Release release = RtReleaseITCase.repo.releases().create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final JsonObject patch = Json.createObjectBuilder()
-            .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
-            .add("name", "jcabi Github test release")
-            .add("body", "jcabi Github was here!")
+            .add("tag_name", RandomStringUtils.secure().nextAlphanumeric(10))
+            .add("name", "jcabi GitHub test release")
+            .add("body", "jcabi GitHub was here!")
             .build();
         release.patch(patch);
-        final JsonObject json = repo.releases()
+        final JsonObject json = RtReleaseITCase.repo.releases()
             .get(release.number()).json();
         for (final String property : patch.keySet()) {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 json.getString(property),
                 Matchers.equalTo(patch.getString(property))
             );

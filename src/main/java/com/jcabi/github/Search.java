@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,25 +8,22 @@ import com.jcabi.aspects.Immutable;
 import java.util.EnumMap;
 
 /**
- * Github search.
- *
- * @since 0.8
+ * GitHub search.
  * @see <a href="https://developer.github.com/v3/search/">Search API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface Search {
 
     /**
-     * Github we're in.
-     *
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Search repositories.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -36,12 +33,11 @@ public interface Search {
     Iterable<Repo> repos(
         String keywords,
         String sort,
-        Order order
+        Search.Order order
     );
 
     /**
      * Search issues.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -53,12 +49,11 @@ public interface Search {
     Iterable<Issue> issues(
         String keywords,
         String sort,
-        Order order,
-        EnumMap<Qualifier, String> qualifiers);
+        Search.Order order,
+        EnumMap<Search.Qualifier, String> qualifiers);
 
     /**
      * Search users.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -68,11 +63,10 @@ public interface Search {
     Iterable<User> users(
         String keywords,
         String sort,
-        Order order);
+        Search.Order order);
 
     /**
      * Search code.
-     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -82,7 +76,7 @@ public interface Search {
     Iterable<Content> codes(
         String keywords,
         String sort,
-        Order order);
+        Search.Order order);
 
     enum Qualifier implements StringEnum {
         /**
@@ -184,10 +178,6 @@ public interface Search {
             this.qualifier = key;
         }
 
-        /**
-         * Get search qualifier.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.qualifier;
@@ -217,10 +207,6 @@ public interface Search {
             this.order = key;
         }
 
-        /**
-         * Get sort order.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.order;

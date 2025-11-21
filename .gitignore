@@ -1,10 +1,11 @@
+*.iml
 .classpath
+.claude/
 .DS_Store
 .idea/
 .log
 .project
 .settings/
-*.iml
 /.settings
 /bin
 node_modules/

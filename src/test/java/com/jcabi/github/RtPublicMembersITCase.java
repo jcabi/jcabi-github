@@ -1,18 +1,20 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicMembers}.
+ * @since 0.4
  */
-public final class RtPublicMembersITCase {
+final class RtPublicMembersITCase {
     /**
      * Test organization name.
      */
@@ -36,48 +38,45 @@ public final class RtPublicMembersITCase {
     /**
      * Set up test fixtures.
      */
-    @BeforeClass
-    public static void setUp() {
-        final Github github = new GithubIT().connect();
+    @BeforeAll
+    static void setUp() {
+        final GitHub github = GitHubIT.connect();
         final Users users = github.users();
-        org = github.organizations().get(ORG_NAME);
-        member = users.get("yegor256");
-        nonMember = users.get("charset");
+        RtPublicMembersITCase.org = github.organizations().get(RtPublicMembersITCase.ORG_NAME);
+        RtPublicMembersITCase.member = users.get("yegor256");
+        RtPublicMembersITCase.nonMember = users.get("charset");
     }
 
-    /**
-     * RtPublicMembers can check whether a user is a public member
-     * of an organization.
-     * @throws Exception If something goes wrong
-     */
     @Test
-    public void checksPublicMembership() throws Exception {
+    void checksPublicMembership() throws IOException {
         MatcherAssert.assertThat(
             "Check true positive of public membership in an organization",
-            org.publicMembers().contains(member)
+            RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.member),
+            Matchers.is(true)
         );
         MatcherAssert.assertThat(
             "Check true negative of public membership in an organization",
-            !org.publicMembers().contains(nonMember)
+            !RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.nonMember),
+            Matchers.is(true)
         );
     }
 
-    /**
-     * RtPublicMembers can list the public members of an organization.
-     */
     @Test
-    public void listsPublicMembers() {
+    void listsPublicMembers() {
         MatcherAssert.assertThat(
-            org.publicMembers().iterate(),
-            Matchers.<User>iterableWithSize(Matchers.greaterThanOrEqualTo(1))
+            "Collection size is incorrect",
+            RtPublicMembersITCase.org.publicMembers().iterate(),
+            Matchers.iterableWithSize(Matchers.greaterThanOrEqualTo(1))
         );
         MatcherAssert.assertThat(
-            org.publicMembers().iterate(),
-            Matchers.hasItem(member)
+            "Collection does not contain expected item",
+            RtPublicMembersITCase.org.publicMembers().iterate(),
+            Matchers.hasItem(RtPublicMembersITCase.member)
         );
         MatcherAssert.assertThat(
-            org.publicMembers().iterate(),
-            Matchers.not(Matchers.hasItem(nonMember))
+            "Collection does not contain expected item",
+            RtPublicMembersITCase.org.publicMembers().iterate(),
+            Matchers.not(Matchers.hasItem(RtPublicMembersITCase.nonMember))
         );
     }
 }

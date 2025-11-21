@@ -1,53 +1,47 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtOrganizations}.
- *
+ * @since 0.1
  */
-public final class RtOrganizationsTest {
+@ExtendWith(RandomPort.class)
+final class RtOrganizationsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtOrganizations should be able to get a single organization.
-     *
-     * @throws Exception if a problem occurs
-     */
     @Test
-    public void fetchesSingleOrganization() throws Exception {
+    void fetchesSingleOrganization() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Organizations orgs = new RtOrganizations(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 orgs.get("org"),
                 Matchers.notNullValue()
             );
@@ -58,34 +52,34 @@ public final class RtOrganizationsTest {
     /**
      * RtOrganizations should be able to iterate
      * the logged-in user's organizations.
-     *
-     * @throws Exception If a problem occurs
      * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
-    public void retrievesOrganizations() throws Exception {
-        final Github github = new MkGithub();
+    void retrievesOrganizations() throws IOException {
+        final GitHub github = new MkGitHub();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(org(1, "org1"))
-                        .add(org(2, "org2"))
-                        .add(org(3, "org3"))
+                        .add(RtOrganizationsTest.org(1, "org1"))
+                        .add(RtOrganizationsTest.org(2, "org2"))
+                        .add(RtOrganizationsTest.org(3, "org3"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Organizations orgs = new RtOrganizations(
                 github,
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 orgs.iterate(),
-                Matchers.<Organization>iterableWithSize(Tv.THREE)
+                Matchers.iterableWithSize(3)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 container.take().uri().toString(),
                 Matchers.endsWith("/user/orgs")
             );

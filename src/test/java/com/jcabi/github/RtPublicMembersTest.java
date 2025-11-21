@@ -1,10 +1,10 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.github.mock.MkOrganization;
 import com.jcabi.github.mock.MkStorage;
 import com.jcabi.http.Request;
@@ -18,16 +18,18 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtPublicMembers}.
- *
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtPublicMembersTest {
+@ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtPublicMembersTest {
     /**
      * Test organization.
      */
@@ -43,7 +45,7 @@ public final class RtPublicMembersTest {
      */
     private static final String MEMBERS_URL = String.format(
         "/orgs/%s/public_members",
-        ORG
+        RtPublicMembersTest.ORG
     );
 
     /**
@@ -51,33 +53,19 @@ public final class RtPublicMembersTest {
      */
     private static final String MEMBER_URL = String.format(
         "%s/%s",
-        MEMBERS_URL,
-        USERNAME
+        RtPublicMembersTest.MEMBERS_URL,
+        RtPublicMembersTest.USERNAME
     );
-
-    /**
-     * Rule for checking thrown exception.
-     * @checkstyle VisibilityModifier (3 lines)
-     */
-    @Rule
-    @SuppressWarnings("deprecation")
-    public transient ExpectedException thrown = ExpectedException.none();
-
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
 
     /**
      * RtPublicMembers can fetch its organization.
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesOrg() throws IOException {
-        final Organization org = organization();
+    void fetchesOrg() throws IOException {
+        final Organization org = RtPublicMembersTest.organization();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtPublicMembers(new FakeRequest(), org).org(),
             Matchers.equalTo(org)
         );
@@ -88,33 +76,38 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void concealsMembers() throws IOException {
+    void concealsMembers() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
-            members.conceal(user());
+            members.conceal(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
-                Matchers.endsWith(MEMBER_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
-            this.thrown.expect(AssertionError.class);
-            members.conceal(user());
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.conceal(RtPublicMembersTest.user())
+            );
             container.stop();
         }
     }
@@ -125,28 +118,32 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void publicizesMembers() throws IOException {
+    void publicizesMembers() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port())
+            .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
-            members.publicize(user());
+            members.publicize(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.PUT)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
-                Matchers.endsWith(MEMBER_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
-            this.thrown.expect(AssertionError.class);
-            members.publicize(user());
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.publicize(RtPublicMembersTest.user())
+            );
             container.stop();
         }
     }
@@ -157,41 +154,47 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void checkPublicMembership() throws IOException {
+    void checkPublicMembership() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
                 .next(
                     new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
                 )
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
-            members.contains(user());
+            members.contains(RtPublicMembersTest.user());
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
-                Matchers.endsWith(MEMBER_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
             MatcherAssert.assertThat(
                 "404 is interpreted as the user not being a public member",
-                !members.contains(user())
+                !members.contains(RtPublicMembersTest.user()),
+                Matchers.is(true)
             );
             MatcherAssert.assertThat(
                 "204 is interpreted as the user being a public member",
-                members.contains(user())
+                members.contains(RtPublicMembersTest.user()),
+                Matchers.is(true)
             );
-            this.thrown.expect(AssertionError.class);
-            members.contains(user());
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.contains(RtPublicMembersTest.user())
+            );
             container.stop();
         }
     }
@@ -201,34 +204,38 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void iteratesPublicMembers() throws IOException {
+    void iteratesPublicMembers() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(
                     new MkAnswer.Simple(
                         HttpURLConnection.HTTP_OK,
                         "[{\"login\":\"octobat\"}]"
                     )
-            )
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(this.resource.port())
+                )
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .start(RandomPort.port())
         ) {
             final RtPublicMembers members = new RtPublicMembers(
                 new ApacheRequest(container.home()),
-                organization()
+                RtPublicMembersTest.organization()
             );
             members.iterate().iterator().next();
             final MkQuery req = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 req.method(),
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 req.uri().toString(),
-                Matchers.endsWith(MEMBERS_URL)
+                Matchers.endsWith(RtPublicMembersTest.MEMBERS_URL)
             );
-            this.thrown.expect(AssertionError.class);
-            members.iterate().iterator().next();
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.iterate().iterator().next()
+            );
             container.stop();
         }
     }
@@ -239,7 +246,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     private static Organization organization() throws IOException {
-        return new MkOrganization(new MkStorage.InFile(), ORG);
+        return new MkOrganization(new MkStorage.InFile(), RtPublicMembersTest.ORG);
     }
 
     /**
@@ -248,6 +255,6 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     private static User user() throws IOException {
-        return new MkGithub().users().get(USERNAME);
+        return new MkGitHub().users().get(RtPublicMembersTest.USERNAME);
     }
 }

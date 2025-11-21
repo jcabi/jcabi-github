@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,66 +10,59 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtBlobs}.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class RtBlobsTest {
+@ExtendWith(RandomPort.class)
+final class RtBlobsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtBlobs can create a blob.
-     *
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canCreateBlob() throws Exception {
-        final String content = "Content of the blob";
-        final String body = blob().toString();
+    void canCreateBlob() throws IOException {
+        final String body = RtBlobsTest.blob().toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-            .start(this.resource.port())) {
+                .start(RandomPort.port())
+        ) {
             final RtBlobs blobs = new RtBlobs(
                 new ApacheRequest(container.home()),
-                repo()
+                RtBlobsTest.repo()
             );
+            final String content = "Content of the blob";
             final Blob blob = blobs.create(content, "utf-8");
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Blob.Smart(blob).url(),
                 Matchers.equalTo("http://localhost/1")
             );
         }
     }
 
-    /**
-     * RtBlobs can get blob.
-     *
-     */
     @Test
-    public void getBlob() {
+    void getBlob() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
         final Blobs blobs = new RtBlobs(
             new FakeRequest().withBody(
@@ -78,9 +71,11 @@ public final class RtBlobsTest {
                     .build()
                     .toString()
             ),
-            repo()
+            RtBlobsTest.repo()
         );
-        MatcherAssert.assertThat(blobs.get(sha).sha(), Matchers.equalTo(sha));
+        MatcherAssert.assertThat(
+            "Values are not equal", blobs.get(sha).sha(), Matchers.equalTo(sha)
+        );
     }
 
     /**
@@ -102,7 +97,7 @@ public final class RtBlobsTest {
     private static JsonObject blob() {
         return Json.createObjectBuilder()
             .add("url", "http://localhost/1")
-            .add("sha", RandomStringUtils.random(40, "0123456789abcdef"))
+            .add("sha", RandomStringUtils.secure().next(40, "0123456789abcdef"))
             .build();
     }
 }

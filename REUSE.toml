@@ -30,6 +30,7 @@ path = [
     "MANIFEST.MF",
     "README.md",
     "renovate.json",
+    "src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "Copyright (c) 2025 Yegor Bugayenko"

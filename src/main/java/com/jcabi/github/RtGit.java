@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,13 +10,12 @@ import com.jcabi.http.Request;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git.
- *
+ * GitHub Git.
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "owner" })
+@EqualsAndHashCode(of = "owner")
 final class RtGit implements Git {
 
     /**
@@ -34,7 +33,7 @@ final class RtGit implements Git {
      * @param req Request
      * @param repo Repository
      */
-    public RtGit(final Request req, final Repo repo) {
+    RtGit(final Request req, final Repo repo) {
         this.entry = req;
         this.owner = repo;
     }

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,23 +6,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.util.Iterator;
-import javax.json.JsonObject;
 
 /**
- * Github pagination.
- *
+ * GitHub pagination.
  * <p>This class is a convenient iterator over multiple JSON objects
- * returned by Github API. For example, to iterate through notifications
+ * returned by GitHub API. For example, to iterate through notifications
  * (see Notifications API) you can use this code:</p>
- *
  * <pre> Iterable&lt;JsonObject&gt; notifications = new RtPagination&lt;&gt;(
- *   new RtGithub(oauth).entry()
+ *   new RtGitHub(oauth).entry()
  *     .uri().path("/notifications").back(),
  *   RtPagination.COPYING
  * );</pre>
- *
- * @since 0.4
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  * @since 0.11

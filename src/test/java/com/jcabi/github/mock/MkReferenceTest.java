@@ -1,31 +1,33 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Reference;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link MkReference}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReferenceTest {
+final class MkReferenceTest {
 
     /**
      * MkReference can return its name.
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsName() throws Exception {
+    void returnsName() throws Exception {
         MatcherAssert.assertThat(
-            this.reference().ref(),
+            "Values are not equal",
+            MkReferenceTest.reference().ref(),
             Matchers.is("refs/tags/hello")
         );
     }
@@ -35,9 +37,10 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsRepo() throws Exception {
+    void returnsRepo() throws Exception {
         MatcherAssert.assertThat(
-            this.reference().repo(),
+            "Value is null",
+            MkReferenceTest.reference().repo(),
             Matchers.notNullValue()
         );
     }
@@ -47,14 +50,16 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void fetchesJson() throws Exception {
-        final Reference ref = this.reference();
+    void fetchesJson() throws Exception {
+        final Reference ref = MkReferenceTest.reference();
         final JsonObject json = ref.json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("ref"),
             Matchers.is("refs/tags/hello")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             json.getString("sha"),
             Matchers.is("testsha")
         );
@@ -65,13 +70,14 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void patchesRef() throws Exception {
-        final Reference ref = this.reference();
+    void patchesRef() throws Exception {
+        final Reference ref = MkReferenceTest.reference();
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "testshaPATCH")
             .build();
         ref.patch(json);
         MatcherAssert.assertThat(
+            "Values are not equal",
             ref.json().getString("sha"),
             Matchers.is("testshaPATCH")
         );
@@ -80,10 +86,9 @@ public final class MkReferenceTest {
     /**
      * Return a Reference for testing.
      * @return Reference
-     * @throws Exception - if something goes wrong.
      */
-    private Reference reference() throws Exception {
-        return new MkGithub().randomRepo().git()
+    private static Reference reference() throws IOException {
+        return new MkGitHub().randomRepo().git()
             .references().create("refs/tags/hello", "testsha");
     }
 }

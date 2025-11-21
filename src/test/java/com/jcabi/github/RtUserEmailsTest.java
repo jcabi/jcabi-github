@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,31 +9,28 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtUserEmails}.
+ * @since 0.1
  */
-public final class RtUserEmailsTest {
+@ExtendWith(RandomPort.class)
+final class RtUserEmailsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-    /**
-     * RtUserEmails can fetch emails.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesEmails() throws Exception {
+    void fetchesEmails() throws IOException {
         final String email = "test@email.com";
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withBody(
@@ -43,16 +40,13 @@ public final class RtUserEmailsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             emails.iterate().iterator().next(), Matchers.equalTo(email)
         );
     }
 
-    /**
-     * RtUserEmails can add emails.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void addsEmails() throws Exception {
+    void addsEmails() throws IOException {
         final String email = "test1@email.com";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -60,12 +54,13 @@ public final class RtUserEmailsTest {
                 String.format("[{\"email\":\"%s\"}]", email)
             )
         );
-        container.start(this.resource.port());
+        container.start(RandomPort.port());
         try {
             final UserEmails emails = new RtUserEmails(
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 emails.add(Collections.singletonList(email)).iterator().next(),
                 Matchers.equalTo(email)
             );
@@ -74,12 +69,8 @@ public final class RtUserEmailsTest {
         }
     }
 
-    /**
-     * RtUserEmails can remove emails.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void removesEmails() throws Exception {
+    void removesEmails() throws IOException {
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT)
         );

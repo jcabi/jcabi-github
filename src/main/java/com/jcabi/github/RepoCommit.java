@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,16 +6,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github repo commit.
+ * GitHub repo commit.
  *
  * <p>The repo commit exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
@@ -24,8 +24,8 @@ import lombok.ToString;
  *
  * <pre> URL url = new RepoCommit.Smart(commit).url();</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -46,6 +46,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
     /**
      * Smart commit.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -56,10 +57,12 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * Encapsulated repo commit.
          */
         private final transient RepoCommit commit;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param cmt RepoCommit
@@ -70,6 +73,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
         }
+
         /**
          * Get its message.
          * @return Message of repo commit
@@ -80,6 +84,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 .getJsonObject("commit")
                 .getString("message");
         }
+
         /**
          * Get its URL.
          * @return URL of repo commit
@@ -92,6 +97,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * Returns the login of the author.
          * @return The login
@@ -104,6 +110,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 .getJsonObject("author")
                 .getString("name");
         }
+
         /**
          * Returns TRUE if the commit is verified.
          * @return TRUE if verified
@@ -116,18 +123,22 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
                 .getJsonObject("verification")
                 .getBoolean("verified");
         }
+
         @Override
         public Repo repo() {
             return this.commit.repo();
         }
+
         @Override
         public String sha() {
             return this.commit.sha();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.commit.json();
         }
+
         @Override
         public int compareTo(
             final RepoCommit obj

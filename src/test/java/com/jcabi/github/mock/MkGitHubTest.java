@@ -1,18 +1,18 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.github.User;
 import com.jcabi.immutable.ArrayMap;
 import com.jcabi.log.VerboseCallable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -22,13 +22,14 @@ import java.util.concurrent.Executors;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
- * Test case for {@link MkGithub}.
+ * Test case for {@link MkGitHub}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class MkGithubTest {
+final class MkGitHubTest {
     /**
      * Settings to use when creating temporary repos.
      */
@@ -38,24 +39,23 @@ public final class MkGithubTest {
             false
         );
 
-    /**
-     * MkGithub can work.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void worksWithMockedData() throws Exception {
-        final Repo repo = new MkGithub().repos().create(NEW_REPO_SETTINGS);
+    void worksWithMockedData() throws IOException {
+        final Repo repo = new MkGitHub().repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new Comment.Smart(comment).body(),
             Matchers.startsWith("hey, ")
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             repo.issues().get(issue.number()).comments().iterate(new Date(0L)),
-            Matchers.<Comment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.equalTo(
                 new User.Smart(repo.github().users().self()).login()
@@ -63,16 +63,11 @@ public final class MkGithubTest {
         );
     }
 
-    /**
-     * MkGithub can relogin.
-     *
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canRelogin() throws Exception {
+    void canRelogin() throws IOException {
         final String login = "mark";
-        final MkGithub github = new MkGithub();
-        final Repo repo = github.repos().create(NEW_REPO_SETTINGS);
+        final MkGitHub github = new MkGitHub();
+        final Repo repo = github.repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("title", "Found a bug");
         final Comment comment = github
             .relogin(login)
@@ -83,6 +78,7 @@ public final class MkGithubTest {
             .comments()
             .post("Nice change");
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.not(
                 Matchers.equalTo(
@@ -91,53 +87,44 @@ public final class MkGithubTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             new User.Smart(new Comment.Smart(comment).author()).login(),
             Matchers.equalTo(login)
         );
     }
 
-    /**
-     * MkGithub can retrieve the markdown.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void retrievesMarkdown() throws Exception {
-        final Github github = new MkGithub();
+    void retrievesMarkdown() throws IOException {
+        final GitHub github = new MkGitHub();
         MatcherAssert.assertThat(
+            "Value is null",
             github.markdown(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * MkGithub can create random repo.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canCreateRandomRepo() throws Exception {
-        final MkGithub github = new MkGithub();
+    void canCreateRandomRepo() throws IOException {
+        final MkGitHub github = new MkGitHub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.repos().get(repo.coordinates()).coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
     }
 
-    /**
-     * MkGithub can handle multiple threads in parallel.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canHandleMultipleThreads() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
+    @SuppressWarnings("PMD.CloseResource")
+    void canHandleMultipleThreads() throws IOException, InterruptedException {
+        final Repo repo = new MkGitHub().randomRepo();
         final Callable<Void> task = new VerboseCallable<>(
             () -> {
                 repo.issues().create("", "");
                 return null;
             }
         );
-        final int threads = Tv.HUNDRED;
+        final int threads = 100;
         final Collection<Callable<Void>> tasks =
             new ArrayList<>(threads);
         for (int idx = 0; idx < threads; ++idx) {
@@ -146,21 +133,18 @@ public final class MkGithubTest {
         final ExecutorService svc = Executors.newFixedThreadPool(threads);
         svc.invokeAll(tasks);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             repo.issues().iterate(new ArrayMap<>()),
-            Matchers.<Issue>iterableWithSize(threads)
+            Matchers.iterableWithSize(threads)
         );
     }
 
-    /**
-     * Can retrieve users.
-     * @throws Exception If something goes wrong
-     */
     @Test
-    public void canRetrieveUsers() throws Exception {
+    void canRetrieveUsers() throws IOException {
         MatcherAssert.assertThat(
             "Retrieved inexistent user",
             new User.Smart(
-                new MkGithub().users().get("other")
+                new MkGitHub().users().get("other")
             ).exists(),
             new IsEqual<>(false)
         );

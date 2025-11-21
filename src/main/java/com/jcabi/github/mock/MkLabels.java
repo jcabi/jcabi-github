@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -16,7 +16,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github labels.
+ * Mock GitHub labels.
  *
  * @since 0.5
  */
@@ -24,6 +24,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkLabels implements Labels {
 
     /**
@@ -100,7 +101,7 @@ final class MkLabels implements Labels {
     public Iterable<Label> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/label", this.xpath()),
+            this.xpath().concat("/label"),
             xml -> this.get(
                 xml.xpath("name/text()").get(0)
             )

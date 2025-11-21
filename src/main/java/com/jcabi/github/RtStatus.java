@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,13 +6,13 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.StringReader;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github commit status.
+ * GitHub commit status.
  * @since 0.23
  */
 @Immutable
@@ -23,6 +23,7 @@ public final class RtStatus implements Status {
      * Associated commit.
      */
     private final transient Commit cmmt;
+
     /**
      * Encapsulated status JSON.
      */

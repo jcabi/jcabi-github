@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,17 +6,17 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github public key.
+ * GitHub public key.
  *
  * <p>PublicKey implements {@link JsonReadable}, that's how you can get its full
  * details in JSON format. For example, to get its title,
@@ -30,6 +30,7 @@ import lombok.ToString;
  * <pre>String title = new PublicKey.Smart(comment).title();</pre>
  *
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -50,6 +51,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
     /**
      * Smart PublicKey with extra features.
+     * @since 0.1
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable

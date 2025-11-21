@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,14 +8,15 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
- * Mock Github commit.
+ * Mock GitHub commit.
+ * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -32,6 +33,7 @@ final class MkRepoCommit implements RepoCommit {
      * The storage.
      */
     private final transient MkStorage storage;
+
     /**
      * The repository.
      */

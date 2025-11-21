@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,35 +10,30 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Unit tests for {@link RtGitignores}.
- *
  * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
+ * @since 0.8
  */
 @Immutable
-public final class RtGitignoresTest {
+@ExtendWith(RandomPort.class)
+final class RtGitignoresTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtGitignores can iterate template names.
-     * @throws Exception if there is any error
-     */
     @Test
-    public void iterateTemplateNames() throws Exception {
+    void iterateTemplateNames() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -47,29 +42,27 @@ public final class RtGitignoresTest {
                         .build()
                         .toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtGitignores gitignores = new RtGitignores(
-                    new RtGithub(new JdkRequest(container.home()))
+                new RtGitHub(new JdkRequest(container.home()))
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                     gitignores.iterate(),
-                    Matchers.<String>iterableWithSize(2)
+                    Matchers.iterableWithSize(2)
             );
             container.stop();
         }
     }
 
-    /**
-     * RtGitignores can get raw template by name.
-     * @throws Exception if there is any error
-     */
     @Test
-    public void getRawTemplateByName() throws Exception {
+    void getRawTemplateByName() throws IOException {
         final RtGitignores gitignores = new RtGitignores(
-            new RtGithub(new FakeRequest().withBody("# Object files"))
+            new RtGitHub(new FakeRequest().withBody("# Object files"))
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             gitignores.template("C#"),
             Matchers.startsWith("# Object")
         );

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,10 +10,9 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * Github issues.
- *
- * @since 0.1
+ * GitHub issues.
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
+ * @since 0.1
  */
 @Immutable
 public interface Issues {
@@ -52,17 +51,16 @@ public interface Issues {
 
     /**
      * Search for issues within the given repository.
-     *
      * @param sort The sort field
      * @param direction The sort direction
      * @param qualifiers The search qualifier
      * @return Issues
-     * @since 0.22.0
      * @see <a href="https://developer.github.com/v3/issues/#list-issues-for-a-repository">List issues for a repository</a>
+     * @since 0.22.0
      */
     Iterable<Issue> search(
-        Sort sort, Search.Order direction,
-        EnumMap<Qualifier, String> qualifiers);
+        Issues.Sort sort, Search.Order direction,
+        EnumMap<Issues.Qualifier, String> qualifiers);
 
     enum Qualifier implements StringEnum {
         /**
@@ -112,10 +110,6 @@ public interface Issues {
             this.qualifier = key;
         }
 
-        /**
-         * Get search qualifier.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.qualifier;
@@ -149,10 +143,6 @@ public interface Issues {
             this.sort = field;
         }
 
-        /**
-         * Get search results sort field.
-         * @return String
-         */
         @Override
         public String identifier() {
             return this.sort;

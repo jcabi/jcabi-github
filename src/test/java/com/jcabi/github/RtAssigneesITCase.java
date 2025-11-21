@@ -1,24 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtAssignees}.
  * @since 0.7
  */
-@OAuthScope(Scope.READ_ORG)
-public final class RtAssigneesITCase {
+@OAuthScope(OAuthScope.Scope.READ_ORG)
+final class RtAssigneesITCase {
     /**
      * Test repos.
      */
@@ -31,66 +30,55 @@ public final class RtAssigneesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtAssigneesITCase.repos = github.repos();
+        RtAssigneesITCase.repo = new RepoRule().repo(RtAssigneesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtAssigneesITCase.repos != null && RtAssigneesITCase.repo != null) {
+            RtAssigneesITCase.repos.remove(RtAssigneesITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtAssignees can iterate over assignees.
-     * @throws Exception Exception If some problem inside
-     */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws IOException {
         final Iterable<User> users = new Smarts<>(
             new Bulk<>(
-                repo.assignees().iterate()
+                RtAssigneesITCase.repo.assignees().iterate()
             )
         );
         for (final User user : users) {
             MatcherAssert.assertThat(
+                "Value is null",
                 user.login(),
                 Matchers.notNullValue()
             );
         }
     }
 
-    /**
-     * RtAssignees can check if user is assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
     @Test
-    public void checkUserIsAssigneeForRepo() throws Exception {
+    void checkUserIsAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
-            repo.assignees().check(repo.coordinates().user()),
+            "Values are not equal",
+            RtAssigneesITCase.repo.assignees().check(RtAssigneesITCase.repo.coordinates().user()),
             Matchers.is(true)
         );
     }
 
-    /**
-     * RtAssignees can check if user is NOT assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws Exception {
+    void checkUserIsNotAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
-            repo.assignees()
-                .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),
+            "Values are not equal",
+            RtAssigneesITCase.repo.assignees()
+                .check(RandomStringUtils.secure().nextAlphanumeric(10)),
             Matchers.is(false)
         );
     }

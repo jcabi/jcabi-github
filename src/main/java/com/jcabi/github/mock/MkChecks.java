@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,7 +15,7 @@ import java.util.Collection;
 import org.xembly.Directives;
 
 /**
- * Mock Github Checks.
+ * Mock GitHub Checks.
  *
  * @since 1.6.0
  */
@@ -57,7 +57,7 @@ public final class MkChecks implements Checks {
         return ImmutableList.copyOf(
             new MkIterable<>(
                 this.storage,
-                String.format("%s/check", this.xpath()),
+                this.xpath().concat("/check"),
                 item -> new MkCheck(
                     this.storage,
                     this.coordinates,

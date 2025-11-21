@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,19 +8,18 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.DeployKey;
 import com.jcabi.github.Repo;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github deploy key.
+ * Mock GitHub deploy key.
+ * @since 0.7
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "owner", "key" })
 final class MkDeployKey implements DeployKey {
 
     /**
@@ -78,6 +77,30 @@ final class MkDeployKey implements DeployKey {
         final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkDeployKey other = (MkDeployKey) obj;
+            result = this.key == other.key
+                && this.storage.equals(other.storage)
+                && this.owner.equals(other.owner);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.owner.hashCode();
+        result = 31 * result + this.key;
+        return result;
     }
 
     /**

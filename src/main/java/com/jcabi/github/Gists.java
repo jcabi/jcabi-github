@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,23 +9,21 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github gists.
- *
- * @since 0.1
+ * GitHub gists.
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
+ * @since 0.1
  */
 @Immutable
 public interface Gists {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Create a new gist.
-     *
      * @param files Names and content of files
      * @param visible Indicates whether the gist is public
      * @return Gist

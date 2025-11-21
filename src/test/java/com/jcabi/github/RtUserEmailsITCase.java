@@ -1,28 +1,26 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
+ * @since 0.8
  */
-@OAuthScope(Scope.USER_EMAIL)
-public final class RtUserEmailsITCase {
+@OAuthScope(OAuthScope.Scope.USER_EMAIL)
+final class RtUserEmailsITCase {
 
-    /**
-     * RtUserEmails can fetch emails.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesEmails() throws Exception {
+    void fetchesEmails() throws IOException {
         MatcherAssert.assertThat(
+            "Collection is not empty",
             RtUserEmailsITCase.userEmails().iterate(),
             Matchers.not(Matchers.emptyIterableOf(String.class))
         );
@@ -31,18 +29,20 @@ public final class RtUserEmailsITCase {
     /**
      * RtUserEmails can add emails. Note that you must use a real email address
      * (see http://mailinator.com/).
-     * @throws Exception If some problem inside
      */
     @Test
-    public void addsEmails() throws Exception {
+    void addsEmails() throws IOException {
         final String email = "test@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 emails.add(Collections.singletonList(email)),
                 Matchers.hasItem(email)
             );
-            MatcherAssert.assertThat(emails.iterate(), Matchers.hasItem(email));
+            MatcherAssert.assertThat(
+                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email)
+            );
         } finally {
             emails.remove(Collections.singletonList(email));
         }
@@ -51,19 +51,21 @@ public final class RtUserEmailsITCase {
     /**
      * RtUserEmails can remove emails. Note that you must use a real email
      * address (see http://mailinator.com/).
-     * @throws Exception If some problem inside
      */
     @Test
-    public void removesEmails() throws Exception {
+    void removesEmails() throws IOException {
         final String email = "test1@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         emails.add(Collections.singletonList(email));
         try {
-            MatcherAssert.assertThat(emails.iterate(), Matchers.hasItem(email));
+            MatcherAssert.assertThat(
+                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email)
+            );
         } finally {
             emails.remove(Collections.singletonList(email));
         }
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             emails.iterate(), Matchers.not(Matchers.hasItem(email))
         );
     }
@@ -73,7 +75,7 @@ public final class RtUserEmailsITCase {
      * @return UserEmails
      */
     private static UserEmails userEmails() {
-        return new GithubIT().connect().users().self().emails();
+        return GitHubIT.connect().users().self().emails();
     }
 
 }

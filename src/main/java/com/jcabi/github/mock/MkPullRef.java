@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,9 +9,9 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Branch;
 import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 

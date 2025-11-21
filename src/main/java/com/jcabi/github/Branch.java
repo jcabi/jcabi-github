@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,9 +8,8 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * Git branch.
- *
- * @since 0.24
  * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
+ * @since 0.24
  */
 @Immutable
 public interface Branch {

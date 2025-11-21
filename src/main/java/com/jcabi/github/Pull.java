@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,24 +6,22 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github pull request.
- *
- * @since 0.3
+ * GitHub pull request.
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)
- *
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -110,6 +108,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Smart pull request with extra features.
+     * @since 0.3
      */
     @Immutable
     @ToString
@@ -120,6 +119,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * Encapsulated pull request.
          */
         private final transient Pull pull;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -244,7 +244,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -259,7 +259,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -274,7 +274,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date closedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("closed_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -289,7 +289,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          */
         public Date mergedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("merged_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -369,12 +369,6 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
             return this.pull.comments();
         }
 
-        /**
-         * Retrieve a PR check runs.
-         * @return Checks
-         * @throws IOException If there is any I/O problem.
-         * @since 1.6.0
-         */
         @Override
         public Checks checks() throws IOException {
             return this.pull.checks();

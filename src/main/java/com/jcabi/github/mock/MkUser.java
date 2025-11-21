@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,22 +6,21 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Notifications;
 import com.jcabi.github.PublicKeys;
 import com.jcabi.github.User;
 import com.jcabi.github.UserEmails;
 import com.jcabi.github.UserOrganizations;
 import com.jcabi.xml.XML;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github user.
+ * GitHub user.
  *
  * @since 0.5
  * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
@@ -29,7 +28,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkUser implements User {
 
     /**
@@ -53,8 +52,8 @@ final class MkUser implements User {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
@@ -100,9 +99,11 @@ final class MkUser implements User {
     @Override
     public void markAsRead(final Date lastread) throws IOException {
         final Iterable<XML> ids = this.storage.xml().nodes(
-            this.xpath() + String.format(
-                "/notifications/notification[date <= %s]/id",
-                lastread.getTime()
+            this.xpath().concat(
+                String.format(
+                    "/notifications/notification[date <= %s]/id",
+                    lastread.getTime()
+                )
             )
         );
         final JsonPatch json = new JsonPatch(this.storage);
@@ -110,9 +111,11 @@ final class MkUser implements User {
             .add("read", true).build();
         for (final XML nid : ids) {
             json.patch(
-                String.format(
-                    this.xpath().concat("/notifications/notification[id = %s]"),
-                    nid.xpath("text()").get(0)
+                this.xpath().concat(
+                    String.format(
+                        "/notifications/notification[id = %s]",
+                        nid.xpath("text()").get(0)
+                    )
                 ),
                 read
             );
@@ -131,6 +134,28 @@ final class MkUser implements User {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkUser other = (MkUser) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        return result;
     }
 
     /**

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,7 +7,7 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.log.Logger;
@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github repos.
+ * GitHub repos.
  *
  * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -26,6 +26,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkRepos implements Repos {
 
     /**
@@ -54,13 +55,13 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
     public Repo create(
-        final RepoCreate settings
+        final Repos.RepoCreate settings
     ) throws IOException {
         String owner = this.self;
         final String org = settings.organization();
@@ -72,7 +73,7 @@ final class MkRepos implements Repos {
             settings.name()
         );
         this.storage.apply(
-            new Directives().xpath(this.xpath()).add("repo")
+            new Directives().xpath(MkRepos.xpath()).add("repo")
                 .attr("coords", coords.toString())
                 .add("name").set(settings.name()).up()
                 .add("description").set("test repository").up()
@@ -93,7 +94,7 @@ final class MkRepos implements Repos {
     ) {
         try {
             final String xpath = String.format(
-                "%s/repo[@coords='%s']", this.xpath(), coords
+                "%s/repo[@coords='%s']", MkRepos.xpath(), coords
             );
             if (this.storage.xml().nodes(xpath).isEmpty()) {
                 throw new IllegalArgumentException(
@@ -112,7 +113,7 @@ final class MkRepos implements Repos {
         try {
             this.storage.apply(
                 new Directives().xpath(
-                    String.format("%s/repo[@coords='%s']", this.xpath(), coords)
+                    String.format("%s/repo[@coords='%s']", MkRepos.xpath(), coords)
                 ).remove()
             );
         } catch (final IOException ex) {
@@ -120,11 +121,6 @@ final class MkRepos implements Repos {
         }
     }
 
-    /**
-     * Iterate all public repos, starting with the one you've seen already.
-     * @param identifier The integer ID of the last Repo that you’ve seen.
-     * @return Iterator of repo
-     */
     @Override
     public Iterable<Repo> iterate(
         final String identifier) {
@@ -141,7 +137,7 @@ final class MkRepos implements Repos {
     @Override
     public boolean exists(final Coordinates coords) throws IOException {
         final String xpath = String.format(
-            "%s/repo[@coords='%s']", this.xpath(), coords
+            "%s/repo[@coords='%s']", MkRepos.xpath(), coords
         );
         return !this.storage.xml().nodes(xpath).isEmpty();
     }
@@ -150,7 +146,7 @@ final class MkRepos implements Repos {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    private String xpath() {
+    private static String xpath() {
         return "/github/repos";
     }
 

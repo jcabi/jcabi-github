@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,24 +9,22 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Content;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import jakarta.json.JsonObject;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.json.JsonObject;
 import javax.xml.bind.DatatypeConverter;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
- * Mock Github content.
+ * Mock GitHub content.
  *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "coords", "location", "branch" })
 final class MkContent implements Content {
 
     /**
@@ -63,7 +61,7 @@ final class MkContent implements Content {
      * @param ref Branch of this file
      * @checkstyle ParameterNumberCheck (6 lines)
      */
-    public MkContent(
+    MkContent(
         final MkStorage stg,
         final String login,
         final Coordinates rep,
@@ -116,10 +114,38 @@ final class MkContent implements Content {
         return new ByteArrayInputStream(
             DatatypeConverter.parseBase64Binary(
                 this.storage.xml().xpath(
-                    String.format("%s/content/text()", this.xpath())
+                    this.xpath().concat("/content/text()")
                 ).get(0)
             )
         );
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkContent other = (MkContent) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self)
+                && this.coords.equals(other.coords)
+                && this.location.equals(other.location)
+                && this.branch.equals(other.branch);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.location.hashCode();
+        result = 31 * result + this.branch.hashCode();
+        return result;
     }
 
     /**

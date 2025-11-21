@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,21 +6,21 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github user.
- * @checkstyle MultipleStringLiterals (500 lines)
+ * GitHub user.
  * @see <a href="https://developer.github.com/v3/users/">User API</a>
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount",
@@ -28,11 +28,10 @@ import lombok.ToString;
 public interface User extends JsonReadable, JsonPatchable {
 
     /**
-     * Github we're in.
-     * @return Github
-     * @since 0.4
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get his login.
@@ -56,7 +55,6 @@ public interface User extends JsonReadable, JsonPatchable {
     /**
      * Get user's emails.
      * @return User's emails
-     * @since 0.8
      */
     UserEmails emails();
 
@@ -64,10 +62,10 @@ public interface User extends JsonReadable, JsonPatchable {
      * Notifications for this user.
      * Wraps the call "List your notifications". See "List your notifications"
      * at https://developer.github.com/v3/activity/notifications/
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      * @return Notifications for this user.
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
      */
     Notifications notifications() throws IOException;
 
@@ -75,15 +73,16 @@ public interface User extends JsonReadable, JsonPatchable {
      * Marks notifications as read.
      * @param lastread Describes the last point that notifications were
      *  checked.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      */
-    void markAsRead(final Date lastread) throws IOException;
+    void markAsRead(Date lastread) throws IOException;
 
     /**
      * Smart user with extra features.
      * @see <a href="https://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -94,6 +93,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * Encapsulated user.
          */
         private final transient User user;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -166,7 +166,7 @@ public interface User extends JsonReadable, JsonPatchable {
                 throw new IllegalStateException(
                     String.format(
                         // @checkstyle LineLength (1 line)
-                        "User %s doesn't have a name specified in his/her Github account; use #hasName() first.",
+                        "User %s doesn't have a name specified in his/her GitHub account; use #hasName() first.",
                         this.login()
                     )
                 );
@@ -211,7 +211,7 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.user.github();
         }
 
@@ -433,9 +433,9 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'created_at' property value.
          * @throws IOException If any I/O error occurs.
          */
-        public Github.Time created() throws IOException {
+        public GitHub.Time created() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("created_at"));
+                return new GitHub.Time(this.jsn.text("created_at"));
             } catch (final ParseException ex) {
                 throw new IllegalArgumentException(
                     "Cannot parse value of 'created_at' property",
@@ -449,9 +449,9 @@ public interface User extends JsonReadable, JsonPatchable {
          * @return The 'updated_at' property value.
          * @throws IOException If any I/O error occurs.
          */
-        public Github.Time updated() throws IOException {
+        public GitHub.Time updated() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("updated_at"));
+                return new GitHub.Time(this.jsn.text("updated_at"));
             } catch (final ParseException ex) {
                 throw new IllegalArgumentException(
                     "Cannot parse value of 'updated_at' property",

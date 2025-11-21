@@ -1,8 +1,7 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -11,16 +10,17 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Tree;
 import com.jcabi.github.Trees;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
-import java.util.Map.Entry;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github Trees.
+ * Mock of GitHub Trees.
+ * @since 0.24
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -42,6 +42,7 @@ final class MkTrees implements Trees {
      * Repo's name.
      */
     private final transient Coordinates coords;
+
     /**
      * Public constructor.
      * @param stg The storage.
@@ -49,6 +50,7 @@ final class MkTrees implements Trees {
      * @param rep Repo's coordinates.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkTrees(
         final MkStorage stg,
         final String login,
@@ -66,6 +68,7 @@ final class MkTrees implements Trees {
             ).addIf("trees")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
@@ -82,7 +85,7 @@ final class MkTrees implements Trees {
             final String sha = tree.getString("sha");
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("tree");
-            for (final Entry<String, JsonValue> entry : tree.entrySet()) {
+            for (final Map.Entry<String, JsonValue> entry : tree.entrySet()) {
                 dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
             }
             this.storage.apply(dirs);
@@ -105,12 +108,6 @@ final class MkTrees implements Trees {
         return new MkTree(this.storage, this.self, this.coords, sha);
     }
 
-    /**
-     * Gets a tree recursively.
-     * @param sha The tree sha.
-     * @return Trees
-     * @see <a href="https://developer.github.com/v3/git/trees/#get-a-tree-recursively">Trees API</a>
-     */
     @Override
     public Tree getRec(final String sha
     ) {

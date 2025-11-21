@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,28 +6,33 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Pull;
 import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github pull comments.
- *
- * @since 0.8
+ * Mock GitHub pull comments.
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @since 0.8
  */
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkPullComments implements PullComments {
+    /**
+     * XPath suffix for comment ID text.
+     */
+    private static final String COMMENT_ID_XPATH = "/comment/id/text()";
+
     /**
      * Storage.
      */
@@ -76,6 +81,7 @@ final class MkPullComments implements PullComments {
             ).addIf("comments")
         );
     }
+
     @Override
     public Pull pull() {
         return this.owner;
@@ -108,7 +114,7 @@ final class MkPullComments implements PullComments {
         final Map<String, String> params
     ) {
         return new MkIterable<>(
-            this.storage, String.format("%s/comment", this.xpath()),
+            this.storage, this.xpath().concat("/comment"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -127,7 +133,7 @@ final class MkPullComments implements PullComments {
         final int number;
         try {
             number = 1 + this.storage.xml()
-                .nodes(String.format("%s/comment/id/text()", this.xpath()))
+                .nodes(this.xpath().concat(MkPullComments.COMMENT_ID_XPATH))
                 .size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
@@ -141,8 +147,8 @@ final class MkPullComments implements PullComments {
                     .add("commit_id").set(commit).up()
                     .add("original_commit_id").set(commit).up()
                     .add("body").set(body).up()
-                    .add("created_at").set(new Github.Time().toString()).up()
-                    .add("published_at").set(new Github.Time().toString()).up()
+                    .add("created_at").set(new GitHub.Time().toString()).up()
+                    .add("published_at").set(new GitHub.Time().toString()).up()
                     .add("user").add("login").set(this.self).up()
                     .add("pull_request_url").set("http://localhost/2").up()
             );
@@ -181,7 +187,7 @@ final class MkPullComments implements PullComments {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/comment[id='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/comment[id='%d']", number))
             ).remove()
         );
     }

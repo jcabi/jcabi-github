@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,14 +10,14 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -25,26 +25,22 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @Immutable
-public final class RtDeployKeysTest {
+@ExtendWith(RandomPort.class)
+final class RtDeployKeysTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtDeployKeys can fetch empty list of deploy keys.
-     */
     @Test
-    public void canFetchEmptyListOfDeployKeys() {
-        final DeployKeys deployKeys = new RtDeployKeys(
+    void canFetchEmptyListOfDeployKeys() {
+        final DeployKeys keys = new RtDeployKeys(
             new FakeRequest().withBody("[]"),
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
-            deployKeys.iterate(),
+            "Collection is not empty",
+            keys.iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -55,23 +51,24 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canFetchNonEmptyListOfDeployKeys() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+    void canFetchNonEmptyListOfDeployKeys() throws IOException {
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(key(1))
-                    .add(key(2))
+                    .add(RtDeployKeysTest.key(1))
+                    .add(RtDeployKeysTest.key(2))
                     .build().toString()
             )
         )) {
-            container.start(this.resource.port());
+            container.start(RandomPort.port());
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 new RtDeployKeys(
                     new ApacheRequest(container.home()),
                     RtDeployKeysTest.repo()
                 ).iterate(),
-                Matchers.<DeployKey>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }
@@ -81,7 +78,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void canFetchSingleDeployKey() throws IOException {
+    void canFetchSingleDeployKey() throws IOException {
         final int number = 1;
         final DeployKeys keys = new RtDeployKeys(
             // @checkstyle MultipleStringLiterals (1 line)
@@ -89,6 +86,7 @@ public final class RtDeployKeysTest {
             RtDeployKeysTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             // @checkstyle MultipleStringLiterals (1 line)
             keys.get(number).json().getInt("id"),
             Matchers.equalTo(number)
@@ -100,19 +98,20 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canCreateDeployKey() throws IOException {
+    void canCreateDeployKey() throws IOException {
         final int number = 2;
-        try (final MkContainer container = new MkGrizzlyContainer().next(
+        try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
                 String.format("{\"id\":%d}", number)
             )
         )) {
-            container.start(this.resource.port());
+            container.start(RandomPort.port());
             final DeployKeys keys = new RtDeployKeys(
                 new ApacheRequest(container.home()), RtDeployKeysTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 keys.create("Title", "Key").number(),
                 Matchers.equalTo(number)
             );

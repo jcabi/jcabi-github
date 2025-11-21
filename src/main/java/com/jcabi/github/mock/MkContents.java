@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,17 +12,17 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.xml.XML;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock Github contents.
+ * Mock GitHub contents.
  *
  * @since 0.8
  */
@@ -55,7 +55,8 @@ final class MkContents implements Contents {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkContents(
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
+    MkContents(
         final MkStorage stg,
         final String login,
         final Coordinates rep
@@ -111,7 +112,7 @@ final class MkContents implements Contents {
                     .add("content").set(json.getString("content")).up()
                     .add("type").set("file").up()
                     .add("encoding").set("base64").up()
-                    .add("sha").set(fakeSha()).up()
+                    .add("sha").set(MkContents.fakeSha()).up()
                     .add("url").set("http://localhost/1").up()
                     .add("git_url").set("http://localhost/2").up()
                     .add("html_url").set("http://localhost/3").up()
@@ -148,7 +149,7 @@ final class MkContents implements Contents {
         final String ref
     ) throws IOException {
         final Collection<XML> nodes = this.storage.xml().nodes(
-            String.format("%s/content[@ref='%s']", this.xpath(), ref)
+            this.xpath().concat(String.format("/content[@ref='%s']", ref))
         );
         final Collection<Content> result = new ArrayList<>(nodes.size());
         for (final XML node : nodes) {
@@ -169,8 +170,8 @@ final class MkContents implements Contents {
         this.storage.lock();
         final String path = content.getString("path");
         // @checkstyle MultipleStringLiterals (20 lines)
-        final String branch;
         try {
+            final String branch;
             if (content.containsKey("ref")) {
                 branch = content.getString("ref");
             } else {
@@ -189,13 +190,6 @@ final class MkContents implements Contents {
         }
     }
 
-    /**
-     * Updates a file.
-     * @param path The content path.
-     * @param json JSON object containing updates to the content.
-     * @return Commit related to this update.
-     * @throws IOException If any I/O problem occurs.
-     */
     @Override
     public RepoCommit update(
         final String path,
@@ -226,7 +220,7 @@ final class MkContents implements Contents {
     public boolean exists(final String path, final String ref)
         throws IOException {
         return this.storage.xml().nodes(
-            String.format("%s/content[path='%s']", this.xpath(), path)
+            this.xpath().concat(String.format("/content[path='%s']", path))
         ).size() > 0;
     }
 
@@ -271,7 +265,7 @@ final class MkContents implements Contents {
     private MkRepoCommit commit(
         final JsonObject json
     ) throws IOException {
-        final String sha = fakeSha();
+        final String sha = MkContents.fakeSha();
         // @checkstyle MultipleStringLiterals (40 lines)
         final Directives commit = new Directives().xpath(this.commitXpath())
             .add("commit")
@@ -302,6 +296,6 @@ final class MkContents implements Contents {
      */
     private static String fakeSha() {
         // @checkstyle MagicNumberCheck (1 line)
-        return RandomStringUtils.random(40, "0123456789abcdef");
+        return RandomStringUtils.secure().next(40, "0123456789abcdef");
     }
 }

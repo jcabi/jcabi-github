@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,10 +8,9 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github Git Data References.
- *
- * @since 0.8
+ * GitHub Git Data References.
  * @see <a href="https://developer.github.com/v3/git/references/">References API</a>
+ * @since 0.8
  */
 @Immutable
 public interface References {

@@ -1,22 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.google.common.base.Optional;
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Event;
+import java.io.IOException;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkIssueEvents}.
  * @since 0.23
  */
-public final class MkIssueEventsTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class MkIssueEventsTest {
     /**
      * Absent optional string.
      */
@@ -27,8 +28,8 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsIssueEvent() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+    void createsIssueEvent() throws Exception {
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final String login = "jack";
         final String type = "locked";
         final long before = MkIssueEventsTest.now();
@@ -42,14 +43,17 @@ public final class MkIssueEventsTest {
         );
         final long after = MkIssueEventsTest.now();
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.type(),
             Matchers.equalTo(type)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.author().login(),
             Matchers.equalTo(login)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.url().toString(),
             Matchers.equalTo(
                 String.format(
@@ -60,10 +64,12 @@ public final class MkIssueEventsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             event.createdAt().getTime(),
             Matchers.greaterThanOrEqualTo(before)
         );
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             event.createdAt().getTime(),
             Matchers.lessThanOrEqualTo(after)
         );
@@ -74,8 +80,8 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsIssueEventWithLabel() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+    void createsIssueEventWithLabel() throws Exception {
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final String label = "my label";
         final Event.Smart event = new Event.Smart(
             events.create(
@@ -86,6 +92,7 @@ public final class MkIssueEventsTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.label().get().name(),
             Matchers.equalTo(label)
         );
@@ -96,8 +103,8 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void getsIssueEvent() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+    void getsIssueEvent() throws Exception {
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final String type = "unlocked";
         final String login = "jill";
         final int eventnum = events.create(
@@ -108,14 +115,17 @@ public final class MkIssueEventsTest {
         ).number();
         final Event.Smart event = new Event.Smart(events.get(eventnum));
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.number(),
             Matchers.equalTo(eventnum)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.type(),
             Matchers.equalTo(type)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             event.author().login(),
             Matchers.equalTo(login)
         );
@@ -126,8 +136,8 @@ public final class MkIssueEventsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesIssueEvents() throws Exception {
-        final MkIssueEvents events = this.issueEvents();
+    void iteratesIssueEvents() throws Exception {
+        final MkIssueEvents events = MkIssueEventsTest.issueEvents();
         final Event first = events.create(
             "closed",
             3,
@@ -141,15 +151,18 @@ public final class MkIssueEventsTest {
             MkIssueEventsTest.ABSENT_STR
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             events.iterate(),
-            Matchers.<Event>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
         final Iterator<Event> iter = events.iterate().iterator();
         MatcherAssert.assertThat(
+            "Values are not equal",
             iter.next(),
             Matchers.equalTo(first)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             iter.next(),
             Matchers.equalTo(second)
         );
@@ -160,11 +173,10 @@ public final class MkIssueEventsTest {
      * Can't use normal IssueEvents because we need the mock-only
      * {@link MkIssueEvents#create(String, int, String, Optional)} method.
      * @return MkIssueEvents
-     * @throws Exception If some problem inside
      */
-    private MkIssueEvents issueEvents() throws Exception {
+    private static MkIssueEvents issueEvents() throws IOException {
         return MkIssueEvents.class.cast(
-            new MkGithub().randomRepo().issueEvents()
+            new MkGitHub().randomRepo().issueEvents()
         );
     }
 
@@ -174,6 +186,6 @@ public final class MkIssueEventsTest {
      */
     private static long now() {
         final long sinceepoch = System.currentTimeMillis();
-        return sinceepoch - sinceepoch % Tv.THOUSAND;
+        return sinceepoch - sinceepoch % 1000;
     }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,25 +11,26 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
+import jakarta.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-import javax.ws.rs.core.UriBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRepo}.
- *
+ * @since 0.1
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public final class RtRepoTest {
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
+@ExtendWith(RandomPort.class)
+final class RtRepoTest {
 
     /**
      * Repo user for tests.
@@ -40,199 +41,163 @@ public final class RtRepoTest {
      * Repo name for tests.
      */
     private static final String TEST_REPO = "testrepo";
+
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtRepo can fetch events.
-     *
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void iteratesEvents() throws Exception {
+    void iteratesEvents() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(event(Event.ASSIGNED))
-                        .add(event(Event.MENTIONED))
+                        .add(RtRepoTest.event(Event.ASSIGNED))
+                        .add(RtRepoTest.event(Event.MENTIONED))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 repo.issueEvents().iterate(),
-                Matchers.<Event>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
     }
 
-    /**
-     * RtRepo can fetch its labels.
-     *
-     */
     @Test
-    public void fetchesLabels() {
+    void fetchesLabels() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.labels(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its issues.
-     *
-     */
     @Test
-    public void fetchesIssues() {
+    void fetchesIssues() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.issues(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its branches.
-     *
-     */
     @Test
-    public void fetchesBranches() {
+    void fetchesBranches() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.branches(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its pulls.
-     *
-     */
     @Test
-    public void fetchesPulls() {
+    void fetchesPulls() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.pulls(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its hooks.
-     *
-     */
     @Test
-    public void fetchHooks() {
+    void fetchHooks() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.hooks(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its keys.
-     *
-     */
     @Test
-    public void fetchKeys() {
+    void fetchKeys() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.keys(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its releases.
-     *
-     */
     @Test
-    public void fetchReleases() {
+    void fetchReleases() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.releases(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can fetch its contents.
-     *
-     */
     @Test
-    public void fetchContents() {
+    void fetchContents() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
         MatcherAssert.assertThat(
+            "Value is null",
             repo.contents(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtRepo can identify itself.
-     */
     @Test
-    public void identifiesItself() {
+    void identifiesItself() {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             new FakeRequest(),
             coords
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             repo.coordinates(),
             Matchers.sameInstance(coords)
         );
     }
 
-    /**
-     * RtRepo can execute PATCH request.
-     *
-     * @throws Exception if there is any problem
-     */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    event(Event.ASSIGNED).toString()
+                    RtRepoTest.event(Event.ASSIGNED).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
             );
             repo.patch(RtRepoTest.event(Event.ASSIGNED));
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );
@@ -240,13 +205,8 @@ public final class RtRepoTest {
         }
     }
 
-    /**
-     * RtRepo can describe as a JSON object.
-     *
-     * @throws Exception if there is any problem
-     */
     @Test
-    public void describeAsJson() throws Exception {
+    void describeAsJson() throws IOException {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
@@ -257,6 +217,7 @@ public final class RtRepoTest {
             )
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.json().toString(),
             Matchers.equalTo(
                 "{\"full_name\":\"octocat/Hello-World\",\"fork\":true}"
@@ -264,37 +225,34 @@ public final class RtRepoTest {
         );
     }
 
-    /**
-     * RtRepo can fetch commits.
-     */
     @Test
-    public void fetchCommits() {
+    void fetchCommits() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null", repo.commits(), Matchers.notNullValue()
+        );
     }
 
-    /**
-     * RtRepo can fetch Git.
-     */
     @Test
-    public void fetchesGit() {
+    void fetchesGit() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.git(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null", repo.git(), Matchers.notNullValue()
+        );
     }
 
-    /**
-     * RtRepo can fetch stars.
-     */
     @Test
-    public void fetchStars() {
+    void fetchStars() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.stars(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null", repo.stars(), Matchers.notNullValue()
+        );
     }
 
     /**
@@ -303,19 +261,20 @@ public final class RtRepoTest {
      * @throws IOException If some problem occurs.
      */
     @Test
-    public void fetchDefaultBranch() throws IOException {
+    void fetchDefaultBranch() throws IOException {
         final String expected = "main";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
                         .add("default_branch", expected)
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 RtRepoTest.repo(
                     new ApacheRequest(container.home())
                 ).defaultBranch().name(),
@@ -325,52 +284,44 @@ public final class RtRepoTest {
         }
     }
 
-    /**
-     * RtRepo can fetch notifications.
-     */
     @Test
-    public void fetchNotifications() {
+    void fetchNotifications() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
-        MatcherAssert.assertThat(repo.notifications(), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null", repo.notifications(), Matchers.notNullValue()
+        );
     }
 
-    /**
-     * RtRepo can fetch languages.
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void fetchLanguages() throws Exception {
+    void fetchLanguages() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
                         .add("Ruby", 1)
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
             );
-            MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
+            MatcherAssert.assertThat(
+                "Value is null", repo.languages(), Matchers.notNullValue()
+            );
             container.stop();
         }
     }
 
-    /**
-     * RtRepo can iterate languages.
-     *
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void iteratesLanguages() throws Exception {
+    void iteratesLanguages() throws IOException {
         final String lang = "C";
         final String other = "Java";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createObjectBuilder()
@@ -378,29 +329,34 @@ public final class RtRepoTest {
                         .add(other, 2)
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
             );
             final Iterator<Language> iter = repo.languages().iterator();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.hasNext(),
                 Matchers.is(true)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.next().name(),
                 Matchers.is(lang)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.hasNext(),
                 Matchers.is(true)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.next().name(),
                 Matchers.is(other)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 iter.hasNext(),
                 Matchers.is(false)
             );
@@ -414,15 +370,15 @@ public final class RtRepoTest {
      * @throws IOException If something goes wrong.
      */
     @Test
-    public void retrievesStargazers() throws IOException {
+    void retrievesStargazers() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(
                     new MkAnswer.Simple(
                         HttpURLConnection.HTTP_OK,
                         "[]"
                     )
-                ).start(this.resource.port())
+                ).start(RandomPort.port())
         ) {
             final Repo repo = RtRepoTest.repo(
                 new ApacheRequest(container.home())
@@ -441,6 +397,7 @@ public final class RtRepoTest {
                 Matchers.equalTo(Request.GET)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath("repos")
@@ -474,7 +431,7 @@ public final class RtRepoTest {
      */
     private static Repo repo(final Request request) {
         return new RtRepo(
-            Mockito.mock(Github.class),
+            Mockito.mock(GitHub.class),
             request,
             new Coordinates.Simple(RtRepoTest.TEST_USER, RtRepoTest.TEST_REPO)
         );

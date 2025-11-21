@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,22 +6,19 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCheck}.
  *
  * @since 1.5.0
  */
-public final class RtCheckTest {
+final class RtCheckTest {
 
-    /**
-     * RtCheck can check successful state.
-     */
     @Test
-    public void checksSuccessfulState() {
+    void checksSuccessfulState() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtCheck(
                 Check.Status.COMPLETED,
                 Check.Conclusion.SUCCESS
@@ -30,12 +27,10 @@ public final class RtCheckTest {
         );
     }
 
-    /**
-     * RtCheck can check not successful state if in progress.
-     */
     @Test
-    public void checksNotSuccessfulStateIfInProgress() {
+    void checksNotSuccessfulStateIfInProgress() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtCheck(
                 Check.Status.IN_PROGRESS,
                 Check.Conclusion.SUCCESS
@@ -44,12 +39,10 @@ public final class RtCheckTest {
         );
     }
 
-    /**
-     * RtCheck can check not successful state if cancelled.
-     */
     @Test
-    public void checksNotSuccessfulState() {
+    void checksNotSuccessfulState() {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtCheck(
                 Check.Status.COMPLETED,
                 Check.Conclusion.CANCELLED
@@ -58,31 +51,45 @@ public final class RtCheckTest {
         );
     }
 
-    /**
-     * Can not create RtCheck with unexisting status.
-     */
     @Test
-    public void createsWithUnexistingStatus() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
+    void createsWithUnexistingStatus() {
+        try {
+            new RtCheck(
                 "unexisting",
                 "success"
-            ).successful()
-        );
+            ).successful();
+            MatcherAssert.assertThat(
+                "IllegalArgumentException was expected",
+                false,
+                Matchers.is(true)
+            );
+        } catch (final IllegalArgumentException ex) {
+            MatcherAssert.assertThat(
+                "Exception was thrown as expected",
+                ex,
+                Matchers.notNullValue()
+            );
+        }
     }
 
-    /**
-     * Can not create RtCheck with unexisting conclusion.
-     */
     @Test
-    public void createsWithUnexistingConclusion() {
-        Assert.assertThrows(
-            IllegalArgumentException.class,
-            () -> new RtCheck(
+    void createsWithUnexistingConclusion() {
+        try {
+            new RtCheck(
                 "completed",
                 "unexist"
-            ).successful()
-        );
+            ).successful();
+            MatcherAssert.assertThat(
+                "IllegalArgumentException was expected",
+                false,
+                Matchers.is(true)
+            );
+        } catch (final IllegalArgumentException ex) {
+            MatcherAssert.assertThat(
+                "Exception was thrown as expected",
+                ex,
+                Matchers.notNullValue()
+            );
+        }
     }
 }

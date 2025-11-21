@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github Gitignore.
+ * GitHub Gitignore.
  * <p>Defines storage of .gitignore templates
  *
  * @see <a href="https://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
@@ -18,9 +18,9 @@ import java.io.IOException;
 public interface Gitignores {
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Iterate them all.

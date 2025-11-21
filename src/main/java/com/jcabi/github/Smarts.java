@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -25,8 +25,8 @@ import lombok.EqualsAndHashCode;
  *     System.out.println("state is: " + issue.state());
  * }</pre>
  *
- * @since 0.5
  * @param <T> Type of iterable objects
+ * @since 0.5
  */
 @EqualsAndHashCode(of = "origin")
 public final class Smarts<T> implements Iterable<T> {
@@ -59,10 +59,12 @@ public final class Smarts<T> implements Iterable<T> {
             public boolean hasNext() {
                 return iterator.hasNext();
             }
+
             @Override
             public T next() {
-                return Smarts.<T>wrap(iterator.next());
+                return Smarts.wrap(iterator.next());
             }
+
             @Override
             public void remove() {
                 iterator.remove();
@@ -73,18 +75,16 @@ public final class Smarts<T> implements Iterable<T> {
     /**
      * Wrap an object, and make a "smart" decorator.
      * @param object Object to wrap
-     * @return Decorator
      * @param <X> Type of result
+     * @return Decorator
      */
     @SuppressWarnings("unchecked")
     private static <X> X wrap(final Object object) {
         try {
             return (X) Smarts.type(object).newInstance(object);
-        } catch (final InvocationTargetException ex) {
-            throw new IllegalStateException(ex);
-        } catch (final InstantiationException ex) {
-            throw new IllegalStateException(ex);
-        } catch (final IllegalAccessException ex) {
+        } catch (final InvocationTargetException
+            | InstantiationException
+            | IllegalAccessException ex) {
             throw new IllegalStateException(ex);
         }
     }

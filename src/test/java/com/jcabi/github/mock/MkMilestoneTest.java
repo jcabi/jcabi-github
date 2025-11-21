@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,22 +6,19 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the MkUser class.
- *
+ * @since 0.7
  */
-public class MkMilestoneTest {
+final class MkMilestoneTest {
 
-    /**
-     * MkMilestone returns a repo with same coordinates.
-     * @throws Exception if test fails
-     */
     @Test
-    public final void returnsSameCoordinatesRepo() throws Exception {
+    void returnsSameCoordinatesRepo() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
             "user",
             "repo"
@@ -34,6 +31,7 @@ public class MkMilestoneTest {
         );
         final Repo repo = milestone.repo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.coordinates(),
             Matchers.equalTo(coordinates)
         );

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -16,14 +16,20 @@ import org.xembly.Directives;
 
 /**
  * Mock github public keys.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkPublicKeys implements PublicKeys {
+
+    /**
+     * XPath suffix for key ID text.
+     */
+    private static final String KEY_ID_TEXT_PATH = "/key/id/text()";
 
     /**
      * Storage.
@@ -41,7 +47,7 @@ final class MkPublicKeys implements PublicKeys {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    public MkPublicKeys(
+    MkPublicKeys(
         final MkStorage stg,
         final String login
     ) throws IOException {
@@ -61,7 +67,7 @@ final class MkPublicKeys implements PublicKeys {
     public Iterable<PublicKey> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/key", this.xpath()),
+            this.xpath().concat("/key"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -82,7 +88,7 @@ final class MkPublicKeys implements PublicKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/key/id/text()", this.xpath())
+                this.xpath().concat(MkPublicKeys.KEY_ID_TEXT_PATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())
@@ -101,7 +107,7 @@ final class MkPublicKeys implements PublicKeys {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/key[id='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/key[id='%d']", number))
             ).remove()
         );
     }

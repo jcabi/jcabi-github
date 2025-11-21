@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,7 +15,7 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.DeployKeys;
 import com.jcabi.github.Forks;
 import com.jcabi.github.Git;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Hooks;
 import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Issues;
@@ -30,32 +30,29 @@ import com.jcabi.github.RepoCommits;
 import com.jcabi.github.RtLanguage;
 import com.jcabi.github.Stargazers;
 import com.jcabi.github.Stars;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github repo.
+ * Mock GitHub repo.
  * @since 0.5
+ * @todo #1061 Fix code to avoid CouplingBetweenObjects
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
- * @todo #1061 Fix code to avoid CouplingBetweenObjects
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "self", "coords"})
-@SuppressWarnings
-    (
-        {
-            "PMD.TooManyMethods",
-            "PMD.ExcessiveImports",
-            "PMD.CouplingBetweenObjects"
-        }
-    )
+@SuppressWarnings(
+    {
+        "PMD.TooManyMethods",
+        "PMD.ExcessiveImports",
+        "PMD.CouplingBetweenObjects"
+    }
+)
 final class MkRepo implements Repo {
 
     /**
@@ -90,8 +87,8 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
@@ -301,6 +298,30 @@ final class MkRepo implements Repo {
     @Override
     public int compareTo(final Repo repo) {
         return this.coords.compareTo(repo.coordinates());
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkRepo other = (MkRepo) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        return result;
     }
 
     /**

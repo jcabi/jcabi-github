@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,20 +6,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github deploy key.
- *
- * @since 0.8
+ * GitHub deploy key.
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -33,13 +32,14 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
     /**
      * Delete a deploy key.
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
      */
     void remove() throws IOException;
 
     /**
      * Smart DeployKey with extra features.
+     * @since 0.8
      * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable

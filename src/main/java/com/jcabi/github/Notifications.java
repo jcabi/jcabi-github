@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,10 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github Notifications API.
- *
- * @since 0.15
+ * GitHub Notifications API.
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.15
  */
 @Immutable
 public interface Notifications {
@@ -37,9 +36,9 @@ public interface Notifications {
 
     /**
      * Get thread data.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
      * @param number Thread ID.
      * @return Data of the specified thread.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
      */
     GitHubThread thread(int number);
 }

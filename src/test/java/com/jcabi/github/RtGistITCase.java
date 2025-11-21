@@ -1,33 +1,30 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Gist}.
+ * @since 0.1
  */
-@OAuthScope(Scope.GIST)
-public final class RtGistITCase {
+@OAuthScope(OAuthScope.Scope.GIST)
+final class RtGistITCase {
 
-    /**
-     * RtGist can text and write files.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void readsAndWritesGists() throws Exception {
-        final String filename = "filename.txt";
-        final String content = "content of file";
+    void readsAndWritesGists() throws IOException {
         final Gists gists = RtGistITCase.github().gists();
         Gist.Smart smart = null;
         try {
+            final String content = "content of file";
+            final String filename = "filename.txt";
             final Gist gist = gists.create(
                 Collections.singletonMap(filename, content), false
             );
@@ -35,6 +32,7 @@ public final class RtGistITCase {
             final String file = smart.files().iterator().next();
             gist.write(file, "hey, works for you this way?");
             MatcherAssert.assertThat(
+                "String does not start with expected value",
                 gist.read(file),
                 Matchers.startsWith("hey, works for ")
             );
@@ -47,12 +45,11 @@ public final class RtGistITCase {
 
     /**
      * RtGist can fork a gist.
-     * @throws Exception If some problem inside
      * @checkstyle MultipleStringLiterals (7 lines)
      * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test
-    public void forksGist() throws Exception {
+    void forksGist() throws IOException {
         final String filename = "filename1.txt";
         final String content = "content of file1";
         final Gists gists1 = RtGistITCase.github("failsafe.github.key").gists();
@@ -65,6 +62,7 @@ public final class RtGistITCase {
         final Gist forked = gist.fork();
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 forked.read(filename),
                 Matchers.equalTo(content)
             );
@@ -77,24 +75,24 @@ public final class RtGistITCase {
     /**
      * Return github to test. Property "failsafe.github.key" is used
      * for authentication.
-     * @return Github
+     * @return GitHub
      */
-    private static Github github() {
+    private static GitHub github() {
         return RtGistITCase.github("failsafe.github.key");
     }
 
     /**
      * Return github to test.
      * @param property Name of a property with github key
-     * @return Github
+     * @return GitHub
      */
-    private static Github github(final String property) {
+    private static GitHub github(final String property) {
         final String key = System.getProperty(property);
-        Assume.assumeThat(
-            key,
-            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        Assumptions.assumeTrue(
+            key != null && !key.isBlank(),
+            "GitHub key is required for this test"
         );
-        return new RtGithub(key);
+        return new RtGitHub(key);
     }
 
 }

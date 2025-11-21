@@ -1,27 +1,24 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicKey}.
- *
+ * @since 0.8
  */
-@OAuthScope(Scope.READ_PUBLIC_KEY)
-public final class RtPublicKeyITCase {
-    /**
-     * RtPublicKey can retrieve correctly URI.
-     */
+@OAuthScope(OAuthScope.Scope.READ_PUBLIC_KEY)
+final class RtPublicKeyITCase {
     @Test
-    public void retrievesURI() {
+    void retrievesUri() {
         MatcherAssert.assertThat(
-            new GithubIT().connect().users().self().keys().get(1).toString(),
+            "String does not end with expected value",
+            GitHubIT.connect().users().self().keys().get(1).toString(),
             Matchers.endsWith("/keys/1")
         );
     }

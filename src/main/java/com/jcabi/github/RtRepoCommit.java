@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,12 +7,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github repo commit.
+ * GitHub repo commit.
  *
  * @since 0.8
  */
@@ -42,6 +42,7 @@ final class RtRepoCommit implements RepoCommit {
      * @param repo Owner of this commit
      * @param sha Number of the get
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtRepoCommit(final Request req, final Repo repo, final String sha) {
         final Coordinates coords = repo.coordinates();
         this.request = req.uri()

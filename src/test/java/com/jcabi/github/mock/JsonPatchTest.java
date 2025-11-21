@@ -1,26 +1,24 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.jcabi.xml.XML;
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link JsonPatch}.
+ * @since 0.5
  */
-public final class JsonPatchTest {
+final class JsonPatchTest {
 
-    /**
-     * JsonPatch can patch an XML.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void patchesXml() throws Exception {
+    void patchesXml() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         new JsonPatch(storage).patch(
             "/github",
@@ -31,6 +29,7 @@ public final class JsonPatchTest {
         );
         final XML xml = storage.xml();
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             xml.xpath("/github/name/text()").get(0),
             Matchers.describedAs(xml.toString(), Matchers.endsWith("you!"))
         );

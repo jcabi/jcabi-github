@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,21 +7,20 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Repo API.
- *
- * @since 0.5
+ * GitHub Repo API.
  * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
+ * @since 0.5
  */
 @SuppressWarnings("PMD.TooManyMethods")
 @Immutable
@@ -29,9 +28,9 @@ public interface Repos {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
     //byte[]
 
     /**
@@ -39,10 +38,10 @@ public interface Repos {
      * @param settings Settings to use for creating the new repository
      * @return Repository
      * @throws IOException If there is any I/O problem
-     * @since 0.5
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repository</a>
+     * @since 0.5
      */
-    Repo create(RepoCreate settings)
+    Repo create(Repos.RepoCreate settings)
         throws IOException;
 
     /**
@@ -76,18 +75,17 @@ public interface Repos {
     );
 
     /**
-     * Check if a repository exists on Github.
+     * Check if a repository exists on GitHub.
      * @param coords Coordinates of the repo.
      * @return True if it exists, false otherwise.
      * @throws IOException If something goes wrong.
      */
-    boolean exists(final Coordinates coords) throws IOException;
+    boolean exists(Coordinates coords) throws IOException;
 
     /**
      * Settings to use when creating a new GitHub repository.
-     *
-             * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repo API</a>
+     * @since 0.24
      * @todo #1095:30m Add the ability to set the other parameters of
      *  the repo creation API (has_issues, has_wiki, has_downloads,
      *  team_id, gitignore_template, license_template).
@@ -95,28 +93,33 @@ public interface Repos {
     @SuppressWarnings("PMD.TooManyMethods")
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {"nam", "priv", "descr", "home", "init"})
+    @EqualsAndHashCode(of = {"repo", "priv", "descr", "home", "init"})
     final class RepoCreate implements JsonReadable {
         /**
          * Name of the new repo.
          */
-        private final transient String nam;
+        private final transient String repo;
+
         /**
          * Privateness of the new repo.
          */
         private final transient boolean priv;
+
         /**
          * Description of the new repo.
          */
         private final transient String descr;
+
         /**
          * Homepage of the new repo.
          */
         private final transient String home;
+
         /**
          * Auto-init the new repo?
          */
         private final transient Optional<Boolean> init;
+
         /**
          * Organization where the created repo belongs.
          */
@@ -134,7 +137,7 @@ public interface Repos {
          *  If not, then it will be public.
          */
         public RepoCreate(final String nme, final boolean prvt) {
-            this(nme, prvt, "", "", Optional.<Boolean>absent(), "");
+            this(nme, prvt, "", "", Optional.absent(), "");
         }
 
         /**
@@ -150,6 +153,7 @@ public interface Repos {
          *  authenticated user.
          * @checkstyle ParameterNumberCheck (7 lines)
          */
+        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
         private RepoCreate(
             final String nme,
             final boolean prvt,
@@ -161,7 +165,7 @@ public interface Repos {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");
             }
-            this.nam = nme;
+            this.repo = nme;
             this.priv = prvt;
             this.descr = desc;
             this.home = page;
@@ -175,7 +179,7 @@ public interface Repos {
          * @return Name
          */
         public String name() {
-            return this.nam;
+            return this.repo;
         }
 
         /**
@@ -227,10 +231,10 @@ public interface Repos {
          * @param nme Name of the new repo
          * @return RepoCreate
          */
-        public RepoCreate withName(
+        public Repos.RepoCreate withName(
             final String nme
         ) {
-            return new RepoCreate(
+            return new Repos.RepoCreate(
                 nme,
                 this.priv,
                 this.descr,
@@ -245,9 +249,9 @@ public interface Repos {
          * @param privacy Privateness of the new repo
          * @return RepoCreate
          */
-        public RepoCreate withPrivacy(final boolean privacy) {
-            return new RepoCreate(
-                this.nam,
+        public Repos.RepoCreate withPrivacy(final boolean privacy) {
+            return new Repos.RepoCreate(
+                this.repo,
                 privacy,
                 this.descr,
                 this.home,
@@ -261,11 +265,11 @@ public interface Repos {
          * @param desc Description
          * @return RepoCreate
          */
-        public RepoCreate withDescription(
+        public Repos.RepoCreate withDescription(
             final String desc
         ) {
-            return new RepoCreate(
-                this.nam,
+            return new Repos.RepoCreate(
+                this.repo,
                 this.priv,
                 desc,
                 this.home,
@@ -279,11 +283,11 @@ public interface Repos {
          * @param page Homepage URL
          * @return RepoCreate
          */
-        public RepoCreate withHomepage(
+        public Repos.RepoCreate withHomepage(
             final String page
         ) {
-            return new RepoCreate(
-                this.nam,
+            return new Repos.RepoCreate(
+                this.repo,
                 this.priv,
                 this.descr,
                 page,
@@ -297,9 +301,9 @@ public interface Repos {
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
-        public RepoCreate withAutoInit(final Optional<Boolean> auto) {
-            return new RepoCreate(
-                this.nam,
+        public Repos.RepoCreate withAutoInit(final Optional<Boolean> auto) {
+            return new Repos.RepoCreate(
+                this.repo,
                 this.priv,
                 this.descr,
                 this.home,
@@ -313,9 +317,9 @@ public interface Repos {
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
-        public RepoCreate withAutoInit(final boolean auto) {
-            return new RepoCreate(
-                this.nam,
+        public Repos.RepoCreate withAutoInit(final boolean auto) {
+            return new Repos.RepoCreate(
+                this.repo,
                 this.priv,
                 this.descr,
                 this.home,
@@ -329,9 +333,9 @@ public interface Repos {
          * @param org Organization to which this repo belongs.
          * @return RepoCreate
          */
-        public RepoCreate withOrganization(final String org) {
-            return new RepoCreate(
-                this.nam,
+        public Repos.RepoCreate withOrganization(final String org) {
+            return new Repos.RepoCreate(
+                this.repo,
                 this.priv,
                 this.descr,
                 this.home,
@@ -351,7 +355,7 @@ public interface Repos {
          *  Make the 'with' method immutable and return a new
          *  RepoCreate object with the new field.
          */
-        public RepoCreate with(final String key, final JsonValue value) {
+        public Repos.RepoCreate with(final String key, final JsonValue value) {
             this.other.put(key, value);
             return this;
         }
@@ -359,7 +363,7 @@ public interface Repos {
         @Override
         public JsonObject json() {
             JsonObjectBuilder builder = Json.createObjectBuilder()
-                .add("name", this.nam)
+                .add("name", this.repo)
                 .add("description", this.descr)
                 .add("homepage", this.home)
                 .add("private", this.priv);

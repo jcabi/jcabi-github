@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,16 +6,16 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Limit;
 import com.jcabi.github.Limits;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github Rate Limit API.
+ * Mock GitHub Rate Limit API.
  *
  * @since 0.6
  */
@@ -48,8 +48,8 @@ final class MkLimits implements Limits {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.himself);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.himself);
     }
 
     @Override
@@ -57,9 +57,10 @@ final class MkLimits implements Limits {
         // @checkstyle AnonInnerLength (50 lines)
         return new Limit() {
             @Override
-            public Github github() {
+            public GitHub github() {
                 return MkLimits.this.github();
             }
+
             @Override
             public JsonObject json() {
                 return Json.createObjectBuilder()

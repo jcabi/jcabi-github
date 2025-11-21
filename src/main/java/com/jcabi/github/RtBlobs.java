@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,17 +9,19 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Git Data Blobs.
+ * GitHub Git Data Blobs.
+ * @since 0.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "request" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtBlobs implements Blobs {
 
     /**
@@ -42,7 +44,7 @@ final class RtBlobs implements Blobs {
      * @param req Request
      * @param repo Repository
      */
-    public RtBlobs(
+    RtBlobs(
         final Request req,
         final Repo repo) {
         this.entry = req;

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,12 +7,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github organization.
+ * GitHub organization.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
@@ -22,9 +22,9 @@ import lombok.EqualsAndHashCode;
 final class RtOrganization implements Organization {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * API entry point.
@@ -43,12 +43,12 @@ final class RtOrganization implements Organization {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param login Organization login name
      */
-    public RtOrganization(
-        final Github github,
+    RtOrganization(
+        final GitHub github,
         final Request req,
         final String login
     ) {
@@ -67,7 +67,7 @@ final class RtOrganization implements Organization {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

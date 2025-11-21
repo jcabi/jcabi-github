@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,16 +8,15 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user.
- *
+ * GitHub user.
  * @since 0.1
  */
 @Immutable
@@ -31,9 +30,9 @@ final class RtUser implements User {
     private static final String NOTIF_PATH = "notifications";
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -47,11 +46,11 @@ final class RtUser implements User {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
     RtUser(
-        final Github github,
+        final GitHub github,
         final Request req
     ) {
         this(github, req, "");
@@ -59,12 +58,13 @@ final class RtUser implements User {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param login User identity/identity
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtUser(
-        final Github github,
+        final GitHub github,
         final Request req,
         final String login
     ) {
@@ -83,7 +83,7 @@ final class RtUser implements User {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

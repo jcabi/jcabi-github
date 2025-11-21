@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,78 +10,68 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPublicKeys}.
- *
+ * @since 0.8
  */
-public final class RtPublicKeysTest {
+@ExtendWith(RandomPort.class)
+final class RtPublicKeysTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtPublicKeys should be able to iterate its keys.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void retrievesKeys() throws Exception {
+    void retrievesKeys() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(key(1))
-                        .add(key(2))
+                        .add(RtPublicKeysTest.key(1))
+                        .add(RtPublicKeysTest.key(2))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 keys.iterate(),
-                Matchers.<PublicKey>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
     }
 
-    /**
-     * RtPublicKeys should be able to obtain a single key.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void canFetchSingleKey() throws Exception {
+    void canFetchSingleKey() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     ""
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 keys.get(1),
                 Matchers.notNullValue()
             );
@@ -89,20 +79,15 @@ public final class RtPublicKeysTest {
         }
     }
 
-    /**
-     * RtPublicKeys should be able to remove a key.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void canRemoveKey() throws Exception {
+    void canRemoveKey() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
@@ -111,10 +96,12 @@ public final class RtPublicKeysTest {
             keys.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/user/keys/1")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
@@ -127,28 +114,31 @@ public final class RtPublicKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canCreatePublicKey() throws IOException {
+    void canCreatePublicKey() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_CREATED, key(1).toString()
+                    HttpURLConnection.HTTP_CREATED, RtPublicKeysTest.key(1).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPublicKeys keys = new RtPublicKeys(
                 new ApacheRequest(container.home()),
                 Mockito.mock(User.class)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 keys.create("theTitle", "theKey").number(),
                 Matchers.is(1)
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/user/keys")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo(
                     "{\"title\":\"theTitle\",\"key\":\"theKey\"}"

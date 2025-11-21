@@ -1,34 +1,36 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicKeys}.
- *
+ * @since 0.8
  */
-@OAuthScope(Scope.ADMIN_PUBLIC_KEY)
-public class RtPublicKeysITCase {
+@OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve its keys.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void retrievesKeys() throws Exception {
-        final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("key", this.key());
+    void retrievesKeys() throws Exception {
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("key", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate(),
             Matchers.hasItem(key)
         );
@@ -37,14 +39,14 @@ public class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve a single key.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void retrievesSingleKey() throws Exception {
-        final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("Title", this.key());
+    void retrievesSingleKey() throws Exception {
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("Title", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
+            "Values are not equal",
             keys.get(key.number()),
             Matchers.equalTo(key)
         );
@@ -53,19 +55,20 @@ public class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to remove a key.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void removesKey() throws Exception {
-        final PublicKeys keys = this.keys();
-        final PublicKey key = keys.create("", this.key());
+    void removesKey() throws Exception {
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
-            keys.iterate() ,
+            "Collection does not contain expected item",
+            keys.iterate(),
             Matchers.hasItem(key)
         );
         keys.remove(key.number());
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );
@@ -73,20 +76,21 @@ public class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to create a key.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public final void createsKey() throws Exception {
-        final PublicKeys keys = this.keys();
+    void createsKey() throws Exception {
+        final PublicKeys keys = RtPublicKeysITCase.keys();
         // @checkstyle LineLength (1 line)
-        final PublicKey key = keys.create("rsa", this.key());
+        final PublicKey key = keys.create("rsa", RtPublicKeysITCase.key());
         try {
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 keys.iterate(),
                 Matchers.hasItem(key)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 key.user(),
                 Matchers.equalTo(
                     keys.user()
@@ -96,6 +100,7 @@ public class RtPublicKeysITCase {
             keys.remove(key.number());
         }
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );
@@ -104,26 +109,22 @@ public class RtPublicKeysITCase {
     /**
      * Generates a random public key for test.
      * @return The encoded SSH public key.
-     * @throws Exception If a problem occurs.
      */
-    private String key() throws Exception {
-        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        try {
+    private static String key() throws JSchException, IOException {
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
             kpair.writePublicKey(stream, "");
             kpair.dispose();
-        } finally {
-            stream.close();
+            return new String(stream.toByteArray());
         }
-        return new String(stream.toByteArray());
     }
 
     /**
      * Create and return PublicKeys object to test.
      * @return PublicKeys
      */
-    private PublicKeys keys() {
-        return new GithubIT().connect().users().self().keys();
+    private static PublicKeys keys() {
+        return GitHubIT.connect().users().self().keys();
     }
 
 }

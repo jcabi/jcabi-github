@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,18 +6,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * Commits comparison.
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @since 0.5
  */
 @Immutable
 public interface CommitsComparison extends JsonReadable {
@@ -38,6 +39,7 @@ public interface CommitsComparison extends JsonReadable {
 
     /**
      * Smart commits comparison with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString

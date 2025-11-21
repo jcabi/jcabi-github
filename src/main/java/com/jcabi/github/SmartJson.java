@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,18 +6,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 import java.io.IOException;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
-import javax.json.JsonString;
-import javax.json.JsonValue;
-import javax.json.JsonValue.ValueType;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * Smart JSON (supplementary help class).
- *
  * @since 0.5
  */
 @Immutable
@@ -78,9 +76,9 @@ final class SmartJson {
      * Get its property as custom type.
      * @param name Name of the property
      * @param type Type of result expected
+     * @param <T> Type expected
      * @return Value
      * @throws IOException If there is any I/O problem
-     * @param <T> Type expected
      */
     public <T> T value(
         final String name,
@@ -125,6 +123,6 @@ final class SmartJson {
     ) throws IOException {
         final JsonValue value = this.object.json().get(name);
         return value != null
-            && !ValueType.NULL.equals(value.getValueType());
+            && !JsonValue.ValueType.NULL.equals(value.getValueType());
     }
 }

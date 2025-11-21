@@ -1,21 +1,19 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.jcabi.xml.XML;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import org.w3c.dom.Node;
 
 /**
  * Json node in XML.
- *
  * @since 0.5
- *
  */
 final class JsonNode {
 
@@ -41,7 +39,7 @@ final class JsonNode {
     public JsonObject json() {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final XML child : this.xml.nodes("* ")) {
-            final Node node = child.node();
+            final Node node = child.inner();
             if (child.nodes("*").isEmpty()) {
                 builder.add(node.getNodeName(), node.getTextContent());
             } else if (
@@ -50,7 +48,7 @@ final class JsonNode {
             ) {
                 final JsonArrayBuilder bld = Json.createArrayBuilder();
                 for (final XML item : child.nodes("*")) {
-                    bld.add(item.node().getTextContent());
+                    bld.add(item.inner().getTextContent());
                 }
                 builder.add(node.getNodeName(), bld.build());
             } else {

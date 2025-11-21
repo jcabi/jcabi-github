@@ -1,11 +1,11 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.aspects.Loggable;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -14,7 +14,7 @@ import lombok.ToString;
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "jsn" })
+@EqualsAndHashCode(of = "jsn")
 @ToString
 final class RtFileChange implements FileChange {
     /**
@@ -26,7 +26,7 @@ final class RtFileChange implements FileChange {
      * Public ctor.
      * @param obj File change JSON object
      */
-    public RtFileChange(
+    RtFileChange(
         final JsonObject obj
     ) {
         this.jsn = obj;

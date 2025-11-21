@@ -1,26 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import javax.json.Json;
-import org.junit.Test;
+import jakarta.json.Json;
+import java.io.IOException;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link DeployKey}.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (150 lines)
  */
-public final class DeployKeyTest {
+final class DeployKeyTest {
 
-    /**
-     * DeployKey.Smart can update the key value of DeployKey.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void updatesKey() throws Exception {
+    void updatesKey() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String value = "sha-rsa BBB...";
         new DeployKey.Smart(key).key(value);
@@ -29,12 +26,8 @@ public final class DeployKeyTest {
         );
     }
 
-    /**
-     * DeployKey.Smart can update the title property of DeployKey.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void updatesTitle() throws Exception {
+    void updatesTitle() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String prop = "octocat@octomac";
         new DeployKey.Smart(key).title(prop);

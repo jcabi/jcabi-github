@@ -1,31 +1,31 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtReferences}.
+ * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
-public final class RtReferencesITCase {
+final class RtReferencesITCase {
 
     /**
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    private static RepoRule rule = new RepoRule();
+    private static final RepoRule RULE = new RepoRule();
 
     /**
      * Test repos.
@@ -39,34 +39,28 @@ public final class RtReferencesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtReferencesITCase.repos = github.repos();
+        RtReferencesITCase.repo = RtReferencesITCase.RULE.repo(RtReferencesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtReferencesITCase.repos != null && RtReferencesITCase.repo != null) {
+            RtReferencesITCase.repos.remove(RtReferencesITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtReference can create a reference.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void createsReference() throws Exception {
-        final References refs = repo.git().references();
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+    void createsReference() throws IOException {
+        final References refs = RtReferencesITCase.repo.git().references();
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/tags/")
             .append(name);
         final Reference reference = refs.create(
@@ -75,6 +69,7 @@ public final class RtReferencesITCase {
                 .getString("sha")
         );
         MatcherAssert.assertThat(
+            "Value is null",
             reference,
             Matchers.notNullValue()
         );
@@ -83,14 +78,10 @@ public final class RtReferencesITCase {
         refs.remove(builder.toString());
     }
 
-    /**
-     * RtReference can iterate over references.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void iteratesReferences() throws Exception {
-        final References refs = repo.git().references();
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+    void iteratesReferences() throws IOException {
+        final References refs = RtReferencesITCase.repo.git().references();
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/heads/")
             .append(name);
         refs.create(
@@ -99,6 +90,7 @@ public final class RtReferencesITCase {
                 .getString("sha")
         );
         MatcherAssert.assertThat(
+            "Value is null",
             refs.iterate(),
             Matchers.notNullValue()
         );
@@ -109,12 +101,11 @@ public final class RtReferencesITCase {
 
     /**
      * RtReference can iterate over references in sub-namespace.
-     * @throws Exception - If something goes wrong.
      */
     @Test
-    public void iteratesReferencesInSubNamespace() throws Exception {
-        final References refs = repo.git().references();
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+    void iteratesReferencesInSubNamespace() throws IOException {
+        final References refs = RtReferencesITCase.repo.git().references();
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/heads/")
             .append(name);
         refs.create(
@@ -123,6 +114,7 @@ public final class RtReferencesITCase {
                 .getString("sha")
         );
         MatcherAssert.assertThat(
+            "Value is null",
             refs.iterate("heads"),
             Matchers.notNullValue()
         );

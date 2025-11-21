@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,15 +6,15 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Git blob.
- *
+ * GitHub Git blob.
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
+ * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -24,8 +24,10 @@ public interface Blob extends JsonReadable {
      * @return SHA
      */
     String sha();
+
     /**
      * Smart Blob with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString
@@ -36,10 +38,12 @@ public interface Blob extends JsonReadable {
          * Encapsulated blob.
          */
         private final transient Blob blob;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param blb Blob

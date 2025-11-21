@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,43 +10,39 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtTrees}.
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class RtTreesTest {
+@ExtendWith(RandomPort.class)
+final class RtTreesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtTrees can create a tree.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void createsTree() throws Exception {
+    void createsTree() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
-                "{\"sha\":\"0abcd89jcabitest\",\"url\":\"http://localhost/1\"}"
+                "{\"sha\":\"0abcd89jcabitest\", \"url\":\"http://localhost/1\"}"
             )
-        ).start(this.resource.port());
+        ).start(RandomPort.port());
         final Trees trees = new RtTrees(
             new ApacheRequest(container.home()),
-            repo()
+            RtTreesTest.repo()
         );
         final JsonObject tree = Json.createObjectBuilder()
             .add("path", "/path").add("mode", "100644 ")
@@ -58,14 +54,17 @@ public final class RtTreesTest {
         try {
             final Tree tri = trees.create(input);
             MatcherAssert.assertThat(
+                "Object is not of expected type",
                 tri,
                 Matchers.instanceOf(Tree.class)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 trees.get(tri.sha()),
                 Matchers.equalTo(tri)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
@@ -74,12 +73,8 @@ public final class RtTreesTest {
         }
     }
 
-    /**
-     * RtTrees can get tree.
-     *
-     */
     @Test
-    public void getTree() {
+    void getTree() {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(
@@ -88,19 +83,16 @@ public final class RtTreesTest {
                     .build()
                     .toString()
             ),
-            repo()
+            RtTreesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             trees.get(sha).sha(), Matchers.equalTo(sha)
         );
     }
 
-    /**
-     * RtTrees can get tree recursively.
-     *
-     */
     @Test
-    public void getTreeRec() {
+    void getTreeRec() {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(
@@ -109,9 +101,10 @@ public final class RtTreesTest {
                     .build()
                     .toString()
             ),
-            repo()
+            RtTreesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             trees.getRec(sha).sha(), Matchers.equalTo(sha)
         );
     }

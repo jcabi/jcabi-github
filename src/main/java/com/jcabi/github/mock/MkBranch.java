@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -33,7 +33,7 @@ public final class MkBranch implements Branch {
     /**
      * Branch name.
      */
-    private final transient String nam;
+    private final transient String branch;
 
     /**
      * Commit sha.
@@ -61,7 +61,7 @@ public final class MkBranch implements Branch {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.nam = nom;
+        this.branch = nom;
         this.hash = sha;
     }
 
@@ -72,7 +72,7 @@ public final class MkBranch implements Branch {
 
     @Override
     public String name() {
-        return this.nam;
+        return this.branch;
     }
 
     @Override

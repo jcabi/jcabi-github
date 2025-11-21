@@ -1,64 +1,59 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.immutable.ArrayMap;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPulls}.
- *
+ * @since 0.7
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-public final class RtPullsTest {
+@ExtendWith(RandomPort.class)
+final class RtPullsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtPulls can create a pull request.
-     *
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void createPull() throws Exception {
+    void createPull() throws IOException {
         final String title = "new feature";
-        final String body = pull(title).toString();
+        final String body = RtPullsTest.pull(title).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
-                repo()
+                RtPullsTest.repo()
             );
             final Pull pull = pulls.create(title, "octocat", "master");
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Pull.Smart(pull).title(),
                 Matchers.equalTo(title)
             );
@@ -66,27 +61,24 @@ public final class RtPullsTest {
         }
     }
 
-    /**
-     * RtPulls can get a single pull request.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void getSinglePull() throws Exception {
+    void getSinglePull() throws IOException {
         final String title = "new-feature";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    pull(title).toString()
+                    RtPullsTest.pull(title).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
-                repo()
+                RtPullsTest.repo()
             );
-            final Pull pull = pulls.get(Tv.BILLION);
+            final Pull pull = pulls.get(1_000_000_000);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Pull.Smart(pull).title(),
                 Matchers.equalTo(title)
             );
@@ -94,30 +86,27 @@ public final class RtPullsTest {
         }
     }
 
-    /**
-     * RtPulls can iterate pulls.
-     * @throws Exception if there is any error
-     */
     @Test
-    public void iteratePulls() throws Exception {
+    void iteratePulls() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(pull("new-topic"))
-                        .add(pull("Amazing new feature"))
+                        .add(RtPullsTest.pull("new-topic"))
+                        .add(RtPullsTest.pull("Amazing new feature"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPulls pulls = new RtPulls(
                 new ApacheRequest(container.home()),
-                repo()
+                RtPullsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 pulls.iterate(new ArrayMap<>()),
-                Matchers.<Pull>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -130,7 +119,7 @@ public final class RtPullsTest {
      */
     private static JsonObject pull(final String title) {
         return Json.createObjectBuilder()
-            .add("number", Tv.BILLION)
+            .add("number", 1_000_000_000)
             .add("state", Issue.OPEN_STATE)
             .add("title", title)
             .build();

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,7 +9,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Event;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.IssueEvents;
 import com.jcabi.github.Repo;
 import com.jcabi.log.Logger;
@@ -27,7 +27,13 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkIssueEvents implements IssueEvents {
+    /**
+     * XPath suffix for issue event number text.
+     */
+    private static final String EVENT_NUM_XPATH = "/issue-event/number/text()";
+
     /**
      * Storage.
      */
@@ -82,7 +88,7 @@ final class MkIssueEvents implements IssueEvents {
     public Iterable<Event> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/issue-event", this.xpath()),
+            this.xpath().concat("/issue-event"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )
@@ -111,12 +117,12 @@ final class MkIssueEvents implements IssueEvents {
         final String type,
         final int issue, final String login, final Optional<String> label
     ) throws IOException {
-        final String created = new Github.Time().toString();
+        final String created = new GitHub.Time().toString();
         this.storage.lock();
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/issue-event/number/text()", this.xpath())
+                this.xpath().concat(MkIssueEvents.EVENT_NUM_XPATH)
             ).size();
             Directives directives = new Directives()
                 .xpath(this.xpath())

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -18,7 +18,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github pull requests.
+ * Mock GitHub pull requests.
  *
  * @since 0.5
  */
@@ -26,6 +26,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkPulls implements Pulls {
     /**
      * The separator between the username and
@@ -132,7 +133,7 @@ final class MkPulls implements Pulls {
     public Iterable<Pull> iterate(final Map<String, String> params) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/pull", this.xpath()),
+            this.xpath().concat("/pull"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )

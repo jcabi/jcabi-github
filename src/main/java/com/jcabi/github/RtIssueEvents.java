@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,13 +10,14 @@ import com.jcabi.http.Request;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github issue events.
+ * GitHub issue events.
  *
  * @since 0.23
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtIssueEvents implements IssueEvents {
     /**
      * API entry point.

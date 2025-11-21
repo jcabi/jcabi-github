@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,12 +12,12 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Git branches.
- *
  * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtBranches implements Branches {
     /**
      * RESTful API entry point.

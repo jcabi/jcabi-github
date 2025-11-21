@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,16 +6,16 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github commit.
+ * GitHub commit.
  *
  * <p>The commit exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
@@ -24,9 +24,9 @@ import lombok.ToString;
  *
  * <pre> URL url = new Commit.Smart(commit).url();</pre>
  *
- * @since 0.3
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
+ * @since 0.3
  */
 @Immutable
 public interface Commit extends Comparable<Commit>, JsonReadable {
@@ -45,6 +45,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
 
     /**
      * Smart commit.
+     * @since 0.3
      */
     @Immutable
     @ToString
@@ -55,10 +56,12 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
          * Encapsulated commit.
          */
         private final transient Commit commit;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param cmt Commit
@@ -67,6 +70,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
         }
+
         /**
          * Get its message.
          * @return Message of commit
@@ -75,6 +79,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
         public String message() throws IOException {
             return this.jsn.json().getJsonObject("commit").getString("message");
         }
+
         /**
          * Get its URL.
          * @return URL of comment
@@ -87,18 +92,22 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         @Override
         public Repo repo() {
             return this.commit.repo();
         }
+
         @Override
         public String sha() {
             return this.commit.sha();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.commit.json();
         }
+
         @Override
         public int compareTo(final Commit obj) {
             return this.commit.compareTo(obj);

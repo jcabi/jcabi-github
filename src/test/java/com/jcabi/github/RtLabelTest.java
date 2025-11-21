@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,41 +9,35 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLabel}.
- *
+ * @since 0.6
  */
-public final class RtLabelTest {
+@ExtendWith(RandomPort.class)
+final class RtLabelTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtLabel can  can fetch HTTP request and describe response as a JSON.
-     *
-     * @throws Exception if there is any problem
-     */
     @Test
-    public void sendHttpRequestAndWriteResponseAsJson() throws Exception {
+    void sendHttpRequestAndWriteResponseAsJson() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"msg\": \"hi\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabel label = new RtLabel(
                 new ApacheRequest(container.home()),
@@ -51,6 +45,7 @@ public final class RtLabelTest {
                 "bug"
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 label.json().getString("msg"),
                 Matchers.equalTo("hi")
             );
@@ -58,20 +53,15 @@ public final class RtLabelTest {
         }
     }
 
-    /**
-     * GhLabel can execute PATCH request.
-     *
-     * @throws Exception if there is any problem
-     */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "{\"msg\":\"hi\"}"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabel label = new RtLabel(
                 new ApacheRequest(container.home()),
@@ -84,6 +74,7 @@ public final class RtLabelTest {
                     .build()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );

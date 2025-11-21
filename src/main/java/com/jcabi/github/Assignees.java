@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,7 +9,6 @@ import java.io.IOException;
 
 /**
  * GitHub Assignees.
- *
  * @since 0.7
  */
 @Immutable

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,44 +9,38 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtPagination}.
- *
+ * @since 0.4
  */
-public final class RtPaginationTest {
+@ExtendWith(RandomPort.class)
+final class RtPaginationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtPagination can jump to next page of results.
-     *
-     * @throws Exception if there is any problem
-     */
     @Test
-    public void jumpNextPage() throws Exception {
+    void jumpNextPage() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 RtPaginationTest.simple("Hi Jeff")
                     .withHeader(
                         "Link",
                         "</s?page=3&per_page=100>; rel=\"next\""
                     )
             ).next(RtPaginationTest.simple("Hi Mark"))
-            .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(
@@ -55,10 +49,12 @@ public final class RtPaginationTest {
             );
             final Iterator<JsonObject> iterator = page.iterator();
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 iterator.next().toString(),
                 Matchers.containsString("Jeff")
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 iterator.next().toString(),
                 Matchers.containsString("Mark")
             );
@@ -66,16 +62,11 @@ public final class RtPaginationTest {
         }
     }
 
-    /**
-     * RtPagination can throw if there is no more elements in pagination.
-     *
-     * @throws Exception if there is any problem
-     */
-    @Test(expected = NoSuchElementException.class)
-    public void throwsIfNoMoreElement() throws Exception {
+    @Test
+    void throwsIfNoMoreElement() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer()
-                .next(simple("Hi there")).start(this.resource.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPaginationTest.simple("Hi there")).start(RandomPort.port())
         ) {
             final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(
@@ -84,9 +75,10 @@ public final class RtPaginationTest {
             );
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();
-            MatcherAssert.assertThat(
-                iterator.next(),
-                Matchers.notNullValue()
+            Assertions.assertThrows(
+                java.util.NoSuchElementException.class,
+                iterator::next,
+                "Should throw when no more elements"
             );
             container.stop();
         }
@@ -97,7 +89,7 @@ public final class RtPaginationTest {
      * @param msg Message to build MkAnswer.Simple
      * @return MkAnswer.Simple
      */
-    private static  MkAnswer.Simple simple(final String msg) {
+    private static MkAnswer.Simple simple(final String msg) {
         final String message = Json.createArrayBuilder()
             .add(Json.createObjectBuilder().add("msg", msg))
             .build().toString();

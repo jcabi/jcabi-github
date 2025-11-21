@@ -1,16 +1,14 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Repository coordinates.
- *
  * @since 0.1
  */
 @Immutable
@@ -35,14 +33,15 @@ public interface Coordinates extends Comparable<Coordinates> {
 
     /**
      * Jcabi.http implementation.
+     * @since 0.1
      */
     @Immutable
-    @EqualsAndHashCode(of = {"usr", "rpo"})
     final class Simple implements Coordinates {
         /**
          * User name.
          */
         private final transient String usr;
+
         /**
          * Repository name.
          */
@@ -63,14 +62,10 @@ public interface Coordinates extends Comparable<Coordinates> {
          * @param mnemo Mnemo name
          */
         public Simple(final String mnemo) {
-            final String[] parts = mnemo.split(Coordinates.SEPARATOR, 2);
-            if (parts.length != 2) {
-                throw new IllegalArgumentException(
-                    String.format("invalid coordinates '%s'", mnemo)
-                );
-            }
-            this.usr = parts[0];
-            this.rpo = parts[1];
+            this(
+                Coordinates.Simple.parse(mnemo)[0],
+                Coordinates.Simple.parse(mnemo)[1]
+            );
         }
 
         @Override
@@ -95,18 +90,54 @@ public interface Coordinates extends Comparable<Coordinates> {
                 .append(this.rpo, other.repo())
                 .build();
         }
+
+        @Override
+        public boolean equals(final Object obj) {
+            final boolean result;
+            if (this == obj) {
+                result = true;
+            } else if (obj == null || this.getClass() != obj.getClass()) {
+                result = false;
+            } else {
+                final Coordinates.Simple other = (Coordinates.Simple) obj;
+                result = this.usr.equals(other.usr)
+                    && this.rpo.equals(other.rpo);
+            }
+            return result;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = this.usr.hashCode();
+            result = 31 * result + this.rpo.hashCode();
+            return result;
+        }
+
+        /**
+         * Parse mnemo into parts.
+         * @param mnemo Mnemo name
+         * @return Parts
+         */
+        private static String[] parse(final String mnemo) {
+            final String[] parts = mnemo.split(Coordinates.SEPARATOR, 2);
+            if (parts.length != 2) {
+                throw new IllegalArgumentException(
+                    String.format("invalid coordinates '%s'", mnemo)
+                );
+            }
+            return parts;
+        }
     }
 
     /**
      * Implementation of HTTPs coordinates.
-     * @author volodya-lombrozo
+     * @since 0.23
      */
     @Immutable
-    @EqualsAndHashCode
     final class Https implements Coordinates {
 
         /**
-         * Github domain.
+         * GitHub domain.
          */
         private static final String DOMAIN = "https://github.com/";
 
@@ -132,11 +163,13 @@ public interface Coordinates extends Comparable<Coordinates> {
         public String repo() {
             final String repo = this.split()[1];
             final String suffix = ".git";
+            final String result;
             if (repo.endsWith(suffix)) {
-                return repo.substring(0, repo.length() - suffix.length());
+                result = repo.substring(0, repo.length() - suffix.length());
             } else {
-                return repo;
+                result = repo;
             }
+            return result;
         }
 
         @Override
@@ -147,21 +180,40 @@ public interface Coordinates extends Comparable<Coordinates> {
                 .build();
         }
 
+        @Override
+        public boolean equals(final Object obj) {
+            final boolean result;
+            if (this == obj) {
+                result = true;
+            } else if (obj == null || this.getClass() != obj.getClass()) {
+                result = false;
+            } else {
+                final Coordinates.Https other = (Coordinates.Https) obj;
+                result = this.url.equals(other.url);
+            }
+            return result;
+        }
+
+        @Override
+        public int hashCode() {
+            return this.url.hashCode();
+        }
+
         /**
          * Split URL.
          * @return Array of repo coordinates.
          */
         private String[] split() {
-            if (!this.url.startsWith(Https.DOMAIN)) {
+            if (!this.url.startsWith(Coordinates.Https.DOMAIN)) {
                 throw new IllegalArgumentException(
                     String.format(
                         "Invalid URL, the '%s' should start with '%s'",
                         this.url,
-                        Https.DOMAIN
+                        Coordinates.Https.DOMAIN
                     )
                 );
             }
-            return this.url.substring(Https.DOMAIN.length())
+            return this.url.substring(Coordinates.Https.DOMAIN.length())
                 .split(Coordinates.SEPARATOR, 2);
         }
     }

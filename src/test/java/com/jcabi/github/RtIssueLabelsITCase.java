@@ -1,23 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link IssueLabels}.
  * @since 0.6
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@OAuthScope(Scope.REPO)
-public final class RtIssueLabelsITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtIssueLabelsITCase {
     /**
      * Test repos.
      */
@@ -30,23 +30,21 @@ public final class RtIssueLabelsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtIssueLabelsITCase.repos = github.repos();
+        RtIssueLabelsITCase.repo = new RepoRule().repo(RtIssueLabelsITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtIssueLabelsITCase.repos != null && RtIssueLabelsITCase.repo != null) {
+            RtIssueLabelsITCase.repos.remove(RtIssueLabelsITCase.repo.coordinates());
         }
     }
 
@@ -55,7 +53,7 @@ public final class RtIssueLabelsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void listsLabels() throws Exception {
+    void listsLabels() throws Exception {
         final IssueLabels.Smart labels = new IssueLabels.Smart(
             RtIssueLabelsITCase.issue().labels()
         );
@@ -63,6 +61,7 @@ public final class RtIssueLabelsITCase {
         final String color = "cfcfcf";
         labels.addIfAbsent(name, color);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Label.Smart(labels.get(name)).color(),
             Matchers.equalTo(color)
         );
@@ -72,10 +71,9 @@ public final class RtIssueLabelsITCase {
     /**
      * Create and return issue to test.
      * @return Issue
-     * @throws Exception If some problem inside
      */
-    private static Issue issue() throws Exception {
-        return repo.issues().create("test issue title", "test issue body");
+    private static Issue issue() throws IOException {
+        return RtIssueLabelsITCase.repo.issues().create("test issue title", "test issue body");
     }
 
 }

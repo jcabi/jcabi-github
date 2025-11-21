@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,13 +7,13 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github public key.
- *
+ * GitHub public key.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -42,7 +42,7 @@ final class RtPublicKey implements PublicKey {
      * @param user Owner of this comment
      * @param number Number of the get
      */
-    public RtPublicKey(final Request req, final User user, final int number) {
+    RtPublicKey(final Request req, final User user, final int number) {
         this.request = req.uri()
             .path("/user")
             .path("/keys")

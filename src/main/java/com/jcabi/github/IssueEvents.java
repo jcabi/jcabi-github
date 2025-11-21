@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,10 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github issue events.
- *
- * @since 0.23
+ * GitHub issue events.
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
+ * @since 0.23
  */
 @Immutable
 public interface IssueEvents {

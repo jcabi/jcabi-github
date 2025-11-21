@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,11 +7,11 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Locale;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -87,10 +87,11 @@ public interface Status extends JsonReadable {
          * @param ident Commit status state string
          * @return Corresponding State
          */
-        public static State forValue(
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+        public static Status.State forValue(
             final String ident
         ) {
-            return State.valueOf(ident.toUpperCase(Locale.ENGLISH));
+            return Status.State.valueOf(ident.toUpperCase(Locale.ENGLISH));
         }
     }
 
@@ -107,6 +108,7 @@ public interface Status extends JsonReadable {
          * Encapsulated status.
          */
         private final transient Status status;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -128,8 +130,8 @@ public interface Status extends JsonReadable {
          * @return State as enum
          * @throws IOException If there is an I/O problem
          */
-        public State state() throws IOException {
-            return State.forValue(this.jsn.text("state"));
+        public Status.State state() throws IOException {
+            return Status.State.forValue(this.jsn.text("state"));
         }
 
         /**
@@ -168,7 +170,7 @@ public interface Status extends JsonReadable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
@@ -183,7 +185,7 @@ public interface Status extends JsonReadable {
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {

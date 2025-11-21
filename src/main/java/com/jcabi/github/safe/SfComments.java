@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,7 +10,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Issue;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import java.util.Date;
@@ -69,7 +69,7 @@ public final class SfComments implements Comments {
             cmt = this.origin.post(text);
         } catch (final AssertionError ex) {
             Logger.warn(this, "Failed to post to GitHub: %[exception]s", ex);
-            cmt = new MkGithub().randomRepo()
+            cmt = new MkGitHub().randomRepo()
                 .issues().create("", "")
                 .comments().post(text);
         }

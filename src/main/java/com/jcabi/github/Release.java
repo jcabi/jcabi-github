@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,23 +6,22 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github release.
- *
- * @since 0.8
+ * GitHub release.
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -56,6 +55,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
     /**
      * Smart release.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -67,6 +67,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * Encapsulated release.
          */
         private final transient Release release;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -294,7 +295,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("created_at"))
+                return new GitHub.Time(this.jsn.text("created_at"))
                     .date();
             } catch (final ParseException ex) {
                 throw new IOException(ex);
@@ -308,7 +309,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          */
         public Date publishedAt() throws IOException {
             try {
-                return new Github.Time(this.jsn.text("published_at"))
+                return new GitHub.Time(this.jsn.text("published_at"))
                     .date();
             } catch (final ParseException ex) {
                 throw new IOException(ex);

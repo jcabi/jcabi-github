@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -17,7 +17,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github deploy keys.
+ * Mock GitHub deploy keys.
  *
  * @since 0.8
  */
@@ -25,7 +25,13 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkDeployKeys implements DeployKeys {
+
+    /**
+     * XPath suffix for deploykey ID text.
+     */
+    private static final String KEY_ID_XPATH = "/deploykey/id/text()";
 
     /**
      * Storage.
@@ -89,7 +95,7 @@ final class MkDeployKeys implements DeployKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/deploykey/id/text()", this.xpath())
+                this.xpath().concat(MkDeployKeys.KEY_ID_XPATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

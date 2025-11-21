@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,10 +9,9 @@ import com.jcabi.github.Notification;
 import com.jcabi.xml.XML;
 
 /**
- * Mock for Github Notification.
- *
- * @since 0.25
+ * Mock for GitHub Notification.
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.25
  */
 @Immutable
 final class MkNotification implements Notification {

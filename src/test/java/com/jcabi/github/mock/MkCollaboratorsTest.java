@@ -1,41 +1,45 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Collaborators;
-import com.jcabi.github.User;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkCollaborators}.
+ * @since 0.7
  */
-public final class MkCollaboratorsTest {
+final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can add, remove and iterate collaborators.
      * @throws Exception If some problem inside
      */
     @Test
-    public void addAndRemove() throws Exception {
-        final Collaborators collaborators = this.collaborators();
+    void addAndRemove() throws Exception {
+        final Collaborators collabs = MkCollaboratorsTest.collaborators();
         final String login = "some_user";
-        collaborators.add(login);
+        collabs.add(login);
         MatcherAssert.assertThat(
-            collaborators.iterate(),
-            Matchers.<User>iterableWithSize(1)
+            "Collection size is incorrect",
+            collabs.iterate(),
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
-            collaborators.iterate().iterator().next().login(),
+            "Values are not equal",
+            collabs.iterate().iterator().next().login(),
             Matchers.equalTo(login)
         );
-        collaborators.remove(login);
+        collabs.remove(login);
         MatcherAssert.assertThat(
-            collaborators.iterate(),
-            Matchers.<User>iterableWithSize(0)
+            "Collection size is incorrect",
+            collabs.iterate(),
+            Matchers.iterableWithSize(0)
         );
     }
 
@@ -44,17 +48,19 @@ public final class MkCollaboratorsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void isCollaborator() throws Exception {
-        final Collaborators collaborators = this.collaborators();
+    void isCollaborator() throws Exception {
+        final Collaborators collabs = MkCollaboratorsTest.collaborators();
         final String collaborator = "collaborator";
-        final String stranger = "stranger";
-        collaborators.add(collaborator);
+        collabs.add(collaborator);
         MatcherAssert.assertThat(
-            collaborators.isCollaborator(collaborator),
+            "Values are not equal",
+            collabs.isCollaborator(collaborator),
             Matchers.equalTo(true)
         );
+        final String stranger = "stranger";
         MatcherAssert.assertThat(
-            collaborators.isCollaborator(stranger),
+            "Values are not equal",
+            collabs.isCollaborator(stranger),
             Matchers.equalTo(false)
         );
     }
@@ -62,9 +68,8 @@ public final class MkCollaboratorsTest {
     /**
      * Create a collaborators to work with.
      * @return Collaborators just created
-     * @throws Exception If some problem inside
      */
-    private Collaborators collaborators() throws Exception {
-        return new MkGithub().randomRepo().collaborators();
+    private static Collaborators collaborators() throws IOException {
+        return new MkGitHub().randomRepo().collaborators();
     }
 }

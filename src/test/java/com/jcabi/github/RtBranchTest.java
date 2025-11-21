@@ -1,76 +1,74 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtBranch}.
- *
+ * @since 0.8
  */
-public final class RtBranchTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtBranchTest {
     /**
      * Test branch name.
      */
     private static final String BRANCH_NAME = "topic";
+
     /**
      * Commit SHA for test branch.
      * @checkstyle LineLengthCheck (2 lines)
      */
     private static final String SHA = "b9b0b8a357bbf70f7c9f8ef17160ee31feb508a9";
 
-    /**
-     * RtBranch can fetch its commit.
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void fetchesCommit() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
+    void fetchesCommit() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
-        MatcherAssert.assertThat(commit.sha(), Matchers.equalTo(SHA));
+        MatcherAssert.assertThat(
+            "Values are not equal", commit.sha(), Matchers.equalTo(RtBranchTest.SHA)
+        );
         final Coordinates coords = commit.repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );
     }
 
-    /**
-     * RtBranch can fetch its branch name.
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void fetchesName() throws Exception {
+    void fetchesName() throws IOException {
         MatcherAssert.assertThat(
-            RtBranchTest.newBranch(new MkGithub().randomRepo()).name(),
-            Matchers.equalTo(BRANCH_NAME)
+            "Values are not equal",
+            RtBranchTest.newBranch(new MkGitHub().randomRepo()).name(),
+            Matchers.equalTo(RtBranchTest.BRANCH_NAME)
         );
     }
 
-    /**
-     * RtBranch can fetch its repo.
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void fetchesRepo() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
+    void fetchesRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );
@@ -85,8 +83,8 @@ public final class RtBranchTest {
         return new RtBranch(
             new FakeRequest(),
             repo,
-            BRANCH_NAME,
-            SHA
+            RtBranchTest.BRANCH_NAME,
+            RtBranchTest.SHA
         );
     }
 }

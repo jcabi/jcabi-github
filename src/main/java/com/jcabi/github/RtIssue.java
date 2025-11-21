@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,15 +8,15 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github issue.
+ * GitHub issue.
  *
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -59,6 +59,7 @@ final class RtIssue implements Issue {
      * @param repo Repository
      * @param number Number of the get
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtIssue(final Request req, final Repo repo, final int number) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();

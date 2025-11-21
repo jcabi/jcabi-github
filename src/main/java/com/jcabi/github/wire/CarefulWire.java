@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -22,25 +22,25 @@ import lombok.ToString;
  * Wire that waits if number of remaining request per hour is less than
  * a given threshold.
  *
- * <p>Github sets following headers in each response:
+ * <p>GitHub sets following headers in each response:
  * {@code X-RateLimit-Limit}, {@code X-RateLimit-Remaining}, and
  * {@code X-RateLimit-Reset}. If {@code X-RateLimit-Remaining} is
  * less than a given threshold, {@code CarefulWire} will sleep until a time
  * specified in the {@code X-RateLimit-Reset} header. For further information
- * about the Github rate limiting see
+ * about the GitHub rate limiting see
  * <a href="https://developer.github.com/v3/#rate-limiting">API
  * documentation</a>.
  *
- * <p>You can use {@code CarefulWire} with a {@link com.jcabi.github.Github}
+ * <p>You can use {@code CarefulWire} with a {@link com.jcabi.github.GitHub}
  * object:
  * <pre>
  * {@code
- * Github github = new RtGithub(
- *     new RtGithub().entry().through(CarefulWire.class, 50)
+ * GitHub github = new RtGitHub(
+ *     new RtGitHub().entry().through(CarefulWire.class, 50)
  * );
  * }
  * </pre>
- *
+ * @since 0.4
  */
 @Immutable
 @ToString
@@ -83,9 +83,9 @@ public final class CarefulWire implements Wire {
     ) throws IOException {
         final Response resp = this.origin
             .send(req, home, method, headers, content, connect, read);
-        final int remaining = this.remainingHeader(resp);
+        final int remaining = CarefulWire.remainingHeader(resp);
         if (remaining < this.threshold) {
-            final long reset = this.resetHeader(resp);
+            final long reset = CarefulWire.resetHeader(resp);
             final long now = TimeUnit.MILLISECONDS
                 .toSeconds(System.currentTimeMillis());
             if (reset > now) {
@@ -113,8 +113,10 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @param headername Name of header to get
      * @return The value of the first header with the given name, or null.
+     * @checkstyle NonStaticMethodCheck (5 lines)
      */
-    private String headerOrNull(
+    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+    private static String headerOrNull(
         final Response resp,
         final String headername) {
         final List<String> values = resp.headers().get(headername);
@@ -131,9 +133,9 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @return Number of requests remaining before the rate limit will be hit
      */
-    private int remainingHeader(
+    private static int remainingHeader(
         final Response resp) {
-        final String remainingstr = this.headerOrNull(
+        final String remainingstr = CarefulWire.headerOrNull(
             resp,
             "X-RateLimit-Remaining"
         );
@@ -150,9 +152,9 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @return Timestamp (in seconds) at which the rate limit will reset
      */
-    private long resetHeader(
+    private static long resetHeader(
         final Response resp) {
-        final String resetstr = this.headerOrNull(resp, "X-RateLimit-Reset");
+        final String resetstr = CarefulWire.headerOrNull(resp, "X-RateLimit-Reset");
         long reset = 0;
         if (resetstr != null) {
             reset = Long.parseLong(resetstr);

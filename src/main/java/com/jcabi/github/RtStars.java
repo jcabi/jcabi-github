@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,14 +14,14 @@ import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github starring API.
- *
- * @since 0.15
+ * GitHub starring API.
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
+ * @since 0.15
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"owner", "request"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtStars implements Stars {
 
     /**

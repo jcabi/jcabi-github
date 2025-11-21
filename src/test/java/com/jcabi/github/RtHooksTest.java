@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,17 +11,18 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -31,31 +32,27 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
-public final class RtHooksTest {
+@ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtHooksTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtHooks can fetch empty list of hooks.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
+    void canFetchEmptyListOfHooks() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
                 RtHooksTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection is not empty",
                 hooks.iterate(),
                 Matchers.emptyIterable()
             );
@@ -63,62 +60,55 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can fetch non empty list of hooks.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canFetchNonEmptyListOfHooks() throws Exception {
+    void canFetchNonEmptyListOfHooks() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
                         .add(
-                            hook(
+                            RtHooksTest.hook(
                                 "hook 1",
-                                Collections.<String, String>emptyMap()
+                                Collections.emptyMap()
                             )
                         )
                         .add(
-                            hook(
+                            RtHooksTest.hook(
                                 "hook 2",
-                                Collections.<String, String>emptyMap()
+                                Collections.emptyMap()
                             )
                         )
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtHooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
                 RtHooksTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 hooks.iterate(),
-                Matchers.<Hook>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
     }
 
-    /**
-     * RtHooks can fetch single hook.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    void canFetchSingleHook() throws IOException {
         final String name = "hook name";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtHooksTest.hook(
                         name,
-                        Collections.<String, String>emptyMap()
+                        Collections.emptyMap()
                     ).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
@@ -126,6 +116,7 @@ public final class RtHooksTest {
             );
             final Hook hook = hooks.get(1);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Hook.Smart(hook).name(),
                 Matchers.equalTo(name)
             );
@@ -133,37 +124,34 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can create a hook.
-     *
-     * @throws Exception if something goes wrong.
-     */
     @Test
-    public void canCreateHook() throws Exception {
-        final String name = "hook name";
+    void canCreateHook() throws IOException {
         final ConcurrentHashMap<String, String> config =
             new ConcurrentHashMap<>(2);
         config.put("url", "http://example.com");
         config.put("content_type", "json");
+        final String name = "hook name";
         final String body = RtHooksTest.hook(name, config).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
                 RtHooksTest.repo()
             );
             final Hook hook = hooks.create(
-                name, config, Collections.<Event>emptyList(), true
+                name, config, Collections.emptyList(), true
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Hook.Smart(hook).name(),
                 Matchers.equalTo(name)
             );
@@ -171,17 +159,12 @@ public final class RtHooksTest {
         }
     }
 
-    /**
-     * RtHooks can delete a hook.
-     *
-     * @throws Exception if something goes wrong.
-     */
     @Test
-    public void canDeleteHook() throws Exception {
+    void canDeleteHook() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Hooks hooks = new RtHooks(
                 new JdkRequest(container.home()),
@@ -190,10 +173,12 @@ public final class RtHooksTest {
             hooks.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is(Matchers.emptyString())
             );

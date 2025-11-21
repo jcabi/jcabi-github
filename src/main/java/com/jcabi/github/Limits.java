@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,10 +10,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Rate Limit API.
- *
- * @since 0.6
+ * GitHub Rate Limit API.
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
+ * @since 0.6
  */
 @Immutable
 public interface Limits {
@@ -29,10 +28,10 @@ public interface Limits {
     String SEARCH = "search";
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get limit for the given resource.
@@ -54,10 +53,12 @@ public interface Limits {
          * Original.
          */
         private final transient Limits origin;
+
         /**
          * Maximum allowed, instead of default 5000.
          */
         private final transient int max;
+
         /**
          * Public ctor.
          * @param limits Original limits
@@ -70,10 +71,12 @@ public interface Limits {
             this.origin = limits;
             this.max = allowed;
         }
+
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.origin.github();
         }
+
         @Override
         public Limit get(
             final String resource

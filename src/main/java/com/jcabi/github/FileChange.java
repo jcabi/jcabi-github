@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,16 +7,16 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Locale;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * File change.
- * @since 0.24
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
+ * @since 0.24
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -62,13 +62,15 @@ public interface FileChange extends JsonReadable {
          * @param name Status string
          * @return Status enum value
          */
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static FileChange.Status forValue(final String name) {
-            return Status.valueOf(name.toUpperCase(Locale.ENGLISH));
+            return FileChange.Status.valueOf(name.toUpperCase(Locale.ENGLISH));
         }
     }
 
     /**
      * Smart file change with extra features.
+     * @since 0.24
      */
     @Immutable
     @ToString
@@ -80,6 +82,7 @@ public interface FileChange extends JsonReadable {
          * Encapsulated file change.
          */
         private final transient FileChange change;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

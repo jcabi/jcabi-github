@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -16,18 +16,18 @@ import com.jcabi.github.Label;
 import com.jcabi.github.Reaction;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 
 /**
- * Mock Github issue.
+ * Mock GitHub issue.
  *
  * @since 0.5
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
@@ -125,14 +125,14 @@ final class MkIssue implements Issue {
                 this.coords,
                 this.num
             ),
-            new MkIssueEventMapping(this)
+            new MkIssue.MkIssueEventMapping(this)
         );
     }
 
     @Override
     public boolean exists() throws IOException {
         return this.storage.xml().xpath(
-            String.format("%s/number/text()", this.xpath())
+            this.xpath().concat("/number/text()")
         ).size() == 1;
     }
 
@@ -159,7 +159,7 @@ final class MkIssue implements Issue {
                 type = Event.CLOSED;
             }
             new MkIssueEvents(this.storage, this.self, this.coords)
-                .create(type, this.num, this.self, Optional.<String>absent());
+                .create(type, this.num, this.self, Optional.absent());
         }
     }
 
@@ -191,13 +191,13 @@ final class MkIssue implements Issue {
         final JsonObjectBuilder pull = Json.createObjectBuilder();
         final String html = "html_url";
         if (xml.nodes(
-                String.format(
-                    // @checkstyle LineLengthCheck (1 line)
-                    "/github/repos/repo[@coords='%s']/pulls/pull/number[text() = '%d']",
-                    this.coords,
-                    this.num
-                )
-            ).isEmpty()) {
+            String.format(
+                // @checkstyle LineLengthCheck (1 line)
+                "/github/repos/repo[@coords='%s']/pulls/pull/number[text() = '%d']",
+                this.coords,
+                this.num
+            )
+        ).isEmpty()) {
             pull.addNull(html);
         } else {
             pull.add(
@@ -248,6 +248,10 @@ final class MkIssue implements Issue {
         );
     }
 
+    /**
+     * Mapping for MkIssueEvents.
+     * @since 0.5
+     */
     private static class MkIssueEventMapping
         implements MkIterable.Mapping<Event> {
         /**
@@ -260,7 +264,7 @@ final class MkIssue implements Issue {
          * @param issue Mock issue to get events from
          * @throws IOException If there is any I/O problem
          */
-        public MkIssueEventMapping(
+        MkIssueEventMapping(
             final MkIssue issue
         ) throws IOException {
             this.evts = new MkIssueEvents(

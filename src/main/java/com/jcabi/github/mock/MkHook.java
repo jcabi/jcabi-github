@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,13 +9,13 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Repo;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github hook.
+ * Mock GitHub hook.
  *
  * @since 0.8
  */
@@ -62,14 +62,17 @@ final class MkHook implements Hook {
         this.coords = rep;
         this.num = number;
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
+
     @Override
     public int number() {
         return this.num;
     }
+
     @Override
     public JsonObject json() throws IOException {
         return new JsonNode(

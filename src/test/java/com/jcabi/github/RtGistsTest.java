@@ -1,59 +1,56 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtGists}.
- *
+ * @since 0.1
  */
-public final class RtGistsTest {
+@ExtendWith(RandomPort.class)
+final class RtGistsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtGists can create new files.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void canCreateFiles() throws Exception {
+    void canCreateFiles() throws IOException {
         try (
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"id\":\"1\"}"
-            )
-        ).start(this.resource.port())) {
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"id\":\"1\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 gists.create(Collections.singletonMap("test", ""), false),
                 Matchers.notNullValue()
             );
             MatcherAssert.assertThat(
+                "String does not start with expected value",
                 container.take().body(),
                 Matchers.startsWith("{\"files\":{\"test\":{\"content\":")
             );
@@ -61,23 +58,19 @@ public final class RtGistsTest {
         }
     }
 
-    /**
-     * RtGists can retrieve a specific Gist.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void canRetrieveSpecificGist() throws Exception {
+    void canRetrieveSpecificGist() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 gists.get("gist"),
                 Matchers.notNullValue()
             );
@@ -85,52 +78,46 @@ public final class RtGistsTest {
         }
     }
 
-    /**
-     * RtGists can iterate through its contents.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void canIterateThrouRtGists() throws Exception {
+    void canIterateThroughRtGists() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     "[{\"id\":\"hello\"}]"
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             MatcherAssert.assertThat(
+                "Value is null",
                 gists.iterate().iterator().next(),
                 Matchers.notNullValue()
             );
             container.stop();
         }
     }
-    /**
-     * RtGists can remove a gist by name.
-     * @throws Exception - if something goes wrong.
-     */
+
     @Test
-    public void removesGistByName() throws Exception {
+    void removesGistByName() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Gists gists = new RtGists(
-                new MkGithub(),
+                new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             gists.remove("12234");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );

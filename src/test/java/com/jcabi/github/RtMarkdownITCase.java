@@ -1,29 +1,27 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtMarkdown}.
+ * @since 0.8
  */
-@OAuthScope(Scope.REPO)
-public final class RtMarkdownITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtMarkdownITCase {
 
-    /**
-     * RtMarkdown can render markdown.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void rendersMarkdown() throws Exception {
-        final Github github = new GithubIT().connect();
+    void rendersMarkdown() throws IOException {
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.markdown().render(
                 Json.createObjectBuilder()
                     .add("text", "Hello, **world**!")
@@ -33,14 +31,11 @@ public final class RtMarkdownITCase {
         );
     }
 
-    /**
-     * RtMarkdown can render raw markdown.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void rendersRawMarkdown() throws Exception {
-        final Github github = new GithubIT().connect();
+    void rendersRawMarkdown() throws IOException {
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
+            "Values are not equal",
             github.markdown().raw(
                 "Hey, **world**!"
             ),

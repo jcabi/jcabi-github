@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,10 +14,17 @@ import java.util.Map;
 import org.xembly.Directives;
 
 /**
- * Mock Github milestones.
+ * Mock GitHub milestones.
+ * @since 0.7
  */
 @Immutable
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkMilestones implements Milestones {
+
+    /**
+     * XPath suffix for milestone number text.
+     */
+    private static final String NUM_XPATH = "/milestone/number/text()";
 
     /**
      * Storage.
@@ -55,6 +62,7 @@ final class MkMilestones implements Milestones {
             ).addIf("milestones")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
@@ -64,9 +72,8 @@ final class MkMilestones implements Milestones {
     public Milestone create(
         final String title
     ) throws IOException {
-        final int number;
-        number = 1 + this.storage.xml().xpath(
-            String.format("%s/milestone/number/text()", this.xpath())
+        final int number = 1 + this.storage.xml().xpath(
+            this.xpath().concat(MkMilestones.NUM_XPATH)
         ).size();
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("milestone")
@@ -89,7 +96,7 @@ final class MkMilestones implements Milestones {
     ) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/milestone", this.xpath()),
+            this.xpath().concat("/milestone"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             )
@@ -100,7 +107,7 @@ final class MkMilestones implements Milestones {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/milestone[number='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/milestone[number='%d']", number))
             ).remove()
         );
     }

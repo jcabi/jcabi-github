@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,10 +14,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github labels of an issue.
- *
- * @since 0.1
+ * GitHub labels of an issue.
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -69,6 +68,7 @@ public interface IssueLabels {
 
     /**
      * Smart IssueLabels with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -79,6 +79,7 @@ public interface IssueLabels {
          * Encapsulated labels.
          */
         private final transient IssueLabels labels;
+
         /**
          * Public ctor.
          * @param lbl Labels
@@ -86,6 +87,7 @@ public interface IssueLabels {
         public Smart(final IssueLabels lbl) {
             this.labels = lbl;
         }
+
         /**
          * Label exists?
          * @param name Name of the label
@@ -101,6 +103,7 @@ public interface IssueLabels {
             }
             return contains;
         }
+
         /**
          * Get label by name (runtime exception if absent).
          * @param name Name of the label
@@ -128,6 +131,7 @@ public interface IssueLabels {
             }
             return label;
         }
+
         /**
          * Add label if it is absent, don't touch its color if exists.
          * @param name Name of the label
@@ -146,6 +150,7 @@ public interface IssueLabels {
             }
             return added;
         }
+
         /**
          * Add label if it is absent, and set its color in any case.
          * @param name Name of the label
@@ -177,6 +182,7 @@ public interface IssueLabels {
             }
             return added;
         }
+
         /**
          * Select all labels with the given color.
          * @param color Color
@@ -194,6 +200,7 @@ public interface IssueLabels {
             }
             return found;
         }
+
         /**
          * Remove label if it exists (do nothing otherwise).
          * @param name Label to remove
@@ -213,26 +220,32 @@ public interface IssueLabels {
             }
             return removed;
         }
+
         @Override
         public Issue issue() {
             return this.labels.issue();
         }
+
         @Override
         public void add(final Iterable<String> names) throws IOException {
             this.labels.add(names);
         }
+
         @Override
         public void replace(final Iterable<String> names) throws IOException {
             this.labels.replace(names);
         }
+
         @Override
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
+
         @Override
         public void remove(final String name) throws IOException {
             this.labels.remove(name);
         }
+
         @Override
         public void clear() throws IOException {
             this.labels.clear();

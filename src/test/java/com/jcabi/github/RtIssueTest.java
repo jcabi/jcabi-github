@@ -1,10 +1,10 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -12,101 +12,82 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtIssue}.
- *
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtIssueTest {
+@ExtendWith(RandomPort.class)
+final class RtIssueTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtIssue should be able to fetch its comments.
-     *
-     */
     @Test
-    public void fetchesComments() {
-        final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
+    void fetchesComments() {
+        final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
+            "Value is null",
             issue.comments(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtIssue should be able to fetch its labels.
-     *
-     */
     @Test
-    public void fetchesLabels() {
-        final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
+    void fetchesLabels() {
+        final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
+            "Value is null",
             issue.labels(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtIssue should be able to fetch its events.
-     *
-     */
     @Test
-    public void fetchesEvents() {
-        final RtIssue issue = new RtIssue(new FakeRequest(), this.repo(), 1);
+    void fetchesEvents() {
+        final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
+            "Value is null",
             issue.events(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * RtIssue should be able to describe itself in JSON format.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void fetchIssueAsJson() throws Exception {
+    void fetchIssueAsJson() throws IOException {
         final RtIssue issue = new RtIssue(
             new FakeRequest().withBody("{\"issue\":\"json\"}"),
-            this.repo(),
+            RtIssueTest.repo(),
             1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             issue.json().getString("issue"),
             Matchers.equalTo("json")
         );
     }
 
-    /**
-     * RtIssue should be able to perform a patch request.
-     *
-     * @throws Exception if a problem occurs.
-     */
     @Test
-    public void patchWithJson() throws Exception {
+    void patchWithJson() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtIssue issue = new RtIssue(
                 new ApacheRequest(container.home()),
-                this.repo(),
+                RtIssueTest.repo(),
                 1
             );
             issue.patch(
@@ -114,10 +95,12 @@ public final class RtIssueTest {
             );
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.equalTo("{\"patch\":\"test\"}")
             );
@@ -125,33 +108,27 @@ public final class RtIssueTest {
         }
     }
 
-    /**
-     * RtIssue should be able to compare different instances.
-     *
-     */
     @Test
-    public void canCompareInstances() {
-        final RtIssue less = new RtIssue(new FakeRequest(), this.repo(), 1);
-        final RtIssue greater = new RtIssue(new FakeRequest(), this.repo(), 2);
+    void canCompareInstances() {
+        final RtIssue less = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
+        final RtIssue greater = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 2);
         MatcherAssert.assertThat(
+            "Value is not less than expected",
             less.compareTo(greater), Matchers.lessThan(0)
         );
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
         );
     }
 
-    /**
-     * RtIssue can add a reaction.
-     * @throws Exception - if anything goes wrong.
-     */
     @Test
-    public void reacts() throws Exception {
+    void reacts() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())) {
-            final Repo repo = new MkGithub().randomRepo();
+            ).start(RandomPort.port())) {
+            final Repo repo = new MkGitHub().randomRepo();
             final Issue issue = new RtIssue(
                 new ApacheRequest(container.home()),
                 repo,
@@ -171,7 +148,7 @@ public final class RtIssueTest {
      * Mock repo for GhIssue creation.
      * @return The mock repo.
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
         Mockito.doReturn(coords).when(repo).coordinates();

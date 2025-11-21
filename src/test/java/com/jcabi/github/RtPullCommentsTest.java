@@ -1,11 +1,10 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -14,30 +13,25 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Collections;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPullComments}.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public final class RtPullCommentsTest {
-
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
+@ExtendWith(RandomPort.class)
+final class RtPullCommentsTest {
 
     /**
      * RtPullComments can fetch a single comment.
@@ -45,12 +39,13 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesPullComment() throws Exception {
+    void fetchesPullComment() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         final RtPullComments comments =
             new RtPullComments(new FakeRequest(), pull);
         MatcherAssert.assertThat(
+            "Value is null",
             comments.get(1),
             Matchers.notNullValue()
         );
@@ -62,26 +57,27 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesRepoPullComments() throws Exception {
+    void iteratesRepoPullComments() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(comment("comment 1"))
-                        .add(comment("comment 2"))
+                        .add(RtPullCommentsTest.comment("comment 1"))
+                        .add(RtPullCommentsTest.comment("comment 2"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPullComments comments = new RtPullComments(
                 new JdkRequest(container.home()), pull
             );
             MatcherAssert.assertThat(
-                comments.iterate(Collections.<String, String>emptyMap()),
-                Matchers.<PullComment>iterableWithSize(2)
+                "Collection size is incorrect",
+                comments.iterate(Collections.emptyMap()),
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -93,26 +89,27 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void iteratesPullRequestComments() throws Exception {
+    void iteratesPullRequestComments() throws Exception {
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.doReturn(repo()).when(pull).repo();
+        Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(comment("comment 3"))
-                        .add(comment("comment 4"))
+                        .add(RtPullCommentsTest.comment("comment 3"))
+                        .add(RtPullCommentsTest.comment("comment 4"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtPullComments comments = new RtPullComments(
                 new JdkRequest(container.home()), pull
             );
             MatcherAssert.assertThat(
-                comments.iterate(1, Collections.<String, String>emptyMap()),
-                Matchers.<PullComment>iterableWithSize(2)
+                "Collection size is incorrect",
+                comments.iterate(1, Collections.emptyMap()),
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }
@@ -124,34 +121,36 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsPullComment() throws Exception {
+    void createsPullComment() throws Exception {
         // @checkstyle MultipleStringLiterals (3 line)
         final String body = "test-body";
         final String commit = "test-commit-id";
         final String path = "test-path";
         final int position = 4;
-        final String response = pulls(body, commit, path, position).toString();
+        final String response = RtPullCommentsTest.pulls(body, commit, path, position).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            Mockito.doReturn(repo()).when(pull).repo();
-            final RtPullComments pullComments = new RtPullComments(
+            Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
+            final RtPullComments comments = new RtPullComments(
                 new ApacheRequest(container.home()),
                     pull
             );
-            final PullComment pullComment = pullComments.post(
+            final PullComment comment = comments.post(
                 body, commit, path, position
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                new PullComment.Smart(pullComment).commitId(),
+                "Values are not equal",
+                new PullComment.Smart(comment).commitId(),
                 Matchers.equalTo(commit)
             );
             container.stop();
@@ -164,37 +163,39 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void createsPullCommentReply() throws Exception {
+    void createsPullCommentReply() throws Exception {
         final String body = "test-body";
         final int number = 4;
         final String response = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", Tv.BILLION)
+            .add("id", 1_000_000_000)
             .add("body", body)
             .add("in_reply_to", number)
             .build()
             .toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            Mockito.doReturn(repo()).when(pull).repo();
-            final RtPullComments pullComments = new RtPullComments(
+            Mockito.doReturn(RtPullCommentsTest.repo()).when(pull).repo();
+            final RtPullComments comments = new RtPullComments(
                 new ApacheRequest(container.home()),
                     pull
             );
-            final PullComment pullComment = pullComments.reply(
+            final PullComment comment = comments.reply(
                 body, number
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
-                new PullComment.Smart(pullComment).reply(),
+                "Values are not equal",
+                new PullComment.Smart(comment).reply(),
                 Matchers.equalTo(number)
             );
             container.stop();
@@ -207,23 +208,25 @@ public final class RtPullCommentsTest {
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void removesPullComment() throws Exception {
+    void removesPullComment() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Pull pull = Mockito.mock(Pull.class);
-            final Repo repository = repo();
+            final Repo repository = RtPullCommentsTest.repo();
             Mockito.doReturn(repository).when(pull).repo();
             final RtPullComments comments =
                 new RtPullComments(new ApacheRequest(container.home()), pull);
             comments.remove(2);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(), Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith(
                     String.format(
@@ -239,10 +242,9 @@ public final class RtPullCommentsTest {
     /**
      * This method returns a Repo for testing.
      * @return Repo - a repo to be used for test.
-     * @throws Exception - if anything goes wrong.
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub("johnny").randomRepo();
+    private static Repo repo() throws IOException {
+        return new MkGitHub("johnny").randomRepo();
     }
 
     /**
@@ -258,7 +260,7 @@ public final class RtPullCommentsTest {
         final String path, final int position) {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", Tv.BILLION)
+            .add("id", 1_000_000_000)
             .add("body", body)
             .add("commit_id", commit)
             .add("path", path)

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,19 +6,18 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github fork.
- *
- * @since 0.8
+ * GitHub fork.
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -31,6 +30,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
     /**
      * Smart Fork with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -41,10 +41,12 @@ public interface Fork extends JsonReadable, JsonPatchable {
          * Encapsulated Fork.
          */
         private final transient Fork fork;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param frk Fork
@@ -57,7 +59,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its name.
          * @return Name of fork
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String name() throws IOException {
             return this.jsn.text("name");
@@ -66,7 +68,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its organization.
          * @return Organization
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String organization() throws IOException {
             return this.jsn.text("organization");
@@ -88,7 +90,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its full name.
          * @return Full name of fork
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String fullName() throws IOException {
             return this.jsn.text("full_name");
@@ -97,7 +99,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its description.
          * @return Description of fork
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String description() throws IOException {
             return this.jsn.text("description");
@@ -221,7 +223,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
         /**
          * Get its default branch.
          * @return Default branch
-         * @throws java.io.IOException If there is any I/O problem
+         * @throws IOException If there is any I/O problem
          */
         public String defaultBranch() throws IOException {
             return this.jsn.text("default_branch");

@@ -1,23 +1,24 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link PullComment}.
- *
+ * @since 0.8
  */
-public final class PullCommentTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class PullCommentTest {
 
     /**
      * Id field's name in JSON.
@@ -39,144 +40,113 @@ public final class PullCommentTest {
      */
     private static final String BODY = "body";
 
-    /**
-     * PullComment.Smart can fetch the id value from PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void fetchesId() throws Exception {
+    void fetchesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).identifier(),
             Matchers.is(value)
         );
     }
 
-    /**
-     * PullComment.Smart can update the id value of PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void updatesId() throws Exception {
+    void updatesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).identifier(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
         );
     }
 
-    /**
-     * PullComment.Smart can fetch the commit id value from PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void fetchesCommitId() throws Exception {
+    void fetchesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(COMMIT_ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).commitId(),
             Matchers.is(value)
         );
     }
 
-    /**
-     * PullComment.Smart can update the commit id value of PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void updatesCommitId() throws Exception {
+    void updatesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).commitId(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(COMMIT_ID, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
         );
     }
 
-    /**
-     * PullComment.Smart can fetch the url value from PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(URL, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).url(),
             Matchers.is(value)
         );
     }
 
-    /**
-     * PullComment.Smart can update the url value of PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void updatesUrl() throws Exception {
+    void updatesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).url(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(URL, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
         );
     }
 
-    /**
-     * PullComment.Smart can fetch the body value from PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void fetchesBody() throws Exception {
+    void fetchesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
-            Json.createObjectBuilder().add(BODY, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).body(),
             Matchers.is(value)
         );
     }
 
-    /**
-     * PullComment.Smart can update the body value of PullComment.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void updatesBody() throws Exception {
+    void updatesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).body(value);
         Mockito.verify(comment).patch(
-            Json.createObjectBuilder().add(BODY, value).build()
+            Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
         );
     }
 
-    /**
-     * PullComment.Smart can retrieve who is the comment author.
-     * @throws Exception If a problem occurs.
-     */
     @Test
-    public void retrievesAuthor() throws Exception {
+    void retrievesAuthor() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         final JsonObject user = Json.createObjectBuilder()
             .add("login", value).build();
         Mockito.doReturn(
             Json.createObjectBuilder().add("user", user).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new PullComment.Smart(comment).author(),
             Matchers.is(value)
         );

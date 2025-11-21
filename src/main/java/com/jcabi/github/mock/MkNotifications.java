@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,10 +12,9 @@ import java.io.IOException;
 import org.apache.commons.lang3.NotImplementedException;
 
 /**
- * Mock for Github Notifications.
- *
- * @since 0.15
+ * Mock for GitHub Notifications.
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
+ * @since 0.15
  * @todo #913:30min Implement markAsRead() and thread() operations in
  *  MkNotifications. Don't forget about unit tests.
  */
@@ -26,6 +25,7 @@ final class MkNotifications implements Notifications {
      * Storage with notifications.
      */
     private final transient MkStorage storage;
+
     /**
      * XPath for the notifications in the storage.
      */

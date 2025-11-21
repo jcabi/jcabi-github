@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,56 +10,55 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLabels}.
- *
+ * @since 0.1
  */
-public final class RtLabelsTest {
+@ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtLabelsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtLabels can create a label.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void createLabel() throws Exception {
+    void createLabel() throws IOException {
         final String name = "API";
         final String color = "FFFFFF";
-        final String body = label(name, color).toString();
+        final String body = RtLabelsTest.label(name, color).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtLabels labels = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             final Label label = labels.create(name, color);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Label.Smart(label).name(),
                 Matchers.equalTo(name)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Label.Smart(label).color(),
                 Matchers.equalTo(color)
             );
@@ -67,29 +66,25 @@ public final class RtLabelsTest {
         }
     }
 
-    /**
-     * RtLabels can get a single label.
-     *
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void getSingleLabel() throws Exception {
+    void getSingleLabel() throws IOException {
         final String name = "bug";
         final String color = "f29513";
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    label(name, color).toString()
+                    RtLabelsTest.label(name, color).toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabels issues = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             final Label label = issues.get(name);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 new Label.Smart(label).color(),
                 Matchers.equalTo(color)
             );
@@ -97,28 +92,26 @@ public final class RtLabelsTest {
         }
     }
 
-    /**
-     * RtLabels can delete a label.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void deleteLabel() throws Exception {
+    void deleteLabel() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabels issues = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             issues.delete("issue");
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
@@ -126,30 +119,27 @@ public final class RtLabelsTest {
         }
     }
 
-    /**
-     * RtLabels can iterate labels.
-     * @throws Exception if there is any error
-     */
     @Test
-    public void iterateLabels() throws Exception {
+    void iterateLabels() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
-                        .add(label("new issue", "f29512"))
-                        .add(label("new bug", "f29522"))
+                        .add(RtLabelsTest.label("new issue", "f29512"))
+                        .add(RtLabelsTest.label("new bug", "f29522"))
                         .build().toString()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtLabels labels = new RtLabels(
                 new JdkRequest(container.home()),
-                repo()
+                RtLabelsTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 labels.iterate(),
-                Matchers.<Label>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             container.stop();
         }

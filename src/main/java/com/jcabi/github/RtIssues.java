@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,17 +9,17 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github issues.
+ * GitHub issues.
  *
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -49,6 +49,7 @@ final class RtIssues implements Issues {
      * @param req Request
      * @param repo Repository
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtIssues(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
@@ -107,11 +108,11 @@ final class RtIssues implements Issues {
     @Override
     @SuppressWarnings("PMD.UseConcurrentHashMap")
     public Iterable<Issue> search(
-        final Sort sort,
+        final Issues.Sort sort,
         final Search.Order direction,
-        final EnumMap<Qualifier, String> qualifiers) {
+        final EnumMap<Issues.Qualifier, String> qualifiers) {
         final Map<String, String> params = new HashMap<>();
-        for (final EnumMap.Entry<Qualifier, String> pair : qualifiers
+        for (final EnumMap.Entry<Issues.Qualifier, String> pair : qualifiers
             .entrySet()) {
             params.put(pair.getKey().identifier(), pair.getValue());
         }

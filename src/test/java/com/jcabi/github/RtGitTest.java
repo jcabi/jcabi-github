@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,23 +7,20 @@ package com.jcabi.github;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtGit}.
  * @since 0.8
  */
-public final class RtGitTest {
+final class RtGitTest {
 
-    /**
-     * RtGit can fetch its own repo.
-     *
-     */
     @Test
-    public void canFetchOwnRepo() {
-        final Repo repo = repo();
+    void canFetchOwnRepo() {
+        final Repo repo = RtGitTest.repo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RtGit(new FakeRequest(), repo).repo(),
             Matchers.is(repo)
         );
@@ -31,7 +28,6 @@ public final class RtGitTest {
 
     /**
      * Create and return repo for testing.
-     *
      * @return Repo
      */
     private static Repo repo() {

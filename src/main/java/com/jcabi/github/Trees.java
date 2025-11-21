@@ -1,18 +1,17 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 
 /**
- * Github Git Data Trees.
- *
- * @since 0.8
+ * GitHub Git Data Trees.
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Trees {
@@ -38,11 +37,12 @@ public interface Trees {
      * @see <a href="https://developer.github.com/v3/git/trees">Get a tree</a>
      */
     Tree getRec(String sha);
+
     /**
      * Create new tree.
      * @param params Parameters to create new tree
      * @return Tree
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      */
     Tree create(
         JsonObject params)

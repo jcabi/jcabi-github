@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,25 +7,22 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import java.io.IOException;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github status.
- *
+ * GitHub status.
  * <p>The status exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
  * "smart" decorator, which helps you to get access to all JSON properties,
  * for example:
- *
  * <pre> URL url = new Status.Smart(status).url();</pre>
- *
- * @since 0.23
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
+ * @since 0.23
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -40,12 +37,12 @@ public interface Statuses extends JsonReadable {
     /**
      * Create new status.
      * @param status Add this status
-     * @throws java.io.IOException If there is any I/O problem
      * @return The added status
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
     Status create(
-        final StatusCreate status
+        Statuses.StatusCreate status
     ) throws IOException;
 
     /**
@@ -55,36 +52,40 @@ public interface Statuses extends JsonReadable {
      * @see <a href="https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref">List Statuses for a specific Ref</a>
      */
     Iterable<Status> list(
-        final String ref
+        String ref
     );
 
     /**
      * Data to use when creating a new GitHub commit status.
-     *
-             * @since 0.24
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
+     * @since 0.24
      */
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {
+    @EqualsAndHashCode(
+        of = {
             "state",
             "description",
             "context",
             "targeturl"
-            })
+        }
+    )
     final class StatusCreate implements JsonReadable {
         /**
          * State.
          */
         private final transient Status.State state;
+
         /**
          * Description.
          */
         private final transient String description;
+
         /**
          * Context string.
          */
         private final transient Optional<String> context;
+
         /**
          * Target URL.
          */
@@ -100,8 +101,8 @@ public interface Statuses extends JsonReadable {
             this(
                 stat,
                 "",
-                Optional.<String>absent(),
-                Optional.<String>absent()
+                Optional.absent(),
+                Optional.absent()
             );
         }
 
@@ -130,8 +131,8 @@ public interface Statuses extends JsonReadable {
          * @param stat State
          * @return StatusCreate
          */
-        public StatusCreate withState(final Status.State stat) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withState(final Status.State stat) {
+            return new Statuses.StatusCreate(
                 stat,
                 this.description,
                 this.context,
@@ -144,8 +145,8 @@ public interface Statuses extends JsonReadable {
          * @param desc Description
          * @return StatusCreate
          */
-        public StatusCreate withDescription(final String desc) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withDescription(final String desc) {
+            return new Statuses.StatusCreate(
                 this.state,
                 desc,
                 this.context,
@@ -158,8 +159,8 @@ public interface Statuses extends JsonReadable {
          * @param cntxt Context
          * @return StatusCreate
          */
-        public StatusCreate withContext(final Optional<String> cntxt) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withContext(final Optional<String> cntxt) {
+            return new Statuses.StatusCreate(
                 this.state,
                 this.description,
                 cntxt,
@@ -172,8 +173,8 @@ public interface Statuses extends JsonReadable {
          * @param target Target URL
          * @return StatusCreate
          */
-        public StatusCreate withTargetUrl(final Optional<String> target) {
-            return new StatusCreate(
+        public Statuses.StatusCreate withTargetUrl(final Optional<String> target) {
+            return new Statuses.StatusCreate(
                 this.state,
                 this.description,
                 this.context,

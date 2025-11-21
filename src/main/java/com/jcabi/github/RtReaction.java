@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 /**
  * Runtime Reaction.
- *
  * @since 1.0
  */
 @SuppressWarnings("PMD.BeanMembersShouldSerialize")
@@ -30,9 +29,9 @@ public final class RtReaction implements Reaction {
     @Override
     public String type() {
         if (Arrays.asList(
-                Reaction.CONFUSED, Reaction.HEART, Reaction.HOORAY,
-                Reaction.LAUGH, Reaction.THUMBSDOWN, Reaction.THUMBSUP
-            ).contains(this.origin.type())
+            Reaction.CONFUSED, Reaction.HEART, Reaction.HOORAY,
+            Reaction.LAUGH, Reaction.THUMBSDOWN, Reaction.THUMBSUP
+        ).contains(this.origin.type())
         ) {
             return this.origin.type();
         }

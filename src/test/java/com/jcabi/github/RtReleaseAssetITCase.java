@@ -1,18 +1,17 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtReleaseAsset}.
@@ -20,8 +19,8 @@ import org.junit.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (300 lines)
  */
-@OAuthScope(Scope.REPO)
-public final class RtReleaseAssetITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtReleaseAssetITCase {
 
     /**
      * Test repos.
@@ -41,39 +40,34 @@ public final class RtReleaseAssetITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
-        repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtReleaseAssetITCase.repos = github.repos();
+        RtReleaseAssetITCase.repo = RtReleaseAssetITCase.rule.repo(RtReleaseAssetITCase.repos);
+        RtReleaseAssetITCase.repo.releases().create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtReleaseAssetITCase.repos != null && RtReleaseAssetITCase.repo != null) {
+            RtReleaseAssetITCase.repos.remove(RtReleaseAssetITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtReleaseAsset can fetch as JSON object.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void fetchAsJSON() throws Exception {
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-        final Release release = repo.releases().create(name);
+    void fetchAsJson() throws IOException {
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
+        final Release release = RtReleaseAssetITCase.repo.releases().create(name);
         try {
             MatcherAssert.assertThat(
+                "Values are not equal",
                 release.json().getInt("id"),
                 Matchers.equalTo(release.number())
             );
@@ -82,19 +76,16 @@ public final class RtReleaseAssetITCase {
         }
     }
 
-    /**
-     * RtReleaseAsset can execute patch request.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void executePatchRequest() throws Exception {
-        final Release release = repo.releases().create(
-            String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
+    void executePatchRequest() throws IOException {
+        final Release release = RtReleaseAssetITCase.repo.releases().create(
+            String.format("v%s", RandomStringUtils.secure().nextAlphanumeric(10))
         );
-        final String desc = "Description of the release";
         try {
+            final String desc = "Description of the release";
             release.patch(Json.createObjectBuilder().add("body", desc).build());
             MatcherAssert.assertThat(
+                "String does not start with expected value",
                 new Release.Smart(release).body(),
                 Matchers.startsWith(desc)
             );
@@ -103,17 +94,14 @@ public final class RtReleaseAssetITCase {
         }
     }
 
-    /**
-     * RtReleaseAsset can do delete operation.
-     * @throws Exception If something goes wrong
-     */
     @Test
-    public void removesReleaseAsset() throws Exception {
-        final Releases releases = repo.releases();
-        final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+    void removesReleaseAsset() throws IOException {
+        final Releases releases = RtReleaseAssetITCase.repo.releases();
+        final String rname = RandomStringUtils.secure().nextAlphanumeric(10);
         final Release release = releases.create(rname);
         try {
             MatcherAssert.assertThat(
+                "Value is null",
                 releases.get(release.number()),
                 Matchers.notNullValue()
             );
@@ -121,6 +109,7 @@ public final class RtReleaseAssetITCase {
             release.delete();
         }
         MatcherAssert.assertThat(
+            "Assertion failed",
             releases.iterate(),
             Matchers.not(Matchers.contains(release))
         );

@@ -1,28 +1,28 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link GitHub}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
-@OAuthScope(Scope.REPO)
-public final class RtRepoITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtRepoITCase {
     /**
      * Test repos.
      */
@@ -35,19 +35,18 @@ public final class RtRepoITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = repos.create(
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtRepoITCase.repos = github.repos();
+        RtRepoITCase.repo = RtRepoITCase.repos.create(
             new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                RandomStringUtils.secure().nextAlphanumeric(10),
                 false
             ).withAutoInit(true)
         );
-        repo.contents().create(
+        RtRepoITCase.repo.contents().create(
             Json.createObjectBuilder()
                 .add("path", "test.java")
                 .add("message", "Test file for language test")
@@ -63,89 +62,79 @@ public final class RtRepoITCase {
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtRepoITCase.repos != null && RtRepoITCase.repo != null) {
+            RtRepoITCase.repos.remove(RtRepoITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtRepo can identify itself.
-     */
     @Test
-    public void identifiesItself() {
+    void identifiesItself() {
         MatcherAssert.assertThat(
-            repo.coordinates(),
+            "Value is null",
+            RtRepoITCase.repo.coordinates(),
+            Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    void iteratesEvents() throws IOException {
+        final Issue issue = RtRepoITCase.repo.issues().create("Test", "This is a bug");
+        new Issue.Smart(issue).close();
+        MatcherAssert.assertThat(
+            "Collection is not empty",
+            RtRepoITCase.repo.issueEvents().iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    @Test
+    void exists() throws IOException {
+        MatcherAssert.assertThat(
+            "Values are not equal",
+            new Repo.Smart(RtRepoITCase.repo).exists(), Matchers.is(Boolean.TRUE)
+        );
+    }
+
+    @Test
+    void fetchCommits() {
+        MatcherAssert.assertThat(
+            "Value is null",
+            RtRepoITCase.repo.commits(),
+            Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    void iteratesAssignees() {
+        MatcherAssert.assertThat(
+            "Collection is not empty",
+            RtRepoITCase.repo.assignees().iterate(),
+            Matchers.not(Matchers.emptyIterable())
+        );
+    }
+
+    @Test
+    void fetchLanguages() throws IOException {
+        MatcherAssert.assertThat(
+            "Value is null",
+            RtRepoITCase.repo.languages(),
             Matchers.notNullValue()
         );
     }
 
     /**
-     * RtRepo can fetch events.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void iteratesEvents() throws Exception {
-        final Issue issue = repo.issues().create("Test", "This is a bug");
-        new Issue.Smart(issue).close();
-        MatcherAssert.assertThat(
-            repo.issueEvents().iterate(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * RtRepo can tell if it exists.
-     * @throws Exception If something goes wrong.
-     */
-    @Test
-    public void exists() throws Exception {
-        MatcherAssert.assertThat(
-            new Repo.Smart(repo).exists(), Matchers.is(Boolean.TRUE)
-        );
-    }
-
-    /**
-     * RtRepo can fetch its commits.
-     */
-    @Test
-    public void fetchCommits() {
-        MatcherAssert.assertThat(repo.commits(), Matchers.notNullValue());
-    }
-
-    /**
-     * RtRepo can fetch assignees.
-     */
-    @Test
-    public void iteratesAssignees() {
-        MatcherAssert.assertThat(
-            repo.assignees().iterate(),
-            Matchers.not(Matchers.emptyIterable())
-        );
-    }
-
-    /**
-     * RtRepo can fetch languages.
-     * @throws Exception If some problem inside
-     */
-    @Test
-    public void fetchLanguages() throws Exception {
-        MatcherAssert.assertThat(repo.languages(), Matchers.notNullValue());
-    }
-
-    /**
      * RtRepo can iterate languages. This test is ignored because of bug
      * https://github.com/jcabi/jcabi-github/issues/1007 .
-     * @throws Exception If some problem inside
      */
     @Test
-    @Ignore
-    public void iteratesLanguages() throws Exception {
+    @Disabled
+    void iteratesLanguages() throws IOException {
         MatcherAssert.assertThat(
-            repo.languages(),
+            "Collection is not empty",
+            RtRepoITCase.repo.languages(),
             Matchers.not(Matchers.emptyIterable())
         );
     }

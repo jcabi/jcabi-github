@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,10 +8,9 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github forks.
- *
- * @since 0.8
+ * GitHub forks.
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @since 0.8
  */
 @Immutable
 public interface Forks {
@@ -24,7 +23,6 @@ public interface Forks {
 
     /**
      * Iterate all forks.
-     *
      * @param sort The sort order.
      * @return All forks
      * @see <a href="https://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
@@ -33,7 +31,6 @@ public interface Forks {
 
     /**
      * Create a fork for the authenticated user.
-     *
      * @param organization The organization the repository will be forked into.
      * @return The new fork
      * @throws IOException  If there is any I/O problem

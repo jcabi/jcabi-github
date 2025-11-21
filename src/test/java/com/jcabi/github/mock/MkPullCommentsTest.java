@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,43 +8,35 @@ import com.jcabi.github.PullComment;
 import com.jcabi.github.PullComments;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullComments}.
- *
+ * @since 0.1
  */
-public final class MkPullCommentsTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class MkPullCommentsTest {
 
-    /**
-     * MkPullComments can fetch a single comment.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void fetchesPullComment() throws Exception {
-        final PullComments comments = this.comments();
+    void fetchesPullComment() throws IOException {
+        final PullComments comments = MkPullCommentsTest.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
+            "Values are not equal",
             comments.get(comment.number()).number(),
             Matchers.equalTo(comment.number())
         );
     }
 
-    /**
-     * MkPullComments can fetch all pull comments for a repo.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void iteratesRepoPullComments() throws Exception {
-        final PullComments comments = comments();
+    void iteratesRepoPullComments() throws IOException {
+        final PullComments comments = MkPullCommentsTest.comments();
         comments.pull()
             .repo()
             .pulls()
@@ -53,53 +45,46 @@ public final class MkPullCommentsTest {
             .post("new pull comment", "new commit", "/p", 1);
         comments.post("test 1", "tesst 1", "/test1", 1);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 comments.pull().number(),
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
-    /**
-     * MkPullComments can fetch pull comments for a pull request.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void iteratesPullRequestComments() throws Exception {
-        final PullComments comments = comments();
+    void iteratesPullRequestComments() throws IOException {
+        final PullComments comments = MkPullCommentsTest.comments();
         comments.post("comment 1", "commit 1", "/commit1", 1);
         comments.post("comment 2", "commit 2", "/commit2", 2);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
                 comments.pull().number(),
-                Collections.<String, String>emptyMap()
+                Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
-    /**
-     * MkPullComments can create a pull comment.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void postsPullComment() throws Exception {
+    void postsPullComment() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String commit = "commit_id";
         final String path = "path";
         final String bodytext = "some text as a body";
         final String login = "jamie";
         final String reponame = "incredible";
-        final Repo repo = new MkGithub(storage, login).repos().create(
+        final Repo repo = new MkGitHub(storage, login).repos().create(
             new Repos.RepoCreate(reponame, false)
         );
         repo.pulls()
@@ -118,7 +103,9 @@ public final class MkPullCommentsTest {
             )
         );
         MatcherAssert.assertThat(
-            position.get(0), Matchers.notNullValue()
+            "Value is null",
+            position.get(0),
+            Matchers.notNullValue()
         );
         final List<String> body = storage.xml().xpath(
             String.format(
@@ -128,17 +115,14 @@ public final class MkPullCommentsTest {
                 repo.coordinates().repo()
             )
         );
-        MatcherAssert.assertThat(body.get(0), Matchers.equalTo(bodytext));
+        MatcherAssert.assertThat(
+            "Values are not equal", body.get(0), Matchers.equalTo(bodytext)
+        );
     }
 
-    /**
-     * MkPullComments can reply to an existing pull comment.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void createsPullCommentReply() throws Exception {
-        final PullComments comments = this.comments();
+    void createsPullCommentReply() throws IOException {
+        final PullComments comments = MkPullCommentsTest.comments();
         final int orig = comments.post(
             "Orig Comment",
             "6dcb09b5b57875f334f61aebed695e2e4193db5e",
@@ -148,23 +132,20 @@ public final class MkPullCommentsTest {
         final String body = "Reply Comment";
         final JsonObject reply = comments.reply(body, orig).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             reply.getString("body"),
             Matchers.is(body)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             reply.getString("original_position"),
             Matchers.is(Integer.toString(orig))
         );
     }
 
-    /**
-     * MkPullComments can remove a pull comment.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void removesPullComment() throws Exception {
-        final PullComments comments = this.comments();
+    void removesPullComment() throws IOException {
+        final PullComments comments = MkPullCommentsTest.comments();
         final int orig = comments.post(
             "Origg Comment",
             "6dcb09b5b57875f334f61aebed695e2e4193db5d",
@@ -172,17 +153,19 @@ public final class MkPullCommentsTest {
             1
         ).number();
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
-                orig, Collections.<String, String>emptyMap()
+                orig, Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         comments.remove(orig);
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             comments.iterate(
-                orig, Collections.<String, String>emptyMap()
+                orig, Collections.emptyMap()
             ),
-            Matchers.<PullComment>iterableWithSize(0)
+            Matchers.iterableWithSize(0)
         );
     }
 
@@ -191,9 +174,9 @@ public final class MkPullCommentsTest {
      * @return The pull comments
      * @throws IOException If an IO Exception occurs
      */
-    private PullComments comments() throws IOException {
+    private static PullComments comments() throws IOException {
         // @checkstyle MultipleStringLiteralsCheck (1 line)
-        return new MkGithub().randomRepo().pulls()
+        return new MkGitHub().randomRepo().pulls()
             .create("hello", "awesome-head", "awesome-base")
             .comments();
     }
@@ -217,6 +200,7 @@ public final class MkPullCommentsTest {
             element
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             storage.xml().xpath(xpath).get(0),
             Matchers.is(element)
         );

@@ -1,26 +1,24 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link Fork}.
+ * @since 0.8
  */
-public class ForkTest {
-    /**
-     * Fork.Smart can fetch name property from Fork.
-     * @throws Exception If some problem inside
-     */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class ForkTest {
     @Test
-    public final void fetchesName() throws Exception {
+    void fetchesName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String name = "this is some name";
         Mockito.doReturn(
@@ -29,17 +27,14 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).name(),
             Matchers.is(name)
         );
     }
 
-    /**
-     * Fork.Smart can fetch full name property from Fork.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesFullName() throws Exception {
+    void fetchesFullName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String name = "test full name";
         Mockito.doReturn(
@@ -48,17 +43,14 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).fullName(),
             Matchers.is(name)
         );
     }
 
-    /**
-     * Fork.Smart can description property from Fork.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesDescription() throws Exception {
+    void fetchesDescription() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String description = "test description";
         Mockito.doReturn(
@@ -67,35 +59,30 @@ public class ForkTest {
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).description(),
             Matchers.is(description)
         );
     }
-    /**
-     * Fork.Smart can fetch size property from Fork.
-     * @throws Exception If some problem inside
-     */
+
     @Test
-    public final void fetchesSize() throws Exception {
+    void fetchesSize() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
-        final int prop = Tv.HUNDRED;
+        final int prop = 100;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("size", prop)
                 .build()
         ).when(fork).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Fork.Smart(fork).size(),
             Matchers.is(prop)
         );
     }
 
-    /**
-     * Fork.Smart can fetch the Fork URLs.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesUrls() throws Exception {
+    void fetchesUrls() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String url = "https://api.github.com/repos/octocat/Hello-World";
         final String html = "https://github.com/octocat/Hello-World";
@@ -119,49 +106,57 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.url().toString(),
             Matchers.is(url)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.htmlUrl().toString(),
             Matchers.is(html)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.cloneUrl().toString(),
             Matchers.is(clone)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.gitUrl().toString(),
             Matchers.is(git)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.sshUrl().toString(),
             Matchers.is(ssh)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.svnUrl().toString(),
             Matchers.is(svn)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.mirrorUrl().toString(),
             Matchers.is(mirror)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.homeUrl().toString(),
             Matchers.is(homepage)
         );
     }
+
     /**
      * Fork.Smart can fetch the number of forks, stargazers, and watchers
      * from Fork.
-     * @throws Exception If some problem inside
      */
     @Test
-    public final void fetchesCounts() throws Exception {
+    void fetchesCounts() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
-        final int forks = Tv.TEN;
-        final int stargazers = Tv.TWENTY;
-        final int watchers = Tv.THIRTY;
+        final int forks = 10;
+        final int stargazers = 20;
+        final int watchers = 30;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("forks_count", forks)
@@ -171,45 +166,41 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.forks(),
             Matchers.is(forks)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.stargazers(),
             Matchers.is(stargazers)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.watchers(),
             Matchers.is(watchers)
         );
     }
 
-    /**
-     * Fork.Smart can fetch the number of open issues from Fork.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void openIssues() throws Exception {
+    void openIssues() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
-        final int openIssues = Tv.TEN;
+        final int issues = 10;
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("open_issues_count", openIssues)
+                .add("open_issues_count", issues)
                 .build()
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.openIssues(),
-            Matchers.is(openIssues)
+            Matchers.is(issues)
         );
     }
 
-    /**
-     * Fork.Smart can fetch the default branch from Fork.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesDefaultBranches() throws Exception {
+    void fetchesDefaultBranches() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String master = "master";
         Mockito.doReturn(
@@ -219,6 +210,7 @@ public class ForkTest {
         ).when(fork).json();
         final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.defaultBranch(),
             Matchers.is(master)
         );

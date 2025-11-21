@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,28 +8,28 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonString;
+import jakarta.ws.rs.core.HttpHeaders;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
-import javax.json.JsonString;
-import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github Gitignore.
+ * GitHub Gitignore.
  * <p>Defines storage of .gitignore templates
  *
  * @since 0.8
  */
 @Immutable
-@EqualsAndHashCode(of = { "ghub" , "request" })
+@EqualsAndHashCode(of = { "ghub", "request" })
 final class RtGitignores implements Gitignores {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -38,17 +38,17 @@ final class RtGitignores implements Gitignores {
 
     /**
      * Public CTOR.
-     * @param github Github
+     * @param github GitHub
      */
-    public RtGitignores(
-        final Github github) {
+    RtGitignores(
+        final GitHub github) {
         this.ghub = github;
-        this.request = github().entry().uri()
+        this.request = this.github().entry().uri()
             .path("/gitignore/templates").back();
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

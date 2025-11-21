@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -14,14 +14,14 @@ import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github Assignees.
- *
+ * GitHub Assignees.
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtAssignees implements Assignees {
 
     /**
@@ -41,8 +41,8 @@ final class RtAssignees implements Assignees {
 
     /**
      * Public ctor.
-     * @param repo Repo
      * @param req Request
+     * @param repo Repo
      */
     RtAssignees(final Request req, final Repo repo) {
         this.entry = req;

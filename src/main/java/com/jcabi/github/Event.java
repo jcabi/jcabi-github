@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,21 +7,20 @@ package com.jcabi.github;
 import com.google.common.base.Optional;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github event.
- *
- * @since 0.4
+ * GitHub event.
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
+ * @since 0.4
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -144,6 +143,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
      * Smart event with extra features.
+     * @since 0.6.1
      */
     @Immutable
     @ToString
@@ -154,10 +154,12 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * Encapsulated event.
          */
         private final transient Event event;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Public ctor.
          * @param evt Event
@@ -166,6 +168,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
             this.event = evt;
             this.jsn = new SmartJson(evt);
         }
+
         /**
          * Does it have an author?
          * @return TRUE if the author exists
@@ -174,6 +177,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         public boolean hasAuthor() throws IOException {
             return !this.event.json().isNull("actor");
         }
+
         /**
          * Get its author.
          * @return Author of comment
@@ -184,6 +188,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
                 this.event.json().getJsonObject("actor").getString("login")
             );
         }
+
         /**
          * Get its type.
          * @return State of issue
@@ -192,6 +197,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
         public String type() throws IOException {
             return this.jsn.text("event");
         }
+
         /**
          * Get its URL.
          * @return URL of issue
@@ -204,6 +210,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * When this issue was created.
          * @return Date of creation
@@ -211,13 +218,14 @@ public interface Event extends Comparable<Event>, JsonReadable {
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
                 throw new IllegalStateException(ex);
             }
         }
+
         /**
          * Label that was added or removed in this event (if any).
          * @return Label that was added or removed
@@ -236,18 +244,22 @@ public interface Event extends Comparable<Event>, JsonReadable {
             }
             return lab;
         }
+
         @Override
         public Repo repo() {
             return this.event.repo();
         }
+
         @Override
         public int number() {
             return this.event.number();
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.event.json();
         }
+
         @Override
         public int compareTo(final Event obj) {
             return this.event.compareTo(obj);

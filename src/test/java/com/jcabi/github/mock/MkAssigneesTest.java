@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,25 +6,27 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
 import com.jcabi.github.User;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkAssignees}.
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkAssigneesTest {
+final class MkAssigneesTest {
 
     /**
      * MkAssignees can iterate over assignees.
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws Exception {
         MatcherAssert.assertThat(
-            repo().assignees().iterate(),
+            "Collection is not empty",
+            MkAssigneesTest.repo().assignees().iterate(),
             Matchers.not(Matchers.emptyIterableOf(User.class))
         );
     }
@@ -34,10 +36,11 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkCollaboratorIsAssigneeForRepo() throws Exception {
-        final Repo repo = repo();
+    void checkCollaboratorIsAssigneeForRepo() throws Exception {
+        final Repo repo = MkAssigneesTest.repo();
         repo.collaborators().add("Vladimir");
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.assignees().check("Vladimir"),
             Matchers.is(true)
         );
@@ -48,9 +51,10 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkOwnerIsAssigneeForRepo() throws Exception {
+    void checkOwnerIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
-            repo().assignees().check("Jonathan"),
+            "Values are not equal",
+            MkAssigneesTest.repo().assignees().check("Jonathan"),
             Matchers.is(true)
         );
     }
@@ -58,9 +62,8 @@ public final class MkAssigneesTest {
     /**
      * Create a repo to work with.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Repo repo() throws Exception {
-        return new MkGithub("Jonathan").randomRepo();
+    private static Repo repo() throws IOException {
+        return new MkGitHub("Jonathan").randomRepo();
     }
 }

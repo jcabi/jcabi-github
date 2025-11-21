@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -24,6 +24,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 public final class MkBranches implements Branches {
     /**
      * XPath from a given branch to its commit SHA string.
@@ -79,7 +80,7 @@ public final class MkBranches implements Branches {
     public Iterable<Branch> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/branch", this.xpath()),
+            this.xpath().concat("/branch"),
             xml -> new MkBranch(
                 this.storage,
                 this.self,

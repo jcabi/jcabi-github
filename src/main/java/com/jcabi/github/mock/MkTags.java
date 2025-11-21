@@ -1,8 +1,7 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -11,20 +10,22 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Tag;
 import com.jcabi.github.Tags;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
-import java.util.Map.Entry;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github Tags.
+ * Mock of GitHub Tags.
+ * @since 0.15
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkTags implements Tags {
 
     /**
@@ -41,6 +42,7 @@ final class MkTags implements Tags {
      * Repo's name.
      */
     private final transient Coordinates coords;
+
     /**
      * Public constructor.
      * @param stg The storage.
@@ -65,6 +67,7 @@ final class MkTags implements Tags {
             ).addIf("tags")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
@@ -75,7 +78,7 @@ final class MkTags implements Tags {
         final JsonObject params
     ) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
-        for (final Entry<String, JsonValue> entry : params.entrySet()) {
+        for (final Map.Entry<String, JsonValue> entry : params.entrySet()) {
             dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
         }
         this.storage.apply(dirs);

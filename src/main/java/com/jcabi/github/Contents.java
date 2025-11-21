@@ -1,18 +1,17 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 
 /**
- * Github contents.
- *
- * @since 0.8
+ * GitHub contents.
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
@@ -27,7 +26,6 @@ public interface Contents {
 
     /**
      * Get the Readme file of the default branch (usually master).
-     *
      * @return The Content of the readme file.
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
@@ -36,7 +34,6 @@ public interface Contents {
 
     /**
      * Get the Readme file of the specified branch.
-     *
      * @param branch The branch name
      * @return The Content of the readme file.
      * @throws IOException If an IO Exception occurs.
@@ -76,7 +73,7 @@ public interface Contents {
     /**
      * Get the contents of a directory in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag. Default: the repository's default branch (usually master)
+     * @param ref Commit/branch/tag name
      * @return Contents fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>

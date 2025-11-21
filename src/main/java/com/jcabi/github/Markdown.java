@@ -1,27 +1,26 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 
 /**
  * Markdown API.
- *
- * @since 0.6
  * @see <a href="https://developer.github.com/v3/markdown/">Markdown API</a>
+ * @since 0.6
  */
 @Immutable
 public interface Markdown {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Render.

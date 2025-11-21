@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,17 +6,15 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * GitHub pull request ref.
- *
- * @since 0.24
  * @see <a href="https://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a single pull request API</a>
- *
+ * @since 0.24
  */
 @Immutable
 public interface PullRef extends JsonReadable {
@@ -42,6 +40,7 @@ public interface PullRef extends JsonReadable {
 
     /**
      * Smart pull request ref with extra features.
+     * @since 0.24
      */
     @Immutable
     @ToString
@@ -52,6 +51,7 @@ public interface PullRef extends JsonReadable {
          * Encapsulated pull request ref.
          */
         private final transient PullRef pullref;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */

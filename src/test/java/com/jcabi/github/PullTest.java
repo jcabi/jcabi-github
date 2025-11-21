@@ -1,30 +1,26 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
+import jakarta.json.Json;
 import java.io.IOException;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Tests for {@link Pull}.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class PullTest {
+final class PullTest {
 
-    /**
-     * Pull.Smart can fetch comments count from Pull.
-     *
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canFetchCommentsCount() throws Exception {
+    void canFetchCommentsCount() throws IOException {
         final int number = 1;
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(
@@ -33,16 +29,14 @@ public final class PullTest {
                 .build()
         ).when(pull).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).commentsCount(),
             Matchers.is(number)
         );
     }
 
-    /**
-     * Pull.Smart can get an issue where the pull request is submitted.
-     */
     @Test
-    public void getsIssue() {
+    void getsIssue() {
         final int number = 2;
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.when(issue.number()).thenReturn(number);
@@ -54,6 +48,7 @@ public final class PullTest {
         Mockito.when(pull.number()).thenReturn(number);
         Mockito.when(pull.repo()).thenReturn(repo);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).issue().number(),
             Matchers.equalTo(number)
         );
@@ -64,13 +59,14 @@ public final class PullTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getsPullComments() throws IOException {
-        final PullComments pullComments = Mockito.mock(PullComments.class);
+    void getsPullComments() throws IOException {
+        final PullComments comments = Mockito.mock(PullComments.class);
         final Pull pull = Mockito.mock(Pull.class);
-        Mockito.when(pull.comments()).thenReturn(pullComments);
+        Mockito.when(pull.comments()).thenReturn(comments);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).comments(),
-            Matchers.equalTo(pullComments)
+            Matchers.equalTo(comments)
         );
     }
 
@@ -79,11 +75,11 @@ public final class PullTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getsAuthor() throws IOException {
-        final String login = "rose";
+    void getsAuthor() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
-        Mockito.when(repo.github()).thenReturn(new MkGithub());
+        Mockito.when(repo.github()).thenReturn(new MkGitHub());
         final Pull pull = Mockito.mock(Pull.class);
+        final String login = "rose";
         Mockito.when(pull.json()).thenReturn(
             Json.createObjectBuilder()
                 .add(
@@ -96,6 +92,7 @@ public final class PullTest {
         );
         Mockito.when(pull.repo()).thenReturn(repo);
         MatcherAssert.assertThat(
+            "Values are not equal",
             new Pull.Smart(pull).author().login(),
             Matchers.equalTo(login)
         );

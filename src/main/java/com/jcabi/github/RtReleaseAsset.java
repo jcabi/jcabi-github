@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,21 +8,22 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.core.HttpHeaders;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import javax.json.JsonObject;
-import javax.ws.rs.core.HttpHeaders;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github release asset.
- *
+ * GitHub release asset.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtReleaseAsset implements ReleaseAsset {
 
     /**
@@ -98,13 +99,6 @@ final class RtReleaseAsset implements ReleaseAsset {
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
 
-    /**
-     * Get raw release asset content.
-     *
-     * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
-     * @return Stream with content
-     * @throws IOException If some problem inside.
-     */
     @Override
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(

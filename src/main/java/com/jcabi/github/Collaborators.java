@@ -1,25 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github repository collaborators.
+ * GitHub repository collaborators.
  * @since 0.8
  */
 @Immutable
 public interface Collaborators {
     /**
      * Permission levels a user can be granted in an organization repository.
-     *
      * @see <a href="https://developer.github.com/v3/repos/collaborators/#parameters-1">Add user with permissions</a>
      */
-    enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE };
+    enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE }
 
     /**
      * Owner of them.
@@ -29,7 +27,6 @@ public interface Collaborators {
 
     /**
      * Check if a user is collaborator.
-     *
      * @param user User
      * @return True is a user is a collaborator, otherwise returns false
      * @throws IOException If there is any I/O problem
@@ -40,7 +37,6 @@ public interface Collaborators {
 
     /**
      * Add user as a collaborator.
-     *
      * @param user User
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/collaborators/#add-collaborator">Add user as a collaborator</a>
@@ -49,7 +45,6 @@ public interface Collaborators {
 
     /**
      * Add user with permissions. Only works on an organization repository
-     *
      * @param user User to add
      * @param permission Permission level to grant
      * @throws IOException if there is an I/O problem
@@ -60,7 +55,6 @@ public interface Collaborators {
 
     /**
      * Get user permission in this repo.
-     *
      * @param user User to check
      * @return Permission level granted, incl. "admin", "write",
      *  "read", or "none"
@@ -71,7 +65,6 @@ public interface Collaborators {
 
     /**
      * Remove user as a collaborator.
-     *
      * @param user User
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/collaborators/#remove-collaborator">Remove user as a collaborator</a>

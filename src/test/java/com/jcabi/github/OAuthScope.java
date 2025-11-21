@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -18,104 +18,98 @@ import java.lang.annotation.Target;
  *  check if the supplied account can fulfill the IT case requirement before
  *  it is run and make the case fail if the required OAuth scopes is not
  *  present.
- * @see <a href="https://developer.github.com/v3/oauth/#scopes">Github OAuth
+ * @see <a href="https://developer.github.com/v3/oauth/#scopes">GitHub OAuth
  * scopes</a>
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface OAuthScope {
-    /**
-     * The Github OAuth scopes required.
-     */
-    Scope[] value();
+    OAuthScope.Scope[] value();
 
-    /**
-     * The enum represents the available OAuth scopes.
-     */
-    public enum Scope {
+    enum Scope {
         /**
-         * Represents "no scope" scope.
+         * No scope.
          */
         NO_SCOPE,
         /**
-         * Represents "user" scope.
+         * User scope.
          */
         USER,
         /**
-         * Represents "user:email" scope.
+         * User email scope.
          */
         USER_EMAIL,
         /**
-         * Represents "user:follow" scope.
+         * User follow scope.
          */
         USER_FOLLOW,
         /**
-         * Represents "public_repo" scope.
+         * Public repo scope.
          */
         PUBLIC_REPO,
         /**
-         * Represents "repo" scope.
+         * Repo scope.
          */
         REPO,
         /**
-         * Represents "repo_deployment" scope.
+         * Repo deployment scope.
          */
         REPO_DEPLOYMENT,
         /**
-         * Represents "repo_status" scope.
+         * Repo status scope.
          */
         REPO_STATUS,
         /**
-         * Represents "delete_repo" scope.
+         * Delete repo scope.
          */
         DELETE_REPO,
         /**
-         * Represents "notifications" scope.
+         * Notifications scope.
          */
         NOTIFICATIONS,
         /**
-         * Represents "gist" scope.
+         * Gist scope.
          */
         GIST,
         /**
-         * Represents "read:repo_hook" scope.
+         * Read repo hook scope.
          */
         READ_REPO_HOOK,
         /**
-         * Represents "write:repo_hook" scope.
+         * Write repo hook scope.
          */
         WRITE_REPO_HOOK,
         /**
-         * Represents "admin:repo_hook" scope.
+         * Admin repo hook scope.
          */
         ADMIN_REPO_HOOK,
         /**
-         * Represents "admin:org_hook" scope.
+         * Admin org hook scope.
          */
         ADMIN_ORG_HOOK,
         /**
-         * Represents "read:org" scope.
+         * Read org scope.
          */
         READ_ORG,
         /**
-         * Represents "write:org" scope.
+         * Write org scope.
          */
         WRITE_ORG,
         /**
-         * Represents "admin:org" scope.
+         * Admin org scope.
          */
         ADMIN_ORG,
         /**
-         * Represents "read:public_key" scope.
+         * Read public key scope.
          */
         READ_PUBLIC_KEY,
         /**
-         * Represents "write:public_key" scope.
+         * Write public key scope.
          */
         WRITE_PUBLIC_KEY,
         /**
-         * Represents "admin:public_key" scope.
+         * Admin public key scope.
          */
         ADMIN_PUBLIC_KEY;
     }

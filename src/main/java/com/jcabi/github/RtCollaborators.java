@@ -1,8 +1,7 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
@@ -10,10 +9,11 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
+import java.util.Locale;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
@@ -44,9 +44,10 @@ final class RtCollaborators implements Collaborators {
 
     /**
      * Public ctor.
-     * @param repo Repo
      * @param req Request
+     * @param repo Repo
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtCollaborators(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
@@ -107,7 +108,7 @@ final class RtCollaborators implements Collaborators {
     ) throws IOException {
         final JsonObject obj = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
-            .add("permission", permission.toString().toLowerCase())
+            .add("permission", permission.toString().toLowerCase(Locale.ENGLISH))
             .build();
         this.request.method(Request.PUT)
             .body().set(obj).back()

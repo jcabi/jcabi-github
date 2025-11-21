@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,18 +8,17 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.PublicKey;
 import com.jcabi.github.User;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github public key.
+ * Mock GitHub public key.
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "num" })
 final class MkPublicKey implements PublicKey {
     /**
      * Storage.
@@ -74,6 +73,30 @@ final class MkPublicKey implements PublicKey {
     @Override
     public int number() {
         return this.num;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkPublicKey other = (MkPublicKey) obj;
+            result = this.num == other.num
+                && this.storage.equals(other.storage)
+                && this.self.equals(other.self);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.num;
+        return result;
     }
 
     /**

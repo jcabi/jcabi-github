@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,24 +9,21 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github pull comments.
- *
- * @since 0.8
+ * GitHub pull comments.
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
+ * @since 0.8
  */
 @Immutable
 public interface PullComments {
 
     /**
      * Pull we're in.
-     *
      * @return Pull
      */
     Pull pull();
 
     /**
      * Get specific pull comment by number.
-     *
      * @param number Pull comment number
      * @return Pull comment
      * @see <a href="https://developer.github.com/v3/pulls/comments/#get-a-single-comment">Get a single comment</a>
@@ -35,7 +32,6 @@ public interface PullComments {
 
     /**
      * Iterate all pull comments for this repo.
-     *
      * @param params Iterating parameters, as specified by API
      * @return Iterable of pull comments
      * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
@@ -45,7 +41,6 @@ public interface PullComments {
 
     /**
      * Iterate all pull comments for a pull request.
-     *
      * @param number Pull comment number
      * @param params Iterating parameters, as specified by API
      * @return Iterable of pull comments
@@ -56,7 +51,6 @@ public interface PullComments {
 
     /**
      * Post a new pull comment.
-     *
      * @param body Body of it
      * @param commit Commit ID (SHA) of it
      * @param path Path of the file to comment on
@@ -75,7 +69,6 @@ public interface PullComments {
 
     /**
      * Create a new comment as a reply to an existing pull comment.
-     *
      * @param body Body of it
      * @param comment Commit ID (SHA) of it
      * @return PullComment just created
@@ -89,7 +82,6 @@ public interface PullComments {
 
     /**
      * Removes a pull comment by ID.
-     *
      * @param number The ID of the pull comment to delete.
      * @throws IOException If there is any I/O problem.
      */

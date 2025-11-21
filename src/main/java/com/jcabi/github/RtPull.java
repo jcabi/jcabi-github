@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,17 +8,17 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 import org.hamcrest.Matchers;
 
 /**
- * Github pull request.
+ * GitHub pull request.
  *
  * @since 0.3
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -55,6 +55,7 @@ final class RtPull implements Pull {
      * @param repo Repository
      * @param number Number of the get
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtPull(final Request req, final Repo repo, final int number) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();
@@ -131,19 +132,19 @@ final class RtPull implements Pull {
                     )
                 )
             );
-        final MergeState mergeState;
+        final MergeState state;
         switch (response.status()) {
             case HttpURLConnection.HTTP_OK:
-                mergeState = MergeState.SUCCESS;
+                state = MergeState.SUCCESS;
                 break;
             case HttpURLConnection.HTTP_BAD_METHOD:
-                mergeState = MergeState.NOT_MERGEABLE;
+                state = MergeState.NOT_MERGEABLE;
                 break;
             default:
-                mergeState = MergeState.BAD_HEAD;
+                state = MergeState.BAD_HEAD;
                 break;
         }
-        return mergeState;
+        return state;
     }
 
     @Override

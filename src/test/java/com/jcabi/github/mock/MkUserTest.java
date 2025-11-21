@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,29 +12,29 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
 /**
  * Unit tests for the MkUser class.
- *
+ * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-public final class MkUserTest {
+final class MkUserTest {
 
     /**
      * Tests that MkUser.organizations() returns a value.
-     *
      * @throws IOException when there is an error creating the MkUser begin tested
      */
     @Test
-    public void testGetOrganizations() throws IOException {
+    void testGetOrganizations() throws IOException {
         final MkUser user = new MkUser(
             new MkStorage.InFile(),
             "orgTestIterate"
         );
         final UserOrganizations orgs = user.organizations();
         MatcherAssert.assertThat(
+            "Value is null",
             orgs,
             Matchers.notNullValue()
         );
@@ -48,8 +48,9 @@ public final class MkUserTest {
      * @throws IOException If there is an error creating the user.
      */
     @Test
-    public void returnsNotifications() throws IOException {
+    void returnsNotifications() throws IOException {
         MatcherAssert.assertThat(
+            "Value is null",
             new MkUser(
                 new MkStorage.InFile(),
                 "notifications"
@@ -64,7 +65,7 @@ public final class MkUserTest {
      * @throws IOException If any error occurs.
      */
     @Test
-    public void marksNotificationsAsReadUpToDate() throws IOException {
+    void marksNotificationsAsReadUpToDate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(new Directives().xpath("/github").add("users"));
         final User user = new MkUsers(storage, "joe").add("joe");
@@ -83,7 +84,7 @@ public final class MkUserTest {
                 .add("notification")
                     .add("id").set(2).up()
                     .add("date").set(
-                         // @checkstyle MagicNumberCheck (1 line)
+                        // @checkstyle MagicNumberCheck (1 line)
                         upto.plus(30, ChronoUnit.MINUTES).toEpochMilli()
                     ).up()
                     .add("read").set(false).up()
@@ -91,10 +92,12 @@ public final class MkUserTest {
         );
         user.markAsRead(Date.from(upto));
         MatcherAssert.assertThat(
+            "Values are not equal",
             storage.xml().xpath("//notification[id = 1]/read/text()").get(0),
             Matchers.is("true")
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             storage.xml().xpath("//notification[id = 2]/read/text()").get(0),
             Matchers.is("false")
         );

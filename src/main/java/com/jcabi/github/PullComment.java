@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,15 +6,15 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Collection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github pull comment.
+ * GitHub pull comment.
  *
  * <p>PullComment implements {@link JsonReadable},
  * that's how you can get its full details in JSON format.
@@ -28,8 +28,8 @@ import lombok.ToString;
  *
  * <pre>String id = new PullComment.Smart(comment).identifier();</pre>
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Pull Comments API</a>
+ * @since 0.8
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -62,6 +62,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
     /**
      * Smart PullComment with extra features.
+     * @since 0.8
      */
     @Immutable
     @ToString
@@ -116,7 +117,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String identifier() throws IOException {
-            return this.jsn.text(ID);
+            return this.jsn.text(PullComment.Smart.ID);
         }
 
         /**
@@ -128,7 +129,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(ID, value).build()
+                Json.createObjectBuilder().add(PullComment.Smart.ID, value).build()
             );
         }
 
@@ -138,7 +139,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String commitId() throws IOException {
-            return this.jsn.text(COMMIT_ID);
+            return this.jsn.text(PullComment.Smart.COMMIT_ID);
         }
 
         /**
@@ -150,7 +151,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(COMMIT_ID, value).build()
+                Json.createObjectBuilder().add(PullComment.Smart.COMMIT_ID, value).build()
             );
         }
 
@@ -160,7 +161,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String url() throws IOException {
-            return this.jsn.text(URL);
+            return this.jsn.text(PullComment.Smart.URL);
         }
 
         /**
@@ -181,7 +182,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(URL, value).build()
+                Json.createObjectBuilder().add(PullComment.Smart.URL, value).build()
             );
         }
 
@@ -191,7 +192,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @throws IOException If there is any I/O problem
          */
         public String body() throws IOException {
-            return this.jsn.text(BODY);
+            return this.jsn.text(PullComment.Smart.BODY);
         }
 
         /**
@@ -203,7 +204,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
             final String value
         ) throws IOException {
             this.cmnt.patch(
-                Json.createObjectBuilder().add(BODY, value).build()
+                Json.createObjectBuilder().add(PullComment.Smart.BODY, value).build()
             );
         }
 

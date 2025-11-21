@@ -1,31 +1,28 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserOrganizations}.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
-@OAuthScope(Scope.READ_ORG)
-public final class RtUserOrganizationsITCase {
-    /**
-     * RtUserOrganizations can iterate all organizations of a user.
-     * @throws Exception if any problem inside
-     */
+@OAuthScope(OAuthScope.Scope.READ_ORG)
+final class RtUserOrganizationsITCase {
     @Test
-    public void iterateOrganizations() throws Exception {
-        final UserOrganizations orgs = new GithubIT().connect()
+    void iterateOrganizations() throws IOException {
+        final UserOrganizations orgs = GitHubIT.connect()
             .users().get("yegor256")
             .organizations();
         MatcherAssert.assertThat(
+            "Value is null",
             orgs.iterate().iterator().next(),
             Matchers.notNullValue()
         );

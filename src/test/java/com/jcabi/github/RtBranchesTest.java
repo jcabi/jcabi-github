@@ -1,46 +1,41 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtBranches}.
- *
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtBranchesTest {
+@ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtBranchesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtBranches can iterate over all branches.
-     * @throws Exception if there is any error
-     */
     @Test
-    public void iteratesOverBranches() throws Exception {
+    void iteratesOverBranches() throws IOException {
         final String firstname = "first";
         final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
         final String secondname = "second";
@@ -48,37 +43,43 @@ public final class RtBranchesTest {
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createArrayBuilder()
-                .add(branch(firstname, firstsha))
-                .add(branch(secondname, secondsha))
+                .add(RtBranchesTest.branch(firstname, firstsha))
+                .add(RtBranchesTest.branch(secondname, secondsha))
                 .build().toString()
         );
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 branches.iterate(),
-                Matchers.<Branch>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
             final Iterator<Branch> iter = branches.iterate().iterator();
             final Branch first = iter.next();
-            MatcherAssert.assertThat(first.name(), Matchers.equalTo(firstname));
             MatcherAssert.assertThat(
+                "Values are not equal", first.name(), Matchers.equalTo(firstname)
+            );
+            MatcherAssert.assertThat(
+                "Values are not equal",
                 first.commit().sha(),
                 Matchers.equalTo(firstsha)
             );
             final Branch second = iter.next();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 second.name(),
                 Matchers.equalTo(secondname)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 second.commit().sha(),
                 Matchers.equalTo(secondsha)
             );
@@ -86,12 +87,8 @@ public final class RtBranchesTest {
         }
     }
 
-    /**
-     * RtBranches can find one branck by name.
-     * @throws Exception if there is any error
-     */
     @Test
-    public void findBranch() throws Exception {
+    void findBranch() throws IOException {
         final String thirdname = "third";
         final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";
         final String fourthname = "fourth";
@@ -99,19 +96,19 @@ public final class RtBranchesTest {
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createArrayBuilder()
-                .add(branch(thirdname, thirdsha))
-                .add(branch(fourthname, fourthsha))
+                .add(RtBranchesTest.branch(thirdname, thirdsha))
+                .add(RtBranchesTest.branch(fourthname, fourthsha))
                 .build().toString()
         );
         try (
-            final MkContainer container = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
                 .next(answer)
                 .next(answer)
-                .start(this.resource.port());
+                .start(RandomPort.port())
         ) {
             final RtBranches branches = new RtBranches(
                 new JdkRequest(container.home()),
-                new MkGithub().randomRepo()
+                new MkGitHub().randomRepo()
             );
             MatcherAssert.assertThat(
                 "could not find branch correctly",
@@ -129,15 +126,17 @@ public final class RtBranchesTest {
      * @throws IOException If there is any I/O problem
      */
     @Test
-    public void fetchesRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+    void fetchesRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         final RtBranches branch = new RtBranches(new FakeRequest(), repo);
         final Coordinates coords = branch.repo().coordinates();
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.user(),
             Matchers.equalTo(repo.coordinates().user())
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             coords.repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );
@@ -156,8 +155,13 @@ public final class RtBranchesTest {
                 "commit",
                 Json.createObjectBuilder()
                     .add("sha", sha)
-                    // @checkstyle LineLengthCheck (1 line)
-                    .add("url", String.format("https://api.jcabi-github.invalid/repos/user/repo/commits/%s", sha))
+                    .add(
+                        "url",
+                        String.format(
+                            "https://api.jcabi-github.invalid/repos/user/repo/commits/%s",
+                            sha
+                        )
+                    )
             )
             .build();
     }

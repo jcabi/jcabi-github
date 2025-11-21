@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,12 +15,18 @@ import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock Github forks.
- *
+ * Mock GitHub forks.
+ * @since 0.8
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkForks implements Forks {
+
+    /**
+     * XPath suffix for fork ID text.
+     */
+    private static final String FORK_ID_TEXT_PATH = "/fork/id/text()";
 
     /**
      * Storage.
@@ -44,7 +50,7 @@ final class MkForks implements Forks {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkForks(
+    MkForks(
         final MkStorage stg,
         final String login,
         final Coordinates rep
@@ -61,10 +67,12 @@ final class MkForks implements Forks {
             ).addIf("forks")
         );
     }
+
     @Override
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
+
     /**
      * Gets a mocked Fork.
      * @param forkid Fork id
@@ -73,18 +81,20 @@ final class MkForks implements Forks {
     public Fork get(final int forkid) {
         return new MkFork(this.storage, forkid, this.coords);
     }
+
     @Override
     public Iterable<Fork> iterate(
         final String sort
     ) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/fork", this.xpath()),
+            this.xpath().concat("/fork"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
         );
     }
+
     @Override
     public Fork create(
         final String org
@@ -93,7 +103,7 @@ final class MkForks implements Forks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/fork/id/text()", this.xpath())
+                this.xpath().concat(MkForks.FORK_ID_TEXT_PATH)
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")

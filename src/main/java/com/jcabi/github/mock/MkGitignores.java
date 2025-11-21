@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Gitignores;
 import java.util.Collections;
 import java.util.Map;
@@ -20,7 +20,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "ghub" })
+@EqualsAndHashCode(of = "ghub")
 @SuppressWarnings("PMD.UseConcurrentHashMap")
 final class MkGitignores implements Gitignores {
 
@@ -34,32 +34,32 @@ final class MkGitignores implements Gitignores {
         );
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient MkGithub ghub;
+    private final transient MkGitHub ghub;
 
     /**
      * Public ctor.
      * @param github The github
      */
-    MkGitignores(final MkGithub github) {
+    MkGitignores(final MkGitHub github) {
         this.ghub = github;
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 
     @Override
     public Iterable<String> iterate() {
-        return GITIGNORES.keySet();
+        return MkGitignores.GITIGNORES.keySet();
     }
 
     @Override
     public String template(
         final String name) {
-        final String template = GITIGNORES.get(name);
+        final String template = MkGitignores.GITIGNORES.get(name);
         if (template == null) {
             throw new IllegalArgumentException("Template not found.");
         }

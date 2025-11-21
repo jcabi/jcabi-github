@@ -1,10 +1,10 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -12,16 +12,17 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -30,26 +31,23 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
-public final class RtReleaseAssetTest {
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+@ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtReleaseAssetTest {
 
     /**
      * RtReleaseAsset can be described in JSON form.
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest().withBody("{\"asset\":\"release\"}"),
-            release(),
+            RtReleaseAssetTest.release(),
             1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString("asset"),
             Matchers.equalTo("release")
         );
@@ -60,14 +58,15 @@ public final class RtReleaseAssetTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainOwnRelease() throws Exception {
-        final Release release = release();
+    void canObtainOwnRelease() throws Exception {
+        final Release release = RtReleaseAssetTest.release();
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest(),
             release,
             1
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.release(),
             Matchers.is(release)
         );
@@ -78,15 +77,15 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void patchesAsset() throws Exception {
+    void patchesAsset() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
-                release(),
+                RtReleaseAssetTest.release(),
                 2
             );
             final JsonObject json = Json.createObjectBuilder()
@@ -94,13 +93,17 @@ public final class RtReleaseAssetTest {
             asset.patch(json);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
-                query.method(), Matchers.equalTo(Request.PATCH)
+                "Values are not equal",
+                query.method(),
+                Matchers.equalTo(Request.PATCH)
             );
             MatcherAssert.assertThat(
+                "String does not contain expected value",
                 query.body(),
                 Matchers.containsString("{\"name\":\"hello\"}")
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/repos/john/blueharvest/releases/assets/2")
             );
@@ -113,20 +116,21 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesAsset() throws Exception {
+    void removesAsset() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port());
+            ).start(RandomPort.port())
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
-                release(),
+                RtReleaseAssetTest.release(),
                 3
             );
             asset.remove();
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );
@@ -139,26 +143,30 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void rawAsset() throws Exception {
+    void rawAsset() throws Exception {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(this.resource.port());
+            ).start(RandomPort.port())
         ) {
             final RtReleaseAsset asset = new RtReleaseAsset(
                 new ApacheRequest(container.home()),
-                release(),
+                RtReleaseAssetTest.release(),
                 4
             );
-            final InputStream stream = asset.raw();
-            final MkQuery query = container.take();
-            MatcherAssert.assertThat(
-                query.method(), Matchers.equalTo(Request.GET)
-            );
-            MatcherAssert.assertThat(
-                IOUtils.toString(stream, StandardCharsets.UTF_8),
-                Matchers.notNullValue()
-            );
+            try (InputStream stream = asset.raw()) {
+                final MkQuery query = container.take();
+                MatcherAssert.assertThat(
+                    "Values are not equal",
+                    query.method(),
+                    Matchers.equalTo(Request.GET)
+                );
+                MatcherAssert.assertThat(
+                    "Value is null",
+                    IOUtils.toString(stream, StandardCharsets.UTF_8),
+                    Matchers.notNullValue()
+                );
+            }
             container.stop();
         }
     }
@@ -166,11 +174,10 @@ public final class RtReleaseAssetTest {
     /**
      * This method returns a Release for testing.
      * @return Release to be used for test.
-     * @throws Exception - if anything goes wrong.
      */
-    private static Release release() throws Exception {
+    private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
-        final Repo repo = new MkGithub("john").repos().create(
+        final Repo repo = new MkGitHub("john").repos().create(
             new Repos.RepoCreate("blueharvest", false)
         );
         Mockito.doReturn(repo).when(release).repo();

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,26 +6,27 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github repository.
+ * GitHub repository.
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
+ * @checkstyle ClassFanOutComplexityCheck (500 lines)
  */
 @Immutable
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.CouplingBetweenObjects"})
 public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get its owner.
-     * @return Github
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get its coordinates.
@@ -177,6 +178,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Smart Repo with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -187,6 +189,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * Encapsulated Repo.
          */
         private final transient Repo repo;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -204,7 +207,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         }
 
         /**
-         * Does this Repo actually exist in Github?
+         * Does this Repo actually exist in GitHub?
          * @return True if it exists, false otherwise.
          * @throws IOException If there is any I/O problem.
          */
@@ -244,7 +247,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         }
 
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.repo.github();
         }
 

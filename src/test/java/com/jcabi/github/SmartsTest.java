@@ -1,27 +1,25 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Collections;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link Smarts}.
+ * @since 0.5
  */
-public final class SmartsTest {
+final class SmartsTest {
 
-    /**
-     * Smarts can make instances of Comment.Smart.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void decoratesObjectsOnFly() throws Exception {
+    void decoratesObjectsOnFly() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("body", "hello, world!").build()
@@ -30,6 +28,7 @@ public final class SmartsTest {
             Collections.singletonList(origin)
         );
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             comments.iterator().next().body(),
             Matchers.endsWith("world!")
         );

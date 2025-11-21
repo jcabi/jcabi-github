@@ -1,9 +1,11 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -11,22 +13,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
 /**
  * Test case for {@link MkStorage}.
+ * @since 0.5
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.DoNotUseThreads")
-public final class MkStorageTest {
+final class MkStorageTest {
 
-    /**
-     * MkStorage can text and write.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void readsAndWrites() throws Exception {
+    void readsAndWrites() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.lock();
         try {
@@ -35,6 +34,7 @@ public final class MkStorageTest {
                     .set("hello, world")
             );
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 storage.xml().xpath("/github/test/text()").get(0),
                 Matchers.endsWith(", world")
             );
@@ -43,12 +43,9 @@ public final class MkStorageTest {
         }
     }
 
-    /**
-     * MkStorage can lock and unlock files.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void locksAndUnlocks() throws Exception {
+    @SuppressWarnings("PMD.CloseResource")
+    void locksAndUnlocks() throws IOException, InterruptedException, ExecutionException {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         final Runnable second = () -> storage.lock();
@@ -56,7 +53,11 @@ public final class MkStorageTest {
         Future<?> future = executor.submit(second);
         try {
             future.get(1L, TimeUnit.SECONDS);
-            MatcherAssert.assertThat("timeout SHOULD happen", false);
+            MatcherAssert.assertThat(
+                "Timeout did not occur",
+                false,
+                Matchers.is(true)
+            );
         } catch (final TimeoutException ex) {
             future.cancel(true);
         } finally {
@@ -66,7 +67,11 @@ public final class MkStorageTest {
         try {
             future.get(1L, TimeUnit.SECONDS);
         } catch (final TimeoutException ex) {
-            MatcherAssert.assertThat("timeout SHOULD NOT happen", false);
+            MatcherAssert.assertThat(
+                "Timeout occurred unexpectedly",
+                false,
+                Matchers.is(true)
+            );
             future.cancel(true);
         }
         executor.shutdown();

@@ -1,29 +1,28 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import jakarta.json.Json;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
-import javax.json.Json;
+import java.net.URISyntaxException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RepoCommit}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class RepoCommitTest {
+final class RepoCommitTest {
 
-    /**
-     * RepoCommit.Smart can fetch url property from RepoCommit.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesUrl() throws Exception {
+    void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -33,17 +32,14 @@ public class RepoCommitTest {
                 .build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(commit).url(),
             Matchers.is(new URI(prop).toURL())
         );
     }
 
-    /**
-     * RepoCommit.Smart can fetch message property from RepoCommit.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesMessage() throws Exception {
+    void fetchesMessage() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -52,6 +48,7 @@ public class RepoCommitTest {
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new RepoCommit.Smart(commit).message(),
             Matchers.startsWith("hello, ")
         );
@@ -62,7 +59,7 @@ public class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public final void verifiesStatus() throws IOException {
+    void verifiesStatus() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -74,6 +71,7 @@ public class RepoCommitTest {
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(commit).isVerified(),
             Matchers.is(true)
         );
@@ -84,7 +82,7 @@ public class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public final void readsAuthorLogin() throws IOException {
+    void readsAuthorLogin() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         final String login = "jeff";
         Mockito.doReturn(
@@ -97,6 +95,7 @@ public class RepoCommitTest {
             ).build()
         ).when(commit).json();
         MatcherAssert.assertThat(
+            "Values are not equal",
             new RepoCommit.Smart(commit).author(),
             Matchers.equalTo(login)
         );

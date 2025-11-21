@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,15 +9,15 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github public keys.
- *
+ * GitHub public keys.
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
@@ -46,7 +46,7 @@ final class RtPublicKeys implements PublicKeys {
      * @param req Request
      * @param user User
      */
-    public RtPublicKeys(final Request req, final User user) {
+    RtPublicKeys(final Request req, final User user) {
         this.entry = req;
         this.owner = user;
         this.request = this.entry.uri().path("/user").path("/keys").back();

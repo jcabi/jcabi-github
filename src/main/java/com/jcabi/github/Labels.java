@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,10 +11,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github labels.
- *
- * @since 0.1
+ * GitHub labels.
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -64,6 +63,7 @@ public interface Labels {
 
     /**
      * Smart Labels with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString
@@ -74,6 +74,7 @@ public interface Labels {
          * Encapsulated labels.
          */
         private final transient Labels labels;
+
         /**
          * Public ctor.
          * @param lbl Labels
@@ -83,6 +84,7 @@ public interface Labels {
         ) {
             this.labels = lbl;
         }
+
         /**
          * Label exists?
          * @param name Name of the label
@@ -100,6 +102,7 @@ public interface Labels {
             }
             return contains;
         }
+
         /**
          * Create or get label.
          * @param name Name of the label
@@ -111,6 +114,7 @@ public interface Labels {
         ) throws IOException {
             return this.createOrGet(name, "c0c0c0");
         }
+
         /**
          * Create or get label (with this explicit color).
          * @param name Name of the label
@@ -133,26 +137,31 @@ public interface Labels {
             }
             return label;
         }
+
         @Override
         public Repo repo() {
             return this.labels.repo();
         }
+
         @Override
         public Label create(
             final String name, final String color
         ) throws IOException {
             return this.labels.create(name, color);
         }
+
         @Override
         public Label get(
             final String name
         ) {
             return this.labels.get(name);
         }
+
         @Override
         public Iterable<Label> iterate() {
             return this.labels.iterate();
         }
+
         @Override
         public void delete(
             final String name

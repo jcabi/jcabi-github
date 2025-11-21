@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -20,7 +20,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github Mock Git.
+ * GitHub Mock Git.
  *
  * @since 0.8
  */
@@ -28,6 +28,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkGit implements Git {
 
     /**
@@ -52,7 +53,7 @@ final class MkGit implements Git {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkGit(
+    MkGit(
         final MkStorage stg,
         final String login,
         final Coordinates rep

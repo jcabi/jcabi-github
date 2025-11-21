@@ -1,23 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Event;
 import com.jcabi.github.Hook;
 import com.jcabi.github.Hooks;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkHooks}.
  * @since 0.8
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkHooksTest {
+final class MkHooksTest {
     /**
      * Type of hook to create and use for tests.
      */
@@ -28,9 +28,10 @@ public final class MkHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchEmptyListOfHooks() throws Exception {
+    void canFetchEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             hooks.iterate(),
             Matchers.emptyIterable()
         );
@@ -38,24 +39,25 @@ public final class MkHooksTest {
 
     /**
      * MkHooks can delete a single hook by ID.
-     *
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void canDeleteSingleHook() throws Exception {
+    void canDeleteSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             hooks.iterate(),
-            Matchers.<Hook>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         hooks.remove(hook.number());
         MatcherAssert.assertThat(
+            "Collection is not empty",
             hooks.iterate(),
             Matchers.emptyIterable()
         );
@@ -66,15 +68,16 @@ public final class MkHooksTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    void canFetchSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
+            "Value is null",
             hooks.get(hook.number()),
             Matchers.notNullValue()
         );
@@ -85,23 +88,24 @@ public final class MkHooksTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchNonEmptyListOfHooks() throws Exception {
+    void canFetchNonEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             hooks.iterate(),
-            Matchers.<Hook>iterableWithSize(2)
+            Matchers.iterableWithSize(2)
         );
     }
 
@@ -110,15 +114,16 @@ public final class MkHooksTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canCreateHook() throws Exception {
+    void canCreateHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
         final Hook hook = hooks.create(
-            HOOK_TYPE,
-            Collections.<String, String>emptyMap(),
-            Collections.<Event>emptyList(),
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
             true
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             hooks.iterate().iterator().next().number(),
             Matchers.equalTo(hook.number())
         );
@@ -127,9 +132,8 @@ public final class MkHooksTest {
     /**
      * Create hooks to work with.
      * @return Hooks
-     * @throws Exception If some problem inside
      */
-    private static Hooks newHooks() throws Exception {
-        return new MkGithub().randomRepo().hooks();
+    private static Hooks newHooks() throws IOException {
+        return new MkGitHub().randomRepo().hooks();
     }
 }

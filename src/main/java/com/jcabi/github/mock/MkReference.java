@@ -1,8 +1,7 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -10,12 +9,13 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Reference;
 import com.jcabi.github.Repo;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Mock of Github Reference.
+ * Mock of GitHub Reference.
+ * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)

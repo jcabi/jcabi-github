@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,20 +6,18 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Tests for {@link Label}.
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class LabelTest {
+final class LabelTest {
 
-    /**
-     * Label.Unmodified can be compared properly.
-     */
     @Test
-    public void canBeComparedProperly() {
+    void canBeComparedProperly() {
         final Label.Unmodified one = new Label.Unmodified(
             LabelTest.repo("jef", "jef_repo"),
             "{\"name\":\"paul\"}"
@@ -29,10 +27,12 @@ public final class LabelTest {
             "{\"name\":\"paul\"}"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             one.equals(other),
             Matchers.is(false)
         );
         MatcherAssert.assertThat(
+            "Assertion failed",
             one.compareTo(other),
             Matchers.not(0)
         );

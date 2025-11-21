@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,20 +8,19 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -29,7 +28,9 @@ import org.mockito.Mockito;
  *
  * @since 1.5.0
  */
-public final class RtChecksTest {
+@ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class RtChecksTest {
 
     /**
      * Conclusion key in json check.
@@ -42,32 +43,25 @@ public final class RtChecksTest {
     private static final String STATUS_KEY = "status";
 
     /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
      * Checks whether RtChecks can get all checks.
-     *
      * @throws IOException If some problem happens.
      */
     @Test
-    public void getsAllChecks() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+    void getsAllChecks() throws IOException {
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.jsonWithCheckRuns()
                 )
             )
-            .start(this.resource.port())) {
+            .start(RandomPort.port())) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 checks.all(),
                 Matchers.iterableWithSize(1)
             );
@@ -76,23 +70,23 @@ public final class RtChecksTest {
 
     /**
      * Checks whether RtChecks can return empty checks if they are absent.
-     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+    void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.empty()
                 )
             )
-            .start(this.resource.port())) {
+            .start(RandomPort.port())) {
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 ((Checks) new RtChecks(
                     new JdkRequest(container.home()),
-                    this.repo().pulls().get(0)
+                    RtChecksTest.repo().pulls().get(0)
                 )).all(),
                 Matchers.iterableWithSize(0)
             );
@@ -102,27 +96,36 @@ public final class RtChecksTest {
     /**
      * Checks whether RtChecks can throw an exception
      * if response code is not 200.
-     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void assertsOkResponse() throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+    void assertsOkResponse() throws IOException {
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NOT_FOUND,
                     RtChecksTest.jsonWithCheckRuns()
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
-            Assert.assertThrows(
-                AssertionError.class,
-                checks::all
-            );
+            try {
+                checks.all();
+                MatcherAssert.assertThat(
+                    "AssertionError was expected",
+                    false,
+                    Matchers.is(true)
+                );
+            } catch (final AssertionError ex) {
+                MatcherAssert.assertThat(
+                    "Exception was thrown as expected",
+                    ex,
+                    Matchers.notNullValue()
+                );
+            }
         }
     }
 
@@ -131,9 +134,9 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void retrievesUnfinishedChecksWithoutConclusion()
+    void retrievesUnfinishedChecksWithoutConclusion()
         throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -145,16 +148,19 @@ public final class RtChecksTest {
                             )
                     )
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
-            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            MatcherAssert.assertThat(
+                "Collection size is incorrect", all, Matchers.hasSize(1)
+            );
             for (final Check check : all) {
                 MatcherAssert.assertThat(
+                    "Values are not equal",
                     check.successful(),
                     Matchers.is(false)
                 );
@@ -167,9 +173,9 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void retrievesUnfinishedChecksWithNullableConclusion()
+    void retrievesUnfinishedChecksWithNullableConclusion()
         throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -184,16 +190,19 @@ public final class RtChecksTest {
                             )
                     )
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
-            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            MatcherAssert.assertThat(
+                "Collection size is incorrect", all, Matchers.hasSize(1)
+            );
             for (final Check check : all) {
                 MatcherAssert.assertThat(
+                    "Values are not equal",
                     check.successful(),
                     Matchers.is(false)
                 );
@@ -206,9 +215,9 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void retrievesUnfinishedChecksWithoutStatusAndConclusion()
+    void retrievesUnfinishedChecksWithoutStatusAndConclusion()
         throws IOException {
-        try (final MkContainer container = new MkGrizzlyContainer()
+        try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
@@ -216,16 +225,19 @@ public final class RtChecksTest {
                         RtChecksTest.jsonCheck()
                     )
                 )
-            ).start(this.resource.port())
+            ).start(RandomPort.port())
         ) {
             final Checks checks = new RtChecks(
                 new JdkRequest(container.home()),
-                this.repo().pulls().get(0)
+                RtChecksTest.repo().pulls().get(0)
             );
             final Collection<? extends Check> all = checks.all();
-            MatcherAssert.assertThat(all, Matchers.hasSize(1));
+            MatcherAssert.assertThat(
+                "Collection size is incorrect", all, Matchers.hasSize(1)
+            );
             for (final Check check : all) {
                 MatcherAssert.assertThat(
+                    "Values are not equal",
                     check.successful(),
                     Matchers.is(false)
                 );
@@ -291,14 +303,14 @@ public final class RtChecksTest {
      * @return Repo
      * @throws IOException If some problem happens.
      */
-    private Repo repo() throws IOException {
+    private static Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         final Pulls pulls = Mockito.mock(Pulls.class);
         final Pull pull = Mockito.mock(Pull.class);
         final PullRef ref = Mockito.mock(PullRef.class);
         Mockito.doReturn(
-                new Coordinates.Simple("volodya-lombrozo", "jtcop")
-            ).when(repo)
+            new Coordinates.Simple("volodya-lombrozo", "jtcop")
+        ).when(repo)
             .coordinates();
         Mockito.doReturn(pulls).when(repo).pulls();
         Mockito.doReturn(pull).when(pulls).get(0);

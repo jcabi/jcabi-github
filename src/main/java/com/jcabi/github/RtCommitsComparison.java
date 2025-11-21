@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,16 +7,17 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * Commits comparison.
+ * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -59,7 +60,7 @@ final class RtCommitsComparison implements CommitsComparison {
 
     @Override
     public Iterable<FileChange> files() throws IOException {
-        return new FileChanges(this.json().getJsonArray("files"));
+        return new RtCommitsComparison.FileChanges(this.json().getJsonArray("files"));
     }
 
     @Override
@@ -75,8 +76,9 @@ final class RtCommitsComparison implements CommitsComparison {
     /**
      * Iterator that yields FileChange objects converted
      * from JSON objects in a JSON list.
+     * @since 0.24
      */
-    @EqualsAndHashCode(of = { "iterator" })
+    @EqualsAndHashCode(of = "iterator")
     @ToString
     private static final class FileChangesIterator
         implements Iterator<FileChange> {
@@ -114,8 +116,9 @@ final class RtCommitsComparison implements CommitsComparison {
     /**
      * Trivial iterable that returns FileChangesIterators using
      * the given JSON list.
+     * @since 0.24
      */
-    @EqualsAndHashCode(of = { "list" })
+    @EqualsAndHashCode(of = "list")
     @Loggable(Loggable.DEBUG)
     @ToString
     private static final class FileChanges
@@ -137,7 +140,7 @@ final class RtCommitsComparison implements CommitsComparison {
 
         @Override
         public Iterator<FileChange> iterator() {
-            return new FileChangesIterator(this.list.iterator());
+            return new RtCommitsComparison.FileChangesIterator(this.list.iterator());
         }
     }
 }

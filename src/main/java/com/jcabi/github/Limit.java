@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,32 +6,32 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Rate Limit API, one resource limit.
- *
- * @since 0.6
+ * GitHub Rate Limit API, one resource limit.
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
+ * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 public interface Limit extends JsonReadable {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Smart limits with extra features.
+     * @since 0.6
      */
     @Immutable
     @ToString
@@ -42,6 +42,7 @@ public interface Limit extends JsonReadable {
          * Encapsulated limit.
          */
         private final transient Limit origin;
+
         /**
          * Public ctor.
          * @param limit Limit
@@ -51,6 +52,7 @@ public interface Limit extends JsonReadable {
         ) {
             this.origin = limit;
         }
+
         /**
          * Limit of number of requests.
          * @return Number of requests you can make in total
@@ -59,6 +61,7 @@ public interface Limit extends JsonReadable {
         public int limit() throws IOException {
             return new SmartJson(this.origin).number("limit");
         }
+
         /**
          * Remaining number of requests.
          * @return Number of requests you can still make
@@ -67,6 +70,7 @@ public interface Limit extends JsonReadable {
         public int remaining() throws IOException {
             return new SmartJson(this.origin).number("remaining");
         }
+
         /**
          * When will the limit be reset.
          * @return Date when this will happen
@@ -80,12 +84,14 @@ public interface Limit extends JsonReadable {
                 )
             );
         }
+
         @Override
         public JsonObject json() throws IOException {
             return this.origin.json();
         }
+
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.origin.github();
         }
     }
@@ -103,14 +109,17 @@ public interface Limit extends JsonReadable {
          * Original.
          */
         private final transient Limit origin;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
         private final transient SmartJson jsn;
+
         /**
          * Maximum allowed, instead of default 5000.
          */
         private final transient int max;
+
         /**
          * Public ctor.
          * @param limit Original limit
@@ -124,6 +133,7 @@ public interface Limit extends JsonReadable {
             this.max = allowed;
             this.jsn = new SmartJson(limit);
         }
+
         @Override
         public JsonObject json() throws IOException {
             final int limit = new SmartJson(this.origin).number("limit");
@@ -136,8 +146,9 @@ public interface Limit extends JsonReadable {
                 .add("reset", new SmartJson(this.origin).number("reset"))
                 .build();
         }
+
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.origin.github();
         }
     }

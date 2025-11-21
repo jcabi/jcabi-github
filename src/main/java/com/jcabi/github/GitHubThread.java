@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -17,23 +17,23 @@ public interface GitHubThread {
 
     /**
      * Checks, if the current user is subscribed to this thread.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>
      * @return Subscription data, if the user is subscribe, null otherwise.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>
      */
     ThreadSubscription getSubscription();
 
     /**
      * Subscribes the user to the thread and/or makes the user ignore the
      *  thread.
-     * @see <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
      * @param subscribe True, if notifications should be received from this
      *  thread.
      * @param ignore True, if all notifications should be blocked from this
      *  thread.
      * @return Data of the subscription.
+     * @see <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
      */
-    ThreadSubscription setSubscription(final boolean subscribe,
-        final boolean ignore);
+    ThreadSubscription setSubscription(boolean subscribe,
+        boolean ignore);
 
     /**
      * Unsubscribes the user from this thread.

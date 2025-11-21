@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,20 +15,20 @@ import com.jcabi.github.PullComments;
 import com.jcabi.github.PullRef;
 import com.jcabi.github.Repo;
 import com.jcabi.xml.XML;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github pull.
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
+ * Mock GitHub pull.
  * @since 0.5
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -41,26 +41,32 @@ final class MkPull implements Pull {
      * the branch name in the labels of pull request base/head objects.
      */
     private static final String USER_BRANCH_SEP = ":";
+
     /**
      * Property name for ref in pull request ref JSON object.
      */
     private static final String REF_PROP = "ref";
+
     /**
      * Property name for label in pull request ref JSON object.
      */
     private static final String LABEL_PROP = "label";
+
     /**
      * Property name for number in pull request JSON object.
      */
     private static final String NUMBER_PROP = "number";
+
     /**
      * Property name for user in pull request JSON object.
      */
     private static final String USER_PROP = "user";
+
     /**
      * Property name for head in pull request JSON object.
      */
     private static final String HEAD_PROP = "head";
+
     /**
      * Property name for head in pull request JSON object.
      */
@@ -126,7 +132,7 @@ final class MkPull implements Pull {
                 this.coords
             ).get(
                 this.storage.xml().xpath(
-                    String.format("%s/base/text()", this.xpath())
+                    this.xpath().concat("/base/text()")
                 ).get(0)
             )
         );
@@ -135,7 +141,7 @@ final class MkPull implements Pull {
     @Override
     public PullRef head() throws IOException {
         final String userbranch = this.storage.xml()
-            .xpath(String.format("%s/head/text()", this.xpath()))
+            .xpath(this.xpath().concat("/head/text()"))
             .get(0);
         final String[] parts = userbranch.split(MkPull.USER_BRANCH_SEP, 2);
         if (parts.length != 2) {
@@ -186,11 +192,6 @@ final class MkPull implements Pull {
         return new MkPullComments(this.storage, this.self, this.coords, this);
     }
 
-    /**
-     * Retrieve PR check runs.
-     * @return Checks
-     * @since 1.6.0
-     */
     @Override
     public Checks checks() {
         return new MkChecks(this.storage, this.coords, this);

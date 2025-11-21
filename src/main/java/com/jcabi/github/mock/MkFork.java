@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,20 +8,18 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Fork;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Fork.
+ * GitHub Fork.
  *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "num" })
 final class MkFork implements Fork {
     /**
      * Storage.
@@ -71,6 +69,30 @@ final class MkFork implements Fork {
         final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkFork other = (MkFork) obj;
+            result = this.num == other.num
+                && this.storage.equals(other.storage)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.num;
+        return result;
     }
 
     /**

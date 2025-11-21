@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,14 +7,14 @@ package com.jcabi.github.mock;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.UserEmails;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github User Emails.
+ * Mock GitHub User Emails.
  *
  * @since 0.8
  */
@@ -22,6 +22,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkUserEmails implements UserEmails {
 
     /**
@@ -68,7 +69,7 @@ final class MkUserEmails implements UserEmails {
     public Iterable<String> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/email", this.xpath()),
+            this.xpath().concat("/email"),
             MkUserEmails.MAPPING
         );
     }
@@ -97,7 +98,7 @@ final class MkUserEmails implements UserEmails {
         final Directives directives = new Directives();
         for (final String email : emails) {
             directives.xpath(
-                String.format("%s/email[.='%s']", this.xpath(), email)
+                this.xpath().concat(String.format("/email[.='%s']", email))
             ).remove();
         }
         this.storage.apply(directives);

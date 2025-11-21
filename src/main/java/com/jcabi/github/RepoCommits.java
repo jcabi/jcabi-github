@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,8 +9,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Commits of a Github repository.
+ * Commits of a GitHub repository.
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
+ * @since 0.3
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -18,12 +19,12 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Iterate all repository's commits.
-     * @return All commits
      * @param params Url's parameters
+     * @return All commits
      * @see <a href="https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
     Iterable<RepoCommit> iterate(
-        final Map<String, String> params
+        Map<String, String> params
     );
 
     /**

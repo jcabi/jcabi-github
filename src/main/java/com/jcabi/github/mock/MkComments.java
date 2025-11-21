@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,7 +9,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github comments.
+ * Mock GitHub comments.
  *
  * @since 0.5
  */
@@ -27,7 +27,18 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "ticket" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkComments implements Comments {
+
+    /**
+     * XPath suffix for comment.
+     */
+    private static final String COMMENT_PATH = "/comment";
+
+    /**
+     * XPath for comment number.
+     */
+    private static final String COMMENT_NUM_XPATH = "//comment/number";
 
     /**
      * Storage.
@@ -95,7 +106,7 @@ final class MkComments implements Comments {
     public Iterable<Comment> iterate(final Date since) {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/comment", this.xpath()),
+            this.xpath().concat(MkComments.COMMENT_PATH),
             xml -> this.get(
                 Long.parseLong(xml.xpath("number/text()").get(0))
             )
@@ -109,9 +120,9 @@ final class MkComments implements Comments {
         this.storage.lock();
         final long number;
         try {
-            final String timestamp = new Github.Time().toString();
+            final String timestamp = new GitHub.Time().toString();
             number = 1 + this.storage.xml()
-                .nodes("//comment/number").size();
+                .nodes(MkComments.COMMENT_NUM_XPATH).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Long.toString(number)).up()

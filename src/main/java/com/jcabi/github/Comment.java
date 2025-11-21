@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,6 +6,8 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,16 +15,14 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github issue comment.
+ * GitHub issue comment.
  *
  * <p>Comment implements {@link JsonReadable}, that's how you can get its full
- * details in JSON format. For example, to get its author's Github login
+ * details in JSON format. For example, to get its author's GitHub login
  * you get the entire JSON and then gets its element:
  *
  * <pre>String login = comment.json()
@@ -34,8 +34,8 @@ import lombok.ToString;
  *
  * <pre>String login = new Comment.Smart(comment).author().login();</pre>
  *
- * @since 0.1
  * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
+ * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
@@ -77,6 +77,7 @@ public interface Comment
 
     /**
      * Smart comment with additional features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -101,6 +102,7 @@ public interface Comment
             this.comment = cmt;
             this.jsn = new SmartJson(cmt);
         }
+
         /**
          * Get its author.
          * @return Author of comment
@@ -111,6 +113,7 @@ public interface Comment
                 this.comment.json().getJsonObject("user").getString("login")
             );
         }
+
         /**
          * Get its body.
          * @return Body of comment
@@ -119,6 +122,7 @@ public interface Comment
         public String body() throws IOException {
             return this.jsn.text("body");
         }
+
         /**
          * Change comment body.
          * @param text Body of comment
@@ -129,6 +133,7 @@ public interface Comment
                 Json.createObjectBuilder().add("body", text).build()
             );
         }
+
         /**
          * Get its URL.
          * @return URL of comment
@@ -141,6 +146,7 @@ public interface Comment
                 throw new IllegalArgumentException(ex);
             }
         }
+
         /**
          * When this comment was created.
          * @return Date of creation
@@ -148,13 +154,14 @@ public interface Comment
          */
         public Date createdAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("created_at")
                 ).date();
             } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
+
         /**
          * When this comment was updated last time.
          * @return Date of update
@@ -162,21 +169,24 @@ public interface Comment
          */
         public Date updatedAt() throws IOException {
             try {
-                return new Github.Time(
+                return new GitHub.Time(
                     this.jsn.text("updated_at")
                 ).date();
             } catch (final ParseException ex) {
                 throw new IOException(ex);
             }
         }
+
         @Override
         public Issue issue() {
             return this.comment.issue();
         }
+
         @Override
         public long number() {
             return this.comment.number();
         }
+
         @Override
         public void remove() throws IOException {
             this.comment.remove();
@@ -198,10 +208,12 @@ public interface Comment
         public JsonObject json() throws IOException {
             return this.comment.json();
         }
+
         @Override
         public void patch(final JsonObject json) throws IOException {
             this.comment.patch(json);
         }
+
         @Override
         public int compareTo(final Comment obj) {
             return this.comment.compareTo(obj);

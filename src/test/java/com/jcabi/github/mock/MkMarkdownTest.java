@@ -1,29 +1,27 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkMarkdown}.
+ * @since 0.1
  */
-public class MkMarkdownTest {
+final class MkMarkdownTest {
 
-    /**
-     * MkMarkdown can be rendered.
-     *
-     * @throws Exception if some problem inside
-     */
     @Test
-    public final void canBeRendered() throws Exception {
+    void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
-            new MkGithub().markdown().render(
+            "Values are not equal",
+            new MkGitHub().markdown().render(
                 Json.createObjectBuilder()
                     .add("text", text)
                     .build()

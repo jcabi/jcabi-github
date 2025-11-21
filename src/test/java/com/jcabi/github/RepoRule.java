@@ -1,33 +1,18 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.rules.TestRule;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
 
 /**
  * Utility class which provides convenient methods for repo managing.
+ * @since 0.1
  */
-public final class RepoRule implements TestRule {
-
-    @Override
-    public Statement apply(final Statement statement,
-        final Description description) {
-        return new Statement() {
-            @Override
-            // @checkstyle IllegalThrowsCheck (1 line)
-            public void evaluate() throws Throwable {
-                statement.evaluate();
-            }
-        };
-    }
+public final class RepoRule {
 
     /**
      * Create new repo for tests.
@@ -44,7 +29,7 @@ public final class RepoRule implements TestRule {
         Repo repo = null;
         while (repo == null) {
             final Repos.RepoCreate request = settings.withName(
-                RandomStringUtils.randomAlphanumeric(Tv.TWENTY)
+                RandomStringUtils.secure().nextAlphanumeric(20)
             );
             try {
                 repo = repos.create(request);
@@ -54,7 +39,7 @@ public final class RepoRule implements TestRule {
                     ex.getMessage()
                 );
                 ++attempts;
-                if (attempts > Tv.FIVE) {
+                if (attempts > 5) {
                     throw new IllegalStateException(
                         String.format(
                             "Failed to created repository %s",

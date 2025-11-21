@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -15,11 +15,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock Github blobs.
- *
+ * Mock GitHub blobs.
+ * @since 0.5
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkBlobs implements Blobs {
 
     /**
@@ -42,9 +43,9 @@ final class MkBlobs implements Blobs {
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      */
-    public MkBlobs(
+    MkBlobs(
         final MkStorage stg,
         final String login,
         final Coordinates rep
@@ -66,6 +67,7 @@ final class MkBlobs implements Blobs {
     public Repo repo() {
         return new MkRepo(this.storage, this.self, this.coords);
     }
+
     /**
      * Gets a mocked Blob.
      * @param sha Blob sha
@@ -75,13 +77,14 @@ final class MkBlobs implements Blobs {
         final String sha) {
         return new MkBlob(this.storage, sha, this.coords);
     }
+
     @Override
     public Blob create(
         final String content,
         final String encoding)
         throws IOException {
         this.storage.lock();
-        final String sha = fakeSha();
+        final String sha = MkBlobs.fakeSha();
         try {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("blob")
@@ -114,7 +117,7 @@ final class MkBlobs implements Blobs {
      */
     private static String fakeSha() {
         // @checkstyle MagicNumberCheck (1 line)
-        return RandomStringUtils.random(40, "0123456789abcdef");
+        return RandomStringUtils.secure().next(40, "0123456789abcdef");
     }
 
 }

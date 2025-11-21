@@ -1,43 +1,36 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkGit}.
- *
  * @since 0.8
  */
-public final class MkGitTest {
+final class MkGitTest {
 
-    /**
-     * MkGit can fetch its own repo.
-     *
-     * @throws Exception if something goes wrong.
-     */
     @Test
-    public void canFetchOwnRepo() throws Exception {
-        final Repo repo = new MkGithub().randomRepo();
+    void canFetchOwnRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             repo.git().repo(),
             Matchers.equalTo(repo)
         );
     }
 
-    /**
-     * MkGit can return references.
-     * @throws Exception - If something goes wrong.
-     */
     @Test
-    public void givesReferences() throws Exception {
+    void givesReferences() throws IOException {
         MatcherAssert.assertThat(
-            new MkGithub().randomRepo().git().references(),
+            "Value is null",
+            new MkGitHub().randomRepo().git().references(),
             Matchers.notNullValue()
         );
     }

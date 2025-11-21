@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,9 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github tree.
- *
+ * GitHub tree.
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
+ * @since 0.6
  */
 @Immutable
 public interface Tree extends JsonReadable {

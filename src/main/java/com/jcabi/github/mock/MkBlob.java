@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,19 +8,17 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Blob;
 import com.jcabi.github.Coordinates;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Mock Github Blob.
- *
+ * Mock GitHub Blob.
+ * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "hash" })
 final class MkBlob implements Blob {
     /**
      * Storage.
@@ -62,6 +60,30 @@ final class MkBlob implements Blob {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkBlob other = (MkBlob) obj;
+            result = this.storage.equals(other.storage)
+                && this.coords.equals(other.coords)
+                && this.hash.equals(other.hash);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.hash.hashCode();
+        return result;
     }
 
     /**

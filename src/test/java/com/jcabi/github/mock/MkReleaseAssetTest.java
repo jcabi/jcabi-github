@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,32 +7,32 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
 import com.jcabi.github.ReleaseAssets;
+import jakarta.json.Json;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import javax.json.Json;
 import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkReleaseAsset}.
- *
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkReleaseAssetTest {
+final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own Release.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesRelease() throws Exception {
-        final Release rel = release();
+    void fetchesRelease() throws Exception {
+        final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
+            "Values are not equal",
             rel.assets().get(1).release(),
             Matchers.is(rel)
         );
@@ -40,13 +40,13 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own number.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesNumber() throws Exception {
-        final Release rel = release();
+    void fetchesNumber() throws Exception {
+        final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
+            "Values are not equal",
             rel.assets().get(1).number(),
             Matchers.is(1)
         );
@@ -54,21 +54,22 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesAsset() throws Exception {
-        final ReleaseAssets assets = release().assets();
+    void removesAsset() throws Exception {
+        final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testRemove".getBytes(), "text/plain", "remove.txt"
         );
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             assets.iterate(),
-            Matchers.<ReleaseAsset>iterableWithSize(1)
+            Matchers.iterableWithSize(1)
         );
         asset.remove();
         MatcherAssert.assertThat(
+            "Collection is not empty",
             assets.iterate(),
             Matchers.emptyIterable()
         );
@@ -76,12 +77,11 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed several times.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesSeveralAssets() throws Exception {
-        final ReleaseAssets assets = release().assets();
+    void removesSeveralAssets() throws Exception {
+        final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
         // @checkstyle MagicNumberCheck (1 line)
         final int limit = 3;
         final ReleaseAsset[] bodies = new ReleaseAsset[limit];
@@ -91,13 +91,15 @@ public final class MkReleaseAssetTest {
             );
         }
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             assets.iterate(),
-            Matchers.<ReleaseAsset>iterableWithSize(limit)
+            Matchers.iterableWithSize(limit)
         );
         for (int idx = 0; idx < limit; ++idx) {
             bodies[idx].remove();
         }
         MatcherAssert.assertThat(
+            "Collection is not empty",
             assets.iterate(),
             Matchers.emptyIterable()
         );
@@ -105,21 +107,22 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be represented in JSON format.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final String name = "json.txt";
         final String type = "text/plain";
-        final ReleaseAsset asset = release().assets().upload(
+        final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
             "testJson".getBytes(), type, name
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString("content_type"),
             Matchers.is(type)
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString("name"),
             Matchers.is(name)
         );
@@ -127,17 +130,17 @@ public final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can patch its JSON representation.
-     *
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canPatchJson() throws Exception {
+    void canPatchJson() throws Exception {
         final String orig = "orig.txt";
-        final ReleaseAsset asset = release().assets().upload(
+        final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
             "testPatch".getBytes(), "text/plain", orig
         );
         final String attribute = "name";
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString(attribute),
             Matchers.is(orig)
         );
@@ -146,6 +149,7 @@ public final class MkReleaseAssetTest {
             Json.createObjectBuilder().add(attribute, patched).build()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             asset.json().getString(attribute),
             Matchers.is(patched)
         );
@@ -154,21 +158,20 @@ public final class MkReleaseAssetTest {
     /**
      * Should return the Base64-encoded value of the input contents. When
      * decoded, should be equal to the input.
-     *
-     * @throws Exception if some problem inside
      */
     @Test
-    public void fetchesRawRepresentation() throws Exception {
+    void fetchesRawRepresentation() throws IOException {
         final String test = "This is a test asset.";
-        final ReleaseAsset asset = new MkGithub().randomRepo().releases()
+        final ReleaseAsset asset = new MkGitHub().randomRepo().releases()
             .create("v1.0")
             .assets()
             .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
+            "Values are not equal",
             new String(
-              DatatypeConverter.parseBase64Binary(
-                  IOUtils.toString(asset.raw(), StandardCharsets.UTF_8)
-              )
+                DatatypeConverter.parseBase64Binary(
+                    IOUtils.toString(asset.raw(), StandardCharsets.UTF_8)
+                )
             ),
             Matchers.is(test)
         );
@@ -177,9 +180,8 @@ public final class MkReleaseAssetTest {
     /**
      * Create a Release to work with.
      * @return Repo
-     * @throws Exception If some problem inside
      */
-    private static Release release() throws Exception {
-        return new MkGithub().randomRepo().releases().create("v1.0");
+    private static Release release() throws IOException {
+        return new MkGitHub().randomRepo().releases().create("v1.0");
     }
 }

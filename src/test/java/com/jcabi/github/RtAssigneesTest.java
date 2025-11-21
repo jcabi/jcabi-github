@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,13 +8,14 @@ import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonValue;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonValue;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
@@ -22,23 +23,13 @@ import org.mockito.Mockito;
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RtAssigneesTest {
+@ExtendWith(RandomPort.class)
+final class RtAssigneesTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtAssignees can iterate over assignees.
-     * @throws Exception Exception If some problem inside
-     */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     Json.createArrayBuilder()
@@ -46,27 +37,24 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port());
+            ).start(RandomPort.port())
         ) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtAssigneesTest.repo()
             );
             MatcherAssert.assertThat(
+                "Collection size is incorrect",
                 users.iterate(),
-                Matchers.<User>iterableWithSize(2)
+                Matchers.iterableWithSize(2)
             );
         }
     }
 
-    /**
-     * RtAssignees can check if user is assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
     @Test
-    public void checkUserIsAssigneeForRepo() throws Exception {
+    void checkUserIsAssigneeForRepo() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     Json.createArrayBuilder()
@@ -74,26 +62,23 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtAssigneesTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 users.check("octocat2"),
                 Matchers.equalTo(true)
             );
         }
     }
 
-    /**
-     * RtAssignees can check if user is NOT assignee for this repo.
-     * @throws Exception Exception If some problem inside
-     */
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws Exception {
+    void checkUserIsNotAssigneeForRepo() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NOT_FOUND,
                     Json.createArrayBuilder()
@@ -101,13 +86,14 @@ public final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(this.resource.port());
+            ).start(RandomPort.port())
         ) {
             final Assignees users = new RtAssignees(
                 new JdkRequest(container.home()),
-                this.repo()
+                RtAssigneesTest.repo()
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 users.check("octocat33"),
                 Matchers.equalTo(false)
             );
@@ -129,11 +115,11 @@ public final class RtAssigneesTest {
      * Create and return repo for testing.
      * @return Repo
      */
-    private Repo repo() {
+    private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "assignee"))
             .when(repo).coordinates();
-        Mockito.doReturn(Mockito.mock(Github.class)).when(repo).github();
+        Mockito.doReturn(Mockito.mock(GitHub.class)).when(repo).github();
         return repo;
     }
 }

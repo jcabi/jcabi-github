@@ -1,40 +1,42 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import jakarta.json.Json;
+import java.io.IOException;
 import java.util.Collections;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtGistComment}.
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
-@OAuthScope(Scope.GIST)
-public final class RtGistCommentITCase {
+@OAuthScope(OAuthScope.Scope.GIST)
+final class RtGistCommentITCase {
 
     /**
      * RtGistComment can remove itself.
      * @throws Exception if some problem inside
      */
     @Test
-    public void removeItself() throws Exception {
+    void removeItself() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final String body = "comment body";
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post(body);
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             comments.iterate(),
             Matchers.hasItem(comment)
         );
         comment.remove();
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             comments.iterate(),
             Matchers.not(Matchers.hasItem(comment))
         );
@@ -46,11 +48,12 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchAsJSON() throws Exception {
+    void fetchAsJson() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
         MatcherAssert.assertThat(
+            "Values are not equal",
             comment.json().getInt("id"),
             Matchers.equalTo(comment.number())
         );
@@ -63,16 +66,18 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("test")
         );
         comment.patch(Json.createObjectBuilder().add("body", "hi!").build());
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("hi")
         );
@@ -85,16 +90,18 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void changeCommentBody() throws Exception {
+    void changeCommentBody() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("hi there");
         MatcherAssert.assertThat(
+            "String does not end with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.endsWith("there")
         );
         new GistComment.Smart(comment).body("hello there");
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("hello")
         );
@@ -105,10 +112,9 @@ public final class RtGistCommentITCase {
     /**
      * Return gist to test.
      * @return Gist
-     * @throws Exception If some problem inside
      */
-    private static Gist gist() throws Exception {
-        return new GithubIT()
+    private static Gist gist() throws IOException {
+        return GitHubIT
             .connect()
             .gists()
             .create(

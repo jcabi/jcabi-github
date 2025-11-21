@@ -1,36 +1,33 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Commit;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTags.
+ * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MkCommitsTest {
+final class MkCommitsTest {
 
-    /**
-     * MkCommits can create commits.
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public final void createsMkCommit() throws Exception {
+    void createsMkCommit() throws IOException {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();
         final JsonArray tree = Json.createArrayBuilder()
             .add("xyzsha12").build();
-        final Commit newCommit = new MkGithub().randomRepo()
+        final Commit commit = new MkGitHub().randomRepo()
             .git().commits().create(
                 Json.createObjectBuilder().add("message", "my commit message")
                     .add("sha", "12ahscba")
@@ -39,11 +36,13 @@ public class MkCommitsTest {
                     .add("author", author).build()
             );
         MatcherAssert.assertThat(
-            newCommit,
+            "Value is null",
+            commit,
             Matchers.notNullValue()
         );
         MatcherAssert.assertThat(
-            newCommit.sha(),
+            "Values are not equal",
+            commit.sha(),
             Matchers.equalTo("12ahscba")
         );
     }

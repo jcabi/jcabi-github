@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -18,14 +18,25 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github hooks.
+ * Mock GitHub hooks.
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkHooks implements Hooks {
+
+    /**
+     * XPath suffix for hook element.
+     */
+    private static final String HOOK_PATH = "/hook";
+
+    /**
+     * XPath suffix for hook ID text.
+     */
+    private static final String HOOK_ID_TEXT_PATH = "/hook/id/text()";
 
     /**
      * Storage.
@@ -49,7 +60,7 @@ final class MkHooks implements Hooks {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    public MkHooks(
+    MkHooks(
         final MkStorage stg,
         final String login,
         final Coordinates rep
@@ -76,7 +87,7 @@ final class MkHooks implements Hooks {
     public Iterable<Hook> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/hook", this.xpath()),
+            this.xpath().concat(MkHooks.HOOK_PATH),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -99,7 +110,7 @@ final class MkHooks implements Hooks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                String.format("%s/hook/id/text()", this.xpath())
+                this.xpath().concat(MkHooks.HOOK_ID_TEXT_PATH)
             ).size();
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("hook")
@@ -126,7 +137,7 @@ final class MkHooks implements Hooks {
     public void remove(final int number) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/hook[id='%d']", this.xpath(), number)
+                this.xpath().concat(String.format("/hook[id='%d']", number))
             ).remove()
         );
     }

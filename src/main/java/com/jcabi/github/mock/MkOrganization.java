@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,15 +6,15 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Organization;
 import com.jcabi.github.PublicMembers;
 import com.jcabi.github.User;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Random;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
@@ -64,8 +64,8 @@ public final class MkOrganization implements Organization {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
@@ -76,24 +76,24 @@ public final class MkOrganization implements Organization {
     @Override
     public JsonObject json() {
         return Json.createObjectBuilder()
-            .add(LOGIN_KEY, this.self)
-            .add("id", Integer.toString(RAND.nextInt()))
+            .add(MkOrganization.LOGIN_KEY, this.self)
+            .add("id", Integer.toString(MkOrganization.RAND.nextInt()))
             .add("name", "github")
             .add("company", "GitHub")
             .add("blog", "https://github.com/blog")
             .add("location", "San Francisco")
             .add("email", "octocat@github.com")
-            .add("public_repos", RAND.nextInt())
-            .add("public_gists", RAND.nextInt())
-            .add("total_private_repos", RAND.nextInt())
-            .add("owned_private_repos", RAND.nextInt())
-            .add("followers", RAND.nextInt())
-            .add("following", RAND.nextInt())
+            .add("public_repos", MkOrganization.RAND.nextInt())
+            .add("public_gists", MkOrganization.RAND.nextInt())
+            .add("total_private_repos", MkOrganization.RAND.nextInt())
+            .add("owned_private_repos", MkOrganization.RAND.nextInt())
+            .add("followers", MkOrganization.RAND.nextInt())
+            .add("following", MkOrganization.RAND.nextInt())
             .add("url", "https://github.com/orgs/cat")
             .add("repos_url", "https://github.com/orgs/cat/repos")
             .add("events_url", "https://github.com/orgs/cat/events")
             .add("html_url", "https://github.com/cat")
-            .add("created_at", new Github.Time().toString())
+            .add("created_at", new GitHub.Time().toString())
             .add("type", "Organization")
             .build();
     }
@@ -128,9 +128,9 @@ public final class MkOrganization implements Organization {
         try {
             this.storage.apply(
                 new Directives()
-                    .xpath(String.format("%s/members", this.xpath()))
+                    .xpath(this.xpath().concat("/members"))
                     .add("member")
-                    .add(LOGIN_KEY).set(user.login()).up()
+                    .add(MkOrganization.LOGIN_KEY).set(user.login()).up()
                     .add("public").set("false").up()
             );
         } catch (final IOException ex) {

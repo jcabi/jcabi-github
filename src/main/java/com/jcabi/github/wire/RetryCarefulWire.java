@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -21,15 +21,15 @@ import lombok.ToString;
  * a given threshold, and in the event of {@link IOException} retries a few
  * times before giving up and rethrowing the exception.
  *
- * <p>Just a wrapper for a {@link com.jcabi.http.wire.RetryWire} that wraps a
- * {@link com.jcabi.github.wire.CarefulWire} that wraps the underlying wire.
+ * <p>Just a wrapper for a {@link RetryWire} that wraps a
+ * {@link CarefulWire} that wraps the underlying wire.
  *
  * <p>You can use {@code RetryCarefulWire} with a
- * {@link com.jcabi.github.Github} object:
+ * {@link com.jcabi.github.GitHub} object:
  * <pre>
  * {@code
- * Github github = new RtGithub(
- *     new RtGithub().entry().through(RetryCarefulWire.class, 50)
+ * GitHub github = new RtGitHub(
+ *     new RtGitHub().entry().through(RetryCarefulWire.class, 50)
  * );
  * }
  * </pre>
@@ -38,7 +38,7 @@ import lombok.ToString;
  */
 @Immutable
 @ToString
-@EqualsAndHashCode(of = { "real" })
+@EqualsAndHashCode(of = "real")
 public final class RetryCarefulWire implements Wire {
     /**
      * RetryWire which we're merely wrapping.

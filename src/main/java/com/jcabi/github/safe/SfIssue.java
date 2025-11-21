@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,10 +12,10 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Reaction;
 import com.jcabi.github.Repo;
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -53,7 +53,7 @@ public final class SfIssue implements Issue {
         try {
             json = this.origin.json();
         } catch (final AssertionError ex) {
-            json = new MkGithub().randomRepo()
+            json = new MkGitHub().randomRepo()
                 .issues().create("", "").json();
             Logger.warn(this, "failed to fetch issue: %[exception]s", ex);
         }

@@ -1,62 +1,52 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtHooks}.
  * @since 0.8
  */
-@OAuthScope(Scope.ADMIN_REPO_HOOK)
-public final class RtHooksITCase {
+@OAuthScope(OAuthScope.Scope.ADMIN_REPO_HOOK)
+final class RtHooksITCase {
 
     /**
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
     public final transient RepoRule rule = new RepoRule();
 
-    /**
-     * RtHooks can iterate hooks.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canFetchAllHooks() throws Exception {
+    void canFetchAllHooks() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
             RtHooksITCase.createHook(repo);
             MatcherAssert.assertThat(
-                repo.hooks().iterate(), Matchers.<Hook>iterableWithSize(1)
+                "Collection size is incorrect",
+                repo.hooks().iterate(), Matchers.iterableWithSize(1)
             );
         } finally {
             repos.remove(repo.coordinates());
         }
     }
 
-    /**
-     * RtHooks can create a hook.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canCreateAHook() throws Exception {
+    void canCreateAHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
             MatcherAssert.assertThat(
+                "Value is null",
                 RtHooksITCase.createHook(repo), Matchers.notNullValue()
             );
         } finally {
@@ -64,18 +54,14 @@ public final class RtHooksITCase {
         }
     }
 
-    /**
-     * RtHooks can fetch a single hook.
-     *
-     * @throws Exception If some problem inside.
-     */
     @Test
-    public void canFetchSingleHook() throws Exception {
+    void canFetchSingleHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final int number = RtHooksITCase.createHook(repo).number();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 repo.hooks().get(number).json().getInt("id"),
                 Matchers.equalTo(number)
             );
@@ -84,19 +70,15 @@ public final class RtHooksITCase {
         }
     }
 
-    /**
-     * RtHooks can remove a hook by ID.
-     *
-     * @throws Exception If something goes wrong.
-     */
     @Test
-    public void canRemoveHook() throws Exception {
+    void canRemoveHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
             final Hook hook = RtHooksITCase.createHook(repo);
             repo.hooks().remove(hook.number());
             MatcherAssert.assertThat(
+                "Collection does not contain expected item",
                 repo.hooks().iterate(), Matchers.not(Matchers.hasItem(hook))
             );
         } finally {
@@ -109,7 +91,7 @@ public final class RtHooksITCase {
      * @return Repos
      */
     private static Repos repos() {
-        return new GithubIT().connect().repos();
+        return GitHubIT.connect().repos();
     }
 
     /**
@@ -125,7 +107,7 @@ public final class RtHooksITCase {
             "url",
             String.format(
                 "http://github.jcabi.invalid/hooks/%s",
-                RandomStringUtils.random(Tv.TWENTY)
+                RandomStringUtils.secure().next(20)
             )
         );
         config.put("content_type", "json");
@@ -134,7 +116,7 @@ public final class RtHooksITCase {
         return repo.hooks().create(
             "web",
             config,
-            Collections.<Event>emptyList(),
+            Collections.emptyList(),
             false
         );
     }

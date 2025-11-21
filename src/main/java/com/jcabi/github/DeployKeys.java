@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,10 +8,9 @@ import com.jcabi.aspects.Immutable;
 import java.io.IOException;
 
 /**
- * Github deploy keys.
- *
- * @since 0.8
+ * GitHub deploy keys.
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
+ * @since 0.8
  */
 @Immutable
 public interface DeployKeys {

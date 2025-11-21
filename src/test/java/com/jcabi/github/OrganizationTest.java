@@ -1,27 +1,25 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Tests for {@link Organization}.
+ * @since 0.1
  */
-@SuppressWarnings("PMD.TooManyMethods")
-public final class OrganizationTest {
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
+final class OrganizationTest {
 
-    /**
-     * Organization.Smart can fetch url from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesUrl() throws Exception {
+    void fetchesUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -29,17 +27,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).url(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch avatar_url from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesAvatarUrl() throws Exception {
+    void fetchesAvatarUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -47,17 +42,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).avatarUrl(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch name from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesName() throws Exception {
+    void fetchesName() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -65,17 +57,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).name(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch company from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesCompany() throws Exception {
+    void fetchesCompany() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -83,17 +72,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).company(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch blog from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesBlog() throws Exception {
+    void fetchesBlog() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -101,17 +87,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).blog(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch location from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesLocation() throws Exception {
+    void fetchesLocation() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -119,17 +102,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).location(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch email from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesEmail() throws Exception {
+    void fetchesEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -137,17 +117,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).email(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch billing_email from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesBillingEmail() throws Exception {
+    void fetchesBillingEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -155,17 +132,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).billingEmail(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch public_repos from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesPublicRepos() throws Exception {
+    void fetchesPublicRepos() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -173,17 +147,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).publicRepos(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch public_gists from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesPublicGists() throws Exception {
+    void fetchesPublicGists() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -191,17 +162,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).publicGists(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch followers from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesFollowers() throws Exception {
+    void fetchesFollowers() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -209,17 +177,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).followers(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch following from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesFollowing() throws Exception {
+    void fetchesFollowing() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -227,17 +192,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).following(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch html_url from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesHtmlUrl() throws Exception {
+    void fetchesHtmlUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -245,17 +207,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).htmlUrl(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch created_at from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesCreatedAt() throws Exception {
+    void fetchesCreatedAt() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -263,17 +222,14 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).createdAt(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Organization.Smart can fetch type from an Organization.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesType() throws Exception {
+    void fetchesType() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -281,6 +237,7 @@ public final class OrganizationTest {
                 .build()
         ).when(orgn).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Organization.Smart(orgn).type(),
             Matchers.notNullValue()
         );

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,17 +9,17 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github forks.
+ * GitHub forks.
  *
- * @since 0.8
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
+ * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -35,6 +35,7 @@ final class RtForks implements Forks {
      * Restful Request.
      */
     private final transient Request request;
+
     /**
      * Repository.
      */
@@ -45,7 +46,7 @@ final class RtForks implements Forks {
      * @param req Request
      * @param repo Repository
      */
-    public RtForks(final Request req, final Repo repo) {
+    RtForks(final Request req, final Repo repo) {
         this.request = req.uri()
             .path("/repos")
             .path(repo.coordinates().user())
@@ -65,7 +66,7 @@ final class RtForks implements Forks {
         final String sort) {
         return new RtPagination<>(
             this.request.uri().queryParam("sort", sort).back(),
-            object -> this.get(object.getInt(ID))
+            object -> this.get(object.getInt(RtForks.ID))
         );
     }
 
@@ -81,7 +82,7 @@ final class RtForks implements Forks {
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_ACCEPTED)
                 .as(JsonResponse.class)
-                .json().readObject().getInt(ID)
+                .json().readObject().getInt(RtForks.ID)
         );
     }
 

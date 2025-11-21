@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,23 +9,23 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import com.jcabi.http.response.WebLinkingResponse;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
-import javax.json.JsonArray;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github value pagination.
+ * GitHub value pagination.
  *
- * @since 0.8
  * @param <T> Type of iterable objects
  * @param <P> Type of source objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
+ * @since 0.8
  */
 @Immutable
 @EqualsAndHashCode(of = { "entry", "map" })
@@ -85,6 +85,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
      * Mapping from JsonValue successor to the destination type.
      * @param <X> Type of custom object
      * @param <P> Type of source object
+     * @since 0.8
      */
     @Immutable
     public interface Mapping<X, P extends JsonValue> {
@@ -98,26 +99,34 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
     /**
      * Iterator.
+     * @param <X> Type of custom object
+     * @param <P> Type of source object
+     * @since 0.8
      */
     @EqualsAndHashCode(of = { "mapping", "request", "objects", "more" })
+    @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
     private static final class Items<X, P extends JsonValue> implements
         Iterator<X> {
         /**
          * Mapping to use.
          */
         private final transient RtValuePagination.Mapping<X, P> mapping;
+
         /**
          * Next entry to use.
          */
         private transient Request request;
+
         /**
          * Available objects.
          */
         private transient Queue<P> objects;
+
         /**
          * Current entry can be used to fetch objects.
          */
         private transient boolean more = true;
+
         /**
          * Ctor.
          * @param entry Entry
@@ -128,6 +137,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
             this.mapping = mpp;
             this.objects = new LinkedList<>();
         }
+
         @Override
         public X next() {
             synchronized (this.mapping) {
@@ -139,10 +149,12 @@ public final class RtValuePagination<T, P extends JsonValue> implements
                 return this.mapping.map(this.objects.remove());
             }
         }
+
         @Override
         public void remove() {
             throw new UnsupportedOperationException("#remove()");
         }
+
         @Override
         public boolean hasNext() {
             synchronized (this.mapping) {
@@ -157,6 +169,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
                 return !this.objects.isEmpty();
             }
         }
+
         /**
          * Fetch the next portion, if available.
          * @throws IOException If there is any I/O problem

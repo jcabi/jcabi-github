@@ -1,26 +1,23 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Gists}.
+ * @since 0.1
  */
-@OAuthScope(Scope.GIST)
-public final class RtGistsITCase {
-    /**
-     * RtGists can create a gist.
-     * @throws Exception If some problem inside
-     */
+@OAuthScope(OAuthScope.Scope.GIST)
+final class RtGistsITCase {
     @Test
-    public void createGist() throws Exception {
+    void createGist() throws IOException {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistsITCase.gists();
@@ -29,71 +26,67 @@ public final class RtGistsITCase {
         );
         final Gist.Smart smart = new Gist.Smart(gist);
         MatcherAssert.assertThat(
+            "Values are not equal",
             smart.read(filename),
             Matchers.equalTo(content)
         );
         gists.remove(smart.identifier());
     }
 
-    /**
-     * RtGists can iterate all gists.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void iterateGists() throws Exception {
+    void iterateGists() throws IOException {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test.txt", "content"), false
         );
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gists.iterate(),
             Matchers.hasItem(gist)
         );
         gists.remove(gist.identifier());
     }
-    /**
-     * RtGists can get a single gist.
-     * @throws Exception If some problem inside
-     */
+
     @Test
-    public void singleGist() throws Exception {
+    void singleGist() throws IOException {
         final String filename = "single-name.txt";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap(filename, "body"), false
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             gists.get(gist.identifier()).identifier(),
             Matchers.equalTo(gist.identifier())
         );
         gists.remove(gist.identifier());
     }
-    /**
-     * This tests that RtGists can remove a gist by name.
-     * @throws Exception - if something goes wrong.
-     */
+
     @Test
-    public void removesGistByName() throws Exception {
+    void removesGistByName() throws IOException {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content of test file"),
             false
         );
         MatcherAssert.assertThat(
+            "Value is null",
             gists.iterate(),
             Matchers.notNullValue()
         );
         gists.remove(gist.json().getString("id"));
         MatcherAssert.assertThat(
+            "Collection does not contain expected item",
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))
         );
     }
+
     /**
      * Return gists to test.
      * @return Gists
      */
     private static Gists gists() {
-        return new GithubIT().connect().gists();
+        return GitHubIT.connect().gists();
     }
 }

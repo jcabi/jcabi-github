@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,8 +9,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 /**
- * Github check.
- *
+ * GitHub check.
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
  */
@@ -81,8 +80,9 @@ public interface Check {
          * @param value String value.
          * @return Status.
          */
-        public static Status fromString(final String value) {
-            return Arrays.stream(Status.values())
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+        public static Check.Status fromString(final String value) {
+            return Arrays.stream(Check.Status.values())
                 .filter(stat -> stat.same(value))
                 .findFirst()
                 .orElseThrow(
@@ -97,7 +97,7 @@ public interface Check {
          * @return True if check is finished.
          */
         boolean finished() {
-            return this == Status.COMPLETED;
+            return this == Check.Status.COMPLETED;
         }
 
         /**
@@ -181,8 +181,9 @@ public interface Check {
          * @param value String value.
          * @return Conclusion.
          */
-        public static Conclusion fromString(final String value) {
-            return Arrays.stream(Conclusion.values())
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
+        public static Check.Conclusion fromString(final String value) {
+            return Arrays.stream(Check.Conclusion.values())
                 .filter(stat -> stat.same(value))
                 .findFirst()
                 .orElseThrow(
@@ -205,7 +206,7 @@ public interface Check {
          * @return True if check is successful.
          */
         boolean successful() {
-            return this == Conclusion.SUCCESS;
+            return this == Check.Conclusion.SUCCESS;
         }
 
         /**

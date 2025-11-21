@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Organization;
 import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
@@ -18,7 +18,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Github user organizations.
+ * GitHub user organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
@@ -46,6 +46,7 @@ final class MkUserOrganizations implements UserOrganizations {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkUserOrganizations(
         final MkStorage stg,
         final String login
@@ -59,8 +60,8 @@ final class MkUserOrganizations implements UserOrganizations {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
@@ -73,28 +74,32 @@ final class MkUserOrganizations implements UserOrganizations {
         return new MkIterable<>(
             this.storage,
             "/github/orgs/org",
-            new OrganizationMapping(new MkOrganizations(this.storage))
+            new MkUserOrganizations.OrganizationMapping(new MkOrganizations(this.storage))
         );
     }
 
+    /**
+     * Mapping for Organizations.
+     * @since 0.24
+     */
     private static final class OrganizationMapping
         implements MkIterable.Mapping<Organization> {
         /**
          * Organizations.
          */
-        private final transient Organizations organizations;
+        private final transient Organizations orgs;
 
         /**
          * Ctor.
-         * @param orgs Organizations
+         * @param organizations Organizations
          */
-        OrganizationMapping(final Organizations orgs) {
-            this.organizations = orgs;
+        OrganizationMapping(final Organizations organizations) {
+            this.orgs = organizations;
         }
 
         @Override
         public Organization map(final XML xml) {
-            return this.organizations.get(
+            return this.orgs.get(
                 xml.xpath("login/text()").get(0)
             );
         }

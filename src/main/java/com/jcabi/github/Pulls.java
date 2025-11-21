@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,10 +9,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github pull requests.
- *
- * @since 0.3
+ * GitHub pull requests.
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
+ * @since 0.3
  */
 @Immutable
 public interface Pulls {

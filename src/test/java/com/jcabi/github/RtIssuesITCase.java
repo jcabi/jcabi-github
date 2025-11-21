@@ -1,26 +1,27 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
+import java.io.IOException;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Set;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
- * Integration case for {@link Github}.
+ * Integration case for {@link GitHub}.
+ * @since 0.1
  */
-@OAuthScope(Scope.REPO)
-public final class RtIssuesITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtIssuesITCase {
     /**
      * Test repos.
      */
@@ -33,87 +34,81 @@ public final class RtIssuesITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = new RepoRule().repo(repos);
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtIssuesITCase.repos = github.repos();
+        RtIssuesITCase.repo = new RepoRule().repo(RtIssuesITCase.repos);
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtIssuesITCase.repos != null && RtIssuesITCase.repo != null) {
+            RtIssuesITCase.repos.remove(RtIssuesITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtIssues can iterate issues.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void iteratesIssues() throws Exception {
+    void iteratesIssues() throws IOException {
         final Iterable<Issue.Smart> issues = new Smarts<>(
             new Bulk<>(
-                repo.issues().iterate(
+                RtIssuesITCase.repo.issues().iterate(
                     new ArrayMap<String, String>().with("sort", "comments")
                 )
             )
         );
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
+                "Value is null",
                 issue.title(),
                 Matchers.notNullValue()
             );
         }
     }
 
-    /**
-     * RtIssues can search issues within a repository.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void searchesIssues() throws Exception {
-        final String targetLabel = "bug";
+    void searchesIssues() throws IOException {
+        final String target = "bug";
         final EnumMap<Issues.Qualifier, String> qualifiers =
             new EnumMap<>(Issues.Qualifier.class);
-        qualifiers.put(Issues.Qualifier.LABELS, targetLabel);
+        qualifiers.put(Issues.Qualifier.LABELS, target);
         final Iterable<Issue.Smart> issues = new Smarts<>(
             new Bulk<>(
-                repo.issues().search(
+                RtIssuesITCase.repo.issues().search(
                     Issues.Sort.UPDATED,
                     Search.Order.ASC,
                     qualifiers
                 )
             )
         );
-        Date prevUpdated = null;
-        final Set<String> labelNames = new HashSet<>();
+        Date previous = null;
+        final Set<String> labels = new HashSet<>();
         for (final Issue.Smart issue : issues) {
             MatcherAssert.assertThat(
+                "Value is null",
                 issue.title(),
                 Matchers.notNullValue()
             );
-            if (prevUpdated != null) {
+            if (previous != null) {
                 MatcherAssert.assertThat(
+                    "Value is not less than expected",
                     issue.updatedAt(),
-                    Matchers.lessThanOrEqualTo(prevUpdated)
+                    Matchers.lessThanOrEqualTo(previous)
                 );
             }
-            prevUpdated = issue.updatedAt();
-            labelNames.clear();
+            previous = issue.updatedAt();
+            labels.clear();
             for (final Label label : issue.roLabels().iterate()) {
-                labelNames.add(label.name());
+                labels.add(label.name());
             }
             MatcherAssert.assertThat(
-                labelNames,
-                Matchers.contains(targetLabel)
+                "Assertion failed",
+                labels,
+                Matchers.contains(target)
             );
         }
     }

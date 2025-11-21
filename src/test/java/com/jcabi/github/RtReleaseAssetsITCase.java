@@ -1,26 +1,25 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtReleaseAssets}.
- *
+ * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@OAuthScope(Scope.REPO)
+@OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtReleaseAssetsITCase {
+final class RtReleaseAssetsITCase {
 
     /**
      * Test repos.
@@ -40,38 +39,32 @@ public final class RtReleaseAssetsITCase {
 
     /**
      * Set up test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @BeforeClass
-    public static void setUp() throws Exception {
-        final Github github = new GithubIT().connect();
-        repos = github.repos();
-        repo = rule.repo(repos);
-        repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+    @BeforeAll
+    static void setUp() throws IOException {
+        final GitHub github = GitHubIT.connect();
+        RtReleaseAssetsITCase.repos = github.repos();
+        RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
+        RtReleaseAssetsITCase.repo.releases().create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
     }
 
     /**
      * Tear down test fixtures.
-     * @throws Exception If some errors occurred.
      */
-    @AfterClass
-    public static void tearDown() throws Exception {
-        if (repos != null && repo != null) {
-            repos.remove(repo.coordinates());
+    @AfterAll
+    static void tearDown() throws IOException {
+        if (RtReleaseAssetsITCase.repos != null && RtReleaseAssetsITCase.repo != null) {
+            RtReleaseAssetsITCase.repos.remove(RtReleaseAssetsITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtReleaseAssets can upload release assets.
-     * @throws Exception If an exception occurs.
-     */
     @Test
-    public void uploadsAssets() throws Exception {
-        final Releases releases = repo.releases();
+    void uploadsAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -81,6 +74,7 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
@@ -89,15 +83,11 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can upload two release assets.
-     * @throws Exception If an exception occurs.
-     */
     @Test
-    public void uploadsTwoAssets() throws Exception {
-        final Releases releases = repo.releases();
+    void uploadsTwoAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -107,17 +97,19 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
             final String othername = "upload2.txt";
-            final ReleaseAsset otheruploaded = assets.upload(
+            final ReleaseAsset other = assets.upload(
                 "upload2".getBytes(),
                 "text/plain",
                 othername
             );
             MatcherAssert.assertThat(
-                otheruploaded.json().getString("name"),
+                "Values are not equal",
+                other.json().getString("name"),
                 Matchers.is(othername)
             );
         } finally {
@@ -125,18 +117,14 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can upload one release assets to two releases.
-     * @throws Exception If an exception occurs.
-     */
     @Test
-    public void uploadsSameAssetInTwoReleases() throws Exception {
-        final Releases releases = repo.releases();
+    void uploadsSameAssetInTwoReleases() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final Release otherrelease = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final ReleaseAssets assets = release.assets();
         final ReleaseAssets otherassets = otherrelease.assets();
@@ -148,16 +136,18 @@ public final class RtReleaseAssetsITCase {
                 name
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 uploaded.json().getString("name"),
                 Matchers.is(name)
             );
-            final ReleaseAsset otheruploaded = otherassets.upload(
+            final ReleaseAsset other = otherassets.upload(
                 "upload".getBytes(),
                 "text/plain",
                 name
             );
             MatcherAssert.assertThat(
-                otheruploaded.json().getString("name"),
+                "Values are not equal",
+                other.json().getString("name"),
                 Matchers.is(name)
             );
         } finally {
@@ -166,15 +156,11 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can fetch release assets by asset ID.
-     * @throws Exception If an exception occurs.
-     */
     @Test
-    public void fetchesAssets() throws Exception {
-        final Releases releases = repo.releases();
+    void fetchesAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset uploaded = assets.upload(
@@ -183,6 +169,7 @@ public final class RtReleaseAssetsITCase {
                 "fetch.txt"
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 assets.get(uploaded.number()),
                 Matchers.is(uploaded)
             );
@@ -191,15 +178,11 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can iterate through multiple release assets.
-     * @throws Exception If an exception occurs.
-     */
     @Test
-    public void iteratesAssets() throws Exception {
-        final Releases releases = repo.releases();
+    void iteratesAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset first = assets.upload(
@@ -213,6 +196,7 @@ public final class RtReleaseAssetsITCase {
                 "second.txt"
             );
             MatcherAssert.assertThat(
+                "Assertion failed",
                 assets.iterate(),
                 Matchers.contains(first, second)
             );
@@ -221,18 +205,15 @@ public final class RtReleaseAssetsITCase {
         }
     }
 
-    /**
-     * RtReleaseAssets can return an empty list of release assets.
-     * @throws Exception If an exception occurs.
-     */
     @Test
-    public void returnsNoAssets() throws Exception {
-        final Releases releases = repo.releases();
+    void returnsNoAssets() throws IOException {
+        final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             MatcherAssert.assertThat(
+                "Collection is not empty",
                 assets.iterate(),
                 Matchers.emptyIterable()
             );

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -11,8 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github Releases.
- *
+ * GitHub Releases.
  * @since 0.8
  */
 @Immutable
@@ -42,7 +41,7 @@ public interface Releases {
      * Create new release.
      * @param tag The name of the tag
      * @return Release just created
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
      */
     Release create(
@@ -51,7 +50,6 @@ public interface Releases {
 
     /**
      * Remove a release.
-     *
      * @param number ID of the release to remove.
      * @throws IOException If an IO problem occurs.
      * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
@@ -81,26 +79,32 @@ public interface Releases {
         ) {
             this.releases = original;
         }
+
         @Override
         public Repo repo() {
             return this.releases.repo();
         }
+
         @Override
         public Iterable<Release> iterate() {
             return this.releases.iterate();
         }
+
         @Override
         public Release get(final int number) {
             return this.releases.get(number);
         }
+
         @Override
         public Release create(final String tag) throws IOException {
             return this.releases.create(tag);
         }
+
         @Override
         public void remove(final int number) throws IOException {
             this.releases.remove(number);
         }
+
         /**
          * This release exists by the tag.
          * @param tag The tag
@@ -120,6 +124,7 @@ public interface Releases {
             }
             return exists;
         }
+
         /**
          * Find release by the tag (runtime exception if not found).
          * @param tag The tag

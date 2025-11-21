@@ -1,8 +1,7 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
@@ -16,12 +15,14 @@ import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
 /**
- * Mock of Github References.
+ * Mock of GitHub References.
+ * @since 0.24
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkReferences implements References {
 
     /**
@@ -95,7 +96,7 @@ final class MkReferences implements References {
     public Iterable<Reference> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/reference", this.xpath()),
+            this.xpath().concat("/reference"),
             xml -> this.get(
                 xml.xpath("ref/text()").get(0)
             )

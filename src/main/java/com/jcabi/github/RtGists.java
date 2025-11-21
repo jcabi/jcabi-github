@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,16 +9,16 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
-import javax.json.Json;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github gists.
+ * GitHub gists.
  *
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -34,9 +34,9 @@ final class RtGists implements Gists {
     private final transient Request entry;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful request.
@@ -45,10 +45,10 @@ final class RtGists implements Gists {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      */
-    RtGists(final Github github, final Request req) {
+    RtGists(final GitHub github, final Request req) {
         this.entry = req;
         this.ghub = github;
         this.request = this.entry.uri().path("/gists").back();
@@ -60,7 +60,7 @@ final class RtGists implements Gists {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,12 +7,12 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github user organizations.
+ * GitHub user organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  * @checkstyle MultipleStringLiterals (500 lines)
@@ -28,9 +28,9 @@ final class RtUserOrganizations implements UserOrganizations {
     private final transient Request entry;
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * User we're in.
@@ -39,12 +39,12 @@ final class RtUserOrganizations implements UserOrganizations {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param user User
      */
     RtUserOrganizations(
-        final Github github,
+        final GitHub github,
         final Request req,
         final User user
     ) {
@@ -54,7 +54,7 @@ final class RtUserOrganizations implements UserOrganizations {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 
@@ -68,31 +68,32 @@ final class RtUserOrganizations implements UserOrganizations {
         final String login = this.owner.login();
         return new RtPagination<>(
             this.entry.uri().path("/users").path(login).path("/orgs").back(),
-            new OrganizationMapping(this.ghub.organizations())
+            new RtUserOrganizations.OrganizationMapping(this.ghub.organizations())
         );
     }
 
     /**
      * Maps organization JSON objects to Organization instances.
+     * @since 0.24
      */
     private static final class OrganizationMapping
         implements RtValuePagination.Mapping<Organization, JsonObject> {
         /**
          * Organizations.
          */
-        private final transient Organizations organizations;
+        private final transient Organizations orgs;
 
         /**
          * Ctor.
-         * @param orgs Organizations
+         * @param organizations Organizations
          */
-        OrganizationMapping(final Organizations orgs) {
-            this.organizations = orgs;
+        OrganizationMapping(final Organizations organizations) {
+            this.orgs = organizations;
         }
 
         @Override
         public Organization map(final JsonObject object) {
-            return this.organizations.get(object.getString("login"));
+            return this.orgs.get(object.getString("login"));
         }
     }
 }

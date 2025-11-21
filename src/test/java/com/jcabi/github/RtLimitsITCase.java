@@ -1,29 +1,27 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtLimits}.
+ * @since 0.1
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@OAuthScope(Scope.REPO)
-public final class RtLimitsITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtLimitsITCase {
 
-    /**
-     * RtLimits can check remaining requests.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void checksRemainingRequests() throws Exception {
-        final Github github = new GithubIT().connect();
+    void checksRemainingRequests() throws IOException {
+        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
+            "Value is null",
             new Limit.Smart(github.limits().get("core")).remaining(),
             Matchers.notNullValue()
         );

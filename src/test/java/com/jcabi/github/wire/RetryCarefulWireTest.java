@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -16,36 +16,32 @@ import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RetryCarefulWire}.
  * Just combines the RetryWire and CarefulWire test cases.
+ * @since 0.1
  */
-public final class RetryCarefulWireTest {
+@ExtendWith(RandomPort.class)
+final class RetryCarefulWireTest {
     /**
      * HTTP 200 status reason.
      */
     private static final String OK = "OK";
+
     /**
      * Name of GitHub's number-of-requests-remaining rate limit header.
      */
     private static final String REMAINING_HEADER = "X-RateLimit-Remaining";
+
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RetryCarefulWire can make a few requests before giving up and
-     * can wait until the rate limit resets.
-     * @throws Exception If something goes wrong inside
-     */
     @Test
-    public void makesMultipleRequestsAndWaitUntilReset() throws Exception {
+    void makesMultipleRequestsAndWaitUntilReset() throws IOException {
         final int threshold = 10;
         // @checkstyle MagicNumber (2 lines)
         final long reset = TimeUnit.MILLISECONDS
@@ -54,10 +50,10 @@ public final class RetryCarefulWireTest {
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK)
-                .withHeader(REMAINING_HEADER, "9")
+                .withHeader(RetryCarefulWireTest.REMAINING_HEADER, "9")
                 .withHeader("X-RateLimit-Reset", String.valueOf(reset))
             )
-            .start(this.resource.port());
+            .start(RandomPort.port());
         new JdkRequest(container.home())
             .through(RetryCarefulWire.class, threshold)
             .fetch()
@@ -65,7 +61,11 @@ public final class RetryCarefulWireTest {
             .assertStatus(HttpURLConnection.HTTP_OK);
         final long now = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis());
-        MatcherAssert.assertThat(now, Matchers.greaterThanOrEqualTo(reset));
+        MatcherAssert.assertThat(
+            "Value is not greater than expected",
+            now,
+            Matchers.greaterThanOrEqualTo(reset)
+        );
         container.stop();
     }
 
@@ -74,17 +74,18 @@ public final class RetryCarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitRemainingHeader() throws IOException {
+    void tolerateMissingRateLimitRemainingHeader() throws IOException {
         final int threshold = 11;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
+            .withReason(RetryCarefulWireTest.OK)
             .through(RetryCarefulWire.class, threshold)
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Remaining header was absent",
-            true
+            true,
+            Matchers.is(true)
         );
     }
 
@@ -93,18 +94,19 @@ public final class RetryCarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitResetHeader() throws IOException {
+    void tolerateMissingRateLimitResetHeader() throws IOException {
         final int threshold = 8;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
-            .withReason(OK)
-            .withHeader(REMAINING_HEADER, "7")
+            .withReason(RetryCarefulWireTest.OK)
+            .withHeader(RetryCarefulWireTest.REMAINING_HEADER, "7")
             .through(RetryCarefulWire.class, threshold)
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Reset header was absent",
-            true
+            true,
+            Matchers.is(true)
         );
     }
 }

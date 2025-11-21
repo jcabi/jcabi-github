@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,23 +6,22 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Limit;
 import com.jcabi.github.Limits;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkLimits}.
+ * @since 0.1
  */
-public final class MkLimitsTest {
+final class MkLimitsTest {
 
-    /**
-     * MkLimits can work.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void worksWithMockedData() throws Exception {
-        final Limits limits = new MkGithub().limits();
+    void worksWithMockedData() throws IOException {
+        final Limits limits = new MkGitHub().limits();
         MatcherAssert.assertThat(
+            "Value is not greater than expected",
             new Limit.Smart(limits.get(Limits.CORE)).limit(),
             Matchers.greaterThan(0)
         );

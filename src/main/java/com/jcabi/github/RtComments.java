@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,21 +9,22 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
+import jakarta.json.Json;
+import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Date;
-import javax.json.Json;
-import javax.json.JsonStructure;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github comments.
+ * GitHub comments.
  *
  * @since 0.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtComments implements Comments {
 
     /**
@@ -96,7 +97,7 @@ final class RtComments implements Comments {
     public Iterable<Comment> iterate(final Date since) {
         return new RtPagination<>(
             this.request.uri()
-                .queryParam("since", new Github.Time(since))
+                .queryParam("since", new GitHub.Time(since))
                 .back(),
             object -> this.get(object.getJsonNumber("id").longValue())
         );

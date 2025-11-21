@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -17,7 +17,7 @@ import org.xembly.Directive;
 import org.xembly.Xembler;
 
 /**
- * Storage of Github data.
+ * Storage of GitHub data.
  *
  * @since 0.5
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
@@ -71,6 +71,7 @@ public interface MkStorage {
 
     /**
      * In file.
+     * @since 0.5
      */
     @Immutable
     @EqualsAndHashCode(of = "name")
@@ -80,25 +81,28 @@ public interface MkStorage {
          * File name.
          */
         private final transient String name;
+
         /**
          * Public ctor.
          * @throws IOException If there is any I/O problem
          */
         public InFile() throws IOException {
-            this(File.createTempFile("jcabi-github", ".xml"));
-            new File(this.name).deleteOnExit();
+            this(MkStorage.InFile.temp());
         }
+
         /**
          * Public ctor.
          * @param file File to use
          * @throws IOException If there is any I/O problem
          */
+        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
         public InFile(
             final File file
         ) throws IOException {
             FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
             this.name = file.getAbsolutePath();
         }
+
         @Override
         public String toString() {
             try {
@@ -107,6 +111,7 @@ public interface MkStorage {
                 throw new IllegalStateException(ex);
             }
         }
+
         @Override
         public XML xml() throws IOException {
             synchronized (this.name) {
@@ -117,6 +122,7 @@ public interface MkStorage {
                 );
             }
         }
+
         @Override
         public void apply(
             final Iterable<Directive> dirs
@@ -125,38 +131,55 @@ public interface MkStorage {
                 FileUtils.write(
                     new File(this.name),
                     new XMLDocument(
-                        new Xembler(dirs).applyQuietly(this.xml().node())
+                        new Xembler(dirs).applyQuietly(this.xml().inner())
                     ).toString(),
                     StandardCharsets.UTF_8
                 );
             }
         }
+
         @Override
         public void lock() {
             // nothing
         }
+
         @Override
         public void unlock() {
             // nothing
         }
+
+        /**
+         * Create temp file.
+         * @return File
+         * @throws IOException If there is any I/O problem
+         */
+        private static File temp() throws IOException {
+            final File file = File.createTempFile("jcabi-github", ".xml");
+            file.deleteOnExit();
+            return file;
+        }
     }
 
     /**
-     * Syncronized.
+     * Synchronized.
+     * @since 0.5
      */
     @Immutable
     @EqualsAndHashCode(of = { "origin", "lock" })
     @Loggable(Loggable.DEBUG)
+    @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
     final class Synced implements MkStorage {
         /**
          * Original storage.
          */
         private final transient MkStorage origin;
+
         /**
          * Lock object.
          */
         private final transient ImmutableReentrantLock lock =
             new ImmutableReentrantLock();
+
         /**
          * Public ctor.
          * @param storage Original
@@ -164,22 +187,27 @@ public interface MkStorage {
         public Synced(final MkStorage storage) {
             this.origin = storage;
         }
+
         @Override
         public String toString() {
             return this.origin.toString();
         }
+
         @Override
         public XML xml() throws IOException {
             return this.origin.xml();
         }
+
         @Override
         public void apply(final Iterable<Directive> dirs) throws IOException {
             this.origin.apply(dirs);
         }
+
         @Override
         public void lock() {
             this.lock.lock();
         }
+
         @Override
         public void unlock() {
             this.lock.unlock();

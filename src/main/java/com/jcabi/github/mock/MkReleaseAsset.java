@@ -1,31 +1,29 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
-import com.google.common.base.Charsets;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Release;
 import com.jcabi.github.ReleaseAsset;
+import jakarta.json.JsonObject;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
+import java.nio.charset.StandardCharsets;
 import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github release asset.
+ * Mock GitHub release asset.
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
 final class MkReleaseAsset implements ReleaseAsset {
     /**
      * Storage.
@@ -104,11 +102,6 @@ final class MkReleaseAsset implements ReleaseAsset {
         return this.num;
     }
 
-    /**
-     * Remove asset.
-     *
-     * @throws IOException If there is any I/O problem
-     */
     @Override
     public void remove() throws IOException {
         this.storage.apply(
@@ -116,20 +109,39 @@ final class MkReleaseAsset implements ReleaseAsset {
         );
     }
 
-    /**
-     * Get raw release asset content.
-     *
-     * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
-     * @return Stream with content
-     * @throws IOException If some problem inside.
-     */
     @Override
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
             this.storage.xml().xpath(
-                String.format("%s/content/text()", this.xpath())
-            ).get(0).getBytes(Charsets.UTF_8)
+                this.xpath().concat("/content/text()")
+            ).get(0).getBytes(StandardCharsets.UTF_8)
         );
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkReleaseAsset other = (MkReleaseAsset) obj;
+            result = this.rel == other.rel
+                && this.num == other.num
+                && this.storage.equals(other.storage)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.rel;
+        result = 31 * result + this.num;
+        return result;
     }
 
     /**

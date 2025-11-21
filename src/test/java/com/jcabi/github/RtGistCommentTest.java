@@ -1,91 +1,88 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
+import jakarta.json.Json;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtGistComment}.
+ * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
-public class RtGistCommentTest {
-
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+@ExtendWith(RandomPort.class)
+final class RtGistCommentTest {
 
     /**
      * RtGistComment can patch comment and return new json.
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public final void patchAndCheckJsonGistComment() throws IOException {
+    void patchAndCheckJsonGistComment() throws IOException {
         final int identifier = 1;
-        final String idString = "id";
-        final String bodyString = "body";
+        final String idprop = "id";
+        final String bodyprop = "body";
         final String body = "somebody";
-        final String patchedBody = "some patchedbody";
+        final String patched = "some patchedbody";
         final MkAnswer first = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(bodyString, body)
-                .add(idString, identifier)
+                .add(bodyprop, body)
+                .add(idprop, identifier)
                 .build().toString()
         );
         final MkAnswer second = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(bodyString, patchedBody)
-                .add(idString, identifier)
+                .add(bodyprop, patched)
+                .add(idprop, identifier)
                 .build().toString()
         );
         final MkAnswer third = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             Json.createObjectBuilder()
-                .add(bodyString, body)
-                .add(idString, identifier)
+                .add(bodyprop, body)
+                .add(idprop, identifier)
                 .build().toString()
         );
         try (
-            final MkContainer container =
+            MkContainer container =
                 new MkGrizzlyContainer().next(first).next(second).next(third)
-                    .start(this.resource.port());
-            final MkContainer gistContainer = new MkGrizzlyContainer()
-                .start(this.resource.port())) {
+                    .start(RandomPort.port());
+            MkContainer gistContainer = new MkGrizzlyContainer()
+                .start(RandomPort.port())
+        ) {
             final RtGist gist =
                 new RtGist(
-                    new MkGithub(),
+                    new MkGitHub(),
                     new ApacheRequest(gistContainer.home()), "someName"
                 );
             final RtGistComment comment = new RtGistComment(
                 new ApacheRequest(container.home()), gist, identifier
             );
             comment.patch(Json.createObjectBuilder()
-                .add(bodyString, patchedBody)
-                .add(idString, identifier)
+                .add(bodyprop, patched)
+                .add(idprop, identifier)
                 .build()
             );
             MatcherAssert.assertThat(
-                comment.json().getString(bodyString),
-                Matchers.equalTo(patchedBody)
+                "Values are not equal",
+                comment.json().getString(bodyprop),
+                Matchers.equalTo(patched)
             );
             container.stop();
             gistContainer.stop();
@@ -97,22 +94,23 @@ public class RtGistCommentTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public final void removeGistComment() throws IOException {
-        final int identifier = 1;
+    void removeGistComment() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(this.resource.port())) {
+            ).start(RandomPort.port())) {
             final RtGist gist = new RtGist(
-                new MkGithub(),
+                new MkGitHub(),
                 new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
                 "gistName"
             );
+            final int identifier = 1;
             final RtGistComment comment = new RtGistComment(
                 new ApacheRequest(container.home()), gist, identifier
             );
             comment.remove();
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );

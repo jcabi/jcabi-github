@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,10 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 
 /**
- * Github repository language.
- *
- * @since 0.19
+ * GitHub repository language.
  * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
+ * @since 0.19
  */
 @Immutable
 public interface Language {
@@ -19,6 +18,7 @@ public interface Language {
      * @return Name
      */
     String name();
+
     /**
      * Number of bytes of code written in that language.
      * @return Number of bytes

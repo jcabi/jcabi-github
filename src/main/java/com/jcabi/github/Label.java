@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,19 +6,19 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.io.StringReader;
-import javax.json.Json;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
- * Github label.
- * @checkstyle MultipleStringLiterals (500 lines)
+ * GitHub label.
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1
+ * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -39,6 +39,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * Smart Label with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -49,6 +50,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Encapsulated label.
          */
         private final transient Label label;
+
         /**
          * SmartJson object for convenient JSON parsing.
          */
@@ -111,6 +113,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * Unmodified Label with extra features.
+     * @since 0.1
      */
     @Immutable
     @ToString
@@ -121,6 +124,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * Encapsulated Repo.
          */
         private final transient Repo repo;
+
         /**
          * Encapsulated String.
          */

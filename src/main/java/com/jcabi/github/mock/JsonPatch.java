@@ -1,14 +1,14 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.Map;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 

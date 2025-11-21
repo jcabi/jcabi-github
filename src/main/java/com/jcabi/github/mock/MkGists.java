@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,7 +8,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.Gists;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import lombok.ToString;
 import org.xembly.Directives;
 
 /**
- * Mock Github gists.
+ * Mock GitHub gists.
  *
  * @since 0.5
  */
@@ -24,7 +24,13 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkGists implements Gists {
+
+    /**
+     * XPath suffix for gist ID text.
+     */
+    private static final String GIST_ID_TEXT_PATH = "/gist/id/text()";
 
     /**
      * Storage.
@@ -54,11 +60,12 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidAccessToStaticMembersViaThis")
     public Gist create(
         final Map<String, String> files, final boolean visible
     ) throws IOException {
@@ -67,10 +74,10 @@ final class MkGists implements Gists {
         try {
             number = Integer.toString(
                 1 + this.storage.xml().xpath(
-                    String.format("%s/gist/id/text()", this.xpath())
+                    MkGists.xpath().concat(MkGists.GIST_ID_TEXT_PATH)
                 ).size()
             );
-            final Directives dirs = new Directives().xpath(this.xpath())
+            final Directives dirs = new Directives().xpath(MkGists.xpath())
                 .add("gist")
                 .add("id").set(number).up()
                 .add("public").set(String.valueOf(visible)).up()
@@ -97,7 +104,7 @@ final class MkGists implements Gists {
     public Iterable<Gist> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/gist", this.xpath()),
+            String.format("%s/gist", MkGists.xpath()),
             xml -> this.get(xml.xpath("id/text()").get(0))
         );
     }
@@ -107,7 +114,7 @@ final class MkGists implements Gists {
     ) throws IOException {
         this.storage.apply(
             new Directives().xpath(
-                String.format("%s/gist[id='%s']", this.xpath(), identifier)
+                String.format("%s/gist[id='%s']", MkGists.xpath(), identifier)
             ).remove()
         );
     }
@@ -116,7 +123,7 @@ final class MkGists implements Gists {
      * XPath of this element in XML tree.
      * @return XPath
      */
-    private String xpath() {
+    private static String xpath() {
         return "/github/gists";
     }
 

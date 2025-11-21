@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,26 +10,28 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
- * Test case for {@link MkRepoCommits).
+ * Test case for {@link MkRepoCommits}.
+ * @since 0.8
  */
-public final class MkRepoCommitsTest {
+final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can return commits' iterator.
      * @throws IOException If some problem inside
      */
     @Test
-    public void returnIterator() throws IOException {
+    void returnIterator() throws IOException {
         final String user =  "testuser1";
         MatcherAssert.assertThat(
+            "Value is null",
             new MkRepoCommits(
                 new MkStorage.InFile(),
                 user,
                 new Coordinates.Simple(user, "testrepo1")
-            ).iterate(Collections.<String, String>emptyMap()),
+            ).iterate(Collections.emptyMap()),
             Matchers.notNullValue()
         );
     }
@@ -39,10 +41,11 @@ public final class MkRepoCommitsTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void getCommit() throws IOException {
+    void getCommit() throws IOException {
         final String user =  "testuser2";
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
         MatcherAssert.assertThat(
+            "Value is null",
             new MkRepoCommits(
                 new MkStorage.InFile(),
                 user,
@@ -57,9 +60,10 @@ public final class MkRepoCommitsTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void canCompare() throws IOException {
+    void canCompare() throws IOException {
         final String user =  "testuser3";
         MatcherAssert.assertThat(
+            "Value is null",
             new MkRepoCommits(
                 new MkStorage.InFile(),
                 user,
@@ -69,16 +73,13 @@ public final class MkRepoCommitsTest {
         );
     }
 
-    /**
-     * MkRepoCommits can compare commits as diff fromat.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canCompareAsDiffFormat() throws Exception {
+    void canCompareAsDiffFormat() throws IOException {
         final String user =  "testuser4";
         final String base =  "c034abc";
         final String head =  "a0ed832";
         MatcherAssert.assertThat(
+            "Assertion failed",
             new MkRepoCommits(
                 new MkStorage.InFile(),
                 user,
@@ -88,15 +89,12 @@ public final class MkRepoCommitsTest {
         );
     }
 
-    /**
-     * MkRepoCommits can compare commits as patch.
-     * @throws Exception if some problem inside
-     */
     @Test
-    public void canCompareAsPatch() throws Exception {
+    void canCompareAsPatch() throws IOException {
         final String user =  "testuser5";
         final String head = "9b2e6e7de9";
         MatcherAssert.assertThat(
+            "Assertion failed",
             new MkRepoCommits(
                 new MkStorage.InFile(), user,
                 new Coordinates.Simple(user, "testrepo5")

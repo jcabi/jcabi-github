@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,9 +6,9 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Markdown;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import lombok.ToString;
 
 /**
@@ -23,18 +23,18 @@ public final class MkMarkdown implements Markdown {
     /**
      * Owner github.
      */
-    private final transient Github owner;
+    private final transient GitHub owner;
 
     /**
      * Creates new instance.
      * @param github Owner github
      */
-    public MkMarkdown(final Github github) {
+    public MkMarkdown(final GitHub github) {
         this.owner = github;
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.owner;
     }
 

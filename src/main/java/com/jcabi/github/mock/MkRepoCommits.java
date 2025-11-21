@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -10,21 +10,23 @@ import com.jcabi.github.CommitsComparison;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.RepoCommit;
 import com.jcabi.github.RepoCommits;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.Map;
-import javax.json.JsonObject;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock commits of a Github repository.
+ * Mock commits of a GitHub repository.
+ * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkRepoCommits implements RepoCommits {
 
     /**
@@ -69,7 +71,7 @@ final class MkRepoCommits implements RepoCommits {
         final Map<String, String> params
     ) {
         return new MkIterable<>(
-            this.storage, String.format("%s/commit", this.xpath()),
+            this.storage, this.xpath().concat("/commit"),
             xml -> this.get(
                 xml.xpath("sha/text()").get(0)
             )

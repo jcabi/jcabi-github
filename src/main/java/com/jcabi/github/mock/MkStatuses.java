@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,7 +9,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Status;
 import com.jcabi.github.Statuses;
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "cmmt" })
+@EqualsAndHashCode(of = "cmmt")
 final class MkStatuses implements Statuses {
     /**
      * Commit whose statuses this represents.
@@ -44,7 +44,7 @@ final class MkStatuses implements Statuses {
 
     @Override
     public Status create(
-        final StatusCreate status
+        final Statuses.StatusCreate status
     ) {
         throw new UnsupportedOperationException("Not yet implemented");
     }

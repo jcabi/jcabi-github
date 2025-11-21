@@ -1,26 +1,24 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import javax.json.Json;
+import jakarta.json.Json;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link Milestone}.
+ * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public class MilestoneTest {
-    /**
-     * Milestone.Smart can fetch title property from Milestone.
-     * @throws Exception If some problem inside
-     */
+final class MilestoneTest {
     @Test
-    public final void fetchesTitle() throws Exception {
+    void fetchesTitle() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -28,17 +26,14 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).title(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Milestone.Smart can fetch description property from Milestone.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesDescription() throws Exception {
+    void fetchesDescription() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -46,17 +41,14 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).description(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Milestone.Smart can fetch state property from Milestone.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesState() throws Exception {
+    void fetchesState() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -64,17 +56,14 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).state(),
             Matchers.notNullValue()
         );
     }
 
-    /**
-     * Milestone.Smart can fetch due_on property from Milestone.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public final void fetchesDueOn() throws Exception {
+    void fetchesDueOn() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -82,6 +71,7 @@ public class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
+            "Value is null",
             new Milestone.Smart(milestone).dueOn(),
             Matchers.notNullValue()
         );

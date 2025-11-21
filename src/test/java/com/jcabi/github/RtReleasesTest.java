@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -12,50 +12,44 @@ import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.net.HttpURLConnection;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleases}.
- * @checkstyle MultipleStringLiterals (500 lines)
  * @since 0.8
+ * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class RtReleasesTest {
+@ExtendWith(RandomPort.class)
+final class RtReleasesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
-
-    /**
-     * RtReleases can fetch empty list of releases.
-     */
     @Test
-    public void canFetchEmptyListOfReleases() {
+    void canFetchEmptyListOfReleases() {
         final Releases releases = new RtReleases(
             new FakeRequest().withBody("[]"),
             RtReleasesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Collection is not empty",
             releases.iterate(),
             Matchers.emptyIterable()
         );
     }
 
-    /**
-     * RtReleases can fetch non empty list of releases.
-     */
     @Test
-    public void canFetchNonEmptyListOfReleases() {
+    void canFetchNonEmptyListOfReleases() {
         final int number = 1;
         final Releases releases = new RtReleases(
             new FakeRequest().withBody(
@@ -70,46 +64,44 @@ public final class RtReleasesTest {
             RtReleasesTest.repo()
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             releases.iterate().iterator().next().number(),
             Matchers.equalTo(number)
         );
     }
 
-    /**
-     * RtReleases can fetch a single release.
-     */
     @Test
-    public void canFetchSingleRelease() {
+    void canFetchSingleRelease() {
         final Releases releases = new RtReleases(
             new FakeRequest(), RtReleasesTest.repo()
         );
-        MatcherAssert.assertThat(releases.get(1), Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            "Value is null", releases.get(1), Matchers.notNullValue()
+        );
     }
 
-    /**
-     * RtReleases can create a release.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canCreateRelease() throws Exception {
+    void canCreateRelease() throws IOException {
         final String tag = "v1.0.0";
-        final String rel = release(tag).toString();
+        final String rel = RtReleasesTest.release(tag).toString();
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
-                .start(this.resource.port())
+                .start(RandomPort.port())
         ) {
             final RtReleases releases = new RtReleases(
                 new JdkRequest(container.home()),
-                repo()
+                RtReleasesTest.repo()
             );
             final Release release = releases.create(tag);
             MatcherAssert.assertThat(
+                "Values are not equal",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 release.json().getString("tag_name"),
                 Matchers.equalTo(tag)
             );
@@ -117,19 +109,15 @@ public final class RtReleasesTest {
         }
     }
 
-    /**
-     * RtReleases can delete a release.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void canDeleteRelease() throws Exception {
+    void canDeleteRelease() throws IOException {
         try (
-            final MkContainer container = new MkGrizzlyContainer().next(
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(this.resource.port());
+            ).start(RandomPort.port())
         ) {
             final Releases releases = new RtReleases(
                 new ApacheRequest(container.home()),
@@ -138,10 +126,12 @@ public final class RtReleasesTest {
             releases.remove(1);
             final MkQuery query = container.take();
             MatcherAssert.assertThat(
+                "String does not end with expected value",
                 query.uri().toString(),
                 Matchers.endsWith("/releases/1")
             );
             MatcherAssert.assertThat(
+                "Values are not equal",
                 query.method(),
                 Matchers.equalTo(Request.DELETE)
             );

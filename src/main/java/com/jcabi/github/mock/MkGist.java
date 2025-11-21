@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -8,27 +8,29 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Gist;
 import com.jcabi.github.GistComments;
-import com.jcabi.github.Github;
+import com.jcabi.github.GitHub;
 import com.jcabi.xml.XML;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.List;
-import javax.json.JsonObject;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
- * Mock Github gist.
+ * Mock GitHub gist.
  *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "gist" })
 @SuppressWarnings("PMD.TooManyMethods")
 final class MkGist implements Gist {
+
+    /**
+     * XPath for gist IDs.
+     */
+    private static final String GIST_ID_XPATH = "/github/gists/gist/id/text()";
 
     /**
      * Storage.
@@ -63,8 +65,8 @@ final class MkGist implements Gist {
     }
 
     @Override
-    public Github github() {
-        return new MkGithub(this.storage, this.self);
+    public GitHub github() {
+        return new MkGitHub(this.storage, this.self);
     }
 
     @Override
@@ -118,11 +120,6 @@ final class MkGist implements Gist {
         );
     }
 
-    /**
-     * Stars.
-     * @throws IOException If there is any I/O problem
-     * @checkstyle MultipleStringLiterals (10 lines)
-     */
     @Override
     public void star() throws IOException {
         this.storage.apply(
@@ -132,11 +129,6 @@ final class MkGist implements Gist {
         );
     }
 
-    /**
-     * Unstars.
-     * @throws IOException If there is any I/O problem
-     * @checkstyle MultipleStringLiterals (10 lines)
-     */
     @Override
     public void unstar() throws IOException {
         this.storage.apply(
@@ -146,20 +138,13 @@ final class MkGist implements Gist {
         );
     }
 
-    /**
-     * Checks if starred.
-     * @return True if gist is starred
-     * @throws IOException If there is any I/O problem
-     */
     @Override
     public boolean starred() throws IOException {
         final List<String> xpath = this.storage.xml().xpath(
-            String.format("%s/@starred", this.xpath())
+            this.xpath().concat("/@starred")
         );
-        return !xpath.isEmpty() && StringUtils.equalsIgnoreCase(
-            Boolean.toString(true),
-            xpath.get(0)
-        );
+        return !xpath.isEmpty()
+            && Boolean.toString(true).equalsIgnoreCase(xpath.get(0));
     }
 
     @Override
@@ -169,14 +154,14 @@ final class MkGist implements Gist {
         try {
             final XML xml = this.storage.xml();
             number = Integer.toString(
-                1 + xml.xpath("/github/gists/gist/id/text()").size()
+                1 + xml.xpath(MkGist.GIST_ID_XPATH).size()
             );
             final Directives dirs = new Directives().xpath("/github/gists")
                 .add("gist")
                 .add("id").set(number).up()
                 .add("files");
             final List<XML> files = xml.nodes(
-                String.format("%s/files/file", this.xpath())
+                this.xpath().concat("/files/file")
             );
             for (final XML file : files) {
                 final String filename = file.xpath("filename/text()").get(0);
@@ -209,6 +194,30 @@ final class MkGist implements Gist {
         final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkGist other = (MkGist) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self)
+                && this.gist.equals(other.gist);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.gist.hashCode();
+        return result;
     }
 
     /**

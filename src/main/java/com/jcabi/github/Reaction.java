@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,8 +7,8 @@ package com.jcabi.github;
 /**
  * Reaction for issue / comment.
  *
- * @since 1.0
  * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
+ * @since 1.0
  * @todo #1469:30min Add support to team discussion and team discussion comments
  *  The API does not supports team discussion and team discussion comments (
  *  https://developer.github.com/changes/2018-02-07-team-discussions-api/ )
@@ -54,6 +54,7 @@ public interface Reaction {
 
     /**
      * Simple reaction.
+     * @since 1.0
      */
     final class Simple implements Reaction {
 

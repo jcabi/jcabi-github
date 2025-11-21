@@ -1,35 +1,30 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.OAuthScope.Scope;
 import com.jcabi.immutable.ArrayMap;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RepoCommits}.
- *
- * <p>
- * WARNING: As there is no way to create Commit directly it was decided to use
- * real commits from jcabi-github repository for integration testing of
- * RtRepoCommits
- *
+ * <p>WARNING: As there is no way to create Commit directly it was decided to
+ *  use real commits from jcabi-github repository for integration testing of
+ *  RtRepoCommits
+ * @since 0.1
  */
-@OAuthScope(Scope.REPO)
-public class RtRepoCommitsITCase {
+@OAuthScope(OAuthScope.Scope.REPO)
+final class RtRepoCommitsITCase {
 
-    /**
-     * RtRepoCommits can fetch repo commits.
-     */
     @Test
-    public final void fetchCommits() {
+    void fetchCommits() {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
                 new ArrayMap<String, String>()
@@ -49,28 +44,27 @@ public class RtRepoCommitsITCase {
             }
         }
         MatcherAssert.assertThat(
+            "Values are not equal",
             found,
             Matchers.equalTo(shas.size())
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits and return result in patch mode.
-     * @throws Exception if there is no github key provided
-     */
     @Test
-    public final void compareCommitsPatch() throws Exception {
+    void compareCommitsPatch() throws IOException {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
             "5339b8e35b",
             "9b2e6efde9"
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             patch,
             Matchers.startsWith(
                 "From 9b2e6efde94fabec5876dc481b38811e8b4e992f"
             )
         );
         MatcherAssert.assertThat(
+            "String does not contain expected value",
             patch,
             Matchers.containsString(
                 "Issue #430 RepoCommit interface was added"
@@ -78,29 +72,24 @@ public class RtRepoCommitsITCase {
         );
     }
 
-    /**
-     * RtRepoCommits can compare two commits and return result in diff mode.
-     * @throws Exception if there is no github key provided
-     */
     @Test
-    public final void compareCommitsDiff() throws Exception {
+    void compareCommitsDiff() throws IOException {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
             "2b3814e",
             "b828dfa"
         );
         MatcherAssert.assertThat(
+            "String does not start with expected value",
             diff,
             Matchers.startsWith("diff --git")
         );
     }
 
-    /**
-     * Check that commit actually got.
-     */
     @Test
-    public final void getCommit() {
+    void getCommit() {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtRepoCommitsITCase.repo().commits().get(sha).sha(),
             Matchers.equalTo(sha)
         );
@@ -111,7 +100,7 @@ public class RtRepoCommitsITCase {
      * @return Repo
      */
     private static Repo repo() {
-        return new GithubIT().connect().repos().get(
+        return GitHubIT.connect().repos().get(
             new Coordinates.Simple("jcabi", "jcabi-github")
         );
     }

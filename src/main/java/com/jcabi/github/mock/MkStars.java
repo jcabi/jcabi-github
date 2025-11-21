@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -13,27 +13,29 @@ import java.io.IOException;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
- * Github starring API.
+ * GitHub starring API.
  * @since 0.15
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkStars implements Stars {
 
     /**
      * Storage.
      */
     private final transient MkStorage storage;
+
     /**
      * Login of the user logged in.
      */
     private final transient String self;
+
     /**
      * Repo's name.
      */
@@ -44,7 +46,7 @@ final class MkStars implements Stars {
      * @param stg The storage.
      * @param login The login name.
      * @param rep The Repository.
-     * @throws java.io.IOException If something goes wrong.
+     * @throws IOException If something goes wrong.
      */
     MkStars(
         final MkStorage stg,
@@ -68,10 +70,10 @@ final class MkStars implements Stars {
     @Override
     public boolean starred() throws IOException {
         final List<String> xpath = this.storage.xml().xpath(
-            String.format("%s/star/login/text()", this.xpath())
+            this.xpath().concat("/star/login/text()")
         );
         return !xpath.isEmpty()
-            && StringUtils.equalsIgnoreCase(this.self, xpath.get(0));
+            && this.self.equalsIgnoreCase(xpath.get(0));
     }
 
     @Override

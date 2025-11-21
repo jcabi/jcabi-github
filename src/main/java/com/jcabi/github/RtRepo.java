@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -7,16 +7,16 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 
 /**
- * Github repository.
+ * GitHub repository.
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
@@ -24,19 +24,18 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"ghub", "entry", "coords"})
-@SuppressWarnings
-    (
-        {
-            "PMD.TooManyMethods",
-            "PMD.CouplingBetweenObjects"
-        }
-    )
+@SuppressWarnings(
+    {
+        "PMD.TooManyMethods",
+        "PMD.CouplingBetweenObjects"
+    }
+)
 final class RtRepo implements Repo {
 
     /**
-     * Github.
+     * GitHub.
      */
-    private final transient Github ghub;
+    private final transient GitHub ghub;
 
     /**
      * RESTful entry.
@@ -55,11 +54,11 @@ final class RtRepo implements Repo {
 
     /**
      * Public ctor.
-     * @param github Github
+     * @param github GitHub
      * @param req Request
      * @param crd Coordinate of the repo
      */
-    RtRepo(final Github github, final Request req, final Coordinates crd) {
+    RtRepo(final GitHub github, final Request req, final Coordinates crd) {
         this.ghub = github;
         this.entry = req;
         this.coords = crd;
@@ -76,7 +75,7 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    public Github github() {
+    public GitHub github() {
         return this.ghub;
     }
 

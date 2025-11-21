@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Github Milestones.
+ * GitHub Milestones.
  * @see <a href="https://developer.github.com/v3/issues/milestones/">Milestones API</a>
  * @since 0.7
  */
@@ -26,7 +26,7 @@ public interface Milestones {
      * Create Milestone.
      * @param title Milestone creation JSON
      * @return Milestone
-     * @throws java.io.IOException If there is any I/O problem
+     * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
      * @since 0.5
      */

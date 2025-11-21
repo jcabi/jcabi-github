@@ -1,18 +1,18 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
-import javax.json.JsonString;
-import javax.json.JsonValue;
 
 /**
  * Repository statistics.
@@ -41,7 +41,7 @@ public final class RepositoryStatistics {
      */
     public Map<String, Object> toMap() throws IOException {
         final JsonObject json = this.repo.json();
-        return Arrays.stream(KEY.values())
+        return Arrays.stream(RepositoryStatistics.Key.values())
             .collect(
                 Collectors.toMap(
                     key -> key.key,
@@ -55,7 +55,7 @@ public final class RepositoryStatistics {
      *
              * @since 1.8.0
      */
-    private enum KEY {
+    private enum Key {
 
         /**
          * The main programming language used in the repository.
@@ -119,7 +119,7 @@ public final class RepositoryStatistics {
          * Constructor.
          * @param json The key of the JSON object returned by the GitHub API.
          */
-        KEY(final String json) {
+        Key(final String json) {
             this.key = json;
         }
 
@@ -192,7 +192,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int forks() throws IOException {
-            return this.integer(KEY.FORKS_COUNT);
+            return this.integer(RepositoryStatistics.Key.FORKS_COUNT);
         }
 
         /**
@@ -201,7 +201,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int stargazers() throws IOException {
-            return this.integer(KEY.STARGAZERS_COUNT);
+            return this.integer(RepositoryStatistics.Key.STARGAZERS_COUNT);
         }
 
         /**
@@ -210,7 +210,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int watchers() throws IOException {
-            return this.integer(KEY.WATCHERS_COUNT);
+            return this.integer(RepositoryStatistics.Key.WATCHERS_COUNT);
         }
 
         /**
@@ -219,7 +219,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int size() throws IOException {
-            return this.integer(KEY.SIZE);
+            return this.integer(RepositoryStatistics.Key.SIZE);
         }
 
         /**
@@ -228,7 +228,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public int openIssues() throws IOException {
-            return this.integer(KEY.OPEN_ISSUES_COUNT);
+            return this.integer(RepositoryStatistics.Key.OPEN_ISSUES_COUNT);
         }
 
         /**
@@ -237,7 +237,7 @@ public final class RepositoryStatistics {
          * @throws IOException If there is any I/O problem
          */
         public ZonedDateTime created() throws IOException {
-            return this.datetime(KEY.CREATED_AT);
+            return this.datetime(RepositoryStatistics.Key.CREATED_AT);
         }
 
         /**
@@ -246,7 +246,7 @@ public final class RepositoryStatistics {
          * @return Integer value.
          * @throws IOException If there is any I/O problem
          */
-        private int integer(final KEY key) throws IOException {
+        private int integer(final RepositoryStatistics.Key key) throws IOException {
             return Integer.parseInt(
                 String.valueOf(this.stats.toMap().get(key.getKey()))
             );
@@ -258,7 +258,7 @@ public final class RepositoryStatistics {
          * @return Datetime value.
          * @throws IOException If there is any I/O problem
          */
-        private ZonedDateTime datetime(final KEY key) throws IOException {
+        private ZonedDateTime datetime(final RepositoryStatistics.Key key) throws IOException {
             return ZonedDateTime.parse(
                 String.valueOf(this.stats.toMap().get(key.getKey()))
             );

@@ -1,31 +1,31 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link SmartJsonTest}.
+ * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class SmartJsonTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class SmartJsonTest {
 
-    /**
-     * SmartJson can fetch data from JSON.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesStringFromJson() throws Exception {
+    void fetchesStringFromJson() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new SmartJson(
                 SmartJsonTest.json("{\"first\": \"a\"}")
             ).text("first"),
@@ -33,13 +33,10 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can fetch number from JSON.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesNumberFromJson() throws Exception {
+    void fetchesNumberFromJson() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new SmartJson(
                 SmartJsonTest.json("{\"second\": 1}")
             ).number("second"),
@@ -47,13 +44,10 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can fetch an array from JSON.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesArrayFromJson() throws Exception {
+    void fetchesArrayFromJson() throws IOException {
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             new SmartJson(
                 SmartJsonTest.json("{\"arr\": [1, 2]}")
             ).value("arr", JsonArray.class),
@@ -61,13 +55,10 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can fetch an object from JSON.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void fetchesObjectFromJson() throws Exception {
+    void fetchesObjectFromJson() throws IOException {
         MatcherAssert.assertThat(
+            "Collection size is incorrect",
             new SmartJson(
                 SmartJsonTest.json("{\"o\": {\"foo\": [1]}}")
             ).value("o", JsonObject.class).getJsonArray("foo"),
@@ -75,13 +66,10 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can check for not null keys.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void checksNotNullKeyNotPresent() throws Exception {
+    void checksNotNullKeyNotPresent() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new SmartJson(
                 SmartJsonTest.json("{\"first\": \"a\"}")
             ).hasNotNull("second"),
@@ -89,13 +77,10 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can check for not null keys.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void checksNotNullKeyPresentAndNull() throws Exception {
+    void checksNotNullKeyPresentAndNull() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new SmartJson(
                 SmartJsonTest.json("{\"first\": null}")
             ).hasNotNull("first"),
@@ -103,13 +88,10 @@ public final class SmartJsonTest {
         );
     }
 
-    /**
-     * SmartJson can check for not null keys.
-     * @throws Exception If some problem inside
-     */
     @Test
-    public void checksNotNullKeyPresentAndNotNull() throws Exception {
+    void checksNotNullKeyPresentAndNotNull() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             new SmartJson(
                 SmartJsonTest.json("{\"first\": \"a\"}")
             ).hasNotNull("first"),

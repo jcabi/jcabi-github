@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -6,29 +6,28 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
- * Github gist.
- *
- * @since 0.1
+ * GitHub gist.
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
+ * @since 0.1
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
 public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
-     * Github we're in.
-     * @return Github
+     * GitHub we're in.
+     * @return GitHub
      */
-    Github github();
+    GitHub github();
 
     /**
      * Get gist identifier.
@@ -68,8 +67,8 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Checks if Gist is starred.
-     * @throws IOException If there is any I/O problem
      * @return True if gist is starred
+     * @throws IOException If there is any I/O problem
      */
     boolean starred() throws IOException;
 
@@ -90,6 +89,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Smart Gist with extra features.
+     * @since 0.5
      */
     @Immutable
     @ToString
@@ -100,6 +100,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
          * Encapsulated gist.
          */
         private final transient Gist gist;
+
         /**
          * Public ctor.
          * @param gst Gist
@@ -108,10 +109,6 @@ public interface Gist extends JsonReadable, JsonPatchable {
             this.gist = gst;
         }
 
-        /**
-         * Get gist id.
-         * @return Gist id
-         */
         @Override
         public String identifier() {
             return this.gist.identifier();
@@ -131,14 +128,17 @@ public interface Gist extends JsonReadable, JsonPatchable {
             }
             return files;
         }
+
         @Override
-        public Github github() {
+        public GitHub github() {
             return this.gist.github();
         }
+
         @Override
         public String read(final String name) throws IOException {
             return this.gist.read(name);
         }
+
         @Override
         public void write(final String name, final String content)
             throws IOException {

@@ -1,35 +1,32 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
+import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLimit}.
- *
+ * @since 0.6
  */
-public final class RtLimitTest {
+final class RtLimitTest {
 
-    /**
-     * RtLimit can describe as a JSON object.
-     *
-     * @throws Exception if there is any problem
-     */
     @Test
-    public void describeAsJson() throws Exception {
+    void describeAsJson() throws IOException {
         final JsonReadable limit = new RtLimit(
-            Mockito.mock(Github.class),
-            new FakeRequest().withBody(this.body()),
+            Mockito.mock(GitHub.class),
+            new FakeRequest().withBody(RtLimitTest.body()),
             "core"
         );
         MatcherAssert.assertThat(
+            "Values are not equal",
             limit.json().toString(),
             Matchers.equalTo(
                 "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
@@ -37,21 +34,17 @@ public final class RtLimitTest {
         );
     }
 
-    /**
-     * RtLimit can throw exception when resource is absent.
-     *
-     * @throws Exception if some problem inside
-     */
-    @Test(expected = IllegalStateException.class)
-    public void throwsWhenResourceIsAbsent() throws Exception {
+    @Test
+    void throwsWhenResourceIsAbsent() {
         final JsonReadable limit = new RtLimit(
-            Mockito.mock(Github.class),
-            new FakeRequest().withBody(this.body()),
+            Mockito.mock(GitHub.class),
+            new FakeRequest().withBody(RtLimitTest.body()),
             "absent"
         );
-        MatcherAssert.assertThat(
-            limit.json().toString(),
-            Matchers.equalTo("{}")
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            limit::json,
+            "Should throw when resource is absent"
         );
     }
 
@@ -59,13 +52,13 @@ public final class RtLimitTest {
      * Example response from rate API.
      * @return Body string.
      */
-    private String body() {
-        return new StringBuilder(Tv.HUNDRED)
-            .append("{\"resources\":{\"core\":{\"limit\":5000,")
-            .append("\"remaining\":4999,\"reset\":1372700873},")
-            .append("\"search\":{\"limit\":20,\"remaining\":18,")
-            .append("\"reset\":1372697452}},\"rate\":{\"limit\":5000,")
-            .append("\"remaining\":4999,\"reset\":1372700873}}")
+    private static String body() {
+        return new StringBuilder(100)
+            .append("{\"resources\":{\"core\":{\"limit\":5000, ")
+            .append("\"remaining\":4999, \"reset\":1372700873}, ")
+            .append("\"search\":{\"limit\":20, \"remaining\":18, ")
+            .append("\"reset\":1372697452}}, \"rate\":{\"limit\":5000, ")
+            .append("\"remaining\":4999, \"reset\":1372700873}}")
             .toString();
     }
 }

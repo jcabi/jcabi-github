@@ -1,28 +1,28 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
 package com.jcabi.github;
 
-import com.jcabi.github.mock.MkGithub;
+import com.jcabi.github.mock.MkGitHub;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.io.IOException;
-import javax.json.Json;
-import javax.json.JsonObject;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPullRef}.
- *
  * @since 0.24
  */
-public final class RtPullRefTest {
+final class RtPullRefTest {
     /**
      * Test commit SHA.
      */
     private static final String SHA =
         "7a1f68e743e8a81e158136c8661011fb55abd703";
+
     /**
      * Test ref.
      */
@@ -33,9 +33,10 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRepo() throws IOException {
-        final Repo repo = new MkGithub().randomRepo();
+    void fetchesRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtPullRefTest.pullRef(repo).repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
@@ -46,10 +47,11 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtPullRefTest.pullRef().ref(),
-            Matchers.equalTo(REF)
+            Matchers.equalTo(RtPullRefTest.REF)
         );
     }
 
@@ -58,10 +60,11 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
+            "Values are not equal",
             RtPullRefTest.pullRef().sha(),
-            Matchers.equalTo(SHA)
+            Matchers.equalTo(RtPullRefTest.SHA)
         );
     }
 
@@ -71,7 +74,7 @@ public final class RtPullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     private static PullRef pullRef() throws IOException {
-        return RtPullRefTest.pullRef(new MkGithub().randomRepo());
+        return RtPullRefTest.pullRef(new MkGitHub().randomRepo());
     }
 
     /**
@@ -87,8 +90,8 @@ public final class RtPullRefTest {
         return new RtPullRef(
             repo.github(),
             Json.createObjectBuilder()
-                .add("ref", REF)
-                .add("sha", SHA)
+                .add("ref", RtPullRefTest.REF)
+                .add("sha", RtPullRefTest.SHA)
                 .add("user", user)
                 .add(
                     "repo",

@@ -1,14 +1,13 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
-
 package com.jcabi.github.mock;
 
 import com.jcabi.xml.XMLDocument;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 import org.xembly.Xembler;
 
@@ -17,13 +16,11 @@ import org.xembly.Xembler;
  * @since 0.40
  * @checkstyle MagicNumberCheck (500 lines)
  */
-public final class MkNotificationTest {
-    /**
-     * MkNotification can return its number.
-     */
+final class MkNotificationTest {
     @Test
-    public void returnsNumber() {
+    void returnsNumber() {
         MatcherAssert.assertThat(
+            "Assertion failed",
             new MkNotification(
                 new XMLDocument(
                     new Xembler(

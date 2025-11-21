@@ -1,4 +1,4 @@
-/**
+/*
  * SPDX-FileCopyrightText: Copyright (c) 2013-2025 Yegor Bugayenko
  * SPDX-License-Identifier: MIT
  */
@@ -71,7 +71,7 @@ public final class MkPublicMembers implements PublicMembers {
     public Iterable<User> iterate() {
         return new MkIterable<>(
             this.storage,
-            String.format("%s/member[public='true']/login", this.xpath()),
+            this.xpath().concat("/member[public='true']/login"),
             xml -> new MkUser(
                 this.storage,
                 xml.xpath("text()").get(0)
