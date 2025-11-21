@@ -119,7 +119,7 @@ public final class RtUserTest {
             "Values are not equal",
             user.json().toString(),
             Matchers.equalTo(
-                "{\"name\":\"monalisa\", \"email\":\"octocat@github.com\"}"
+                "{\"name\":\"monalisa\",\"email\":\"octocat@github.com\"}"
             )
         );
     }
@@ -355,7 +355,7 @@ public final class RtUserTest {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = RtUserTest.userWith("created_at", value.toString());
         MatcherAssert.assertThat(
-            "Values are not equal", smart.created(), Matchers.is(value)
+            "Values are not equal", smart.created().toString(), Matchers.is(value.toString())
         );
     }
 
@@ -364,7 +364,7 @@ public final class RtUserTest {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = RtUserTest.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(
-            "Values are not equal", smart.updated(), Matchers.is(value)
+            "Values are not equal", smart.updated().toString(), Matchers.is(value.toString())
         );
     }
 
@@ -403,21 +403,21 @@ public final class RtUserTest {
         }
     }
 
-    // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
     @Test
     public void markAsReadErrorIfResponseStatusIsNot205() throws IOException {
-        MkContainer container = null;
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+        ).start(RandomPort.port());
         try {
-            container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
-            ).start(RandomPort.port());
             final Request req = new ApacheRequest(container.home());
             final GitHub github = Mockito.mock(GitHub.class);
             Mockito.when(github.entry()).thenReturn(req);
-            new RtUser(
-                github,
-                req
-            ).markAsRead(new Date());
+            final RtUser user = new RtUser(github, req);
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> user.markAsRead(new Date()),
+                "Should throw when response status is not 205"
+            );
         } finally {
             container.close();
         }
