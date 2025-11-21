@@ -80,6 +80,7 @@ public interface Check {
          * @param value String value.
          * @return Status.
          */
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static Check.Status fromString(final String value) {
             return Arrays.stream(Check.Status.values())
                 .filter(stat -> stat.same(value))
@@ -180,6 +181,7 @@ public interface Check {
          * @param value String value.
          * @return Conclusion.
          */
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static Check.Conclusion fromString(final String value) {
             return Arrays.stream(Check.Conclusion.values())
                 .filter(stat -> stat.same(value))

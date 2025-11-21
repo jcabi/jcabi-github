@@ -49,6 +49,7 @@ final class RtIssues implements Issues {
      * @param req Request
      * @param repo Repository
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtIssues(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();

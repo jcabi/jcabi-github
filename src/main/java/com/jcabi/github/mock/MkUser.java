@@ -28,6 +28,7 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
+@SuppressWarnings("PMD.TooManyMethods")
 final class MkUser implements User {
 
     /**

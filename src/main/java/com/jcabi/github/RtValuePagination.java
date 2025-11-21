@@ -104,6 +104,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
      * @since 0.8
      */
     @EqualsAndHashCode(of = { "mapping", "request", "objects", "more" })
+    @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
     private static final class Items<X, P extends JsonValue> implements
         Iterator<X> {
         /**

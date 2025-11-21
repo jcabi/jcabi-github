@@ -11,6 +11,7 @@ import java.util.Properties;
  * User agent data read from the jcabigithub.properties file.
  * @since 0.37
  */
+@SuppressWarnings("PMD.ConstructorShouldDoInitialization")
 public final class FromProperties implements UserAgent {
 
     /**

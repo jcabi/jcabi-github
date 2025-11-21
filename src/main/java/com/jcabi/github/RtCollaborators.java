@@ -47,6 +47,7 @@ final class RtCollaborators implements Collaborators {
      * @param req Request
      * @param repo Repo
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtCollaborators(final Request req, final Repo repo) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();

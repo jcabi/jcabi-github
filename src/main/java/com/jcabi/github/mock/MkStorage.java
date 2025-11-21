@@ -95,6 +95,7 @@ public interface MkStorage {
          * @param file File to use
          * @throws IOException If there is any I/O problem
          */
+        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
         public InFile(
             final File file
         ) throws IOException {
@@ -166,6 +167,7 @@ public interface MkStorage {
     @Immutable
     @EqualsAndHashCode(of = { "origin", "lock" })
     @Loggable(Loggable.DEBUG)
+    @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
     final class Synced implements MkStorage {
         /**
          * Original storage.

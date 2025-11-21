@@ -19,7 +19,7 @@ import lombok.ToString;
  * @checkstyle ClassFanOutComplexityCheck (500 lines)
  */
 @Immutable
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.CouplingBetweenObjects"})
 public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**

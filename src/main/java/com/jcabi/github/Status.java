@@ -87,6 +87,7 @@ public interface Status extends JsonReadable {
          * @param ident Commit status state string
          * @return Corresponding State
          */
+        @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static Status.State forValue(
             final String ident
         ) {

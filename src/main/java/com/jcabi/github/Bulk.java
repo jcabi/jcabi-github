@@ -57,7 +57,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
      * @param items Items original
      * @checkstyle AnonInnerLength (50 lines)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
     public Bulk(final Iterable<T> items) {
         if (items instanceof RtPagination) {
             final RtPagination<T> page = RtPagination.class.cast(items);
