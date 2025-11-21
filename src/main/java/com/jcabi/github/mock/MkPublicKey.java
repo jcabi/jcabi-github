@@ -20,7 +20,6 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "num" })
 final class MkPublicKey implements PublicKey {
     /**
      * Storage.
@@ -75,6 +74,30 @@ final class MkPublicKey implements PublicKey {
     @Override
     public int number() {
         return this.num;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkPublicKey other = (MkPublicKey) obj;
+            result = this.num == other.num
+                && this.storage.equals(other.storage)
+                && this.self.equals(other.self);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.num;
+        return result;
     }
 
     /**

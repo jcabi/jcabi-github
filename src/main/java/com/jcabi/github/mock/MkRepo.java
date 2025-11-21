@@ -47,7 +47,6 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "self", "coords"})
 @SuppressWarnings(
     {
         "PMD.TooManyMethods",

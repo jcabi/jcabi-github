@@ -103,7 +103,6 @@ public interface Coordinates extends Comparable<Coordinates> {
      * @since 0.23
      */
     @Immutable
-    @EqualsAndHashCode
     final class Https implements Coordinates {
 
         /**
