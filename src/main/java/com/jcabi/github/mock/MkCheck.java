@@ -22,7 +22,6 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = {"storage", "coordinates", "pull", "identifier"})
 public final class MkCheck implements Check {
 
     /**
@@ -76,6 +75,32 @@ public final class MkCheck implements Check {
         );
         return status == Check.Status.COMPLETED
             && conclusion == Check.Conclusion.SUCCESS;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkCheck other = (MkCheck) obj;
+            result = this.identifier == other.identifier
+                && this.storage.equals(other.storage)
+                && this.coordinates.equals(other.coordinates)
+                && this.pull.equals(other.pull);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.coordinates.hashCode();
+        result = 31 * result + this.pull.hashCode();
+        result = 31 * result + this.identifier;
+        return result;
     }
 
     /**

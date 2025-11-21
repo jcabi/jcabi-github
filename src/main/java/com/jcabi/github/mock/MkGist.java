@@ -26,7 +26,6 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self", "gist" })
 @SuppressWarnings("PMD.TooManyMethods")
 final class MkGist implements Gist {
 
@@ -199,6 +198,30 @@ final class MkGist implements Gist {
         final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkGist other = (MkGist) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self)
+                && this.gist.equals(other.gist);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.gist.hashCode();
+        return result;
     }
 
     /**

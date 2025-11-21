@@ -23,7 +23,6 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "release" })
 final class MkRelease implements Release {
 
     /**
@@ -109,6 +108,30 @@ final class MkRelease implements Release {
         this.storage.apply(
             new Directives().xpath(this.xpath()).strict(1).remove()
         );
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkRelease other = (MkRelease) obj;
+            result = this.release == other.release
+                && this.storage.equals(other.storage)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.release;
+        return result;
     }
 
     /**

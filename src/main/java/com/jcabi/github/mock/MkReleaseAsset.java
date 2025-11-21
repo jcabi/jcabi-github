@@ -25,7 +25,6 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "coords", "rel", "num" })
 final class MkReleaseAsset implements ReleaseAsset {
     /**
      * Storage.
@@ -118,6 +117,32 @@ final class MkReleaseAsset implements ReleaseAsset {
                 this.xpath().concat("/content/text()")
             ).get(0).getBytes(StandardCharsets.UTF_8)
         );
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkReleaseAsset other = (MkReleaseAsset) obj;
+            result = this.rel == other.rel
+                && this.num == other.num
+                && this.storage.equals(other.storage)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        result = 31 * result + this.rel;
+        result = 31 * result + this.num;
+        return result;
     }
 
     /**

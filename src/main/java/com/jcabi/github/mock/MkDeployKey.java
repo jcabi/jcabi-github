@@ -21,7 +21,6 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "owner", "key" })
 final class MkDeployKey implements DeployKey {
 
     /**
@@ -79,6 +78,30 @@ final class MkDeployKey implements DeployKey {
         final JsonObject json
     ) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkDeployKey other = (MkDeployKey) obj;
+            result = this.key == other.key
+                && this.storage.equals(other.storage)
+                && this.owner.equals(other.owner);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.owner.hashCode();
+        result = 31 * result + this.key;
+        return result;
     }
 
     /**

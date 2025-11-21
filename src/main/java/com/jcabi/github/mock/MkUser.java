@@ -29,7 +29,6 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = { "storage", "self" })
 final class MkUser implements User {
 
     /**
@@ -135,6 +134,28 @@ final class MkUser implements User {
         return new JsonNode(
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkUser other = (MkUser) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        return result;
     }
 
     /**

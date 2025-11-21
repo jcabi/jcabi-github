@@ -47,7 +47,6 @@ import lombok.ToString;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@EqualsAndHashCode(of = "request")
 @SuppressWarnings("PMD.TooManyMethods")
 public final class RtGitHub implements GitHub {
 
@@ -261,6 +260,25 @@ public final class RtGitHub implements GitHub {
     @Override
     public Markdown markdown() {
         return new RtMarkdown(this, this.request);
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final RtGitHub other = (RtGitHub) obj;
+            result = this.request.equals(other.request);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.request.hashCode();
     }
 
 }
