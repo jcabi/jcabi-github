@@ -76,7 +76,7 @@ final class RtPullsTest {
                 new ApacheRequest(container.home()),
                 RtPullsTest.repo()
             );
-            final Pull pull = pulls.get(1000000000);
+            final Pull pull = pulls.get(1_000_000_000);
             MatcherAssert.assertThat(
                 "Values are not equal",
                 new Pull.Smart(pull).title(),
@@ -119,7 +119,7 @@ final class RtPullsTest {
      */
     private static JsonObject pull(final String title) {
         return Json.createObjectBuilder()
-            .add("number", 1000000000)
+            .add("number", 1_000_000_000)
             .add("state", Issue.OPEN_STATE)
             .add("title", title)
             .build();

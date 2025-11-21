@@ -168,7 +168,7 @@ final class RtPullCommentsTest {
         final int number = 4;
         final String response = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", 1000000000)
+            .add("id", 1_000_000_000)
             .add("body", body)
             .add("in_reply_to", number)
             .build()
@@ -260,7 +260,7 @@ final class RtPullCommentsTest {
         final String path, final int position) {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", 1000000000)
+            .add("id", 1_000_000_000)
             .add("body", body)
             .add("commit_id", commit)
             .add("path", path)
