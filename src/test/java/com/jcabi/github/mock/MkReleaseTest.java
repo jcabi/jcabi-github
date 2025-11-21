@@ -19,8 +19,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkRelease}.
  * @since 0.1
  */
-@SuppressWarnings("PMD.TooManyMethods")
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class MkReleaseTest {
     @Test
     void canDeleteRelease() throws IOException {

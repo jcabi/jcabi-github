@@ -28,9 +28,8 @@ import org.mockito.Mockito;
  * Test case for {@link RtPull}.
  * @since 0.7
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtPullTest {
     /**
      * Property name for ref name in pull request ref JSON object.

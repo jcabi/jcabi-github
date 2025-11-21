@@ -16,8 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link Status}.
  * @since 0.24
  */
-@SuppressWarnings("PMD.TooManyMethods")
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class StatusTest {
     /**
      * Name of state property in Status JSON object.

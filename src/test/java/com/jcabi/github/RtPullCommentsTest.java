@@ -30,9 +30,8 @@ import org.mockito.Mockito;
  * @since 0.8
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtPullCommentsTest {
 
     /**

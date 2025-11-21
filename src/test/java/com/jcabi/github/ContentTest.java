@@ -20,8 +20,7 @@ import org.mockito.Mockito;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings("PMD.TooManyMethods")
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class ContentTest {
     @Test
     void fetchesType() throws IOException {

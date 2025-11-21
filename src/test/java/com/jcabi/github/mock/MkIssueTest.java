@@ -25,8 +25,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-@SuppressWarnings("PMD.TooManyMethods")
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class MkIssueTest {
 
     /**

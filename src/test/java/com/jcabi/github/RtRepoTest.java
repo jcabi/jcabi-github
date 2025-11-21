@@ -28,9 +28,8 @@ import org.mockito.Mockito;
  * Test case for {@link RtRepo}.
  * @since 0.1
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtRepoTest {
 
     /**
