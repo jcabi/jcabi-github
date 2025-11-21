@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 public final class MkForksTest {
 
     @Test
-    @Ignore
+    @Disabled
     public void createsFork() throws IOException {
         final MkForks forks = new MkForks(
             new MkStorage.InFile(),

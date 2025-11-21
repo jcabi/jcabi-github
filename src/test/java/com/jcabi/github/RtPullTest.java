@@ -270,7 +270,7 @@ public final class RtPullTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void canFetchComments() {
         //to be implemented
     }

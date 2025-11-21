@@ -88,7 +88,7 @@ public final class RtGistITCase {
      */
     private static GitHub github(final String property) {
         final String key = System.getProperty(property);
-        Assume.assumeThat(
+        Assumptions.assumeThat(
             key,
             Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
         );

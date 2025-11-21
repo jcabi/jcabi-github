@@ -131,7 +131,7 @@ public final class RtRepoITCase {
      * https://github.com/jcabi/jcabi-github/issues/1007 .
      */
     @Test
-    @Ignore
+    @Disabled
     public void iteratesLanguages() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",

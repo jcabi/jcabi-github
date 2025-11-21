@@ -43,13 +43,13 @@ public final class MkPullsTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void canFetchEmptyListOfPulls() {
         // to be implemented
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void canFetchSinglePull() {
         // to be implemented
     }

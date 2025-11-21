@@ -221,7 +221,7 @@ public final class RtContentsITCase {
      *  directories (#968 and #903)
      */
     @Test
-    @Ignore
+    @Disabled
     public void iteratesContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);

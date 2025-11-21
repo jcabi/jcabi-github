@@ -28,7 +28,10 @@ public final class RtForksITCase {
         final String organization = System.getProperty(
             "failsafe.github.organization"
         );
-        Assume.assumeThat(organization, Matchers.notNullValue());
+        Assumptions.assumeTrue(
+            organization != null,
+            "Organization must be set for this test"
+        );
         final Repo repo = this.rule.repo(RtForksITCase.repos());
         try {
             final Fork fork = repo.forks().create(organization);

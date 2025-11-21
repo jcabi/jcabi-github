@@ -131,7 +131,7 @@ public final class RtPullCommentTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void reacts() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(

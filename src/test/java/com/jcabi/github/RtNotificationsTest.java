@@ -119,7 +119,7 @@ public final class RtNotificationsTest {
     }
 
     @Test
-    @Ignore
+    @Disabled
     public void markNotificationAsRead() {
         // Not implemented
     }

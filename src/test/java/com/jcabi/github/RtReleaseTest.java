@@ -48,7 +48,7 @@ public final class RtReleaseTest {
     /**
      * Setting up the test fixture.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         this.container = new MkGrizzlyContainer();
     }

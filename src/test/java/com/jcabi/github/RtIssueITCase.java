@@ -58,7 +58,7 @@ public final class RtIssueITCase {
      * https://github.com/jcabi/jcabi-github/issues/1178.
      * @throws Exception If some problem inside
      */
-    @Ignore
+    @Disabled
     @Test
     public void talksInGitHubProject() throws Exception {
         final Issue issue = RtIssueITCase.issue();
@@ -153,7 +153,7 @@ public final class RtIssueITCase {
             new Issue.Smart(issue).assign(login);
         } catch (final AssertionError error) {
             Logger.warn(this, "Test failed with error: %s", error.getMessage());
-            Assume.assumeFalse(
+            Assumptions.assumeFalse(
                 "Something wrong with your test account. Read test's java-doc.",
                 true
             );
