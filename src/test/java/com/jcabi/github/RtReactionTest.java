@@ -5,6 +5,7 @@
 package com.jcabi.github;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
