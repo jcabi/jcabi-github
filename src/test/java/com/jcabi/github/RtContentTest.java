@@ -31,6 +31,7 @@ import org.mockito.Mockito;
  */
 @Immutable
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtContentTest {
 
     /**

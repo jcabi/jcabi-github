@@ -30,6 +30,7 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtRepoTest {
 
     /**

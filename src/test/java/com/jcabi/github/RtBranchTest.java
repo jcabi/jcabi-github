@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtBranch}.
  * @since 0.8
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtBranchTest {
     /**
      * Test branch name.

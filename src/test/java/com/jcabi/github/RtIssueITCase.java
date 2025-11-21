@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class RtIssueITCase {
     /**
      * Test repos.

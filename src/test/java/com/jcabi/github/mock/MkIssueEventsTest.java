@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkIssueEvents}.
  * @since 0.23
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkIssueEventsTest {
     /**
      * Absent optional string.

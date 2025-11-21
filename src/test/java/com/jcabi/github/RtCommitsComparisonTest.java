@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtCommitsComparison}.
  * @since 0.8
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtCommitsComparisonTest {
 
     /**

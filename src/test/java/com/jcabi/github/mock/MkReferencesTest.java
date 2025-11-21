@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkReferencesTest {
 
     @Test

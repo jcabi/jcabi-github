@@ -29,6 +29,7 @@ import org.mockito.Mockito;
  * @since 1.5.0
  */
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtChecksTest {
 
     /**

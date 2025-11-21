@@ -310,6 +310,16 @@
                 <exclude>xml:/src/it/settings.xml</exclude>
                 <exclude>findbugs:.*</exclude>
                 <exclude>duplicatefinder:.*</exclude>
+                <exclude>dependencies:com.jcabi:jcabi-aspects</exclude>
+                <exclude>dependencies:com.jcabi:jcabi-immutable</exclude>
+                <exclude>dependencies:com.jcabi:jcabi-xml</exclude>
+                <exclude>dependencies:com.jcabi:jcabi-http</exclude>
+                <exclude>dependencies:com.jcabi.incubator:xembly</exclude>
+                <exclude>dependencies:com.jcabi:jcabi-log</exclude>
+                <exclude>dependencies:commons-io:commons-io</exclude>
+                <exclude>dependencies:org.apache.commons:commons-lang3</exclude>
+                <exclude>dependencies:org.hamcrest:hamcrest</exclude>
+                <exclude>dependencies:com.google.guava:guava</exclude>
               </excludes>
             </configuration>
           </plugin>

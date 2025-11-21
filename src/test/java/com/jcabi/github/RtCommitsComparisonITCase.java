@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtCommitsComparison}.
  * @since 0.24
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtCommitsComparisonITCase {
     /**
      * RtCommitsComparison can read the file changes in the comparison.

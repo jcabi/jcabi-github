@@ -116,6 +116,7 @@ final class MkGitHubTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.CloseResource")
     void canHandleMultipleThreads() throws IOException, InterruptedException {
         final Repo repo = new MkGitHub().randomRepo();
         final Callable<Void> task = new VerboseCallable<>(

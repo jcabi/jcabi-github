@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkReleaseTest {
     @Test
     void canDeleteRelease() throws IOException {

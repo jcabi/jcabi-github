@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtPublicKeysITCase {
 
     /**

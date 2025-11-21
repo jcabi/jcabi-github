@@ -10,5 +10,6 @@ package com.jcabi.github;
  * @todo #920 Create integration tests for at least
  *  iterate() and get() operations of RtNotifications.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public final class RtNotificationsITestCase {
 }

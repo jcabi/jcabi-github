@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 @SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class StatusTest {
     /**
      * Name of state property in Status JSON object.

@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkIssueLabels}.
  * @since 0.6
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkIssueLabelsTest {
     /**
      * Username of actor.

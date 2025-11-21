@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkBranches}.
  * @since 0.8
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkBranchesTest {
     /**
      * MkBranches can create a new branch.

@@ -32,6 +32,7 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtReleaseAssetTest {
 
     /**

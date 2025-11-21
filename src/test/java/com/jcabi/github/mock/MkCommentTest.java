@@ -20,6 +20,7 @@ import org.mockito.Mockito;
  * Test case for {@link MkComment}.
  * @since 0.1
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkCommentTest {
     /**
      * MkComment can change body.

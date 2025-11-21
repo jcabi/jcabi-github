@@ -44,6 +44,7 @@ final class MkStorageTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.CloseResource")
     void locksAndUnlocks() throws IOException, InterruptedException, ExecutionException {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
         final ExecutorService executor = Executors.newSingleThreadExecutor();

@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
  *  mark() operation in RtNotifications.
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtNotificationsTest {
 
     /**

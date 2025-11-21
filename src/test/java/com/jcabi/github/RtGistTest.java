@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtGistTest {
 
     /**

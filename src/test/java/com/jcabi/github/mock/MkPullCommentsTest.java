@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPullComments}.
  * @since 0.1
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkPullCommentsTest {
 
     @Test

@@ -65,6 +65,7 @@ final class MkGists implements Gists {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidAccessToStaticMembersViaThis")
     public Gist create(
         final Map<String, String> files, final boolean visible
     ) throws IOException {

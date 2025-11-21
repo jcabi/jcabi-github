@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class SmartJsonTest {
 
     @Test

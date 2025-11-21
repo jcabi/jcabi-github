@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link PullRef}.
  * @since 0.24
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class PullRefTest {
     /**
      * Test ref.

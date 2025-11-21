@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link FileChange}.
  * @since 0.24
  */
+@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class FileChangeTest {
     /**
      * FileChange.Smart can get the status of the file.

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkReleasesTest {
     @Test
     void canFetchEmptyListOfReleases() throws IOException {

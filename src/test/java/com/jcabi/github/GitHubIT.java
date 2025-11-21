@@ -24,6 +24,7 @@ public final class GitHubIT {
      * Return GitHub connected to live server.
      * @return The obj
      */
+    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
     public static GitHub connect() {
         final String key = System.getProperty("failsafe.github.key");
         Assumptions.assumeTrue(

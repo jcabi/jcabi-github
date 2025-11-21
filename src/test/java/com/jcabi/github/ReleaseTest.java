@@ -19,6 +19,7 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (400 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class ReleaseTest {
 
     @Test

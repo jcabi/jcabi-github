@@ -25,6 +25,7 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtLabelsTest {
     /**
      * The rule for skipping test if there's BindException.

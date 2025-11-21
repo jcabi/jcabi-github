@@ -211,12 +211,10 @@ final class RtSearchPagination<T> implements Iterable<T> {
             try {
                 return type.getDeclaredConstructor(Response.class)
                     .newInstance(this);
-            } catch (
-                final InstantiationException
-                    | IllegalAccessException
-                    | InvocationTargetException
-                    | NoSuchMethodException ex
-            ) {
+            } catch (final InstantiationException
+                | IllegalAccessException
+                | InvocationTargetException
+                | NoSuchMethodException ex) {
                 throw new IllegalStateException(ex);
             }
         }

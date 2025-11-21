@@ -60,6 +60,7 @@ final class RtStarsTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidUncheckedExceptionsInSignatures")
     void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -94,6 +95,7 @@ final class RtStarsTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidUncheckedExceptionsInSignatures")
     void unstarRepository()
         throws IOException, IllegalArgumentException, UriBuilderException {
         try (

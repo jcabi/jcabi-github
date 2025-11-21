@@ -25,6 +25,7 @@ import org.mockito.Mockito;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkPullTest {
     /**
      * Login of test user.

@@ -27,6 +27,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtBranchesTest {
 
     /**
