@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
@@ -169,7 +168,7 @@ final class RtPullCommentsTest {
         final int number = 4;
         final String response = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", Tv.BILLION)
+            .add("id", 1000000000)
             .add("body", body)
             .add("in_reply_to", number)
             .build()
@@ -261,7 +260,7 @@ final class RtPullCommentsTest {
         final String path, final int position) {
         return Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (2 line)
-            .add("id", Tv.BILLION)
+            .add("id", 1000000000)
             .add("body", body)
             .add("commit_id", commit)
             .add("path", path)

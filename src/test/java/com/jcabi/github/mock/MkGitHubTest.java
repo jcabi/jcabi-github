@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
@@ -125,7 +124,7 @@ final class MkGitHubTest {
                 return null;
             }
         );
-        final int threads = Tv.HUNDRED;
+        final int threads = 100;
         final Collection<Callable<Void>> tasks =
             new ArrayList<>(threads);
         for (int idx = 0; idx < threads; ++idx) {

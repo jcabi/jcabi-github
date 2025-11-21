@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repos;
@@ -146,6 +145,6 @@ final class MkCommentTest {
      */
     private static long now() {
         final long sinceepoch = new Date().getTime();
-        return sinceepoch - sinceepoch % Tv.THOUSAND;
+        return sinceepoch - sinceepoch % 1000;
     }
 }

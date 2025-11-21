@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -77,7 +76,7 @@ final class RtPullsTest {
                 new ApacheRequest(container.home()),
                 RtPullsTest.repo()
             );
-            final Pull pull = pulls.get(Tv.BILLION);
+            final Pull pull = pulls.get(1000000000);
             MatcherAssert.assertThat(
                 "Values are not equal",
                 new Pull.Smart(pull).title(),
@@ -120,7 +119,7 @@ final class RtPullsTest {
      */
     private static JsonObject pull(final String title) {
         return Json.createObjectBuilder()
-            .add("number", Tv.BILLION)
+            .add("number", 1000000000)
             .add("state", Issue.OPEN_STATE)
             .add("title", title)
             .build();

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -44,7 +43,7 @@ final class PullCommentTest {
     @Test
     void fetchesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
             Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
         ).when(comment).json();
@@ -58,7 +57,7 @@ final class PullCommentTest {
     @Test
     void updatesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).identifier(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(PullCommentTest.ID, value).build()
@@ -68,7 +67,7 @@ final class PullCommentTest {
     @Test
     void fetchesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
             Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
         ).when(comment).json();
@@ -82,7 +81,7 @@ final class PullCommentTest {
     @Test
     void updatesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).commitId(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(PullCommentTest.COMMIT_ID, value).build()
@@ -92,7 +91,7 @@ final class PullCommentTest {
     @Test
     void fetchesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
             Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
         ).when(comment).json();
@@ -106,7 +105,7 @@ final class PullCommentTest {
     @Test
     void updatesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).url(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(PullCommentTest.URL, value).build()
@@ -116,7 +115,7 @@ final class PullCommentTest {
     @Test
     void fetchesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         Mockito.doReturn(
             Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
         ).when(comment).json();
@@ -130,7 +129,7 @@ final class PullCommentTest {
     @Test
     void updatesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         new PullComment.Smart(comment).body(value);
         Mockito.verify(comment).patch(
             Json.createObjectBuilder().add(PullCommentTest.BODY, value).build()
@@ -140,7 +139,7 @@ final class PullCommentTest {
     @Test
     void retrievesAuthor() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
-        final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String value = RandomStringUtils.secure().nextAlphanumeric(10);
         final JsonObject user = Json.createObjectBuilder()
             .add("login", value).build();
         Mockito.doReturn(

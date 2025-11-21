@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.http.wire.RetryWire;
 import com.jcabi.immutable.ArrayMap;
 import java.io.IOException;
@@ -59,7 +58,7 @@ final class RtMilestonesITCase {
     void iteratesIssues() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.secure().nextAlphabetic(10)
         );
         try {
             MatcherAssert.assertThat(
@@ -76,7 +75,7 @@ final class RtMilestonesITCase {
     void createsNewMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create(
-            RandomStringUtils.randomAlphabetic(Tv.TEN)
+            RandomStringUtils.secure().nextAlphabetic(10)
         );
         try {
             MatcherAssert.assertThat(

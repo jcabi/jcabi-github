@@ -5,7 +5,6 @@
 package com.jcabi.github.mock;
 
 import com.google.common.collect.Lists;
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Language;
 import com.jcabi.github.Milestones;
@@ -154,7 +153,7 @@ final class MkRepoTest {
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             Lists.newArrayList(languages),
-            Matchers.hasSize(Tv.THREE)
+            Matchers.hasSize(3)
         );
     }
 

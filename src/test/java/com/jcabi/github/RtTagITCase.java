@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -62,7 +61,7 @@ final class RtTagITCase {
     @Test
     void fetchesJson() throws IOException {
         final String object = "object";
-        final String tag = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String tag = RandomStringUtils.secure().nextAlphanumeric(10);
         final References refs = RtTagITCase.repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject(object).getString("sha");

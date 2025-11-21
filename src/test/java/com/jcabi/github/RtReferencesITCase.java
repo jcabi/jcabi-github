@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -61,7 +60,7 @@ final class RtReferencesITCase {
     @Test
     void createsReference() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/tags/")
             .append(name);
         final Reference reference = refs.create(
@@ -82,7 +81,7 @@ final class RtReferencesITCase {
     @Test
     void iteratesReferences() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/heads/")
             .append(name);
         refs.create(
@@ -106,7 +105,7 @@ final class RtReferencesITCase {
     @Test
     void iteratesReferencesInSubNamespace() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/heads/")
             .append(name);
         refs.create(

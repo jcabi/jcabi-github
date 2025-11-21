@@ -97,7 +97,7 @@ final class RtBlobsTest {
     private static JsonObject blob() {
         return Json.createObjectBuilder()
             .add("url", "http://localhost/1")
-            .add("sha", RandomStringUtils.random(40, "0123456789abcdef"))
+            .add("sha", RandomStringUtils.secure().next(40, "0123456789abcdef"))
             .build();
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
@@ -302,7 +301,7 @@ final class RtUserTest {
 
     @Test
     void hasPublicRepos() throws IOException {
-        final int value = Tv.THREE;
+        final int value = 3;
         final User.Smart smart = RtUserTest.userWith(
             "public_repos",
             String.valueOf(value)
@@ -314,7 +313,7 @@ final class RtUserTest {
 
     @Test
     void hasPublicGists() throws IOException {
-        final int value = Tv.FOUR;
+        final int value = 4;
         final User.Smart smart = RtUserTest.userWith(
             "public_gists",
             String.valueOf(value)
@@ -326,7 +325,7 @@ final class RtUserTest {
 
     @Test
     void hasFollowersCount() throws IOException {
-        final int value = Tv.FIVE;
+        final int value = 5;
         final User.Smart smart = RtUserTest.userWith(
             "followers",
             String.valueOf(value)
@@ -338,7 +337,7 @@ final class RtUserTest {
 
     @Test
     void hasFollowingCount() throws IOException {
-        final int value = Tv.SIX;
+        final int value = 6;
         final User.Smart smart = RtUserTest.userWith(
             "following",
             String.valueOf(value)

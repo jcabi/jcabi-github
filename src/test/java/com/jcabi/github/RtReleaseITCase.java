@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -62,10 +61,10 @@ final class RtReleaseITCase {
     @Test
     void canEditRelease() throws IOException {
         final Release release = RtReleaseITCase.repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final JsonObject patch = Json.createObjectBuilder()
-            .add("tag_name", RandomStringUtils.randomAlphanumeric(Tv.TEN))
+            .add("tag_name", RandomStringUtils.secure().nextAlphanumeric(10))
             .add("name", "jcabi GitHub test release")
             .add("body", "jcabi GitHub was here!")
             .build();

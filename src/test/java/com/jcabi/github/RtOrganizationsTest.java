@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -77,7 +76,7 @@ final class RtOrganizationsTest {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
                 orgs.iterate(),
-                Matchers.iterableWithSize(Tv.THREE)
+                Matchers.iterableWithSize(3)
             );
             MatcherAssert.assertThat(
                 "String does not end with expected value",

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -48,7 +47,7 @@ final class RtReleaseAssetITCase {
         RtReleaseAssetITCase.repos = github.repos();
         RtReleaseAssetITCase.repo = RtReleaseAssetITCase.rule.repo(RtReleaseAssetITCase.repos);
         RtReleaseAssetITCase.repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
     }
 
@@ -64,7 +63,7 @@ final class RtReleaseAssetITCase {
 
     @Test
     void fetchAsJson() throws IOException {
-        final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final Release release = RtReleaseAssetITCase.repo.releases().create(name);
         try {
             MatcherAssert.assertThat(
@@ -80,7 +79,7 @@ final class RtReleaseAssetITCase {
     @Test
     void executePatchRequest() throws IOException {
         final Release release = RtReleaseAssetITCase.repo.releases().create(
-            String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
+            String.format("v%s", RandomStringUtils.secure().nextAlphanumeric(10))
         );
         try {
             final String desc = "Description of the release";
@@ -98,7 +97,7 @@ final class RtReleaseAssetITCase {
     @Test
     void removesReleaseAsset() throws IOException {
         final Releases releases = RtReleaseAssetITCase.repo.releases();
-        final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+        final String rname = RandomStringUtils.secure().nextAlphanumeric(10);
         final Release release = releases.create(rname);
         try {
             MatcherAssert.assertThat(

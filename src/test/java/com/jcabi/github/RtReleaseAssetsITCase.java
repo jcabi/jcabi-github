@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -47,7 +46,7 @@ final class RtReleaseAssetsITCase {
         RtReleaseAssetsITCase.repos = github.repos();
         RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
         RtReleaseAssetsITCase.repo.releases().create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
     }
 
@@ -65,7 +64,7 @@ final class RtReleaseAssetsITCase {
     void uploadsAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -88,7 +87,7 @@ final class RtReleaseAssetsITCase {
     void uploadsTwoAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final String name = "upload.txt";
@@ -122,10 +121,10 @@ final class RtReleaseAssetsITCase {
     void uploadsSameAssetInTwoReleases() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final Release otherrelease = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final ReleaseAssets assets = release.assets();
         final ReleaseAssets otherassets = otherrelease.assets();
@@ -161,7 +160,7 @@ final class RtReleaseAssetsITCase {
     void fetchesAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset uploaded = assets.upload(
@@ -183,7 +182,7 @@ final class RtReleaseAssetsITCase {
     void iteratesAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             final ReleaseAsset first = assets.upload(
@@ -210,7 +209,7 @@ final class RtReleaseAssetsITCase {
     void returnsNoAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
-            .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
+            .create(RandomStringUtils.secure().nextAlphanumeric(10));
         final ReleaseAssets assets = release.assets();
         try {
             MatcherAssert.assertThat(

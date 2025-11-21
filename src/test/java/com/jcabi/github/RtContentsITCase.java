@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -51,7 +50,7 @@ final class RtContentsITCase {
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             final String message = "commit message";
             final Content content = contents.create(
                 RtContentsITCase.jsonObject(
@@ -92,7 +91,7 @@ final class RtContentsITCase {
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             final String message = "Commit message";
             final Content content = contents.create(
                 RtContentsITCase.jsonObject(
@@ -134,7 +133,7 @@ final class RtContentsITCase {
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             final String message = "commit message";
             final Content content = contents.create(
                 RtContentsITCase.jsonObject(
@@ -161,7 +160,7 @@ final class RtContentsITCase {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             MatcherAssert.assertThat(
                 "Values are not equal",
                 repos.get(repo.coordinates()).contents().create(
@@ -183,7 +182,7 @@ final class RtContentsITCase {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             final String message = String.format("testMessage");
             final String cont = new String(
                 Base64.encodeBase64(
@@ -224,12 +223,12 @@ final class RtContentsITCase {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            final String afile = RandomStringUtils.randomAlphanumeric(Tv.TEN);
-            final String dir = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String afile = RandomStringUtils.secure().nextAlphanumeric(10);
+            final String dir = RandomStringUtils.secure().nextAlphanumeric(10);
             final String bfile = String.format(
                 "%s/%s",
                 dir,
-                RandomStringUtils.randomAlphanumeric(Tv.TEN)
+                RandomStringUtils.secure().nextAlphanumeric(10)
             );
             final String message = String.format("testMessage");
             final Contents contents = repos.get(repo.coordinates()).contents();
@@ -267,7 +266,7 @@ final class RtContentsITCase {
                 iterated,
                 Matchers.allOf(
                     Matchers.hasItems(contents.get(afile), contents.get(dir)),
-                    Matchers.iterableWithSize(Tv.THREE)
+                    Matchers.iterableWithSize(3)
                 )
             );
         } finally {
@@ -280,7 +279,7 @@ final class RtContentsITCase {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
-            final String path = RandomStringUtils.randomAlphanumeric(Tv.TEN);
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             final String cont = new String(
                 Base64.encodeBase64(
                     String.format("exist%d", System.currentTimeMillis())

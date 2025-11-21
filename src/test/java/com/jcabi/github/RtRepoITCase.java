@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
@@ -43,7 +42,7 @@ final class RtRepoITCase {
         RtRepoITCase.repos = github.repos();
         RtRepoITCase.repo = RtRepoITCase.repos.create(
             new Repos.RepoCreate(
-                RandomStringUtils.randomAlphanumeric(Tv.TEN),
+                RandomStringUtils.secure().nextAlphanumeric(10),
                 false
             ).withAutoInit(true)
         );

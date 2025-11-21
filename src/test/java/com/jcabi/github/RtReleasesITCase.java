@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -61,7 +60,7 @@ final class RtReleasesITCase {
     void canFetchAllReleases() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         try {
             MatcherAssert.assertThat(
@@ -118,7 +117,7 @@ final class RtReleasesITCase {
     void canRemoveRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
@@ -137,9 +136,9 @@ final class RtReleasesITCase {
     void canEditTag() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
-        final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIFTEEN);
+        final String tag = RandomStringUtils.secure().nextAlphanumeric(15);
         new Release.Smart(release).tag(tag);
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -153,7 +152,7 @@ final class RtReleasesITCase {
     void canEditBody() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
-            RandomStringUtils.randomAlphanumeric(Tv.TEN)
+            RandomStringUtils.secure().nextAlphanumeric(10)
         );
         final String body = "Description of the release";
         new Release.Smart(release).body(body);

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -54,7 +53,7 @@ final class RtLimitTest {
      * @return Body string.
      */
     private static String body() {
-        return new StringBuilder(Tv.HUNDRED)
+        return new StringBuilder(100)
             .append("{\"resources\":{\"core\":{\"limit\":5000, ")
             .append("\"remaining\":4999, \"reset\":1372700873}, ")
             .append("\"search\":{\"limit\":20, \"remaining\":18, ")

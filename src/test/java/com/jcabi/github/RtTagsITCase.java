@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
@@ -64,7 +63,7 @@ final class RtTagsITCase {
         final References refs = RtTagsITCase.repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
-        final String tag = RandomStringUtils.randomAlphanumeric(Tv.FIVE);
+        final String tag = RandomStringUtils.secure().nextAlphanumeric(5);
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "scott@gmail.com")
             .add("date", "2013-06-17T14:53:35-07:00").build();

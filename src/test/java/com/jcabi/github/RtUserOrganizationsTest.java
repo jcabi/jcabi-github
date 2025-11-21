@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
@@ -38,9 +37,9 @@ final class RtUserOrganizationsTest {
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
                 Json.createArrayBuilder()
-                    .add(RtUserOrganizationsTest.org(Tv.THREE, "org11"))
-                    .add(RtUserOrganizationsTest.org(Tv.FOUR, "org12"))
-                    .add(RtUserOrganizationsTest.org(Tv.FIVE, "org13"))
+                    .add(RtUserOrganizationsTest.org(3, "org11"))
+                    .add(RtUserOrganizationsTest.org(4, "org12"))
+                    .add(RtUserOrganizationsTest.org(5, "org13"))
                     .build().toString()
             )
         ).start(RandomPort.port());
@@ -53,7 +52,7 @@ final class RtUserOrganizationsTest {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
                 orgs.iterate(),
-                Matchers.iterableWithSize(Tv.THREE)
+                Matchers.iterableWithSize(3)
             );
             MatcherAssert.assertThat(
                 "String does not end with expected value",

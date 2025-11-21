@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -63,14 +62,14 @@ final class IssueTest {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(repo).when(issue).repo();
         Mockito.doReturn(pulls).when(repo).pulls();
-        Mockito.when(pulls.get(ArgumentMatchers.eq(Tv.THREE))).thenReturn(pull);
+        Mockito.when(pulls.get(ArgumentMatchers.eq(3))).thenReturn(pull);
         MatcherAssert.assertThat(
             "Values are not equal",
             new Issue.Smart(issue).isPull(),
             Matchers.is(true)
         );
         new Issue.Smart(issue).pull();
-        Mockito.verify(pulls).get(Tv.THREE);
+        Mockito.verify(pulls).get(3);
     }
 
     @Test

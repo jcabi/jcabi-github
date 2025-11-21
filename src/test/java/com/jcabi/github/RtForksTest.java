@@ -52,7 +52,7 @@ final class RtForksTest {
 
     @Test
     void createsFork() throws IOException {
-        final String organization = RandomStringUtils.randomAlphanumeric(10);
+        final String organization = RandomStringUtils.secure().nextAlphanumeric(10);
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
             RtForksTest.fork(organization).toString()

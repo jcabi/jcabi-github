@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentHashMap;
@@ -108,7 +107,7 @@ final class RtHooksITCase {
             "url",
             String.format(
                 "http://github.jcabi.invalid/hooks/%s",
-                RandomStringUtils.random(Tv.TWENTY)
+                RandomStringUtils.secure().next(20)
             )
         );
         config.put("content_type", "json");

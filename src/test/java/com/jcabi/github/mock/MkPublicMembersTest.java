@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Organization;
 import com.jcabi.github.PublicMembers;
 import com.jcabi.github.User;
@@ -141,6 +140,6 @@ final class MkPublicMembersTest {
     private static MkOrganization organization() throws IOException {
         return (MkOrganization) new MkOrganizations(
             new MkStorage.InFile()
-        ).get(RandomStringUtils.randomAlphanumeric(Tv.TWENTY));
+        ).get(RandomStringUtils.secure().nextAlphanumeric(20));
     }
 }

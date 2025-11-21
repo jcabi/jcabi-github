@@ -5,7 +5,6 @@
 package com.jcabi.github.mock;
 
 import com.google.common.base.Optional;
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.Event;
 import java.io.IOException;
 import java.util.Iterator;
@@ -187,6 +186,6 @@ final class MkIssueEventsTest {
      */
     private static long now() {
         final long sinceepoch = System.currentTimeMillis();
-        return sinceepoch - sinceepoch % Tv.THOUSAND;
+        return sinceepoch - sinceepoch % 1000;
     }
 }

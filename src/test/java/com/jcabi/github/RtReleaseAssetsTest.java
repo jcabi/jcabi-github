@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
@@ -70,8 +69,8 @@ final class RtReleaseAssetsTest {
         );
         MatcherAssert.assertThat(
             "Values are not equal",
-            assets.get(Tv.THREE).number(),
-            Matchers.is(Tv.THREE)
+            assets.get(3).number(),
+            Matchers.is(3)
         );
     }
 

@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import java.util.EnumMap;
 import java.util.Iterator;
 import org.hamcrest.MatcherAssert;
@@ -39,14 +38,14 @@ final class RtSearchITCase {
             "java", "", Search.Order.DESC
         ).iterator();
         int count = 0;
-        while (iter.hasNext() && count < Tv.HUNDRED) {
+        while (iter.hasNext() && count < 100) {
             iter.next().coordinates();
             count += 1;
         }
         MatcherAssert.assertThat(
             "Value is not greater than expected",
             count,
-            Matchers.greaterThanOrEqualTo(Tv.HUNDRED)
+            Matchers.greaterThanOrEqualTo(100)
         );
     }
 

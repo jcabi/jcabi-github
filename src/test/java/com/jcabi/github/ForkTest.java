@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import jakarta.json.Json;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -69,7 +68,7 @@ final class ForkTest {
     @Test
     void fetchesSize() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
-        final int prop = Tv.HUNDRED;
+        final int prop = 100;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("size", prop)
@@ -155,9 +154,9 @@ final class ForkTest {
     @Test
     void fetchesCounts() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
-        final int forks = Tv.TEN;
-        final int stargazers = Tv.TWENTY;
-        final int watchers = Tv.THIRTY;
+        final int forks = 10;
+        final int stargazers = 20;
+        final int watchers = 30;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("forks_count", forks)
@@ -186,7 +185,7 @@ final class ForkTest {
     @Test
     void openIssues() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
-        final int issues = Tv.TEN;
+        final int issues = 10;
         Mockito.doReturn(
             Json.createObjectBuilder()
                 .add("open_issues_count", issues)

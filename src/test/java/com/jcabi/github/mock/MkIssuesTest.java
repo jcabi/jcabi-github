@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
@@ -31,7 +30,7 @@ final class MkIssuesTest {
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             repo.issues().iterate(new ArrayMap<>()),
-            Matchers.iterableWithSize(Tv.THREE)
+            Matchers.iterableWithSize(3)
         );
     }
 
@@ -54,7 +53,7 @@ final class MkIssuesTest {
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("test-3", false)
         );
-        for (int idx = 1; idx < Tv.TEN; ++idx) {
+        for (int idx = 1; idx < 10; ++idx) {
             repo.issues().create("title", "body");
         }
     }

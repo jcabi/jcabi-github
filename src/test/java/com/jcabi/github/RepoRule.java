@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import com.jcabi.log.Logger;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -30,7 +29,7 @@ public final class RepoRule {
         Repo repo = null;
         while (repo == null) {
             final Repos.RepoCreate request = settings.withName(
-                RandomStringUtils.randomAlphanumeric(Tv.TWENTY)
+                RandomStringUtils.secure().nextAlphanumeric(20)
             );
             try {
                 repo = repos.create(request);
@@ -40,7 +39,7 @@ public final class RepoRule {
                     ex.getMessage()
                 );
                 ++attempts;
-                if (attempts > Tv.FIVE) {
+                if (attempts > 5) {
                     throw new IllegalStateException(
                         String.format(
                             "Failed to created repository %s",

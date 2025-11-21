@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.aspects.Tv;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -79,7 +78,7 @@ final class RtAssigneesITCase {
         MatcherAssert.assertThat(
             "Values are not equal",
             RtAssigneesITCase.repo.assignees()
-                .check(RandomStringUtils.randomAlphanumeric(Tv.TEN)),
+                .check(RandomStringUtils.secure().nextAlphanumeric(10)),
             Matchers.is(false)
         );
     }
