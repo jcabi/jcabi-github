@@ -79,7 +79,7 @@ final class RtGistsTest {
     }
 
     @Test
-    void canIterateThrouRtGists() throws IOException {
+    void canIterateThroughRtGists() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

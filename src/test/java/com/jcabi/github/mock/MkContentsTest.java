@@ -318,7 +318,7 @@ final class MkContentsTest {
     }
 
     /**
-     * Adds colection of test content items.
+     * Adds collection of test content items.
      * @param repo The repo.
      * @param paths Test items to be created inside the repo.
      * @return Iterable with created items.

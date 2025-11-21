@@ -1,3 +1,5 @@
+# GitHub API Object-Oriented Java Client
+
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](https://www.elegantobjects.org)
 [![DevOps By Rultor.com](https://www.rultor.com/b/jcabi/jcabi-github)](https://www.rultor.com/p/jcabi/jcabi-github)
 [![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
@@ -14,7 +16,7 @@ This is a Java adapter to the [GitHub RESTful API].
 There are a few other similar implementations on the market,
 but jcabi-github has a very strong focus on
 object-oriented principles of programming. On top of that,
-we have a unique implemenation of GitHub server-side functionality,
+we have a unique implementation of GitHub server-side functionality,
 which you can use in your unit tests, eliminating the necessity to connect
 to GitHub during unit/integration testing.
 Please, read the blog post
@@ -126,7 +128,8 @@ a new GitHub OAuth access tokens
 and provide them in command line, like this:
 
 ```bash
-mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> -Dfailsafe.github.key.second=<second-token> -Dfailsafe.github.repo=<repo>
+mvn clean install -Dit.test=RtGistITCase -Dfailsafe.github.key=<token> \
+  -Dfailsafe.github.key.second=<second-token> -Dfailsafe.github.repo=<repo>
 ```
 
 Replace `<token>` and `<second-token>` with the OAuth access tokens

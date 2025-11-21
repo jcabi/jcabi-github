@@ -4,12 +4,12 @@
  */
 
 /**
- * Object Oriented GitHub API.
+ * Object-Oriented GitHub API.
  *
  * <p>The only dependency you need is (check our latest version available
  * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
  *
- * <pre>&lt;depedency&gt;
+ * <pre>&lt;dependency&gt;
  *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
  *   &lt;artifactId&gt;jcabi-github&lt;/artifactId&gt;
  * &lt;/dependency&gt;</pre>

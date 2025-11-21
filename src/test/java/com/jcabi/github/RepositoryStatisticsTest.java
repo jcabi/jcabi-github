@@ -116,7 +116,7 @@ final class RepositoryStatisticsTest {
     private static String updatedValue = "2012-01-26T19:14:43Z";
 
     /**
-     * Checks that RepositryStatistics can convert all values to a map.
+     * Checks that RepositoryStatistics can convert all values to a map.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -173,7 +173,7 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositryStatistics.Smart can retrieve all values.
+     * Checks that RepositoryStatistics.Smart can retrieve all values.
      * @throws IOException If some problem with I/O happened.
      */
     @Test

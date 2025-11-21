@@ -163,7 +163,7 @@ final class ReleaseTest {
      * (NULL json value).
      */
     @Test
-    void incidatesNoName() throws IOException {
+    void indicatesNoName() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

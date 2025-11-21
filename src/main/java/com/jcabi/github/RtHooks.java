@@ -101,15 +101,15 @@ final class RtHooks implements Hooks {
         for (final Map.Entry<String, String> entr : config.entrySet()) {
             configs.add(entr.getKey(), entr.getValue());
         }
-        final JsonArrayBuilder evnts = Json.createArrayBuilder();
+        final JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final Event event : events) {
-            evnts.add(event.toString());
+            builder.add(event.toString());
         }
         final JsonStructure json = Json.createObjectBuilder()
             .add("name", name)
             .add("config", configs)
             .add("active", active)
-            .add("events", evnts)
+            .add("events", builder)
             .build();
         return this.get(
             this.request.method(Request.POST)

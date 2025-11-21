@@ -177,7 +177,7 @@ final class RtUserTest {
     }
 
     @Test
-    void hasFollwersUrl() throws IOException {
+    void hasFollowersUrl() throws IOException {
         final String value = "http://github.example.com/followers";
         final User.Smart smart = RtUserTest.userWith("followers_url", value);
         MatcherAssert.assertThat(
@@ -423,7 +423,7 @@ final class RtUserTest {
 
     /**
      * Return User.Smart with given property.
-     * @param property The propery as specified at https://developer.github.com/v3/users/#get-a-single-user
+     * @param property The property as specified at https://developer.github.com/v3/users/#get-a-single-user
      * @param value The property value
      * @return User.Smart with given property.
      */

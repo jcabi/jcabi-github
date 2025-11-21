@@ -160,7 +160,7 @@ public interface MkStorage {
     }
 
     /**
-     * Syncronized.
+     * Synchronized.
      * @since 0.5
      */
     @Immutable

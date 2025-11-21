@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "owner", "nam", "hash" })
+@EqualsAndHashCode(of = { "entry", "owner", "branch", "hash" })
 public final class RtBranch implements Branch {
     /**
      * API entry point.
@@ -30,7 +30,7 @@ public final class RtBranch implements Branch {
     /**
      * Name of this branch.
      */
-    private final transient String nam;
+    private final transient String branch;
 
     /**
      * Commit SHA hash.
@@ -52,7 +52,7 @@ public final class RtBranch implements Branch {
         final String sha) {
         this.entry = req;
         this.owner = repo;
-        this.nam = nom;
+        this.branch = nom;
         this.hash = sha;
     }
 
@@ -63,7 +63,7 @@ public final class RtBranch implements Branch {
 
     @Override
     public String name() {
-        return this.nam;
+        return this.branch;
     }
 
     @Override

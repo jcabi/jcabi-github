@@ -93,12 +93,12 @@ public interface Repos {
     @SuppressWarnings("PMD.TooManyMethods")
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = {"nam", "priv", "descr", "home", "init"})
+    @EqualsAndHashCode(of = {"repo", "priv", "descr", "home", "init"})
     final class RepoCreate implements JsonReadable {
         /**
          * Name of the new repo.
          */
-        private final transient String nam;
+        private final transient String repo;
 
         /**
          * Privateness of the new repo.
@@ -164,7 +164,7 @@ public interface Repos {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");
             }
-            this.nam = nme;
+            this.repo = nme;
             this.priv = prvt;
             this.descr = desc;
             this.home = page;
@@ -178,7 +178,7 @@ public interface Repos {
          * @return Name
          */
         public String name() {
-            return this.nam;
+            return this.repo;
         }
 
         /**
@@ -250,7 +250,7 @@ public interface Repos {
          */
         public Repos.RepoCreate withPrivacy(final boolean privacy) {
             return new Repos.RepoCreate(
-                this.nam,
+                this.repo,
                 privacy,
                 this.descr,
                 this.home,
@@ -268,7 +268,7 @@ public interface Repos {
             final String desc
         ) {
             return new Repos.RepoCreate(
-                this.nam,
+                this.repo,
                 this.priv,
                 desc,
                 this.home,
@@ -286,7 +286,7 @@ public interface Repos {
             final String page
         ) {
             return new Repos.RepoCreate(
-                this.nam,
+                this.repo,
                 this.priv,
                 this.descr,
                 page,
@@ -302,7 +302,7 @@ public interface Repos {
          */
         public Repos.RepoCreate withAutoInit(final Optional<Boolean> auto) {
             return new Repos.RepoCreate(
-                this.nam,
+                this.repo,
                 this.priv,
                 this.descr,
                 this.home,
@@ -318,7 +318,7 @@ public interface Repos {
          */
         public Repos.RepoCreate withAutoInit(final boolean auto) {
             return new Repos.RepoCreate(
-                this.nam,
+                this.repo,
                 this.priv,
                 this.descr,
                 this.home,
@@ -334,7 +334,7 @@ public interface Repos {
          */
         public Repos.RepoCreate withOrganization(final String org) {
             return new Repos.RepoCreate(
-                this.nam,
+                this.repo,
                 this.priv,
                 this.descr,
                 this.home,
@@ -362,7 +362,7 @@ public interface Repos {
         @Override
         public JsonObject json() {
             JsonObjectBuilder builder = Json.createObjectBuilder()
-                .add("name", this.nam)
+                .add("name", this.repo)
                 .add("description", this.descr)
                 .add("homepage", this.home)
                 .add("private", this.priv);
