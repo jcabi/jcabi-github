@@ -25,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "request" })
-@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtHooks implements Hooks {
     /**
      * API entry point.

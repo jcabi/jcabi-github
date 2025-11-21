@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner" })
-@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtLabels implements Labels {
 
     /**

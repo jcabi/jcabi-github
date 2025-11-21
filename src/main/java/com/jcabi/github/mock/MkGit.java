@@ -28,7 +28,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkGit implements Git {
 
     /**

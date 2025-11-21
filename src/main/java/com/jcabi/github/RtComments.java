@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
-@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtComments implements Comments {
 
     /**

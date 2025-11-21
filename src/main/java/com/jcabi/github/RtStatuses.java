@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
  * @since 0.23
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 public class RtStatuses implements Statuses {
 
     /**

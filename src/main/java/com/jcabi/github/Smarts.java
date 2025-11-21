@@ -84,8 +84,8 @@ public final class Smarts<T> implements Iterable<T> {
             return (X) Smarts.type(object).newInstance(object);
         } catch (
             final InvocationTargetException
-            | InstantiationException
-            | IllegalAccessException ex
+                | InstantiationException
+                | IllegalAccessException ex
         ) {
             throw new IllegalStateException(ex);
         }

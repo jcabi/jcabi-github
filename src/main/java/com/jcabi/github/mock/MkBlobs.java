@@ -20,7 +20,7 @@ import org.xembly.Directives;
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
+@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkBlobs implements Blobs {
 
     /**
