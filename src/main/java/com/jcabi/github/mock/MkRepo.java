@@ -302,6 +302,30 @@ final class MkRepo implements Repo {
         return this.coords.compareTo(repo.coordinates());
     }
 
+    @Override
+    public boolean equals(final Object obj) {
+        final boolean result;
+        if (this == obj) {
+            result = true;
+        } else if (obj == null || this.getClass() != obj.getClass()) {
+            result = false;
+        } else {
+            final MkRepo other = (MkRepo) obj;
+            result = this.storage.equals(other.storage)
+                && this.self.equals(other.self)
+                && this.coords.equals(other.coords);
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.storage.hashCode();
+        result = 31 * result + this.self.hashCode();
+        result = 31 * result + this.coords.hashCode();
+        return result;
+    }
+
     /**
      * XPath of this element in XML tree.
      * @return XPath
