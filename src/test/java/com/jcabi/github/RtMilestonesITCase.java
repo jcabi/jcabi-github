@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtMilestonesITCase {
+final class RtMilestonesITCase {
     /**
      * Test repos.
      */
@@ -37,7 +37,7 @@ public final class RtMilestonesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = new RtGitHub(
             GitHubIT.connect().entry().through(RetryWire.class)
         );
@@ -49,14 +49,14 @@ public final class RtMilestonesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtMilestonesITCase.repos != null && RtMilestonesITCase.repo != null) {
             RtMilestonesITCase.repos.remove(RtMilestonesITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void iteratesIssues() throws IOException {
+    void iteratesIssues() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create(
             RandomStringUtils.randomAlphabetic(Tv.TEN)
@@ -73,7 +73,7 @@ public final class RtMilestonesITCase {
     }
 
     @Test
-    public void createsNewMilestone() throws IOException {
+    void createsNewMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create(
             RandomStringUtils.randomAlphabetic(Tv.TEN)
@@ -90,7 +90,7 @@ public final class RtMilestonesITCase {
     }
 
     @Test
-    public void deleteMilestone() throws IOException {
+    void deleteMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create("a milestones");
         MatcherAssert.assertThat(

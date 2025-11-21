@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.ConsecutiveLiteralAppends")
-public final class RtReferencesITCase {
+final class RtReferencesITCase {
 
     /**
      * RepoRule.
@@ -42,7 +42,7 @@ public final class RtReferencesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtReferencesITCase.repos = github.repos();
         RtReferencesITCase.repo = RtReferencesITCase.RULE.repo(RtReferencesITCase.repos);
@@ -52,14 +52,14 @@ public final class RtReferencesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtReferencesITCase.repos != null && RtReferencesITCase.repo != null) {
             RtReferencesITCase.repos.remove(RtReferencesITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void createsReference() throws IOException {
+    void createsReference() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder("refs/tags/")
@@ -80,7 +80,7 @@ public final class RtReferencesITCase {
     }
 
     @Test
-    public void iteratesReferences() throws IOException {
+    void iteratesReferences() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder("refs/heads/")
@@ -104,7 +104,7 @@ public final class RtReferencesITCase {
      * RtReference can iterate over references in sub-namespace.
      */
     @Test
-    public void iteratesReferencesInSubNamespace() throws IOException {
+    void iteratesReferencesInSubNamespace() throws IOException {
         final References refs = RtReferencesITCase.repo.git().references();
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final StringBuilder builder = new StringBuilder("refs/heads/")

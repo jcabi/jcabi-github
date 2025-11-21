@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
-public final class RtStarsITCase {
+final class RtStarsITCase {
     /**
      * Test repos.
      */
@@ -32,7 +32,7 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @BeforeAll
-    public void setUp() throws IOException  {
+    void setUp() throws IOException  {
         final GitHub github = GitHubIT.connect();
         RtStarsITCase.repos = github.repos();
         RtStarsITCase.repo = new RepoRule().repo(RtStarsITCase.repos);
@@ -43,7 +43,7 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @AfterAll
-    public void tearDown() throws IOException  {
+    void tearDown() throws IOException  {
         if (RtStarsITCase.repos != null && RtStarsITCase.repo != null) {
             RtStarsITCase.repos.remove(RtStarsITCase.repo.coordinates());
         }
@@ -55,7 +55,7 @@ public final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @Test
-    public void starsUnstarsChecksStar() throws IOException {
+    void starsUnstarsChecksStar() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             RtStarsITCase.repo.stars().starred(),

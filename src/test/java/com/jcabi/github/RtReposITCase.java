@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.5
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.DELETE_REPO })
-public final class RtReposITCase {
+final class RtReposITCase {
 
     /**
      * RepoRule.
@@ -23,7 +23,7 @@ public final class RtReposITCase {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public void create() throws IOException {
+    void create() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -36,7 +36,7 @@ public final class RtReposITCase {
     }
 
     @Test
-    public void failsOnCreationOfTwoRepos() throws IOException {
+    void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -49,7 +49,7 @@ public final class RtReposITCase {
     }
 
     @Test
-    public void exists() throws IOException {
+    void exists() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -64,7 +64,7 @@ public final class RtReposITCase {
     }
 
     @Test
-    public void createWithOrganization() throws IOException {
+    void createWithOrganization() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = repos.create(
             new Repos.RepoCreate("test", false).withOrganization("myorg")

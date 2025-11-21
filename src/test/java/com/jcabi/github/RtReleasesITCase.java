@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtReleasesITCase {
+final class RtReleasesITCase {
 
     /**
      * Test repos.
@@ -40,7 +40,7 @@ public final class RtReleasesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtReleasesITCase.repos = github.repos();
         RtReleasesITCase.repo = RtReleasesITCase.rule.repo(RtReleasesITCase.repos);
@@ -50,14 +50,14 @@ public final class RtReleasesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtReleasesITCase.repos != null && RtReleasesITCase.repo != null) {
             RtReleasesITCase.repos.remove(RtReleasesITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void canFetchAllReleases() throws IOException {
+    void canFetchAllReleases() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -74,7 +74,7 @@ public final class RtReleasesITCase {
     }
 
     @Test
-    public void canFetchRelease() throws IOException {
+    void canFetchRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final String tag = "v1.0";
         final Release release = releases.create(tag);
@@ -92,7 +92,7 @@ public final class RtReleasesITCase {
     }
 
     @Test
-    public void canCreateRelease() throws IOException {
+    void canCreateRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release created = releases.create("0.1");
         final int number = created.number();
@@ -114,7 +114,7 @@ public final class RtReleasesITCase {
     }
 
     @Test
-    public void canRemoveRelease() throws IOException {
+    void canRemoveRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -133,7 +133,7 @@ public final class RtReleasesITCase {
     }
 
     @Test
-    public void canEditTag() throws IOException {
+    void canEditTag() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -149,7 +149,7 @@ public final class RtReleasesITCase {
     }
 
     @Test
-    public void canEditBody() throws IOException {
+    void canEditBody() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)

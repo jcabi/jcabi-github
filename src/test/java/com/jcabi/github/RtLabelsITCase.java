@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtLabelsITCase {
+final class RtLabelsITCase {
     /**
      * Test repos.
      */
@@ -32,7 +32,7 @@ public final class RtLabelsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtLabelsITCase.repos = github.repos();
         RtLabelsITCase.repo = new RepoRule().repo(RtLabelsITCase.repos);
@@ -42,14 +42,14 @@ public final class RtLabelsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtLabelsITCase.repos != null && RtLabelsITCase.repo != null) {
             RtLabelsITCase.repos.remove(RtLabelsITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void listsLabels() throws IOException {
+    void listsLabels() throws IOException {
         final Labels labels = RtLabelsITCase.repo.labels();
         final Iterable<Label.Smart> list =
             new Smarts<>(labels.iterate());
@@ -63,7 +63,7 @@ public final class RtLabelsITCase {
     }
 
     @Test
-    public void createsNewLabel() throws IOException {
+    void createsNewLabel() throws IOException {
         final Labels labels = RtLabelsITCase.repo.labels();
         final Label label = new Labels.Smart(labels).createOrGet("test-3");
         MatcherAssert.assertThat(

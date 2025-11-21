@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtIssuesITCase {
+final class RtIssuesITCase {
     /**
      * Test repos.
      */
@@ -36,7 +36,7 @@ public final class RtIssuesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtIssuesITCase.repos = github.repos();
         RtIssuesITCase.repo = new RepoRule().repo(RtIssuesITCase.repos);
@@ -46,14 +46,14 @@ public final class RtIssuesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtIssuesITCase.repos != null && RtIssuesITCase.repo != null) {
             RtIssuesITCase.repos.remove(RtIssuesITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void iteratesIssues() throws IOException {
+    void iteratesIssues() throws IOException {
         final Iterable<Issue.Smart> issues = new Smarts<>(
             new Bulk<>(
                 RtIssuesITCase.repo.issues().iterate(
@@ -71,7 +71,7 @@ public final class RtIssuesITCase {
     }
 
     @Test
-    public void searchesIssues() throws IOException {
+    void searchesIssues() throws IOException {
         final String target = "bug";
         final EnumMap<Issues.Qualifier, String> qualifiers =
             new EnumMap<>(Issues.Qualifier.class);

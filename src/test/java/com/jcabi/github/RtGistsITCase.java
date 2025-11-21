@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.GIST)
-public final class RtGistsITCase {
+final class RtGistsITCase {
     @Test
-    public void createGist() throws IOException {
+    void createGist() throws IOException {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistsITCase.gists();
@@ -34,7 +34,7 @@ public final class RtGistsITCase {
     }
 
     @Test
-    public void iterateGists() throws IOException {
+    void iterateGists() throws IOException {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test.txt", "content"), false
@@ -48,7 +48,7 @@ public final class RtGistsITCase {
     }
 
     @Test
-    public void singleGist() throws IOException {
+    void singleGist() throws IOException {
         final String filename = "single-name.txt";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
@@ -63,7 +63,7 @@ public final class RtGistsITCase {
     }
 
     @Test
-    public void removesGistByName() throws IOException {
+    void removesGistByName() throws IOException {
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content of test file"),

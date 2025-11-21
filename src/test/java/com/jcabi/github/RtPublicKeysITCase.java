@@ -18,14 +18,14 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
-public final class RtPublicKeysITCase {
+final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve its keys.
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrievesKeys() throws Exception {
+    void retrievesKeys() throws Exception {
         final PublicKeys keys = RtPublicKeysITCase.keys();
         final PublicKey key = keys.create("key", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
@@ -41,7 +41,7 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrievesSingleKey() throws Exception {
+    void retrievesSingleKey() throws Exception {
         final PublicKeys keys = RtPublicKeysITCase.keys();
         final PublicKey key = keys.create("Title", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
@@ -57,7 +57,7 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesKey() throws Exception {
+    void removesKey() throws Exception {
         final PublicKeys keys = RtPublicKeysITCase.keys();
         final PublicKey key = keys.create("", RtPublicKeysITCase.key());
         MatcherAssert.assertThat(
@@ -78,7 +78,7 @@ public final class RtPublicKeysITCase {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void createsKey() throws Exception {
+    void createsKey() throws Exception {
         final PublicKeys keys = RtPublicKeysITCase.keys();
         // @checkstyle LineLength (1 line)
         final PublicKey key = keys.create("rsa", RtPublicKeysITCase.key());

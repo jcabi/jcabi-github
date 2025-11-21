@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.7
  */
 @OAuthScope(OAuthScope.Scope.READ_ORG)
-public final class RtAssigneesITCase {
+final class RtAssigneesITCase {
     /**
      * Test repos.
      */
@@ -33,7 +33,7 @@ public final class RtAssigneesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtAssigneesITCase.repos = github.repos();
         RtAssigneesITCase.repo = new RepoRule().repo(RtAssigneesITCase.repos);
@@ -43,14 +43,14 @@ public final class RtAssigneesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtAssigneesITCase.repos != null && RtAssigneesITCase.repo != null) {
             RtAssigneesITCase.repos.remove(RtAssigneesITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void iteratesAssignees() throws IOException {
+    void iteratesAssignees() throws IOException {
         final Iterable<User> users = new Smarts<>(
             new Bulk<>(
                 RtAssigneesITCase.repo.assignees().iterate()
@@ -66,7 +66,7 @@ public final class RtAssigneesITCase {
     }
 
     @Test
-    public void checkUserIsAssigneeForRepo() throws IOException {
+    void checkUserIsAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             RtAssigneesITCase.repo.assignees().check(RtAssigneesITCase.repo.coordinates().user()),
@@ -75,7 +75,7 @@ public final class RtAssigneesITCase {
     }
 
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws IOException {
+    void checkUserIsNotAssigneeForRepo() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             RtAssigneesITCase.repo.assignees()

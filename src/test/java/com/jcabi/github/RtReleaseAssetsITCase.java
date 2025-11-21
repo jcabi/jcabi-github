@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtReleaseAssetsITCase {
+final class RtReleaseAssetsITCase {
 
     /**
      * Test repos.
@@ -42,7 +42,7 @@ public final class RtReleaseAssetsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtReleaseAssetsITCase.repos = github.repos();
         RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
@@ -55,14 +55,14 @@ public final class RtReleaseAssetsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtReleaseAssetsITCase.repos != null && RtReleaseAssetsITCase.repo != null) {
             RtReleaseAssetsITCase.repos.remove(RtReleaseAssetsITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void uploadsAssets() throws IOException {
+    void uploadsAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -85,7 +85,7 @@ public final class RtReleaseAssetsITCase {
     }
 
     @Test
-    public void uploadsTwoAssets() throws IOException {
+    void uploadsTwoAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -119,7 +119,7 @@ public final class RtReleaseAssetsITCase {
     }
 
     @Test
-    public void uploadsSameAssetInTwoReleases() throws IOException {
+    void uploadsSameAssetInTwoReleases() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases.create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
@@ -158,7 +158,7 @@ public final class RtReleaseAssetsITCase {
     }
 
     @Test
-    public void fetchesAssets() throws IOException {
+    void fetchesAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -180,7 +180,7 @@ public final class RtReleaseAssetsITCase {
     }
 
     @Test
-    public void iteratesAssets() throws IOException {
+    void iteratesAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));
@@ -207,7 +207,7 @@ public final class RtReleaseAssetsITCase {
     }
 
     @Test
-    public void returnsNoAssets() throws IOException {
+    void returnsNoAssets() throws IOException {
         final Releases releases = RtReleaseAssetsITCase.repo.releases();
         final Release release = releases
             .create(RandomStringUtils.randomAlphanumeric(Tv.TEN));

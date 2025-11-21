@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtTagsITCase {
+final class RtTagsITCase {
 
     /**
      * Test repos.
@@ -43,7 +43,7 @@ public final class RtTagsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtTagsITCase.repos = github.repos();
         RtTagsITCase.repo = RtTagsITCase.rule.repo(RtTagsITCase.repos);
@@ -53,14 +53,14 @@ public final class RtTagsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtTagsITCase.repos != null && RtTagsITCase.repo != null) {
             RtTagsITCase.repos.remove(RtTagsITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void createsTag() throws IOException {
+    void createsTag() throws IOException {
         final References refs = RtTagsITCase.repo.git().references();
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");

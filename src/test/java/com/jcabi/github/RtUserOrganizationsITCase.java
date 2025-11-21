@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 @OAuthScope(OAuthScope.Scope.READ_ORG)
-public final class RtUserOrganizationsITCase {
+final class RtUserOrganizationsITCase {
     @Test
-    public void iterateOrganizations() throws IOException {
+    void iterateOrganizations() throws IOException {
         final UserOrganizations orgs = GitHubIT.connect()
             .users().get("yegor256")
             .organizations();

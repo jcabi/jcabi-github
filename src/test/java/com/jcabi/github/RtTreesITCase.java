@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtTreesITCase {
+final class RtTreesITCase {
 
     /**
      * Test repos.
@@ -41,7 +41,7 @@ public final class RtTreesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtTreesITCase.repos = github.repos();
         RtTreesITCase.repo = RtTreesITCase.rule.repo(RtTreesITCase.repos);
@@ -51,14 +51,14 @@ public final class RtTreesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtTreesITCase.repos != null && RtTreesITCase.repo != null) {
             RtTreesITCase.repos.remove(RtTreesITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void createsAndObtainsTree() throws IOException {
+    void createsAndObtainsTree() throws IOException {
         final Trees trees = RtTreesITCase.repo.git().trees();
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",

@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtMarkdownITCase {
+final class RtMarkdownITCase {
 
     @Test
-    public void rendersMarkdown() throws IOException {
+    void rendersMarkdown() throws IOException {
         final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -32,7 +32,7 @@ public final class RtMarkdownITCase {
     }
 
     @Test
-    public void rendersRawMarkdown() throws IOException {
+    void rendersRawMarkdown() throws IOException {
         final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Values are not equal",

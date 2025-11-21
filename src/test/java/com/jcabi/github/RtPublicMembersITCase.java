@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtPublicMembers}.
  * @since 0.4
  */
-public final class RtPublicMembersITCase {
+final class RtPublicMembersITCase {
     /**
      * Test organization name.
      */
@@ -39,7 +39,7 @@ public final class RtPublicMembersITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() {
+    void setUp() {
         final GitHub github = GitHubIT.connect();
         final Users users = github.users();
         RtPublicMembersITCase.org = github.organizations().get(RtPublicMembersITCase.ORG_NAME);
@@ -48,7 +48,7 @@ public final class RtPublicMembersITCase {
     }
 
     @Test
-    public void checksPublicMembership() throws IOException {
+    void checksPublicMembership() throws IOException {
         MatcherAssert.assertThat(
             "Check true positive of public membership in an organization",
             RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.member),
@@ -62,7 +62,7 @@ public final class RtPublicMembersITCase {
     }
 
     @Test
-    public void listsPublicMembers() {
+    void listsPublicMembers() {
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             RtPublicMembersITCase.org.publicMembers().iterate(),

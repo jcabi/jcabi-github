@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
-public final class RtOrganizationsITCase {
+final class RtOrganizationsITCase {
     @Test
-    public void getOrganization() {
+    void getOrganization() {
         final String login = "github";
         final Organization org = GitHubIT.connect()
             .organizations().get(login);

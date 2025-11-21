@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtLimitsITCase {
+final class RtLimitsITCase {
 
     @Test
-    public void checksRemainingRequests() throws IOException {
+    void checksRemainingRequests() throws IOException {
         final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Value is null",

@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.GIST)
-public final class RtGistCommentsITCase {
+final class RtGistCommentsITCase {
     /**
      * RtGistComments can create a comment.
      * @throws Exception if some problem inside
      */
     @Test
-    public void createComment() throws Exception {
+    void createComment() throws Exception {
         final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("gist comment");
@@ -40,7 +40,7 @@ public final class RtGistCommentsITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void getComment() throws Exception {
+    void getComment() throws Exception {
         final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
@@ -58,7 +58,7 @@ public final class RtGistCommentsITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void iterateComments() throws Exception {
+    void iterateComments() throws Exception {
         final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");

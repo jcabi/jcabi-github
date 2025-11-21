@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
-public final class RtDeployKeysITCase {
+final class RtDeployKeysITCase {
 
     /**
      * Test repos.
@@ -36,7 +36,7 @@ public final class RtDeployKeysITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtDeployKeysITCase.repos = github.repos();
         RtDeployKeysITCase.repo = new RepoRule().repo(RtDeployKeysITCase.repos);
@@ -46,7 +46,7 @@ public final class RtDeployKeysITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtDeployKeysITCase.repos != null && RtDeployKeysITCase.repo != null) {
             RtDeployKeysITCase.repos.remove(RtDeployKeysITCase.repo.coordinates());
         }
@@ -57,7 +57,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void canFetchAllDeployKeys() throws Exception {
+    void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Iterate Key";
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
@@ -77,7 +77,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void createsDeployKey() throws Exception {
+    void createsDeployKey() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Create Key";
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
@@ -97,7 +97,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void getsDeployKey() throws Exception {
+    void getsDeployKey() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Get Key";
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
@@ -117,7 +117,7 @@ public final class RtDeployKeysITCase {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void removesDeployKey() throws Exception {
+    void removesDeployKey() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
         final String title = "Test Remove Key";
         final DeployKey key = keys.create(title, RtDeployKeysITCase.key());

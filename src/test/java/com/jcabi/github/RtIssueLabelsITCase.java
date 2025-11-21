@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtIssueLabelsITCase {
+final class RtIssueLabelsITCase {
     /**
      * Test repos.
      */
@@ -32,7 +32,7 @@ public final class RtIssueLabelsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtIssueLabelsITCase.repos = github.repos();
         RtIssueLabelsITCase.repo = new RepoRule().repo(RtIssueLabelsITCase.repos);
@@ -42,7 +42,7 @@ public final class RtIssueLabelsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtIssueLabelsITCase.repos != null && RtIssueLabelsITCase.repo != null) {
             RtIssueLabelsITCase.repos.remove(RtIssueLabelsITCase.repo.coordinates());
         }
@@ -53,7 +53,7 @@ public final class RtIssueLabelsITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void listsLabels() throws Exception {
+    void listsLabels() throws Exception {
         final IssueLabels.Smart labels = new IssueLabels.Smart(
             RtIssueLabelsITCase.issue().labels()
         );

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtReleaseITCase {
+final class RtReleaseITCase {
 
     /**
      * Test repos.
@@ -43,7 +43,7 @@ public final class RtReleaseITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtReleaseITCase.repos = github.repos();
         RtReleaseITCase.repo = RtReleaseITCase.rule.repo(RtReleaseITCase.repos);
@@ -53,14 +53,14 @@ public final class RtReleaseITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtReleaseITCase.repos != null && RtReleaseITCase.repo != null) {
             RtReleaseITCase.repos.remove(RtReleaseITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void canEditRelease() throws IOException {
+    void canEditRelease() throws IOException {
         final Release release = RtReleaseITCase.repo.releases().create(
             RandomStringUtils.randomAlphanumeric(Tv.TEN)
         );

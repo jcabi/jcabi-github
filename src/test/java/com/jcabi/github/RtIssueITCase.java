@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtIssueITCase {
+final class RtIssueITCase {
     /**
      * Test repos.
      */
@@ -37,7 +37,7 @@ public final class RtIssueITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtIssueITCase.repos = github.repos();
         RtIssueITCase.repo = new RepoRule().repo(RtIssueITCase.repos);
@@ -47,7 +47,7 @@ public final class RtIssueITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtIssueITCase.repos != null && RtIssueITCase.repo != null) {
             RtIssueITCase.repos.remove(RtIssueITCase.repo.coordinates());
         }
@@ -60,7 +60,7 @@ public final class RtIssueITCase {
      */
     @Disabled
     @Test
-    public void talksInGitHubProject() throws Exception {
+    void talksInGitHubProject() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
@@ -97,7 +97,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesTitleAndBody() throws Exception {
+    void changesTitleAndBody() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).title("test one more time");
         MatcherAssert.assertThat(
@@ -118,7 +118,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesIssueState() throws Exception {
+    void changesIssueState() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
@@ -146,7 +146,7 @@ public final class RtIssueITCase {
      * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
      */
     @Test
-    public void identifyAssignee() throws Exception {
+    void identifyAssignee() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         final String login = issue.repo().github().users().self().login();
         try {
@@ -171,7 +171,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void checksForPullRequest() throws Exception {
+    void checksForPullRequest() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -185,7 +185,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void listsIssueEvents() throws Exception {
+    void listsIssueEvents() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
@@ -200,7 +200,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void findsLatestEvent() throws Exception {
+    void findsLatestEvent() throws Exception {
         final Issue.Smart issue = new Issue.Smart(RtIssueITCase.issue());
         issue.close();
         MatcherAssert.assertThat(
@@ -218,7 +218,7 @@ public final class RtIssueITCase {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void issueAlwaysExistsInGitHub() throws Exception {
+    void issueAlwaysExistsInGitHub() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
             new Issue.Smart(RtIssueITCase.issue()).exists(), Matchers.is(true)
@@ -230,7 +230,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void locks() throws Exception {
+    void locks() throws Exception {
         final Issue issue = new Issue.Smart(RtIssueITCase.issue());
         issue.lock("off-topic");
         MatcherAssert.assertThat(
@@ -245,7 +245,7 @@ public final class RtIssueITCase {
      * @throws Exception If some problem inside
      */
     @Test
-    public void unlocks() throws Exception {
+    void unlocks() throws Exception {
         final Issue issue = new Issue.Smart(RtIssueITCase.issue());
         issue.lock("too heated");
         issue.unlock();

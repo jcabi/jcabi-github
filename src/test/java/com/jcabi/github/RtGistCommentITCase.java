@@ -17,14 +17,14 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.GIST)
-public final class RtGistCommentITCase {
+final class RtGistCommentITCase {
 
     /**
      * RtGistComment can remove itself.
      * @throws Exception if some problem inside
      */
     @Test
-    public void removeItself() throws Exception {
+    void removeItself() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final String body = "comment body";
         final GistComments comments = gist.comments();
@@ -48,7 +48,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void fetchAsJson() throws Exception {
+    void fetchAsJson() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("comment");
@@ -66,7 +66,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
@@ -90,7 +90,7 @@ public final class RtGistCommentITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    public void changeCommentBody() throws Exception {
+    void changeCommentBody() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("hi there");

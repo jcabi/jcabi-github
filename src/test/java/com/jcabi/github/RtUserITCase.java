@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.USER)
-public final class RtUserITCase {
+final class RtUserITCase {
 
     @Test
-    public void checksWhoAmI() throws IOException {
+    void checksWhoAmI() throws IOException {
         final GitHub github = GitHubIT.connect();
         final User self = github.users().self();
         MatcherAssert.assertThat(
@@ -28,7 +28,7 @@ public final class RtUserITCase {
     }
 
     @Test
-    public void readKeys() {
+    void readKeys() {
         MatcherAssert.assertThat(
             "Values are not equal",
             GitHubIT.connect().users().self().keys().toString(),

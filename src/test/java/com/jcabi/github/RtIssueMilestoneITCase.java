@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtIssueMilestoneITCase {
+final class RtIssueMilestoneITCase {
     /**
      * Test repos.
      */
@@ -33,7 +33,7 @@ public final class RtIssueMilestoneITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtIssueMilestoneITCase.repos = github.repos();
         RtIssueMilestoneITCase.repo = new RepoRule().repo(RtIssueMilestoneITCase.repos);
@@ -43,14 +43,14 @@ public final class RtIssueMilestoneITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtIssueMilestoneITCase.repos != null && RtIssueMilestoneITCase.repo != null) {
             RtIssueMilestoneITCase.repos.remove(RtIssueMilestoneITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void addIssueToMilestone() throws Exception {
+    void addIssueToMilestone() throws Exception {
         final Issue issue = RtIssueMilestoneITCase.issue();
         final Milestone milestone = RtIssueMilestoneITCase.repo
             .milestones().create("one");
@@ -63,7 +63,7 @@ public final class RtIssueMilestoneITCase {
     }
 
     @Test
-    public void checkMilestone() throws Exception {
+    void checkMilestone() throws Exception {
         final Issue.Smart issue = new Issue.Smart(
             RtIssueMilestoneITCase.issue()
         );
@@ -83,7 +83,7 @@ public final class RtIssueMilestoneITCase {
     }
 
     @Test
-    public void readMilestone() throws Exception {
+    void readMilestone() throws Exception {
         final String title = "three";
         final Issue.Smart issue = new Issue.Smart(
             RtIssueMilestoneITCase.issue()

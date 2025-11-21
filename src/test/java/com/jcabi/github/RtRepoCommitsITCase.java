@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtRepoCommitsITCase {
+final class RtRepoCommitsITCase {
 
     @Test
-    public void fetchCommits() {
+    void fetchCommits() {
         final Iterator<RepoCommit> iterator =
             RtRepoCommitsITCase.repo().commits().iterate(
                 new ArrayMap<String, String>()
@@ -51,7 +51,7 @@ public final class RtRepoCommitsITCase {
     }
 
     @Test
-    public void compareCommitsPatch() throws IOException {
+    void compareCommitsPatch() throws IOException {
         final String patch = RtRepoCommitsITCase.repo().commits().patch(
             "5339b8e35b",
             "9b2e6efde9"
@@ -73,7 +73,7 @@ public final class RtRepoCommitsITCase {
     }
 
     @Test
-    public void compareCommitsDiff() throws IOException {
+    void compareCommitsDiff() throws IOException {
         final String diff = RtRepoCommitsITCase.repo().commits().diff(
             "2b3814e",
             "b828dfa"
@@ -86,7 +86,7 @@ public final class RtRepoCommitsITCase {
     }
 
     @Test
-    public void getCommit() {
+    void getCommit() {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
             "Values are not equal",

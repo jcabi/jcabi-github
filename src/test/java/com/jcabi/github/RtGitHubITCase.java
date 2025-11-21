@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtGitHubITCase {
+final class RtGitHubITCase {
 
     @Test
-    public void authenticatesItself() {
+    void authenticatesItself() {
         final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Value is null",
@@ -29,7 +29,7 @@ public final class RtGitHubITCase {
     }
 
     @Test
-    public void connectsAnonymously() throws IOException {
+    void connectsAnonymously() throws IOException {
         final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             "Value is null",
@@ -43,7 +43,7 @@ public final class RtGitHubITCase {
     }
 
     @Test
-    public void fetchesMeta() throws IOException {
+    void fetchesMeta() throws IOException {
         final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             "Collection is not empty",
@@ -53,7 +53,7 @@ public final class RtGitHubITCase {
     }
 
     @Test
-    public void fetchesEmojis() throws IOException {
+    void fetchesEmojis() throws IOException {
         final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -63,7 +63,7 @@ public final class RtGitHubITCase {
     }
 
     @Test
-    public void authenticatesWithUsernameAndPassword() throws IOException {
+    void authenticatesWithUsernameAndPassword() throws IOException {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
         Assumptions.assumeTrue(
@@ -83,7 +83,7 @@ public final class RtGitHubITCase {
     }
 
     @Test
-    public void fetchesUsers() {
+    void fetchesUsers() {
         final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Iterating over github.users() should return something",

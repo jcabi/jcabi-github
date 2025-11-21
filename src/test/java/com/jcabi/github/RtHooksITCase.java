@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_REPO_HOOK)
-public final class RtHooksITCase {
+final class RtHooksITCase {
 
     /**
      * RepoRule.
@@ -27,7 +27,7 @@ public final class RtHooksITCase {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public void canFetchAllHooks() throws IOException {
+    void canFetchAllHooks() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -42,7 +42,7 @@ public final class RtHooksITCase {
     }
 
     @Test
-    public void canCreateAHook() throws IOException {
+    void canCreateAHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -56,7 +56,7 @@ public final class RtHooksITCase {
     }
 
     @Test
-    public void canFetchSingleHook() throws IOException {
+    void canFetchSingleHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -72,7 +72,7 @@ public final class RtHooksITCase {
     }
 
     @Test
-    public void canRemoveHook() throws IOException {
+    void canRemoveHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
         final Repo repo = this.rule.repo(repos);
         try {

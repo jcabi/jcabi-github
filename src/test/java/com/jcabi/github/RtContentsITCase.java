@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtContentsITCase {
+final class RtContentsITCase {
 
     /**
      * RepoRule.
@@ -31,7 +31,7 @@ public final class RtContentsITCase {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public void canFetchReadmeFiles() throws IOException {
+    void canFetchReadmeFiles() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -46,7 +46,7 @@ public final class RtContentsITCase {
     }
 
     @Test
-    public void canUpdateFileContent() throws IOException {
+    void canUpdateFileContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -87,7 +87,7 @@ public final class RtContentsITCase {
     }
 
     @Test
-    public void canUpdateFileContentInSpecificBranch() throws IOException {
+    void canUpdateFileContentInSpecificBranch() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -129,7 +129,7 @@ public final class RtContentsITCase {
     }
 
     @Test
-    public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
+    void throwsWhenTryingToGetAnAbsentContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
@@ -157,7 +157,7 @@ public final class RtContentsITCase {
     }
 
     @Test
-    public void canCreateFileContent() throws IOException {
+    void canCreateFileContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -179,7 +179,7 @@ public final class RtContentsITCase {
     }
 
     @Test
-    public void getContent() throws IOException {
+    void getContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -220,7 +220,7 @@ public final class RtContentsITCase {
      */
     @Test
     @Disabled
-    public void iteratesContent() throws IOException {
+    void iteratesContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {
@@ -276,7 +276,7 @@ public final class RtContentsITCase {
     }
 
     @Test
-    public void checkExists() throws IOException {
+    void checkExists() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
         try {

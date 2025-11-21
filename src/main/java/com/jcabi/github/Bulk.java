@@ -77,10 +77,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
                             } else {
                                 try {
                                     result = method.invoke(item, args);
-                                } catch (
-                                    final IllegalAccessException
-                                        | InvocationTargetException ex
-                                ) {
+                                } catch (final IllegalAccessException | InvocationTargetException ex) {
                                     throw new IllegalStateException(ex);
                                 }
                             }

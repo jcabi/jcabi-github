@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtRepoITCase {
+final class RtRepoITCase {
     /**
      * Test repos.
      */
@@ -38,7 +38,7 @@ public final class RtRepoITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtRepoITCase.repos = github.repos();
         RtRepoITCase.repo = RtRepoITCase.repos.create(
@@ -65,14 +65,14 @@ public final class RtRepoITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtRepoITCase.repos != null && RtRepoITCase.repo != null) {
             RtRepoITCase.repos.remove(RtRepoITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void identifiesItself() {
+    void identifiesItself() {
         MatcherAssert.assertThat(
             "Value is null",
             RtRepoITCase.repo.coordinates(),
@@ -81,7 +81,7 @@ public final class RtRepoITCase {
     }
 
     @Test
-    public void iteratesEvents() throws IOException {
+    void iteratesEvents() throws IOException {
         final Issue issue = RtRepoITCase.repo.issues().create("Test", "This is a bug");
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
@@ -92,7 +92,7 @@ public final class RtRepoITCase {
     }
 
     @Test
-    public void exists() throws IOException {
+    void exists() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             new Repo.Smart(RtRepoITCase.repo).exists(), Matchers.is(Boolean.TRUE)
@@ -100,7 +100,7 @@ public final class RtRepoITCase {
     }
 
     @Test
-    public void fetchCommits() {
+    void fetchCommits() {
         MatcherAssert.assertThat(
             "Value is null",
             RtRepoITCase.repo.commits(),
@@ -109,7 +109,7 @@ public final class RtRepoITCase {
     }
 
     @Test
-    public void iteratesAssignees() {
+    void iteratesAssignees() {
         MatcherAssert.assertThat(
             "Collection is not empty",
             RtRepoITCase.repo.assignees().iterate(),
@@ -118,7 +118,7 @@ public final class RtRepoITCase {
     }
 
     @Test
-    public void fetchLanguages() throws IOException {
+    void fetchLanguages() throws IOException {
         MatcherAssert.assertThat(
             "Value is null",
             RtRepoITCase.repo.languages(),
@@ -132,7 +132,7 @@ public final class RtRepoITCase {
      */
     @Test
     @Disabled
-    public void iteratesLanguages() throws IOException {
+    void iteratesLanguages() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",
             RtRepoITCase.repo.languages(),

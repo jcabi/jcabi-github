@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtForksITCase {
+final class RtForksITCase {
 
     /**
      * RepoRule.
@@ -24,7 +24,7 @@ public final class RtForksITCase {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public void retrievesForks() throws IOException {
+    void retrievesForks() throws IOException {
         final String organization = System.getProperty(
             "failsafe.github.organization"
         );

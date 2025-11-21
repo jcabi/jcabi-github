@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiterals (300 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtReleaseAssetITCase {
+final class RtReleaseAssetITCase {
 
     /**
      * Test repos.
@@ -43,7 +43,7 @@ public final class RtReleaseAssetITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtReleaseAssetITCase.repos = github.repos();
         RtReleaseAssetITCase.repo = RtReleaseAssetITCase.rule.repo(RtReleaseAssetITCase.repos);
@@ -56,14 +56,14 @@ public final class RtReleaseAssetITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtReleaseAssetITCase.repos != null && RtReleaseAssetITCase.repo != null) {
             RtReleaseAssetITCase.repos.remove(RtReleaseAssetITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void fetchAsJson() throws IOException {
+    void fetchAsJson() throws IOException {
         final String name = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = RtReleaseAssetITCase.repo.releases().create(name);
         try {
@@ -78,7 +78,7 @@ public final class RtReleaseAssetITCase {
     }
 
     @Test
-    public void executePatchRequest() throws IOException {
+    void executePatchRequest() throws IOException {
         final Release release = RtReleaseAssetITCase.repo.releases().create(
             String.format("v%s", RandomStringUtils.randomAlphanumeric(Tv.TEN))
         );
@@ -96,7 +96,7 @@ public final class RtReleaseAssetITCase {
     }
 
     @Test
-    public void removesReleaseAsset() throws IOException {
+    void removesReleaseAsset() throws IOException {
         final Releases releases = RtReleaseAssetITCase.repo.releases();
         final String rname = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final Release release = releases.create(rname);

@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.READ_PUBLIC_KEY)
-public final class RtPublicKeyITCase {
+final class RtPublicKeyITCase {
     @Test
-    public void retrievesUri() {
+    void retrievesUri() {
         MatcherAssert.assertThat(
             "String does not end with expected value",
             GitHubIT.connect().users().self().keys().get(1).toString(),

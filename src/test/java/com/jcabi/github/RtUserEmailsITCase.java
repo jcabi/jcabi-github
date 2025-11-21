@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.USER_EMAIL)
-public final class RtUserEmailsITCase {
+final class RtUserEmailsITCase {
 
     @Test
-    public void fetchesEmails() throws IOException {
+    void fetchesEmails() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",
             RtUserEmailsITCase.userEmails().iterate(),
@@ -31,7 +31,7 @@ public final class RtUserEmailsITCase {
      * (see http://mailinator.com/).
      */
     @Test
-    public void addsEmails() throws IOException {
+    void addsEmails() throws IOException {
         final String email = "test@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         try {
@@ -53,7 +53,7 @@ public final class RtUserEmailsITCase {
      * address (see http://mailinator.com/).
      */
     @Test
-    public void removesEmails() throws IOException {
+    void removesEmails() throws IOException {
         final String email = "test1@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         emails.add(Collections.singletonList(email));

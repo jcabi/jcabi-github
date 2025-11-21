@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class RtSearchITCase {
+final class RtSearchITCase {
 
     @Test
-    public void canSearchForRepos() {
+    void canSearchForRepos() {
         MatcherAssert.assertThat(
             "Collection is not empty",
             GitHubIT.connect()
@@ -34,7 +34,7 @@ public final class RtSearchITCase {
      * RtSearch can fetch multiple pages of a large result (more than 25 items).
      */
     @Test
-    public void canFetchMultiplePages() {
+    void canFetchMultiplePages() {
         final Iterator<Repo> iter = GitHubIT.connect().search().repos(
             "java", "", Search.Order.DESC
         ).iterator();
@@ -51,7 +51,7 @@ public final class RtSearchITCase {
     }
 
     @Test
-    public void canSearchForIssues() {
+    void canSearchForIssues() {
         final EnumMap<Search.Qualifier, String> qualifiers =
             new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
@@ -68,7 +68,7 @@ public final class RtSearchITCase {
     }
 
     @Test
-    public void canSearchForUsers() {
+    void canSearchForUsers() {
         MatcherAssert.assertThat(
             "Collection is not empty",
             GitHubIT.connect()
@@ -82,7 +82,7 @@ public final class RtSearchITCase {
      * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
     @Test
-    public void canSearchForContents() {
+    void canSearchForContents() {
         MatcherAssert.assertThat(
             "Collection is not empty",
             GitHubIT.connect().search().codes(

@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.GIST)
-public final class RtGistITCase {
+final class RtGistITCase {
 
     @Test
-    public void readsAndWritesGists() throws IOException {
+    void readsAndWritesGists() throws IOException {
         final Gists gists = RtGistITCase.github().gists();
         Gist.Smart smart = null;
         try {
@@ -49,7 +49,7 @@ public final class RtGistITCase {
      * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test
-    public void forksGist() throws IOException {
+    void forksGist() throws IOException {
         final String filename = "filename1.txt";
         final String content = "content of file1";
         final Gists gists1 = RtGistITCase.github("failsafe.github.key").gists();

@@ -10,5 +10,5 @@ package com.jcabi.github;
  * @todo #1125:30min Implement this integration test for RtPullRef and
  *  PullRef.Smart to check that they work with actual JSON from GitHub.
  */
-public final class RtPullRefITCase {
+final class RtPullRefITCase {
 }

@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
  */
 @Immutable
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtGitignoresITCase {
+final class RtGitignoresITCase {
 
     @Test
-    public void iterateTemplateNames() throws IOException {
+    void iterateTemplateNames() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
@@ -30,7 +30,7 @@ public final class RtGitignoresITCase {
     }
 
     @Test
-    public void getRawTemplateByName() throws IOException {
+    void getRawTemplateByName() throws IOException {
         final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             "String does not contain expected value",

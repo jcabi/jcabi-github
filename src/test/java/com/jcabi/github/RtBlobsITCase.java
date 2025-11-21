@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-public final class RtBlobsITCase {
+final class RtBlobsITCase {
 
     /**
      * Test repos.
@@ -39,7 +39,7 @@ public final class RtBlobsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtBlobsITCase.repos = github.repos();
         RtBlobsITCase.repo = RtBlobsITCase.rule.repo(RtBlobsITCase.repos);
@@ -49,14 +49,14 @@ public final class RtBlobsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    public void tearDown() throws IOException {
+    void tearDown() throws IOException {
         if (RtBlobsITCase.repos != null && RtBlobsITCase.repo != null) {
             RtBlobsITCase.repos.remove(RtBlobsITCase.repo.coordinates());
         }
     }
 
     @Test
-    public void createsBlob() throws IOException {
+    void createsBlob() throws IOException {
         final Blobs blobs = RtBlobsITCase.repo.git().blobs();
         final Blob blob = blobs.create(
             "Test Content", "utf-8"
@@ -69,7 +69,7 @@ public final class RtBlobsITCase {
     }
 
     @Test
-    public void getsBlob() throws IOException {
+    void getsBlob() throws IOException {
         final Blobs blobs = RtBlobsITCase.repo.git().blobs();
         final String content = "Content of the blob";
         final String encoding = "base64";
