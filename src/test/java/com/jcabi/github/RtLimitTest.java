@@ -30,23 +30,22 @@ public final class RtLimitTest {
             "Values are not equal",
             limit.json().toString(),
             Matchers.equalTo(
-                "{\"limit\":5000, \"remaining\":4999, \"reset\":1372700873}"
+                "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
             )
         );
     }
 
-    // TODO: Convert to Assertions.assertThrows(IllegalStateException.class, () -> { ... });
     @Test
-    public void throwsWhenResourceIsAbsent() throws IOException {
+    public void throwsWhenResourceIsAbsent() {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(GitHub.class),
             new FakeRequest().withBody(RtLimitTest.body()),
             "absent"
         );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            limit.json().toString(),
-            Matchers.equalTo("{}")
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            limit::json,
+            "Should throw when resource is absent"
         );
     }
 
