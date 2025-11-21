@@ -18,7 +18,7 @@ import org.mockito.Mockito;
  * Test case for {@link PullComment}.
  * @since 0.8
  */
-public final class PullCommentTest {
+final class PullCommentTest {
 
     /**
      * Id field's name in JSON.
@@ -41,7 +41,7 @@ public final class PullCommentTest {
     private static final String BODY = "body";
 
     @Test
-    public void fetchesId() throws IOException {
+    void fetchesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -55,7 +55,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void updatesId() throws IOException {
+    void updatesId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).identifier(value);
@@ -65,7 +65,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void fetchesCommitId() throws IOException {
+    void fetchesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -79,7 +79,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void updatesCommitId() throws IOException {
+    void updatesCommitId() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).commitId(value);
@@ -89,7 +89,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void fetchesUrl() throws IOException {
+    void fetchesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -103,7 +103,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void updatesUrl() throws IOException {
+    void updatesUrl() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).url(value);
@@ -113,7 +113,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void fetchesBody() throws IOException {
+    void fetchesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         Mockito.doReturn(
@@ -127,7 +127,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void updatesBody() throws IOException {
+    void updatesBody() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         new PullComment.Smart(comment).body(value);
@@ -137,7 +137,7 @@ public final class PullCommentTest {
     }
 
     @Test
-    public void retrievesAuthor() throws IOException {
+    void retrievesAuthor() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.randomAlphanumeric(Tv.TEN);
         final JsonObject user = Json.createObjectBuilder()

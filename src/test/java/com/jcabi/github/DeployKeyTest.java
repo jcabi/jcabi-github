@@ -14,10 +14,10 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (150 lines)
  */
-public final class DeployKeyTest {
+final class DeployKeyTest {
 
     @Test
-    public void updatesKey() throws IOException {
+    void updatesKey() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String value = "sha-rsa BBB...";
         new DeployKey.Smart(key).key(value);
@@ -27,7 +27,7 @@ public final class DeployKeyTest {
     }
 
     @Test
-    public void updatesTitle() throws IOException {
+    void updatesTitle() throws IOException {
         final DeployKey key = Mockito.mock(DeployKey.class);
         final String prop = "octocat@octomac";
         new DeployKey.Smart(key).title(prop);

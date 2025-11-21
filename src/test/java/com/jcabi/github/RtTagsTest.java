@@ -25,14 +25,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtTagsTest {
+final class RtTagsTest {
 
     /**
      * RtTags can create a tag.
      * @checkstyle IndentationCheck (20 lines)
      */
     @Test
-    public void createsTag() throws IOException {
+    void createsTag() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,

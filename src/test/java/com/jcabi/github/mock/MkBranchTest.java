@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkBranch}.
  * @since 0.1
  */
-public final class MkBranchTest {
+final class MkBranchTest {
     /**
      * MkBranch can fetch its name.
      * @throws IOException If an I/O problem occurs
      */
     @Test
-    public void fetchesName() throws IOException {
+    void fetchesName() throws IOException {
         final String name = "topic";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -37,7 +37,7 @@ public final class MkBranchTest {
      * @throws IOException If an I/O problem occurs
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final String sha = "ad1298cac285d601cd66b37ec8989836d7c6e651";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -52,7 +52,7 @@ public final class MkBranchTest {
      * @throws IOException If an I/O problem occurs
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Coordinates coords = MkBranchTest.branches(repo)
             .create("test", "sha")

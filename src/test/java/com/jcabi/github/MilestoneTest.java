@@ -16,9 +16,9 @@ import org.mockito.Mockito;
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MilestoneTest {
+final class MilestoneTest {
     @Test
-    public void fetchesTitle() throws IOException {
+    void fetchesTitle() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -33,7 +33,7 @@ public final class MilestoneTest {
     }
 
     @Test
-    public void fetchesDescription() throws IOException {
+    void fetchesDescription() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -48,7 +48,7 @@ public final class MilestoneTest {
     }
 
     @Test
-    public void fetchesState() throws IOException {
+    void fetchesState() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -63,7 +63,7 @@ public final class MilestoneTest {
     }
 
     @Test
-    public void fetchesDueOn() throws IOException {
+    void fetchesDueOn() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

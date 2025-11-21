@@ -21,12 +21,12 @@ import org.xembly.Directives;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkHookTest {
+final class MkHookTest {
     /**
      * Test if {@link MkHook} is being created with the correct number.
      */
     @Test
-    public void createWithCorrectNumber() {
+    void createWithCorrectNumber() {
         final int number = 5;
         MatcherAssert.assertThat(
             "Hook returned wrong number",
@@ -39,7 +39,7 @@ public final class MkHookTest {
      * Test if {@link MkHook} is being created with the correct repository.
      */
     @Test
-    public void createWithCorrectRepo() throws IOException {
+    void createWithCorrectRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String login = "login";
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -54,7 +54,7 @@ public final class MkHookTest {
      * Test if {@link MkHook} is being created with the correct id.
      */
     @Test
-    public void createWithCorrectId() throws IOException {
+    void createWithCorrectId() throws IOException {
         final int number = 5;
         final MkStorage storage = new MkStorage.InFile();
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -72,7 +72,7 @@ public final class MkHookTest {
      * Test if {@link MkHook} is being created with the correct url.
      */
     @Test
-    public void createWithCorrectUrl() throws IOException {
+    void createWithCorrectUrl() throws IOException {
         final String url = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -94,7 +94,7 @@ public final class MkHookTest {
      * Test if {@link MkHook} is being created with the correct test url.
      */
     @Test
-    public void createWithCorrectTestUrl() throws IOException {
+    void createWithCorrectTestUrl() throws IOException {
         final String test = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -116,7 +116,7 @@ public final class MkHookTest {
      * Test if {@link MkHook} is being created with the correct ping url.
      */
     @Test
-    public void createWithCorrectPingUrl() throws IOException {
+    void createWithCorrectPingUrl() throws IOException {
         final String ping = "https://github.com/user/repo/hooks/hook/5";
         final int number = 5;
         final Coordinates coords = new Coordinates.Simple("user/repo");
@@ -139,7 +139,7 @@ public final class MkHookTest {
      * event names.
      */
     @Test
-    public void createWithCorrectEvents() throws IOException {
+    void createWithCorrectEvents() throws IOException {
         final Iterable<String> events = Arrays.asList("event1", "event2");
         final int number = 123;
         final Coordinates coords = new Coordinates.Simple("user/repo");

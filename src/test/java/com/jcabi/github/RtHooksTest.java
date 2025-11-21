@@ -33,14 +33,14 @@ import org.mockito.Mockito;
  */
 @Immutable
 @ExtendWith(RandomPort.class)
-public final class RtHooksTest {
+final class RtHooksTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canFetchEmptyListOfHooks() throws IOException {
+    void canFetchEmptyListOfHooks() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
@@ -60,7 +60,7 @@ public final class RtHooksTest {
     }
 
     @Test
-    public void canFetchNonEmptyListOfHooks() throws IOException {
+    void canFetchNonEmptyListOfHooks() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -96,7 +96,7 @@ public final class RtHooksTest {
     }
 
     @Test
-    public void canFetchSingleHook() throws IOException {
+    void canFetchSingleHook() throws IOException {
         final String name = "hook name";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -124,7 +124,7 @@ public final class RtHooksTest {
     }
 
     @Test
-    public void canCreateHook() throws IOException {
+    void canCreateHook() throws IOException {
         final ConcurrentHashMap<String, String> config =
             new ConcurrentHashMap<>(2);
         config.put("url", "http://example.com");
@@ -159,7 +159,7 @@ public final class RtHooksTest {
     }
 
     @Test
-    public void canDeleteHook() throws IOException {
+    void canDeleteHook() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

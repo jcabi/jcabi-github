@@ -28,13 +28,13 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtBlobsTest {
+final class RtBlobsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canCreateBlob() throws IOException {
+    void canCreateBlob() throws IOException {
         final String body = RtBlobsTest.blob().toString();
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -62,7 +62,7 @@ public final class RtBlobsTest {
     }
 
     @Test
-    public void getBlob() {
+    void getBlob() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
         final Blobs blobs = new RtBlobs(
             new FakeRequest().withBody(

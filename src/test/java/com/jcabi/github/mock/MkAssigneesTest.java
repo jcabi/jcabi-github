@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
  * @since 0.7
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkAssigneesTest {
+final class MkAssigneesTest {
 
     /**
      * MkAssignees can iterate over assignees.
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void iteratesAssignees() throws Exception {
+    void iteratesAssignees() throws Exception {
         MatcherAssert.assertThat(
             "Collection is not empty",
             MkAssigneesTest.repo().assignees().iterate(),
@@ -36,7 +36,7 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkCollaboratorIsAssigneeForRepo() throws Exception {
+    void checkCollaboratorIsAssigneeForRepo() throws Exception {
         final Repo repo = MkAssigneesTest.repo();
         repo.collaborators().add("Vladimir");
         MatcherAssert.assertThat(
@@ -51,7 +51,7 @@ public final class MkAssigneesTest {
      * @throws Exception Exception If some problem inside
      */
     @Test
-    public void checkOwnerIsAssigneeForRepo() throws Exception {
+    void checkOwnerIsAssigneeForRepo() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
             MkAssigneesTest.repo().assignees().check("Jonathan"),

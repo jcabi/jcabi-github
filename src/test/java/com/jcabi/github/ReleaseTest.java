@@ -19,10 +19,10 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (400 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class ReleaseTest {
+final class ReleaseTest {
 
     @Test
-    public void fetchesUrls() throws IOException {
+    void fetchesUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String url = "http://url";
         Mockito.doReturn(
@@ -39,7 +39,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchesHtmlUrls() throws IOException {
+    void fetchesHtmlUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String htmlurl = "http://html_url";
         Mockito.doReturn(
@@ -56,7 +56,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchesAssetsHtmlUrls() throws IOException {
+    void fetchesAssetsHtmlUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String assetsurl = "http://assets_url";
         Mockito.doReturn(
@@ -73,7 +73,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchesUploadHtmlUrls() throws IOException {
+    void fetchesUploadHtmlUrls() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String uploadurl = "http://upload_url";
         Mockito.doReturn(
@@ -90,7 +90,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void testId() {
+    void testId() {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(1).when(release).number();
         final Release.Smart smart = new Release.Smart(release);
@@ -102,7 +102,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchTag() throws IOException {
+    void fetchTag() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String tag = "v1.0.0";
         Mockito.doReturn(
@@ -119,7 +119,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchProperties() throws IOException {
+    void fetchProperties() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String master = "master";
         Mockito.doReturn(
@@ -136,7 +136,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchName() throws IOException {
+    void fetchName() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String name = "v1";
         // @checkstyle MultipleStringLiterals (3 lines)
@@ -163,7 +163,7 @@ public final class ReleaseTest {
      * (NULL json value).
      */
     @Test
-    public void incidatesNoName() throws IOException {
+    void incidatesNoName() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -179,7 +179,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchBody() throws IOException {
+    void fetchBody() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String description = "Description of the release";
         Mockito.doReturn(
@@ -196,7 +196,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchDescription() throws IOException, ParseException {
+    void fetchDescription() throws IOException, ParseException {
         final Release release = Mockito.mock(Release.class);
         final String created = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -213,7 +213,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void fetchPublished() throws IOException, ParseException {
+    void fetchPublished() throws IOException, ParseException {
         final Release release = Mockito.mock(Release.class);
         final String published = "2013-01-27T19:35:32Z";
         Mockito.doReturn(
@@ -230,7 +230,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void isPrerelease() throws IOException {
+    void isPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("prerelease", Boolean.TRUE).build()
@@ -243,7 +243,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void isNotPrerelease() throws IOException {
+    void isNotPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("prerelease", "false").build()
@@ -256,7 +256,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void missingPrerelease() throws IOException {
+    void missingPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()
@@ -269,7 +269,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void isDraft() throws IOException {
+    void isDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("draft", Boolean.TRUE).build()
@@ -282,7 +282,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void isNotDraft() throws IOException {
+    void isNotDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("draft", Boolean.FALSE).build()
@@ -295,7 +295,7 @@ public final class ReleaseTest {
     }
 
     @Test
-    public void missingDraft() throws IOException {
+    void missingDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()

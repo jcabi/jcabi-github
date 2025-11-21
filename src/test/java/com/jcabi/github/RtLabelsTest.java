@@ -25,13 +25,13 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtLabelsTest {
+final class RtLabelsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void createLabel() throws IOException {
+    void createLabel() throws IOException {
         final String name = "API";
         final String color = "FFFFFF";
         final String body = RtLabelsTest.label(name, color).toString();
@@ -66,7 +66,7 @@ public final class RtLabelsTest {
     }
 
     @Test
-    public void getSingleLabel() throws IOException {
+    void getSingleLabel() throws IOException {
         final String name = "bug";
         final String color = "f29513";
         try (
@@ -92,7 +92,7 @@ public final class RtLabelsTest {
     }
 
     @Test
-    public void deleteLabel() throws IOException {
+    void deleteLabel() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -119,7 +119,7 @@ public final class RtLabelsTest {
     }
 
     @Test
-    public void iterateLabels() throws IOException {
+    void iterateLabels() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

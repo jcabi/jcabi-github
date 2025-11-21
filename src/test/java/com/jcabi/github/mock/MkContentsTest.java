@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings({ "PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals" })
-public final class MkContentsTest {
+final class MkContentsTest {
     @Test
-    public void canFetchReadmeFile() throws IOException {
+    void canFetchReadmeFile() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String body = "Readme On Master";
         // @checkstyle MultipleStringLiterals (6 lines)
@@ -39,7 +39,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void canFetchReadmeFromBranch() throws IOException {
+    void canFetchReadmeFromBranch() throws IOException {
         final String branch = "branch-1";
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String body = "Readme On Branch";
@@ -60,7 +60,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canCreateFile() throws Exception {
+    void canCreateFile() throws Exception {
         final String path = "file.txt";
         final Content.Smart content = new Content.Smart(
             MkContentsTest.createFile(new MkGitHub().randomRepo(), path)
@@ -83,7 +83,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void canCreateFileInSomeBranch() throws IOException {
+    void canCreateFileInSomeBranch() throws IOException {
         final String path = "file-in-branch.txt";
         final String branch = "branch-2";
         final String body = "some file";
@@ -121,7 +121,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canRemoveFile() throws Exception {
+    void canRemoveFile() throws Exception {
         final Repo repo = new MkGitHub().randomRepo();
         final String path = "removeme.txt";
         MkContentsTest.createFile(repo, path);
@@ -145,7 +145,7 @@ public final class MkContentsTest {
      * @throws Exception if some problem inside
      */
     @Test
-    public void canRemoveFileFromBranch() throws Exception {
+    void canRemoveFileFromBranch() throws Exception {
         final Repo repo = new MkGitHub().randomRepo();
         final String path = "removeme.txt";
         MkContentsTest.createFile(repo, path);
@@ -167,7 +167,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void updatesFile() throws IOException {
+    void updatesFile() throws IOException {
         final String path = "file.txt";
         final String message = "content message";
         final String initial = "initial text";
@@ -192,7 +192,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void updatesFileCreateCommit() throws IOException {
+    void updatesFileCreateCommit() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Contents contents = MkContentsTest.repo(storage).contents();
         final String path = "file.txt";
@@ -228,7 +228,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void updateContent() throws IOException {
+    void updateContent() throws IOException {
         final String path = "content-to-update.txt";
         final String message = "commit message";
         final String initial = "Hello World!";
@@ -256,7 +256,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void checkExists() throws IOException {
+    void checkExists() throws IOException {
         final String path = "content-exist.txt";
         final String branch = "rel.08";
         final Contents contents = new MkGitHub().randomRepo().contents();
@@ -278,7 +278,7 @@ public final class MkContentsTest {
     }
 
     @Test
-    public void getContentFromDefaultBranch() throws IOException {
+    void getContentFromDefaultBranch() throws IOException {
         final String path = "content-default-branch.txt";
         final String message = "content default branch created";
         final String text = "I'm content of default branch";
@@ -303,7 +303,7 @@ public final class MkContentsTest {
      * @throws IOException if any error occurs.
      */
     @Test
-    public void canIterate() throws IOException {
+    void canIterate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkContentsTest.repo(storage);
         final Content[] correct = MkContentsTest.addContent(

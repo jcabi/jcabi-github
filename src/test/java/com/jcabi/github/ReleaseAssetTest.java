@@ -21,10 +21,10 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (150 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class ReleaseAssetTest {
+final class ReleaseAssetTest {
 
     @Test
-    public void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
+    void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/octo/Hello/releases/assets/1";
@@ -41,7 +41,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesName() throws IOException {
+    void fetchesName() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "assetname.ext";
         Mockito.doReturn(
@@ -57,7 +57,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesLabel() throws IOException {
+    void fetchesLabel() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "short description";
         Mockito.doReturn(
@@ -73,7 +73,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesState() throws IOException {
+    void fetchesState() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "uploaded";
         Mockito.doReturn(
@@ -89,7 +89,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesContentType() throws IOException {
+    void fetchesContentType() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "application/zip";
         Mockito.doReturn(
@@ -105,7 +105,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesSize() throws IOException {
+    void fetchesSize() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final int prop = 1024;
         Mockito.doReturn(
@@ -121,7 +121,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesDownloadCount() throws IOException {
+    void fetchesDownloadCount() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final int prop = 42;
         Mockito.doReturn(
@@ -137,7 +137,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesCreatedAt() throws IOException, ParseException {
+    void fetchesCreatedAt() throws IOException, ParseException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -153,7 +153,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void fetchesUpdatedAt() throws IOException, ParseException {
+    void fetchesUpdatedAt() throws IOException, ParseException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -169,7 +169,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void updatesName() throws IOException {
+    void updatesName() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_name";
         new ReleaseAsset.Smart(asset).name(prop);
@@ -179,7 +179,7 @@ public final class ReleaseAssetTest {
     }
 
     @Test
-    public void updatesLabel() throws IOException {
+    void updatesLabel() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "new_label";
         new ReleaseAsset.Smart(asset).label(prop);

@@ -17,10 +17,10 @@ import org.mockito.Mockito;
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class PullTest {
+final class PullTest {
 
     @Test
-    public void canFetchCommentsCount() throws IOException {
+    void canFetchCommentsCount() throws IOException {
         final int number = 1;
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(
@@ -36,7 +36,7 @@ public final class PullTest {
     }
 
     @Test
-    public void getsIssue() {
+    void getsIssue() {
         final int number = 2;
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.when(issue.number()).thenReturn(number);
@@ -59,7 +59,7 @@ public final class PullTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getsPullComments() throws IOException {
+    void getsPullComments() throws IOException {
         final PullComments comments = Mockito.mock(PullComments.class);
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.when(pull.comments()).thenReturn(comments);
@@ -75,7 +75,7 @@ public final class PullTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getsAuthor() throws IOException {
+    void getsAuthor() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.when(repo.github()).thenReturn(new MkGitHub());
         final Pull pull = Mockito.mock(Pull.class);

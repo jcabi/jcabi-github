@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtGitHub}.
  * @since 0.1
  */
-public final class RtGitHubTest {
+final class RtGitHubTest {
 
     @Test
-    public void retrievesRepos() {
+    void retrievesRepos() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
@@ -28,7 +28,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void retrievesGists() {
+    void retrievesGists() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
@@ -38,7 +38,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void retrievesUsers() {
+    void retrievesUsers() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
@@ -48,7 +48,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void retrievesMetaAsJson() throws IOException {
+    void retrievesMetaAsJson() throws IOException {
         final RtGitHub github = new RtGitHub(
             new FakeRequest().withBody("{\"meta\":\"blah\"}")
         );
@@ -60,7 +60,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void retrievesEmojisAsJson() throws IOException {
+    void retrievesEmojisAsJson() throws IOException {
         final RtGitHub github = new RtGitHub(
             new FakeRequest().withBody(
             "{ \"emojikey\": \"urlvalue\" }"
@@ -74,7 +74,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void retrievesMarkdown() {
+    void retrievesMarkdown() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
@@ -84,7 +84,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void retrievesGitignores() {
+    void retrievesGitignores() {
         final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
@@ -94,7 +94,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void testSameTimesAreEqual() {
+    void testSameTimesAreEqual() {
         final long time = System.currentTimeMillis();
         final GitHub.Time first = new GitHub.Time(time);
         final GitHub.Time second = new GitHub.Time(time);
@@ -106,7 +106,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void testDifferentTimesAreNotEqual() {
+    void testDifferentTimesAreNotEqual() {
         final GitHub.Time first = new GitHub.Time(System.currentTimeMillis());
         final GitHub.Time second = new GitHub.Time(
             System.currentTimeMillis() + 1
@@ -119,7 +119,7 @@ public final class RtGitHubTest {
     }
 
     @Test
-    public void equalsToAnotherGitHub() {
+    void equalsToAnotherGitHub() {
         MatcherAssert.assertThat(
             "Values are not equal",
             new RtGitHub(new FakeRequest().header("abc", "cde")),

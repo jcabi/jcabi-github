@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkUserEmails}.
  * @since 0.8
  */
-public final class MkUserEmailsTest {
+final class MkUserEmailsTest {
 
     @Test
-    public void canAddEmails() throws IOException {
+    void canAddEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("john").emails();
         final String email = "john@nowhere.com";
         final Iterable<String> added = emails.add(
@@ -36,7 +36,7 @@ public final class MkUserEmailsTest {
     }
 
     @Test
-    public void canRemoveEmails() throws IOException {
+    void canRemoveEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("joe").emails();
         final String removed = "joe@nowhere.com";
         final String retained = "joseph@somewhere.net";
@@ -58,7 +58,7 @@ public final class MkUserEmailsTest {
     }
 
     @Test
-    public void canIterateEmails() throws IOException {
+    void canIterateEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("matt").emails();
         final String[] added = {
             "matt@none.org",
@@ -76,7 +76,7 @@ public final class MkUserEmailsTest {
     }
 
     @Test
-    public void canRepresentAsJson() throws IOException {
+    void canRepresentAsJson() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("jeff").emails();
         final String email = "jeff@something.net";
         emails.add(Collections.singleton(email));

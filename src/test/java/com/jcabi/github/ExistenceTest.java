@@ -16,10 +16,10 @@ import org.mockito.Mockito;
  * Unit tests for {@link Existence}.
  * @since 0.38
  */
-public final class ExistenceTest {
+final class ExistenceTest {
 
     @Test
-    public void jsonExists() throws IOException {
+    void jsonExists() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.when(object.json()).thenReturn(
             Json.createObjectBuilder().build()
@@ -32,7 +32,7 @@ public final class ExistenceTest {
     }
 
     @Test
-    public void jsonDoesNotExist() throws IOException {
+    void jsonDoesNotExist() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new AssertionError()).when(object).json();
         MatcherAssert.assertThat(
@@ -43,7 +43,7 @@ public final class ExistenceTest {
     }
 
     @Test
-    public void rethrowsIoException() throws IOException {
+    void rethrowsIoException() throws IOException {
         final JsonReadable object = Mockito.mock(JsonReadable.class);
         Mockito.doThrow(new IOException()).when(object).json();
         Assertions.assertThrows(

@@ -23,14 +23,14 @@ import org.mockito.Mockito;
  * @since 0.6
  */
 @ExtendWith(RandomPort.class)
-public final class RtLabelTest {
+final class RtLabelTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void sendHttpRequestAndWriteResponseAsJson() throws IOException {
+    void sendHttpRequestAndWriteResponseAsJson() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -54,7 +54,7 @@ public final class RtLabelTest {
     }
 
     @Test
-    public void executePatchRequest() throws IOException {
+    void executePatchRequest() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

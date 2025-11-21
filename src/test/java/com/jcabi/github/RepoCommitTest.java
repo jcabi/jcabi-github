@@ -19,10 +19,10 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class RepoCommitTest {
+final class RepoCommitTest {
 
     @Test
-    public void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
+    void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
@@ -39,7 +39,7 @@ public final class RepoCommitTest {
     }
 
     @Test
-    public void fetchesMessage() throws IOException {
+    void fetchesMessage() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -59,7 +59,7 @@ public final class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public void verifiesStatus() throws IOException {
+    void verifiesStatus() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -82,7 +82,7 @@ public final class RepoCommitTest {
      * @throws IOException If fails
      */
     @Test
-    public void readsAuthorLogin() throws IOException {
+    void readsAuthorLogin() throws IOException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
         final String login = "jeff";
         Mockito.doReturn(

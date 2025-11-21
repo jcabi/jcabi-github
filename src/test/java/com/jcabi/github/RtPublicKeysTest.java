@@ -25,13 +25,13 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
-public final class RtPublicKeysTest {
+final class RtPublicKeysTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void retrievesKeys() throws IOException {
+    void retrievesKeys() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -57,7 +57,7 @@ public final class RtPublicKeysTest {
     }
 
     @Test
-    public void canFetchSingleKey() throws IOException {
+    void canFetchSingleKey() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -80,7 +80,7 @@ public final class RtPublicKeysTest {
     }
 
     @Test
-    public void canRemoveKey() throws IOException {
+    void canRemoveKey() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -114,7 +114,7 @@ public final class RtPublicKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canCreatePublicKey() throws IOException {
+    void canCreatePublicKey() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

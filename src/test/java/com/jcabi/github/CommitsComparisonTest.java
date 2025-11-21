@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (75 lines)
  */
-public final class CommitsComparisonTest {
+final class CommitsComparisonTest {
 
     @Test
-    public void fetchesCommits() throws IOException {
+    void fetchesCommits() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db50";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(
@@ -47,7 +47,7 @@ public final class CommitsComparisonTest {
     }
 
     @Test
-    public void fetchesFiles() throws IOException {
+    void fetchesFiles() throws IOException {
         final String filename = "file.txt";
         final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
             new RtCommitsComparison(

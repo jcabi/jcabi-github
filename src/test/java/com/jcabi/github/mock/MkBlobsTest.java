@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkBlobs}.
  * @since 0.8
  */
-public final class MkBlobsTest {
+final class MkBlobsTest {
 
     @Test
-    public void canCreateBlob() throws IOException {
+    void canCreateBlob() throws IOException {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
         final Blob blob = blobs.create("content1", "encoding1");
         MatcherAssert.assertThat(
@@ -29,7 +29,7 @@ public final class MkBlobsTest {
     }
 
     @Test
-    public void getBlob() throws IOException {
+    void getBlob() throws IOException {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
         final Blob created =  blobs.create("content", "base64");
         MatcherAssert.assertThat(

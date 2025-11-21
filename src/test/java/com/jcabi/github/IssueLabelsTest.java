@@ -19,10 +19,10 @@ import org.mockito.Mockito;
  * @since 0.7
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class IssueLabelsTest {
+final class IssueLabelsTest {
 
     @Test
-    public void fetchesLabelsByColor() throws IOException {
+    void fetchesLabelsByColor() throws IOException {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("color", "c0c0c0").build()
@@ -47,7 +47,7 @@ public final class IssueLabelsTest {
      * IssueLabels.Smart can check label's existence by name.
      */
     @Test
-    public void checksLabelExistenceByName() {
+    void checksLabelExistenceByName() {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("first").when(first).name();
         final Label second = Mockito.mock(Label.class);
@@ -67,7 +67,7 @@ public final class IssueLabelsTest {
     }
 
     @Test
-    public void getsLabelByName() {
+    void getsLabelByName() {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("a").when(first).name();
         final Label second = Mockito.mock(Label.class);
@@ -82,7 +82,7 @@ public final class IssueLabelsTest {
     }
 
     @Test
-    public void throwsWhenLabelIsAbsent() {
+    void throwsWhenLabelIsAbsent() {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);
         Mockito.doReturn(Collections.emptyList()).when(labels).iterate();
         Assertions.assertThrows(

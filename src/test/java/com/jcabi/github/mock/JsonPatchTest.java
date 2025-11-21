@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link JsonPatch}.
  * @since 0.5
  */
-public final class JsonPatchTest {
+final class JsonPatchTest {
 
     @Test
-    public void patchesXml() throws IOException {
+    void patchesXml() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         new JsonPatch(storage).patch(
             "/github",

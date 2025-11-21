@@ -17,13 +17,13 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkBranches}.
  * @since 0.8
  */
-public final class MkBranchesTest {
+final class MkBranchesTest {
     /**
      * MkBranches can create a new branch.
      * @throws IOException if there is any I/O problem
      */
     @Test
-    public void createsBranch() throws IOException {
+    void createsBranch() throws IOException {
         final String name = "my-new-feature";
         final String sha = "590e188e3d52a8da38cf51d3f9bf598bb46911af";
         final Repo repo = new MkGitHub().randomRepo();
@@ -55,7 +55,7 @@ public final class MkBranchesTest {
      * @throws IOException if there is any I/O problem
      */
     @Test
-    public void iteratesOverBranches() throws IOException {
+    void iteratesOverBranches() throws IOException {
         final MkBranches branches = (MkBranches) new MkGitHub().randomRepo()
             .branches();
         final String onename = "narf";

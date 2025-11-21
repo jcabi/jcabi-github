@@ -24,14 +24,14 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtGistCommentsTest {
+final class RtGistCommentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void getComment() throws IOException {
+    void getComment() throws IOException {
         final String body = "Just commenting";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -57,7 +57,7 @@ public final class RtGistCommentsTest {
     }
 
     @Test
-    public void iterateComments() throws IOException {
+    void iterateComments() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -82,7 +82,7 @@ public final class RtGistCommentsTest {
     }
 
     @Test
-    public void postComment() throws IOException {
+    void postComment() throws IOException {
         final String body = "new commenting";
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

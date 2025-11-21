@@ -18,14 +18,14 @@ import org.mockito.Mockito;
  * Test case for {@link RtReleaseAssets}.
  * @since 0.8
  */
-public final class RtReleaseAssetsTest {
+final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can list assets for a release.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void listReleaseAssets() throws Exception {
+    void listReleaseAssets() throws Exception {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
                 .withBody("[{\"id\":1}, {\"id\":2}]"), RtReleaseAssetsTest.release()
@@ -42,7 +42,7 @@ public final class RtReleaseAssetsTest {
      * @throws Exception If something goes wrong
      */
     @Test
-    public void uploadReleaseAsset() throws Exception {
+    void uploadReleaseAsset() throws Exception {
         final String body = "{\"id\":1}";
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
@@ -62,7 +62,7 @@ public final class RtReleaseAssetsTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void getReleaseAsset() throws Exception {
+    void getReleaseAsset() throws Exception {
         final ReleaseAssets assets = new RtReleaseAssets(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
                 .withBody("{\"id\":3}"),

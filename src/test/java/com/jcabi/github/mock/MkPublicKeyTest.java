@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPublicKey}.
  * @since 0.1
  */
-public final class MkPublicKeyTest {
+final class MkPublicKeyTest {
 
     /**
      * Json name of key.
@@ -24,7 +24,7 @@ public final class MkPublicKeyTest {
     public static final String KEY = "key";
 
     @Test
-    public void canRetrieveAsJson() throws IOException {
+    void canRetrieveAsJson() throws IOException {
         final String title = "Title1";
         final String key = "PublicKey1";
         final JsonObject json = new MkGitHub().users().add("john").keys()
@@ -47,7 +47,7 @@ public final class MkPublicKeyTest {
     }
 
     @Test
-    public void canBePatched() throws IOException {
+    void canBePatched() throws IOException {
         final String original = "PublicKey2";
         final PublicKey key = new MkGitHub().users().add("jeff")
             .keys().create("Title2", original);

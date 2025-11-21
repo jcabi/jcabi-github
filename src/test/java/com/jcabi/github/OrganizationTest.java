@@ -16,10 +16,10 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class OrganizationTest {
+final class OrganizationTest {
 
     @Test
-    public void fetchesUrl() throws IOException {
+    void fetchesUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -34,7 +34,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesAvatarUrl() throws IOException {
+    void fetchesAvatarUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -49,7 +49,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesName() throws IOException {
+    void fetchesName() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -64,7 +64,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesCompany() throws IOException {
+    void fetchesCompany() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -79,7 +79,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesBlog() throws IOException {
+    void fetchesBlog() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -94,7 +94,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesLocation() throws IOException {
+    void fetchesLocation() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -109,7 +109,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesEmail() throws IOException {
+    void fetchesEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -124,7 +124,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesBillingEmail() throws IOException {
+    void fetchesBillingEmail() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -139,7 +139,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesPublicRepos() throws IOException {
+    void fetchesPublicRepos() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -154,7 +154,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesPublicGists() throws IOException {
+    void fetchesPublicGists() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -169,7 +169,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesFollowers() throws IOException {
+    void fetchesFollowers() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -184,7 +184,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesFollowing() throws IOException {
+    void fetchesFollowing() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -199,7 +199,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesHtmlUrl() throws IOException {
+    void fetchesHtmlUrl() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -214,7 +214,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesCreatedAt() throws IOException {
+    void fetchesCreatedAt() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -229,7 +229,7 @@ public final class OrganizationTest {
     }
 
     @Test
-    public void fetchesType() throws IOException {
+    void fetchesType() throws IOException {
         final Organization orgn = Mockito.mock(Organization.class);
         Mockito.doReturn(
             Json.createObjectBuilder()

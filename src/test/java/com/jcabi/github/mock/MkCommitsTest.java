@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkCommitsTest {
+final class MkCommitsTest {
 
     @Test
-    public void createsMkCommit() throws IOException {
+    void createsMkCommit() throws IOException {
         final JsonObject author = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com")
             .add("date", "2008-07-09T16:13:30+12:00").build();

@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtSearchPagination}.
  * @since 0.9
  */
-public final class RtSearchPaginationTest {
+final class RtSearchPaginationTest {
 
     @Test
-    public void iteratesItems() {
+    void iteratesItems() {
         final String key = "key";
         final String value = "value";
         final Iterable<String> pagination = new RtSearchPagination<>(

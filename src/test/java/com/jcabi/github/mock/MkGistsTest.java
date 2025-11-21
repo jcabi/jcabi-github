@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkGistsTest {
+final class MkGistsTest {
 
     @Test
-    public void worksWithMockedGists() throws IOException {
+    void worksWithMockedGists() throws IOException {
         final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap("test-file-name.txt", "none"), false
         );
@@ -37,7 +37,7 @@ public final class MkGistsTest {
      * This tests that the remove() method in MkGists is working fine.
      */
     @Test
-    public void removesGistByIdentifier() throws IOException {
+    void removesGistByIdentifier() throws IOException {
         final Gists gists = new MkGitHub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("fileName.txt", "content"), false
@@ -60,7 +60,7 @@ public final class MkGistsTest {
      * Test to check issue #128
      */
     @Test
-    public void worksWithSeveralGists() throws IOException {
+    void worksWithSeveralGists() throws IOException {
         final Gists gists = new MkGitHub().gists();
         final Gist gist = gists.create(
             Collections.singletonMap("test-file-name.txt", "none"), false
@@ -87,7 +87,7 @@ public final class MkGistsTest {
      * Test starring and star-checking of a gist.
      */
     @Test
-    public void testStar() throws IOException {
+    void testStar() throws IOException {
         final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
@@ -108,7 +108,7 @@ public final class MkGistsTest {
      * Test unstarring and star-checking of a gist.
      */
     @Test
-    public void testUnstar() throws IOException {
+    void testUnstar() throws IOException {
         final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap("file-name.txt", ""), false
         );
@@ -136,7 +136,7 @@ public final class MkGistsTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void createGistWithEmptyFile() throws IOException {
+    void createGistWithEmptyFile() throws IOException {
         final String filename = "file.txt";
         final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap(filename, ""), false

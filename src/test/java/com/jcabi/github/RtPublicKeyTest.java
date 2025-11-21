@@ -15,10 +15,10 @@ import org.mockito.Mockito;
  * Test case for {@link RtPublicKey}.
  * @since 0.1
  */
-public final class RtPublicKeyTest {
+final class RtPublicKeyTest {
 
     @Test
-    public void canRepresentAsJson() throws IOException {
+    void canRepresentAsJson() throws IOException {
         final RtPublicKey key = new RtPublicKey(
             new FakeRequest().withBody("{}"),
             Mockito.mock(User.class),
@@ -32,7 +32,7 @@ public final class RtPublicKeyTest {
     }
 
     @Test
-    public void canObtainUser() {
+    void canObtainUser() {
         final User user = Mockito.mock(User.class);
         final RtPublicKey key = new RtPublicKey(new FakeRequest(), user, 2);
         MatcherAssert.assertThat(
@@ -43,7 +43,7 @@ public final class RtPublicKeyTest {
     }
 
     @Test
-    public void canObtainNumber() {
+    void canObtainNumber() {
         final int number = 39;
         final RtPublicKey key = new RtPublicKey(
             new FakeRequest(),

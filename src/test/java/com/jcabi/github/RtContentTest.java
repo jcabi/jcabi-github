@@ -31,14 +31,14 @@ import org.mockito.Mockito;
  */
 @Immutable
 @ExtendWith(RandomPort.class)
-public final class RtContentTest {
+final class RtContentTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void fetchContentAsJson() throws IOException {
+    void fetchContentAsJson() throws IOException {
         final RtContent content = new RtContent(
             new FakeRequest().withBody("{\"content\":\"json\"}"),
             RtContentTest.repo(),
@@ -52,7 +52,7 @@ public final class RtContentTest {
     }
 
     @Test
-    public void patchWithJson() throws IOException {
+    void patchWithJson() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
         ).start(RandomPort.port())) {
@@ -79,7 +79,7 @@ public final class RtContentTest {
     }
 
     @Test
-    public void canCompareInstances() {
+    void canCompareInstances() {
         final RtContent less = new RtContent(
             new FakeRequest(),
             RtContentTest.repo(),
@@ -105,7 +105,7 @@ public final class RtContentTest {
     }
 
     @Test
-    public void fetchesRawContent() throws IOException {
+    void fetchesRawContent() throws IOException {
         final String raw = "the raw \u20ac";
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)

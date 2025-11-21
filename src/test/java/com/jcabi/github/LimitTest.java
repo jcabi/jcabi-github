@@ -19,10 +19,10 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class LimitTest {
+final class LimitTest {
 
     @Test
-    public void throwsWhenResourceIsAbsent() throws IOException {
+    void throwsWhenResourceIsAbsent() throws IOException {
         final Limit limit = Mockito.mock(Limit.class);
         final Limit.Throttled throttled = new Limit.Throttled(limit, 23);
         Mockito.when(limit.json()).thenReturn(
@@ -41,7 +41,7 @@ public final class LimitTest {
      * constructor assumes miliseconds.
      */
     @Test
-    public void timeIsCreatedForReset() throws IOException {
+    void timeIsCreatedForReset() throws IOException {
         // @checkstyle MagicNumberCheck (21 lines)
         final RtLimit limit = new RtLimit(
             Mockito.mock(GitHub.class),

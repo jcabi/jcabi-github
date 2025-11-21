@@ -26,14 +26,14 @@ import org.mockito.Mockito;
  */
 @Immutable
 @ExtendWith(RandomPort.class)
-public final class RtDeployKeysTest {
+final class RtDeployKeysTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canFetchEmptyListOfDeployKeys() {
+    void canFetchEmptyListOfDeployKeys() {
         final DeployKeys keys = new RtDeployKeys(
             new FakeRequest().withBody("[]"),
             RtDeployKeysTest.repo()
@@ -51,7 +51,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canFetchNonEmptyListOfDeployKeys() throws IOException {
+    void canFetchNonEmptyListOfDeployKeys() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -78,7 +78,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void canFetchSingleDeployKey() throws IOException {
+    void canFetchSingleDeployKey() throws IOException {
         final int number = 1;
         final DeployKeys keys = new RtDeployKeys(
             // @checkstyle MultipleStringLiterals (1 line)
@@ -98,7 +98,7 @@ public final class RtDeployKeysTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void canCreateDeployKey() throws IOException {
+    void canCreateDeployKey() throws IOException {
         final int number = 2;
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

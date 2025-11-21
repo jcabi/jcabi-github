@@ -25,14 +25,14 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
-public final class RtStarsTest {
+final class RtStarsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void checkIfRepoStarred() throws IOException {
+    void checkIfRepoStarred() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
@@ -60,7 +60,7 @@ public final class RtStarsTest {
     }
 
     @Test
-    public void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
+    void starRepository() throws IOException, IllegalArgumentException, UriBuilderException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
@@ -94,7 +94,7 @@ public final class RtStarsTest {
     }
 
     @Test
-    public void unstarRepository()
+    void unstarRepository()
         throws IOException, IllegalArgumentException, UriBuilderException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(

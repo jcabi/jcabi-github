@@ -27,14 +27,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtIssuesTest {
+final class RtIssuesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void createIssue() throws IOException {
+    void createIssue() throws IOException {
         final String title = "Found a bug";
         final String body = RtIssuesTest.issue(title).toString();
         try (
@@ -65,7 +65,7 @@ public final class RtIssuesTest {
     }
 
     @Test
-    public void getSingleIssue() throws IOException {
+    void getSingleIssue() throws IOException {
         final String title = "Unit test";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -90,7 +90,7 @@ public final class RtIssuesTest {
     }
 
     @Test
-    public void iterateIssues() throws IOException {
+    void iterateIssues() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -116,7 +116,7 @@ public final class RtIssuesTest {
     }
 
     @Test
-    public void searchIssues() throws IOException {
+    void searchIssues() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

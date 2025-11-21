@@ -24,13 +24,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtUserOrganizationsTest {
+final class RtUserOrganizationsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canIterateOrganizationsForUnauthUser() throws IOException {
+    void canIterateOrganizationsForUnauthUser() throws IOException {
         final String username = "octopus";
         final GitHub github = new MkGitHub();
         final User user = github.users().get(username);

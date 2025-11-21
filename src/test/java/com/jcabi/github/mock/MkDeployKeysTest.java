@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkDeployKeys}.
  * @since 0.8
  */
-public final class MkDeployKeysTest {
+final class MkDeployKeysTest {
     @Test
-    public void canFetchEmptyListOfDeployKeys() throws IOException {
+    void canFetchEmptyListOfDeployKeys() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         MatcherAssert.assertThat(
             "Collection is not empty",
@@ -27,7 +27,7 @@ public final class MkDeployKeysTest {
     }
 
     @Test
-    public void canFetchSingleDeployKey() throws IOException {
+    void canFetchSingleDeployKey() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title", "Key");
         MatcherAssert.assertThat(
@@ -38,7 +38,7 @@ public final class MkDeployKeysTest {
     }
 
     @Test
-    public void canCreateDeployKey() throws IOException {
+    void canCreateDeployKey() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey key = keys.create("Title1", "Key1");
         MatcherAssert.assertThat(
@@ -53,7 +53,7 @@ public final class MkDeployKeysTest {
      * Reproduces bug described in issue #346.
      */
     @Test
-    public void canCreateDistinctDeployKeys() throws IOException {
+    void canCreateDistinctDeployKeys() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey first = keys.create("Title2", "Key2");
         final DeployKey second = keys.create("Title3", "Key3");
@@ -74,7 +74,7 @@ public final class MkDeployKeysTest {
      * Reproduces bug described in issue #346.
      */
     @Test
-    public void canRepresentAsJson() throws IOException {
+    void canRepresentAsJson() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
         final DeployKey first = keys.create("Title4", "Key4");
         MatcherAssert.assertThat(

@@ -16,9 +16,9 @@ import org.xembly.Xembler;
  * @since 0.40
  * @checkstyle MagicNumberCheck (500 lines)
  */
-public final class MkNotificationTest {
+final class MkNotificationTest {
     @Test
-    public void returnsNumber() {
+    void returnsNumber() {
         MatcherAssert.assertThat(
             "Assertion failed",
             new MkNotification(

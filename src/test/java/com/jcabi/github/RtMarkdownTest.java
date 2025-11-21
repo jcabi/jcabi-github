@@ -25,14 +25,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtMarkdownTest {
+final class RtMarkdownTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void returnsJsonOutput() throws IOException {
+    void returnsJsonOutput() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
@@ -60,7 +60,7 @@ public final class RtMarkdownTest {
     }
 
     @Test
-    public void returnsRawOutput() throws IOException {
+    void returnsRawOutput() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")

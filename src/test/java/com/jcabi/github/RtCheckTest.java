@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.5.0
  */
-public final class RtCheckTest {
+final class RtCheckTest {
 
     @Test
-    public void checksSuccessfulState() {
+    void checksSuccessfulState() {
         MatcherAssert.assertThat(
             "Values are not equal",
             new RtCheck(
@@ -28,7 +28,7 @@ public final class RtCheckTest {
     }
 
     @Test
-    public void checksNotSuccessfulStateIfInProgress() {
+    void checksNotSuccessfulStateIfInProgress() {
         MatcherAssert.assertThat(
             "Values are not equal",
             new RtCheck(
@@ -40,7 +40,7 @@ public final class RtCheckTest {
     }
 
     @Test
-    public void checksNotSuccessfulState() {
+    void checksNotSuccessfulState() {
         MatcherAssert.assertThat(
             "Values are not equal",
             new RtCheck(
@@ -52,7 +52,7 @@ public final class RtCheckTest {
     }
 
     @Test
-    public void createsWithUnexistingStatus() {
+    void createsWithUnexistingStatus() {
         try {
             new RtCheck(
                 "unexisting",
@@ -73,7 +73,7 @@ public final class RtCheckTest {
     }
 
     @Test
-    public void createsWithUnexistingConclusion() {
+    void createsWithUnexistingConclusion() {
         try {
             new RtCheck(
                 "completed",

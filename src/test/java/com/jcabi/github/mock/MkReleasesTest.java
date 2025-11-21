@@ -16,9 +16,9 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
-public final class MkReleasesTest {
+final class MkReleasesTest {
     @Test
-    public void canFetchEmptyListOfReleases() throws IOException {
+    void canFetchEmptyListOfReleases() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
             "Collection is not empty",
@@ -31,7 +31,7 @@ public final class MkReleasesTest {
      * MkReleases can fetch non-empty list of releases.
      */
     @Test
-    public void canFetchNonEmptyListOfReleases() throws IOException {
+    void canFetchNonEmptyListOfReleases() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v1.0";
         releases.create(tag);
@@ -44,7 +44,7 @@ public final class MkReleasesTest {
     }
 
     @Test
-    public void canFetchSingleRelease() throws IOException {
+    void canFetchSingleRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
             "Value is null", releases.get(1), Matchers.notNullValue()
@@ -52,7 +52,7 @@ public final class MkReleasesTest {
     }
 
     @Test
-    public void canCreateRelease() throws IOException {
+    void canCreateRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v1.0.0";
         final Release release = releases.create(tag);
@@ -64,7 +64,7 @@ public final class MkReleasesTest {
     }
 
     @Test
-    public void iteratesReleases() throws IOException {
+    void iteratesReleases() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         releases.create("v1.0.1");
         releases.create("v1.0.2");
@@ -76,7 +76,7 @@ public final class MkReleasesTest {
     }
 
     @Test
-    public void canRemoveRelease() throws IOException {
+    void canRemoveRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         releases.create("v1.1.1");
         releases.create("v1.1.2");
@@ -94,7 +94,7 @@ public final class MkReleasesTest {
     }
 
     @Test
-    public void findsReleaseByTag() throws IOException {
+    void findsReleaseByTag() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v5.0";
         releases.create(tag);
@@ -114,7 +114,7 @@ public final class MkReleasesTest {
      * The release's name should be empty upon initial creation.
      */
     @Test
-    public void releaseNameIsEmpty() throws IOException {
+    void releaseNameIsEmpty() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);
@@ -130,7 +130,7 @@ public final class MkReleasesTest {
      * The release's body should be empty upon initial creation.
      */
     @Test
-    public void releaseBodyIsEmpty() throws IOException {
+    void releaseBodyIsEmpty() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "tag";
         releases.create(tag);

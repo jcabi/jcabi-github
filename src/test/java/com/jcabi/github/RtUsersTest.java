@@ -23,14 +23,14 @@ import org.mockito.Mockito;
  * @since 0.4
  */
 @ExtendWith(RandomPort.class)
-public final class RtUsersTest {
+final class RtUsersTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void iterateUsers() throws IOException {
+    void iterateUsers() throws IOException {
         final String identifier = "1";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -54,7 +54,7 @@ public final class RtUsersTest {
     }
 
     @Test
-    public void getSingleUser() throws IOException {
+    void getSingleUser() throws IOException {
         final String login = "mark";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -75,7 +75,7 @@ public final class RtUsersTest {
     }
 
     @Test
-    public void getCurrentUser() throws IOException {
+    void getCurrentUser() throws IOException {
         final String login = "kendy";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(

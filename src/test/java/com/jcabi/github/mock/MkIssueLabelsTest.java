@@ -19,14 +19,14 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkIssueLabels}.
  * @since 0.6
  */
-public final class MkIssueLabelsTest {
+final class MkIssueLabelsTest {
     /**
      * Username of actor.
      */
     private static final String USER = "jeff";
 
     @Test
-    public void iteratesIssues() throws IOException {
+    void iteratesIssues() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final String name = "bug";
         repo.labels().create(name, "c0c0c0");
@@ -40,7 +40,7 @@ public final class MkIssueLabelsTest {
     }
 
     @Test
-    public void createsLabelsThroughDecorator() throws IOException {
+    void createsLabelsThroughDecorator() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("how are you?", "");
         final String name = "task";
@@ -56,7 +56,7 @@ public final class MkIssueLabelsTest {
      * MkIssueLabels creates a "labeled" event when a label is added.
      */
     @Test
-    public void addingLabelGeneratesEvent() throws IOException {
+    void addingLabelGeneratesEvent() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final String name = "confirmed";
         repo.labels().create(name, "663399");
@@ -96,7 +96,7 @@ public final class MkIssueLabelsTest {
      * MkIssueLabels creates an "unlabeled" event when a label is removed.
      */
     @Test
-    public void removingLabelGeneratesEvent() throws IOException {
+    void removingLabelGeneratesEvent() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final String name = "invalid";
         repo.labels().create(name, "ee82ee");

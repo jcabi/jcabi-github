@@ -29,14 +29,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtReleasesTest {
+final class RtReleasesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canFetchEmptyListOfReleases() {
+    void canFetchEmptyListOfReleases() {
         final Releases releases = new RtReleases(
             new FakeRequest().withBody("[]"),
             RtReleasesTest.repo()
@@ -49,7 +49,7 @@ public final class RtReleasesTest {
     }
 
     @Test
-    public void canFetchNonEmptyListOfReleases() {
+    void canFetchNonEmptyListOfReleases() {
         final int number = 1;
         final Releases releases = new RtReleases(
             new FakeRequest().withBody(
@@ -71,7 +71,7 @@ public final class RtReleasesTest {
     }
 
     @Test
-    public void canFetchSingleRelease() {
+    void canFetchSingleRelease() {
         final Releases releases = new RtReleases(
             new FakeRequest(), RtReleasesTest.repo()
         );
@@ -81,7 +81,7 @@ public final class RtReleasesTest {
     }
 
     @Test
-    public void canCreateRelease() throws IOException {
+    void canCreateRelease() throws IOException {
         final String tag = "v1.0.0";
         final String rel = RtReleasesTest.release(tag).toString();
         try (
@@ -110,7 +110,7 @@ public final class RtReleasesTest {
     }
 
     @Test
-    public void canDeleteRelease() throws IOException {
+    void canDeleteRelease() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

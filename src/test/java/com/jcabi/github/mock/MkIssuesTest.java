@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkIssuesTest {
+final class MkIssuesTest {
 
     @Test
-    public void iteratesIssues() throws IOException {
+    void iteratesIssues() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         repo.issues().create("hey, you", "body of issue");
         repo.issues().create("hey", "body of 2nd issue");
@@ -36,7 +36,7 @@ public final class MkIssuesTest {
     }
 
     @Test
-    public void createsNewIssueWithCorrectAuthor() throws IOException {
+    void createsNewIssueWithCorrectAuthor() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue.Smart issue = new Issue.Smart(
             repo.issues().create("hello", "the body")
@@ -49,7 +49,7 @@ public final class MkIssuesTest {
     }
 
     @Test
-    public void createsMultipleIssues() throws IOException {
+    void createsMultipleIssues() throws IOException {
         final GitHub github = new MkGitHub("jeff");
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("test-3", false)

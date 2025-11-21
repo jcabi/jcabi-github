@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtBranch}.
  * @since 0.8
  */
-public final class RtBranchTest {
+final class RtBranchTest {
     /**
      * Test branch name.
      */
@@ -28,7 +28,7 @@ public final class RtBranchTest {
     private static final String SHA = "b9b0b8a357bbf70f7c9f8ef17160ee31feb508a9";
 
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = RtBranchTest.newBranch(repo).commit();
         MatcherAssert.assertThat(
@@ -48,7 +48,7 @@ public final class RtBranchTest {
     }
 
     @Test
-    public void fetchesName() throws IOException {
+    void fetchesName() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             RtBranchTest.newBranch(new MkGitHub().randomRepo()).name(),
@@ -57,7 +57,7 @@ public final class RtBranchTest {
     }
 
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Coordinates coords = RtBranchTest.newBranch(repo)
             .repo().coordinates();

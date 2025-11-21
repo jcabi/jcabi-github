@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkContent}.
  * @since 0.8
  */
-public final class MkContentTest {
+final class MkContentTest {
 
     @Test
-    public void canGetOwnRepo() throws IOException {
+    void canGetOwnRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Contents contents = repo.contents();
         final Content content = contents.create(
@@ -39,7 +39,7 @@ public final class MkContentTest {
     }
 
     @Test
-    public void canGetOwnPath() throws IOException {
+    void canGetOwnPath() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String path = "dummy.txt";
         final Content content = contents.create(
@@ -53,7 +53,7 @@ public final class MkContentTest {
     }
 
     @Test
-    public void fetchesJsonRepresentation() throws IOException {
+    void fetchesJsonRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String path = "fake.txt";
         final Content content = contents.create(
@@ -68,7 +68,7 @@ public final class MkContentTest {
     }
 
     @Test
-    public void fetchesRawRepresentation() throws IOException {
+    void fetchesRawRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String raw = "raw test \u20ac\u0000";
         try (

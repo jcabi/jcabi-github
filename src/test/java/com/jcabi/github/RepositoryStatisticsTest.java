@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle LineLengthCheck (2 lines)
  */
 @SuppressWarnings({"PMD.SuspiciousConstantFieldName", "PMD.VariableNamingConventions"})
-public final class RepositoryStatisticsTest {
+final class RepositoryStatisticsTest {
 
     /**
      * Forks key in JSON.
@@ -120,7 +120,7 @@ public final class RepositoryStatisticsTest {
      * @throws IOException If some problem with I/O happened.
      */
     @Test
-    public void retrievesBasicStatisticsFromRepo()
+    void retrievesBasicStatisticsFromRepo()
         throws IOException {
         MatcherAssert.assertThat(
             "We expect to have basic statistics from repo",
@@ -177,7 +177,7 @@ public final class RepositoryStatisticsTest {
      * @throws IOException If some problem with I/O happened.
      */
     @Test
-    public void retrievesSmartStatistics() throws IOException {
+    void retrievesSmartStatistics() throws IOException {
         final RepositoryStatistics.Smart smart =
             new RepositoryStatistics.Smart(RepositoryStatisticsTest.repo());
         MatcherAssert.assertThat(

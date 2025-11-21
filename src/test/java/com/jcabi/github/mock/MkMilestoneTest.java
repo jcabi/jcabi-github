@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * Unit tests for the MkUser class.
  * @since 0.7
  */
-public final class MkMilestoneTest {
+final class MkMilestoneTest {
 
     @Test
-    public void returnsSameCoordinatesRepo() throws IOException {
+    void returnsSameCoordinatesRepo() throws IOException {
         final Coordinates coordinates = new Coordinates.Simple(
             "user",
             "repo"

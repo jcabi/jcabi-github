@@ -14,10 +14,10 @@ import org.mockito.Mockito;
  * Test case for {@link RtGit}.
  * @since 0.8
  */
-public final class RtGitTest {
+final class RtGitTest {
 
     @Test
-    public void canFetchOwnRepo() {
+    void canFetchOwnRepo() {
         final Repo repo = RtGitTest.repo();
         MatcherAssert.assertThat(
             "Values are not equal",

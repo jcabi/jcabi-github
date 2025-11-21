@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
-public final class MkOrganizationsTest {
+final class MkOrganizationsTest {
     @Test
-    public void getSingleOrganization() throws IOException {
+    void getSingleOrganization() throws IOException {
         final String login = "orgTestGet";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile()
@@ -39,7 +39,7 @@ public final class MkOrganizationsTest {
     }
 
     @Test
-    public void testCreatedAt() throws IOException, ParseException, InterruptedException {
+    void testCreatedAt() throws IOException, ParseException, InterruptedException {
         final String name = "testCreatedAt";
         final MkOrganizations orgs = new MkOrganizations(
             new MkStorage.InFile()
@@ -67,7 +67,7 @@ public final class MkOrganizationsTest {
      * MkOrganizations can list the logged-in user's organizations.
      */
     @Test
-    public void iteratesCurrentUserOrganizations() throws IOException {
+    void iteratesCurrentUserOrganizations() throws IOException {
         final Organizations orgs = new MkGitHub().organizations();
         orgs.get("orgTestIterate");
         MatcherAssert.assertThat(

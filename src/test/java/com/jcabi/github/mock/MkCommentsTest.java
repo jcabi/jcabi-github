@@ -15,14 +15,14 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkComments}.
  * @since 0.7
  */
-public final class MkCommentsTest {
+final class MkCommentsTest {
 
     /**
      * MkComments can iterate comments.
      * @throws Exception If some problem inside
      */
     @Test
-    public void iteratesComments() throws Exception {
+    void iteratesComments() throws Exception {
         final Comments comments = MkCommentsTest.comments();
         comments.post("hello, dude!");
         comments.post("hello again");

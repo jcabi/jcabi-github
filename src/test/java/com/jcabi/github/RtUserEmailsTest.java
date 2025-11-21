@@ -23,14 +23,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtUserEmailsTest {
+final class RtUserEmailsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void fetchesEmails() throws IOException {
+    void fetchesEmails() throws IOException {
         final String email = "test@email.com";
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withBody(
@@ -46,7 +46,7 @@ public final class RtUserEmailsTest {
     }
 
     @Test
-    public void addsEmails() throws IOException {
+    void addsEmails() throws IOException {
         final String email = "test1@email.com";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -70,7 +70,7 @@ public final class RtUserEmailsTest {
     }
 
     @Test
-    public void removesEmails() throws IOException {
+    void removesEmails() throws IOException {
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT)
         );

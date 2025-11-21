@@ -17,10 +17,10 @@ import org.mockito.Mockito;
  * Test case for {@link RtLimit}.
  * @since 0.6
  */
-public final class RtLimitTest {
+final class RtLimitTest {
 
     @Test
-    public void describeAsJson() throws IOException {
+    void describeAsJson() throws IOException {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(GitHub.class),
             new FakeRequest().withBody(RtLimitTest.body()),
@@ -36,7 +36,7 @@ public final class RtLimitTest {
     }
 
     @Test
-    public void throwsWhenResourceIsAbsent() {
+    void throwsWhenResourceIsAbsent() {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(GitHub.class),
             new FakeRequest().withBody(RtLimitTest.body()),

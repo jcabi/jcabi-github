@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkChecks}.
  * @since 1.6.1
  */
-public final class MkChecksTest {
+final class MkChecksTest {
 
     /**
      * Pull request.
@@ -28,7 +28,7 @@ public final class MkChecksTest {
      * @throws IOException If some problem with I/O.
      */
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         this.pull = new MkGitHub()
             .randomRepo()
             .pulls()
@@ -40,7 +40,7 @@ public final class MkChecksTest {
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void returnsEmptyChecksByDefault() throws IOException {
+    void returnsEmptyChecksByDefault() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",
             ((MkChecks) this.pull.checks()).all(),
@@ -53,7 +53,7 @@ public final class MkChecksTest {
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void createsCheck() throws IOException {
+    void createsCheck() throws IOException {
         final MkChecks checks = (MkChecks) this.pull.checks();
         final Check check = checks.create(
             Check.Status.COMPLETED,

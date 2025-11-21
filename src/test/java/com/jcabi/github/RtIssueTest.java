@@ -28,14 +28,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtIssueTest {
+final class RtIssueTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void fetchesComments() {
+    void fetchesComments() {
         final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
             "Value is null",
@@ -45,7 +45,7 @@ public final class RtIssueTest {
     }
 
     @Test
-    public void fetchesLabels() {
+    void fetchesLabels() {
         final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
             "Value is null",
@@ -55,7 +55,7 @@ public final class RtIssueTest {
     }
 
     @Test
-    public void fetchesEvents() {
+    void fetchesEvents() {
         final RtIssue issue = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         MatcherAssert.assertThat(
             "Value is null",
@@ -65,7 +65,7 @@ public final class RtIssueTest {
     }
 
     @Test
-    public void fetchIssueAsJson() throws IOException {
+    void fetchIssueAsJson() throws IOException {
         final RtIssue issue = new RtIssue(
             new FakeRequest().withBody("{\"issue\":\"json\"}"),
             RtIssueTest.repo(),
@@ -79,7 +79,7 @@ public final class RtIssueTest {
     }
 
     @Test
-    public void patchWithJson() throws IOException {
+    void patchWithJson() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
@@ -109,7 +109,7 @@ public final class RtIssueTest {
     }
 
     @Test
-    public void canCompareInstances() {
+    void canCompareInstances() {
         final RtIssue less = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 1);
         final RtIssue greater = new RtIssue(new FakeRequest(), RtIssueTest.repo(), 2);
         MatcherAssert.assertThat(
@@ -123,7 +123,7 @@ public final class RtIssueTest {
     }
 
     @Test
-    public void reacts() throws IOException {
+    void reacts() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

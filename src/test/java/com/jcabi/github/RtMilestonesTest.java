@@ -22,14 +22,14 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtMilestonesTest {
+final class RtMilestonesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void deleteMilestone() throws IOException {
+    void deleteMilestone() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

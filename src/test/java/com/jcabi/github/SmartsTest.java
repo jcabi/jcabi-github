@@ -16,10 +16,10 @@ import org.mockito.Mockito;
  * Test case for {@link Smarts}.
  * @since 0.5
  */
-public final class SmartsTest {
+final class SmartsTest {
 
     @Test
-    public void decoratesObjectsOnFly() throws IOException {
+    void decoratesObjectsOnFly() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add("body", "hello, world!").build()

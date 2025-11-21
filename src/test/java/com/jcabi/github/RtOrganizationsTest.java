@@ -24,14 +24,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtOrganizationsTest {
+final class RtOrganizationsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void fetchesSingleOrganization() throws IOException {
+    void fetchesSingleOrganization() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -56,7 +56,7 @@ public final class RtOrganizationsTest {
      * @checkstyle MagicNumberCheck (25 lines)
      */
     @Test
-    public void retrievesOrganizations() throws IOException {
+    void retrievesOrganizations() throws IOException {
         final GitHub github = new MkGitHub();
         try (
             MkContainer container = new MkGrizzlyContainer().next(

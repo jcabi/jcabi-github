@@ -25,7 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RetryCarefulWireTest {
+final class RetryCarefulWireTest {
     /**
      * HTTP 200 status reason.
      */
@@ -41,7 +41,7 @@ public final class RetryCarefulWireTest {
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void makesMultipleRequestsAndWaitUntilReset() throws IOException {
+    void makesMultipleRequestsAndWaitUntilReset() throws IOException {
         final int threshold = 10;
         // @checkstyle MagicNumber (2 lines)
         final long reset = TimeUnit.MILLISECONDS
@@ -74,7 +74,7 @@ public final class RetryCarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitRemainingHeader() throws IOException {
+    void tolerateMissingRateLimitRemainingHeader() throws IOException {
         final int threshold = 11;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
@@ -94,7 +94,7 @@ public final class RetryCarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitResetHeader() throws IOException {
+    void tolerateMissingRateLimitResetHeader() throws IOException {
         final int threshold = 8;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()

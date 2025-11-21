@@ -25,13 +25,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.4
  */
 @ExtendWith(RandomPort.class)
-public final class RtPaginationTest {
+final class RtPaginationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void jumpNextPage() throws IOException {
+    void jumpNextPage() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 RtPaginationTest.simple("Hi Jeff")
@@ -63,7 +63,7 @@ public final class RtPaginationTest {
     }
 
     @Test
-    public void throwsIfNoMoreElement() throws IOException {
+    void throwsIfNoMoreElement() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(RtPaginationTest.simple("Hi there")).start(RandomPort.port())

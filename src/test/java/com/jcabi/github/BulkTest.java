@@ -16,10 +16,10 @@ import org.mockito.Mockito;
  * Test case for {@link Bulk}.
  * @since 0.17
  */
-public final class BulkTest {
+final class BulkTest {
 
     @Test
-    public void cachesJsonData() throws IOException {
+    void cachesJsonData() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);
         final Request request = new FakeRequest()
             .withBody("[{\"body\": \"hey you\"}]");

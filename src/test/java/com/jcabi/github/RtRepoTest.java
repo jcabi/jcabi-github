@@ -30,7 +30,7 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 @ExtendWith(RandomPort.class)
-public final class RtRepoTest {
+final class RtRepoTest {
 
     /**
      * Repo user for tests.
@@ -47,7 +47,7 @@ public final class RtRepoTest {
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void iteratesEvents() throws IOException {
+    void iteratesEvents() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -72,7 +72,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchesLabels() {
+    void fetchesLabels() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -84,7 +84,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchesIssues() {
+    void fetchesIssues() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -96,7 +96,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchesBranches() {
+    void fetchesBranches() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -108,7 +108,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchesPulls() {
+    void fetchesPulls() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -120,7 +120,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchHooks() {
+    void fetchHooks() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -132,7 +132,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchKeys() {
+    void fetchKeys() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -144,7 +144,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchReleases() {
+    void fetchReleases() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -156,7 +156,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchContents() {
+    void fetchContents() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -168,7 +168,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void identifiesItself() {
+    void identifiesItself() {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
         final Repo repo = new RtRepo(
             Mockito.mock(GitHub.class),
@@ -183,7 +183,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void executePatchRequest() throws IOException {
+    void executePatchRequest() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -206,7 +206,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void describeAsJson() throws IOException {
+    void describeAsJson() throws IOException {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
@@ -226,7 +226,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchCommits() {
+    void fetchCommits() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -236,7 +236,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchesGit() {
+    void fetchesGit() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -246,7 +246,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchStars() {
+    void fetchStars() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -261,7 +261,7 @@ public final class RtRepoTest {
      * @throws IOException If some problem occurs.
      */
     @Test
-    public void fetchDefaultBranch() throws IOException {
+    void fetchDefaultBranch() throws IOException {
         final String expected = "main";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -285,7 +285,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchNotifications() {
+    void fetchNotifications() {
         final Repo repo = RtRepoTest.repo(
             new FakeRequest()
         );
@@ -295,7 +295,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void fetchLanguages() throws IOException {
+    void fetchLanguages() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -317,7 +317,7 @@ public final class RtRepoTest {
     }
 
     @Test
-    public void iteratesLanguages() throws IOException {
+    void iteratesLanguages() throws IOException {
         final String lang = "C";
         final String other = "Java";
         try (
@@ -370,7 +370,7 @@ public final class RtRepoTest {
      * @throws IOException If something goes wrong.
      */
     @Test
-    public void retrievesStargazers() throws IOException {
+    void retrievesStargazers() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(

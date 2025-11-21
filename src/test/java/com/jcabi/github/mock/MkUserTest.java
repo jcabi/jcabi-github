@@ -20,14 +20,14 @@ import org.xembly.Directives;
  * @since 0.1
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-public final class MkUserTest {
+final class MkUserTest {
 
     /**
      * Tests that MkUser.organizations() returns a value.
      * @throws IOException when there is an error creating the MkUser begin tested
      */
     @Test
-    public void testGetOrganizations() throws IOException {
+    void testGetOrganizations() throws IOException {
         final MkUser user = new MkUser(
             new MkStorage.InFile(),
             "orgTestIterate"
@@ -48,7 +48,7 @@ public final class MkUserTest {
      * @throws IOException If there is an error creating the user.
      */
     @Test
-    public void returnsNotifications() throws IOException {
+    void returnsNotifications() throws IOException {
         MatcherAssert.assertThat(
             "Value is null",
             new MkUser(
@@ -65,7 +65,7 @@ public final class MkUserTest {
      * @throws IOException If any error occurs.
      */
     @Test
-    public void marksNotificationsAsReadUpToDate() throws IOException {
+    void marksNotificationsAsReadUpToDate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(new Directives().xpath("/github").add("users"));
         final User user = new MkUsers(storage, "joe").add("joe");

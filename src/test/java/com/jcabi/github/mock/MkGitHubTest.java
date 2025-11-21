@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class MkGitHubTest {
+final class MkGitHubTest {
     /**
      * Settings to use when creating temporary repos.
      */
@@ -41,7 +41,7 @@ public final class MkGitHubTest {
         );
 
     @Test
-    public void worksWithMockedData() throws IOException {
+    void worksWithMockedData() throws IOException {
         final Repo repo = new MkGitHub().repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
         final Issue issue = repo.issues().create("hey", "how are you?");
         final Comment comment = issue.comments().post("hey, works?");
@@ -65,7 +65,7 @@ public final class MkGitHubTest {
     }
 
     @Test
-    public void canRelogin() throws IOException {
+    void canRelogin() throws IOException {
         final String login = "mark";
         final MkGitHub github = new MkGitHub();
         final Repo repo = github.repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
@@ -95,7 +95,7 @@ public final class MkGitHubTest {
     }
 
     @Test
-    public void retrievesMarkdown() throws IOException {
+    void retrievesMarkdown() throws IOException {
         final GitHub github = new MkGitHub();
         MatcherAssert.assertThat(
             "Value is null",
@@ -105,7 +105,7 @@ public final class MkGitHubTest {
     }
 
     @Test
-    public void canCreateRandomRepo() throws IOException {
+    void canCreateRandomRepo() throws IOException {
         final MkGitHub github = new MkGitHub();
         final Repo repo = github.randomRepo();
         MatcherAssert.assertThat(
@@ -116,7 +116,7 @@ public final class MkGitHubTest {
     }
 
     @Test
-    public void canHandleMultipleThreads() throws IOException, InterruptedException {
+    void canHandleMultipleThreads() throws IOException, InterruptedException {
         final Repo repo = new MkGitHub().randomRepo();
         final Callable<Void> task = new VerboseCallable<>(
             () -> {
@@ -140,7 +140,7 @@ public final class MkGitHubTest {
     }
 
     @Test
-    public void canRetrieveUsers() throws IOException {
+    void canRetrieveUsers() throws IOException {
         MatcherAssert.assertThat(
             "Retrieved inexistent user",
             new User.Smart(

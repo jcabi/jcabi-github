@@ -29,7 +29,7 @@ import org.mockito.Mockito;
  * @since 1.5.0
  */
 @ExtendWith(RandomPort.class)
-public final class RtChecksTest {
+final class RtChecksTest {
 
     /**
      * Conclusion key in json check.
@@ -46,7 +46,7 @@ public final class RtChecksTest {
      * @throws IOException If some problem happens.
      */
     @Test
-    public void getsAllChecks() throws IOException {
+    void getsAllChecks() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
@@ -72,7 +72,7 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
+    void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
@@ -98,7 +98,7 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void assertsOkResponse() throws IOException {
+    void assertsOkResponse() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(
                 new MkAnswer.Simple(
@@ -133,7 +133,7 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void retrievesUnfinishedChecksWithoutConclusion()
+    void retrievesUnfinishedChecksWithoutConclusion()
         throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(
@@ -172,7 +172,7 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void retrievesUnfinishedChecksWithNullableConclusion()
+    void retrievesUnfinishedChecksWithNullableConclusion()
         throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(
@@ -214,7 +214,7 @@ public final class RtChecksTest {
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    public void retrievesUnfinishedChecksWithoutStatusAndConclusion()
+    void retrievesUnfinishedChecksWithoutStatusAndConclusion()
         throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(

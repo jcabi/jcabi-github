@@ -24,14 +24,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtGistsTest {
+final class RtGistsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canCreateFiles() throws IOException {
+    void canCreateFiles() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -59,7 +59,7 @@ public final class RtGistsTest {
     }
 
     @Test
-    public void canRetrieveSpecificGist() throws IOException {
+    void canRetrieveSpecificGist() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
@@ -79,7 +79,7 @@ public final class RtGistsTest {
     }
 
     @Test
-    public void canIterateThrouRtGists() throws IOException {
+    void canIterateThrouRtGists() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -102,7 +102,7 @@ public final class RtGistsTest {
     }
 
     @Test
-    public void removesGistByName() throws IOException {
+    void removesGistByName() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

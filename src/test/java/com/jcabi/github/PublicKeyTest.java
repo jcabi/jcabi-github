@@ -16,10 +16,10 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (150 lines)
  */
-public final class PublicKeyTest {
+final class PublicKeyTest {
 
     @Test
-    public void fetchesKey() throws IOException {
+    void fetchesKey() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String value = "sha-rsa AAA...";
         Mockito.doReturn(
@@ -33,7 +33,7 @@ public final class PublicKeyTest {
     }
 
     @Test
-    public void updatesKey() throws IOException {
+    void updatesKey() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String value = "sha-rsa BBB...";
         new PublicKey.Smart(key).key(value);
@@ -43,7 +43,7 @@ public final class PublicKeyTest {
     }
 
     @Test
-    public void fetchesUrl() throws IOException {
+    void fetchesUrl() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "https://api.github.com/user/keys/1";
         Mockito.doReturn(
@@ -57,7 +57,7 @@ public final class PublicKeyTest {
     }
 
     @Test
-    public void fetchesTitle() throws IOException {
+    void fetchesTitle() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "octocat@octomac";
         Mockito.doReturn(
@@ -71,7 +71,7 @@ public final class PublicKeyTest {
     }
 
     @Test
-    public void updatesTitle() throws IOException {
+    void updatesTitle() throws IOException {
         final PublicKey key = Mockito.mock(PublicKey.class);
         final String prop = "octocat@octomac";
         new PublicKey.Smart(key).title(prop);

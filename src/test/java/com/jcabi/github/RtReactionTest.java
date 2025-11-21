@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
  * Tests for Runtime Reaction.
  * @since 1.0
  */
-public final class RtReactionTest {
+final class RtReactionTest {
 
     @Test
-    public void throwsExceptionOnInvalidReaction() {
+    void throwsExceptionOnInvalidReaction() {
         Assertions.assertThrows(
             IllegalArgumentException.class,
             () -> new RtReaction(new Reaction.Simple("invalid")).type(),

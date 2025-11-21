@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkGist}.
  * @since 0.1
  */
-public final class MkGistTest {
+final class MkGistTest {
     /**
      * MkGist can read empty file.
      * @throws IOException If some problem inside
      */
     @Test
-    public void readEmptyGistFile() throws IOException {
+    void readEmptyGistFile() throws IOException {
         // @checkstyle MultipleStringLiterals (1 lines)
         final String filename = "file.txt";
         final Gist gist = new MkGitHub().gists().create(
@@ -39,7 +39,7 @@ public final class MkGistTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void fork() throws IOException {
+    void fork() throws IOException {
         final String filename = "file.txt";
         final Gist gist = new MkGitHub().gists().create(
             Collections.singletonMap(filename, ""), false

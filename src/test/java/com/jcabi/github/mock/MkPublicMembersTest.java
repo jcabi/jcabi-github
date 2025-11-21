@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPublicMembers}.
  * @since 0.1
  */
-public final class MkPublicMembersTest {
+final class MkPublicMembersTest {
     @Test
-    public void fetchesOrg() throws IOException {
+    void fetchesOrg() throws IOException {
         final Organization org = MkPublicMembersTest.organization();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -33,7 +33,7 @@ public final class MkPublicMembersTest {
      * MkPublicMembers can publicize/conceal a member's membership.
      */
     @Test
-    public void changesPublicityOfMembershipOfUsers() throws IOException {
+    void changesPublicityOfMembershipOfUsers() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("johnny5");
@@ -64,7 +64,7 @@ public final class MkPublicMembersTest {
     }
 
     @Test
-    public void checkPublicMembership() throws IOException {
+    void checkPublicMembership() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("agent99");
@@ -99,7 +99,7 @@ public final class MkPublicMembersTest {
     }
 
     @Test
-    public void iteratesPublicMembers() throws IOException {
+    void iteratesPublicMembers() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
         final User user = org.github().users().get("jasmine");

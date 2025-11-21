@@ -27,14 +27,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtPullsTest {
+final class RtPullsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void createPull() throws IOException {
+    void createPull() throws IOException {
         final String title = "new feature";
         final String body = RtPullsTest.pull(title).toString();
         try (
@@ -63,7 +63,7 @@ public final class RtPullsTest {
     }
 
     @Test
-    public void getSinglePull() throws IOException {
+    void getSinglePull() throws IOException {
         final String title = "new-feature";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -88,7 +88,7 @@ public final class RtPullsTest {
     }
 
     @Test
-    public void iteratePulls() throws IOException {
+    void iteratePulls() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

@@ -28,7 +28,7 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
-public final class RtReleaseTest {
+final class RtReleaseTest {
     /**
      * An empty JSON string.
      */
@@ -43,7 +43,7 @@ public final class RtReleaseTest {
      * Setting up the test fixture.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.container = new MkGrizzlyContainer();
     }
 
@@ -51,12 +51,12 @@ public final class RtReleaseTest {
      * Tear down the test fixture to return to the original state.
      */
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         this.container.stop();
     }
 
     @Test
-    public void editRelease() throws IOException {
+    void editRelease() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
         ).start(RandomPort.port());
@@ -79,7 +79,7 @@ public final class RtReleaseTest {
     }
 
     @Test
-    public void deleteRelease() throws IOException {
+    void deleteRelease() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, RtReleaseTest.EMPTY_JSON)
         ).start(RandomPort.port());
@@ -93,7 +93,7 @@ public final class RtReleaseTest {
     }
 
     @Test
-    public void executePatchRequest() throws IOException {
+    void executePatchRequest() throws IOException {
         this.container.next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
         ).start(RandomPort.port());

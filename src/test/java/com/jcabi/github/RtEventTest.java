@@ -23,14 +23,14 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtEventTest {
+final class RtEventTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canRetrieveOwnRepo() {
+    void canRetrieveOwnRepo() {
         final Repo repo = RtEventTest.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
         MatcherAssert.assertThat(
@@ -41,7 +41,7 @@ public final class RtEventTest {
     }
 
     @Test
-    public void canRetrieveOwnNumber() {
+    void canRetrieveOwnNumber() {
         final Repo repo = RtEventTest.repo();
         final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
@@ -52,7 +52,7 @@ public final class RtEventTest {
     }
 
     @Test
-    public void retrieveEventAsJson() throws IOException {
+    void retrieveEventAsJson() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -73,7 +73,7 @@ public final class RtEventTest {
     }
 
     @Test
-    public void canCompareInstances() {
+    void canCompareInstances() {
         final RtEvent less = new RtEvent(new FakeRequest(), RtEventTest.repo(), 1);
         final RtEvent greater = new RtEvent(new FakeRequest(), RtEventTest.repo(), 2);
         MatcherAssert.assertThat(

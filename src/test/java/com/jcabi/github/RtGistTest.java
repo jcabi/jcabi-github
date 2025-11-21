@@ -24,14 +24,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtGistTest {
+final class RtGistTest {
 
     /**
      * RtGist should be able to do reads.
      * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
-    public void readsFileWithContents() throws IOException {
+    void readsFileWithContents() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -55,7 +55,7 @@ public final class RtGistTest {
     }
 
     @Test
-    public void writesFileContents() throws IOException {
+    void writesFileContents() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testFileWrite")
@@ -83,7 +83,7 @@ public final class RtGistTest {
      * @throws IOException If there is a problem.
      */
     @Test
-    public void fork() throws IOException {
+    void fork() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()) {
             container.next(
                 new MkAnswer.Simple(
@@ -128,7 +128,7 @@ public final class RtGistTest {
     }
 
     @Test
-    public void canIterateFiles() throws IOException {
+    void canIterateFiles() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -159,7 +159,7 @@ public final class RtGistTest {
     }
 
     @Test
-    public void canRepresentAsString() throws IOException {
+    void canRepresentAsString() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .start(RandomPort.port())
@@ -179,7 +179,7 @@ public final class RtGistTest {
     }
 
     @Test
-    public void canUnstarAGist() throws IOException {
+    void canUnstarAGist() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -207,7 +207,7 @@ public final class RtGistTest {
     }
 
     @Test
-    public void executePatchRequest() throws IOException {
+    void executePatchRequest() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

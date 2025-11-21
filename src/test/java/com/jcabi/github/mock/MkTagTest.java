@@ -17,14 +17,14 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkTagTest {
+final class MkTagTest {
 
     /**
      * MkTag should return its json.
      * @throws Exception If something goes wrong.
      */
     @Test
-    public void fetchesContent() throws Exception {
+    void fetchesContent() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
             MkTagTest.tag().json().getString("message"),

@@ -14,10 +14,10 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class LabelTest {
+final class LabelTest {
 
     @Test
-    public void canBeComparedProperly() {
+    void canBeComparedProperly() {
         final Label.Unmodified one = new Label.Unmodified(
             LabelTest.repo("jef", "jef_repo"),
             "{\"name\":\"paul\"}"

@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Test;
  *  mark() operation in RtNotifications.
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-public final class RtNotificationsTest {
+final class RtNotificationsTest {
 
     /**
      * Method 'iterate()' returns empty iterable if the service responds with
      * no notifications.
      */
     @Test
-    public void iterateEmpty() {
+    void iterateEmpty() {
         MatcherAssert.assertThat(
             "Collection is not empty",
             new RtNotifications(
@@ -43,7 +43,7 @@ public final class RtNotificationsTest {
      * Method 'iterate()' will iterate over notifications sent by the service.
      */
     @Test
-    public void iterateNotifications() {
+    void iterateNotifications() {
         MatcherAssert.assertThat(
             "Assertion failed",
             new RtNotifications(
@@ -120,7 +120,7 @@ public final class RtNotificationsTest {
 
     @Test
     @Disabled
-    public void markNotificationAsRead() {
+    void markNotificationAsRead() {
         // Not implemented
     }
 }

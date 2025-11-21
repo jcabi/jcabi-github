@@ -30,14 +30,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtCommentTest {
+final class RtCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canCompareInstances() throws IOException {
+    void canCompareInstances() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("title", "body");
         final RtComment less = new RtComment(new FakeRequest(), issue, 1);
@@ -56,7 +56,7 @@ public final class RtCommentTest {
      * RtComment can return its issue (owner).
      */
     @Test
-    public void returnsItsIssue() throws IOException {
+    void returnsItsIssue() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("testing1", "issue1");
         final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
@@ -66,7 +66,7 @@ public final class RtCommentTest {
     }
 
     @Test
-    public void returnsItsNumber() throws IOException {
+    void returnsItsNumber() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("testing2", "issue2");
         final long num = 10L;
@@ -80,7 +80,7 @@ public final class RtCommentTest {
      * This tests that the remove() method is working fine.
      */
     @Test
-    public void removesComment() throws IOException {
+    void removesComment() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -101,7 +101,7 @@ public final class RtCommentTest {
     }
 
     @Test
-    public void returnsItsJSon() throws IOException {
+    void returnsItsJSon() throws IOException {
         final String body = "{\"body\":\"test5\"}";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -122,7 +122,7 @@ public final class RtCommentTest {
     }
 
     @Test
-    public void patchesComment() throws IOException {
+    void patchesComment() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -144,7 +144,7 @@ public final class RtCommentTest {
     }
 
     @Test
-    public void reacts() throws IOException {
+    void reacts() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -167,7 +167,7 @@ public final class RtCommentTest {
     }
 
     @Test
-    public void reactions() throws IOException {
+    void reactions() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -200,7 +200,7 @@ public final class RtCommentTest {
      * This tests that the toString() method is working fine.
      */
     @Test
-    public void givesToString() throws IOException {
+    void givesToString() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

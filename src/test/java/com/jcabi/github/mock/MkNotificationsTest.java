@@ -17,10 +17,10 @@ import org.xembly.Directives;
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkNotificationsTest {
+final class MkNotificationsTest {
 
     @Test
-    public void fetchesEmptyListOfNotifications() throws IOException {
+    void fetchesEmptyListOfNotifications() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",
             new MkNotifications(
@@ -32,7 +32,7 @@ public final class MkNotificationsTest {
     }
 
     @Test
-    public void fetchesNonEmptyListOfNotifications() throws IOException {
+    void fetchesNonEmptyListOfNotifications() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github")
@@ -56,7 +56,7 @@ public final class MkNotificationsTest {
     }
 
     @Test
-    public void fetchesNotificationById() throws IOException {
+    void fetchesNotificationById() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github")
@@ -77,7 +77,7 @@ public final class MkNotificationsTest {
     }
 
     @Test
-    public void cannotFetchNotificationByNonExistentId() throws IOException {
+    void cannotFetchNotificationByNonExistentId() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github")

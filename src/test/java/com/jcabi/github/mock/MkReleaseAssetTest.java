@@ -22,14 +22,14 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkReleaseAssetTest {
+final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own Release.
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesRelease() throws Exception {
+    void fetchesRelease() throws Exception {
         final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -43,7 +43,7 @@ public final class MkReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesNumber() throws Exception {
+    void fetchesNumber() throws Exception {
         final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -57,7 +57,7 @@ public final class MkReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesAsset() throws Exception {
+    void removesAsset() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testRemove".getBytes(), "text/plain", "remove.txt"
@@ -80,7 +80,7 @@ public final class MkReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesSeveralAssets() throws Exception {
+    void removesSeveralAssets() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
         // @checkstyle MagicNumberCheck (1 line)
         final int limit = 3;
@@ -110,7 +110,7 @@ public final class MkReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final String name = "json.txt";
         final String type = "text/plain";
         final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
@@ -133,7 +133,7 @@ public final class MkReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canPatchJson() throws Exception {
+    void canPatchJson() throws Exception {
         final String orig = "orig.txt";
         final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
             "testPatch".getBytes(), "text/plain", orig
@@ -160,7 +160,7 @@ public final class MkReleaseAssetTest {
      * decoded, should be equal to the input.
      */
     @Test
-    public void fetchesRawRepresentation() throws IOException {
+    void fetchesRawRepresentation() throws IOException {
         final String test = "This is a test asset.";
         final ReleaseAsset asset = new MkGitHub().randomRepo().releases()
             .create("v1.0")

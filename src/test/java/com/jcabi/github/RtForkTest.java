@@ -24,14 +24,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtForkTest {
+final class RtForkTest {
 
     /**
      * RtFork can patch comment and return new json.
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public void patchAndCheckJsonFork() throws IOException {
+    void patchAndCheckJsonFork() throws IOException {
         final String original = "some organization";
         final String patched = "some patched organization";
         try (

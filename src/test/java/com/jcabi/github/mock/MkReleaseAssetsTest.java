@@ -21,14 +21,14 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle MethodNameCheck (200 lines)
  */
-public final class MkReleaseAssetsTest {
+final class MkReleaseAssetsTest {
 
     /**
      * MkReleaseAssets can upload a new Release Asset.
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void uploadsNewAsset() throws Exception {
+    void uploadsNewAsset() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testUpload".getBytes(), "text/plain", "upload.txt"
@@ -45,7 +45,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesSingleAsset() throws Exception {
+    void fetchesSingleAsset() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         final ReleaseAsset asset = assets.upload(
             "testGet".getBytes(), "text/plain", "get.txt"
@@ -62,7 +62,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void iteratesAssets() throws Exception {
+    void iteratesAssets() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         assets.upload(
             "testIterate".getBytes(), "text/plain", "iterate.txt"
@@ -79,7 +79,7 @@ public final class MkReleaseAssetsTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void fetchesRelease() throws Exception {
+    void fetchesRelease() throws Exception {
         final Release rel = MkReleaseAssetsTest.release();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -92,7 +92,7 @@ public final class MkReleaseAssetsTest {
      * Must encode the input bytes into Base64.
      */
     @Test
-    public void encodesContentsAsBase64() throws IOException {
+    void encodesContentsAsBase64() throws IOException {
         final String test = "This is a test asset.";
         final ReleaseAsset asset = new MkGitHub().randomRepo().releases()
             .create("v1.0")

@@ -24,14 +24,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtReferenceTest {
+final class RtReferenceTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void patchesContent() throws IOException {
+    void patchesContent() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -59,7 +59,7 @@ public final class RtReferenceTest {
     }
 
     @Test
-    public void fetchesContent() throws IOException {
+    void fetchesContent() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -83,7 +83,7 @@ public final class RtReferenceTest {
     }
 
     @Test
-    public void returnsRef() throws IOException {
+    void returnsRef() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -107,7 +107,7 @@ public final class RtReferenceTest {
     }
 
     @Test
-    public void returnsOwner() throws IOException {
+    void returnsOwner() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         try (
             MkContainer container = new MkGrizzlyContainer().next(

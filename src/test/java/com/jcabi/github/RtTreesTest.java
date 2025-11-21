@@ -26,14 +26,14 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtTreesTest {
+final class RtTreesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void createsTree() throws IOException {
+    void createsTree() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_CREATED,
@@ -74,7 +74,7 @@ public final class RtTreesTest {
     }
 
     @Test
-    public void getTree() {
+    void getTree() {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(
@@ -92,7 +92,7 @@ public final class RtTreesTest {
     }
 
     @Test
-    public void getTreeRec() {
+    void getTreeRec() {
         final String sha = "0abcd89jcabitest";
         final Trees trees = new RtTrees(
             new FakeRequest().withBody(

@@ -25,14 +25,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtGistCommentTest {
+final class RtGistCommentTest {
 
     /**
      * RtGistComment can patch comment and return new json.
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public void patchAndCheckJsonGistComment() throws IOException {
+    void patchAndCheckJsonGistComment() throws IOException {
         final int identifier = 1;
         final String idprop = "id";
         final String bodyprop = "body";
@@ -94,7 +94,7 @@ public final class RtGistCommentTest {
      * @throws IOException if has some problems with json parsing.
      */
     @Test
-    public void removeGistComment() throws IOException {
+    void removeGistComment() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

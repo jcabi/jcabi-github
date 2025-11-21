@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkMarkdown}.
  * @since 0.1
  */
-public final class MkMarkdownTest {
+final class MkMarkdownTest {
 
     @Test
-    public void canBeRendered() throws IOException {
+    void canBeRendered() throws IOException {
         final String text = "Hello, **world**!";
         MatcherAssert.assertThat(
             "Values are not equal",

@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkTreesTest {
+final class MkTreesTest {
 
     @Test
-    public void createsMkTree() throws IOException {
+    void createsMkTree() throws IOException {
         final JsonObject tree = Json.createObjectBuilder()
             .add("base_tree", "base_tree_sha")
             .add(
@@ -42,7 +42,7 @@ public final class MkTreesTest {
     }
 
     @Test
-    public void getTreeRec() throws IOException {
+    void getTreeRec() throws IOException {
         final String sha = "0abcd89jcabitest";
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",

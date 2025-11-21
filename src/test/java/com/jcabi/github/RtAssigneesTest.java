@@ -24,10 +24,10 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtAssigneesTest {
+final class RtAssigneesTest {
 
     @Test
-    public void iteratesAssignees() throws IOException {
+    void iteratesAssignees() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -52,7 +52,7 @@ public final class RtAssigneesTest {
     }
 
     @Test
-    public void checkUserIsAssigneeForRepo() throws IOException {
+    void checkUserIsAssigneeForRepo() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -76,7 +76,7 @@ public final class RtAssigneesTest {
     }
 
     @Test
-    public void checkUserIsNotAssigneeForRepo() throws IOException {
+    void checkUserIsNotAssigneeForRepo() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

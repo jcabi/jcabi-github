@@ -23,14 +23,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtReferencesTest {
+final class RtReferencesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void createsReference() throws IOException {
+    void createsReference() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -58,7 +58,7 @@ public final class RtReferencesTest {
     }
 
     @Test
-    public void iteratesReferences() throws IOException {
+    void iteratesReferences() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -81,7 +81,7 @@ public final class RtReferencesTest {
     }
 
     @Test
-    public void removesReference() throws IOException {
+    void removesReference() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -102,7 +102,7 @@ public final class RtReferencesTest {
     }
 
     @Test
-    public void iteratesTags() throws IOException {
+    void iteratesTags() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -130,7 +130,7 @@ public final class RtReferencesTest {
     }
 
     @Test
-    public void iteratesHeads() throws IOException {
+    void iteratesHeads() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

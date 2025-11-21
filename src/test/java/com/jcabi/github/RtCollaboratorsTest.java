@@ -30,14 +30,14 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @ExtendWith(RandomPort.class)
-public final class RtCollaboratorsTest {
+final class RtCollaboratorsTest {
 
     /**
      * RtCollaborators can iterate over a list of collaborators.
      * @throws Exception if any error occurs.
      */
     @Test
-    public void canIterate() throws Exception {
+    void canIterate() throws Exception {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -64,7 +64,7 @@ public final class RtCollaboratorsTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void userCanBeAddedAsCollaborator() throws Exception {
+    void userCanBeAddedAsCollaborator() throws Exception {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_NO_CONTENT,
@@ -94,7 +94,7 @@ public final class RtCollaboratorsTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void userCanBeTestForBeingCollaborator() throws Exception {
+    void userCanBeTestForBeingCollaborator() throws Exception {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -124,7 +124,7 @@ public final class RtCollaboratorsTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void userCanBeRemoved() throws Exception {
+    void userCanBeRemoved() throws Exception {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

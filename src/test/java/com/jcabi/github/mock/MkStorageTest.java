@@ -22,10 +22,10 @@ import org.xembly.Directives;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @SuppressWarnings("PMD.DoNotUseThreads")
-public final class MkStorageTest {
+final class MkStorageTest {
 
     @Test
-    public void readsAndWrites() throws IOException {
+    void readsAndWrites() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.lock();
         try {
@@ -44,7 +44,7 @@ public final class MkStorageTest {
     }
 
     @Test
-    public void locksAndUnlocks() throws IOException, InterruptedException, ExecutionException {
+    void locksAndUnlocks() throws IOException, InterruptedException, ExecutionException {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
         final Runnable second = () -> storage.lock();

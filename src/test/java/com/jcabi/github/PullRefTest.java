@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link PullRef}.
  * @since 0.24
  */
-public final class PullRefTest {
+final class PullRefTest {
     /**
      * Test ref.
      */
@@ -38,7 +38,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -52,7 +52,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             PullRefTest.pullRef().ref(),
@@ -65,7 +65,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             PullRefTest.pullRef().sha(),
@@ -78,7 +78,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesLabel() throws IOException {
+    void fetchesLabel() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             PullRefTest.pullRef().label(),
@@ -91,7 +91,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Commit commit = PullRefTest.pullRef(repo).commit();
         MatcherAssert.assertThat(
@@ -111,7 +111,7 @@ public final class PullRefTest {
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesUser() throws IOException {
+    void fetchesUser() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             "Values are not equal",

@@ -16,9 +16,9 @@ import org.mockito.Mockito;
  * Test case for {@link Fork}.
  * @since 0.8
  */
-public final class ForkTest {
+final class ForkTest {
     @Test
-    public void fetchesName() throws IOException {
+    void fetchesName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String name = "this is some name";
         Mockito.doReturn(
@@ -34,7 +34,7 @@ public final class ForkTest {
     }
 
     @Test
-    public void fetchesFullName() throws IOException {
+    void fetchesFullName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String name = "test full name";
         Mockito.doReturn(
@@ -50,7 +50,7 @@ public final class ForkTest {
     }
 
     @Test
-    public void fetchesDescription() throws IOException {
+    void fetchesDescription() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String description = "test description";
         Mockito.doReturn(
@@ -66,7 +66,7 @@ public final class ForkTest {
     }
 
     @Test
-    public void fetchesSize() throws IOException {
+    void fetchesSize() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final int prop = Tv.HUNDRED;
         Mockito.doReturn(
@@ -82,7 +82,7 @@ public final class ForkTest {
     }
 
     @Test
-    public void fetchesUrls() throws IOException {
+    void fetchesUrls() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String url = "https://api.github.com/repos/octocat/Hello-World";
         final String html = "https://github.com/octocat/Hello-World";
@@ -152,7 +152,7 @@ public final class ForkTest {
      * from Fork.
      */
     @Test
-    public void fetchesCounts() throws IOException {
+    void fetchesCounts() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final int forks = Tv.TEN;
         final int stargazers = Tv.TWENTY;
@@ -183,7 +183,7 @@ public final class ForkTest {
     }
 
     @Test
-    public void openIssues() throws IOException {
+    void openIssues() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final int issues = Tv.TEN;
         Mockito.doReturn(
@@ -200,7 +200,7 @@ public final class ForkTest {
     }
 
     @Test
-    public void fetchesDefaultBranches() throws IOException {
+    void fetchesDefaultBranches() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
         final String master = "master";
         Mockito.doReturn(

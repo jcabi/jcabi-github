@@ -26,7 +26,7 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-public final class RtForksTest {
+final class RtForksTest {
 
     /**
      * Fork's organization name in JSON object.
@@ -38,7 +38,7 @@ public final class RtForksTest {
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void retrievesForks() {
+    void retrievesForks() {
         final RtForks forks = new RtForks(
             new FakeRequest()
                 .withBody("[]"), RtForksTest.repo()
@@ -51,7 +51,7 @@ public final class RtForksTest {
     }
 
     @Test
-    public void createsFork() throws IOException {
+    void createsFork() throws IOException {
         final String organization = RandomStringUtils.randomAlphanumeric(10);
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

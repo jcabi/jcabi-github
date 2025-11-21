@@ -21,9 +21,9 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class ContentTest {
+final class ContentTest {
     @Test
-    public void fetchesType() throws IOException {
+    void fetchesType() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some type";
         Mockito.doReturn(
@@ -39,7 +39,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesSize() throws IOException {
+    void fetchesSize() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final int prop = 5555;
         Mockito.doReturn(
@@ -57,7 +57,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesName() throws IOException {
+    void fetchesName() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some name";
         Mockito.doReturn(
@@ -73,7 +73,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesPath() {
+    void fetchesPath() {
         final Content content = Mockito.mock(Content.class);
         final String path = "this is some path";
         Mockito.doReturn(path).when(content).path();
@@ -85,7 +85,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "this is some sha";
         Mockito.doReturn(
@@ -101,7 +101,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesUrl()
+    void fetchesUrl()
         throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
         final String prop = String.join(
@@ -122,7 +122,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesGitUrl()
+    void fetchesGitUrl()
         throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
         final String prop = String.join(
@@ -143,7 +143,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesHtmlUrl()
+    void fetchesHtmlUrl()
         throws IOException, MalformedURLException, URISyntaxException {
         final Content content = Mockito.mock(Content.class);
         final String prop = String.join(
@@ -164,7 +164,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesContent() throws IOException {
+    void fetchesContent() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGU=";
         Mockito.doReturn(
@@ -180,7 +180,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void fetchesDecoded() throws IOException {
+    void fetchesDecoded() throws IOException {
         final Content content = Mockito.mock(Content.class);
         final String prop = "dGVzdCBlbmNvZGXigqw=";
         Mockito.doReturn(
@@ -198,7 +198,7 @@ public final class ContentTest {
     }
 
     @Test
-    public void smartCanGetUnderlyingRepo() {
+    void smartCanGetUnderlyingRepo() {
         final Content content = Mockito.mock(Content.class);
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(repo).when(content).repo();

@@ -30,7 +30,7 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 @ExtendWith(RandomPort.class)
-public final class RtPullTest {
+final class RtPullTest {
     /**
      * Property name for ref name in pull request ref JSON object.
      */
@@ -46,7 +46,7 @@ public final class RtPullTest {
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void fetchesCommits() throws IOException {
+    void fetchesCommits() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -70,7 +70,7 @@ public final class RtPullTest {
     }
 
     @Test
-    public void fetchesFiles() throws IOException {
+    void fetchesFiles() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -98,7 +98,7 @@ public final class RtPullTest {
      * @throws IOException If some I/O problem occurs
      */
     @Test
-    public void fetchesBase() throws IOException {
+    void fetchesBase() throws IOException {
         final String ref = "sweet-feature-branch";
         final String sha = "e93c6a2216c69daa574abc16e7c14767fce44ad6";
         try (
@@ -148,7 +148,7 @@ public final class RtPullTest {
      * @throws IOException If some I/O problem occurs
      */
     @Test
-    public void fetchesHead() throws IOException {
+    void fetchesHead() throws IOException {
         final String ref = "neat-other-branch";
         final String sha = "9c717b4716e4fc4d917f546e8e6b562e810e3922";
         try (
@@ -185,7 +185,7 @@ public final class RtPullTest {
     }
 
     @Test
-    public void executeMerge() throws IOException {
+    void executeMerge() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
@@ -217,7 +217,7 @@ public final class RtPullTest {
      * @throws IOException If some I/O problem occurs.
      */
     @Test
-    public void canFetchChecks() throws IOException {
+    void canFetchChecks() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(
@@ -254,7 +254,7 @@ public final class RtPullTest {
     }
 
     @Test
-    public void canCompareInstances() {
+    void canCompareInstances() {
         final RtPull less = new RtPull(new FakeRequest(), RtPullTest.repo(), 1);
         final RtPull greater = new RtPull(new FakeRequest(), RtPullTest.repo(), 2);
         MatcherAssert.assertThat(
@@ -269,7 +269,7 @@ public final class RtPullTest {
 
     @Test
     @Disabled
-    public void canFetchComments() {
+    void canFetchComments() {
         //to be implemented
     }
 

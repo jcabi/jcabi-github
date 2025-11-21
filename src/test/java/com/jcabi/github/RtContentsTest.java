@@ -31,14 +31,14 @@ import org.mockito.Mockito;
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @ExtendWith(RandomPort.class)
-public final class RtContentsTest {
+final class RtContentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canFetchReadmeFile() throws IOException {
+    void canFetchReadmeFile() throws IOException {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
@@ -72,7 +72,7 @@ public final class RtContentsTest {
     }
 
     @Test
-    public void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
+    void canFetchReadmeFileFromSpecifiedBranch() throws IOException {
         final String path = "README.md";
         final JsonObject body = Json.createObjectBuilder()
             .add("path", path)
@@ -109,7 +109,7 @@ public final class RtContentsTest {
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canFetchFilesFromRepository() throws IOException {
+    void canFetchFilesFromRepository() throws IOException {
         final String path = "test/file";
         final String name = "file";
         final JsonObject body = Json.createObjectBuilder()
@@ -168,7 +168,7 @@ public final class RtContentsTest {
     }
 
     @Test
-    public void canCreateFileInRepository() throws IOException {
+    void canCreateFileInRepository() throws IOException {
         final String path = "test/thefile";
         final String name = "thefile";
         final JsonObject body = Json.createObjectBuilder()
@@ -224,7 +224,7 @@ public final class RtContentsTest {
      * @checkstyle MultipleStringLiteralsCheck (50 lines)
      */
     @Test
-    public void canDeleteFilesFromRepository() throws IOException {
+    void canDeleteFilesFromRepository() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -270,7 +270,7 @@ public final class RtContentsTest {
     }
 
     @Test
-    public void canUpdateFilesInRepository() throws IOException {
+    void canUpdateFilesInRepository() throws IOException {
         final String sha = "2f97253a513bbe26658881c29e27910082fef900";
         final JsonObject resp = Json.createObjectBuilder()
             // @checkstyle MultipleStringLiterals (1 line)
@@ -322,7 +322,7 @@ public final class RtContentsTest {
      * RtContents can iterate through a directory's contents.
      */
     @Test
-    public void canIterateDirectoryContents() throws IOException {
+    void canIterateDirectoryContents() throws IOException {
         final JsonArray body = Json.createArrayBuilder().add(
             Json.createObjectBuilder()
                 .add("path", "README.md")

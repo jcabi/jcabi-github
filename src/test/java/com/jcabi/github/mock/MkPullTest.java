@@ -25,7 +25,7 @@ import org.mockito.Mockito;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class MkPullTest {
+final class MkPullTest {
     /**
      * Login of test user.
      */
@@ -42,7 +42,7 @@ public final class MkPullTest {
     private static final String HEAD = "my-head-branch";
 
     @Test
-    public void canCompareInstances() throws IOException {
+    void canCompareInstances() throws IOException {
         final MkPull less = new MkPull(
             new MkStorage.InFile(),
             "login-less",
@@ -72,7 +72,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canGetCommentsNumberIfZero() throws Exception {
+    void canGetCommentsNumberIfZero() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -86,7 +86,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canGetCommentsNumberIfNonZero() throws Exception {
+    void canGetCommentsNumberIfNonZero() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         pull.comments().post("comment1", "path1", "how are you?", 1);
         pull.comments().post("comment2", "path2", "how are you2?", 2);
@@ -102,7 +102,7 @@ public final class MkPullTest {
      * @throws Exception when a problem occurs.
      */
     @Test
-    public void canGetComments() throws Exception {
+    void canGetComments() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             "Value is null",
@@ -116,7 +116,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canGetBase() throws Exception {
+    void canGetBase() throws Exception {
         final PullRef base = MkPullTest.pullRequest().base();
         MatcherAssert.assertThat(
             "Value is null", base, Matchers.notNullValue()
@@ -133,7 +133,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canGetHead() throws Exception {
+    void canGetHead() throws Exception {
         final PullRef head = MkPullTest.pullRequest().head();
         MatcherAssert.assertThat(
             "Value is null", head, Matchers.notNullValue()
@@ -150,7 +150,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canRetrieveAsJson() throws Exception {
+    void canRetrieveAsJson() throws Exception {
         final String head = "blah";
         final String base = "aaa";
         final Pull pull = MkPullTest.repo().pulls()
@@ -195,7 +195,7 @@ public final class MkPullTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canPatchJson() throws Exception {
+    void canPatchJson() throws Exception {
         final Pull pull = MkPullTest.repo().pulls()
             .create("Test Patch", "def", "abc");
         final String value = "someValue";
@@ -217,7 +217,7 @@ public final class MkPullTest {
     }
 
     @Test
-    public void issueIsPull() throws Exception {
+    void issueIsPull() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             "Issue is not a pull request",
@@ -227,7 +227,7 @@ public final class MkPullTest {
     }
 
     @Test
-    public void retrievesAllChecks() throws Exception {
+    void retrievesAllChecks() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(
             "Collection size is incorrect",

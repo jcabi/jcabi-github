@@ -26,14 +26,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.TooManyMethods")
-public final class MkIssueTest {
+final class MkIssueTest {
 
     /**
      * MkIssue can open and close.
      * @throws Exception If some problem inside
      */
     @Test
-    public void opensAndCloses() throws Exception {
+    void opensAndCloses() throws Exception {
         final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -53,7 +53,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void pointsToAnEmptyPullRequest() throws Exception {
+    void pointsToAnEmptyPullRequest() throws Exception {
         final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -67,7 +67,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void showsIssueAuthor() throws Exception {
+    void showsIssueAuthor() throws Exception {
         final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Value is null",
@@ -81,7 +81,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesTitle() throws Exception {
+    void changesTitle() throws Exception {
         final Issue issue = MkIssueTest.issue();
         new Issue.Smart(issue).title("hey, works?");
         MatcherAssert.assertThat(
@@ -96,7 +96,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void changesBody() throws Exception {
+    void changesBody() throws Exception {
         final Issue issue = MkIssueTest.issue();
         new Issue.Smart(issue).body("hey, body works?");
         MatcherAssert.assertThat(
@@ -111,7 +111,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void exponsesProperties() throws Exception {
+    void exponsesProperties() throws Exception {
         final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         MatcherAssert.assertThat(
             "Value is null", issue.createdAt(), Matchers.notNullValue()
@@ -129,7 +129,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void listsReadOnlyLabels() throws Exception {
+    void listsReadOnlyLabels() throws Exception {
         final Issue issue = MkIssueTest.issue();
         final String tag = "test-tag";
         issue.repo().labels().create(tag, "c0c0c0");
@@ -149,7 +149,7 @@ public final class MkIssueTest {
     }
 
     @Test
-    public void canCompareInstances() throws IOException {
+    void canCompareInstances() throws IOException {
         final MkIssue less = new MkIssue(
             new MkStorage.InFile(),
             "login-less",
@@ -178,7 +178,7 @@ public final class MkIssueTest {
      * MkIssue can remember it's author.
      */
     @Test
-    public void canRememberItsAuthor() throws IOException {
+    void canRememberItsAuthor() throws IOException {
         final MkGitHub first = new MkGitHub("first");
         final GitHub second = first.relogin("second");
         final Repo repo = first.randomRepo();
@@ -203,7 +203,7 @@ public final class MkIssueTest {
      * @throws Exception if any error occurs.
      */
     @Test
-    public void canCheckIfIssueExists() throws Exception {
+    void canCheckIfIssueExists() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal", MkIssueTest.issue().exists(), Matchers.is(true)
         );
@@ -213,7 +213,7 @@ public final class MkIssueTest {
      * MkIssue.exists() return false on nonexistent issues.
      */
     @Test
-    public void canCheckNonExistentIssue() throws IOException {
+    void canCheckNonExistentIssue() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             new MkIssue(
@@ -231,7 +231,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void assignsUser() throws Exception {
+    void assignsUser() throws Exception {
         final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.assign("walter");
         MatcherAssert.assertThat(
@@ -246,7 +246,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsClosedEvent() throws Exception {
+    void createsClosedEvent() throws Exception {
         final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.close();
         MatcherAssert.assertThat(
@@ -269,7 +269,7 @@ public final class MkIssueTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void createsReopenedEvent() throws Exception {
+    void createsReopenedEvent() throws Exception {
         final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.close();
         issue.open();

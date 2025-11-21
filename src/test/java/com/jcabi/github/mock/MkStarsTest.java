@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
  * Testcase for MkStars.
  * @since 0.1
  */
-public final class MkStarsTest {
+final class MkStarsTest {
 
     @Test
-    public void starsRepository() throws IOException {
+    void starsRepository() throws IOException {
         final Stars stars = new MkGitHub().randomRepo().stars();
         stars.star();
         MatcherAssert.assertThat(
@@ -28,7 +28,7 @@ public final class MkStarsTest {
     }
 
     @Test
-    public void unstarsRepository() throws IOException {
+    void unstarsRepository() throws IOException {
         final Stars stars = new MkGitHub().randomRepo().stars();
         stars.star();
         stars.unstar();

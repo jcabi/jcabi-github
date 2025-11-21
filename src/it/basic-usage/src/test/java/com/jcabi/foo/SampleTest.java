@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test;
  * Sample test.
  * @since 1.0
  */
-public final class SampleTest {
+final class SampleTest {
 
     /**
      * Fetches labels from GitHub.
      * @throws Exception If fails
      */
     @Test
-    public void fetchesLabelsFromGitHub() throws Exception {
+    void fetchesLabelsFromGitHub() throws Exception {
         final GitHub github = new RtGitHub();
         final Repo repo = github.repos().get(
             new Coordinates.Simple("jcabi/jcabi-github")

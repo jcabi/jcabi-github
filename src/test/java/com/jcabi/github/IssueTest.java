@@ -22,10 +22,10 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class IssueTest {
+final class IssueTest {
 
     @Test
-    public void fetchesProperties() throws IOException {
+    void fetchesProperties() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -47,7 +47,7 @@ public final class IssueTest {
     }
 
     @Test
-    public void detectsPullRequest() throws IOException {
+    void detectsPullRequest() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -73,7 +73,7 @@ public final class IssueTest {
     }
 
     @Test
-    public void detectsPullRequestAbsence() throws IOException {
+    void detectsPullRequestAbsence() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().add(
@@ -89,7 +89,7 @@ public final class IssueTest {
     }
 
     @Test
-    public void detectsFullPullRequestAbsence() throws IOException {
+    void detectsFullPullRequestAbsence() throws IOException {
         final Issue issue = Mockito.mock(Issue.class);
         Mockito.doReturn(
             Json.createObjectBuilder().build()
@@ -106,7 +106,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void fetchLabelsRO() throws IOException {
+    void fetchLabelsRO() throws IOException {
         final String name = "bug";
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",
@@ -131,7 +131,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void roLabelsCannotAdd() throws IOException {
+    void roLabelsCannotAdd() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",
             Json.createArrayBuilder().add(
@@ -156,7 +156,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void roLabelsCannotReplace() throws IOException {
+    void roLabelsCannotReplace() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",
             Json.createArrayBuilder().add(
@@ -181,7 +181,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void roLabelsCannotRemove() throws IOException {
+    void roLabelsCannotRemove() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",
             Json.createArrayBuilder().add(
@@ -206,7 +206,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void roLabelsCannotClear() throws IOException {
+    void roLabelsCannotClear() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",
             Json.createArrayBuilder().add(
@@ -231,7 +231,7 @@ public final class IssueTest {
      * @throws IOException If some problem inside.
      */
     @Test
-    public void roLabelCannotBePatchedTest() throws IOException {
+    void roLabelCannotBePatchedTest() throws IOException {
         final JsonObject json = Json.createObjectBuilder().add(
             "labels",
             Json.createArrayBuilder().add(

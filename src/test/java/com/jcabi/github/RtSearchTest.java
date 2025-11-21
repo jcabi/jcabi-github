@@ -30,13 +30,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @ExtendWith(RandomPort.class)
-public final class RtSearchTest {
+final class RtSearchTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canSearchForRepos() {
+    void canSearchForRepos() {
         final String coords = "test-user1/test-repo1";
         final Search search = new RtGitHub(
             new FakeRequest().withBody(
@@ -54,7 +54,7 @@ public final class RtSearchTest {
     }
 
     @Test
-    public void canSearchForIssues() {
+    void canSearchForIssues() {
         final int number = 1;
         final Search search = new RtGitHub(
             new FakeRequest().withBody(
@@ -82,7 +82,7 @@ public final class RtSearchTest {
     }
 
     @Test
-    public void canSearchForUsers() throws IOException {
+    void canSearchForUsers() throws IOException {
         final String login = "test-user";
         final Search search = new RtGitHub(
             new FakeRequest().withBody(
@@ -101,7 +101,7 @@ public final class RtSearchTest {
     }
 
     @Test
-    public void canSearchForContents() throws IOException {
+    void canSearchForContents() throws IOException {
         final JsonObject first = RtSearchTest.content(
             "test/unit/attributes.js",
             "attributes.js",
@@ -139,7 +139,7 @@ public final class RtSearchTest {
      * RtSearch can read non-unicode.
      */
     @Test
-    public void readNonUnicode() throws IOException {
+    void readNonUnicode() throws IOException {
         final Response resp = new FakeRequest()
             .withBody("{\"help\": \"\u001Fblah\u0001cwhoa\u0000!\"}").fetch();
         final JsonResponse response = new JsonResponse(resp);

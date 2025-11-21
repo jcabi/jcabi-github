@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkGit}.
  * @since 0.8
  */
-public final class MkGitTest {
+final class MkGitTest {
 
     @Test
-    public void canFetchOwnRepo() throws IOException {
+    void canFetchOwnRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -27,7 +27,7 @@ public final class MkGitTest {
     }
 
     @Test
-    public void givesReferences() throws IOException {
+    void givesReferences() throws IOException {
         MatcherAssert.assertThat(
             "Value is null",
             new MkGitHub().randomRepo().git().references(),

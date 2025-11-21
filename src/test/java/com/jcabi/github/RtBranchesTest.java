@@ -27,14 +27,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtBranchesTest {
+final class RtBranchesTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void iteratesOverBranches() throws IOException {
+    void iteratesOverBranches() throws IOException {
         final String firstname = "first";
         final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
         final String secondname = "second";
@@ -87,7 +87,7 @@ public final class RtBranchesTest {
     }
 
     @Test
-    public void findBranch() throws IOException {
+    void findBranch() throws IOException {
         final String thirdname = "third";
         final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";
         final String fourthname = "fourth";
@@ -125,7 +125,7 @@ public final class RtBranchesTest {
      * @throws IOException If there is any I/O problem
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final RtBranches branch = new RtBranches(new FakeRequest(), repo);
         final Coordinates coords = branch.repo().coordinates();

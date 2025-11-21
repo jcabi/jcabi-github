@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link Statuses}.
  * @since 0.24
  */
-public final class StatusesTest {
+final class StatusesTest {
     /**
      * Name of state property in Status JSON object.
      */
@@ -46,7 +46,7 @@ public final class StatusesTest {
     private static final String CONTEXT = "jcabi/github/test";
 
     @Test
-    public void convertsToJsonWhenAllPresent() {
+    void convertsToJsonWhenAllPresent() {
         final String success = "Everything is not so awesome";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -67,7 +67,7 @@ public final class StatusesTest {
     }
 
     @Test
-    public void convertsToJsonWhenUrlAbsent() {
+    void convertsToJsonWhenUrlAbsent() {
         final String success = "Living the dream!";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -86,7 +86,7 @@ public final class StatusesTest {
     }
 
     @Test
-    public void convertsToJsonWhenDescriptionAbsent() {
+    void convertsToJsonWhenDescriptionAbsent() {
         MatcherAssert.assertThat(
             "Values are not equal",
             new Statuses.StatusCreate(Status.State.FAILURE)
@@ -105,7 +105,7 @@ public final class StatusesTest {
     }
 
     @Test
-    public void convertsToJsonWhenContextAbsent() {
+    void convertsToJsonWhenContextAbsent() {
         final String pending = "Kragle is drying...";
         MatcherAssert.assertThat(
             "Values are not equal",

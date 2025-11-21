@@ -15,14 +15,14 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkCommitsComparison}.
  * @since 0.1
  */
-public final class MkCommitsComparisonTest {
+final class MkCommitsComparisonTest {
 
     /**
      * MkCommitsComparison can get a repo.
      * @throws IOException if some problem inside
      */
     @Test
-    public void getRepo() throws IOException {
+    void getRepo() throws IOException {
         final String user = "test_user";
         MatcherAssert.assertThat(
             "Value is null",
@@ -34,7 +34,7 @@ public final class MkCommitsComparisonTest {
     }
 
     @Test
-    public void canGetJson() throws IOException {
+    void canGetJson() throws IOException {
         MatcherAssert.assertThat(
             "Value is null",
             new MkCommitsComparison(
@@ -56,7 +56,7 @@ public final class MkCommitsComparisonTest {
     }
 
     @Test
-    public void canGetJsonWithCommits() throws IOException {
+    void canGetJsonWithCommits() throws IOException {
         final CommitsComparison cmp = new MkCommitsComparison(
             new MkStorage.InFile(), "test-9",
             new Coordinates.Simple("test_user_A", "test_repo_B")

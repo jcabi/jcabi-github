@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPullComments}.
  * @since 0.1
  */
-public final class MkPullCommentsTest {
+final class MkPullCommentsTest {
 
     @Test
-    public void fetchesPullComment() throws IOException {
+    void fetchesPullComment() throws IOException {
         final PullComments comments = MkPullCommentsTest.comments();
         final PullComment comment = comments.post("comment", "commit", "/", 1);
         MatcherAssert.assertThat(
@@ -34,7 +34,7 @@ public final class MkPullCommentsTest {
     }
 
     @Test
-    public void iteratesRepoPullComments() throws IOException {
+    void iteratesRepoPullComments() throws IOException {
         final PullComments comments = MkPullCommentsTest.comments();
         comments.pull()
             .repo()
@@ -61,7 +61,7 @@ public final class MkPullCommentsTest {
     }
 
     @Test
-    public void iteratesPullRequestComments() throws IOException {
+    void iteratesPullRequestComments() throws IOException {
         final PullComments comments = MkPullCommentsTest.comments();
         comments.post("comment 1", "commit 1", "/commit1", 1);
         comments.post("comment 2", "commit 2", "/commit2", 2);
@@ -76,7 +76,7 @@ public final class MkPullCommentsTest {
     }
 
     @Test
-    public void postsPullComment() throws IOException {
+    void postsPullComment() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String commit = "commit_id";
         final String path = "path";
@@ -120,7 +120,7 @@ public final class MkPullCommentsTest {
     }
 
     @Test
-    public void createsPullCommentReply() throws IOException {
+    void createsPullCommentReply() throws IOException {
         final PullComments comments = MkPullCommentsTest.comments();
         final int orig = comments.post(
             "Orig Comment",
@@ -143,7 +143,7 @@ public final class MkPullCommentsTest {
     }
 
     @Test
-    public void removesPullComment() throws IOException {
+    void removesPullComment() throws IOException {
         final PullComments comments = MkPullCommentsTest.comments();
         final int orig = comments.post(
             "Origg Comment",

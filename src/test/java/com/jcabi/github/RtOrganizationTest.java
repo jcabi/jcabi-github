@@ -25,13 +25,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.24
  */
 @ExtendWith(RandomPort.class)
-public final class RtOrganizationTest {
+final class RtOrganizationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canFetchIssueAsJson() throws IOException {
+    void canFetchIssueAsJson() throws IOException {
         final RtOrganization org = new RtOrganization(
             new MkGitHub(),
             new FakeRequest().withBody("{\"organization\":\"json\"}"),
@@ -45,7 +45,7 @@ public final class RtOrganizationTest {
     }
 
     @Test
-    public void patchWithJson() throws IOException {
+    void patchWithJson() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
@@ -75,7 +75,7 @@ public final class RtOrganizationTest {
     }
 
     @Test
-    public void canCompareInstances() throws IOException {
+    void canCompareInstances() throws IOException {
         final RtOrganization less = new RtOrganization(
             new MkGitHub(),
             new FakeRequest(),
@@ -101,7 +101,7 @@ public final class RtOrganizationTest {
     }
 
     @Test
-    public void canRepresentAsString() throws IOException {
+    void canRepresentAsString() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")

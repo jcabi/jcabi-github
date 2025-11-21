@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtRepoCommits}.
  * @since 0.1
  */
-public final class RtRepoCommitsTest {
+final class RtRepoCommitsTest {
 
     /**
      * RtRepoCommits can return commits' iterator.
      */
     @Test
-    public void returnIterator() {
+    void returnIterator() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody(
@@ -43,7 +43,7 @@ public final class RtRepoCommitsTest {
     }
 
     @Test
-    public void getCommit() {
+    void getCommit() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody(
@@ -62,7 +62,7 @@ public final class RtRepoCommitsTest {
     }
 
     @Test
-    public void comparesCommits() {
+    void comparesCommits() {
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody(
                 Json.createObjectBuilder()
@@ -84,7 +84,7 @@ public final class RtRepoCommitsTest {
     }
 
     @Test
-    public void comparesCommitsDiffFormat() throws IOException {
+    void comparesCommitsDiffFormat() throws IOException {
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody("diff --git"),
             RtRepoCommitsTest.repo()
@@ -100,7 +100,7 @@ public final class RtRepoCommitsTest {
     }
 
     @Test
-    public void comparesCommitsPatchFormat() throws IOException {
+    void comparesCommitsPatchFormat() throws IOException {
         final RepoCommits commits = new RtRepoCommits(
             new FakeRequest().withBody(
                 "From 6dcb09b5b57875f33"
@@ -118,7 +118,7 @@ public final class RtRepoCommitsTest {
     }
 
     @Test
-    public void readCorrectUrl() {
+    void readCorrectUrl() {
         MatcherAssert.assertThat(
             "String does not end with expected value",
             new RtRepoCommits(new FakeRequest(), RtRepoCommitsTest.repo())

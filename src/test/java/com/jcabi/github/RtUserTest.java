@@ -35,14 +35,14 @@ import org.mockito.Mockito;
  */
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 @ExtendWith(RandomPort.class)
-public final class RtUserTest {
+final class RtUserTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void checksWhoAmI() throws IOException {
+    void checksWhoAmI() throws IOException {
         final String login = "monalia";
         final RtUser user = new RtUser(
             Mockito.mock(GitHub.class),
@@ -60,7 +60,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void checksIfHeHasAName() throws IOException {
+    void checksIfHeHasAName() throws IOException {
         final User.Smart smart = new User.Smart(
             new RtUser(
                 Mockito.mock(GitHub.class),
@@ -81,7 +81,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void checksIfHeHasNoName() throws IOException {
+    void checksIfHeHasNoName() throws IOException {
         final User.Smart smart = new User.Smart(
             new RtUser(
                 Mockito.mock(GitHub.class),
@@ -101,7 +101,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void describeAsJson() throws IOException {
+    void describeAsJson() throws IOException {
         final RtUser user = new RtUser(
             Mockito.mock(GitHub.class),
             new FakeRequest().withBody(
@@ -123,7 +123,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void executePatchRequest() throws IOException {
+    void executePatchRequest() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
                 HttpURLConnection.HTTP_OK,
@@ -148,7 +148,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void fetchesEmails() {
+    void fetchesEmails() {
         final GitHub github = Mockito.mock(GitHub.class);
         Mockito.when(github.entry()).thenReturn(new FakeRequest());
         final User user = new RtUser(github, new FakeRequest());
@@ -158,7 +158,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void fetchesOrganizations() {
+    void fetchesOrganizations() {
         final GitHub github = Mockito.mock(GitHub.class);
         Mockito.when(github.entry()).thenReturn(new FakeRequest());
         final User user = new RtUser(github, new FakeRequest());
@@ -168,7 +168,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasHtmlUrl() throws IOException {
+    void hasHtmlUrl() throws IOException {
         final String value = "http://github.example.com";
         final User.Smart smart = RtUserTest.userWith("html_url", value);
         MatcherAssert.assertThat(
@@ -177,7 +177,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasFollwersUrl() throws IOException {
+    void hasFollwersUrl() throws IOException {
         final String value = "http://github.example.com/followers";
         final User.Smart smart = RtUserTest.userWith("followers_url", value);
         MatcherAssert.assertThat(
@@ -186,7 +186,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasFollowingUrl() throws IOException {
+    void hasFollowingUrl() throws IOException {
         final String value = "http://github.example.com/following";
         final User.Smart smart = RtUserTest.userWith("following_url", value);
         MatcherAssert.assertThat(
@@ -195,7 +195,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasGistsUrl() throws IOException {
+    void hasGistsUrl() throws IOException {
         final String value = "http://github.example.com/gists";
         final User.Smart smart = RtUserTest.userWith("gists_url", value);
         MatcherAssert.assertThat(
@@ -204,7 +204,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasStarredUrl() throws IOException {
+    void hasStarredUrl() throws IOException {
         final String value = "http://github.example.com/starred";
         final User.Smart smart = RtUserTest.userWith("starred_url", value);
         MatcherAssert.assertThat(
@@ -213,7 +213,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasSubscriptionsUrl() throws IOException {
+    void hasSubscriptionsUrl() throws IOException {
         final String value = "http://github.example.com/subscriptions";
         final User.Smart smart = RtUserTest.userWith("subscriptions_url", value);
         MatcherAssert.assertThat(
@@ -222,7 +222,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasOrganizationsUrl() throws IOException {
+    void hasOrganizationsUrl() throws IOException {
         final String value = "http://github.example.com/organizations";
         final User.Smart smart = RtUserTest.userWith("organizations_url", value);
         MatcherAssert.assertThat(
@@ -231,7 +231,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasReposUrl() throws IOException {
+    void hasReposUrl() throws IOException {
         final String value = "http://github.example.com/repos";
         final User.Smart smart = RtUserTest.userWith("repos_url", value);
         MatcherAssert.assertThat(
@@ -240,7 +240,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasEventsUrl() throws IOException {
+    void hasEventsUrl() throws IOException {
         final String value = "http://github.example.com/events";
         final User.Smart smart = RtUserTest.userWith("events_url", value);
         MatcherAssert.assertThat(
@@ -249,7 +249,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasReceivedEventsUrl() throws IOException {
+    void hasReceivedEventsUrl() throws IOException {
         final String value = "http://github.example.com/received_events";
         final User.Smart smart = RtUserTest.userWith("received_events_url", value);
         MatcherAssert.assertThat(
@@ -258,7 +258,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasType() throws IOException {
+    void hasType() throws IOException {
         final String value = "http://github.example.com/organizations";
         final User.Smart smart = RtUserTest.userWith("type", value);
         MatcherAssert.assertThat(
@@ -267,7 +267,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasSiteAdmin() throws IOException {
+    void hasSiteAdmin() throws IOException {
         final User.Smart smart = RtUserTest.userWith("site_admin", "true");
         MatcherAssert.assertThat(
             "Values are not equal", smart.siteAdmin(), Matchers.is(true)
@@ -275,7 +275,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasBlog() throws IOException {
+    void hasBlog() throws IOException {
         final String value = "http://blog.example.com";
         final User.Smart smart = RtUserTest.userWith("blog", value);
         MatcherAssert.assertThat(
@@ -284,7 +284,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasHireable() throws IOException {
+    void hasHireable() throws IOException {
         final User.Smart smart = RtUserTest.userWith("hireable", "true");
         MatcherAssert.assertThat(
             "Values are not equal", smart.hireable(), Matchers.is(true)
@@ -292,7 +292,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasBio() throws IOException {
+    void hasBio() throws IOException {
         final String value = "http://github.example.com/bio";
         final User.Smart smart = RtUserTest.userWith("bio", value);
         MatcherAssert.assertThat(
@@ -301,7 +301,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasPublicRepos() throws IOException {
+    void hasPublicRepos() throws IOException {
         final int value = Tv.THREE;
         final User.Smart smart = RtUserTest.userWith(
             "public_repos",
@@ -313,7 +313,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasPublicGists() throws IOException {
+    void hasPublicGists() throws IOException {
         final int value = Tv.FOUR;
         final User.Smart smart = RtUserTest.userWith(
             "public_gists",
@@ -325,7 +325,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasFollowersCount() throws IOException {
+    void hasFollowersCount() throws IOException {
         final int value = Tv.FIVE;
         final User.Smart smart = RtUserTest.userWith(
             "followers",
@@ -337,7 +337,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasFollowingCount() throws IOException {
+    void hasFollowingCount() throws IOException {
         final int value = Tv.SIX;
         final User.Smart smart = RtUserTest.userWith(
             "following",
@@ -349,7 +349,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasCreated() throws ParseException, IOException {
+    void hasCreated() throws ParseException, IOException {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = RtUserTest.userWith("created_at", value.toString());
         MatcherAssert.assertThat(
@@ -358,7 +358,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void hasUpdated() throws ParseException, IOException {
+    void hasUpdated() throws ParseException, IOException {
         final GitHub.Time value = new GitHub.Time("2014-07-04T15:29:43Z");
         final User.Smart smart = RtUserTest.userWith("updated_at", value.toString());
         MatcherAssert.assertThat(
@@ -367,7 +367,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void notifications() throws IOException {
+    void notifications() throws IOException {
         MatcherAssert.assertThat(
             "Value is not null",
             new RtUser(
@@ -383,7 +383,7 @@ public final class RtUserTest {
      * 205.
      */
     @Test
-    public void markAsReadOkIfResponseStatusIs205() throws IOException {
+    void markAsReadOkIfResponseStatusIs205() throws IOException {
         MkContainer container = null;
         try {
             container = new MkGrizzlyContainer().next(
@@ -402,7 +402,7 @@ public final class RtUserTest {
     }
 
     @Test
-    public void markAsReadErrorIfResponseStatusIsNot205() throws IOException {
+    void markAsReadErrorIfResponseStatusIsNot205() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
         ).start(RandomPort.port());

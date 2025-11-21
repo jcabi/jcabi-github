@@ -13,10 +13,10 @@ import org.junit.jupiter.api.Test;
  * Unit tests for {@link FromProperties}.
  * @since 0.37
  */
-public final class FromPopertiesTest {
+final class FromPopertiesTest {
 
     @Test
-    public void formatsUserAgent() {
+    void formatsUserAgent() {
         MatcherAssert.assertThat(
             "String does not start with expected value",
             new FromProperties("jcabigithub.properties").format(),
@@ -25,7 +25,7 @@ public final class FromPopertiesTest {
     }
 
     @Test
-    public void throwsExceptionOnMissingFile() {
+    void throwsExceptionOnMissingFile() {
         Assertions.assertThrows(
             NullPointerException.class,
             () -> new FromProperties("missing.properties").format(),

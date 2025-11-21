@@ -25,13 +25,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @Immutable
 @ExtendWith(RandomPort.class)
-public final class RtGitignoresTest {
+final class RtGitignoresTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void iterateTemplateNames() throws IOException {
+    void iterateTemplateNames() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -57,7 +57,7 @@ public final class RtGitignoresTest {
     }
 
     @Test
-    public void getRawTemplateByName() throws IOException {
+    void getRawTemplateByName() throws IOException {
         final RtGitignores gitignores = new RtGitignores(
             new RtGitHub(new FakeRequest().withBody("# Object files"))
         );

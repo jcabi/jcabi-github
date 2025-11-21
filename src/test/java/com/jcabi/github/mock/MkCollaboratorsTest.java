@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkCollaborators}.
  * @since 0.7
  */
-public final class MkCollaboratorsTest {
+final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can add, remove and iterate collaborators.
      * @throws Exception If some problem inside
      */
     @Test
-    public void addAndRemove() throws Exception {
+    void addAndRemove() throws Exception {
         final Collaborators collabs = MkCollaboratorsTest.collaborators();
         final String login = "some_user";
         collabs.add(login);
@@ -48,7 +48,7 @@ public final class MkCollaboratorsTest {
      * @throws Exception If some problem inside
      */
     @Test
-    public void isCollaborator() throws Exception {
+    void isCollaborator() throws Exception {
         final Collaborators collabs = MkCollaboratorsTest.collaborators();
         final String collaborator = "collaborator";
         collabs.add(collaborator);

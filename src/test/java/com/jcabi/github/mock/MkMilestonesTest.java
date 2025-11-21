@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkMilestonesTest {
+final class MkMilestonesTest {
 
     @Test
-    public void returnsRepo() throws IOException {
+    void returnsRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(
@@ -30,7 +30,7 @@ public final class MkMilestonesTest {
     }
 
     @Test
-    public void createsMilestone() throws IOException {
+    void createsMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone milestone = milestones.create("test milestone");
@@ -48,7 +48,7 @@ public final class MkMilestonesTest {
      * This tests that MkMilestones can return a certain MkMilestone, by number.
      */
     @Test
-    public void getsMilestone() throws IOException {
+    void getsMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("test");
@@ -63,7 +63,7 @@ public final class MkMilestonesTest {
      * This tests that MkMilestones can remove a certain MkMilestone, by number.
      */
     @Test
-    public void removesMilestone() throws IOException {
+    void removesMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         final Milestone created = milestones.create("testTitle");
@@ -85,7 +85,7 @@ public final class MkMilestonesTest {
      * in MkMilestones works fine.
      */
     @Test
-    public void iteratesMilestones() throws IOException {
+    void iteratesMilestones() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
         milestones.create("testMilestone");

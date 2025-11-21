@@ -16,10 +16,10 @@ import org.mockito.Mockito;
  * Tests for {@link Repo}.
  * @since 0.1
  */
-public final class RepoTest {
+final class RepoTest {
 
     @Test
-    public void canFetchDescription() throws IOException {
+    void canFetchDescription() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -34,7 +34,7 @@ public final class RepoTest {
     }
 
     @Test
-    public void canFetchPrivateStatus() throws IOException {
+    void canFetchPrivateStatus() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         repo.patch(
             Json.createObjectBuilder()

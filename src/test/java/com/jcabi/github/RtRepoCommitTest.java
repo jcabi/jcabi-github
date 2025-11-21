@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtRepoCommit}.
  * @since 0.1
  */
-public final class RtRepoCommitTest {
+final class RtRepoCommitTest {
     @Test
-    public void hasProperRequestUrl() {
+    void hasProperRequestUrl() {
         final String sha = RandomStringUtils.randomAlphanumeric(50);
         final RtRepoCommit commit = new RtRepoCommit(
             new FakeRequest(), RtRepoCommitTest.repo(), sha

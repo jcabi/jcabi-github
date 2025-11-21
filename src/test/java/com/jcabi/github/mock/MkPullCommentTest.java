@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPullComment}.
  * @since 0.1
  */
-public final class MkPullCommentTest {
+final class MkPullCommentTest {
     /**
      * MkPullComment can be represented as JSON.
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void retrieveAsJson() throws Exception {
+    void retrieveAsJson() throws Exception {
         final PullComment comment = MkPullCommentTest.comment();
         MatcherAssert.assertThat(
             "String does not start with expected value",
@@ -35,7 +35,7 @@ public final class MkPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void executePatchRequest() throws Exception {
+    void executePatchRequest() throws Exception {
         final String path = "/path/to/file.txt";
         final PullComment comment = MkPullCommentTest.comment();
         comment.patch(Json.createObjectBuilder().add("path", path).build());

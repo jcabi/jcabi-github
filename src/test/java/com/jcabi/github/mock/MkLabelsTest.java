@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkLabels}.
  * @since 0.6
  */
-public final class MkLabelsTest {
+final class MkLabelsTest {
 
     @Test
-    public void iteratesLabels() throws IOException {
+    void iteratesLabels() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         repo.labels().create("bug", "e0e0e0");
         MatcherAssert.assertThat(
@@ -32,7 +32,7 @@ public final class MkLabelsTest {
     }
 
     @Test
-    public void deletesLabels() throws IOException {
+    void deletesLabels() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Labels labels = repo.labels();
         final String name = "label-0";
@@ -53,7 +53,7 @@ public final class MkLabelsTest {
     }
 
     @Test
-    public void setsLabelColor() throws IOException {
+    void setsLabelColor() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final String color = "f0f0f0";
         final String name = "task";

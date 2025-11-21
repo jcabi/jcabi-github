@@ -102,17 +102,6 @@ public interface MkStorage {
             this.name = file.getAbsolutePath();
         }
 
-        /**
-         * Create temp file.
-         * @return File
-         * @throws IOException If there is any I/O problem
-         */
-        private static File temp() throws IOException {
-            final File file = File.createTempFile("jcabi-github", ".xml");
-            file.deleteOnExit();
-            return file;
-        }
-
         @Override
         public String toString() {
             try {
@@ -156,6 +145,17 @@ public interface MkStorage {
         @Override
         public void unlock() {
             // nothing
+        }
+
+        /**
+         * Create temp file.
+         * @return File
+         * @throws IOException If there is any I/O problem
+         */
+        private static File temp() throws IOException {
+            final File file = File.createTempFile("jcabi-github", ".xml");
+            file.deleteOnExit();
+            return file;
         }
     }
 

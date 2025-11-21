@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPublicKeys}.
  * @since 0.1
  */
-public final class MkPublicKeysTest {
+final class MkPublicKeysTest {
 
     @Test
-    public void retrievesKeys() throws IOException {
+    void retrievesKeys() throws IOException {
         final PublicKeys keys = new MkGitHub().users().self().keys();
         final PublicKey key = keys.create("key", "ssh 1AA");
         MatcherAssert.assertThat(
@@ -29,7 +29,7 @@ public final class MkPublicKeysTest {
     }
 
     @Test
-    public void canFetchSingleKey() throws IOException {
+    void canFetchSingleKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().add("jeff").keys();
         MatcherAssert.assertThat(
             "Value is null",
@@ -39,7 +39,7 @@ public final class MkPublicKeysTest {
     }
 
     @Test
-    public void canCreatePublicKey() throws IOException {
+    void canCreatePublicKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().add("john").keys();
         final PublicKey key = keys.create("Title1", "PublicKey1");
         MatcherAssert.assertThat(
@@ -50,7 +50,7 @@ public final class MkPublicKeysTest {
     }
 
     @Test
-    public void canRemoveKey() throws IOException {
+    void canRemoveKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().self().keys();
         final PublicKey key = keys.create("rsa", "rsa sh");
         MatcherAssert.assertThat(

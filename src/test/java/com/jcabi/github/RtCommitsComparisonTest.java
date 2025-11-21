@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtCommitsComparison}.
  * @since 0.8
  */
-public final class RtCommitsComparisonTest {
+final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch JSON.
@@ -25,7 +25,7 @@ public final class RtCommitsComparisonTest {
      * @checkstyle ExecutableStatementCountCheck (75 lines)
      */
     @Test
-    public void fetchesJson() throws IOException {
+    void fetchesJson() throws IOException {
         final String sha = "fffffffffffffffffffffffffffffffffffffffe";
         final String filename = "bar/quux.txt";
         // @checkstyle MagicNumberCheck (3 lines)

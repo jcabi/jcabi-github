@@ -32,14 +32,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtReleaseAssetTest {
+final class RtReleaseAssetTest {
 
     /**
      * RtReleaseAsset can be described in JSON form.
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canRepresentAsJson() throws Exception {
+    void canRepresentAsJson() throws Exception {
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest().withBody("{\"asset\":\"release\"}"),
             RtReleaseAssetTest.release(),
@@ -57,7 +57,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception if a problem occurs.
      */
     @Test
-    public void canObtainOwnRelease() throws Exception {
+    void canObtainOwnRelease() throws Exception {
         final Release release = RtReleaseAssetTest.release();
         final RtReleaseAsset asset = new RtReleaseAsset(
             new FakeRequest(),
@@ -76,7 +76,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void patchesAsset() throws Exception {
+    void patchesAsset() throws Exception {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -115,7 +115,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void removesAsset() throws Exception {
+    void removesAsset() throws Exception {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
@@ -142,7 +142,7 @@ public final class RtReleaseAssetTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void rawAsset() throws Exception {
+    void rawAsset() throws Exception {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

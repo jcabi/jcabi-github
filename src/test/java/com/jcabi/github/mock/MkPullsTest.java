@@ -18,14 +18,14 @@ import org.junit.jupiter.api.Test;
  * @since 1.0
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-public final class MkPullsTest {
+final class MkPullsTest {
 
     /**
      * MkPulls can create a pull.
      * It should create an issue first, and then pull with the same number
      */
     @Test
-    public void canCreateAPull() throws IOException {
+    void canCreateAPull() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Pull pull = repo.pulls().create(
             "hello",
@@ -44,13 +44,13 @@ public final class MkPullsTest {
 
     @Test
     @Disabled
-    public void canFetchEmptyListOfPulls() {
+    void canFetchEmptyListOfPulls() {
         // to be implemented
     }
 
     @Test
     @Disabled
-    public void canFetchSinglePull() {
+    void canFetchSinglePull() {
         // to be implemented
     }
 }

@@ -21,10 +21,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkRepoTest {
+final class MkRepoTest {
 
     @Test
-    public void works() throws IOException {
+    void works() throws IOException {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
             new Repos.RepoCreate("test5", false)
@@ -40,7 +40,7 @@ public final class MkRepoTest {
      * This tests that the milestones() method in MkRepo is working fine.
      */
     @Test
-    public void returnsMkMilestones() throws IOException {
+    void returnsMkMilestones() throws IOException {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
         final Repo repo = repos.create(
             new Repos.RepoCreate("test1", false)
@@ -56,7 +56,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchCommits() throws IOException {
+    void fetchCommits() throws IOException {
         final String user = "testuser";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -73,7 +73,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchBranches() throws IOException {
+    void fetchBranches() throws IOException {
         final String user = "testuser";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -86,7 +86,7 @@ public final class MkRepoTest {
     }
 
     @Test
-    public void exposesAttributes() throws IOException {
+    void exposesAttributes() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             "Value is null",
@@ -105,7 +105,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchStars() throws IOException {
+    void fetchStars() throws IOException {
         final String user = "testuser2";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -122,7 +122,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchNotifications() throws IOException {
+    void fetchNotifications() throws IOException {
         final String user = "testuser3";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -139,7 +139,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside
      */
     @Test
-    public void fetchLanguages() throws IOException {
+    void fetchLanguages() throws IOException {
         final String user = "testuser4";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),
@@ -162,7 +162,7 @@ public final class MkRepoTest {
      * @throws IOException if some problem inside.
      */
     @Test
-    public void retrievesDefaultBranch() throws IOException {
+    void retrievesDefaultBranch() throws IOException {
         final String user = "testuser5";
         final Repo repo = new MkRepo(
             new MkStorage.InFile(),

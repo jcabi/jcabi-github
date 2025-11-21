@@ -27,7 +27,7 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtReposTest {
+final class RtReposTest {
 
     /**
      * RepoRule.
@@ -36,7 +36,7 @@ public final class RtReposTest {
     public final transient RepoRule rule = new RepoRule();
 
     @Test
-    public void createRepo() throws IOException {
+    void createRepo() throws IOException {
         final String owner = "test-owner";
         final String name = "test-repo";
         final String response = RtReposTest.response(owner, name).toString();
@@ -66,7 +66,7 @@ public final class RtReposTest {
     }
 
     @Test
-    public void iterateRepos() throws IOException {
+    void iterateRepos() throws IOException {
         final String identifier = "1";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -93,7 +93,7 @@ public final class RtReposTest {
     }
 
     @Test
-    public void removeRepo() throws IOException {
+    void removeRepo() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")

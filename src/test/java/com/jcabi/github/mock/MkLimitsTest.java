@@ -15,10 +15,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkLimits}.
  * @since 0.1
  */
-public final class MkLimitsTest {
+final class MkLimitsTest {
 
     @Test
-    public void worksWithMockedData() throws IOException {
+    void worksWithMockedData() throws IOException {
         final Limits limits = new MkGitHub().limits();
         MatcherAssert.assertThat(
             "Value is not greater than expected",

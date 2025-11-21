@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link Coordinates}.
  * @since 0.1
  */
-public final class CoordinatesTest {
+final class CoordinatesTest {
 
     @Test
-    public void retrievesUserAndRepoFromHttpsCoordinates() {
+    void retrievesUserAndRepoFromHttpsCoordinates() {
         final Coordinates coords = new Coordinates.Https(
             "https://github.com/yegor256/takes.git"
         );
@@ -42,7 +42,7 @@ public final class CoordinatesTest {
     }
 
     @Test
-    public void sameHttpsCoordinatesAreEqual() {
+    void sameHttpsCoordinatesAreEqual() {
         final String same = "https://github.com/apache/tomcat.git";
         MatcherAssert.assertThat(
             "Same coordinates are equal",
@@ -52,7 +52,7 @@ public final class CoordinatesTest {
     }
 
     @Test
-    public void comparesHttpsCoordinates() {
+    void comparesHttpsCoordinates() {
         final String first = "https://github.com/apache/kafka.git";
         final String second = "https://github.com/jcabi/jcabi-github";
         final int difference = 9;
@@ -77,7 +77,7 @@ public final class CoordinatesTest {
     }
 
     @Test
-    public void comparesSimpleAndHttpsCoordinates() {
+    void comparesSimpleAndHttpsCoordinates() {
         MatcherAssert.assertThat(
             "Coordinates should be equal",
             new Coordinates.Simple("volodya-lombrozo/jtcop")

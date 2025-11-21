@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkGitignores}.
  * @since 0.8
  */
-public final class MkGitignoresTest {
+final class MkGitignoresTest {
     @Test
-    public void canFetchSingleRawTemplate() throws IOException {
+    void canFetchSingleRawTemplate() throws IOException {
         final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
             "String does not start with expected value",
@@ -26,7 +26,7 @@ public final class MkGitignoresTest {
     }
 
     @Test
-    public void canIterateOverTemplates() throws IOException {
+    void canIterateOverTemplates() throws IOException {
         final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
             "Collection is not empty",

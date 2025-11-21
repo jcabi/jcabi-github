@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkPullRef}.
  * @since 0.24
  */
-public final class MkPullRefTest {
+final class MkPullRefTest {
     /**
      * Test ref.
      */
@@ -37,7 +37,7 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = new MkGitHub(storage, MkPullRefTest.USERNAME)
             .randomRepo();
@@ -53,7 +53,7 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesRef() throws IOException {
+    void fetchesRef() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             MkPullRefTest.pullRef().ref(),
@@ -66,7 +66,7 @@ public final class MkPullRefTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesSha() throws IOException {
+    void fetchesSha() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             MkPullRefTest.pullRef().sha(),

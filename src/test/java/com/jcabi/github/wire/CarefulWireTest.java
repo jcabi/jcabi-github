@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link CarefulWire}.
  * @since 0.1
  */
-public final class CarefulWireTest {
+final class CarefulWireTest {
     /**
      * HTTP 200 status reason.
      */
@@ -32,7 +32,7 @@ public final class CarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void waitUntilReset() throws IOException {
+    void waitUntilReset() throws IOException {
         final int threshold = 10;
         // @checkstyle MagicNumber (2 lines)
         final long reset = TimeUnit.MILLISECONDS
@@ -58,7 +58,7 @@ public final class CarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitRemainingHeader() throws IOException {
+    void tolerateMissingRateLimitRemainingHeader() throws IOException {
         final int threshold = 10;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
@@ -78,7 +78,7 @@ public final class CarefulWireTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void tolerateMissingRateLimitResetHeader() throws IOException {
+    void tolerateMissingRateLimitResetHeader() throws IOException {
         final int threshold = 8;
         // @checkstyle MagicNumber (1 lines)
         new FakeRequest()

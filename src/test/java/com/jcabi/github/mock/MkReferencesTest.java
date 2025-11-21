@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReferencesTest {
+final class MkReferencesTest {
 
     @Test
-    public void createsMkReference() throws IOException {
+    void createsMkReference() throws IOException {
         final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
@@ -30,7 +30,7 @@ public final class MkReferencesTest {
     }
 
     @Test
-    public void returnsRepo() throws IOException {
+    void returnsRepo() throws IOException {
         final References refs = new MkGitHub().randomRepo()
             .git().references();
         MatcherAssert.assertThat(
@@ -41,7 +41,7 @@ public final class MkReferencesTest {
     }
 
     @Test
-    public void iteratesReferences() throws IOException {
+    void iteratesReferences() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
@@ -57,7 +57,7 @@ public final class MkReferencesTest {
      * MkReferences can iterate over references in sub-namespace.
      */
     @Test
-    public void iteratesReferencesInSubNamespace() throws IOException {
+    void iteratesReferencesInSubNamespace() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/br", "qweqwe");
@@ -78,7 +78,7 @@ public final class MkReferencesTest {
      * MkReferences can iterate over references in Tagsub-namespace.
      */
     @Test
-    public void iteratesTags() throws IOException {
+    void iteratesTags() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/tags/t2", "2322f34");
@@ -93,7 +93,7 @@ public final class MkReferencesTest {
      * MkReferences can iterate over references in Tagsub-namespace.
      */
     @Test
-    public void iteratesHeads() throws IOException {
+    void iteratesHeads() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/branch2", "blahblah");
@@ -105,7 +105,7 @@ public final class MkReferencesTest {
     }
 
     @Test
-    public void removesReference() throws IOException {
+    void removesReference() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();
         refs.create("refs/heads/testbr", "qweqwe22");

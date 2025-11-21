@@ -19,10 +19,10 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MkSearchTest {
+final class MkSearchTest {
 
     @Test
-    public void canSearchForRepos() throws IOException {
+    void canSearchForRepos() throws IOException {
         final MkGitHub github = new MkGitHub();
         github.repos().create(
             new Repos.RepoCreate("TestRepo", false)
@@ -35,7 +35,7 @@ public final class MkSearchTest {
     }
 
     @Test
-    public void canSearchForIssues() throws IOException {
+    void canSearchForIssues() throws IOException {
         final MkGitHub github = new MkGitHub();
         final Repo repo = github.repos().create(
             new Repos.RepoCreate("TestIssues", false)
@@ -54,7 +54,7 @@ public final class MkSearchTest {
     }
 
     @Test
-    public void canSearchForUsers() throws IOException {
+    void canSearchForUsers() throws IOException {
         final MkGitHub github = new MkGitHub("jeff");
         github.users().self();
         MatcherAssert.assertThat(
@@ -65,7 +65,7 @@ public final class MkSearchTest {
     }
 
     @Test
-    public void canSearchForCodes() throws IOException {
+    void canSearchForCodes() throws IOException {
         final MkGitHub github = new MkGitHub("jeff");
         github.repos().create(
             new Repos.RepoCreate("TestCode", false)

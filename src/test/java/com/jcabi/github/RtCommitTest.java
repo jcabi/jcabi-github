@@ -22,14 +22,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtCommitTest {
+final class RtCommitTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void readsMessage() throws IOException {
+    void readsMessage() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(

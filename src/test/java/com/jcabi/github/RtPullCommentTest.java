@@ -32,14 +32,14 @@ import org.mockito.Mockito;
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtPullCommentTest {
+final class RtPullCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    public void canCompareInstances() throws IOException {
+    void canCompareInstances() throws IOException {
         final Pull pull = Mockito.mock(Pull.class);
         Mockito.doReturn(new MkGitHub().randomRepo()).when(pull).repo();
         final RtPullComment less =
@@ -65,7 +65,7 @@ public final class RtPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void canDescribeAsJson() throws Exception {
+    void canDescribeAsJson() throws Exception {
         final String body = "{\"body\":\"test\"}";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -96,7 +96,7 @@ public final class RtPullCommentTest {
      * @throws Exception If a problem occurs.
      */
     @Test
-    public void patchesComment() throws Exception {
+    void patchesComment() throws Exception {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
@@ -130,7 +130,7 @@ public final class RtPullCommentTest {
 
     @Test
     @Disabled
-    public void reacts() throws IOException {
+    void reacts() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")

@@ -34,14 +34,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtStatusesTest {
+final class RtStatusesTest {
 
     /**
      * RtStatuses can fetch its commit.
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    public void fetchesCommit() throws IOException {
+    void fetchesCommit() throws IOException {
         final Commit original = new MkGitHub().randomRepo().git()
             .commits().get("5e8d65e0dbfab0716db16493e03a0baba480625a");
         MatcherAssert.assertThat(
@@ -52,7 +52,7 @@ public final class RtStatusesTest {
     }
 
     @Test
-    public void createsStatus() throws IOException {
+    void createsStatus() throws IOException {
         final String stateprop = "state";
         final String urlprop = "target_url";
         final String descprop = "description";

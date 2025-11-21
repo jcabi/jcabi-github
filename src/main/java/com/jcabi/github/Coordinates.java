@@ -68,21 +68,6 @@ public interface Coordinates extends Comparable<Coordinates> {
             );
         }
 
-        /**
-         * Parse mnemo into parts.
-         * @param mnemo Mnemo name
-         * @return Parts
-         */
-        private static String[] parse(final String mnemo) {
-            final String[] parts = mnemo.split(Coordinates.SEPARATOR, 2);
-            if (parts.length != 2) {
-                throw new IllegalArgumentException(
-                    String.format("invalid coordinates '%s'", mnemo)
-                );
-            }
-            return parts;
-        }
-
         @Override
         public String toString() {
             return String.format("%s/%s", this.usr, this.rpo);
@@ -126,6 +111,21 @@ public interface Coordinates extends Comparable<Coordinates> {
             int result = this.usr.hashCode();
             result = 31 * result + this.rpo.hashCode();
             return result;
+        }
+
+        /**
+         * Parse mnemo into parts.
+         * @param mnemo Mnemo name
+         * @return Parts
+         */
+        private static String[] parse(final String mnemo) {
+            final String[] parts = mnemo.split(Coordinates.SEPARATOR, 2);
+            if (parts.length != 2) {
+                throw new IllegalArgumentException(
+                    String.format("invalid coordinates '%s'", mnemo)
+                );
+            }
+            return parts;
         }
     }
 

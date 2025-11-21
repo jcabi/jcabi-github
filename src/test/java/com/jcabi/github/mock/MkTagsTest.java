@@ -16,10 +16,10 @@ import org.junit.jupiter.api.Test;
  * @since 0.6
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkTagsTest {
+final class MkTagsTest {
 
     @Test
-    public void createsMkTag() throws IOException {
+    void createsMkTag() throws IOException {
         final JsonObject tagger = Json.createObjectBuilder()
             .add("name", "Scott").add("email", "Scott@gmail.com").build();
         MatcherAssert.assertThat(

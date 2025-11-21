@@ -16,13 +16,13 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link FileChange}.
  * @since 0.24
  */
-public final class FileChangeTest {
+final class FileChangeTest {
     /**
      * FileChange.Smart can get the status of the file.
      * @throws IOException If an I/O problem occurs
      */
     @Test
-    public void getsStatus() throws IOException {
+    void getsStatus() throws IOException {
         final String status = "status";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -51,7 +51,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsFilename() throws IOException {
+    void getsFilename() throws IOException {
         final String filename = "foo/bar.txt";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -65,7 +65,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsSha() throws IOException {
+    void getsSha() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -79,7 +79,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsAdditions() throws IOException {
+    void getsAdditions() throws IOException {
         // @checkstyle MagicNumberCheck (1 line)
         final int adds = 42;
         MatcherAssert.assertThat(
@@ -94,7 +94,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsDeletions() throws IOException {
+    void getsDeletions() throws IOException {
         // @checkstyle MagicNumberCheck (1 line)
         final int deletions = 97;
         MatcherAssert.assertThat(
@@ -109,7 +109,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsChanges() throws IOException {
+    void getsChanges() throws IOException {
         // @checkstyle MagicNumberCheck (1 line)
         final int changes = 11;
         MatcherAssert.assertThat(
@@ -125,7 +125,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsAbsentPatch() throws IOException {
+    void getsAbsentPatch() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             new FileChange.Smart(
@@ -143,7 +143,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsPresentPatch() throws IOException {
+    void getsPresentPatch() throws IOException {
         // @checkstyle LineLength (1 line)
         final String patch = "@@ -120,7 +120,7 @@ class Test1 @@ -1000,7 +1000,7 @@ class Test1";
         MatcherAssert.assertThat(
@@ -161,7 +161,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsRawUrl() throws IOException {
+    void getsRawUrl() throws IOException {
         final String url = String.join(
             "",
             "https://api.jcabi-github.invalid/octocat/",
@@ -183,7 +183,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsBlobUrl() throws IOException {
+    void getsBlobUrl() throws IOException {
         final String url = String.join(
             "",
             "https://api.jcabi-github.invalid/octocat/",
@@ -205,7 +205,7 @@ public final class FileChangeTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void getsContentsUrl() throws IOException {
+    void getsContentsUrl() throws IOException {
         final String url = String.join(
             "",
             "https://api.jcabi-github.invalid/repos/octocat/",

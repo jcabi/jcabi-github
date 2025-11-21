@@ -28,7 +28,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-public final class RtPublicMembersTest {
+final class RtPublicMembersTest {
     /**
      * Test organization.
      */
@@ -61,7 +61,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void fetchesOrg() throws IOException {
+    void fetchesOrg() throws IOException {
         final Organization org = RtPublicMembersTest.organization();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -75,7 +75,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void concealsMembers() throws IOException {
+    void concealsMembers() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
@@ -117,7 +117,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void publicizesMembers() throws IOException {
+    void publicizesMembers() throws IOException {
         try (MkContainer container = new MkGrizzlyContainer()
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
             .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
@@ -153,7 +153,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void checkPublicMembership() throws IOException {
+    void checkPublicMembership() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
@@ -203,7 +203,7 @@ public final class RtPublicMembersTest {
      * @throws IOException If there is an I/O problem
      */
     @Test
-    public void iteratesPublicMembers() throws IOException {
+    void iteratesPublicMembers() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(

@@ -17,14 +17,14 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
-public final class MkReferenceTest {
+final class MkReferenceTest {
 
     /**
      * MkReference can return its name.
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsName() throws Exception {
+    void returnsName() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
             MkReferenceTest.reference().ref(),
@@ -37,7 +37,7 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void returnsRepo() throws Exception {
+    void returnsRepo() throws Exception {
         MatcherAssert.assertThat(
             "Value is null",
             MkReferenceTest.reference().repo(),
@@ -50,7 +50,7 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void fetchesJson() throws Exception {
+    void fetchesJson() throws Exception {
         final Reference ref = MkReferenceTest.reference();
         final JsonObject json = ref.json();
         MatcherAssert.assertThat(
@@ -70,7 +70,7 @@ public final class MkReferenceTest {
      * @throws Exception - If something goes wrong.
      */
     @Test
-    public void patchesRef() throws Exception {
+    void patchesRef() throws Exception {
         final Reference ref = MkReferenceTest.reference();
         final JsonObject json = Json.createObjectBuilder()
             .add("sha", "testshaPATCH")

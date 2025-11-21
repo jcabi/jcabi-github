@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkEvent}.
  * @since 0.1
  */
-public final class MkEventTest {
+final class MkEventTest {
     @Test
-    public void canGetCreatedAt() throws IOException {
+    void canGetCreatedAt() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGitHub(storage, user).randomRepo();
@@ -45,7 +45,7 @@ public final class MkEventTest {
     }
 
     @Test
-    public void canGetPresentLabel() throws IOException {
+    void canGetPresentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "ken";
         final Repo repo = new MkGitHub(storage, user).repos().create(
@@ -74,7 +74,7 @@ public final class MkEventTest {
     }
 
     @Test
-    public void canGetAbsentLabel() throws IOException {
+    void canGetAbsentLabel() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "barbie";
         final Repo repo = new MkGitHub(storage, user).repos().create(

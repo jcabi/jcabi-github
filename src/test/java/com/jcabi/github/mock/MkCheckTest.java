@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkCheck}.
  * @since 1.6.1
  */
-public final class MkCheckTest {
+final class MkCheckTest {
 
     /**
      * Pull request.
@@ -28,7 +28,7 @@ public final class MkCheckTest {
      * @throws IOException If some problem with I/O.
      */
     @BeforeEach
-    public void setUp() throws IOException {
+    void setUp() throws IOException {
         this.pull = new MkGitHub()
             .randomRepo()
             .pulls()
@@ -40,7 +40,7 @@ public final class MkCheckTest {
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void createsSuccessfulCheck() throws IOException {
+    void createsSuccessfulCheck() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             ((MkChecks) this.pull.checks())
@@ -55,7 +55,7 @@ public final class MkCheckTest {
      * @throws IOException If some problem with I/O.
      */
     @Test
-    public void createsFailedCheck() throws IOException {
+    void createsFailedCheck() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",
             ((MkChecks) this.pull.checks())

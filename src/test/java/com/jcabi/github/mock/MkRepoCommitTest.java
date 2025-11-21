@@ -16,7 +16,7 @@ import org.xembly.Directives;
  * Test case for {@link MkRepoCommit}.
  * @since 0.8
  */
-public final class MkRepoCommitTest {
+final class MkRepoCommitTest {
 
     /**
      * The fist test key.
@@ -35,7 +35,7 @@ public final class MkRepoCommitTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getRepo() throws IOException {
+    void getRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkRepoCommitTest.repo(storage);
         MatcherAssert.assertThat(
@@ -51,7 +51,7 @@ public final class MkRepoCommitTest {
      * @throws IOException If some problem inside
      */
     @Test
-    public void getSha() throws IOException {
+    void getSha() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -61,7 +61,7 @@ public final class MkRepoCommitTest {
     }
 
     @Test
-    public void canCompareInstances() throws IOException {
+    void canCompareInstances() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repoa = new MkRepo(
             storage, "login1",
@@ -90,7 +90,7 @@ public final class MkRepoCommitTest {
     }
 
     @Test
-    public void canGetJson() throws IOException {
+    void canGetJson() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(
             new Directives().xpath("/github").add("repos")
@@ -107,7 +107,7 @@ public final class MkRepoCommitTest {
     }
 
     @Test
-    public void compareEqual() throws IOException {
+    void compareEqual() throws IOException {
         final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkRepoCommitTest.repo(storage);
@@ -124,7 +124,7 @@ public final class MkRepoCommitTest {
     }
 
     @Test
-    public void compareDifferent() throws IOException {
+    void compareDifferent() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkRepoCommitTest.repo(storage);
         final MkRepoCommit commit = new MkRepoCommit(

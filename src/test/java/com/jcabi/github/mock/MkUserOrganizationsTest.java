@@ -17,9 +17,9 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-public final class MkUserOrganizationsTest {
+final class MkUserOrganizationsTest {
     @Test
-    public void iteratesUserOrganizations() throws IOException {
+    void iteratesUserOrganizations() throws IOException {
         final String login = "orgTestIterate";
         final GitHub github = new MkGitHub(login);
         final UserOrganizations orgs = github.users().get(login)
