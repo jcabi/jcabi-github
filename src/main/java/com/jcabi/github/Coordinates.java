@@ -150,6 +150,25 @@ public interface Coordinates extends Comparable<Coordinates> {
                 .build();
         }
 
+        @Override
+        public boolean equals(final Object obj) {
+            final boolean result;
+            if (this == obj) {
+                result = true;
+            } else if (obj == null || this.getClass() != obj.getClass()) {
+                result = false;
+            } else {
+                final Coordinates.Https other = (Coordinates.Https) obj;
+                result = this.url.equals(other.url);
+            }
+            return result;
+        }
+
+        @Override
+        public int hashCode() {
+            return this.url.hashCode();
+        }
+
         /**
          * Split URL.
          * @return Array of repo coordinates.

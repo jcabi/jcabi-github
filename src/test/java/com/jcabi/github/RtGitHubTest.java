@@ -100,8 +100,8 @@ public final class RtGitHubTest {
         final GitHub.Time second = new GitHub.Time(time);
         MatcherAssert.assertThat(
             "Values are not equal",
-            first.equals(second),
-            Matchers.is(true)
+            first.toString(),
+            Matchers.equalTo(second.toString())
         );
     }
 

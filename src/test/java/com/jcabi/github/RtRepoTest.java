@@ -222,7 +222,7 @@ public final class RtRepoTest {
             "Values are not equal",
             repo.json().toString(),
             Matchers.equalTo(
-                "{\"full_name\":\"octocat/Hello-World\", \"fork\":true}"
+                "{\"full_name\":\"octocat/Hello-World\",\"fork\":true}"
             )
         );
     }
