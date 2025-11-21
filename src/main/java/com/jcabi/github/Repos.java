@@ -153,6 +153,7 @@ public interface Repos {
          *  authenticated user.
          * @checkstyle ParameterNumberCheck (7 lines)
          */
+        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
         private RepoCreate(
             final String nme,
             final boolean prvt,

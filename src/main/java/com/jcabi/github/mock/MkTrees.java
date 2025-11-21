@@ -50,6 +50,7 @@ final class MkTrees implements Trees {
      * @param rep Repo's coordinates.
      * @throws IOException If something goes wrong.
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkTrees(
         final MkStorage stg,
         final String login,

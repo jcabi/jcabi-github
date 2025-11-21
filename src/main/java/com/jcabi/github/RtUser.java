@@ -62,6 +62,7 @@ final class RtUser implements User {
      * @param req Request
      * @param login User identity/identity
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtUser(
         final GitHub github,
         final Request req,

@@ -59,6 +59,7 @@ final class MkIssues implements Issues {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkIssues(
         final MkStorage stg,
         final String login,

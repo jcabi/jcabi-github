@@ -59,6 +59,7 @@ final class RtIssue implements Issue {
      * @param repo Repository
      * @param number Number of the get
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtIssue(final Request req, final Repo repo, final int number) {
         this.entry = req;
         final Coordinates coords = repo.coordinates();

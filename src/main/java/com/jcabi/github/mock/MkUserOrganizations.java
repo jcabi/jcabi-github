@@ -46,6 +46,7 @@ final class MkUserOrganizations implements UserOrganizations {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
+    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkUserOrganizations(
         final MkStorage stg,
         final String login
