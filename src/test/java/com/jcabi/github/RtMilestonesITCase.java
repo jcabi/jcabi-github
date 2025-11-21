@@ -37,7 +37,7 @@ final class RtMilestonesITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    void setUp() throws IOException {
+    static void setUp() throws IOException {
         final GitHub github = new RtGitHub(
             GitHubIT.connect().entry().through(RetryWire.class)
         );
@@ -49,7 +49,7 @@ final class RtMilestonesITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    void tearDown() throws IOException {
+    static void tearDown() throws IOException {
         if (RtMilestonesITCase.repos != null && RtMilestonesITCase.repo != null) {
             RtMilestonesITCase.repos.remove(RtMilestonesITCase.repo.coordinates());
         }

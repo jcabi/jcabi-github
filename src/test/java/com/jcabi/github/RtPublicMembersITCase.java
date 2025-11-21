@@ -39,7 +39,7 @@ final class RtPublicMembersITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    void setUp() {
+    static void setUp() {
         final GitHub github = GitHubIT.connect();
         final Users users = github.users();
         RtPublicMembersITCase.org = github.organizations().get(RtPublicMembersITCase.ORG_NAME);

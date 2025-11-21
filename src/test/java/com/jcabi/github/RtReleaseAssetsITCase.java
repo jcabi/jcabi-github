@@ -42,7 +42,7 @@ final class RtReleaseAssetsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    void setUp() throws IOException {
+    static void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtReleaseAssetsITCase.repos = github.repos();
         RtReleaseAssetsITCase.repo = RtReleaseAssetsITCase.rule.repo(RtReleaseAssetsITCase.repos);
@@ -55,7 +55,7 @@ final class RtReleaseAssetsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    void tearDown() throws IOException {
+    static void tearDown() throws IOException {
         if (RtReleaseAssetsITCase.repos != null && RtReleaseAssetsITCase.repo != null) {
             RtReleaseAssetsITCase.repos.remove(RtReleaseAssetsITCase.repo.coordinates());
         }

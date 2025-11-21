@@ -397,7 +397,9 @@ final class RtUserTest {
                 req
             ).markAsRead(new Date());
         } finally {
-            container.close();
+            if (container != null) {
+                container.close();
+            }
         }
     }
 

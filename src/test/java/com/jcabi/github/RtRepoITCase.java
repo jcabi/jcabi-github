@@ -38,7 +38,7 @@ final class RtRepoITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    void setUp() throws IOException {
+    static void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtRepoITCase.repos = github.repos();
         RtRepoITCase.repo = RtRepoITCase.repos.create(
@@ -65,7 +65,7 @@ final class RtRepoITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    void tearDown() throws IOException {
+    static void tearDown() throws IOException {
         if (RtRepoITCase.repos != null && RtRepoITCase.repo != null) {
             RtRepoITCase.repos.remove(RtRepoITCase.repo.coordinates());
         }

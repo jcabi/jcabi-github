@@ -32,7 +32,7 @@ final class RtLabelsITCase {
      * Set up test fixtures.
      */
     @BeforeAll
-    void setUp() throws IOException {
+    static void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtLabelsITCase.repos = github.repos();
         RtLabelsITCase.repo = new RepoRule().repo(RtLabelsITCase.repos);
@@ -42,7 +42,7 @@ final class RtLabelsITCase {
      * Tear down test fixtures.
      */
     @AfterAll
-    void tearDown() throws IOException {
+    static void tearDown() throws IOException {
         if (RtLabelsITCase.repos != null && RtLabelsITCase.repo != null) {
             RtLabelsITCase.repos.remove(RtLabelsITCase.repo.coordinates());
         }
