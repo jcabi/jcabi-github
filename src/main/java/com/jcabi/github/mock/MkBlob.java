@@ -10,7 +10,6 @@ import com.jcabi.github.Blob;
 import com.jcabi.github.Coordinates;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**

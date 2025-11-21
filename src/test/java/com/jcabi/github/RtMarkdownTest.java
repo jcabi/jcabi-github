@@ -16,8 +16,8 @@ import java.net.HttpURLConnection;
 import org.apache.http.HttpHeaders;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtMarkdown}.

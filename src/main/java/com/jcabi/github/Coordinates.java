@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
-import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**

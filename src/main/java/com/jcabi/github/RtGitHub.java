@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import javax.xml.bind.DatatypeConverter;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**

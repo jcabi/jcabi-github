@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**

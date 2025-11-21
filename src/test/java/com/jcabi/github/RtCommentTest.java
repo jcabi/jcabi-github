@@ -20,8 +20,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsIterableWithSize;
 import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtComment}.

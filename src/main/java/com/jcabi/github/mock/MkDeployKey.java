@@ -10,7 +10,6 @@ import com.jcabi.github.DeployKey;
 import com.jcabi.github.Repo;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
 

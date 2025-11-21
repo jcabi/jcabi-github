@@ -11,7 +11,6 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
 import com.jcabi.xml.XML;
 import java.io.IOException;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**

@@ -14,7 +14,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
 import java.io.IOException;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**

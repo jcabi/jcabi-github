@@ -21,8 +21,8 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**

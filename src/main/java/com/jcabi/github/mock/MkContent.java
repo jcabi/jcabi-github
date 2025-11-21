@@ -14,7 +14,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.bind.DatatypeConverter;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 

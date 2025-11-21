@@ -34,7 +34,6 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**

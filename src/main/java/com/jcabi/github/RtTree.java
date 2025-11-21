@@ -9,7 +9,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import lombok.EqualsAndHashCode;
 
 /**
  * GitHub tree.

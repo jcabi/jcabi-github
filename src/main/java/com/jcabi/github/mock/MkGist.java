@@ -13,7 +13,6 @@ import com.jcabi.xml.XML;
 import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.util.List;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
