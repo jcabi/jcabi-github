@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.jcabi.github"},{"l":"com.jcabi.github.mock"},{"l":"com.jcabi.github.safe"},{"l":"com.jcabi.github.wire"}];updateSearchResults();

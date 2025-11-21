@@ -2,21 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
     <head>
         <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>jcabi-github &#x2013; Respect Limits</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Respect Limits – jcabi-github</title>
         <link media="all" rel="stylesheet" type="text/css" href="./css/jcabi.css"/>
-                    <meta name="author" content="Alexander Sinyagin" />
-                            <script>
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-1963507-23']);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>
-                                            <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+                    <meta name="author" content="Alexander Sinyagin"/>
+                                                    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
         <script src="./js/jcabi.js"></script>
     </head>
     <body>
@@ -33,7 +23,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li >
-                            <span>                        <a href="apidocs-1.8.0/index.html" title="JavaDoc 1.8.0">JavaDoc 1.8.0</a>
+                            <span>                        <a href="apidocs-1.10.0/index.html" title="JavaDoc 1.10.0">JavaDoc 1.10.0</a>
         </span>
                                                                                                                                                                 <ul>
                                                                     </ul>
@@ -69,7 +59,7 @@
                                                                                                     <li >
                             <span>                        <a href="project-info.html" title="Project Information">Project Information</a>
         </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </li>
                                                                                                                         <li >
                             <span>                        <a href="project-reports.html" title="Project Reports">Project Reports</a>
         </span>
@@ -85,23 +75,21 @@
                             <div class="logo">
                                 <a href="../"
                                     title=" logo ">
-                                    <img src="../logo-square.svg"
+                                    <img src="${decoration.bannerLeft.src}"
                                         alt="jcabi"
-                                                                                    width="64"
-                                                                                                                            height="64"
-                                                                                itemprop="image"
+                                                                                                                        itemprop="image"
                                     />
                                 </a>
                             </div>
                             <ul class="badges">
                                 <li>
-                                    <strong itemprop="version">1.8.0</strong>
+                                    <strong itemprop="version">1.10.0</strong>
                                 </li>
                                 <li>
-                                    
-                                    <time itemprop="datePublished" datetime="2023-08-06T08:51:41Z">
-                                        
-                                        06-Aug-2023
+                                    $dateFormat.applyPattern("yyyy-MM-dd'T'hh:mm:ss'Z'")
+                                    <time itemprop="datePublished" datetime="${dateFormat.format($currentDate)}">
+                                        $dateFormat.applyPattern('dd-MMM-yyyy')
+                                        ${dateFormat.format($currentDate)}
                                     </time>
                                 </li>
                                 <li class="menu-button">menu</li>
@@ -112,25 +100,24 @@
                                 <img src="https://www.jcabi.com/fork-me.svg" class="fork-me"/>
                             </a>
                                                 <article itemprop="articleBody">
-                            <section>
-<h2><a name="Respect_Limits"></a>Respect Limits</h2>
-<p>Github has limits for number of request per hour. It sets following headers describing current state of rate limit in each response: <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. For further information see <a class="externalLink" href="https://developer.github.com/v3/#rate-limiting"> API Documentation</a>.</p>
-<p>If you want to control limits, you can use <a href="./apidocs-1.8.0/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> class for it. If <code>X-RateLimit-Remaining</code> of received response is less than a given threshold, <a href="./apidocs-1.8.0/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> will sleep until a time specified in the <code>X-RateLimit-Reset</code> header.</p>
-<p>You can use <a href="./apidocs-1.8.0/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> with <a href="./apidocs-1.8.0/com/jcabi/github/Github.html"><code>Github</code></a>:</p>
-<div class="source">
-<pre>Github github = new RtGithub(
-    new RtGithub().entry().through(CarefulWire.class, 50)
-);</pre></div></section>
+                            <section><a id="Respect_Limits"></a>
+<h1>Respect Limits</h1>
+<p>GitHub has limits for number of request per hour. It sets following headers describing current state of rate limit in each response: <code>X-RateLimit-Limit</code>, <code>X-RateLimit-Remaining</code>, and <code>X-RateLimit-Reset</code>. For further information see <a class="externalLink" href="https://developer.github.com/v3/#rate-limiting"> API Documentation</a>.</p>
+<p>If you want to control limits, you can use <a href="./apidocs-1.10.0/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> class for it. If <code>X-RateLimit-Remaining</code> of received response is less than a given threshold, <a href="./apidocs-1.10.0/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> will sleep until a time specified in the <code>X-RateLimit-Reset</code> header.</p>
+<p>You can use <a href="./apidocs-1.10.0/com/jcabi/github/wire/CarefulWire.html"><code>CarefulWire</code></a> with <a href="./apidocs-1.10.0/com/jcabi/github/GitHub.html"><code>GitHub</code></a>:</p>
+<pre><code>GitHub github = new RtGitHub(
+    new RtGitHub().entry().through(CarefulWire.class, 50)
+);</code></pre></section>
                         </article>
                     </div>
                 </main>
                 <footer class="legal-notes">
                     <div>
                         Copyright &#169;
-                                                                            2012-2023
+                                                                            2012-${currentYear}
                                             </div>
                     <div>jcabi.com, All Rights Reserved.</div>
-                    <div><a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a>.</div>
+                    <div><a href="https://maven.apache.org/privacy-policy.html">Privacy Policy</a>.</div>
                 </footer>
             </div>
         </div>

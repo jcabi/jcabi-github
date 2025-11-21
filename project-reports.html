@@ -2,20 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
     <head>
         <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>jcabi-github &#x2013; Generated Reports</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Generated Reports – jcabi-github</title>
         <link media="all" rel="stylesheet" type="text/css" href="./css/jcabi.css"/>
-                            <script>
-                var _gaq = _gaq || [];
-                _gaq.push(['_setAccount', 'UA-1963507-23']);
-                _gaq.push(['_trackPageview']);
-                (function() {
-                    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-                })();
-            </script>
-                                            <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+                                                    <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
         <script src="./js/jcabi.js"></script>
     </head>
     <body>
@@ -32,7 +22,7 @@
                                                                     </ul>
                                                     </li>
                                                                                                                         <li >
-                            <span>                        <a href="apidocs-1.8.0/index.html" title="JavaDoc 1.8.0">JavaDoc 1.8.0</a>
+                            <span>                        <a href="apidocs-1.10.0/index.html" title="JavaDoc 1.10.0">JavaDoc 1.10.0</a>
         </span>
                                                                                                                                                                 <ul>
                                                                     </ul>
@@ -68,7 +58,7 @@
                                                                                                     <li >
                             <span>                        <a href="project-info.html" title="Project Information">Project Information</a>
         </span>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </li>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </li>
                                                                                                                         <li >
                             <span>                        <a href="project-reports.html" title="Project Reports">Project Reports</a>
         </span>
@@ -84,23 +74,21 @@
                             <div class="logo">
                                 <a href="../"
                                     title=" logo ">
-                                    <img src="../logo-square.svg"
+                                    <img src="${decoration.bannerLeft.src}"
                                         alt="jcabi"
-                                                                                    width="64"
-                                                                                                                            height="64"
-                                                                                itemprop="image"
+                                                                                                                        itemprop="image"
                                     />
                                 </a>
                             </div>
                             <ul class="badges">
                                 <li>
-                                    <strong itemprop="version">1.8.0</strong>
+                                    <strong itemprop="version">1.10.0</strong>
                                 </li>
                                 <li>
-                                    
-                                    <time itemprop="datePublished" datetime="2023-08-06T08:51:51Z">
-                                        
-                                        06-Aug-2023
+                                    $dateFormat.applyPattern("yyyy-MM-dd'T'hh:mm:ss'Z'")
+                                    <time itemprop="datePublished" datetime="${dateFormat.format($currentDate)}">
+                                        $dateFormat.applyPattern('dd-MMM-yyyy')
+                                        ${dateFormat.format($currentDate)}
                                     </time>
                                 </li>
                                 <li class="menu-button">menu</li>
@@ -112,21 +100,21 @@
                             </a>
                                                 <article itemprop="articleBody">
                             <section>
-<h2><a name="Generated_Reports"></a>Generated Reports</h2>
-<p>This document provides an overview of the various reports that are automatically generated by <a class="externalLink" href="http://maven.apache.org">Maven</a> . Each report is briefly described below.</p><section>
-<h3><a name="Overview"></a>Overview</h3>
-<table border="0" class="bodyTable">
+<h1>Generated Reports</h1>
+<p>This document provides an overview of the various reports that are automatically generated by <a class="externalLink" href="https://maven.apache.org">Maven</a> . Each report is briefly described below.</p><section>
+<h2>Overview</h2>
+<table class="bodyTable">
 <tr class="a">
 <th>Document</th>
 <th>Description</th></tr>
 <tr class="b">
-<td><a href="xref-test/index.html">Test Source Xref</a></td>
-<td>HTML based, cross-reference version of Java test source code.</td></tr>
-<tr class="a">
 <td><a href="xref/index.html">Source Xref</a></td>
 <td>HTML based, cross-reference version of Java source code.</td></tr>
+<tr class="a">
+<td><a href="xref-test/index.html">Test Source Xref</a></td>
+<td>HTML based, cross-reference version of Java test source code.</td></tr>
 <tr class="b">
-<td><a href="surefire-report.html">Surefire Report</a></td>
+<td><a href="surefire.html">Surefire</a></td>
 <td>Report on the test results of the project.</td></tr>
 <tr class="a">
 <td><a href="dependency-updates-report.html">Dependency Updates Report</a></td>
@@ -135,7 +123,7 @@
 <td><a href="plugin-updates-report.html">Plugin Updates Report</a></td>
 <td>Provides details of the plugins used by this project which have newer versions available.</td></tr>
 <tr class="a">
-<td><a href="apidocs-1.8.0/index.html">Javadoc</a></td>
+<td><a href="apidocs/index.html">Javadoc</a></td>
 <td>Javadoc API documentation.</td></tr>
 <tr class="b">
 <td><a href="jacoco-aggregate/index.html">JaCoCo Aggregate</a></td>
@@ -146,10 +134,10 @@
                 <footer class="legal-notes">
                     <div>
                         Copyright &#169;
-                                                                            2012-2023
+                                                                            2012-${currentYear}
                                             </div>
                     <div>jcabi.com, All Rights Reserved.</div>
-                    <div><a href="http://maven.apache.org/privacy-policy.html">Privacy Policy</a>.</div>
+                    <div><a href="https://maven.apache.org/privacy-policy.html">Privacy Policy</a>.</div>
                 </footer>
             </div>
         </div>
