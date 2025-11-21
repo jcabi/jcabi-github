@@ -29,8 +29,6 @@ public final class RtUserOrganizationsTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void canIterateOrganizationsForUnauthUser() throws IOException {
         final String username = "octopus";

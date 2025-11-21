@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "num" })
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class RtFork implements Fork {
 
     /**

@@ -34,8 +34,6 @@ import org.mockito.Mockito;
 @ExtendWith(RandomPort.class)
 public final class RtPullCommentsTest {
 
-
-
     /**
      * RtPullComments can fetch a single comment.
      *

@@ -29,7 +29,6 @@ import org.mockito.Mockito;
 @ExtendWith(RandomPort.class)
 public final class RtHookTest {
 
-
     /**
      * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
      */

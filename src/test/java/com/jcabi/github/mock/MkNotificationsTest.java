@@ -87,13 +87,13 @@ public final class MkNotificationsTest {
                     .add("notification")
                         .add("id").set("3").up().up()
         );
-        final MkNotifications notifications = new MkNotifications(
+        final MkNotifications notifs = new MkNotifications(
             storage,
             "/github/notifications/notification"
         );
         Assertions.assertThrows(
             IndexOutOfBoundsException.class,
-            () -> notifications.get(2),
+            () -> notifs.get(2),
             "Should throw when notification ID does not exist"
         );
     }

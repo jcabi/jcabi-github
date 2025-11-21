@@ -128,7 +128,6 @@ public final class RtContentsITCase {
         }
     }
 
-    // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
     @Test
     public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();

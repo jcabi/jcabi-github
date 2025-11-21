@@ -110,15 +110,12 @@ public final class RtPublicKeysITCase {
      * @return The encoded SSH public key.
      */
     private static String key() throws JSchException, IOException {
-        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        try {
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
             kpair.writePublicKey(stream, "");
             kpair.dispose();
-        } finally {
-            stream.close();
+            return new String(stream.toByteArray());
         }
-        return new String(stream.toByteArray());
     }
 
     /**

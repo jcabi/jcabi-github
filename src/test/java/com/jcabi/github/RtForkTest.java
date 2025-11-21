@@ -26,7 +26,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomPort.class)
 public final class RtForkTest {
 
-
     /**
      * RtFork can patch comment and return new json.
      * @throws IOException if has some problems with json parsing.

@@ -34,8 +34,6 @@ public final class RtReleaseTest {
      */
     private static final String EMPTY_JSON = "{}";
 
-
-
     /**
      * A mock container used in test to mimic the GitHub server.
      */

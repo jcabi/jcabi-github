@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "request" })
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class RtBlobs implements Blobs {
 
     /**

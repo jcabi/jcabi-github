@@ -28,8 +28,6 @@ public final class RtTagTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void fetchesContent() throws IOException {
         final MkContainer container = new MkGrizzlyContainer().next(

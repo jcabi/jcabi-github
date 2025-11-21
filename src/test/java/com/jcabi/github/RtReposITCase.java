@@ -35,7 +35,6 @@ public final class RtReposITCase {
         }
     }
 
-    // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
     @Test
     public void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = GitHubIT.connect().repos();

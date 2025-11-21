@@ -28,26 +28,89 @@ public @interface OAuthScope {
     OAuthScope.Scope[] value();
 
     enum Scope {
+        /**
+         * No scope.
+         */
         NO_SCOPE,
+        /**
+         * User scope.
+         */
         USER,
+        /**
+         * User email scope.
+         */
         USER_EMAIL,
+        /**
+         * User follow scope.
+         */
         USER_FOLLOW,
+        /**
+         * Public repo scope.
+         */
         PUBLIC_REPO,
+        /**
+         * Repo scope.
+         */
         REPO,
+        /**
+         * Repo deployment scope.
+         */
         REPO_DEPLOYMENT,
+        /**
+         * Repo status scope.
+         */
         REPO_STATUS,
+        /**
+         * Delete repo scope.
+         */
         DELETE_REPO,
+        /**
+         * Notifications scope.
+         */
         NOTIFICATIONS,
+        /**
+         * Gist scope.
+         */
         GIST,
+        /**
+         * Read repo hook scope.
+         */
         READ_REPO_HOOK,
+        /**
+         * Write repo hook scope.
+         */
         WRITE_REPO_HOOK,
+        /**
+         * Admin repo hook scope.
+         */
         ADMIN_REPO_HOOK,
+        /**
+         * Admin org hook scope.
+         */
         ADMIN_ORG_HOOK,
+        /**
+         * Read org scope.
+         */
         READ_ORG,
+        /**
+         * Write org scope.
+         */
         WRITE_ORG,
+        /**
+         * Admin org scope.
+         */
         ADMIN_ORG,
+        /**
+         * Read public key scope.
+         */
         READ_PUBLIC_KEY,
+        /**
+         * Write public key scope.
+         */
         WRITE_PUBLIC_KEY,
+        /**
+         * Admin public key scope.
+         */
         ADMIN_PUBLIC_KEY;
     }
 }

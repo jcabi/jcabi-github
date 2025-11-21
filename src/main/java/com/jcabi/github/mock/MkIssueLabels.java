@@ -29,6 +29,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "repo", "ticket" })
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class MkIssueLabels implements IssueLabels {
 
     /**

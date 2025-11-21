@@ -24,6 +24,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "entry")
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class RtIssueLabels implements IssueLabels {
 
     /**

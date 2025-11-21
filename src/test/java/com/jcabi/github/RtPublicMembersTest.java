@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-
 /**
  * Test case for {@link RtPublicMembers}.
  * @since 0.1
@@ -56,10 +55,6 @@ public final class RtPublicMembersTest {
         RtPublicMembersTest.MEMBERS_URL,
         RtPublicMembersTest.USERNAME
     );
-
-
-
-
 
     /**
      * RtPublicMembers can fetch its organization.

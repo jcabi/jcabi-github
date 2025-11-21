@@ -32,8 +32,6 @@ import org.mockito.Mockito;
 @ExtendWith(RandomPort.class)
 public final class RtCollaboratorsTest {
 
-
-
     /**
      * RtCollaborators can iterate over a list of collaborators.
      * @throws Exception if any error occurs.

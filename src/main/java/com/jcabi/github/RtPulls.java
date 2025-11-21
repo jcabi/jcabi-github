@@ -25,6 +25,7 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class RtPulls implements Pulls {
 
     /**

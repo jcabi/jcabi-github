@@ -71,17 +71,16 @@ public final class MkContentTest {
     public void fetchesRawRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String raw = "raw test \u20ac\u0000";
-        final InputStream stream = contents.create(
-            MkContentTest.jsonContent("raw.txt", "for raw", raw)
-        ).raw();
-        try {
+        try (
+            InputStream stream = contents.create(
+                MkContentTest.jsonContent("raw.txt", "for raw", raw)
+            ).raw()
+        ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
                 IOUtils.toString(stream, StandardCharsets.UTF_8),
                 Matchers.is(raw)
             );
-        } finally {
-            stream.close();
         }
     }
 

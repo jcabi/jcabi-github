@@ -32,8 +32,6 @@ public final class RtDeployKeysTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void canFetchEmptyListOfDeployKeys() {
         final DeployKeys keys = new RtDeployKeys(

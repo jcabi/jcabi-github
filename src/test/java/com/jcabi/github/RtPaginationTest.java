@@ -30,8 +30,6 @@ public final class RtPaginationTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void jumpNextPage() throws IOException {
         try (
@@ -64,7 +62,6 @@ public final class RtPaginationTest {
         }
     }
 
-    // TODO: Convert to Assertions.assertThrows(NoSuchElementException.class, () -> { ... });
     @Test
     public void throwsIfNoMoreElement() throws IOException {
         try (

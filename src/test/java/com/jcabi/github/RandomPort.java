@@ -49,15 +49,12 @@ public class RandomPort implements InvocationInterceptor {
     @RetryOnFailure
     @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
     public static int port() throws IOException {
-        final ServerSocket socket = new ServerSocket();
-        try {
+        try (ServerSocket socket = new ServerSocket()) {
             socket.setReuseAddress(true);
             socket.bind(
                 new InetSocketAddress("localhost", 0)
             );
             return socket.getLocalPort();
-        } finally {
-            socket.close();
         }
     }
 }

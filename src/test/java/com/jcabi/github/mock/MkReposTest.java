@@ -11,15 +11,12 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Test case for {@link MkRepos}.
  * @since 0.5
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class MkReposTest {
-
-
 
     /**
      * MkRepos can create a repo.

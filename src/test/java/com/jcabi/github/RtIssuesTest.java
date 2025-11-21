@@ -33,8 +33,6 @@ public final class RtIssuesTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void createIssue() throws IOException {
         final String title = "Found a bug";

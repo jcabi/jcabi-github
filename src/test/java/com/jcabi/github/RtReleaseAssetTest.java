@@ -34,7 +34,6 @@ import org.mockito.Mockito;
 @ExtendWith(RandomPort.class)
 public final class RtReleaseAssetTest {
 
-
     /**
      * RtReleaseAsset can be described in JSON form.
      * @throws Exception if a problem occurs.
@@ -154,18 +153,19 @@ public final class RtReleaseAssetTest {
                 RtReleaseAssetTest.release(),
                 4
             );
-            final InputStream stream = asset.raw();
-            final MkQuery query = container.take();
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
-                Matchers.equalTo(Request.GET)
-            );
-            MatcherAssert.assertThat(
-                "Value is null",
-                IOUtils.toString(stream, StandardCharsets.UTF_8),
-                Matchers.notNullValue()
-            );
+            try (InputStream stream = asset.raw()) {
+                final MkQuery query = container.take();
+                MatcherAssert.assertThat(
+                    "Values are not equal",
+                    query.method(),
+                    Matchers.equalTo(Request.GET)
+                );
+                MatcherAssert.assertThat(
+                    "Value is null",
+                    IOUtils.toString(stream, StandardCharsets.UTF_8),
+                    Matchers.notNullValue()
+                );
+            }
             container.stop();
         }
     }

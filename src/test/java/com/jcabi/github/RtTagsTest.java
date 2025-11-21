@@ -27,8 +27,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomPort.class)
 public final class RtTagsTest {
 
-
-
     /**
      * RtTags can create a tag.
      * @checkstyle IndentationCheck (20 lines)

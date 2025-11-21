@@ -26,7 +26,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomPort.class)
 public final class RtGistTest {
 
-
     /**
      * RtGist should be able to do reads.
      * @checkstyle MultipleStringLiteralsCheck (20 lines)

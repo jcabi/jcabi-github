@@ -18,6 +18,7 @@ import org.xembly.Directives;
  * @since 0.7
  */
 @Immutable
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class MkMilestones implements Milestones {
 
     /**

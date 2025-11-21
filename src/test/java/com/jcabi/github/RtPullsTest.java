@@ -33,8 +33,6 @@ public final class RtPullsTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void createPull() throws IOException {
         final String title = "new feature";

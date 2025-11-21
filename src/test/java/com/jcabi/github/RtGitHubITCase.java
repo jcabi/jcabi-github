@@ -67,11 +67,11 @@ public final class RtGitHubITCase {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
         Assumptions.assumeTrue(
-            user != null && !user.trim().isEmpty(),
+            user != null && !user.isBlank(),
             "GitHub user is required for this test"
         );
         Assumptions.assumeTrue(
-            password != null && !password.trim().isEmpty(),
+            password != null && !password.isBlank(),
             "GitHub password is required for this test"
         );
         final GitHub github = new RtGitHub(user, password);

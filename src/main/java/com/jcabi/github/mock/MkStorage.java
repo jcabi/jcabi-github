@@ -87,8 +87,7 @@ public interface MkStorage {
          * @throws IOException If there is any I/O problem
          */
         public InFile() throws IOException {
-            this(File.createTempFile("jcabi-github", ".xml"));
-            new File(this.name).deleteOnExit();
+            this(MkStorage.InFile.temp());
         }
 
         /**
@@ -101,6 +100,17 @@ public interface MkStorage {
         ) throws IOException {
             FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
             this.name = file.getAbsolutePath();
+        }
+
+        /**
+         * Create temp file.
+         * @return File
+         * @throws IOException If there is any I/O problem
+         */
+        private static File temp() throws IOException {
+            final File file = File.createTempFile("jcabi-github", ".xml");
+            file.deleteOnExit();
+            return file;
         }
 
         @Override

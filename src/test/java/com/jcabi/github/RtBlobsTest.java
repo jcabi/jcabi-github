@@ -33,8 +33,6 @@ public final class RtBlobsTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void canCreateBlob() throws IOException {
         final String body = RtBlobsTest.blob().toString();

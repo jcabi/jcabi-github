@@ -41,8 +41,6 @@ public final class RtChecksTest {
      */
     private static final String STATUS_KEY = "status";
 
-
-
     /**
      * Checks whether RtChecks can get all checks.
      * @throws IOException If some problem happens.

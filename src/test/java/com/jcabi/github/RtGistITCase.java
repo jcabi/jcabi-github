@@ -89,7 +89,7 @@ public final class RtGistITCase {
     private static GitHub github(final String property) {
         final String key = System.getProperty(property);
         Assumptions.assumeTrue(
-            key != null && !key.trim().isEmpty(),
+            key != null && !key.isBlank(),
             "GitHub key is required for this test"
         );
         return new RtGitHub(key);

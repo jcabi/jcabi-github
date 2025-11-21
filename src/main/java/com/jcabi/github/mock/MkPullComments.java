@@ -26,6 +26,7 @@ import org.xembly.Directives;
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "owner" })
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class MkPullComments implements PullComments {
     /**
      * XPath suffix for comment ID text.

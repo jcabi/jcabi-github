@@ -35,8 +35,6 @@ public final class RtSearchTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void canSearchForRepos() {
         final String coords = "test-user1/test-repo1";

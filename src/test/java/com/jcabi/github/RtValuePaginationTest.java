@@ -32,8 +32,6 @@ public final class RtValuePaginationTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void jumpNextPage() throws IOException {
         final String jeff = "Jeff";

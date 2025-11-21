@@ -37,8 +37,6 @@ public final class RtContentTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void fetchContentAsJson() throws IOException {
         final RtContent content = new RtContent(
@@ -112,16 +110,19 @@ public final class RtContentTest {
         try (MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(HttpURLConnection.HTTP_OK, raw)
         ).start(RandomPort.port())) {
-            final InputStream stream = new RtContent(
-                new ApacheRequest(container.home()),
-                RtContentTest.repo(),
-                "raw"
-            ).raw();
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                IOUtils.toString(stream, StandardCharsets.UTF_8),
-                Matchers.is(raw)
-            );
+            try (
+                InputStream stream = new RtContent(
+                    new ApacheRequest(container.home()),
+                    RtContentTest.repo(),
+                    "raw"
+                ).raw()
+            ) {
+                MatcherAssert.assertThat(
+                    "Values are not equal",
+                    IOUtils.toString(stream, StandardCharsets.UTF_8),
+                    Matchers.is(raw)
+                );
+            }
             MatcherAssert.assertThat(
                 "Values are not equal",
                 container.take().headers().get(HttpHeaders.ACCEPT).get(0),

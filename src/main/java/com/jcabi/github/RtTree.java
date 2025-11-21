@@ -16,6 +16,7 @@ import java.io.IOException;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class RtTree implements Tree {
 
     /**

@@ -60,7 +60,7 @@ public final class MkUserEmailsTest {
     @Test
     public void canIterateEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("matt").emails();
-        final String[] added = new String[]{
+        final String[] added = {
             "matt@none.org",
             "matthew@somewhere.net",
         };

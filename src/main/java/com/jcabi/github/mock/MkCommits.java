@@ -23,6 +23,7 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 public final class MkCommits implements Commits {
 
     /**

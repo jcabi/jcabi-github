@@ -62,14 +62,25 @@ public interface Coordinates extends Comparable<Coordinates> {
          * @param mnemo Mnemo name
          */
         public Simple(final String mnemo) {
+            this(
+                Coordinates.Simple.parse(mnemo)[0],
+                Coordinates.Simple.parse(mnemo)[1]
+            );
+        }
+
+        /**
+         * Parse mnemo into parts.
+         * @param mnemo Mnemo name
+         * @return Parts
+         */
+        private static String[] parse(final String mnemo) {
             final String[] parts = mnemo.split(Coordinates.SEPARATOR, 2);
             if (parts.length != 2) {
                 throw new IllegalArgumentException(
                     String.format("invalid coordinates '%s'", mnemo)
                 );
             }
-            this.usr = parts[0];
-            this.rpo = parts[1];
+            return parts;
         }
 
         @Override

@@ -18,6 +18,7 @@ import org.xembly.Directives;
  * @since 0.1
  */
 @Immutable
+@SuppressWarnings({"PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
 final class MkCollaborators implements Collaborators {
 
     /**

@@ -29,8 +29,6 @@ import org.mockito.Mockito;
 @ExtendWith(RandomPort.class)
 public final class RtReposTest {
 
-
-
     /**
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)

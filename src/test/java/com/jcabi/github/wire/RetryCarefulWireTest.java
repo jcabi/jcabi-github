@@ -40,8 +40,6 @@ public final class RetryCarefulWireTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void makesMultipleRequestsAndWaitUntilReset() throws IOException {
         final int threshold = 10;

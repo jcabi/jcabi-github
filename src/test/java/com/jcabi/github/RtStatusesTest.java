@@ -36,7 +36,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomPort.class)
 public final class RtStatusesTest {
 
-
     /**
      * RtStatuses can fetch its commit.
      * @throws IOException If there is an I/O problem.

@@ -28,8 +28,6 @@ public final class RtMilestonesTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-
-
     @Test
     public void deleteMilestone() throws IOException {
         try (
