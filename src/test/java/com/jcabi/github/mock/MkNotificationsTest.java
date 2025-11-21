@@ -76,7 +76,6 @@ public final class MkNotificationsTest {
         );
     }
 
-    // TODO: Convert to Assertions.assertThrows(IndexOutOfBoundsException.class, () -> { ... });
     @Test
     public void cannotFetchNotificationByNonExistentId() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
@@ -88,13 +87,14 @@ public final class MkNotificationsTest {
                     .add("notification")
                         .add("id").set("3").up().up()
         );
-        MatcherAssert.assertThat(
-            "Value is null",
-            new MkNotifications(
-                storage,
-                "/github/notifications/notification"
-            ).get(2),
-            Matchers.notNullValue()
+        final MkNotifications notifications = new MkNotifications(
+            storage,
+            "/github/notifications/notification"
+        );
+        Assertions.assertThrows(
+            IndexOutOfBoundsException.class,
+            () -> notifications.get(2),
+            "Should throw when notification ID does not exist"
         );
     }
 }
