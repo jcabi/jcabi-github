@@ -19,10 +19,6 @@ import org.junit.jupiter.api.Test;
  */
 public final class MkReposTest {
 
-    /**
-     * Rule for checking thrown exception.
-     * @checkstyle VisibilityModifier (3 lines)
-     */
 
 
     /**

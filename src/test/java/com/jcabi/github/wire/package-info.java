@@ -3,7 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-/**
- * Tests for wires.
- */
 package com.jcabi.github.wire;

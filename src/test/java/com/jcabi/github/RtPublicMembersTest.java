@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
@@ -56,16 +57,8 @@ public final class RtPublicMembersTest {
         RtPublicMembersTest.USERNAME
     );
 
-    /**
-     * Rule for checking thrown exception.
-     * @checkstyle VisibilityModifier (3 lines)
-     */
 
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
 
 
     /**
@@ -115,8 +108,10 @@ public final class RtPublicMembersTest {
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
-            this.thrown.expect(AssertionError.class);
-            members.conceal(RtPublicMembersTest.user());
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.conceal(RtPublicMembersTest.user())
+            );
             container.stop();
         }
     }
@@ -149,8 +144,10 @@ public final class RtPublicMembersTest {
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
-            this.thrown.expect(AssertionError.class);
-            members.publicize(RtPublicMembersTest.user());
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.publicize(RtPublicMembersTest.user())
+            );
             container.stop();
         }
     }
@@ -198,8 +195,10 @@ public final class RtPublicMembersTest {
                 members.contains(RtPublicMembersTest.user()),
                 Matchers.is(true)
             );
-            this.thrown.expect(AssertionError.class);
-            members.contains(RtPublicMembersTest.user());
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.contains(RtPublicMembersTest.user())
+            );
             container.stop();
         }
     }
@@ -237,8 +236,10 @@ public final class RtPublicMembersTest {
                 req.uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBERS_URL)
             );
-            this.thrown.expect(AssertionError.class);
-            members.iterate().iterator().next();
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> members.iterate().iterator().next()
+            );
             container.stop();
         }
     }

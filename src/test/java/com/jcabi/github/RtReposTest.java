@@ -29,10 +29,6 @@ import org.mockito.Mockito;
 @ExtendWith(RandomPort.class)
 public final class RtReposTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
 
 
     /**

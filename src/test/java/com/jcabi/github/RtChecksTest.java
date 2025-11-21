@@ -41,10 +41,6 @@ public final class RtChecksTest {
      */
     private static final String STATUS_KEY = "status";
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
 
 
     /**

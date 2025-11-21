@@ -66,13 +66,13 @@ public final class RtGitHubITCase {
     public void authenticatesWithUsernameAndPassword() throws IOException {
         final String user = System.getProperty("failsafe.github.user");
         final String password = System.getProperty("failsafe.github.password");
-        Assumptions.assumeThat(
-            user,
-            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        Assumptions.assumeTrue(
+            user != null && !user.trim().isEmpty(),
+            "GitHub user is required for this test"
         );
-        Assumptions.assumeThat(
-            password,
-            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        Assumptions.assumeTrue(
+            password != null && !password.trim().isEmpty(),
+            "GitHub password is required for this test"
         );
         final GitHub github = new RtGitHub(user, password);
         MatcherAssert.assertThat(

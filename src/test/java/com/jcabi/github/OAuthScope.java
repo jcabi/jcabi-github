@@ -25,99 +25,29 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface OAuthScope {
-    /**
-     * The GitHub OAuth scopes required.
-     * @return OAuth scopes
-     */
     OAuthScope.Scope[] value();
 
-    /**
-     * The enum represents the available OAuth scopes.
-     */
     enum Scope {
-        /**
-         * Represents "no scope" scope.
-         */
         NO_SCOPE,
-        /**
-         * Represents "user" scope.
-         */
         USER,
-        /**
-         * Represents "user:email" scope.
-         */
         USER_EMAIL,
-        /**
-         * Represents "user:follow" scope.
-         */
         USER_FOLLOW,
-        /**
-         * Represents "public_repo" scope.
-         */
         PUBLIC_REPO,
-        /**
-         * Represents "repo" scope.
-         */
         REPO,
-        /**
-         * Represents "repo_deployment" scope.
-         */
         REPO_DEPLOYMENT,
-        /**
-         * Represents "repo_status" scope.
-         */
         REPO_STATUS,
-        /**
-         * Represents "delete_repo" scope.
-         */
         DELETE_REPO,
-        /**
-         * Represents "notifications" scope.
-         */
         NOTIFICATIONS,
-        /**
-         * Represents "gist" scope.
-         */
         GIST,
-        /**
-         * Represents "read:repo_hook" scope.
-         */
         READ_REPO_HOOK,
-        /**
-         * Represents "write:repo_hook" scope.
-         */
         WRITE_REPO_HOOK,
-        /**
-         * Represents "admin:repo_hook" scope.
-         */
         ADMIN_REPO_HOOK,
-        /**
-         * Represents "admin:org_hook" scope.
-         */
         ADMIN_ORG_HOOK,
-        /**
-         * Represents "read:org" scope.
-         */
         READ_ORG,
-        /**
-         * Represents "write:org" scope.
-         */
         WRITE_ORG,
-        /**
-         * Represents "admin:org" scope.
-         */
         ADMIN_ORG,
-        /**
-         * Represents "read:public_key" scope.
-         */
         READ_PUBLIC_KEY,
-        /**
-         * Represents "write:public_key" scope.
-         */
         WRITE_PUBLIC_KEY,
-        /**
-         * Represents "admin:public_key" scope.
-         */
         ADMIN_PUBLIC_KEY;
     }
 }

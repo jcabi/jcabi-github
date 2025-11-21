@@ -27,10 +27,6 @@ import org.junit.jupiter.api.Test;
 @ExtendWith(RandomPort.class)
 public final class RtGistCommentTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
 
 
     /**

@@ -153,10 +153,8 @@ public final class RtIssueITCase {
             new Issue.Smart(issue).assign(login);
         } catch (final AssertionError error) {
             Logger.warn(this, "Test failed with error: %s", error.getMessage());
-            Assumptions.assumeFalse(
-                "Something wrong with your test account. Read test's java-doc.",
-                true
-            );
+            Assumptions.assumeFalse(true
+            , "Something wrong with your test account. Read test's java-doc.");
         }
         final User assignee = new Issue.Smart(issue).assignee();
         MatcherAssert.assertThat(

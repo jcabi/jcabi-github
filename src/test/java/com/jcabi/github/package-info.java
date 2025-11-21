@@ -3,9 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-/**
- * Object Oriented GitHub API, tests.
- *
- * @since 0.1
- */
 package com.jcabi.github;

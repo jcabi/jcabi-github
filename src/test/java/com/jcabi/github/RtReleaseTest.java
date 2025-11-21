@@ -34,10 +34,6 @@ public final class RtReleaseTest {
      */
     private static final String EMPTY_JSON = "{}";
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
 
 
     /**

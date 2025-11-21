@@ -403,9 +403,6 @@ public final class RtUserTest {
         }
     }
 
-    /**
-     * Method 'markAsRead()' should fail if response code is not 205.
-     */
     // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
     @Test
     public void markAsReadErrorIfResponseStatusIsNot205() throws IOException {

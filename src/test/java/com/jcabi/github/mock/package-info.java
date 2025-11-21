@@ -3,9 +3,4 @@
  * SPDX-License-Identifier: MIT
  */
 
-/**
- * Mock GitHub server, tests.
- *
- * @since 0.5
- */
 package com.jcabi.github.mock;
