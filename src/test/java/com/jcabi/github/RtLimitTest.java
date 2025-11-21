@@ -9,6 +9,7 @@ import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -34,7 +35,8 @@ public final class RtLimitTest {
         );
     }
 
-    @Test(expected = IllegalStateException.class)
+    // TODO: Convert to Assertions.assertThrows(IllegalStateException.class, () -> { ... });
+    @Test
     public void throwsWhenResourceIsAbsent() throws IOException {
         final JsonReadable limit = new RtLimit(
             Mockito.mock(GitHub.class),

@@ -21,7 +21,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -30,14 +30,14 @@ import org.mockito.Mockito;
  * @since 0.8
  */
 @Immutable
+@ExtendWith(RandomPort.class)
 public final class RtContentTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void fetchContentAsJson() throws IOException {

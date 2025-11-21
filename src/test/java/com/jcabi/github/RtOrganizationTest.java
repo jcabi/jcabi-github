@@ -17,20 +17,20 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtOrganization}.
  * @since 0.24
  */
+@ExtendWith(RandomPort.class)
 public final class RtOrganizationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void canFetchIssueAsJson() throws IOException {

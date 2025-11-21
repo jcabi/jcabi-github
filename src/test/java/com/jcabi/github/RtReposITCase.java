@@ -7,7 +7,7 @@ package com.jcabi.github;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -21,7 +21,6 @@ public final class RtReposITCase {
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
     public final transient RepoRule rule = new RepoRule();
 
     @Test
@@ -37,7 +36,8 @@ public final class RtReposITCase {
         }
     }
 
-    @Test(expected = AssertionError.class)
+    // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
+    @Test
     public void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);

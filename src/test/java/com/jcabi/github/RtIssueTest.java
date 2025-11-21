@@ -18,7 +18,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -27,14 +27,14 @@ import org.mockito.Mockito;
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@ExtendWith(RandomPort.class)
 public final class RtIssueTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void fetchesComments() {

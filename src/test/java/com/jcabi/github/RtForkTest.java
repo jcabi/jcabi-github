@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,13 +23,13 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@ExtendWith(RandomPort.class)
 public final class RtForkTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     /**
      * RtFork can patch comment and return new json.

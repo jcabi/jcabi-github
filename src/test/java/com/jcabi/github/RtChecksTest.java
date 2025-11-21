@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -28,6 +28,7 @@ import org.mockito.Mockito;
  *
  * @since 1.5.0
  */
+@ExtendWith(RandomPort.class)
 public final class RtChecksTest {
 
     /**
@@ -44,8 +45,7 @@ public final class RtChecksTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     /**
      * Checks whether RtChecks can get all checks.

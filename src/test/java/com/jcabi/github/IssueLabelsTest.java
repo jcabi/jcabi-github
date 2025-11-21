@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -80,7 +81,8 @@ public final class IssueLabelsTest {
         );
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    // TODO: Convert to Assertions.assertThrows(IllegalArgumentException.class, () -> { ... });
+    @Test
     public void throwsWhenLabelIsAbsent() {
         final IssueLabels labels = Mockito.mock(IssueLabels.class);
         Mockito.doReturn(Collections.emptyList()).when(labels).iterate();

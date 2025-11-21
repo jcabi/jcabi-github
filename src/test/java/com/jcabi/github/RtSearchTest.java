@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.EnumMap;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,13 +29,13 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@ExtendWith(RandomPort.class)
 public final class RtSearchTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void canSearchForRepos() {

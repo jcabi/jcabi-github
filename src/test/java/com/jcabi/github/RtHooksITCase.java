@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,7 +24,6 @@ public final class RtHooksITCase {
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
     public final transient RepoRule rule = new RepoRule();
 
     @Test

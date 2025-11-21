@@ -18,20 +18,21 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtValuePagination}.
  * @since 0.4
  */
+@ExtendWith(RandomPort.class)
 public final class RtValuePaginationTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void jumpNextPage() throws IOException {
@@ -73,7 +74,8 @@ public final class RtValuePaginationTest {
         container.stop();
     }
 
-    @Test(expected = NoSuchElementException.class)
+    // TODO: Convert to Assertions.assertThrows(NoSuchElementException.class, () -> { ... });
+    @Test
     public void throwsIfNoMoreElement() throws IOException {
         final String jeff = "other Jeff";
         final String mark = "other Mark";

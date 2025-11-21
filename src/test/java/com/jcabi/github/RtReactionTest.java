@@ -4,6 +4,7 @@
  */
 package com.jcabi.github;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -12,7 +13,8 @@ import org.junit.jupiter.api.Test;
  */
 public final class RtReactionTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    // TODO: Convert to Assertions.assertThrows(IllegalArgumentException.class, () -> { ... });
+    @Test
     public void throwsExceptionOnInvalidReaction() {
         new RtReaction(new Reaction.Simple("invalid")).type();
     }

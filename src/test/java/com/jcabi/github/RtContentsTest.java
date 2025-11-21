@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -30,14 +30,14 @@ import org.mockito.Mockito;
  */
 @Immutable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+@ExtendWith(RandomPort.class)
 public final class RtContentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void canFetchReadmeFile() throws IOException {

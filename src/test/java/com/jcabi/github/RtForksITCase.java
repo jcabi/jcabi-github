@@ -7,8 +7,7 @@ package com.jcabi.github;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assume;
-import org.junit.Rule;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -22,7 +21,6 @@ public final class RtForksITCase {
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
     public final transient RepoRule rule = new RepoRule();
 
     @Test

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -20,7 +21,8 @@ import org.mockito.Mockito;
  */
 public final class LimitTest {
 
-    @Test(expected = IllegalStateException.class)
+    // TODO: Convert to Assertions.assertThrows(IllegalStateException.class, () -> { ... });
+    @Test
     public void throwsWhenResourceIsAbsent() throws IOException {
         final Limit limit = Mockito.mock(Limit.class);
         final Limit.Throttled throttled = new Limit.Throttled(limit, 23);

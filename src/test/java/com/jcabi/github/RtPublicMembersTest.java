@@ -18,15 +18,16 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
+
 
 /**
  * Test case for {@link RtPublicMembers}.
  * @since 0.1
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@ExtendWith(RandomPort.class)
 public final class RtPublicMembersTest {
     /**
      * Test organization.
@@ -59,16 +60,13 @@ public final class RtPublicMembersTest {
      * Rule for checking thrown exception.
      * @checkstyle VisibilityModifier (3 lines)
      */
-    @Rule
-    @SuppressWarnings("deprecation")
-    public transient ExpectedException thrown = ExpectedException.none();
+
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     /**
      * RtPublicMembers can fetch its organization.

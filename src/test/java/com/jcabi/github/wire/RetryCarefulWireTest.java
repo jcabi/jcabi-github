@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
  * Just combines the RetryWire and CarefulWire test cases.
  * @since 0.1
  */
+@ExtendWith(RandomPort.class)
 public final class RetryCarefulWireTest {
     /**
      * HTTP 200 status reason.
@@ -39,8 +40,7 @@ public final class RetryCarefulWireTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void makesMultipleRequestsAndWaitUntilReset() throws IOException {

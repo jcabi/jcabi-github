@@ -19,7 +19,8 @@ import java.text.ParseException;
 import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -33,14 +34,14 @@ import org.mockito.Mockito;
  * @checkstyle MethodNameCheck (500 lines)
  */
 @SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
+@ExtendWith(RandomPort.class)
 public final class RtUserTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void checksWhoAmI() throws IOException {
@@ -405,7 +406,8 @@ public final class RtUserTest {
     /**
      * Method 'markAsRead()' should fail if response code is not 205.
      */
-    @Test(expected = AssertionError.class)
+    // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
+    @Test
     public void markAsReadErrorIfResponseStatusIsNot205() throws IOException {
         MkContainer container = null;
         try {

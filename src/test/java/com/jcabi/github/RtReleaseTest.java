@@ -17,9 +17,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -27,6 +27,7 @@ import org.mockito.Mockito;
  * Test case for {@link RtRelease}.
  * @since 0.8
  */
+@ExtendWith(RandomPort.class)
 public final class RtReleaseTest {
     /**
      * An empty JSON string.
@@ -37,8 +38,7 @@ public final class RtReleaseTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     /**
      * A mock container used in test to mimic the GitHub server.
@@ -56,7 +56,7 @@ public final class RtReleaseTest {
     /**
      * Tear down the test fixture to return to the original state.
      */
-    @After
+    @AfterEach
     public void tearDown() {
         this.container.stop();
     }

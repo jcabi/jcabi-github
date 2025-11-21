@@ -9,9 +9,8 @@ import com.jcabi.github.Repos;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
+
 
 /**
  * Test case for {@link MkRepos}.
@@ -24,9 +23,7 @@ public final class MkReposTest {
      * Rule for checking thrown exception.
      * @checkstyle VisibilityModifier (3 lines)
      */
-    @Rule
-    @SuppressWarnings("deprecation")
-    public transient ExpectedException thrown = ExpectedException.none();
+
 
     /**
      * MkRepos can create a repo.

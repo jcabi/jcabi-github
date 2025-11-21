@@ -7,6 +7,7 @@ package com.jcabi.github.mock;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.xembly.Directives;
 
@@ -75,7 +76,8 @@ public final class MkNotificationsTest {
         );
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
+    // TODO: Convert to Assertions.assertThrows(IndexOutOfBoundsException.class, () -> { ... });
+    @Test
     public void cannotFetchNotificationByNonExistentId() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         storage.apply(

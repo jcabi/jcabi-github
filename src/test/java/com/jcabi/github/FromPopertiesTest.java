@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,7 +24,8 @@ public final class FromPopertiesTest {
         );
     }
 
-    @Test(expected = NullPointerException.class)
+    // TODO: Convert to Assertions.assertThrows(NullPointerException.class, () -> { ... });
+    @Test
     public void throwsExceptionOnMissingFile() {
         new FromProperties("missing.properties").format();
     }

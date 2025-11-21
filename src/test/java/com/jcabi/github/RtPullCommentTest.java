@@ -20,8 +20,8 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.hamcrest.core.IsEqual;
-import org.junit.Ignore;
-import org.junit.Rule;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -31,14 +31,14 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (3 lines)
  */
+@ExtendWith(RandomPort.class)
 public final class RtPullCommentTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void canCompareInstances() throws IOException {

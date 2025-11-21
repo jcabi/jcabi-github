@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,14 +23,14 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  * @checkstyle MultipleStringLiterals (500 lines)
  */
+@ExtendWith(RandomPort.class)
 public final class RtReferenceTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void patchesContent() throws IOException {

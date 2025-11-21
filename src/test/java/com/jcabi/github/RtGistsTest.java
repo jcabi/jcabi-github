@@ -16,21 +16,21 @@ import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtGists}.
  * @since 0.1
  */
+@ExtendWith(RandomPort.class)
 public final class RtGistsTest {
 
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void canCreateFiles() throws IOException {

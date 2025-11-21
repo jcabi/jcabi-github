@@ -19,8 +19,8 @@ import java.util.Collection;
 import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Rule;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -29,6 +29,7 @@ import org.mockito.Mockito;
  * @since 0.7
  */
 @SuppressWarnings("PMD.TooManyMethods")
+@ExtendWith(RandomPort.class)
 public final class RtPullTest {
     /**
      * Property name for ref name in pull request ref JSON object.
@@ -44,8 +45,7 @@ public final class RtPullTest {
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void fetchesCommits() throws IOException {

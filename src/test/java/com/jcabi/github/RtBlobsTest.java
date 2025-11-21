@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -27,13 +27,13 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiteralsCheck (100 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
+@ExtendWith(RandomPort.class)
 public final class RtBlobsTest {
     /**
      * The rule for skipping test if there's BindException.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
-    public final transient RandomPort resource = new RandomPort();
+
 
     @Test
     public void canCreateBlob() throws IOException {

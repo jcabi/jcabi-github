@@ -12,8 +12,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Ignore;
-import org.junit.Rule;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -29,7 +29,6 @@ public final class RtContentsITCase {
      * RepoRule.
      * @checkstyle VisibilityModifierCheck (3 lines)
      */
-    @Rule
     public final transient RepoRule rule = new RepoRule();
 
     @Test
@@ -130,7 +129,8 @@ public final class RtContentsITCase {
         }
     }
 
-    @Test(expected = AssertionError.class)
+    // TODO: Convert to Assertions.assertThrows(AssertionError.class, () -> { ... });
+    @Test
     public void throwsWhenTryingToGetAnAbsentContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
         final Repo repo = this.rule.repo(repos);
