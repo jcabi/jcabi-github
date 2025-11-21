@@ -9,7 +9,7 @@ import com.jcabi.github.Pull;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,7 +27,7 @@ public final class MkCheckTest {
      * Set up.
      * @throws IOException If some problem with I/O.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws IOException {
         this.pull = new MkGitHub()
             .randomRepo()

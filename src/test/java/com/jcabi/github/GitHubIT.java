@@ -5,7 +5,7 @@
 package com.jcabi.github;
 
 import org.hamcrest.Matchers;
-import org.junit.Assume;
+import org.junit.jupiter.api.Assumptions;
 
 /**
  * GitHub for IT testing.
@@ -26,9 +26,9 @@ public final class GitHubIT {
      */
     public static GitHub connect() {
         final String key = System.getProperty("failsafe.github.key");
-        Assume.assumeThat(
-            key,
-            Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
+        Assumptions.assumeTrue(
+            !Matchers.emptyOrNullString().matches(key),
+            "GitHub key is required for integration tests"
         );
         return new RtGitHub(key);
     }

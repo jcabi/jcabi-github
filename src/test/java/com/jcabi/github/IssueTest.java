@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
@@ -24,14 +23,6 @@ import org.mockito.Mockito;
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 public final class IssueTest {
-
-    /**
-     * Rule for checking thrown exception.
-     * @checkstyle VisibilityModifier (3 lines)
-     */
-    @Rule
-    @SuppressWarnings("deprecation")
-    public transient ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void fetchesProperties() throws IOException {
@@ -129,20 +120,136 @@ public final class IssueTest {
             new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
         );
         final IssueLabels labels = new Issue.Smart(issue).roLabels();
-        this.thrown.expect(UnsupportedOperationException.class);
-        labels.add(new ArrayList<>(0));
-        this.thrown.expect(UnsupportedOperationException.class);
-        labels.replace(new ArrayList<>(0));
-        this.thrown.expect(UnsupportedOperationException.class);
-        labels.remove(name);
-        this.thrown.expect(UnsupportedOperationException.class);
-        labels.clear();
         final Label label = labels.iterate().iterator().next();
         MatcherAssert.assertThat(
             "Value is null", label, Matchers.notNullValue()
         );
-        this.thrown.expect(UnsupportedOperationException.class);
-        label.patch(Mockito.mock(JsonObject.class));
+    }
+
+    /**
+     * Issue.Smart read-only labels cannot add labels.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void roLabelsCannotAdd() throws IOException {
+        final JsonObject json = Json.createObjectBuilder().add(
+            "labels",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("name", "bug")
+                    .add("color", "f29513")
+            )
+        ).build();
+        final Issue issue = new RtIssue(
+            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
+        );
+        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        Assertions.assertThrows(
+            UnsupportedOperationException.class,
+            () -> labels.add(new ArrayList<>(0)),
+            "Read-only labels cannot be modified"
+        );
+    }
+
+    /**
+     * Issue.Smart read-only labels cannot replace labels.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void roLabelsCannotReplace() throws IOException {
+        final JsonObject json = Json.createObjectBuilder().add(
+            "labels",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("name", "bug")
+                    .add("color", "f29513")
+            )
+        ).build();
+        final Issue issue = new RtIssue(
+            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
+        );
+        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        Assertions.assertThrows(
+            UnsupportedOperationException.class,
+            () -> labels.replace(new ArrayList<>(0)),
+            "Read-only labels cannot be modified"
+        );
+    }
+
+    /**
+     * Issue.Smart read-only labels cannot remove labels.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void roLabelsCannotRemove() throws IOException {
+        final JsonObject json = Json.createObjectBuilder().add(
+            "labels",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("name", "bug")
+                    .add("color", "f29513")
+            )
+        ).build();
+        final Issue issue = new RtIssue(
+            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
+        );
+        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        Assertions.assertThrows(
+            UnsupportedOperationException.class,
+            () -> labels.remove("bug"),
+            "Read-only labels cannot be modified"
+        );
+    }
+
+    /**
+     * Issue.Smart read-only labels cannot clear labels.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void roLabelsCannotClear() throws IOException {
+        final JsonObject json = Json.createObjectBuilder().add(
+            "labels",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("name", "bug")
+                    .add("color", "f29513")
+            )
+        ).build();
+        final Issue issue = new RtIssue(
+            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
+        );
+        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        Assertions.assertThrows(
+            UnsupportedOperationException.class,
+            () -> labels.clear(),
+            "Read-only labels cannot be modified"
+        );
+    }
+
+    /**
+     * Issue.Smart read-only label cannot be patched.
+     * @throws IOException If some problem inside.
+     */
+    @Test
+    public void roLabelCannotBePatchedTest() throws IOException {
+        final JsonObject json = Json.createObjectBuilder().add(
+            "labels",
+            Json.createArrayBuilder().add(
+                Json.createObjectBuilder()
+                    .add("name", "bug")
+                    .add("color", "f29513")
+            )
+        ).build();
+        final Issue issue = new RtIssue(
+            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
+        );
+        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        final Label label = labels.iterate().iterator().next();
+        Assertions.assertThrows(
+            UnsupportedOperationException.class,
+            () -> label.patch(Mockito.mock(JsonObject.class)),
+            "Read-only label cannot be modified"
+        );
     }
 
     /**

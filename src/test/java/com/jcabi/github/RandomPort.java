@@ -10,38 +10,34 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
-import org.junit.Assume;
-import org.junit.rules.ExternalResource;
-import org.junit.runner.Description;
-import org.junit.runners.model.Statement;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.InvocationInterceptor;
+import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
 /**
  * Test resource for skipping tests when random port is busy.
  * @since 0.8
  */
-public class RandomPort extends ExternalResource {
+public class RandomPort implements InvocationInterceptor {
     @Override
-    public final Statement apply(
-        final Statement base, final Description description
-    ) {
-        return new Statement() {
-            @Override
-            // @checkstyle IllegalThrowsCheck (1 line)
-            public void evaluate() throws Throwable {
-                try {
-                    base.evaluate();
-                } catch (final BindException ignored) {
-                    Logger.warn(
-                        base,
-                        String.format(
-                            "Test %s skipped due to no available ports",
-                            description
-                        )
-                    );
-                    Assume.assumeTrue(false);
-                }
-            }
-        };
+    public final void interceptTestMethod(
+        final Invocation<Void> invocation,
+        final ReflectiveInvocationContext<java.lang.reflect.Method> context,
+        final ExtensionContext extension
+    ) throws Throwable {
+        try {
+            invocation.proceed();
+        } catch (final BindException ignored) {
+            Logger.warn(
+                this,
+                String.format(
+                    "Test %s skipped due to no available ports",
+                    extension.getDisplayName()
+                )
+            );
+            Assumptions.assumeTrue(false);
+        }
     }
 
     /**
