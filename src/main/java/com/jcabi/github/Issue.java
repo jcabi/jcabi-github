@@ -33,11 +33,6 @@ import lombok.ToString;
  *
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
  * @since 0.1
- * @todo #1462:30min Implement lock reason validation. According to
- *  documentation lock reason must belong to a specific value domain. This
- *  validation must be performed in lock method and tests must be added to
- *  ensure that the class is accepting the correct values and rejecting the
- *  wrong ones.
  * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable

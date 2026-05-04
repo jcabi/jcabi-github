@@ -13,6 +13,10 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -32,6 +36,14 @@ final class RtIssue implements Issue {
      * Content constant.
      */
     private static final String CONTENT = "content";
+
+    /**
+     * Allowed lock reasons, per GitHub Issues API.
+     * @see <a href="https://docs.github.com/en/rest/issues/issues#lock-an-issue">Lock an issue</a>
+     */
+    private static final Set<String> LOCK_REASONS = Collections.unmodifiableSet(
+        new HashSet<>(Arrays.asList("off-topic", "too heated", "resolved", "spam"))
+    );
 
     /**
      * API entry point.
@@ -137,6 +149,14 @@ final class RtIssue implements Issue {
 
     @Override
     public void lock(final String reason) {
+        if (!RtIssue.LOCK_REASONS.contains(reason)) {
+            throw new IllegalArgumentException(
+                String.format(
+                    "Invalid lock reason '%s', must be one of %s",
+                    reason, RtIssue.LOCK_REASONS
+                )
+            );
+        }
         final JsonStructure json = Json.createObjectBuilder()
             .add("lock_reason", reason)
             .build();
