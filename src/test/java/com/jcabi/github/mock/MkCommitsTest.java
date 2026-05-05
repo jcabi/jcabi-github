@@ -5,6 +5,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Commit;
+import com.jcabi.github.Commits;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -44,6 +45,64 @@ final class MkCommitsTest {
             "Values are not equal",
             commit.sha(),
             Matchers.equalTo("12ahscba")
+        );
+    }
+
+    /**
+     * MkCommits.create() must persist the new commit's sha in storage so
+     * that subsequent calls (e.g. json(), get()) can find the commit.
+     * @throws IOException if there is any I/O problem
+     */
+    @Test
+    void persistsCreatedCommitSha() throws IOException {
+        final String sha = "9e1f3c7b8d4a5e6f7c2d1b0a9e8f7d6c5b4a3210";
+        final Commits commits = new MkGitHub().randomRepo().git().commits();
+        commits.create(
+            Json.createObjectBuilder()
+                .add("message", "persisted commit message")
+                .add("sha", sha)
+                .add("tree", "treesha9e1f3c7b8d4a")
+                .add(
+                    "parents",
+                    Json.createArrayBuilder().add("parentsha0123456789").build()
+                )
+                .add(
+                    "author",
+                    Json.createObjectBuilder()
+                        .add("name", "Alice")
+                        .add("email", "alice@example.com")
+                        .add("date", "2024-01-15T12:30:00+00:00")
+                        .build()
+                )
+                .build()
+        );
+        MatcherAssert.assertThat(
+            "sha must be persisted in storage",
+            commits.get(sha).json().getString("sha"),
+            Matchers.equalTo(sha)
+        );
+    }
+
+    /**
+     * MkCommits.create() must persist the commit message in storage.
+     * @throws IOException if there is any I/O problem
+     */
+    @Test
+    void persistsCreatedCommitMessage() throws IOException {
+        final String sha = "abcdef0123456789abcdef0123456789abcdef01";
+        final String message = "another persisted message";
+        final Commits commits = new MkGitHub().randomRepo().git().commits();
+        commits.create(
+            Json.createObjectBuilder()
+                .add("message", message)
+                .add("sha", sha)
+                .add("tree", "treesha-abcdef-0123")
+                .build()
+        );
+        MatcherAssert.assertThat(
+            "message must be persisted in storage",
+            commits.get(sha).json().getString("message"),
+            Matchers.equalTo(message)
         );
     }
 }
