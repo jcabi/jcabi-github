@@ -162,7 +162,8 @@ public interface User extends JsonReadable, JsonPatchable {
          */
         public String name() throws IOException {
             final JsonObject json = this.json();
-            if (!json.containsKey("name")) {
+            final String key = "name";
+            if (!json.containsKey(key) || json.isNull(key)) {
                 throw new IllegalStateException(
                     String.format(
                         // @checkstyle LineLength (1 line)
@@ -171,7 +172,7 @@ public interface User extends JsonReadable, JsonPatchable {
                     )
                 );
             }
-            return json.getString("name");
+            return json.getString(key);
         }
 
         /**
@@ -180,7 +181,9 @@ public interface User extends JsonReadable, JsonPatchable {
          * @throws IOException If it fails
          */
         public boolean hasName() throws IOException {
-            return this.json().containsKey("name");
+            final JsonObject json = this.json();
+            final String key = "name";
+            return json.containsKey(key) && !json.isNull(key);
         }
 
         /**
