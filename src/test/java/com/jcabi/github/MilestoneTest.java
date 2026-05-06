@@ -86,7 +86,7 @@ final class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
-            "Value is null",
+            "updatedAt() is null",
             new Milestone.Smart(milestone).updatedAt(),
             Matchers.notNullValue()
         );
@@ -101,7 +101,7 @@ final class MilestoneTest {
                 .build()
         ).when(milestone).json();
         MatcherAssert.assertThat(
-            "Value is null",
+            "closedAt() is null",
             new Milestone.Smart(milestone).closedAt(),
             Matchers.notNullValue()
         );
