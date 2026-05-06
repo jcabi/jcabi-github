@@ -109,6 +109,95 @@ public class FooTest {
 }
 ```
 
+## Architecture
+
+The library maps every GitHub API concept to a Java interface
+  (`GitHub`, `Repo`, `Issue`, `Comment`, etc.) with two
+  complete parallel implementations: `Rt*` classes talk to
+  the live [GitHub REST API](https://docs.github.com/en/rest),
+  while `Mk*` classes provide an in-memory mock server.
+Unlike [github-api](https://github.com/hub4j/github-api),
+  which ships only a real HTTP implementation,
+  jcabi-github delivers both under the same interface
+  hierarchy, so test code and production code share the same API.
+New programmers should use `RtGitHub` in production and
+  `MkGitHub` in tests — no mocking framework is needed.
+
+Each interface contains a static inner class `Smart`
+  (e.g., `Issue.Smart`, `Comment.Smart`) that wraps the
+  core interface and exposes convenience methods such as
+  `isOpen()`, `author()`, and `close()`.
+The base interface holds only identity accessors and
+  [JSON](https://www.json.org/json-en.html) I/O methods,
+  following the
+  [decorator pattern](https://refactoring.guru/design-patterns/decorator)
+  as advocated by
+  [Elegant Objects](https://www.elegantobjects.org/).
+New programmers should reach for `Issue.Smart` rather than
+  raw `Issue` when reading human-friendly properties.
+
+Every domain object implements `JsonReadable` (one `json()`
+  method) and `JsonPatchable` (one `patch()` method).
+There is no ORM or intermediate object mapping: the
+  [JSON](https://www.json.org/json-en.html) document from
+  the REST endpoint is the canonical state, with typed
+  extraction handled by `SmartJson`.
+Unlike [Jackson](https://github.com/FasterXML/jackson)-based
+  libraries that map JSON to POJOs eagerly, each `json()`
+  call here is a live HTTP round trip.
+New programmers must not assume property reads are cheap;
+  wrap collections in `Bulk<T>` to avoid N+1 requests.
+
+`RtPagination<T>` lazily follows
+  [`Link` headers](https://docs.github.com/en/rest/using-the-rest-api/using-pagination-in-the-rest-api)
+  (`rel="next"`) to traverse GitHub's paginated responses.
+Without `Bulk<T>`, each item triggers a separate HTTP call
+  when its properties are first read.
+`Bulk<T>` pre-injects JSON from the listing response into
+  each item, collapsing those N+1 requests into the minimum
+  number of page fetches.
+New programmers must wrap `iterate()` results in
+  `new Bulk<>(...)` when iterating large collections.
+
+HTTP cross-cutting concerns — rate-limiting, retries, and
+  redirects — are composed by stacking `Wire` decorators
+  from [jcabi-http](https://http.jcabi.com/) on the entry
+  `Request` via `.through()`.
+`CarefulWire` reads `X-RateLimit-Remaining` and sleeps
+  until `X-RateLimit-Reset` to stay within GitHub's quota
+  rather than failing with HTTP 429.
+Unlike interceptor-based clients such as
+  [OkHttp](https://square.github.io/okhttp/) or
+  [Apache HttpClient](https://hc.apache.org/httpcomponents-client-5.4.x/index.html),
+  each behavior here is a standalone immutable class.
+New programmers should implement `Wire` and call `.through()`
+  to add custom HTTP behavior.
+
+The `Mk*` mock stores all state in a single
+  [XML](https://www.w3.org/XML/) document inside `MkStorage`,
+  mutated via [Xembly](https://github.com/yegor256/xembly)
+  directives and queried with
+  [XPath](https://www.w3.org/TR/xpath-31/).
+Unlike HTTP-replay tools such as
+  [WireMock](https://wiremock.org/) or
+  [MockServer](https://www.mock-server.com/), state is shared
+  and consistent across the entire object graph: an issue
+  created via `MkIssues` is immediately visible via `MkRepo`.
+New programmers can rely on cross-object consistency inside
+  one `MkGitHub` instance but must not expect the mock to
+  validate payloads against the live GitHub API schema.
+
+All classes carry the `@Immutable` annotation from
+  [jcabi-aspects](https://aspects.jcabi.com/), enforced by
+  [AspectJ](https://eclipse.dev/aspectj/) at Maven build time.
+No class has setters or mutable fields; the build fails
+  if any are added.
+This contrasts with builder-style libraries such as
+  [github-api](https://github.com/hub4j/github-api) that
+  rely on mutable state.
+New programmers must construct new objects rather than
+  modifying existing ones.
+
 ## How to contribute?
 
 Fork the repository, make changes, submit a pull request.
