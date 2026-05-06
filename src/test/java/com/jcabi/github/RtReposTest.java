@@ -93,6 +93,34 @@ final class RtReposTest {
     }
 
     @Test
+    void iterateReposUsesPublicRepositoriesPath() throws IOException {
+        final String identifier = "364";
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(RtReposTest.response("octocat", identifier))
+                        .build().toString()
+                )
+            ).start(RandomPort.port())
+        ) {
+            new RtRepos(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            ).iterate(identifier).iterator().next();
+            MatcherAssert.assertThat(
+                "iterate(...) must request /repositories?since=<id>",
+                container.take().uri().toString(),
+                Matchers.endsWith(
+                    "/repositories?since=".concat(identifier)
+                )
+            );
+            container.stop();
+        }
+    }
+
+    @Test
     void removeRepo() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
