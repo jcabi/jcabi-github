@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -119,6 +120,47 @@ final class RtIssueTest {
         MatcherAssert.assertThat(
             "Value is not greater than expected",
             greater.compareTo(less), Matchers.greaterThan(0)
+        );
+    }
+
+    @Test
+    void locksWithValidReason() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            final RtIssue issue = new RtIssue(
+                new ApacheRequest(container.home()),
+                RtIssueTest.repo(),
+                1
+            );
+            issue.lock("off-topic");
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                "Lock request was not sent with PUT method",
+                query.method(),
+                Matchers.equalTo(Request.PUT)
+            );
+            MatcherAssert.assertThat(
+                "Lock request body did not contain the expected reason",
+                query.body(),
+                Matchers.equalTo("{\"lock_reason\":\"off-topic\"}")
+            );
+            container.stop();
+        }
+    }
+
+    @Test
+    void rejectsInvalidLockReason() {
+        final RtIssue issue = new RtIssue(
+            new FakeRequest(),
+            RtIssueTest.repo(),
+            1
+        );
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> issue.lock("not-a-valid-reason")
         );
     }
 
