@@ -59,9 +59,9 @@ final class RtJsonTest {
         ) {
             final RtJson json = new RtJson(new ApacheRequest(container.home()));
             Assertions.assertThrows(
-                IOException.class,
+                UnexpectedHttpStatus.class,
                 json::fetch,
-                "Should throw IOException for non-success status, not AssertionError"
+                "Should throw UnexpectedHttpStatus (an IOException) for non-success status, not AssertionError"
             );
             container.stop();
         }
@@ -79,13 +79,13 @@ final class RtJsonTest {
         ) {
             final RtJson json = new RtJson(new ApacheRequest(container.home()));
             Assertions.assertThrows(
-                IOException.class,
+                UnexpectedHttpStatus.class,
                 () -> json.patch(
                     Json.createObjectBuilder()
                         .add("content", "hi you!")
                         .build()
                 ),
-                "Should throw IOException for non-success status, not AssertionError"
+                "Should throw UnexpectedHttpStatus (an IOException) for non-success status, not AssertionError"
             );
             container.stop();
         }
