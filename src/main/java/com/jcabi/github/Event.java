@@ -233,7 +233,9 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @since 1.7.0
          */
         public Optional<String> commitId() throws IOException {
-            return Optional.absent();
+            return Optional.fromNullable(
+                this.event.json().getString("commit_id", null)
+            );
         }
 
         /**
