@@ -9,6 +9,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Reaction;
+import com.jcabi.github.UnexpectedHttpStatus;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
 import jakarta.json.JsonObject;
@@ -57,7 +58,7 @@ public final class SfComment implements Comment {
     public void remove() throws IOException {
         try {
             this.origin.remove();
-        } catch (final AssertionError ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError ex) {
             Logger.warn(this, "Failed to remove comment: %[exception]s", ex);
         }
     }
@@ -81,7 +82,7 @@ public final class SfComment implements Comment {
     public void patch(final JsonObject json) throws IOException {
         try {
             this.origin.patch(json);
-        } catch (final AssertionError ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError ex) {
             Logger.warn(this, "Failed to path comment: %[exception]s", ex);
         }
     }
@@ -91,7 +92,7 @@ public final class SfComment implements Comment {
         JsonObject json;
         try {
             json = this.origin.json();
-        } catch (final AssertionError ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError ex) {
             final String author = new Issue.Smart(
                 new SfIssue(this.origin.issue())
             ).author().login();

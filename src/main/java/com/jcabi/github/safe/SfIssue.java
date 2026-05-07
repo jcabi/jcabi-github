@@ -12,6 +12,7 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.IssueLabels;
 import com.jcabi.github.Reaction;
 import com.jcabi.github.Repo;
+import com.jcabi.github.UnexpectedHttpStatus;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
 import jakarta.json.JsonObject;
@@ -52,7 +53,7 @@ public final class SfIssue implements Issue {
         JsonObject json;
         try {
             json = this.origin.json();
-        } catch (final AssertionError ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError ex) {
             json = new MkGitHub().randomRepo()
                 .issues().create("", "").json();
             Logger.warn(this, "failed to fetch issue: %[exception]s", ex);
@@ -64,7 +65,7 @@ public final class SfIssue implements Issue {
     public void patch(final JsonObject json) throws IOException {
         try {
             this.origin.patch(json);
-        } catch (final AssertionError ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError ex) {
             Logger.warn(this, "failed to patch issue: %[exception]s", ex);
         }
     }
