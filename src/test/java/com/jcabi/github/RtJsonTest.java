@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -41,6 +42,50 @@ final class RtJsonTest {
                 "Values are not equal",
                 json.fetch().getString("body"),
                 Matchers.equalTo("hi")
+            );
+            container.stop();
+        }
+    }
+
+    @Test
+    void throwsIoExceptionWhenStatusIsUnexpected() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NOT_FOUND,
+                    "{\"message\":\"Not Found\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
+            final RtJson json = new RtJson(new ApacheRequest(container.home()));
+            Assertions.assertThrows(
+                IOException.class,
+                json::fetch,
+                "Should throw IOException for non-success status, not AssertionError"
+            );
+            container.stop();
+        }
+    }
+
+    @Test
+    void throwsIoExceptionWhenPatchStatusIsUnexpected() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NOT_FOUND,
+                    "{\"message\":\"Not Found\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
+            final RtJson json = new RtJson(new ApacheRequest(container.home()));
+            Assertions.assertThrows(
+                IOException.class,
+                () -> json.patch(
+                    Json.createObjectBuilder()
+                        .add("content", "hi you!")
+                        .build()
+                ),
+                "Should throw IOException for non-success status, not AssertionError"
             );
             container.stop();
         }
