@@ -259,6 +259,36 @@ public interface Milestone extends Comparable<Milestone>,
         }
 
         /**
+         * When this milestone was last updated.
+         * @return Date of last update
+         * @throws IOException If there is any I/O problem
+         */
+        public Date updatedAt() throws IOException {
+            try {
+                return new GitHub.Time(
+                    this.jsn.text("updated_at")
+                ).date();
+            } catch (final ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        /**
+         * When this milestone was closed.
+         * @return Date of closure
+         * @throws IOException If there is any I/O problem
+         */
+        public Date closedAt() throws IOException {
+            try {
+                return new GitHub.Time(
+                    this.jsn.text("closed_at")
+                ).date();
+            } catch (final ParseException ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        /**
          * Change milestone due date.
          * @param dueon New milestone due date
          * @throws IOException If there is any I/O problem
