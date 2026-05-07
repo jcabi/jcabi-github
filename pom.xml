@@ -304,7 +304,6 @@
           <plugin>
             <groupId>com.qulice</groupId>
             <artifactId>qulice-maven-plugin</artifactId>
-            <version>0.25.1</version>
             <configuration>
               <excludes combine.children="append">
                 <exclude>xml:/src/it/settings.xml</exclude>
