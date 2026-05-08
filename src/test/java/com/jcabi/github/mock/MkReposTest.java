@@ -6,6 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
+import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -106,6 +107,28 @@ final class MkReposTest {
                 )
             ).isPrivate(),
             Matchers.is(priv)
+        );
+    }
+
+    /**
+     * MkRepo's JSON contains an "owner" object with the login,
+     * matching the format of the real GitHub API.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void jsonContainsOwnerWithLogin() throws Exception {
+        final Repos repos = new MkRepos(new MkStorage.InFile(), "amihaiemil");
+        final Repo repo = MkReposTest.repo(repos, "test", "owner test");
+        final JsonObject json = repo.json();
+        MatcherAssert.assertThat(
+            "Repo JSON should contain an 'owner' object",
+            json.containsKey("owner"),
+            Matchers.is(true)
+        );
+        MatcherAssert.assertThat(
+            "owner.login should match the user that created the repo",
+            json.getJsonObject("owner").getString("login"),
+            Matchers.is("amihaiemil")
         );
     }
 
