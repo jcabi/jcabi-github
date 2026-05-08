@@ -78,6 +78,7 @@ final class MkRepos implements Repos {
                 .add("name").set(settings.name()).up()
                 .add("description").set("test repository").up()
                 .add("private").set(settings.isPrivate()).up()
+                .add("owner").add("login").set(this.self).up().up()
         );
         final Repo repo = this.get(coords);
         repo.patch(settings.json());
