@@ -40,7 +40,8 @@ final class Existence {
         boolean exists = true;
         try {
             this.readable.json();
-        } catch (final AssertionError | IndexOutOfBoundsException ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError
+            | IndexOutOfBoundsException ex) {
             exists = false;
         }
         return exists;

@@ -100,6 +100,24 @@ final class RtUserTest {
     }
 
     @Test
+    void hasNameReturnsFalseWhenNameIsNull() throws IOException {
+        MatcherAssert.assertThat(
+            "hasName() must return false when 'name' JSON value is null",
+            RtUserTest.userWithNullName().hasName(),
+            Matchers.equalTo(false)
+        );
+    }
+
+    @Test
+    void nameThrowsIllegalStateWhenNameIsNull() throws IOException {
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            RtUserTest.userWithNullName()::name,
+            "name() must throw IllegalStateException when 'name' JSON value is null"
+        );
+    }
+
+    @Test
     void describeAsJson() throws IOException {
         final RtUser user = new RtUser(
             Mockito.mock(GitHub.class),
@@ -420,6 +438,25 @@ final class RtUserTest {
         } finally {
             container.close();
         }
+    }
+
+    /**
+     * Return User.Smart with a JSON null "name" property.
+     * @return User.Smart whose JSON has "name":null.
+     */
+    private static User.Smart userWithNullName() {
+        return new User.Smart(
+            new RtUser(
+                Mockito.mock(GitHub.class),
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .addNull("name")
+                        .build()
+                        .toString()
+                ),
+                "octoc"
+            )
+        );
     }
 
     /**

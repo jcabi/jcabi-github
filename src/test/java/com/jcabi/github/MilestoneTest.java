@@ -76,4 +76,34 @@ final class MilestoneTest {
             Matchers.notNullValue()
         );
     }
+
+    @Test
+    void fetchesUpdatedAt() throws IOException {
+        final Milestone milestone = Mockito.mock(Milestone.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("updated_at", "2014-03-03T18:58:10Z")
+                .build()
+        ).when(milestone).json();
+        MatcherAssert.assertThat(
+            "updatedAt() is null",
+            new Milestone.Smart(milestone).updatedAt(),
+            Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    void fetchesClosedAt() throws IOException {
+        final Milestone milestone = Mockito.mock(Milestone.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("closed_at", "2013-02-12T13:22:01Z")
+                .build()
+        ).when(milestone).json();
+        MatcherAssert.assertThat(
+            "closedAt() is null",
+            new Milestone.Smart(milestone).closedAt(),
+            Matchers.notNullValue()
+        );
+    }
 }

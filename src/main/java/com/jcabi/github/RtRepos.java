@@ -96,7 +96,8 @@ final class RtRepos implements Repos {
     public Iterable<Repo> iterate(
         final String identifier) {
         return new RtPagination<>(
-            this.entry.uri().queryParam("since", identifier).back(),
+            this.entry.uri().path("/repositories")
+                .queryParam("since", identifier).back(),
             object -> this.get(
                 new Coordinates.Simple(object.getString("full_name"))
             )

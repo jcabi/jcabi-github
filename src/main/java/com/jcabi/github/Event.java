@@ -227,6 +227,18 @@ public interface Event extends Comparable<Event>, JsonReadable {
         }
 
         /**
+         * SHA of the commit referenced by this event (if any).
+         * @return SHA of the commit, or absent if not associated with one
+         * @throws IOException If there is any I/O problem
+         * @since 1.7.0
+         */
+        public Optional<String> commitId() throws IOException {
+            return Optional.fromNullable(
+                this.event.json().getString("commit_id", null)
+            );
+        }
+
+        /**
          * Label that was added or removed in this event (if any).
          * @return Label that was added or removed
          * @throws IOException If there is any I/O problem

@@ -12,7 +12,10 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Statuses;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 import java.io.IOException;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import org.xembly.Directives;
 
@@ -74,7 +77,28 @@ public final class MkCommits implements Commits {
     @Override
     public Commit create(
         final JsonObject params
-    ) {
+    ) throws IOException {
+        final Directives dirs = new Directives().xpath(this.xpath()).add("commit");
+        for (final Map.Entry<String, JsonValue> entry : params.entrySet()) {
+            final JsonValue value = entry.getValue();
+            if (value.getValueType() == JsonValue.ValueType.ARRAY) {
+                dirs.add(entry.getKey()).attr("array", "true");
+                for (final JsonValue item : value.asJsonArray()) {
+                    dirs.add("item").set(MkCommits.asText(item)).up();
+                }
+                dirs.up();
+            } else if (value.getValueType() == JsonValue.ValueType.OBJECT) {
+                dirs.add(entry.getKey());
+                for (final Map.Entry<String, JsonValue> sub
+                    : value.asJsonObject().entrySet()) {
+                    dirs.add(sub.getKey()).set(MkCommits.asText(sub.getValue())).up();
+                }
+                dirs.up();
+            } else {
+                dirs.add(entry.getKey()).set(MkCommits.asText(value)).up();
+            }
+        }
+        this.storage.apply(dirs);
         return this.get(params.getString("sha"));
     }
 
@@ -90,5 +114,31 @@ public final class MkCommits implements Commits {
         final String sha
     ) {
         return new MkStatuses(this.get(sha));
+    }
+
+    /**
+     * XPath of the commits element in the storage XML.
+     * @return XPath
+     */
+    private String xpath() {
+        return String.format(
+            "/github/repos/repo[@coords='%s']/git/commits",
+            this.coords
+        );
+    }
+
+    /**
+     * Render JSON value as plain text suitable for XML storage.
+     * @param value JSON value
+     * @return Plain string
+     */
+    private static String asText(final JsonValue value) {
+        final String result;
+        if (value.getValueType() == JsonValue.ValueType.STRING) {
+            result = ((JsonString) value).getString();
+        } else {
+            result = value.toString();
+        }
+        return result;
     }
 }

@@ -45,11 +45,14 @@ final class RtJson {
      * @throws IOException If fails
      */
     public JsonObject fetch() throws IOException {
-        return this.request.fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .as(JsonResponse.class)
-            .json().readObject();
+        final RestResponse response = this.request.fetch()
+            .as(RestResponse.class);
+        try {
+            response.assertStatus(HttpURLConnection.HTTP_OK);
+        } catch (final AssertionError ex) {
+            throw new UnexpectedHttpStatus(ex);
+        }
+        return response.as(JsonResponse.class).json().readObject();
     }
 
     /**
@@ -62,10 +65,15 @@ final class RtJson {
     ) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
-        this.request.body().set(post.toString()).back()
+        final RestResponse response = this.request.body()
+            .set(post.toString()).back()
             .method(Request.PATCH)
-            .fetch().as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
+            .fetch().as(RestResponse.class);
+        try {
+            response.assertStatus(HttpURLConnection.HTTP_OK);
+        } catch (final AssertionError ex) {
+            throw new UnexpectedHttpStatus(ex);
+        }
     }
 
 }

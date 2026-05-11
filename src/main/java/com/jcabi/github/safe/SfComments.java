@@ -10,6 +10,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Comment;
 import com.jcabi.github.Comments;
 import com.jcabi.github.Issue;
+import com.jcabi.github.UnexpectedHttpStatus;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
@@ -67,7 +68,7 @@ public final class SfComments implements Comments {
         Comment cmt;
         try {
             cmt = this.origin.post(text);
-        } catch (final AssertionError ex) {
+        } catch (final UnexpectedHttpStatus | AssertionError ex) {
             Logger.warn(this, "Failed to post to GitHub: %[exception]s", ex);
             cmt = new MkGitHub().randomRepo()
                 .issues().create("", "")
