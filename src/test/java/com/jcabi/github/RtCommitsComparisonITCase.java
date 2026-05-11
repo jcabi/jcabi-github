@@ -80,7 +80,7 @@ final class RtCommitsComparisonITCase {
             Matchers.equalTo(
                 Optional.of(
                     // @checkstyle LineLength (1 line)
-                    "@@ -2,7 +2,7 @@ architect:\n - yegor256\n - dmarkov\n install:\n-- sudo gem install -N pdd\n+- sudo gem install --no-rdoc --no-ri pdd\n assets:\n   secring.gpg: yegor256/home#assets/secring.gpg\n   settings.xml: yegor256/home#assets/jcabi/settings.xml\n@@ -37,4 +37,4 @@ release:\n     git commit -am \"${tag}\"\n     mvn clean deploy -Pqulice -Psonatype -Pjcabi --errors --settings ../settings.xml\n     mvn clean site-deploy -Psite --errors --settings ../settings.xml\n-  commanders: []\n\\ No newline at end of file\n+  commanders: []"
+                    "@@ -2,7 +2,7 @@ architect:\n - yegor256\n - dmarkov\n install:\n-- sudo gem install -N pdd\n+- sudo gem install --no-rdoc --no-ri pdd\n assets:\n   secring.gpg: yegor256/home#assets/secring.gpg\n   settings.xml: yegor256/home#assets/jcabi/settings.xml\n@@ -37,4 +37,4 @@ release:\n     git commit -am \"${tag}\"\n     mvn clean deploy -Pqulice -Psonatype -Pjcabi --errors --settings ../settings.xml\n     mvn -ntp clean site-deploy -Psite --errors --settings ../settings.xml\n-  commanders: []\n\\ No newline at end of file\n+  commanders: []"
                 )
             )
         );
