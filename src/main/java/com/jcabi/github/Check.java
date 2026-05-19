@@ -28,6 +28,13 @@ public interface Check {
     boolean successful() throws IOException;
 
     /**
+     * Checks whether Check was skipped.
+     * @return True if Check was skipped.
+     * @throws IOException If there is any I/O problem.
+     */
+    boolean skipped() throws IOException;
+
+    /**
      * Check status.
      * You can read more about it
      * @checkstyle LineLengthCheck (1 lines)
@@ -207,6 +214,14 @@ public interface Check {
          */
         boolean successful() {
             return this == Check.Conclusion.SUCCESS;
+        }
+
+        /**
+         * Check if check is skipped.
+         * @return True if check is skipped.
+         */
+        boolean skipped() {
+            return this == Check.Conclusion.SKIPPED;
         }
 
         /**

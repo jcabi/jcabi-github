@@ -9,7 +9,6 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Check;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Pull;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.ToString;
 
@@ -65,15 +64,14 @@ public final class MkCheck implements Check {
 
     @Override
     public boolean successful() throws IOException {
-        final XML node = this.storage.xml().nodes(this.xpath()).get(0);
-        final Check.Status status = Check.Status.fromString(
-            node.xpath("@status").get(0)
-        );
-        final Check.Conclusion conclusion = Check.Conclusion.fromString(
-            node.xpath("@conclusion").get(0)
-        );
-        return status == Check.Status.COMPLETED
-            && conclusion == Check.Conclusion.SUCCESS;
+        return this.status() == Check.Status.COMPLETED
+            && this.conclusion() == Check.Conclusion.SUCCESS;
+    }
+
+    @Override
+    public boolean skipped() throws IOException {
+        return this.status() == Check.Status.COMPLETED
+            && this.conclusion() == Check.Conclusion.SKIPPED;
     }
 
     @Override
@@ -100,6 +98,28 @@ public final class MkCheck implements Check {
         result = 31 * result + this.pull.hashCode();
         result = 31 * result + this.identifier;
         return result;
+    }
+
+    /**
+     * Returns the status of this check from storage.
+     * @return Check status.
+     * @throws IOException If there is any I/O problem.
+     */
+    private Check.Status status() throws IOException {
+        return Check.Status.fromString(
+            this.storage.xml().nodes(this.xpath()).get(0).xpath("@status").get(0)
+        );
+    }
+
+    /**
+     * Returns the conclusion of this check from storage.
+     * @return Check conclusion.
+     * @throws IOException If there is any I/O problem.
+     */
+    private Check.Conclusion conclusion() throws IOException {
+        return Check.Conclusion.fromString(
+            this.storage.xml().nodes(this.xpath()).get(0).xpath("@conclusion").get(0)
+        );
     }
 
     /**

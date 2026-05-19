@@ -47,4 +47,9 @@ class RtCheck implements Check {
     public boolean successful() {
         return this.status.finished() && this.conclusion.successful();
     }
+
+    @Override
+    public boolean skipped() {
+        return this.status.finished() && this.conclusion.skipped();
+    }
 }
