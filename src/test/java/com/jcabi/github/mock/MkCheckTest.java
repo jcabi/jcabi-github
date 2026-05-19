@@ -66,4 +66,19 @@ final class MkCheckTest {
             Matchers.is(false)
         );
     }
+
+    /**
+     * MkChecks can create skipped check.
+     * @throws IOException If some problem with I/O.
+     */
+    @Test
+    void createsSkippedCheck() throws IOException {
+        MatcherAssert.assertThat(
+            "Values are not equal",
+            ((MkChecks) this.pull.checks())
+                .create(Check.Status.COMPLETED, Check.Conclusion.SKIPPED)
+                .skipped(),
+            Matchers.is(true)
+        );
+    }
 }

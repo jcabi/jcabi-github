@@ -1,5 +1,6 @@
 *.iml
 .classpath
+.factorypath
 .claude/
 .DS_Store
 .idea/
@@ -10,3 +11,4 @@
 /bin
 node_modules/
 target/
+.aidy/

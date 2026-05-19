@@ -18,7 +18,7 @@ final class RtCheckTest {
     @Test
     void checksSuccessfulState() {
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Completed+success check must be successful",
             new RtCheck(
                 Check.Status.COMPLETED,
                 Check.Conclusion.SUCCESS
@@ -30,7 +30,7 @@ final class RtCheckTest {
     @Test
     void checksNotSuccessfulStateIfInProgress() {
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "In-progress check must not be successful",
             new RtCheck(
                 Check.Status.IN_PROGRESS,
                 Check.Conclusion.SUCCESS
@@ -42,11 +42,47 @@ final class RtCheckTest {
     @Test
     void checksNotSuccessfulState() {
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Cancelled check must not be successful",
             new RtCheck(
                 Check.Status.COMPLETED,
                 Check.Conclusion.CANCELLED
             ).successful(),
+            Matchers.is(false)
+        );
+    }
+
+    @Test
+    void checksSkippedState() {
+        MatcherAssert.assertThat(
+            "Completed+skipped check must be skipped",
+            new RtCheck(
+                Check.Status.COMPLETED,
+                Check.Conclusion.SKIPPED
+            ).skipped(),
+            Matchers.is(true)
+        );
+    }
+
+    @Test
+    void checksNotSkippedStateIfInProgress() {
+        MatcherAssert.assertThat(
+            "In-progress check must not be skipped",
+            new RtCheck(
+                Check.Status.IN_PROGRESS,
+                Check.Conclusion.SKIPPED
+            ).skipped(),
+            Matchers.is(false)
+        );
+    }
+
+    @Test
+    void checksNotSkippedStateIfSuccess() {
+        MatcherAssert.assertThat(
+            "Successful check must not be skipped",
+            new RtCheck(
+                Check.Status.COMPLETED,
+                Check.Conclusion.SUCCESS
+            ).skipped(),
             Matchers.is(false)
         );
     }
