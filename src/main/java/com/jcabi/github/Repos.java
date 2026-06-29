@@ -153,7 +153,6 @@ public interface Repos {
          *  authenticated user.
          * @checkstyle ParameterNumberCheck (7 lines)
          */
-        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
         private RepoCreate(
             final String nme,
             final boolean prvt,
@@ -161,6 +160,33 @@ public interface Repos {
             final String page,
             final Optional<Boolean> auto,
             final String org
+        ) {
+            this(nme, prvt, desc, page, auto, org, new HashMap<>(0));
+        }
+
+        /**
+         * Private ctor.
+         * @param nme Name of the new repo. Cannot be empty.
+         * @param prvt Will the new repo be private?
+         *  If not, then it will be public.
+         * @param desc Description of the new repo
+         * @param page Homepage of the new repo
+         * @param auto Auto-init the new repo?
+         * @param org Organization to which this repo belongs.
+         *  When empty or null, the repo is created under the
+         *  authenticated user.
+         * @param extra Additional JSON fields keyed by name.
+         * @checkstyle ParameterNumberCheck (8 lines)
+         */
+        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
+        private RepoCreate(
+            final String nme,
+            final boolean prvt,
+            final String desc,
+            final String page,
+            final Optional<Boolean> auto,
+            final String org,
+            final Map<String, JsonValue> extra
         ) {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");
@@ -171,7 +197,7 @@ public interface Repos {
             this.home = page;
             this.init = auto;
             this.organization = org;
-            this.other = new HashMap<>(0);
+            this.other = new HashMap<>(extra);
         }
 
         /**
@@ -345,19 +371,23 @@ public interface Repos {
         }
 
         /**
-         * Returns a RepoCreate with the given json fields.
+         * Returns a RepoCreate with the given json field added.
          * @param key Json key
          * @param value Json value
-         * @return The same RepoCreate.
-         * @todo #1660:30min Make 'with' method immutable.
-         *  Currently, the 'with' method mutates the 'other' field.
-         *  This is not ideal, as it makes the class mutable.
-         *  Make the 'with' method immutable and return a new
-         *  RepoCreate object with the new field.
+         * @return A new RepoCreate carrying every previous field plus the new one.
          */
         public Repos.RepoCreate with(final String key, final JsonValue value) {
-            this.other.put(key, value);
-            return this;
+            final Map<String, JsonValue> extra = new HashMap<>(this.other);
+            extra.put(key, value);
+            return new Repos.RepoCreate(
+                this.repo,
+                this.priv,
+                this.descr,
+                this.home,
+                this.init,
+                this.organization,
+                extra
+            );
         }
 
         @Override
