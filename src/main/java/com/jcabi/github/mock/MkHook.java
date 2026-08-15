@@ -16,7 +16,6 @@ import lombok.ToString;
 
 /**
  * Mock GitHub hook.
- *
  * @since 0.8
  */
 @Immutable
@@ -24,6 +23,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
 final class MkHook implements Hook {
+
     /**
      * Storage.
      */
@@ -50,7 +50,6 @@ final class MkHook implements Hook {
      * @param login User to login
      * @param rep Repo
      * @param number Hook number
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkHook(
         final MkStorage stg,

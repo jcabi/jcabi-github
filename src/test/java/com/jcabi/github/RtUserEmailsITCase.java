@@ -36,12 +36,25 @@ final class RtUserEmailsITCase {
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         try {
             MatcherAssert.assertThat(
-                "Collection does not contain expected item",
+                "Added email is not returned",
                 emails.add(Collections.singletonList(email)),
                 Matchers.hasItem(email)
             );
+        } finally {
+            emails.remove(Collections.singletonList(email));
+        }
+    }
+
+    @Test
+    void iteratesAddedEmails() throws IOException {
+        final String email = "test@mailtothis.com";
+        final UserEmails emails = RtUserEmailsITCase.userEmails();
+        emails.add(Collections.singletonList(email));
+        try {
             MatcherAssert.assertThat(
-                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email)
+                "Added email is not iterated",
+                emails.iterate(),
+                Matchers.hasItem(email)
             );
         } finally {
             emails.remove(Collections.singletonList(email));
@@ -57,16 +70,11 @@ final class RtUserEmailsITCase {
         final String email = "test1@mailtothis.com";
         final UserEmails emails = RtUserEmailsITCase.userEmails();
         emails.add(Collections.singletonList(email));
-        try {
-            MatcherAssert.assertThat(
-                "Collection does not contain expected item", emails.iterate(), Matchers.hasItem(email)
-            );
-        } finally {
-            emails.remove(Collections.singletonList(email));
-        }
+        emails.remove(Collections.singletonList(email));
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            emails.iterate(), Matchers.not(Matchers.hasItem(email))
+            "Removed email is still there",
+            emails.iterate(),
+            Matchers.not(Matchers.hasItem(email))
         );
     }
 
@@ -77,5 +85,4 @@ final class RtUserEmailsITCase {
     private static UserEmails userEmails() {
         return GitHubIT.connect().users().self().emails();
     }
-
 }

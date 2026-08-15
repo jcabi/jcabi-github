@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Fork;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -15,12 +14,12 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 final class MkForkTest {
+
     @Test
     void fetchAsJson() throws IOException {
-        final Fork fork = new MkGitHub().randomRepo().forks().create("fork");
         MatcherAssert.assertThat(
             "String does not contain expected value",
-            fork.json().toString(),
+            new MkGitHub().randomRepo().forks().create("fork").json().toString(),
             Matchers.containsString("{")
         );
     }

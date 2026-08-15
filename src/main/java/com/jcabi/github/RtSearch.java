@@ -10,20 +10,17 @@ import com.jcabi.http.Request;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.EnumMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Search.
- *
  * @since 0.8
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "ghub")
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtSearch implements Search {
 
     /**
@@ -52,8 +49,12 @@ final class RtSearch implements Search {
      * @param req RESTful API entry point
      */
     RtSearch(final GitHub github, final Request req) {
-        this.ghub = github;
-        this.request = req.uri().path("/search").back();
+        this(req.uri().path("/search").back(), github);
+    }
+
+    private RtSearch(final Request request, final GitHub ghub) {
+        this.request = request;
+        this.ghub = ghub;
     }
 
     @Override
@@ -74,12 +75,11 @@ final class RtSearch implements Search {
         );
     }
 
-    //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     public Iterable<Issue> issues(final String keywords, final String sort,
-        final Search.Order order, final EnumMap<Search.Qualifier, String> qualifiers) {
+        final Search.Order order, final Map<Search.Qualifier, String> qualifiers) {
         final StringBuilder keyword = new StringBuilder(keywords);
-        for (final EnumMap.Entry<Search.Qualifier, String> entry : qualifiers
+        for (final Map.Entry<Search.Qualifier, String> entry : qualifiers
             .entrySet()) {
             keyword.append('+').append(entry.getKey().identifier())
                 .append(':').append(entry.getValue());
@@ -93,11 +93,9 @@ final class RtSearch implements Search {
             object -> {
                 try {
                     final String[] parts = RtSearch.SLASH.split(
-                        // @checkstyle MultipleStringLiteralsCheck (1 line)
-                        new URI(object.getString("url")).getPath()
+                        new URI(object.getString("url")).getPath(), -1
                     );
                     return this.ghub.repos().get(
-                        // @checkstyle MagicNumber (1 line)
                         new Coordinates.Simple(parts[2], parts[3])
                     ).issues().get(object.getInt("number"));
                 } catch (final URISyntaxException ex) {
@@ -127,26 +125,22 @@ final class RtSearch implements Search {
         final Search.Order order) {
         return new RtSearchPagination<>(
             this.request, "code", keywords, sort, order.identifier(),
-            // @checkstyle AnonInnerLengthCheck (25 lines)
             object -> {
                 try {
-                    // @checkstyle MultipleStringLiteralsCheck (1 line)
                     final URI uri = new URI(object.getString("url"));
                     final String[] parts = RtSearch.SLASH.split(
-                        uri.getPath()
+                        uri.getPath(), -1
                     );
-                    final String ref = RtSearch.QUERY.split(
-                        uri.getQuery()
-                    )[1];
                     return this.ghub.repos().get(
-                        // @checkstyle MagicNumber (1 line)
                         new Coordinates.Simple(parts[2], parts[3])
-                    ).contents().get(object.getString("path"), ref);
+                    ).contents().get(
+                        object.getString("path"),
+                        RtSearch.QUERY.split(uri.getQuery(), -1)[1]
+                    );
                 } catch (final URISyntaxException | IOException ex) {
                     throw new IllegalStateException(ex);
                 }
             }
         );
     }
-
 }

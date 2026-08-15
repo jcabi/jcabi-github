@@ -12,7 +12,6 @@ import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -25,8 +24,8 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "request" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtHooks implements Hooks {
+
     /**
      * API entry point.
      */
@@ -48,15 +47,22 @@ final class RtHooks implements Hooks {
      * @param repo Repository
      */
     RtHooks(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .back();
-        this.owner = repo;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/hooks")
+                .back(),
+            repo
+        );
+    }
+
+    private RtHooks(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -69,7 +75,6 @@ final class RtHooks implements Hooks {
         return new RtPagination<>(
             this.request,
             object -> {
-                // @checkstyle MultipleStringLiterals (1 line)
                 return this.get(object.getInt("id"));
             }
         );
@@ -89,7 +94,6 @@ final class RtHooks implements Hooks {
         return new RtHook(this.entry, this.owner, number);
     }
 
-    // @checkstyle ParameterNumberCheck (2 lines)
     @Override
     public Hook create(
         final String name,
@@ -105,15 +109,16 @@ final class RtHooks implements Hooks {
         for (final Event event : events) {
             builder.add(event.toString());
         }
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("name", name)
-            .add("config", configs)
-            .add("active", active)
-            .add("events", builder)
-            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("name", name)
+                        .add("config", configs)
+                        .add("active", active)
+                        .add("events", builder)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)

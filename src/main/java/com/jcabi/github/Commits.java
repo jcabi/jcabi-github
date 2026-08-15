@@ -24,7 +24,7 @@ public interface Commits {
 
     /**
      * Create a Commit object.
-     * @param params The input for creating the Tag.
+     * @param params The input for creating the Tag
      * @return Commit
      * @throws IOException - If anything goes wrong.
      */
@@ -32,7 +32,7 @@ public interface Commits {
 
     /**
      * Return a Commit by its SHA.
-     * @param sha The sha of the Commit.
+     * @param sha The sha of the Commit
      * @return Commit
      */
     Commit get(String sha);

@@ -7,7 +7,6 @@ package com.jcabi.github.mock;
 import com.google.common.collect.Lists;
 import com.jcabi.github.Coordinates;
 import com.jcabi.github.Language;
-import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import java.io.IOException;
@@ -18,20 +17,16 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link Repo}.
  * @since 0.5
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkRepoTest {
 
     @Test
     void works() throws IOException {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            new Repos.RepoCreate("test5", false)
-        );
         MatcherAssert.assertThat(
             "Assertion failed",
-            repo.coordinates(),
+            new MkRepos(new MkStorage.InFile(), "jeff").create(
+                new Repos.RepoCreate("test5", false)
+            ).coordinates(),
             Matchers.hasToString("jeff/test5")
         );
     }
@@ -41,13 +36,12 @@ final class MkRepoTest {
      */
     @Test
     void returnsMkMilestones() throws IOException {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = repos.create(
-            new Repos.RepoCreate("test1", false)
-        );
-        final Milestones milestones = repo.milestones();
         MatcherAssert.assertThat(
-            "Value is null", milestones, Matchers.notNullValue()
+            "Value is null",
+            new MkRepos(new MkStorage.InFile(), "jeff").create(
+                new Repos.RepoCreate("test1", false)
+            ).milestones(),
+            Matchers.notNullValue()
         );
     }
 
@@ -58,13 +52,12 @@ final class MkRepoTest {
     @Test
     void fetchCommits() throws IOException {
         final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.commits(), Matchers.notNullValue()
+            "Value is null", new MkRepo(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo")
+            ).commits(), Matchers.notNullValue()
         );
     }
 
@@ -75,27 +68,29 @@ final class MkRepoTest {
     @Test
     void fetchBranches() throws IOException {
         final String user = "testuser";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo")
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.branches(), Matchers.notNullValue()
+            "Value is null", new MkRepo(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo")
+            ).branches(), Matchers.notNullValue()
         );
     }
 
     @Test
-    void exposesAttributes() throws IOException {
-        final Repo repo = new MkGitHub().randomRepo();
+    void exposesDescription() throws IOException {
         MatcherAssert.assertThat(
-            "Value is null",
-            new Repo.Smart(repo).description(),
+            "Description is absent",
+            new Repo.Smart(new MkGitHub().randomRepo()).description(),
             Matchers.notNullValue()
         );
+    }
+
+    @Test
+    void exposesPrivacy() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new Repo.Smart(repo).isPrivate(),
+            "Repo is not private",
+            new Repo.Smart(new MkGitHub().randomRepo()).isPrivate(),
             Matchers.is(true)
         );
     }
@@ -107,13 +102,12 @@ final class MkRepoTest {
     @Test
     void fetchStars() throws IOException {
         final String user = "testuser2";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo2")
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.stars(), Matchers.notNullValue()
+            "Value is null", new MkRepo(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo2")
+            ).stars(), Matchers.notNullValue()
         );
     }
 
@@ -124,13 +118,12 @@ final class MkRepoTest {
     @Test
     void fetchNotifications() throws IOException {
         final String user = "testuser3";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo3")
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.notifications(), Matchers.notNullValue()
+            "Value is null", new MkRepo(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo3")
+            ).notifications(), Matchers.notNullValue()
         );
     }
 
@@ -140,19 +133,22 @@ final class MkRepoTest {
      */
     @Test
     void fetchLanguages() throws IOException {
-        final String user = "testuser4";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo4")
-        );
-        final Iterable<Language> languages = repo.languages();
         MatcherAssert.assertThat(
-            "Value is null", languages, Matchers.notNullValue()
+            "Languages are absent",
+            MkRepoTest.languages(),
+            Matchers.notNullValue()
         );
+    }
+
+    /**
+     * Repo can count its own languages.
+     * @throws IOException if some problem inside
+     */
+    @Test
+    void countsLanguages() throws IOException {
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            Lists.newArrayList(languages),
+            Lists.newArrayList(MkRepoTest.languages()),
             Matchers.hasSize(3)
         );
     }
@@ -164,15 +160,28 @@ final class MkRepoTest {
     @Test
     void retrievesDefaultBranch() throws IOException {
         final String user = "testuser5";
-        final Repo repo = new MkRepo(
-            new MkStorage.InFile(),
-            user,
-            new Coordinates.Simple(user, "testrepo5")
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            repo.defaultBranch().name(),
+            new MkRepo(
+                new MkStorage.InFile(),
+                user,
+                new Coordinates.Simple(user, "testrepo5")
+            ).defaultBranch().name(),
             Matchers.equalTo("master")
         );
+    }
+
+    /**
+     * Languages of a test repo.
+     * @return Languages
+     * @throws IOException if some problem inside
+     */
+    private static Iterable<Language> languages() throws IOException {
+        final String user = "testuser4";
+        return new MkRepo(
+            new MkStorage.InFile(),
+            user,
+            new Coordinates.Simple(user, "testrepo4")
+        ).languages();
     }
 }

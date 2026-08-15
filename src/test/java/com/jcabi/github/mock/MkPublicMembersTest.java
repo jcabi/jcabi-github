@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class MkPublicMembersTest {
+
     @Test
     void fetchesOrg() throws IOException {
         final Organization org = MkPublicMembersTest.organization();
@@ -29,71 +30,102 @@ final class MkPublicMembersTest {
     }
 
     /**
-     * MkPublicMembers can publicize/conceal a member's membership.
+     * MkPublicMembers keeps a new member private.
+     * @throws IOException If there is an I/O problem
      */
     @Test
-    void changesPublicityOfMembershipOfUsers() throws IOException {
+    void hidesNewMember() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
+        MatcherAssert.assertThat(
+            "Newly-added user is a public member",
+            org.publicMembers().contains(MkPublicMembersTest.member(org)),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * MkPublicMembers can publicize a member's membership.
+     * @throws IOException If there is an I/O problem
+     */
+    @Test
+    void publicizesMember() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
-        final User user = org.github().users().get("johnny5");
-        org.addMember(user);
-        MatcherAssert.assertThat(
-            "Newly-added user is not a public member",
-            !members.contains(user),
-            Matchers.is(true)
-        );
+        final User user = MkPublicMembersTest.member(org);
         members.publicize(user);
         MatcherAssert.assertThat(
-            "User has been made a public member",
+            "User is not a public member",
             members.contains(user),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * MkPublicMembers can conceal a member's membership.
+     * @throws IOException If there is an I/O problem
+     */
+    @Test
+    void concealsMember() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
+        final PublicMembers members = org.publicMembers();
+        final User user = MkPublicMembersTest.member(org);
+        members.publicize(user);
         members.conceal(user);
         MatcherAssert.assertThat(
-            "Concealed user is not a public member",
-            !members.contains(user),
-            Matchers.is(true)
+            "Concealed user is still a public member",
+            members.contains(user),
+            Matchers.is(false)
         );
+    }
+
+    /**
+     * MkPublicMembers can publicize a concealed member again.
+     * @throws IOException If there is an I/O problem
+     */
+    @Test
+    void publicizesConcealedMember() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
+        final PublicMembers members = org.publicMembers();
+        final User user = MkPublicMembersTest.member(org);
+        members.publicize(user);
+        members.conceal(user);
         members.publicize(user);
         MatcherAssert.assertThat(
-            "User has been made a public member again",
+            "User is not a public member again",
             members.contains(user),
             Matchers.is(true)
         );
     }
 
     @Test
-    void checkPublicMembership() throws IOException {
-        final MkOrganization org = MkPublicMembersTest.organization();
-        final PublicMembers members = org.publicMembers();
-        final User user = org.github().users().get("agent99");
+    void startsWithoutPublicMembers() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",
-            members.iterate(),
+            MkPublicMembersTest.organization().publicMembers().iterate(),
             Matchers.emptyIterableOf(User.class)
         );
-        org.addMember(user);
+    }
+
+    @Test
+    void iteratesOverNoHiddenMembers() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
+        MkPublicMembersTest.member(org);
         MatcherAssert.assertThat(
-            "The newly-added user is not a public member",
-            !members.contains(user),
-            Matchers.is(true)
+            "Collection is not empty",
+            org.publicMembers().iterate(),
+            Matchers.emptyIterableOf(User.class)
         );
-        members.publicize(user);
+    }
+
+    @Test
+    void countsPublicMembers() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
+        final PublicMembers members = org.publicMembers();
+        members.publicize(MkPublicMembersTest.member(org));
         MatcherAssert.assertThat(
-            "The user has been made a public member",
-            members.contains(user),
-            Matchers.is(true)
-        );
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Collection size is incorrect",
             members.iterate(),
-            Matchers.hasItem(user)
-        );
-        members.conceal(user);
-        MatcherAssert.assertThat(
-            "The concealed user is not a public member",
-            !members.contains(user),
-            Matchers.is(true)
+            Matchers.iterableWithSize(1)
         );
     }
 
@@ -101,29 +133,21 @@ final class MkPublicMembersTest {
     void iteratesPublicMembers() throws IOException {
         final MkOrganization org = MkPublicMembersTest.organization();
         final PublicMembers members = org.publicMembers();
-        final User user = org.github().users().get("jasmine");
-        MatcherAssert.assertThat(
-            "Collection is not empty",
-            members.iterate(),
-            Matchers.emptyIterableOf(User.class)
-        );
-        org.addMember(user);
-        MatcherAssert.assertThat(
-            "Collection is not empty",
-            members.iterate(),
-            Matchers.emptyIterableOf(User.class)
-        );
+        final User user = MkPublicMembersTest.member(org);
         members.publicize(user);
-        MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            members.iterate(),
-            Matchers.iterableWithSize(1)
-        );
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
             members.iterate(),
             Matchers.hasItem(user)
         );
+    }
+
+    @Test
+    void iteratesOverNoConcealedMembers() throws IOException {
+        final MkOrganization org = MkPublicMembersTest.organization();
+        final PublicMembers members = org.publicMembers();
+        final User user = MkPublicMembersTest.member(org);
+        members.publicize(user);
         members.conceal(user);
         MatcherAssert.assertThat(
             "Collection is not empty",
@@ -141,5 +165,17 @@ final class MkPublicMembersTest {
         return (MkOrganization) new MkOrganizations(
             new MkStorage.InFile()
         ).get(RandomStringUtils.secure().nextAlphanumeric(20));
+    }
+
+    /**
+     * Add a member to the given organization.
+     * @param org Organization to add the member to
+     * @return Added member
+     * @throws IOException If there is an I/O problem
+     */
+    private static User member(final MkOrganization org) throws IOException {
+        final User user = org.github().users().get("johnny5");
+        org.addMember(user);
+        return user;
     }
 }

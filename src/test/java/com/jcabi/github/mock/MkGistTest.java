@@ -16,20 +16,19 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class MkGistTest {
+
     /**
      * MkGist can read empty file.
      * @throws IOException If some problem inside
      */
     @Test
     void readEmptyGistFile() throws IOException {
-        // @checkstyle MultipleStringLiterals (1 lines)
         final String filename = "file.txt";
-        final Gist gist = new MkGitHub().gists().create(
-            Collections.singletonMap(filename, ""), false
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            gist.read(filename),
+            new MkGitHub().gists().create(
+                Collections.singletonMap(filename, ""), false
+            ).read(filename),
             Matchers.is(Matchers.emptyString())
         );
     }
@@ -45,10 +44,9 @@ final class MkGistTest {
             Collections.singletonMap(filename, ""), false
         );
         gist.write(filename, "Hello, github!");
-        final Gist fork = gist.fork();
         MatcherAssert.assertThat(
             "Values are not equal",
-            fork.read(filename),
+            gist.fork().read(filename),
             Matchers.equalTo(gist.read(filename))
         );
     }

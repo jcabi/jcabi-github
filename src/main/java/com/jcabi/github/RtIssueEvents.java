@@ -11,14 +11,13 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub issue events.
- *
  * @since 0.23
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtIssueEvents implements IssueEvents {
+
     /**
      * API entry point.
      */
@@ -40,16 +39,23 @@ final class RtIssueEvents implements IssueEvents {
      * @param repo Repository
      */
     RtIssueEvents(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/events")
-            .back();
-        this.owner = repo;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/issues")
+                .path("/events")
+                .back(),
+            repo
+        );
+    }
+
+    private RtIssueEvents(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override

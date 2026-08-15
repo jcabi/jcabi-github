@@ -15,10 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repositories.
- *
  * @since 0.8
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -70,7 +67,6 @@ final class RtRepos implements Repos {
                     .fetch().as(RestResponse.class)
                     .assertStatus(HttpURLConnection.HTTP_CREATED)
                     .as(JsonResponse.class)
-                    // @checkstyle MultipleStringLiterals (1 line)
                     .json().readObject().getString("full_name")
             )
         );
@@ -82,8 +78,7 @@ final class RtRepos implements Repos {
     }
 
     @Override
-    public void remove(
-        final Coordinates coords) throws IOException {
+    public void remove(final Coordinates coords) throws IOException {
         this.entry.uri().path("/repos")
             .back().method(Request.DELETE)
             .uri().path(coords.toString()).back()
@@ -93,8 +88,7 @@ final class RtRepos implements Repos {
     }
 
     @Override
-    public Iterable<Repo> iterate(
-        final String identifier) {
+    public Iterable<Repo> iterate(final String identifier) {
         return new RtPagination<>(
             this.entry.uri().path("/repositories")
                 .queryParam("since", identifier).back(),
@@ -106,10 +100,9 @@ final class RtRepos implements Repos {
 
     @Override
     public boolean exists(final Coordinates coords) throws IOException {
-        final String repo = coords.user().concat("/").concat(coords.repo());
-        final RestResponse response = this.entry.uri()
-            .path("/repos/".concat(repo)).back()
-            .method(Request.GET).fetch().as(RestResponse.class);
-        return response.status() == HttpURLConnection.HTTP_OK;
+        return this.entry.uri()
+            .path("/repos/".concat(coords.user().concat("/").concat(coords.repo()))).back()
+            .method(Request.GET).fetch().as(RestResponse.class)
+            .status() == HttpURLConnection.HTTP_OK;
     }
 }

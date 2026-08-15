@@ -23,7 +23,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "location", "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtContent implements Content {
 
     /**
@@ -48,16 +47,23 @@ final class RtContent implements Content {
      * @param path Path of the content
      */
     RtContent(final Request req, final Repo repo, final String path) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/contents")
-            .path(path)
-            .back();
-        this.owner = repo;
-        this.location = path;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/contents")
+                .path(path)
+                .back(),
+            path,
+            repo
+        );
+    }
+
+    private RtContent(final Request request, final String location, final Repo owner) {
+        this.request = request;
+        this.location = location;
+        this.owner = owner;
     }
 
     @Override
@@ -71,9 +77,7 @@ final class RtContent implements Content {
     }
 
     @Override
-    public int compareTo(
-        final Content other
-    ) {
+    public int compareTo(final Content other) {
         return this.path().compareTo(other.path());
     }
 
@@ -90,10 +94,9 @@ final class RtContent implements Content {
     @Override
     public InputStream raw() throws IOException {
         return new ByteArrayInputStream(
-            this.request.reset(HttpHeaders.ACCEPT)
-                .header(
-                    HttpHeaders.ACCEPT,
-                    "application/vnd.github.v3.raw"
+            this.request.reset(HttpHeaders.ACCEPT).header(
+                HttpHeaders.ACCEPT,
+                "application/vnd.github.v3.raw"
                 ).fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK).binary()

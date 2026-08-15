@@ -15,15 +15,15 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class RtRepoCommitTest {
+
     @Test
     void hasProperRequestUrl() {
         final String sha = RandomStringUtils.secure().nextAlphanumeric(50);
-        final RtRepoCommit commit = new RtRepoCommit(
-            new FakeRequest(), RtRepoCommitTest.repo(), sha
-        );
         MatcherAssert.assertThat(
             "String does not end with expected value",
-            commit.toString(),
+            new RtRepoCommit(
+                new FakeRequest(), RtRepoCommitTest.repo(), sha
+            ).toString(),
             Matchers.endsWith(
                 String.format(
                     "/see-FakeRequest-class/repos/user/repo/commits/%s",
@@ -41,5 +41,4 @@ final class RtRepoCommitTest {
         return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));
     }
-
 }

@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link RtTrees}.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtTreesITCase {
@@ -33,7 +31,6 @@ final class RtTreesITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static RepoRule rule = new RepoRule();
 
@@ -60,17 +57,18 @@ final class RtTreesITCase {
     @Test
     void createsAndObtainsTree() throws IOException {
         final Trees trees = RtTreesITCase.repo.git().trees();
-        final JsonObject json = Json.createObjectBuilder().add(
-            "tree",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("path", "test.txt")
-                    .add("mode", "100644")
-                    .add("type", "blob")
-                    .add("content", "hello").build()
-            ).build()
-        ).build();
-        final Tree tree = trees.create(json);
+        final Tree tree = trees.create(
+            Json.createObjectBuilder().add(
+                "tree",
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder()
+                        .add("path", "test.txt")
+                        .add("mode", "100644")
+                        .add("type", "blob")
+                        .add("content", "hello").build()
+                ).build()
+                ).build()
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             trees.get(tree.json().getString("sha")),

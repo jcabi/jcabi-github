@@ -16,7 +16,6 @@ import lombok.ToString;
 
 /**
  * Mock GitHub Rate Limit API.
- *
  * @since 0.6
  */
 @Immutable
@@ -40,9 +39,7 @@ final class MkLimits implements Limits {
      * @param stg Storage
      * @param login User to login
      */
-    MkLimits(final MkStorage stg,
-        final String login
-    ) {
+    MkLimits(final MkStorage stg, final String login) {
         this.storage = stg;
         this.himself = login;
     }
@@ -54,7 +51,6 @@ final class MkLimits implements Limits {
 
     @Override
     public Limit get(final String resource) {
-        // @checkstyle AnonInnerLength (50 lines)
         return new Limit() {
             @Override
             public GitHub github() {
@@ -64,7 +60,6 @@ final class MkLimits implements Limits {
             @Override
             public JsonObject json() {
                 return Json.createObjectBuilder()
-                    // @checkstyle MagicNumber (2 lines)
                     .add("limit", 5000)
                     .add("remaining", 4999)
                     .add("reset", System.currentTimeMillis())

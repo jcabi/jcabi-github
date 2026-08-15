@@ -37,20 +37,24 @@ final class RtTag implements Tag {
 
     /**
      * Public constructor.
-     * @param req The request.
-     * @param repo The owner repo.
-     * @param key The sha.
+     * @param req The request
+     * @param repo The owner repo
+     * @param key The sha
      */
-    RtTag(
-        final Request req,
-        final Repo repo,
-        final String key
-    ) {
-        this.sha = key;
-        this.owner = repo;
-        this.request = req.uri().path("/repos").path(repo.coordinates().user())
-            .path(repo.coordinates().repo()).path("/git").path("/tags")
-            .path(this.sha).back();
+    RtTag(final Request req, final Repo repo, final String key) {
+        this(
+            key,
+            repo,
+            req.uri().path("/repos").path(repo.coordinates().user())
+                .path(repo.coordinates().repo()).path("/git").path("/tags")
+                .path(key).back()
+        );
+    }
+
+    private RtTag(final String sha, final Repo owner, final Request request) {
+        this.sha = sha;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -67,5 +71,4 @@ final class RtTag implements Tag {
     public String key() {
         return this.sha;
     }
-
 }

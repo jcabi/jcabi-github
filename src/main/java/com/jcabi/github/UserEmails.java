@@ -27,17 +27,12 @@ public interface UserEmails extends JsonReadable {
      * @return Emails
      * @throws IOException If there is any I/O problem
      */
-    Iterable<String> add(
-        Iterable<String> emails)
-        throws IOException;
+    Iterable<String> add(Iterable<String> emails) throws IOException;
 
     /**
      * Remove emails.
      * @param emails Emails
      * @throws IOException If there is any I/O problem
      */
-    void remove(
-        Iterable<String> emails)
-        throws IOException;
-
+    void remove(Iterable<String> emails) throws IOException;
 }

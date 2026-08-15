@@ -14,7 +14,6 @@ import lombok.ToString;
 
 /**
  * Mock GitHub check.
- *
  * @since 1.6.1
  */
 @Immutable
@@ -48,7 +47,6 @@ public final class MkCheck implements Check {
      * @param coord Coordinates
      * @param pll Pull
      * @param number Check identifier
-     * @checkstyle ParameterNumber (6 lines)
      */
     public MkCheck(
         final MkStorage stg,
@@ -102,7 +100,7 @@ public final class MkCheck implements Check {
 
     /**
      * Returns the status of this check from storage.
-     * @return Check status.
+     * @return Check status
      * @throws IOException If there is any I/O problem.
      */
     private Check.Status status() throws IOException {
@@ -113,7 +111,7 @@ public final class MkCheck implements Check {
 
     /**
      * Returns the conclusion of this check from storage.
-     * @return Check conclusion.
+     * @return Check conclusion
      * @throws IOException If there is any I/O problem.
      */
     private Check.Conclusion conclusion() throws IOException {
@@ -128,7 +126,6 @@ public final class MkCheck implements Check {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks/check[@id='%d']",
             this.coordinates, this.pull.number(), this.identifier
         );

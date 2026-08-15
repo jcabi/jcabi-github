@@ -6,7 +6,7 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Comments;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ final class MkCommentsTest {
         comments.post("hello again");
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            comments.iterate(new Date(0L)),
+            comments.iterate(Instant.EPOCH),
             Matchers.iterableWithSize(2)
         );
     }

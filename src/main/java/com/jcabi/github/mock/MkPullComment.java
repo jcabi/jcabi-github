@@ -23,6 +23,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = { "storage", "repo", "owner", "num" })
 final class MkPullComment implements PullComment {
+
     /**
      * Storage.
      */
@@ -49,7 +50,6 @@ final class MkPullComment implements PullComment {
      * @param rep Repo
      * @param pull Pull
      * @param number Comment number
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkPullComment(
         final MkStorage stg,
@@ -71,9 +71,7 @@ final class MkPullComment implements PullComment {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -100,9 +98,7 @@ final class MkPullComment implements PullComment {
     }
 
     @Override
-    public int compareTo(
-        final PullComment other
-    ) {
+    public int compareTo(final PullComment other) {
         return this.number() - other.number();
     }
 
@@ -112,7 +108,6 @@ final class MkPullComment implements PullComment {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment[id='%d']",
             this.repo, this.owner.number(), this.num
         );

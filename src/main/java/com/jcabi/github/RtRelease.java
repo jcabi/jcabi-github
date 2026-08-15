@@ -49,16 +49,30 @@ final class RtRelease implements Release {
      * @param nmbr Release id
      */
     RtRelease(final Request req, final Repo repo, final int nmbr) {
-        this.entry = req;
-        this.release = nmbr;
-        this.owner = repo;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/releases")
-            .path(String.valueOf(this.release))
-            .back();
+        this(
+            req,
+            nmbr,
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/releases")
+                .path(String.valueOf(nmbr))
+                .back()
+        );
+    }
+
+    private RtRelease(
+        final Request entry,
+        final int release,
+        final Repo owner,
+        final Request request
+    ) {
+        this.entry = entry;
+        this.release = release;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -87,9 +101,7 @@ final class RtRelease implements Release {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
@@ -99,5 +111,4 @@ final class RtRelease implements Release {
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
-
 }

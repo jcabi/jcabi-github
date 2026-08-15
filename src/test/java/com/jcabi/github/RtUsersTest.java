@@ -27,7 +27,6 @@ final class RtUsersTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void iterateUsers() throws IOException {
@@ -41,20 +40,19 @@ final class RtUsersTest {
                     .build().toString()
             )
         ).start(RandomPort.port());
-        final Users users = new RtUsers(
-            Mockito.mock(GitHub.class),
-            new ApacheRequest(container.home())
-        );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            users.iterate(identifier),
+            new RtUsers(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            ).iterate(identifier),
             Matchers.iterableWithSize(2)
         );
         container.stop();
     }
 
     @Test
-    void getSingleUser() throws IOException {
+    void fetchesSingleUser() throws IOException {
         final String login = "mark";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -62,20 +60,19 @@ final class RtUsersTest {
                 RtUsersTest.json(login, "3").toString()
             )
         ).start(RandomPort.port());
-        final Users users = new RtUsers(
-            Mockito.mock(GitHub.class),
-            new ApacheRequest(container.home())
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            users.get(login).login(),
+            new RtUsers(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            ).get(login).login(),
             Matchers.equalTo(login)
         );
         container.stop();
     }
 
     @Test
-    void getCurrentUser() throws IOException {
+    void fetchesCurrentUser() throws IOException {
         final String login = "kendy";
         final MkContainer container = new MkGrizzlyContainer().next(
             new MkAnswer.Simple(
@@ -83,13 +80,12 @@ final class RtUsersTest {
                 RtUsersTest.json(login, "4").toString()
             )
         ).start(RandomPort.port());
-        final Users users = new RtUsers(
-            Mockito.mock(GitHub.class),
-            new ApacheRequest(container.home())
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            users.self().login(),
+            new RtUsers(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            ).self().login(),
             Matchers.equalTo(login)
         );
         container.stop();

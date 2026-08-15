@@ -9,7 +9,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -26,10 +25,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @ExtendWith(RandomPort.class)
 final class RtGistsTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
     void canCreateFiles() throws IOException {
         try (
@@ -40,21 +35,36 @@ final class RtGistsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Gists gists = new RtGists(
-                new MkGitHub(),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
-                "Value is null",
-                gists.create(Collections.singletonMap("test", ""), false),
+                "Gist is not created",
+                new RtGists(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home())
+                ).create(Collections.singletonMap("test", ""), false),
                 Matchers.notNullValue()
             );
+        }
+    }
+
+    @Test
+    void sendsFilesWhileCreating() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"id\":\"1\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
+            new RtGists(
+                new MkGitHub(),
+                new ApacheRequest(container.home())
+            ).create(Collections.singletonMap("test", ""), false);
             MatcherAssert.assertThat(
-                "String does not start with expected value",
+                "Files are not sent while creating the gist",
                 container.take().body(),
                 Matchers.startsWith("{\"files\":{\"test\":{\"content\":")
             );
-            container.stop();
         }
     }
 
@@ -65,13 +75,12 @@ final class RtGistsTest {
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testing")
             ).start(RandomPort.port())
         ) {
-            final Gists gists = new RtGists(
-                new MkGitHub(),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
                 "Value is null",
-                gists.get("gist"),
+                new RtGists(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home())
+                ).get("gist"),
                 Matchers.notNullValue()
             );
             container.stop();
@@ -88,13 +97,12 @@ final class RtGistsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Gists gists = new RtGists(
-                new MkGitHub(),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
                 "Value is null",
-                gists.iterate().iterator().next(),
+                new RtGists(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home())
+                ).iterate().iterator().next(),
                 Matchers.notNullValue()
             );
             container.stop();
@@ -109,16 +117,16 @@ final class RtGistsTest {
                     HttpURLConnection.HTTP_NO_CONTENT,
                     ""
                 )
-            ).start(RandomPort.port())) {
+            ).start(RandomPort.port())
+        ) {
             final Gists gists = new RtGists(
                 new MkGitHub(),
                 new ApacheRequest(container.home())
             );
             gists.remove("12234");
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(),
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
             container.stop();

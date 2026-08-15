@@ -22,67 +22,97 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtMarkdown}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtMarkdownTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
     void returnsJsonOutput() throws IOException {
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"a\":\"b\"}")
-                    .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtMarkdownTest.answer("{\"a\":\"b\"}"))
+                .start(RandomPort.port())
         ) {
-            final RtMarkdown markdown = new RtMarkdown(
-                new MkGitHub(),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
-                "Values are not equal",
-                markdown.render(
+                "Rendered markdown is different",
+                RtMarkdownTest.markdown(container).render(
                     Json.createObjectBuilder().add("hello", "world").build()
                 ),
                 Matchers.equalTo("{\"a\":\"b\"}")
             );
+        }
+    }
+
+    @Test
+    void sendsJsonInput() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtMarkdownTest.answer("{\"a\":\"b\"}"))
+                .start(RandomPort.port())
+        ) {
+            RtMarkdownTest.markdown(container).render(
+                Json.createObjectBuilder().add("hello", "world").build()
+            );
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Markdown to render is not sent",
                 container.take().body(),
                 Matchers.equalTo("{\"hello\":\"world\"}")
             );
-            container.stop();
         }
     }
 
     @Test
     void returnsRawOutput() throws IOException {
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "Test Output")
-                    .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML)
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtMarkdownTest.answer("Test Output"))
+                .start(RandomPort.port())
         ) {
-            final RtMarkdown markdown = new RtMarkdown(
-                new MkGitHub(),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
-                "Values are not equal",
-                markdown.raw("Hello World!"),
+                "Rendered raw markdown is different",
+                RtMarkdownTest.markdown(container).raw("Hello World!"),
                 Matchers.equalTo("Test Output")
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                container.take().body(),
-                Matchers.equalTo("Hello World!")
-            );
-            container.stop();
         }
     }
 
+    @Test
+    void sendsRawInput() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtMarkdownTest.answer("Test Output"))
+                .start(RandomPort.port())
+        ) {
+            RtMarkdownTest.markdown(container).raw("Hello World!");
+            MatcherAssert.assertThat(
+                "Raw markdown to render is not sent",
+                container.take().body(),
+                Matchers.equalTo("Hello World!")
+            );
+        }
+    }
+
+    /**
+     * Markdown served by the given container.
+     * @param container Container to serve the markdown
+     * @return Markdown
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtMarkdown markdown(final MkContainer container)
+        throws IOException {
+        return new RtMarkdown(
+            new MkGitHub(),
+            new ApacheRequest(container.home())
+        );
+    }
+
+    /**
+     * Answer with the given HTML body.
+     * @param body Body of the answer
+     * @return Answer
+     */
+    private static MkAnswer answer(final String body) {
+        return new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
+            .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML);
+    }
 }

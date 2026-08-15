@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "ghub", "request" })
 final class RtOrganizations implements Organizations {
+
     /**
      * API entry point.
      */
@@ -39,15 +40,17 @@ final class RtOrganizations implements Organizations {
      * @param req Request
      */
     RtOrganizations(final GitHub github, final Request req) {
-        this.entry = req;
-        this.request = this.entry.uri().path("/user").path("/orgs").back();
-        this.ghub = github;
+        this(req, req.uri().path("/user").path("/orgs").back(), github);
+    }
+
+    private RtOrganizations(final Request entry, final Request request, final GitHub ghub) {
+        this.entry = entry;
+        this.request = request;
+        this.ghub = ghub;
     }
 
     @Override
-    public Organization get(
-        final String login
-    ) {
+    public Organization get(final String login) {
         return new RtOrganization(this.ghub, this.entry, login);
     }
 

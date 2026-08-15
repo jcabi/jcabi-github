@@ -17,14 +17,12 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RepoCommit}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class RepoCommitTest {
 
     @Test
     void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final RepoCommit commit = Mockito.mock(RepoCommit.class);
-        // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/pengwynn/octokit/contents/README.md";
         Mockito.doReturn(
             Json.createObjectBuilder()

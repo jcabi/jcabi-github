@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtReleasesITCase {
 
     /**
@@ -32,7 +31,6 @@ final class RtReleasesITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static RepoRule rule = new RepoRule();
 
@@ -59,9 +57,6 @@ final class RtReleasesITCase {
     @Test
     void canFetchAllReleases() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
-        final Release release = releases.create(
-            RandomStringUtils.secure().nextAlphanumeric(10)
-        );
         try {
             MatcherAssert.assertThat(
                 "Collection is not empty",
@@ -69,22 +64,33 @@ final class RtReleasesITCase {
                 Matchers.not(Matchers.emptyIterableOf(Release.class))
             );
         } finally {
-            releases.remove(release.number());
+            releases.remove(
+                releases.create(
+                    RandomStringUtils.secure().nextAlphanumeric(10)
+                    ).number()
+            );
         }
     }
 
     @Test
     void canFetchRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
-        final String tag = "v1.0";
-        final Release release = releases.create(tag);
+        final Release release = releases.create("v1.0");
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Fetched release has a wrong number",
             releases.get(release.number()).number(),
             Matchers.equalTo(release.number())
         );
+        releases.remove(release.number());
+    }
+
+    @Test
+    void canFetchReleaseTag() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
+        final String tag = "v1.0";
+        final Release release = releases.create(tag);
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Fetched release has a wrong tag",
             new Release.Smart(releases.get(release.number())).tag(),
             Matchers.equalTo(tag)
         );
@@ -95,21 +101,48 @@ final class RtReleasesITCase {
     void canCreateRelease() throws IOException {
         final Releases releases = RtReleasesITCase.repo.releases();
         final Release created = releases.create("0.1");
-        final int number = created.number();
         try {
-            final Release obtained = releases.get(number);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Created release is different from the obtained one",
                 created,
-                Matchers.is(obtained)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Release.Smart(created).tag(),
-                Matchers.equalTo(new Release.Smart(obtained).tag())
+                Matchers.is(releases.get(created.number()))
             );
         } finally {
-            releases.remove(number);
+            releases.remove(created.number());
+        }
+    }
+
+    @Test
+    void canCreateReleaseWithTag() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
+        final Release created = releases.create("0.1");
+        try {
+            MatcherAssert.assertThat(
+                "Created release has a wrong tag",
+                new Release.Smart(created).tag(),
+                Matchers.equalTo(
+                    new Release.Smart(releases.get(created.number())).tag()
+                )
+            );
+        } finally {
+            releases.remove(created.number());
+        }
+    }
+
+    @Test
+    void canIterateCreatedRelease() throws IOException {
+        final Releases releases = RtReleasesITCase.repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
+        );
+        try {
+            MatcherAssert.assertThat(
+                "Created release is not iterated",
+                releases.iterate(),
+                Matchers.hasItem(release)
+            );
+        } finally {
+            releases.remove(release.number());
         }
     }
 
@@ -119,14 +152,9 @@ final class RtReleasesITCase {
         final Release release = releases.create(
             RandomStringUtils.secure().nextAlphanumeric(10)
         );
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            releases.iterate(),
-            Matchers.hasItem(release)
-        );
         releases.remove(release.number());
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed release is still there",
             releases.iterate(),
             Matchers.not(Matchers.hasItem(release))
         );

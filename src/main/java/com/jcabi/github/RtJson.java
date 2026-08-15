@@ -18,7 +18,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub JSON item.
- *
  * @since 0.6
  */
 @Immutable
@@ -44,7 +43,7 @@ final class RtJson {
      * @return JSON object
      * @throws IOException If fails
      */
-    public JsonObject fetch() throws IOException {
+    JsonObject fetch() throws IOException {
         final RestResponse response = this.request.fetch()
             .as(RestResponse.class);
         try {
@@ -60,9 +59,7 @@ final class RtJson {
      * @param json JSON to use for patching
      * @throws IOException If fails
      */
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    void patch(final JsonObject json) throws IOException {
         final StringWriter post = new StringWriter();
         Json.createWriter(post).writeObject(json);
         final RestResponse response = this.request.body()
@@ -75,5 +72,4 @@ final class RtJson {
             throw new UnexpectedHttpStatus(ex);
         }
     }
-
 }

@@ -15,8 +15,8 @@ import org.mockito.Mockito;
  * Test case for {@link Fork}.
  * @since 0.8
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class ForkTest {
+
     @Test
     void fetchesName() throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -82,103 +82,109 @@ final class ForkTest {
     }
 
     @Test
-    void fetchesUrls() throws IOException {
-        final Fork fork = Mockito.mock(Fork.class);
+    void fetchesUrl() throws IOException {
         final String url = "https://api.github.com/repos/octocat/Hello-World";
-        final String html = "https://github.com/octocat/Hello-World";
-        final String clone = "https://github.com/octocat/Hello-World.git";
-        final String git = "git://github.com/octocat/Hello-World.git";
-        final String ssh = "git@github.com:octocat/Hello-World.git";
-        final String svn = "https://svn.github.com/octocat/Hello-World";
-        final String mirror = "git://git.example.com/octocat/Hello-World";
-        final String homepage = "https://github.com";
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("url", url)
-                .add("html_url", html)
-                .add("clone_url", clone)
-                .add("git_url", git)
-                .add("ssh_url", ssh)
-                .add("svn_url", svn)
-                .add("mirror_url", mirror)
-                .add("homepage", homepage)
-                .build()
-        ).when(fork).json();
-        final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.url().toString(),
+            "Fork URL is not fetched",
+            ForkTest.smart("url", url).url().toString(),
             Matchers.is(url)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.htmlUrl().toString(),
-            Matchers.is(html)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.cloneUrl().toString(),
-            Matchers.is(clone)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.gitUrl().toString(),
-            Matchers.is(git)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.sshUrl().toString(),
-            Matchers.is(ssh)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.svnUrl().toString(),
-            Matchers.is(svn)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.mirrorUrl().toString(),
-            Matchers.is(mirror)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.homeUrl().toString(),
-            Matchers.is(homepage)
         );
     }
 
-    /**
-     * Fork.Smart can fetch the number of forks, stargazers, and watchers
-     * from Fork.
-     */
     @Test
-    void fetchesCounts() throws IOException {
-        final Fork fork = Mockito.mock(Fork.class);
-        final int forks = 10;
-        final int stargazers = 20;
-        final int watchers = 30;
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("forks_count", forks)
-                .add("stargazers_count", stargazers)
-                .add("watchers_count", watchers)
-                .build()
-        ).when(fork).json();
-        final Fork.Smart smart = new Fork.Smart(fork);
+    void fetchesHtmlUrl() throws IOException {
+        final String url = "https://github.com/octocat/Hello-World";
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.forks(),
-            Matchers.is(forks)
+            "Fork URL is not fetched",
+            ForkTest.smart("html_url", url).htmlUrl().toString(),
+            Matchers.is(url)
         );
+    }
+
+    @Test
+    void fetchesCloneUrl() throws IOException {
+        final String url = "https://github.com/octocat/Hello-World.git";
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.stargazers(),
-            Matchers.is(stargazers)
+            "Fork URL is not fetched",
+            ForkTest.smart("clone_url", url).cloneUrl().toString(),
+            Matchers.is(url)
         );
+    }
+
+    @Test
+    void fetchesGitUrl() throws IOException {
+        final String url = "git://github.com/octocat/Hello-World.git";
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.watchers(),
-            Matchers.is(watchers)
+            "Fork URL is not fetched",
+            ForkTest.smart("git_url", url).gitUrl().toString(),
+            Matchers.is(url)
+        );
+    }
+
+    @Test
+    void fetchesSshUrl() throws IOException {
+        final String url = "git@github.com:octocat/Hello-World.git";
+        MatcherAssert.assertThat(
+            "Fork URL is not fetched",
+            ForkTest.smart("ssh_url", url).sshUrl().toString(),
+            Matchers.is(url)
+        );
+    }
+
+    @Test
+    void fetchesSvnUrl() throws IOException {
+        final String url = "https://svn.github.com/octocat/Hello-World";
+        MatcherAssert.assertThat(
+            "Fork URL is not fetched",
+            ForkTest.smart("svn_url", url).svnUrl().toString(),
+            Matchers.is(url)
+        );
+    }
+
+    @Test
+    void fetchesMirrorUrl() throws IOException {
+        final String url = "git://git.example.com/octocat/Hello-World";
+        MatcherAssert.assertThat(
+            "Fork URL is not fetched",
+            ForkTest.smart("mirror_url", url).mirrorUrl().toString(),
+            Matchers.is(url)
+        );
+    }
+
+    @Test
+    void fetchesHomeUrl() throws IOException {
+        final String url = "https://github.com";
+        MatcherAssert.assertThat(
+            "Fork URL is not fetched",
+            ForkTest.smart("homepage", url).homeUrl().toString(),
+            Matchers.is(url)
+        );
+    }
+
+    @Test
+    void fetchesForks() throws IOException {
+        MatcherAssert.assertThat(
+            "Fork counter is not fetched",
+            ForkTest.smart("forks_count", 10).forks(),
+            Matchers.is(10)
+        );
+    }
+
+    @Test
+    void fetchesStargazers() throws IOException {
+        MatcherAssert.assertThat(
+            "Fork counter is not fetched",
+            ForkTest.smart("stargazers_count", 20).stargazers(),
+            Matchers.is(20)
+        );
+    }
+
+    @Test
+    void fetchesWatchers() throws IOException {
+        MatcherAssert.assertThat(
+            "Fork counter is not fetched",
+            ForkTest.smart("watchers_count", 30).watchers(),
+            Matchers.is(30)
         );
     }
 
@@ -191,10 +197,9 @@ final class ForkTest {
                 .add("open_issues_count", issues)
                 .build()
         ).when(fork).json();
-        final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.openIssues(),
+            new Fork.Smart(fork).openIssues(),
             Matchers.is(issues)
         );
     }
@@ -208,11 +213,46 @@ final class ForkTest {
                 .add("default_branch", master)
                 .build()
         ).when(fork).json();
-        final Fork.Smart smart = new Fork.Smart(fork);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.defaultBranch(),
+            new Fork.Smart(fork).defaultBranch(),
             Matchers.is(master)
         );
+    }
+
+    /**
+     * Smart fork with a single string property.
+     * @param key Name of the property
+     * @param value Value of the property
+     * @return Smart fork
+     * @throws IOException If fails
+     */
+    private static Fork.Smart smart(final String key, final String value)
+        throws IOException {
+        final Fork fork = Mockito.mock(Fork.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add(key, value)
+                .build()
+        ).when(fork).json();
+        return new Fork.Smart(fork);
+    }
+
+    /**
+     * Smart fork with a single integer property.
+     * @param key Name of the property
+     * @param value Value of the property
+     * @return Smart fork
+     * @throws IOException If fails
+     */
+    private static Fork.Smart smart(final String key, final int value)
+        throws IOException {
+        final Fork fork = Mockito.mock(Fork.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add(key, value)
+                .build()
+        ).when(fork).json();
+        return new Fork.Smart(fork);
     }
 }

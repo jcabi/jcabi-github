@@ -23,58 +23,49 @@ public interface References {
 
     /**
      * Creates a reference.
-     * @param ref The name of the fully qualified reference (ie: refs/heads/master).
-     * @param sha The SHA1 value to set this reference to.
+     * @param ref The name of the fully qualified reference (ie: refs/heads/master)
+     * @param sha The SHA1 value to set this reference to
      * @return Reference - The newly created Reference
      * @throws IOException - If there are any errors.
      */
-    Reference create(
-        String ref,
-        String sha
-    ) throws IOException;
+    Reference create(String ref, String sha) throws IOException;
 
     /**
      * Get Reference by identifier.
-     * @param identifier Reference's name.
+     * @param identifier Reference's name
      * @return Reference The reference with the given name
      */
-    Reference get(
-        String identifier
-    );
+    Reference get(String identifier);
 
     /**
      * Iterates all references.
-     * @return Iterator of references.
+     * @return Iterator of references
      */
     Iterable<Reference> iterate();
 
     /**
      * Iterates references in sub-namespace.
      * @param subnamespace Sub-namespace
-     * @return Iterator of references.
+     * @return Iterator of references
      */
-    Iterable<Reference> iterate(
-        String subnamespace
-    );
+    Iterable<Reference> iterate(String subnamespace);
 
     /**
      * Iterate references under "tags" sub-namespace.
-     * @return Iterator of references.
+     * @return Iterator of references
      */
     Iterable<Reference> tags();
 
     /**
      * Iterate references under "heads" sub-namespace.
-     * @return Iterator of references.
+     * @return Iterator of references
      */
     Iterable<Reference> heads();
 
     /**
      * Removes a reference by its identifier.
-     * @param identifier Reference's identifier.
+     * @param identifier Reference's identifier
      * @throws IOException If there is any I/O problem.
      */
-    void remove(
-        String identifier
-    ) throws IOException;
+    void remove(String identifier) throws IOException;
 }

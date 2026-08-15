@@ -9,7 +9,6 @@ import com.jcabi.github.Pull;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -18,67 +17,48 @@ import org.junit.jupiter.api.Test;
  */
 final class MkCheckTest {
 
-    /**
-     * Pull request.
-     */
-    private transient Pull pull;
-
-    /**
-     * Set up.
-     * @throws IOException If some problem with I/O.
-     */
-    @BeforeEach
-    void setUp() throws IOException {
-        this.pull = new MkGitHub()
-            .randomRepo()
-            .pulls()
-            .create("Test PR", "abcdea8", "abcdea9");
-    }
-
-    /**
-     * MkChecks can create successful check.
-     * @throws IOException If some problem with I/O.
-     */
     @Test
     void createsSuccessfulCheck() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            ((MkChecks) this.pull.checks())
+            "Check is not successful",
+            ((MkChecks) MkCheckTest.pull().checks())
                 .create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS)
                 .successful(),
             Matchers.is(true)
         );
     }
 
-    /**
-     * MkChecks can create failed check.
-     * @throws IOException If some problem with I/O.
-     */
     @Test
     void createsFailedCheck() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            ((MkChecks) this.pull.checks())
-                .create(
-                    Check.Status.COMPLETED,
-                    Check.Conclusion.FAILURE
-                ).successful(),
+            "Check is not failed",
+            ((MkChecks) MkCheckTest.pull().checks())
+                .create(Check.Status.COMPLETED, Check.Conclusion.FAILURE)
+                .successful(),
             Matchers.is(false)
         );
     }
 
-    /**
-     * MkChecks can create skipped check.
-     * @throws IOException If some problem with I/O.
-     */
     @Test
     void createsSkippedCheck() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            ((MkChecks) this.pull.checks())
+            "Check is not skipped",
+            ((MkChecks) MkCheckTest.pull().checks())
                 .create(Check.Status.COMPLETED, Check.Conclusion.SKIPPED)
                 .skipped(),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * Pull request to make checks for.
+     * @return Pull request
+     * @throws IOException If some problem with I/O
+     */
+    private static Pull pull() throws IOException {
+        return new MkGitHub()
+            .randomRepo()
+            .pulls()
+            .create("Test PR", "abcdea8", "abcdea9");
     }
 }

@@ -15,9 +15,9 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +25,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub search pagination.
- *
  * @param <T> Type of iterable objects
  * @since 0.4
  */
 @Immutable
 @EqualsAndHashCode
-@SuppressWarnings("PMD.TooManyMethods")
 final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
@@ -57,12 +55,22 @@ final class RtSearchPagination<T> implements Iterable<T> {
     RtSearchPagination(final Request req, final String path,
         final String keywords, final String sort, final String order,
         final RtValuePagination.Mapping<T, JsonObject> mppng) {
-        this.request = req.uri().path(path)
-            .queryParam("q", keywords)
-            .queryParam("sort", sort)
-            .queryParam("order", order)
-            .back();
-        this.mapping = mppng;
+        this(
+            req.uri().path(path)
+                .queryParam("q", keywords)
+                .queryParam("sort", sort)
+                .queryParam("order", order)
+                .back(),
+            mppng
+        );
+    }
+
+    private RtSearchPagination(
+        final Request request,
+        final RtValuePagination.Mapping<T, JsonObject> mapping
+    ) {
+        this.request = request;
+        this.mapping = mapping;
     }
 
     @Override
@@ -77,8 +85,8 @@ final class RtSearchPagination<T> implements Iterable<T> {
      * Request which hides everything but items.
      * @since 0.4
      */
-    @SuppressWarnings({ "PMD.TooManyMethods", "PMD.CyclomaticComplexity" })
     private static final class SearchRequest implements Request {
+
         /**
          * Inner request.
          */
@@ -155,6 +163,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
      */
     @Immutable
     private static final class Hidden implements Response {
+
         /**
          * Original response.
          */
@@ -196,17 +205,10 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
         @Override
         public byte[] binary() {
-            try {
-                return this.body().getBytes("UTF-8");
-            } catch (final UnsupportedEncodingException ex) {
-                throw new IllegalStateException(ex);
-            }
+            return this.body().getBytes(StandardCharsets.UTF_8);
         }
 
-        // @checkstyle MethodName (4 lines)
-
         @Override
-        @SuppressWarnings("PMD.ShortMethodName")
         public <T extends Response> T as(final Class<T> type) {
             try {
                 return type.getDeclaredConstructor(Response.class)
@@ -227,6 +229,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
     @Immutable
     @EqualsAndHashCode(of = "address")
     private static final class SearchUri implements RequestURI {
+
         /**
          * Underlying address.
          */

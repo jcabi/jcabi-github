@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -36,12 +35,11 @@ import lombok.ToString;
  *
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface GistComment
     extends Comparable<GistComment>, JsonReadable, JsonPatchable {
+
     /**
      * The gist it's in.
      * @return Owner of the comment
@@ -69,6 +67,7 @@ public interface GistComment
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "comment", "jsn" })
     final class Smart implements GistComment {
+
         /**
          * Encapsulated gist comment.
          */
@@ -137,14 +136,10 @@ public interface GistComment
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IOException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -152,14 +147,10 @@ public interface GistComment
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        public Date updatedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("updated_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IOException(ex);
-            }
+        public Instant updatedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("updated_at")
+            ).date();
         }
 
         @Override

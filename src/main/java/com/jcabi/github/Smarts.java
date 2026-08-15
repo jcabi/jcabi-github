@@ -40,9 +40,7 @@ public final class Smarts<T> implements Iterable<T> {
      * Public ctor.
      * @param items Items original
      */
-    public Smarts(
-        final Iterable<?> items
-    ) {
+    public Smarts(final Iterable<?> items) {
         this.origin = items;
     }
 
@@ -61,8 +59,9 @@ public final class Smarts<T> implements Iterable<T> {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public T next() {
-                return Smarts.wrap(iterator.next());
+                return (T) Smarts.wrap(iterator.next());
             }
 
             @Override
@@ -75,13 +74,11 @@ public final class Smarts<T> implements Iterable<T> {
     /**
      * Wrap an object, and make a "smart" decorator.
      * @param object Object to wrap
-     * @param <X> Type of result
      * @return Decorator
      */
-    @SuppressWarnings("unchecked")
-    private static <X> X wrap(final Object object) {
+    private static Object wrap(final Object object) {
         try {
-            return (X) Smarts.type(object).newInstance(object);
+            return Smarts.type(object).newInstance(object);
         } catch (final InvocationTargetException
             | InstantiationException
             | IllegalAccessException ex) {
@@ -113,5 +110,4 @@ public final class Smarts<T> implements Iterable<T> {
             )
         );
     }
-
 }

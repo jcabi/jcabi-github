@@ -12,10 +12,8 @@ import java.io.IOException;
  * GitHub contents.
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface Contents {
 
     /**
@@ -26,7 +24,7 @@ public interface Contents {
 
     /**
      * Get the Readme file of the default branch (usually master).
-     * @return The Content of the readme file.
+     * @return The Content of the readme file
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
@@ -35,7 +33,7 @@ public interface Contents {
     /**
      * Get the Readme file of the specified branch.
      * @param branch The branch name
-     * @return The Content of the readme file.
+     * @return The Content of the readme file
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
      */
@@ -53,7 +51,7 @@ public interface Contents {
     /**
      * Get the contents of a single file or symbolic link in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag.
+     * @param ref The name of the commit/branch/tag
      * @return Content fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
@@ -91,8 +89,8 @@ public interface Contents {
 
     /**
      * Updates a file.
-     * @param path The content path.
-     * @param json JSON object containing updates to the content.
+     * @param path The content path
+     * @param json JSON object containing updates to the content
      * @return Commit referring to this operation
      * @throws IOException If any I/O problems occur.
      * @see <a href="https://developer.github.com/v3/repos/contents/#update-a-file">Update a file</a>
@@ -102,10 +100,9 @@ public interface Contents {
     /**
      * Check whether content exists or not.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag.
-     * @return True if content exists, false otherwise.
+     * @param ref The name of the commit/branch/tag
+     * @return True if content exists, false otherwise
      * @throws IOException If there is any I/O problem
      */
     boolean exists(String path, String ref) throws IOException;
-
 }

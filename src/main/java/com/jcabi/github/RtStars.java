@@ -21,7 +21,6 @@ import org.hamcrest.Matchers;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"owner", "request"})
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtStars implements Stars {
 
     /**
@@ -40,13 +39,19 @@ final class RtStars implements Stars {
      * @param repo Repository
      */
     RtStars(final Request req, final Repo repo) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/user/starred")
-            .path(coords.user())
-            .path(coords.repo())
-            .back();
-        this.owner = repo;
+        this(
+            repo,
+            req.uri()
+                .path("/user/starred")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .back()
+        );
+    }
+
+    private RtStars(final Repo owner, final Request request) {
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -57,8 +62,7 @@ final class RtStars implements Stars {
     @Override
     public boolean starred() throws IOException {
         return this.request
-            .fetch().as(RestResponse.class)
-            .assertStatus(
+            .fetch().as(RestResponse.class).assertStatus(
                 Matchers.is(
                     Matchers.oneOf(
                         HttpURLConnection.HTTP_NO_CONTENT,

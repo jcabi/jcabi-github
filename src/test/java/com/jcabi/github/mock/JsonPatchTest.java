@@ -34,5 +34,4 @@ final class JsonPatchTest {
             Matchers.describedAs(xml.toString(), Matchers.endsWith("you!"))
         );
     }
-
 }

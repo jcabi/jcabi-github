@@ -23,46 +23,46 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtPulls}.
  * @since 0.7
- * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtPullsTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
-    void createPull() throws IOException {
+    void createsPullWithPost() throws IOException {
         final String title = "new feature";
-        final String body = RtPullsTest.pull(title).toString();
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullsTest.answer(title))
                 .start(RandomPort.port())
         ) {
-            final RtPulls pulls = new RtPulls(
-                new ApacheRequest(container.home()),
-                RtPullsTest.repo()
-            );
-            final Pull pull = pulls.create(title, "octocat", "master");
+            RtPullsTest.create(container, title);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Pull is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Pull.Smart(pull).title(),
-                Matchers.equalTo(title)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void getSinglePull() throws IOException {
+    void createsPullWithTitle() throws IOException {
+        final String title = "new feature";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullsTest.answer(title))
+                .next(RtPullsTest.fetched(title))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Created pull has a wrong title",
+                new Pull.Smart(RtPullsTest.create(container, title)).title(),
+                Matchers.equalTo(title)
+            );
+        }
+    }
+
+    @Test
+    void fetchesSinglePull() throws IOException {
         final String title = "new-feature";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -72,14 +72,14 @@ final class RtPullsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtPulls pulls = new RtPulls(
-                new ApacheRequest(container.home()),
-                RtPullsTest.repo()
-            );
-            final Pull pull = pulls.get(1_000_000_000);
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new Pull.Smart(pull).title(),
+                new Pull.Smart(
+                    new RtPulls(
+                        new ApacheRequest(container.home()),
+                        RtPullsTest.repo()
+                    ).get(1_000_000_000)
+                ).title(),
                 Matchers.equalTo(title)
             );
             container.stop();
@@ -99,17 +99,57 @@ final class RtPullsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtPulls pulls = new RtPulls(
-                new ApacheRequest(container.home()),
-                RtPullsTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                pulls.iterate(new ArrayMap<>()),
+                new RtPulls(
+                    new ApacheRequest(container.home()),
+                    RtPullsTest.repo()
+                ).iterate(new ArrayMap<>()),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
         }
+    }
+
+    /**
+     * Create a pull through the given container.
+     * @param container Container to serve the pulls
+     * @param title Title of the pull
+     * @return Created pull
+     * @throws IOException If there is any I/O problem
+     */
+    private static Pull create(
+        final MkContainer container,
+        final String title
+    ) throws IOException {
+        return new RtPulls(
+            new ApacheRequest(container.home()),
+            RtPullsTest.repo()
+        ).create(title, "octocat", "master");
+    }
+
+    /**
+     * Answer with a created pull of the given title.
+     * @param title Title of the pull
+     * @return Answer
+     */
+    private static MkAnswer answer(final String title) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtPullsTest.pull(title).toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched pull of the given title.
+     * @param title Title of the pull
+     * @return Answer
+     */
+    private static MkAnswer fetched(final String title) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtPullsTest.pull(title).toString()
+        );
     }
 
     /**

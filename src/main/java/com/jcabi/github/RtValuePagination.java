@@ -13,15 +13,15 @@ import jakarta.json.JsonArray;
 import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.ArrayDeque;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.concurrent.locks.ReentrantLock;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub value pagination.
- *
  * @param <T> Type of iterable objects
  * @param <P> Type of source objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
@@ -88,7 +88,9 @@ public final class RtValuePagination<T, P extends JsonValue> implements
      * @since 0.8
      */
     @Immutable
+    @FunctionalInterface
     public interface Mapping<X, P extends JsonValue> {
+
         /**
          * Map JsonValue successor to the type required.
          * @param value Extends JsonValue
@@ -107,10 +109,16 @@ public final class RtValuePagination<T, P extends JsonValue> implements
     @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
     private static final class Items<X, P extends JsonValue> implements
         Iterator<X> {
+
         /**
          * Mapping to use.
          */
         private final transient RtValuePagination.Mapping<X, P> mapping;
+
+        /**
+         * Lock object.
+         */
+        private final transient ReentrantLock lock;
 
         /**
          * Next entry to use.
@@ -135,18 +143,22 @@ public final class RtValuePagination<T, P extends JsonValue> implements
         Items(final Request entry, final RtValuePagination.Mapping<X, P> mpp) {
             this.request = entry;
             this.mapping = mpp;
-            this.objects = new LinkedList<>();
+            this.objects = new ArrayDeque<>();
+            this.lock = new ReentrantLock();
         }
 
         @Override
         public X next() {
-            synchronized (this.mapping) {
+            this.lock.lock();
+            try {
                 if (!this.hasNext()) {
                     throw new NoSuchElementException(
                         "no more elements in pagination, use #hasNext()"
                     );
                 }
                 return this.mapping.map(this.objects.remove());
+            } finally {
+                this.lock.unlock();
             }
         }
 
@@ -157,7 +169,8 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
         @Override
         public boolean hasNext() {
-            synchronized (this.mapping) {
+            this.lock.lock();
+            try {
                 if ((this.objects == null || this.objects.isEmpty())
                     && this.more) {
                     try {
@@ -167,6 +180,8 @@ public final class RtValuePagination<T, P extends JsonValue> implements
                     }
                 }
                 return !this.objects.isEmpty();
+            } finally {
+                this.lock.unlock();
             }
         }
 
@@ -190,12 +205,11 @@ public final class RtValuePagination<T, P extends JsonValue> implements
             }
             final JsonArray arr = response.as(JsonResponse.class).json()
                 .readArray();
-            final Queue<P> list = new LinkedList<>();
+            final Queue<P> list = new ArrayDeque<>();
             for (final JsonValue value : arr) {
                 list.add((P) value);
             }
             this.objects = list;
         }
     }
-
 }

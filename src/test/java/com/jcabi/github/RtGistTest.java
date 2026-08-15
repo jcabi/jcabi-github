@@ -9,7 +9,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import java.io.IOException;
@@ -24,12 +23,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtGistTest {
 
     /**
      * RtGist should be able to do reads.
-     * @checkstyle MultipleStringLiteralsCheck (20 lines)
      */
     @Test
     void readsFileWithContents() throws IOException {
@@ -40,15 +37,15 @@ final class RtGistTest {
                     "{\"files\":{\"hello\":{\"raw_url\":\"world\"}}}"
                 )
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "success!"))
-                .start(RandomPort.port())) {
-            final RtGist gist = new RtGist(
-                new MkGitHub(),
-                new ApacheRequest(container.home()),
-                "test"
-            );
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
-                gist.read("hello"),
+                new RtGist(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home()),
+                    "test"
+                ).read("hello"),
                 Matchers.equalTo("success!")
             );
             container.stop();
@@ -117,12 +114,10 @@ final class RtGistTest {
                 new ApacheRequest(container.home()),
                 "test"
             );
-            final String content = gist.read("hello");
-            final Gist fork = gist.fork();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                fork.read("hello"),
-                Matchers.equalTo(content)
+                gist.read("hello"),
+                Matchers.equalTo(gist.fork().read("hello"))
             );
             container.stop();
         }
@@ -138,24 +133,42 @@ final class RtGistTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Gist.Smart smart = new Gist.Smart(
+            MatcherAssert.assertThat(
+                "Files of the gist are absent",
+                new Gist.Smart(
+                    new RtGist(
+                        new MkGitHub(),
+                        new ApacheRequest(container.home()),
+                        "testGetFiles"
+                    )
+                ).files(),
+                Matchers.notNullValue()
+            );
+        }
+    }
+
+    @Test
+    void fetchesFilesFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"files\":{\"something\":{\"filename\":\"not null\"}}}"
+                )
+            ).start(RandomPort.port())
+        ) {
+            new Gist.Smart(
                 new RtGist(
                     new MkGitHub(),
                     new ApacheRequest(container.home()),
                     "testGetFiles"
                 )
-            );
+            ).files();
             MatcherAssert.assertThat(
-                "Value is null",
-                smart.files(),
-                Matchers.notNullValue()
-            );
-            MatcherAssert.assertThat(
-                "String does not end with expected value",
+                "Files are fetched from a wrong URI",
                 container.take().uri().toString(),
                 Matchers.endsWith("/gists/testGetFiles")
             );
-            container.stop();
         }
     }
 
@@ -165,14 +178,13 @@ final class RtGistTest {
             MkContainer container = new MkGrizzlyContainer()
                 .start(RandomPort.port())
         ) {
-            final RtGist gist = new RtGist(
-                new MkGitHub(),
-                new ApacheRequest(container.home()),
-                "testToString"
-            );
             MatcherAssert.assertThat(
                 "String does not end with expected value",
-                gist.toString(),
+                new RtGist(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home()),
+                    "testToString"
+                ).toString(),
                 Matchers.endsWith("/gists/testToString")
             );
             container.stop();
@@ -180,30 +192,42 @@ final class RtGistTest {
     }
 
     @Test
-    void canUnstarAGist() throws IOException {
+    void unstarsWithDelete() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(RandomPort.port())
         ) {
-            final RtGist gist = new RtGist(
+            new RtGist(
                 new MkGitHub(),
                 new ApacheRequest(container.home()),
                 "unstar"
-            );
-            gist.unstar();
-            final MkQuery query = container.take();
+            ).unstar();
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Gist is not unstarred with DELETE",
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
+        }
+    }
+
+    @Test
+    void unstarsWithoutBody() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            new RtGist(
+                new MkGitHub(),
+                new ApacheRequest(container.home()),
+                "unstar"
+            ).unstar();
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
+                "Gist is unstarred with a body",
+                container.take().body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
-            container.stop();
         }
     }
 

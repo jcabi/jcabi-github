@@ -11,10 +11,10 @@ import com.jcabi.github.Repo;
 
 /**
  * Mock Git branch.
- *
  * @since 0.24
  */
 public final class MkBranch implements Branch {
+
     /**
      * Storage.
      */
@@ -49,7 +49,6 @@ public final class MkBranch implements Branch {
      * @param sha Commit sha
      * @todo #1085:30m Refactor this to reduce number of arguments to avoid
      *  ParameterNumberCheck warning.
-     * @checkstyle ParameterNumberCheck (7 lines)
      */
     MkBranch(
         final MkStorage stg,

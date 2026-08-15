@@ -5,18 +5,17 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Issue;
-import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPulls}.
  * @since 1.0
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 final class MkPullsTest {
 
@@ -27,17 +26,17 @@ final class MkPullsTest {
     @Test
     void canCreateAPull() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Pull pull = repo.pulls().create(
-            "hello",
-            "head-branch",
-            "base-branch"
-        );
-        final Issue.Smart issue = new Issue.Smart(
-            repo.issues().get(pull.number())
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            issue.title(),
+            new Issue.Smart(
+                repo.issues().get(
+                    repo.pulls().create(
+                        "hello",
+                        "head-branch",
+                        "base-branch"
+                        ).number()
+                )
+            ).title(),
             Matchers.is("hello")
         );
     }
@@ -45,12 +44,12 @@ final class MkPullsTest {
     @Test
     @Disabled
     void canFetchEmptyListOfPulls() {
-        // to be implemented
+        Assertions.fail("Fetching of an empty list of pulls is not tested yet");
     }
 
     @Test
     @Disabled
     void canFetchSinglePull() {
-        // to be implemented
+        Assertions.fail("Fetching of a single pull is not tested yet");
     }
 }

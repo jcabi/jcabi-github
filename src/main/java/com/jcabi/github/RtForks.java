@@ -10,14 +10,12 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub forks.
- *
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
  * @since 0.8
  */
@@ -29,7 +27,7 @@ final class RtForks implements Forks {
     /**
      * Fork's id name in JSON object.
      */
-    public static final String ID = "id";
+    static final String ID = "id";
 
     /**
      * Restful Request.
@@ -47,13 +45,20 @@ final class RtForks implements Forks {
      * @param repo Repository
      */
     RtForks(final Request req, final Repo repo) {
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("forks")
-            .back();
-        this.owner = repo;
+        this(
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("forks")
+                .back()
+        );
+    }
+
+    private RtForks(final Repo owner, final Request request) {
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -62,8 +67,7 @@ final class RtForks implements Forks {
     }
 
     @Override
-    public Iterable<Fork> iterate(
-        final String sort) {
+    public Iterable<Fork> iterate(final String sort) {
         return new RtPagination<>(
             this.request.uri().queryParam("sort", sort).back(),
             object -> this.get(object.getInt(RtForks.ID))
@@ -71,14 +75,14 @@ final class RtForks implements Forks {
     }
 
     @Override
-    public Fork create(
-        final String organization) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("organization", organization)
-            .build();
+    public Fork create(final String organization) throws IOException {
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("organization", organization)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_ACCEPTED)
                 .as(JsonResponse.class)

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkRepos}.
  * @since 0.5
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class MkReposTest {
 
@@ -25,11 +24,11 @@ final class MkReposTest {
      */
     @Test
     void createsRepository() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = MkReposTest.repo(repos, "test", "test repo");
         MatcherAssert.assertThat(
             "Assertion failed",
-            repo.coordinates(),
+            MkReposTest.repo(
+                new MkRepos(new MkStorage.InFile(), "jeff"), "test", "test repo"
+            ).coordinates(),
             Matchers.hasToString("jeff/test")
         );
     }
@@ -40,11 +39,11 @@ final class MkReposTest {
      */
     @Test
     void createsRepositoryWithOrganization() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "john");
-        final Repo repo = MkReposTest.repoWithOrg(repos, "test", "myorg");
         MatcherAssert.assertThat(
             "Assertion failed",
-            repo.coordinates(),
+            MkReposTest.repoWithOrg(
+                new MkRepos(new MkStorage.InFile(), "john"), "test", "myorg"
+            ).coordinates(),
             Matchers.hasToString("/orgs/myorg/repos/test")
         );
     }
@@ -55,11 +54,15 @@ final class MkReposTest {
      */
     @Test
     void createsRepositoryWithDetails() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = MkReposTest.repo(repos, "hello", "my test repo");
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            new Repo.Smart(repo).description(),
+            new Repo.Smart(
+                MkReposTest.repo(
+                    new MkRepos(new MkStorage.InFile(), "jeff"),
+                    "hello",
+                    "my test repo"
+                )
+            ).description(),
             Matchers.startsWith("my test")
         );
     }
@@ -71,10 +74,9 @@ final class MkReposTest {
     @Test
     void removesRepo() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "jeff");
-        final Repo repo = MkReposTest.repo(repos, "remove-me", "remove repo");
         MatcherAssert.assertThat(
             "Value is null",
-            repos.get(repo.coordinates()),
+            repos.get(MkReposTest.repo(repos, "remove-me", "remove repo").coordinates()),
             Matchers.notNullValue()
         );
     }
@@ -116,18 +118,23 @@ final class MkReposTest {
      * @throws Exception If some problem inside
      */
     @Test
-    void jsonContainsOwnerWithLogin() throws Exception {
-        final Repos repos = new MkRepos(new MkStorage.InFile(), "amihaiemil");
-        final Repo repo = MkReposTest.repo(repos, "test", "owner test");
-        final JsonObject json = repo.json();
+    void jsonContainsOwner() throws Exception {
         MatcherAssert.assertThat(
             "Repo JSON should contain an 'owner' object",
-            json.containsKey("owner"),
+            MkReposTest.owned().containsKey("owner"),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * MkRepo's JSON contains the login of its owner.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void jsonContainsOwnerWithLogin() throws Exception {
         MatcherAssert.assertThat(
             "owner.login should match the user that created the repo",
-            json.getJsonObject("owner").getString("login"),
+            MkReposTest.owned().getJsonObject("owner").getString("login"),
             Matchers.is("amihaiemil")
         );
     }
@@ -139,12 +146,24 @@ final class MkReposTest {
     @Test
     void existsRepo() throws Exception {
         final Repos repos = new MkRepos(new MkStorage.InFile(), "john");
-        final Repo repo = MkReposTest.repo(repos, "exist", "existing repo");
         MatcherAssert.assertThat(
             "Values are not equal",
-            repos.exists(repo.coordinates()),
+            repos.exists(MkReposTest.repo(repos, "exist", "existing repo").coordinates()),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * JSON of a repo created by a named user.
+     * @return JSON of the repo
+     * @throws IOException If some problem inside
+     */
+    private static JsonObject owned() throws IOException {
+        return MkReposTest.repo(
+            new MkRepos(new MkStorage.InFile(), "amihaiemil"),
+            "test",
+            "owner test"
+        ).json();
     }
 
     /**
@@ -153,6 +172,7 @@ final class MkReposTest {
      * @param name Repo name
      * @param desc Repo description
      * @return Repo
+     * @throws IOException If some problem inside
      */
     private static Repo repo(final Repos repos, final String name,
         final String desc) throws IOException {

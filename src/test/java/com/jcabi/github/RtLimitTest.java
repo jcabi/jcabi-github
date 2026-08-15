@@ -20,14 +20,13 @@ final class RtLimitTest {
 
     @Test
     void describeAsJson() throws IOException {
-        final JsonReadable limit = new RtLimit(
-            Mockito.mock(GitHub.class),
-            new FakeRequest().withBody(RtLimitTest.body()),
-            "core"
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            limit.json().toString(),
+            new RtLimit(
+                Mockito.mock(GitHub.class),
+                new FakeRequest().withBody(RtLimitTest.body()),
+                "core"
+            ).json().toString(),
             Matchers.equalTo(
                 "{\"limit\":5000,\"remaining\":4999,\"reset\":1372700873}"
             )
@@ -36,29 +35,29 @@ final class RtLimitTest {
 
     @Test
     void throwsWhenResourceIsAbsent() {
-        final JsonReadable limit = new RtLimit(
-            Mockito.mock(GitHub.class),
-            new FakeRequest().withBody(RtLimitTest.body()),
-            "absent"
-        );
         Assertions.assertThrows(
             IllegalStateException.class,
-            limit::json,
+            new RtLimit(
+                Mockito.mock(GitHub.class),
+                new FakeRequest().withBody(RtLimitTest.body()),
+                "absent"
+            )::json,
             "Should throw when resource is absent"
         );
     }
 
     /**
      * Example response from rate API.
-     * @return Body string.
+     * @return Body string
      */
     private static String body() {
-        return new StringBuilder(100)
-            .append("{\"resources\":{\"core\":{\"limit\":5000, ")
-            .append("\"remaining\":4999, \"reset\":1372700873}, ")
-            .append("\"search\":{\"limit\":20, \"remaining\":18, ")
-            .append("\"reset\":1372697452}}, \"rate\":{\"limit\":5000, ")
-            .append("\"remaining\":4999, \"reset\":1372700873}}")
-            .toString();
+        return String.join(
+            "",
+            "{\"resources\":{\"core\":{\"limit\":5000, ",
+            "\"remaining\":4999, \"reset\":1372700873}, ",
+            "\"search\":{\"limit\":20, \"remaining\":18, ",
+            "\"reset\":1372697452}}, \"rate\":{\"limit\":5000, ",
+            "\"remaining\":4999, \"reset\":1372700873}}"
+        );
     }
 }

@@ -6,9 +6,10 @@ package com.jcabi.github;
 
 import com.jcabi.immutable.ArrayMap;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -22,6 +23,12 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtIssuesITCase {
+
+    /**
+     * Label of the issues to search for.
+     */
+    private static final String TARGET = "bug";
+
     /**
      * Test repos.
      */
@@ -71,12 +78,56 @@ final class RtIssuesITCase {
     }
 
     @Test
-    void searchesIssues() throws IOException {
-        final String target = "bug";
-        final EnumMap<Issues.Qualifier, String> qualifiers =
+    void searchesIssuesWithTitles() throws IOException {
+        for (final Issue.Smart issue : RtIssuesITCase.found()) {
+            MatcherAssert.assertThat(
+                "Found issue has no title",
+                issue.title(),
+                Matchers.notNullValue()
+            );
+        }
+    }
+
+    @Test
+    void searchesIssuesInUpdateOrder() throws IOException {
+        Instant previous = null;
+        for (final Issue.Smart issue : RtIssuesITCase.found()) {
+            if (previous != null) {
+                MatcherAssert.assertThat(
+                    "Found issues are not sorted by update time",
+                    issue.updatedAt(),
+                    Matchers.lessThanOrEqualTo(previous)
+                );
+            }
+            previous = issue.updatedAt();
+        }
+    }
+
+    @Test
+    void searchesIssuesByLabel() throws IOException {
+        for (final Issue.Smart issue : RtIssuesITCase.found()) {
+            final Set<String> labels = new HashSet<>();
+            for (final Label label : issue.roLabels().iterate()) {
+                labels.add(label.name());
+            }
+            MatcherAssert.assertThat(
+                "Found issue has no expected label",
+                labels,
+                Matchers.contains(RtIssuesITCase.TARGET)
+            );
+        }
+    }
+
+    /**
+     * Issues found by the target label.
+     * @return Issues
+     * @throws IOException If there is any I/O problem
+     */
+    private static Iterable<Issue.Smart> found() throws IOException {
+        final Map<Issues.Qualifier, String> qualifiers =
             new EnumMap<>(Issues.Qualifier.class);
-        qualifiers.put(Issues.Qualifier.LABELS, target);
-        final Iterable<Issue.Smart> issues = new Smarts<>(
+        qualifiers.put(Issues.Qualifier.LABELS, RtIssuesITCase.TARGET);
+        return new Smarts<>(
             new Bulk<>(
                 RtIssuesITCase.repo.issues().search(
                     Issues.Sort.UPDATED,
@@ -85,31 +136,5 @@ final class RtIssuesITCase {
                 )
             )
         );
-        Date previous = null;
-        final Set<String> labels = new HashSet<>();
-        for (final Issue.Smart issue : issues) {
-            MatcherAssert.assertThat(
-                "Value is null",
-                issue.title(),
-                Matchers.notNullValue()
-            );
-            if (previous != null) {
-                MatcherAssert.assertThat(
-                    "Value is not less than expected",
-                    issue.updatedAt(),
-                    Matchers.lessThanOrEqualTo(previous)
-                );
-            }
-            previous = issue.updatedAt();
-            labels.clear();
-            for (final Label label : issue.roLabels().iterate()) {
-                labels.add(label.name());
-            }
-            MatcherAssert.assertThat(
-                "Assertion failed",
-                labels,
-                Matchers.contains(target)
-            );
-        }
     }
 }

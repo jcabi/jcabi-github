@@ -18,10 +18,9 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Content}.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class ContentTest {
+
     @Test
     void fetchesType() throws IOException {
         final Content content = Mockito.mock(Content.class);
@@ -44,14 +43,12 @@ final class ContentTest {
         final int prop = 5555;
         Mockito.doReturn(
             Json.createObjectBuilder()
-                // @checkstyle MagicNumber (1 line)
                 .add("size", prop)
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
             "Values are not equal",
             new Content.Smart(content).size(),
-            // @checkstyle MagicNumber (1 line)
             Matchers.is(prop)
         );
     }
@@ -182,10 +179,9 @@ final class ContentTest {
     @Test
     void fetchesDecoded() throws IOException {
         final Content content = Mockito.mock(Content.class);
-        final String prop = "dGVzdCBlbmNvZGXigqw=";
         Mockito.doReturn(
             Json.createObjectBuilder()
-                .add("content", prop)
+                .add("content", "dGVzdCBlbmNvZGXigqw=")
                 .build()
         ).when(content).json();
         MatcherAssert.assertThat(
@@ -193,7 +189,7 @@ final class ContentTest {
             new String(
                 new Content.Smart(content).decoded(), StandardCharsets.UTF_8
             ),
-            Matchers.is("test encode\u20ac")
+            Matchers.is("test encode€")
         );
     }
 

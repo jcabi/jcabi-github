@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
 
 /**
@@ -26,7 +25,6 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkRepoCommits implements RepoCommits {
 
     /**
@@ -56,20 +54,17 @@ final class MkRepoCommits implements RepoCommits {
         final String login,
         final Coordinates repo
     ) throws IOException {
+        this(MkRepoCommits.bootstrap(stg, repo), repo, login);
+    }
+
+    private MkRepoCommits(final MkStorage stg, final Coordinates repo, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = repo;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/repos/repo[@coords='%s']", this.coords)
-            ).addIf("commits")
-        );
     }
 
     @Override
-    public Iterable<RepoCommit> iterate(
-        final Map<String, String> params
-    ) {
+    public Iterable<RepoCommit> iterate(final Map<String, String> params) {
         return new MkIterable<>(
             this.storage, this.xpath().concat("/commit"),
             xml -> this.get(
@@ -79,27 +74,19 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    public RepoCommit get(
-        final String sha
-    ) {
+    public RepoCommit get(final String sha) {
         return new MkRepoCommit(
             this.storage, new MkRepo(this.storage, this.self, this.coords), sha
         );
     }
 
     @Override
-    public CommitsComparison compare(
-        final String base,
-        final String head
-    ) {
+    public CommitsComparison compare(final String base, final String head) {
         return new MkCommitsComparison(this.storage, this.self, this.coords);
     }
 
     @Override
-    public String diff(
-        final String base,
-        final String head
-    ) {
+    public String diff(final String base, final String head) {
         return
         String.format(
             "%s%sindex %s..%s",
@@ -109,33 +96,25 @@ final class MkRepoCommits implements RepoCommits {
     }
 
     @Override
-    public String patch(
-        final String base,
-        final String head
-    ) {
-        return StringUtils.join(
-            String.format("From %s Mon Sep 17 00:00:00 2001\n", head),
-            "From: Some Author <some_author@email.com>\n",
-            "Date: Tue, 11 Feb 2014 20:33:49 +0200\n",
-            "Subject: Some subject\n", "\n", "---\n",
-            " .../java/com/jcabi/github/CommitsComparison.java   |   6 +-\n",
-            " src/main/java/com/jcabi/github/RepoCommit.java     | 131 +++++",
-            "++++++++++++++++\n",
-            " src/main/java/com/jcabi/github/RepoCommits.java    |  15 +--\n",
-            " src/main/java/com/jcabi/github/RtRepoCommit.java   | 110 +++++",
-            "++++++++++++\n",
-            " src/main/java/com/jcabi/github/RtRepoCommits.java  |   6 +-\n",
-            " .../java/com/jcabi/github/mock/MkRepoCommits.java  |   6 +-\n",
-            " src/test/java/com/jcabi/github/RepoCommitTest.java |  84 +++++",
-            "++++++++\n",
-            " .../java/com/jcabi/github/RtRepoCommitsITCase.java |   7 +-\n",
-            " 8 files changed, 346 insertions(+), 19 deletions(-)\n",
-            " create mode 100644 src/main/java/com/jcabi/github/",
-            "RepoCommit.java\n",
-            " create mode 100644 src/main/java/com/jcabi/github/RtRepoCommit",
-            ".java\n",
-            " create mode 100644 src/test/java/com/jcabi/github/",
-            "RepoCommitTest.java"
+    public String patch(final String base, final String head) {
+        return String.join(
+            System.lineSeparator(),
+            String.format("From %s Mon Sep 17 00:00:00 2001", head),
+            "From: Some Author <some_author@email.com>",
+            "Date: Tue, 11 Feb 2014 20:33:49 +0200",
+            "Subject: Some subject", "", "---",
+            " .../java/com/jcabi/github/CommitsComparison.java   |   6 +-",
+            " src/main/java/com/jcabi/github/RepoCommit.java     | 131 +++++++++++++++++++++",
+            " src/main/java/com/jcabi/github/RepoCommits.java    |  15 +--",
+            " src/main/java/com/jcabi/github/RtRepoCommit.java   | 110 +++++++++++++++++",
+            " src/main/java/com/jcabi/github/RtRepoCommits.java  |   6 +-",
+            " .../java/com/jcabi/github/mock/MkRepoCommits.java  |   6 +-",
+            " src/test/java/com/jcabi/github/RepoCommitTest.java |  84 +++++++++++++",
+            " .../java/com/jcabi/github/RtRepoCommitsITCase.java |   7 +-",
+            " 8 files changed, 346 insertions(+), 19 deletions(-)",
+            " create mode 100644 src/main/java/com/jcabi/github/RepoCommit.java",
+            " create mode 100644 src/main/java/com/jcabi/github/RtRepoCommit.java",
+            " create mode 100644 src/test/java/com/jcabi/github/RepoCommitTest.java"
         );
     }
 
@@ -155,5 +134,22 @@ final class MkRepoCommits implements RepoCommits {
             "/github/repos/repo[@coords='%s']/commits",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param repo Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates repo)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", repo)
+            ).addIf("commits")
+        );
+        return stg;
     }
 }

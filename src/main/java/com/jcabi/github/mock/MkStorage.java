@@ -18,12 +18,9 @@ import org.xembly.Xembler;
 
 /**
  * Storage of GitHub data.
- *
  * @since 0.5
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface MkStorage {
 
     /**
@@ -40,9 +37,7 @@ public interface MkStorage {
      * @throws IOException If there is any I/O problem, or if the current
      *  storage is locked by another thread.
      */
-    void apply(
-        Iterable<Directive> dirs
-    ) throws IOException;
+    void apply(Iterable<Directive> dirs) throws IOException;
 
     /**
      * Locks storage to the current thread.
@@ -77,10 +72,16 @@ public interface MkStorage {
     @EqualsAndHashCode(of = "name")
     @Loggable(Loggable.DEBUG)
     final class InFile implements MkStorage {
+
         /**
          * File name.
          */
         private final transient String name;
+
+        /**
+         * Lock object.
+         */
+        private final transient ImmutableReentrantLock lock;
 
         /**
          * Public ctor.
@@ -95,12 +96,13 @@ public interface MkStorage {
          * @param file File to use
          * @throws IOException If there is any I/O problem
          */
-        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
-        public InFile(
-            final File file
-        ) throws IOException {
-            FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
-            this.name = file.getAbsolutePath();
+        public InFile(final File file) throws IOException {
+            this(MkStorage.InFile.blank(file));
+        }
+
+        private InFile(final String path) {
+            this.name = path;
+            this.lock = new ImmutableReentrantLock();
         }
 
         @Override
@@ -114,20 +116,22 @@ public interface MkStorage {
 
         @Override
         public XML xml() throws IOException {
-            synchronized (this.name) {
+            this.lock.lock();
+            try {
                 return new XMLDocument(
                     FileUtils.readFileToString(
                         new File(this.name), StandardCharsets.UTF_8
                     )
                 );
+            } finally {
+                this.lock.unlock();
             }
         }
 
         @Override
-        public void apply(
-            final Iterable<Directive> dirs
-        ) throws IOException {
-            synchronized (this.name) {
+        public void apply(final Iterable<Directive> dirs) throws IOException {
+            this.lock.lock();
+            try {
                 FileUtils.write(
                     new File(this.name),
                     new XMLDocument(
@@ -135,6 +139,8 @@ public interface MkStorage {
                     ).toString(),
                     StandardCharsets.UTF_8
                 );
+            } finally {
+                this.lock.unlock();
             }
         }
 
@@ -158,6 +164,17 @@ public interface MkStorage {
             file.deleteOnExit();
             return file;
         }
+
+        /**
+         * Write an empty document into the file.
+         * @param file File to write
+         * @return Absolute path of the file
+         * @throws IOException If there is any I/O problem
+         */
+        private static String blank(final File file) throws IOException {
+            FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
+            return file.getAbsolutePath();
+        }
     }
 
     /**
@@ -169,6 +186,7 @@ public interface MkStorage {
     @Loggable(Loggable.DEBUG)
     @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
     final class Synced implements MkStorage {
+
         /**
          * Original storage.
          */
@@ -213,5 +231,4 @@ public interface MkStorage {
             this.lock.unlock();
         }
     }
-
 }

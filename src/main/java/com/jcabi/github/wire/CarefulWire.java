@@ -40,12 +40,12 @@ import lombok.ToString;
  * );
  * }
  * </pre>
+ *
  * @since 0.4
  */
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "origin", "threshold" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class CarefulWire implements Wire {
 
     /**
@@ -61,7 +61,6 @@ public final class CarefulWire implements Wire {
 
     /**
      * Public ctor.
-     *
      * @param wire Original wire
      * @param thrshld Threshold of number of remaining requests, below which
      *  requests are blocked until reset
@@ -72,7 +71,6 @@ public final class CarefulWire implements Wire {
     }
 
     @Override
-    // @checkstyle ParameterNumber (8 lines)
     public Response send(
         final Request req,
         final String home,
@@ -92,7 +90,6 @@ public final class CarefulWire implements Wire {
                 final long length = reset - now;
                 Logger.info(
                     this,
-                    // @checkstyle LineLength (1 line)
                     "Remaining number of requests per hour is less than %d. Waiting for %d seconds.",
                     this.threshold, length
                 );
@@ -112,10 +109,8 @@ public final class CarefulWire implements Wire {
      * If there is no such header, returns null.
      * @param resp Response to get header from
      * @param headername Name of header to get
-     * @return The value of the first header with the given name, or null.
-     * @checkstyle NonStaticMethodCheck (5 lines)
+     * @return The value of the first header with the given name, or null
      */
-    @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
     private static String headerOrNull(
         final Response resp,
         final String headername) {
@@ -133,8 +128,7 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @return Number of requests remaining before the rate limit will be hit
      */
-    private static int remainingHeader(
-        final Response resp) {
+    private static int remainingHeader(final Response resp) {
         final String remainingstr = CarefulWire.headerOrNull(
             resp,
             "X-RateLimit-Remaining"
@@ -152,8 +146,7 @@ public final class CarefulWire implements Wire {
      * @param resp Response to get header from
      * @return Timestamp (in seconds) at which the rate limit will reset
      */
-    private static long resetHeader(
-        final Response resp) {
+    private static long resetHeader(final Response resp) {
         final String resetstr = CarefulWire.headerOrNull(resp, "X-RateLimit-Reset");
         long reset = 0;
         if (resetstr != null) {
@@ -161,5 +154,4 @@ public final class CarefulWire implements Wire {
         }
         return reset;
     }
-
 }

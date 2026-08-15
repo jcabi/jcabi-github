@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import jakarta.json.Json;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -18,11 +19,11 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link GitHub}.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtRepoITCase {
+
     /**
      * Test repos.
      */
@@ -49,10 +50,9 @@ final class RtRepoITCase {
         RtRepoITCase.repo.contents().create(
             Json.createObjectBuilder()
                 .add("path", "test.java")
-                .add("message", "Test file for language test")
-                .add(
+                .add("message", "Test file for language test").add(
                     "content", Base64.encodeBase64String(
-                        "some content".getBytes()
+                        "some content".getBytes(StandardCharsets.UTF_8)
                     )
                 )
                 .add("ref", "master")
@@ -81,8 +81,7 @@ final class RtRepoITCase {
 
     @Test
     void iteratesEvents() throws IOException {
-        final Issue issue = RtRepoITCase.repo.issues().create("Test", "This is a bug");
-        new Issue.Smart(issue).close();
+        new Issue.Smart(RtRepoITCase.repo.issues().create("Test", "This is a bug")).close();
         MatcherAssert.assertThat(
             "Collection is not empty",
             RtRepoITCase.repo.issueEvents().iterate(),

@@ -14,7 +14,6 @@ import org.xembly.Directives;
 
 /**
  * Json patch.
- *
  * @since 0.5
  */
 @Immutable
@@ -39,10 +38,7 @@ final class JsonPatch {
      * @param obj Object to apply
      * @throws IOException If there is any I/O problem
      */
-    public void patch(
-        final String xpath,
-        final JsonObject obj
-    ) throws IOException {
+    void patch(final String xpath, final JsonObject obj) throws IOException {
         final Directives dirs = new Directives().xpath(xpath);
         for (final Map.Entry<String, JsonValue> entry : obj.entrySet()) {
             dirs.addIf(entry.getKey())

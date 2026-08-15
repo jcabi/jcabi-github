@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 final class MkPullRefTest {
+
     /**
      * Test ref.
      */

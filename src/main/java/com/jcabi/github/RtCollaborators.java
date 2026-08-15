@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Locale;
@@ -23,14 +22,8 @@ import org.hamcrest.Matchers;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.SingularField")
+@EqualsAndHashCode(of = { "request", "owner" })
 final class RtCollaborators implements Collaborators {
-
-    /**
-     * API entry point.
-     */
-    private final transient Request entry;
 
     /**
      * RESTful request.
@@ -47,17 +40,21 @@ final class RtCollaborators implements Collaborators {
      * @param req Request
      * @param repo Repo
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtCollaborators(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/collaborators")
-            .back();
-        this.owner = repo;
+        this(
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/collaborators")
+                .back()
+        );
+    }
+
+    private RtCollaborators(final Repo owner, final Request request) {
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -66,15 +63,12 @@ final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    public boolean isCollaborator(
-        final String user)
-        throws IOException {
+    public boolean isCollaborator(final String user) throws IOException {
         return this.request
             .method(Request.GET)
             .uri().path(user).back()
             .fetch()
-            .as(RestResponse.class)
-            .assertStatus(
+            .as(RestResponse.class).assertStatus(
                 Matchers.is(
                     Matchers.oneOf(
                         HttpURLConnection.HTTP_NO_CONTENT,
@@ -85,14 +79,11 @@ final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    public void add(
-        final String user)
-        throws IOException {
+    public void add(final String user) throws IOException {
         this.request.method(Request.PUT)
             .uri().path(user).back()
             .fetch()
-            .as(RestResponse.class)
-            .assertStatus(
+            .as(RestResponse.class).assertStatus(
                 Matchers.is(
                     Matchers.oneOf(
                         HttpURLConnection.HTTP_NO_CONTENT,
@@ -106,12 +97,12 @@ final class RtCollaborators implements Collaborators {
     public void addWithPermission(
         final String user, final Collaborators.Permission permission
     ) throws IOException {
-        final JsonObject obj = Json.createObjectBuilder()
-            // @checkstyle MultipleStringLiterals (1 line)
-            .add("permission", permission.toString().toLowerCase(Locale.ENGLISH))
-            .build();
         this.request.method(Request.PUT)
-            .body().set(obj).back()
+            .body().set(
+                Json.createObjectBuilder()
+                    .add("permission", permission.toString().toLowerCase(Locale.ENGLISH))
+                    .build()
+            ).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED);
@@ -130,10 +121,7 @@ final class RtCollaborators implements Collaborators {
     }
 
     @Override
-    public void remove(
-        final String user
-    )
-        throws IOException {
+    public void remove(final String user) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(user).back()
             .fetch()

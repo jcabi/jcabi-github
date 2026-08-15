@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
 final class RtStarsITCase {
+
     /**
      * Test repos.
      */
@@ -32,7 +33,7 @@ final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @BeforeAll
-    static void setUp() throws IOException  {
+    static void setUp() throws IOException {
         final GitHub github = GitHubIT.connect();
         RtStarsITCase.repos = github.repos();
         RtStarsITCase.repo = new RepoRule().repo(RtStarsITCase.repos);
@@ -43,33 +44,41 @@ final class RtStarsITCase {
      * @throws IOException If some errors occurred.
      */
     @AfterAll
-    static void tearDown() throws IOException  {
+    static void tearDown() throws IOException {
         if (RtStarsITCase.repos != null && RtStarsITCase.repo != null) {
             RtStarsITCase.repos.remove(RtStarsITCase.repo.coordinates());
         }
     }
 
-    /**
-     * RtStars can star, unstar and check whether the github repository is
-     * starred.
-     * @throws IOException If some errors occurred.
-     */
     @Test
-    void starsUnstarsChecksStar() throws IOException {
+    void findsRepoNotStarred() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Fresh repo is starred",
             RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );
+    }
+
+    @Test
+    void starsRepo() throws IOException {
         RtStarsITCase.repo.stars().star();
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            RtStarsITCase.repo.stars().starred(),
-            Matchers.equalTo(true)
-        );
+        try {
+            MatcherAssert.assertThat(
+                "Starred repo is not starred",
+                RtStarsITCase.repo.stars().starred(),
+                Matchers.equalTo(true)
+            );
+        } finally {
+            RtStarsITCase.repo.stars().unstar();
+        }
+    }
+
+    @Test
+    void unstarsRepo() throws IOException {
+        RtStarsITCase.repo.stars().star();
         RtStarsITCase.repo.stars().unstar();
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Unstarred repo is still starred",
             RtStarsITCase.repo.stars().starred(),
             Matchers.equalTo(false)
         );

@@ -16,13 +16,13 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub deploy keys.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "entry" })
 final class RtDeployKeys implements DeployKeys {
+
     /**
      * Repository.
      */
@@ -44,14 +44,22 @@ final class RtDeployKeys implements DeployKeys {
      * @param repo Repository
      */
     RtDeployKeys(final Request req, final Repo repo) {
-        this.owner = repo;
-        this.entry = req;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .back();
+        this(
+            repo,
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/keys")
+                .back()
+        );
+    }
+
+    private RtDeployKeys(final Repo owner, final Request entry, final Request request) {
+        this.owner = owner;
+        this.entry = entry;
+        this.request = request;
     }
 
     @Override
@@ -64,7 +72,6 @@ final class RtDeployKeys implements DeployKeys {
         return new RtPagination<>(
             this.request,
             object -> {
-                //@checkstyle MultipleStringLiteralsCheck (1 line)
                 return this.get(object.getInt("id"));
             }
         );
@@ -79,8 +86,7 @@ final class RtDeployKeys implements DeployKeys {
     public DeployKey create(
         final String title,
         final String key
-    )
-        throws IOException {
+    ) throws IOException {
         return this.get(
             this.request.method(Request.POST)
                 .body().set(

@@ -22,10 +22,19 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtGistComment}.
  * @since 0.8
- * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtGistCommentTest {
+
+    /**
+     * Name of the body property of a comment.
+     */
+    private static final String BODY = "body";
+
+    /**
+     * Name of the identifier property of a comment.
+     */
+    private static final String ID = "id";
 
     /**
      * RtGistComment can patch comment and return new json.
@@ -33,59 +42,36 @@ final class RtGistCommentTest {
      */
     @Test
     void patchAndCheckJsonGistComment() throws IOException {
-        final int identifier = 1;
-        final String idprop = "id";
-        final String bodyprop = "body";
-        final String body = "somebody";
         final String patched = "some patchedbody";
-        final MkAnswer first = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createObjectBuilder()
-                .add(bodyprop, body)
-                .add(idprop, identifier)
-                .build().toString()
-        );
-        final MkAnswer second = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createObjectBuilder()
-                .add(bodyprop, patched)
-                .add(idprop, identifier)
-                .build().toString()
-        );
-        final MkAnswer third = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createObjectBuilder()
-                .add(bodyprop, body)
-                .add(idprop, identifier)
-                .build().toString()
-        );
         try (
-            MkContainer container =
-                new MkGrizzlyContainer().next(first).next(second).next(third)
-                    .start(RandomPort.port());
-            MkContainer gistContainer = new MkGrizzlyContainer()
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtGistCommentTest.answer("somebody"))
+                .next(RtGistCommentTest.answer(patched))
+                .next(RtGistCommentTest.answer("somebody"))
+                .start(RandomPort.port());
+            MkContainer gists = new MkGrizzlyContainer()
                 .start(RandomPort.port())
         ) {
-            final RtGist gist =
+            final RtGistComment comment = new RtGistComment(
+                new ApacheRequest(container.home()),
                 new RtGist(
                     new MkGitHub(),
-                    new ApacheRequest(gistContainer.home()), "someName"
-                );
-            final RtGistComment comment = new RtGistComment(
-                new ApacheRequest(container.home()), gist, identifier
+                    new ApacheRequest(gists.home()), "someName"
+                ), 1
             );
-            comment.patch(Json.createObjectBuilder()
-                .add(bodyprop, patched)
-                .add(idprop, identifier)
-                .build()
+            comment.patch(
+                Json.createObjectBuilder()
+                    .add(RtGistCommentTest.BODY, patched)
+                    .add(RtGistCommentTest.ID, 1)
+                    .build()
             );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                comment.json().getString(bodyprop),
+                comment.json().getString(RtGistCommentTest.BODY),
                 Matchers.equalTo(patched)
             );
             container.stop();
-            gistContainer.stop();
+            gists.stop();
         }
     }
 
@@ -98,17 +84,18 @@ final class RtGistCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(RandomPort.port())) {
-            final RtGist gist = new RtGist(
-                new MkGitHub(),
-                new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT),
-                "gistName"
-            );
-            final int identifier = 1;
-            final RtGistComment comment = new RtGistComment(
-                new ApacheRequest(container.home()), gist, identifier
-            );
-            comment.remove();
+            ).start(RandomPort.port())
+        ) {
+            new RtGistComment(
+                new ApacheRequest(container.home()),
+                new RtGist(
+                    new MkGitHub(),
+                    new FakeRequest().withStatus(
+                        HttpURLConnection.HTTP_NO_CONTENT
+                    ),
+                    "gistName"
+                ), 1
+            ).remove();
             MatcherAssert.assertThat(
                 "Values are not equal",
                 container.take().method(),
@@ -116,5 +103,20 @@ final class RtGistCommentTest {
             );
             container.stop();
         }
+    }
+
+    /**
+     * An answer with a comment in it.
+     * @param body Body of the comment
+     * @return Answer
+     */
+    private static MkAnswer answer(final String body) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add(RtGistCommentTest.BODY, body)
+                .add(RtGistCommentTest.ID, 1)
+                .build().toString()
+        );
     }
 }

@@ -17,13 +17,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub release assets.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtReleaseAssets implements ReleaseAssets {
 
     /**
@@ -46,22 +44,25 @@ final class RtReleaseAssets implements ReleaseAssets {
      * @param req Request
      * @param release Issue
      */
-    RtReleaseAssets(
-        final Request req,
-        final Release release
-    ) {
-        this.entry = req;
-        final Coordinates coords = release.repo().coordinates();
-        // @checkstyle MultipleStringLiteralsCheck (7 lines)
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/releases")
-            .path(Integer.toString(release.number()))
-            .path("/assets")
-            .back();
-        this.owner = release;
+    RtReleaseAssets(final Request req, final Release release) {
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(release.repo().coordinates().user())
+                .path(release.repo().coordinates().repo())
+                .path("/releases")
+                .path(Integer.toString(release.number()))
+                .path("/assets")
+                .back(),
+            release
+        );
+    }
+
+    private RtReleaseAssets(final Request entry, final Request request, final Release owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -75,7 +76,6 @@ final class RtReleaseAssets implements ReleaseAssets {
             this.request.uri().back()
                 .method(Request.GET),
             value -> this.get(
-                //@checkstyle MultipleStringLiteralsCheck (1 line)
                 value.getInt("id")
             )
         );
@@ -113,5 +113,4 @@ final class RtReleaseAssets implements ReleaseAssets {
     public ReleaseAsset get(final int number) {
         return new RtReleaseAsset(this.entry, this.owner, number);
     }
-
 }

@@ -13,13 +13,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub fork.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "num" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtFork implements Fork {
 
     /**
@@ -39,15 +37,21 @@ final class RtFork implements Fork {
      * @param number Number of the get
      */
     RtFork(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/forks")
-            .path(Integer.toString(number))
-            .back();
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/forks")
+                .path(Integer.toString(number))
+                .back(),
+            number
+        );
+    }
+
+    private RtFork(final Request request, final int num) {
+        this.request = request;
+        this.num = num;
     }
 
     @Override
@@ -56,9 +60,7 @@ final class RtFork implements Fork {
     }
 
     @Override
-    public void patch(
-        final JsonObject json)
-        throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 

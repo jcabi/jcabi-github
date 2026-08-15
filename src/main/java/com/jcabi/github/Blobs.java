@@ -38,5 +38,4 @@ public interface Blobs {
      * @see <a href="https://developer.github.com/v3/git/blobs/#create-a-blob">Create a Blob</a>
      */
     Blob create(String content, String encoding) throws IOException;
-
 }

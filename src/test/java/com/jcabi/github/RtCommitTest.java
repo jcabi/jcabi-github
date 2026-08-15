@@ -19,14 +19,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for RtCommit.
  * @since 0.18.2
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtCommitTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void readsMessage() throws IOException {
@@ -36,17 +34,17 @@ final class RtCommitTest {
                     HttpURLConnection.HTTP_OK,
                     "{\"sha\":\"a0b1c3\", \"commit\":{\"message\":\"hello\"}}"
                 )
-            ).start(RandomPort.port())) {
-            final Commit.Smart commit = new Commit.Smart(
-                new RtCommit(
-                    new JdkRequest(container.home()),
-                    new MkGitHub().randomRepo(),
-                    "sha"
-                )
-            );
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
-                commit.message(),
+                new Commit.Smart(
+                    new RtCommit(
+                        new JdkRequest(container.home()),
+                        new MkGitHub().randomRepo(),
+                        "sha"
+                    )
+                ).message(),
                 Matchers.equalTo("hello")
             );
         }

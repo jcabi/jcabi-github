@@ -24,18 +24,16 @@ final class RtRepoCommitsTest {
     @Test
     void returnIterator() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db51";
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody(
-                Json.createArrayBuilder().add(
-                    // @checkstyle MultipleStringLiterals (1 line)
-                    Json.createObjectBuilder().add("sha", sha)
-                ).build().toString()
-            ),
-            RtRepoCommitsTest.repo()
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            commits.iterate(
+            new RtRepoCommits(
+                new FakeRequest().withBody(
+                    Json.createArrayBuilder().add(
+                        Json.createObjectBuilder().add("sha", sha)
+                    ).build().toString()
+                ),
+                RtRepoCommitsTest.repo()
+            ).iterate(
                 Collections.emptyMap()
             ).iterator().next().sha(),
             Matchers.equalTo(sha)
@@ -43,39 +41,37 @@ final class RtRepoCommitsTest {
     }
 
     @Test
-    void getCommit() {
+    void fetchesCommit() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("sha", sha)
-                    .build()
-                    .toString()
-            ),
-            RtRepoCommitsTest.repo()
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            commits.get(sha).sha(),
+            new RtRepoCommits(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("sha", sha)
+                        .build()
+                        .toString()
+                ),
+                RtRepoCommitsTest.repo()
+            ).get(sha).sha(),
             Matchers.equalTo(sha)
         );
     }
 
     @Test
     void comparesCommits() {
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("base_commit", Json.createObjectBuilder())
-                    .add("commits", Json.createArrayBuilder())
-                    .add("files", Json.createArrayBuilder())
-                    .build().toString()
-            ),
-            RtRepoCommitsTest.repo()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            commits.compare(
+            new RtRepoCommits(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("base_commit", Json.createObjectBuilder())
+                        .add("commits", Json.createArrayBuilder())
+                        .add("files", Json.createArrayBuilder())
+                        .build().toString()
+                ),
+                RtRepoCommitsTest.repo()
+            ).compare(
                 "6dcb09b5b57875f334f61aebed695e2e4193db53",
                 "6dcb09b5b57875f334f61aebed695e2e4193db54"
             ),
@@ -85,13 +81,12 @@ final class RtRepoCommitsTest {
 
     @Test
     void comparesCommitsDiffFormat() throws IOException {
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody("diff --git"),
-            RtRepoCommitsTest.repo()
-        );
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            commits.diff(
+            new RtRepoCommits(
+                new FakeRequest().withBody("diff --git"),
+                RtRepoCommitsTest.repo()
+            ).diff(
                 "6dcb09b5b57875f334f61aebed695e2e4193db55",
                 "6dcb09b5b57875f334f61aebed695e2e4193db56"
             ),
@@ -101,15 +96,14 @@ final class RtRepoCommitsTest {
 
     @Test
     void comparesCommitsPatchFormat() throws IOException {
-        final RepoCommits commits = new RtRepoCommits(
-            new FakeRequest().withBody(
-                "From 6dcb09b5b57875f33"
-            ),
-            RtRepoCommitsTest.repo()
-        );
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            commits.patch(
+            new RtRepoCommits(
+                new FakeRequest().withBody(
+                    "From 6dcb09b5b57875f33"
+                ),
+                RtRepoCommitsTest.repo()
+            ).patch(
                 "6dcb09b5b57875f334f61aebed695e2e4193db57",
                 "6dcb09b5b57875f334f61aebed695e2e4193db58"
             ),
@@ -137,5 +131,4 @@ final class RtRepoCommitsTest {
         return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));
     }
-
 }

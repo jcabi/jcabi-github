@@ -22,7 +22,6 @@ import lombok.ToString;
  * @since 0.8
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Content extends Comparable<Content>,
     JsonReadable, JsonPatchable {
 
@@ -54,6 +53,7 @@ public interface Content extends Comparable<Content>,
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "content", "jsn" })
     final class Smart implements Content {
+
         /**
          * Encapsulated content.
          */
@@ -68,8 +68,7 @@ public interface Content extends Comparable<Content>,
          * Public ctor.
          * @param cont Content
          */
-        public Smart(
-            final Content cont) {
+        public Smart(final Content cont) {
             this.content = cont;
             this.jsn = new SmartJson(cont);
         }

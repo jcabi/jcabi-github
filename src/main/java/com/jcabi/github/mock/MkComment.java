@@ -19,7 +19,6 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub comment.
- *
  * @since 0.5
  */
 @Immutable
@@ -60,7 +59,6 @@ final class MkComment implements Comment {
      * @param rep Repo
      * @param issue Issue number
      * @param number Comment number
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkComment(
         final MkStorage stg,
@@ -94,16 +92,12 @@ final class MkComment implements Comment {
     }
 
     @Override
-    public int compareTo(
-        final Comment comment
-    ) {
+    public int compareTo(final Comment comment) {
         return Long.compare(this.number(), comment.number());
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -130,10 +124,8 @@ final class MkComment implements Comment {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments/comment[number='%d']",
             this.repo, this.ticket, this.num
         );
     }
-
 }

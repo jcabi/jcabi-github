@@ -9,12 +9,12 @@ import java.io.IOException;
 
 /**
  * Public members of a GitHub organization.
- *
  * @see <a href="https://developer.github.com/v3/orgs/members/">Organization Members API</a>
  * @since 0.24
  */
 @Immutable
 public interface PublicMembers {
+
     /**
      * Organization of which these are public members.
      * @return Organization
@@ -27,9 +27,7 @@ public interface PublicMembers {
      * @throws IOException If an I/O problem occurs
      * @see <a href="https://developer.github.com/v3/orgs/members/#conceal-a-users-membership">Conceal a user's membership</a>
      */
-    void conceal(
-        User user
-    ) throws IOException;
+    void conceal(User user) throws IOException;
 
     /**
      * Make a user's membership publicly visible.
@@ -37,9 +35,7 @@ public interface PublicMembers {
      * @throws IOException If an I/O problem occurs
      * @see <a href="https://developer.github.com/v3/orgs/members/#publicize-a-users-membership">Publicize a user's membership</a>
      */
-    void publicize(
-        User user
-    ) throws IOException;
+    void publicize(User user) throws IOException;
 
     /**
      * Get all users who are public members of this organization.
@@ -55,7 +51,5 @@ public interface PublicMembers {
      * @throws IOException If an I/O problem occurs
      * @see <a href="https://developer.github.com/v3/orgs/members/#check-public-membership">Check public membership</a>
      */
-    boolean contains(
-        User user
-    ) throws IOException;
+    boolean contains(User user) throws IOException;
 }

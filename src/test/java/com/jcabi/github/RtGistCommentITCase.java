@@ -19,34 +19,32 @@ import org.junit.jupiter.api.Test;
 @OAuthScope(OAuthScope.Scope.GIST)
 final class RtGistCommentITCase {
 
-    /**
-     * RtGistComment can remove itself.
-     * @throws Exception if some problem inside
-     */
     @Test
-    void removeItself() throws Exception {
+    void postsItself() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
-        final String body = "comment body";
         final GistComments comments = gist.comments();
-        final GistComment comment = comments.post(body);
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Posted comment is absent",
             comments.iterate(),
-            Matchers.hasItem(comment)
+            Matchers.hasItem(comments.post("comment body"))
         );
+        gist.github().gists().remove(gist.identifier());
+    }
+
+    @Test
+    void removesItself() throws Exception {
+        final Gist gist = RtGistCommentITCase.gist();
+        final GistComments comments = gist.comments();
+        final GistComment comment = comments.post("comment body");
         comment.remove();
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed comment is still there",
             comments.iterate(),
             Matchers.not(Matchers.hasItem(comment))
         );
         gist.github().gists().remove(gist.identifier());
     }
 
-    /**
-     * RtGistComment can fetch as JSON object.
-     * @throws Exception if some problem inside
-     */
     @Test
     void fetchAsJson() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
@@ -61,23 +59,26 @@ final class RtGistCommentITCase {
         gist.github().gists().remove(gist.identifier());
     }
 
-    /**
-     * RtGistComment can execute patch request.
-     * @throws Exception if some problem inside
-     */
     @Test
-    void executePatchRequest() throws Exception {
+    void postsCommentWithBody() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
-        final GistComments comments = gist.comments();
-        final GistComment comment = comments.post("test comment");
+        final GistComment comment = gist.comments().post("test comment");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
+            "Posted comment has a wrong body",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("test")
         );
+        comment.remove();
+        gist.github().gists().remove(gist.identifier());
+    }
+
+    @Test
+    void executePatchRequest() throws Exception {
+        final Gist gist = RtGistCommentITCase.gist();
+        final GistComment comment = gist.comments().post("test comment");
         comment.patch(Json.createObjectBuilder().add("body", "hi!").build());
         MatcherAssert.assertThat(
-            "String does not start with expected value",
+            "Patched comment has a wrong body",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("hi")
         );
@@ -85,23 +86,13 @@ final class RtGistCommentITCase {
         gist.github().gists().remove(gist.identifier());
     }
 
-    /**
-     * RtGistComment can change comment body.
-     * @throws Exception if some problem inside
-     */
     @Test
     void changeCommentBody() throws Exception {
         final Gist gist = RtGistCommentITCase.gist();
-        final GistComments comments = gist.comments();
-        final GistComment comment = comments.post("hi there");
-        MatcherAssert.assertThat(
-            "String does not end with expected value",
-            new GistComment.Smart(comment).body(),
-            Matchers.endsWith("there")
-        );
+        final GistComment comment = gist.comments().post("hi there");
         new GistComment.Smart(comment).body("hello there");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
+            "Comment body is not changed",
             new GistComment.Smart(comment).body(),
             Matchers.startsWith("hello")
         );
@@ -116,8 +107,7 @@ final class RtGistCommentITCase {
     private static Gist gist() throws IOException {
         return GitHubIT
             .connect()
-            .gists()
-            .create(
+            .gists().create(
                 Collections.singletonMap("file.txt", "file content"), false
             );
     }

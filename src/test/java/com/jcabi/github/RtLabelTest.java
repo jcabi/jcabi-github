@@ -27,7 +27,6 @@ final class RtLabelTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void sendHttpRequestAndWriteResponseAsJson() throws IOException {
@@ -39,14 +38,13 @@ final class RtLabelTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtLabel label = new RtLabel(
-                new ApacheRequest(container.home()),
-                RtLabelTest.repo(),
-                "bug"
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                label.json().getString("msg"),
+                new RtLabel(
+                    new ApacheRequest(container.home()),
+                    RtLabelTest.repo(),
+                    "bug"
+                ).json().getString("msg"),
                 Matchers.equalTo("hi")
             );
             container.stop();

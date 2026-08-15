@@ -21,7 +21,6 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub markdown.
- *
  * @since 0.6
  */
 @Immutable
@@ -45,8 +44,12 @@ final class RtMarkdown implements Markdown {
      * @param req Request
      */
     RtMarkdown(final GitHub github, final Request req) {
-        this.ghub = github;
-        this.request = req.uri().path("markdown").back().method(Request.POST);
+        this(req.uri().path("markdown").back().method(Request.POST), github);
+    }
+
+    private RtMarkdown(final Request request, final GitHub ghub) {
+        this.request = request;
+        this.ghub = ghub;
     }
 
     @Override
@@ -61,9 +64,7 @@ final class RtMarkdown implements Markdown {
 
     @Override
     @SuppressWarnings("unchecked")
-    public String render(
-        final JsonObject json)
-        throws IOException {
+    public String render(final JsonObject json) throws IOException {
         final StringWriter output = new StringWriter();
         Json.createWriter(output).writeObject(json);
         return this.request
@@ -72,8 +73,7 @@ final class RtMarkdown implements Markdown {
             .back()
             .fetch()
             .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .assertHeader(
+            .assertStatus(HttpURLConnection.HTTP_OK).assertHeader(
                 HttpHeaders.CONTENT_TYPE,
                 (Matcher) Matchers.everyItem(
                     Matchers.startsWith(MediaType.TEXT_HTML)
@@ -84,9 +84,7 @@ final class RtMarkdown implements Markdown {
 
     @Override
     @SuppressWarnings("unchecked")
-    public String raw(
-        final String text)
-        throws IOException {
+    public String raw(final String text) throws IOException {
         return this.request
             .body()
             .set(text)
@@ -96,8 +94,7 @@ final class RtMarkdown implements Markdown {
             .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN)
             .fetch()
             .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK)
-            .assertHeader(
+            .assertStatus(HttpURLConnection.HTTP_OK).assertHeader(
                 HttpHeaders.CONTENT_TYPE,
                 (Matcher) Matchers.everyItem(
                     Matchers.startsWith(MediaType.TEXT_HTML)
@@ -105,5 +102,4 @@ final class RtMarkdown implements Markdown {
             )
             .body();
     }
-
 }

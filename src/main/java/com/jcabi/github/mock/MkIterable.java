@@ -85,7 +85,9 @@ final class MkIterable<T> implements Iterable<T> {
      * @since 0.5
      */
     @Immutable
-    public interface Mapping<X> {
+    @FunctionalInterface
+    interface Mapping<X> {
+
         /**
          * Map from XML to X.
          * @param xml The XML to get it from
@@ -93,5 +95,4 @@ final class MkIterable<T> implements Iterable<T> {
          */
         X map(XML xml);
     }
-
 }

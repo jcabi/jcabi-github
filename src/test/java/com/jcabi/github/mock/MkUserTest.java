@@ -5,11 +5,9 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.User;
-import com.jcabi.github.UserOrganizations;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -18,7 +16,6 @@ import org.xembly.Directives;
 /**
  * Unit tests for the MkUser class.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 final class MkUserTest {
 
@@ -27,24 +24,23 @@ final class MkUserTest {
      * @throws IOException when there is an error creating the MkUser begin tested
      */
     @Test
-    void testGetOrganizations() throws IOException {
-        final MkUser user = new MkUser(
-            new MkStorage.InFile(),
-            "orgTestIterate"
-        );
-        final UserOrganizations orgs = user.organizations();
+    void fetchesOrganizations() throws IOException {
         MatcherAssert.assertThat(
             "Value is null",
-            orgs,
+            new MkUser(
+                new MkStorage.InFile(),
+                "orgTestIterate"
+            ).organizations(),
             Matchers.notNullValue()
         );
     }
 
     /**
      * MkUser returns notifications.
-     * <p>
-     * There is no requirement for us to return actual mock data because our
+     *
+     * <p>There is no requirement for us to return actual mock data because our
      * API does not provide a way to create notifications.
+     *
      * @throws IOException If there is an error creating the user.
      */
     @Test
@@ -67,6 +63,35 @@ final class MkUserTest {
     @Test
     void marksNotificationsAsReadUpToDate() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
+        MkUserTest.notified(storage);
+        MatcherAssert.assertThat(
+            "Older notification is not marked as read",
+            storage.xml().xpath("//notification[id = 1]/read/text()").get(0),
+            Matchers.is("true")
+        );
+    }
+
+    /**
+     * Must leave notifications newer than the given date alone.
+     * @throws IOException If any error occurs.
+     */
+    @Test
+    void keepsNewerNotificationsUnread() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        MkUserTest.notified(storage);
+        MatcherAssert.assertThat(
+            "Newer notification is marked as read",
+            storage.xml().xpath("//notification[id = 2]/read/text()").get(0),
+            Matchers.is("false")
+        );
+    }
+
+    /**
+     * Put two notifications into the storage and mark the older one as read.
+     * @param storage The storage
+     * @throws IOException If any error occurs.
+     */
+    private static void notified(final MkStorage storage) throws IOException {
         storage.apply(new Directives().xpath("/github").add("users"));
         final User user = new MkUsers(storage, "joe").add("joe");
         final Instant upto = Instant.now();
@@ -76,7 +101,6 @@ final class MkUserTest {
                 .add("notification")
                     .add("id").set(1).up()
                     .add("date").set(
-                        // @checkstyle MagicNumberCheck (1 line)
                         upto.minus(30, ChronoUnit.MINUTES).toEpochMilli()
                     ).up()
                     .add("read").set(false).up()
@@ -84,22 +108,11 @@ final class MkUserTest {
                 .add("notification")
                     .add("id").set(2).up()
                     .add("date").set(
-                        // @checkstyle MagicNumberCheck (1 line)
                         upto.plus(30, ChronoUnit.MINUTES).toEpochMilli()
                     ).up()
                     .add("read").set(false).up()
                     .up()
         );
-        user.markAsRead(Date.from(upto));
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            storage.xml().xpath("//notification[id = 1]/read/text()").get(0),
-            Matchers.is("true")
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            storage.xml().xpath("//notification[id = 2]/read/text()").get(0),
-            Matchers.is("false")
-        );
+        user.markAsRead(upto);
     }
 }

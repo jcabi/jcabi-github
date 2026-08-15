@@ -23,9 +23,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(RandomPort.class)
 final class RtJsonTest {
+
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void sendHttpRequest() throws IOException {
@@ -37,10 +37,9 @@ final class RtJsonTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtJson json = new RtJson(new ApacheRequest(container.home()));
             MatcherAssert.assertThat(
                 "Values are not equal",
-                json.fetch().getString("body"),
+                new RtJson(new ApacheRequest(container.home())).fetch().getString("body"),
                 Matchers.equalTo("hi")
             );
             container.stop();
@@ -57,10 +56,9 @@ final class RtJsonTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtJson json = new RtJson(new ApacheRequest(container.home()));
             Assertions.assertThrows(
                 UnexpectedHttpStatus.class,
-                json::fetch,
+                new RtJson(new ApacheRequest(container.home()))::fetch,
                 "Should throw UnexpectedHttpStatus (an IOException) for non-success status, not AssertionError"
             );
             container.stop();

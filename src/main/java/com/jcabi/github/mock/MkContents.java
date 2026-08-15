@@ -23,14 +23,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub contents.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings({ "PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods" })
 final class MkContents implements Contents {
 
     /**
@@ -55,20 +53,18 @@ final class MkContents implements Contents {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkContents(
         final MkStorage stg,
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkContents.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkContents(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/repos/repo[@coords='%s']", this.coords)
-            ).addIf("contents").up().addIf("commits")
-        );
     }
 
     @Override
@@ -78,25 +74,19 @@ final class MkContents implements Contents {
 
     @Override
     public Content readme() throws IOException {
-        // @checkstyle MultipleStringLiterals (1 line)
         return this.readme("master");
     }
 
     @Override
-    public Content readme(
-        final String branch
-    ) {
+    public Content readme(final String branch) {
         return new MkContent(
             this.storage, this.self, this.coords, "README.md", branch
         );
     }
 
     @Override
-    public Content create(
-        final JsonObject json
-    ) throws IOException {
+    public Content create(final JsonObject json) throws IOException {
         this.storage.lock();
-        // @checkstyle MultipleStringLiterals (20 lines)
         final String branch;
         try {
             if (json.containsKey("ref")) {
@@ -127,17 +117,12 @@ final class MkContents implements Contents {
     }
 
     @Override
-    public Content get(
-        final String path,
-        final String ref
-    ) {
+    public Content get(final String path, final String ref) {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
     @Override
-    public Content get(
-        final String path
-    ) {
+    public Content get(final String path) {
         return new MkContent(
             this.storage, this.self, this.coords, path, "master"
         );
@@ -164,12 +149,8 @@ final class MkContents implements Contents {
     }
 
     @Override
-    public RepoCommit remove(
-        final JsonObject content
-    ) throws IOException {
+    public RepoCommit remove(final JsonObject content) throws IOException {
         this.storage.lock();
-        final String path = content.getString("path");
-        // @checkstyle MultipleStringLiterals (20 lines)
         try {
             final String branch;
             if (content.containsKey("ref")) {
@@ -180,7 +161,7 @@ final class MkContents implements Contents {
             this.storage.apply(
                 new Directives()
                     .xpath(this.xpath())
-                    .xpath(String.format("content[path='%s']", path))
+                    .xpath(String.format("content[path='%s']", content.getString("path")))
                     .attr("ref", branch)
                     .remove()
             );
@@ -204,12 +185,13 @@ final class MkContents implements Contents {
             } else {
                 branch = "master";
             }
-            final String xpath = String.format(
-                // @checkstyle LineLengthCheck (1 line)
-                "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
-                this.coords, path, branch
+            new JsonPatch(this.storage).patch(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
+                    this.coords, path, branch
+                ),
+                json
             );
-            new JsonPatch(this.storage).patch(xpath, json);
             return this.commit(json);
         } finally {
             this.storage.unlock();
@@ -226,9 +208,9 @@ final class MkContents implements Contents {
 
     /**
      * Builder method for MkContent.
-     * @param ref Branch name.
-     * @param path Path to MkContent.
-     * @return MkContent instance.
+     * @param ref Branch name
+     * @param path Path to MkContent
+     * @return MkContent instance
      */
     private MkContent mkContent(final String ref, final String path) {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
@@ -262,11 +244,8 @@ final class MkContents implements Contents {
      * @return SHA string
      * @throws IOException If an IO Exception occurs
      */
-    private MkRepoCommit commit(
-        final JsonObject json
-    ) throws IOException {
+    private MkRepoCommit commit(final JsonObject json) throws IOException {
         final String sha = MkContents.fakeSha();
-        // @checkstyle MultipleStringLiterals (40 lines)
         final Directives commit = new Directives().xpath(this.commitXpath())
             .add("commit")
             .add("sha").set(sha).up()
@@ -291,11 +270,26 @@ final class MkContents implements Contents {
 
     /**
      * Generate a random fake SHA hex string.
-     *
-     * @return Fake SHA string.
+     * @return Fake SHA string
      */
     private static String fakeSha() {
-        // @checkstyle MagicNumberCheck (1 line)
         return RandomStringUtils.secure().next(40, "0123456789abcdef");
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", rep)
+            ).addIf("contents").up().addIf("commits")
+        );
+        return stg;
     }
 }

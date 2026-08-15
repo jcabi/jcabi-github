@@ -18,18 +18,12 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub repository.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (10 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"ghub", "entry", "coords"})
-@SuppressWarnings(
-    {
-        "PMD.TooManyMethods",
-        "PMD.CouplingBetweenObjects"
-    }
-)
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 final class RtRepo implements Repo {
 
     /**
@@ -59,14 +53,28 @@ final class RtRepo implements Repo {
      * @param crd Coordinate of the repo
      */
     RtRepo(final GitHub github, final Request req, final Coordinates crd) {
-        this.ghub = github;
-        this.entry = req;
-        this.coords = crd;
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(this.coords.user())
-            .path(this.coords.repo())
-            .back();
+        this(
+            github,
+            req,
+            crd,
+            req.uri()
+                .path("/repos")
+                .path(crd.user())
+                .path(crd.repo())
+                .back()
+        );
+    }
+
+    private RtRepo(
+        final GitHub ghub,
+        final Request entry,
+        final Coordinates coords,
+        final Request request
+    ) {
+        this.ghub = ghub;
+        this.entry = entry;
+        this.coords = coords;
+        this.request = request;
     }
 
     @Override
@@ -162,7 +170,6 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Iterable<Language> languages() throws IOException {
         final RtJson json = new RtJson(
             this.request.uri()
@@ -200,10 +207,7 @@ final class RtRepo implements Repo {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    )
-        throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 

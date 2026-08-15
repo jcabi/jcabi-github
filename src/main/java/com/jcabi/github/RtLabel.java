@@ -13,14 +13,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub label.
- *
  * @since 0.6
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "txt" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtLabel implements Label {
 
     /**
@@ -45,16 +42,23 @@ final class RtLabel implements Label {
      * @param name Name of it
      */
     RtLabel(final Request req, final Repo repo, final String name) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/labels")
-            .path(name)
-            .back();
-        this.owner = repo;
-        this.txt = name;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/labels")
+                .path(name)
+                .back(),
+            name,
+            repo
+        );
+    }
+
+    private RtLabel(final Request request, final String txt, final Repo owner) {
+        this.request = request;
+        this.txt = txt;
+        this.owner = owner;
     }
 
     @Override
@@ -83,10 +87,7 @@ final class RtLabel implements Label {
     }
 
     @Override
-    public int compareTo(
-        final Label label
-    ) {
+    public int compareTo(final Label label) {
         return label.name().compareTo(label.name());
     }
-
 }

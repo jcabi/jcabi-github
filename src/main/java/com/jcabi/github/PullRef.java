@@ -18,6 +18,7 @@ import lombok.ToString;
  */
 @Immutable
 public interface PullRef extends JsonReadable {
+
     /**
      * Get the repository which its commit is in.
      * @return Repo
@@ -47,6 +48,7 @@ public interface PullRef extends JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "pullref", "jsn" })
     final class Smart implements PullRef {
+
         /**
          * Encapsulated pull request ref.
          */
@@ -61,9 +63,7 @@ public interface PullRef extends JsonReadable {
          * Public ctor.
          * @param pref Pull request ref
          */
-        public Smart(
-            final PullRef pref
-        ) {
+        public Smart(final PullRef pref) {
             this.pullref = pref;
             this.jsn = new SmartJson(pref);
         }

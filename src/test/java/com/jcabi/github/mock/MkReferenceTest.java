@@ -6,7 +6,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Reference;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Testcase for {@link MkReference}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class MkReferenceTest {
 
@@ -51,16 +49,22 @@ final class MkReferenceTest {
      */
     @Test
     void fetchesJson() throws Exception {
-        final Reference ref = MkReferenceTest.reference();
-        final JsonObject json = ref.json();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getString("ref"),
+            "Reference has a wrong name in JSON",
+            MkReferenceTest.reference().json().getString("ref"),
             Matchers.is("refs/tags/hello")
         );
+    }
+
+    /**
+     * MkReference can fetch its own SHA.
+     * @throws Exception - If something goes wrong.
+     */
+    @Test
+    void fetchesSha() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getString("sha"),
+            "Reference has a wrong SHA in JSON",
+            MkReferenceTest.reference().json().getString("sha"),
             Matchers.is("testsha")
         );
     }
@@ -72,10 +76,11 @@ final class MkReferenceTest {
     @Test
     void patchesRef() throws Exception {
         final Reference ref = MkReferenceTest.reference();
-        final JsonObject json = Json.createObjectBuilder()
-            .add("sha", "testshaPATCH")
-            .build();
-        ref.patch(json);
+        ref.patch(
+            Json.createObjectBuilder()
+                .add("sha", "testshaPATCH")
+                .build()
+        );
         MatcherAssert.assertThat(
             "Values are not equal",
             ref.json().getString("sha"),
@@ -86,6 +91,7 @@ final class MkReferenceTest {
     /**
      * Return a Reference for testing.
      * @return Reference
+     * @throws IOException If some problem inside
      */
     private static Reference reference() throws IOException {
         return new MkGitHub().randomRepo().git()

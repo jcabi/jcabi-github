@@ -15,11 +15,10 @@ import lombok.ToString;
 /**
  * GitHub repository.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  * @checkstyle ClassFanOutComplexityCheck (500 lines)
  */
 @Immutable
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.CouplingBetweenObjects"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.CouplingBetweenObjects"})
 public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
@@ -164,15 +163,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get default branch.
-     *
-     * @return Default branch.
+     * @return Default branch
      * @throws IOException If there is any I/O problem.
      */
     Branch defaultBranch() throws IOException;
 
     /**
      * Lists the people that have starred the repository.
-     * @return Lists the people that have starred the repository.
+     * @return Lists the people that have starred the repository
      */
     Stargazers stargazers();
 
@@ -185,6 +183,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = {"repo", "jsn"})
     final class Smart implements Repo {
+
         /**
          * Encapsulated Repo.
          */
@@ -199,16 +198,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
          * Public ctor.
          * @param rep Repo
          */
-        public Smart(
-            final Repo rep
-        ) {
+        public Smart(final Repo rep) {
             this.repo = rep;
             this.jsn = new SmartJson(rep);
         }
 
         /**
          * Does this Repo actually exist in GitHub?
-         * @return True if it exists, false otherwise.
+         * @return True if it exists, false otherwise
          * @throws IOException If there is any I/O problem.
          */
         public boolean exists() throws IOException {
@@ -349,9 +346,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.repo.patch(json);
         }
 
@@ -375,5 +370,4 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
             return this.repo.compareTo(repos);
         }
     }
-
 }

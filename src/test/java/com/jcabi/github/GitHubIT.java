@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assumptions;
 
 /**
  * GitHub for IT testing.
- *
  * @since 1.0
  */
 public final class GitHubIT {

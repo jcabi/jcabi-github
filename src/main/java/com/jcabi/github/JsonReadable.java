@@ -10,10 +10,10 @@ import java.io.IOException;
 
 /**
  * JSON readable.
- *
  * @since 0.4
  */
 @Immutable
+@FunctionalInterface
 public interface JsonReadable {
 
     /**
@@ -22,5 +22,4 @@ public interface JsonReadable {
      * @throws IOException If there is any I/O problem
      */
     JsonObject json() throws IOException;
-
 }

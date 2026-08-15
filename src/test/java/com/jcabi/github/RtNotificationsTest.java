@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.http.request.FakeRequest;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +20,7 @@ import org.junit.jupiter.api.Test;
  *  iterate() operation in RtNotifications.
  * @todo #920 Create a test markNotificationAsRead and implement
  *  mark() operation in RtNotifications.
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtNotificationsTest {
 
     /**
@@ -50,69 +49,68 @@ final class RtNotificationsTest {
             new RtNotifications(
                 new FakeRequest().withBody(
                     // @checkstyle StringLiteralsConcatenationCheck (65 lines)
-                    // @checkstyle LineLength (65 lines)
-                    "[\n"
-                    + "  {\n"
-                    + "    \"id\": \"1\", \n"
-                    + "    \"repository\": {\n"
-                    + "      \"id\": 1296269, \n"
-                    + "      \"owner\": {\n"
-                    + "        \"login\": \"octocat\", \n"
-                    + "        \"id\": 1, \n"
+                    "["
+                    + "  {"
+                    + "    \"id\": \"1\","
+                    + "    \"repository\": {"
+                    + "      \"id\": 1296269,"
+                    + "      \"owner\": {"
+                    + "        \"login\": \"octocat\","
+                    + "        \"id\": 1,"
                     + "        \"avatar_url\": \"https://github.com/"
-                    + "images/error/octocat_happy.gif\", \n"
-                    + "        \"gravatar_id\": \"\", \n"
-                    + "        \"url\": \"https://api.github.com/users/octocat\", \n"
-                    + "        \"html_url\": \"https://github.com/octocat\", \n"
+                    + "images/error/octocat_happy.gif\","
+                    + "        \"gravatar_id\": \"\","
+                    + "        \"url\": \"https://api.github.com/users/octocat\","
+                    + "        \"html_url\": \"https://github.com/octocat\","
                     + "        \"followers_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "followers\", \n"
+                    + "followers\","
                     + "        \"following_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "following{/other_user}\", \n"
+                    + "following{/other_user}\","
                     + "        \"gists_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "gists{/gist_id}\", \n"
+                    + "gists{/gist_id}\","
                     + "        \"starred_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "starred{/owner}{/repo}\", \n"
+                    + "starred{/owner}{/repo}\","
                     + "        \"subscriptions_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "subscriptions\", \n"
+                    + "subscriptions\","
                     + "        \"organizations_url\": "
-                    + "\"https://api.github.com/users/octocat/orgs\", \n"
-                    + "        \"repos_url\": \"https://api.github.com/users/octocat/repos\", \n"
+                    + "\"https://api.github.com/users/octocat/orgs\","
+                    + "        \"repos_url\": \"https://api.github.com/users/octocat/repos\","
                     + "        \"events_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "events{/privacy}\", \n"
+                    + "events{/privacy}\","
                     + "        \"received_events_url\": "
                     + "\"https://api.github.com/users/octocat/"
-                    + "received_events\", \n"
-                    + "        \"type\": \"User\", \n"
-                    + "        \"site_admin\": false\n"
-                    + "      }, \n"
-                    + "      \"name\": \"Hello-World\", \n"
-                    + "      \"full_name\": \"octocat/Hello-World\", \n"
-                    + "      \"description\": \"This your first repo!\", \n"
-                    + "      \"private\": false, \n"
-                    + "      \"fork\": false, \n"
-                    + "      \"url\": \"https://api.github.com/repos/octocat/Hello-World\", \n"
-                    + "      \"html_url\": \"https://github.com/octocat/Hello-World\"\n"
-                    + "    }, \n"
-                    + "    \"subject\": {\n"
-                    + "      \"title\": \"Greetings\", \n"
+                    + "received_events\","
+                    + "        \"type\": \"User\","
+                    + "        \"site_admin\": false"
+                    + "      },"
+                    + "      \"name\": \"Hello-World\","
+                    + "      \"full_name\": \"octocat/Hello-World\","
+                    + "      \"description\": \"This your first repo!\","
+                    + "      \"private\": false,"
+                    + "      \"fork\": false,"
+                    + "      \"url\": \"https://api.github.com/repos/octocat/Hello-World\","
+                    + "      \"html_url\": \"https://github.com/octocat/Hello-World\""
+                    + "    },"
+                    + "    \"subject\": {"
+                    + "      \"title\": \"Greetings\","
                     + "      \"url\": "
-                    + "\"https://api.github.com/repos/octokit/octokit.rb/issues/123\", \n"
+                    + "\"https://api.github.com/repos/octokit/octokit.rb/issues/123\","
                     + "      \"latest_comment_url\": "
-                    + "\"https://api.github.com/repos/octokit/octokit.rb/issues/comments/123\", \n"
-                    + "      \"type\": \"Issue\"\n"
-                    + "    }, \n"
-                    + "    \"reason\": \"subscribed\", \n"
-                    + "    \"unread\": true, \n"
-                    + "    \"updated_at\": \"2014-11-07T22:01:45Z\", \n"
-                    + "    \"last_read_at\": \"2014-11-07T22:01:45Z\", \n"
-                    + "    \"url\": \"https://api.github.com/notifications/threads/1\"\n"
-                    + "  }\n]"
+                    + "\"https://api.github.com/repos/octokit/octokit.rb/issues/comments/123\","
+                    + "      \"type\": \"Issue\""
+                    + "    },"
+                    + "    \"reason\": \"subscribed\","
+                    + "    \"unread\": true,"
+                    + "    \"updated_at\": \"2014-11-07T22:01:45Z\","
+                    + "    \"last_read_at\": \"2014-11-07T22:01:45Z\","
+                    + "    \"url\": \"https://api.github.com/notifications/threads/1\""
+                    + "  }]"
                 )
             ).iterate(),
             Matchers.not(Matchers.emptyIterable())
@@ -122,6 +120,6 @@ final class RtNotificationsTest {
     @Test
     @Disabled
     void markNotificationAsRead() {
-        // Not implemented
+        Assertions.fail("Marking of a notification as read is not tested yet");
     }
 }

@@ -50,7 +50,6 @@ final class MkRelease implements Release {
      * @param login User to login
      * @param rep Repo
      * @param number Release ID
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkRelease(
         final MkStorage stg,
@@ -96,9 +95,7 @@ final class MkRelease implements Release {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -143,5 +140,4 @@ final class MkRelease implements Release {
             this.coords, this.release
         );
     }
-
 }

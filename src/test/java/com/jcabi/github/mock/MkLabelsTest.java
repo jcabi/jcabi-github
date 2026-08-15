@@ -6,7 +6,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
-import com.jcabi.github.Labels;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import java.util.Collections;
@@ -19,6 +18,11 @@ import org.junit.jupiter.api.Test;
  * @since 0.6
  */
 final class MkLabelsTest {
+
+    /**
+     * Name of the label.
+     */
+    private static final String NAME = "label-0";
 
     @Test
     void iteratesLabels() throws IOException {
@@ -34,17 +38,20 @@ final class MkLabelsTest {
     @Test
     void deletesLabels() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Labels labels = repo.labels();
-        final String name = "label-0";
-        labels.create(name, "e1e1e1");
-        final Issue issue = repo.issues().create("hey, you!", "");
-        issue.labels().add(Collections.singletonList(name));
-        labels.delete(name);
+        MkLabelsTest.labeled(repo);
+        repo.labels().delete(MkLabelsTest.NAME);
         MatcherAssert.assertThat(
             "Collection is not empty",
             repo.labels().iterate(),
             Matchers.emptyIterable()
         );
+    }
+
+    @Test
+    void deletesLabelsFromIssues() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
+        final Issue issue = MkLabelsTest.labeled(repo);
+        repo.labels().delete(MkLabelsTest.NAME);
         MatcherAssert.assertThat(
             "Collection is not empty",
             issue.labels().iterate(),
@@ -63,5 +70,18 @@ final class MkLabelsTest {
             new Label.Smart(repo.labels().get(name)).color(),
             Matchers.equalTo(color)
         );
+    }
+
+    /**
+     * An issue with one label attached to it.
+     * @param repo Repo to create the issue in
+     * @return Issue with a label
+     * @throws IOException If some problem inside
+     */
+    private static Issue labeled(final Repo repo) throws IOException {
+        repo.labels().create(MkLabelsTest.NAME, "e1e1e1");
+        final Issue issue = repo.issues().create("hey, you!", "");
+        issue.labels().add(Collections.singletonList(MkLabelsTest.NAME));
+        return issue;
     }
 }

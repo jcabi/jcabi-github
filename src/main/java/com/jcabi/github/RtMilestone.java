@@ -18,7 +18,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtMilestone implements Milestone {
 
     /**
@@ -43,16 +42,23 @@ final class RtMilestone implements Milestone {
      * @param number Number of the get
      */
     RtMilestone(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/milestones")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/milestones")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            repo
+        );
+    }
+
+    private RtMilestone(final Request request, final int num, final Repo owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -76,8 +82,7 @@ final class RtMilestone implements Milestone {
     }
 
     @Override
-    public void patch(
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 

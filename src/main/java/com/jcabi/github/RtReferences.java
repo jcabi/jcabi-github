@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
@@ -18,7 +17,6 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub references.
  * @since 0.24
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -47,14 +45,22 @@ final class RtReferences implements References {
 
     /**
      * Public constructor.
-     * @param req RESTful request.
-     * @param repo The owner repo.
+     * @param req RESTful request
+     * @param repo The owner repo
      */
     RtReferences(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-        this.request = req.uri().path("/repos").path(repo.coordinates().user())
-            .path(repo.coordinates().repo()).path("/git").path("/refs").back();
+        this(
+            req,
+            repo,
+            req.uri().path("/repos").path(repo.coordinates().user())
+                .path(repo.coordinates().repo()).path("/git").path("/refs").back()
+        );
+    }
+
+    private RtReferences(final Request entry, final Repo owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -67,11 +73,12 @@ final class RtReferences implements References {
         final String ref,
         final String sha
     ) throws IOException {
-        final JsonObject json = Json.createObjectBuilder()
-            .add("sha", sha).add(RtReferences.REF, ref).build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("sha", sha).add(RtReferences.REF, ref).build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -80,9 +87,7 @@ final class RtReferences implements References {
     }
 
     @Override
-    public Reference get(
-        final String identifier
-    ) {
+    public Reference get(final String identifier) {
         return new RtReference(this.entry, this.owner, identifier);
     }
 
@@ -97,9 +102,7 @@ final class RtReferences implements References {
     }
 
     @Override
-    public Iterable<Reference> iterate(
-        final String subnamespace
-    ) {
+    public Iterable<Reference> iterate(final String subnamespace) {
         return new RtPagination<>(
             this.request.uri().path(subnamespace).back(),
             object -> this.get(
@@ -119,13 +122,10 @@ final class RtReferences implements References {
     }
 
     @Override
-    public void remove(
-        final String identifier
-    ) throws IOException {
+    public void remove(final String identifier) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(identifier).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
-
 }

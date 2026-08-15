@@ -19,9 +19,7 @@ import org.xembly.Directives;
 /**
  * Test case for {@link MkStorage}.
  * @since 0.5
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@SuppressWarnings("PMD.DoNotUseThreads")
 final class MkStorageTest {
 
     @Test
@@ -45,36 +43,50 @@ final class MkStorageTest {
 
     @Test
     @SuppressWarnings("PMD.CloseResource")
-    void locksAndUnlocks() throws IOException, InterruptedException, ExecutionException {
+    void locks() throws IOException, InterruptedException, ExecutionException {
         final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
         final ExecutorService executor = Executors.newSingleThreadExecutor();
-        final Runnable second = () -> storage.lock();
         storage.lock();
-        Future<?> future = executor.submit(second);
+        final Future<?> future = executor.submit(() -> storage.lock());
+        boolean blocked = false;
         try {
             future.get(1L, TimeUnit.SECONDS);
-            MatcherAssert.assertThat(
-                "Timeout did not occur",
-                false,
-                Matchers.is(true)
-            );
         } catch (final TimeoutException ex) {
-            future.cancel(true);
+            blocked = true;
         } finally {
-            storage.unlock();
-        }
-        future = executor.submit(second);
-        try {
-            future.get(1L, TimeUnit.SECONDS);
-        } catch (final TimeoutException ex) {
-            MatcherAssert.assertThat(
-                "Timeout occurred unexpectedly",
-                false,
-                Matchers.is(true)
-            );
             future.cancel(true);
+            storage.unlock();
+            executor.shutdown();
         }
-        executor.shutdown();
+        MatcherAssert.assertThat(
+            "Second lock is not blocked",
+            blocked,
+            Matchers.is(true)
+        );
     }
 
+    @Test
+    @SuppressWarnings("PMD.CloseResource")
+    void unlocks()
+        throws IOException, InterruptedException, ExecutionException {
+        final MkStorage storage = new MkStorage.Synced(new MkStorage.InFile());
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
+        storage.lock();
+        storage.unlock();
+        final Future<?> future = executor.submit(() -> storage.lock());
+        boolean acquired = true;
+        try {
+            future.get(1L, TimeUnit.SECONDS);
+        } catch (final TimeoutException ex) {
+            acquired = false;
+        } finally {
+            future.cancel(true);
+            executor.shutdown();
+        }
+        MatcherAssert.assertThat(
+            "Lock is not released",
+            acquired,
+            Matchers.is(true)
+        );
+    }
 }

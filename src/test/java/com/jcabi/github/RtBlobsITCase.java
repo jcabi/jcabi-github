@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link RtBlobs}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtBlobsITCase {
@@ -31,7 +30,6 @@ final class RtBlobsITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static RepoRule rule = new RepoRule();
 
@@ -69,21 +67,25 @@ final class RtBlobsITCase {
     }
 
     @Test
-    void getsBlob() throws IOException {
+    void getsBlobSha() throws IOException {
         final Blobs blobs = RtBlobsITCase.repo.git().blobs();
-        final String content = "Content of the blob";
-        final String encoding = "base64";
-        final Blob blob = blobs.create(
-            content, encoding
-        );
+        final Blob blob = blobs.create("Content of the blob", "base64");
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Fetched blob has a wrong SHA",
             blobs.get(blob.sha()).json().getString("sha"),
             Matchers.equalTo(blob.sha())
         );
+    }
+
+    @Test
+    void getsBlobEncoding() throws IOException {
+        final Blobs blobs = RtBlobsITCase.repo.git().blobs();
+        final String encoding = "base64";
         MatcherAssert.assertThat(
-            "Values are not equal",
-            blobs.get(blob.sha()).json().getString("encoding"),
+            "Fetched blob has a wrong encoding",
+            blobs.get(
+                blobs.create("Content of the blob", encoding).sha()
+            ).json().getString("encoding"),
             Matchers.equalTo(encoding)
         );
     }

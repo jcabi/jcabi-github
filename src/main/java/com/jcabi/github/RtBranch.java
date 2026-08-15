@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "branch", "hash" })
 public final class RtBranch implements Branch {
+
     /**
      * API entry point.
      */
@@ -43,7 +44,6 @@ public final class RtBranch implements Branch {
      * @param repo Repository
      * @param nom Name of branch
      * @param sha Commit SHA hash
-     * @checkstyle ParameterNumberCheck (6 lines)
      */
     RtBranch(
         final Request req,

@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "github", "jsn" })
 final class RtPullRef implements PullRef {
+
     /**
      * API entry point.
      */

@@ -32,7 +32,6 @@ import lombok.ToString;
  * @since 0.8
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface PullComment extends JsonReadable, JsonPatchable,
     Comparable<PullComment> {
 
@@ -50,13 +49,13 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
     /**
      * Adds the reaction to the pull comment.
-     * @param reaction Reaction to be added.
+     * @param reaction Reaction to be added
      */
     void react(Reaction reaction);
 
     /**
      * List the reactions of the pull comment.
-     * @return Comment reactions.
+     * @return Comment reactions
      */
     Collection<Reaction> reactions();
 
@@ -104,9 +103,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * Public ctor.
          * @param pcomment Pull comment
          */
-        public Smart(
-            final PullComment pcomment
-        ) {
+        public Smart(final PullComment pcomment) {
             this.cmnt = pcomment;
             this.jsn = new SmartJson(pcomment);
         }
@@ -125,9 +122,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @param value Id of pull comment
          * @throws IOException If there is any I/O problem
          */
-        public void identifier(
-            final String value
-        ) throws IOException {
+        public void identifier(final String value) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(PullComment.Smart.ID, value).build()
             );
@@ -147,9 +142,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @param value Commit id of pull comment
          * @throws IOException If there is any I/O problem
          */
-        public void commitId(
-            final String value
-        ) throws IOException {
+        public void commitId(final String value) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(PullComment.Smart.COMMIT_ID, value).build()
             );
@@ -178,9 +171,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem
          */
-        public void url(
-            final String value
-        ) throws IOException {
+        public void url(final String value) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(PullComment.Smart.URL, value).build()
             );
@@ -200,9 +191,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem
          */
-        public void body(
-            final String value
-        ) throws IOException {
+        public void body(final String value) throws IOException {
             this.cmnt.patch(
                 Json.createObjectBuilder().add(PullComment.Smart.BODY, value).build()
             );
@@ -231,16 +220,12 @@ public interface PullComment extends JsonReadable, JsonPatchable,
         }
 
         @Override
-        public int compareTo(
-            final PullComment comment
-        ) {
+        public int compareTo(final PullComment comment) {
             return this.cmnt.compareTo(comment);
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.cmnt.patch(json);
         }
 

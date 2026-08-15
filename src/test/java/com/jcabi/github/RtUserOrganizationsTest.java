@@ -24,50 +24,84 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(RandomPort.class)
 final class RtUserOrganizationsTest {
+
     /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
+     * Login of the user.
      */
+    private static final String USERNAME = "octopus";
+
     @Test
     void canIterateOrganizationsForUnauthUser() throws IOException {
-        final String username = "octopus";
-        final GitHub github = new MkGitHub();
-        final User user = github.users().get(username);
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(RtUserOrganizationsTest.org(3, "org11"))
-                    .add(RtUserOrganizationsTest.org(4, "org12"))
-                    .add(RtUserOrganizationsTest.org(5, "org13"))
-                    .build().toString()
-            )
-        ).start(RandomPort.port());
-        try {
-            final UserOrganizations orgs = new RtUserOrganizations(
-                github,
-                new ApacheRequest(container.home()),
-                user
-            );
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtUserOrganizationsTest.answer())
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Collection size is incorrect",
-                orgs.iterate(),
+                "Wrong amount of organizations is iterated",
+                RtUserOrganizationsTest.organizations(container).iterate(),
                 Matchers.iterableWithSize(3)
             );
-            MatcherAssert.assertThat(
-                "String does not end with expected value",
-                container.take().uri().toString(),
-                Matchers.endsWith(String.format("/users/%s/orgs", username))
-            );
-        } finally {
-            container.stop();
         }
+    }
+
+    @Test
+    void iteratesOrganizationsFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtUserOrganizationsTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtUserOrganizationsTest.organizations(container)
+                .iterate().iterator().next();
+            MatcherAssert.assertThat(
+                "Organizations are iterated from a wrong URI",
+                container.take().uri().toString(),
+                Matchers.endsWith(
+                    String.format(
+                        "/users/%s/orgs", RtUserOrganizationsTest.USERNAME
+                    )
+                )
+            );
+        }
+    }
+
+    /**
+     * Organizations served by the given container.
+     * @param container Container to serve the organizations
+     * @return Organizations
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtUserOrganizations organizations(
+        final MkContainer container
+    ) throws IOException {
+        final GitHub github = new MkGitHub();
+        return new RtUserOrganizations(
+            github,
+            new ApacheRequest(container.home()),
+            github.users().get(RtUserOrganizationsTest.USERNAME)
+        );
+    }
+
+    /**
+     * Answer with three organizations.
+     * @return Answer
+     */
+    private static MkAnswer answer() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder()
+                .add(RtUserOrganizationsTest.org(3, "org11"))
+                .add(RtUserOrganizationsTest.org(4, "org12"))
+                .add(RtUserOrganizationsTest.org(5, "org13"))
+                .build().toString()
+        );
     }
 
     /**
      * Create and return organization to test.
      * @param number Organization ID
-     * @param login Organization login name.
+     * @param login Organization login name
      * @return JsonObject
      */
     private static JsonObject org(final int number, final String login) {

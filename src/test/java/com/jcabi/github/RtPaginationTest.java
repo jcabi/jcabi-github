@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -26,39 +25,39 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(RandomPort.class)
 final class RtPaginationTest {
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
+
+    @Test
+    void readsFirstPage() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPaginationTest.linked())
+                .next(RtPaginationTest.simple("Hi Mark"))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "First page is different",
+                RtPaginationTest.page(container).iterator().next().toString(),
+                Matchers.containsString("Jeff")
+            );
+        }
+    }
+
     @Test
     void jumpNextPage() throws IOException {
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                RtPaginationTest.simple("Hi Jeff")
-                    .withHeader(
-                        "Link",
-                        "</s?page=3&per_page=100>; rel=\"next\""
-                    )
-            ).next(RtPaginationTest.simple("Hi Mark"))
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPaginationTest.linked())
+                .next(RtPaginationTest.simple("Hi Mark"))
                 .start(RandomPort.port())
         ) {
-            final Request request = new ApacheRequest(container.home());
-            final RtPagination<JsonObject> page = new RtPagination<>(
-                request,
-                object -> object
-            );
-            final Iterator<JsonObject> iterator = page.iterator();
+            final Iterator<JsonObject> iterator =
+                RtPaginationTest.page(container).iterator();
+            iterator.next();
             MatcherAssert.assertThat(
-                "String does not contain expected value",
-                iterator.next().toString(),
-                Matchers.containsString("Jeff")
-            );
-            MatcherAssert.assertThat(
-                "String does not contain expected value",
+                "Next page is different",
                 iterator.next().toString(),
                 Matchers.containsString("Mark")
             );
-            container.stop();
         }
     }
 
@@ -68,9 +67,8 @@ final class RtPaginationTest {
             MkContainer container = new MkGrizzlyContainer()
                 .next(RtPaginationTest.simple("Hi there")).start(RandomPort.port())
         ) {
-            final Request request = new ApacheRequest(container.home());
             final RtPagination<JsonObject> page = new RtPagination<>(
-                request,
+                new ApacheRequest(container.home()),
                 object -> object
             );
             final Iterator<JsonObject> iterator = page.iterator();
@@ -85,14 +83,41 @@ final class RtPaginationTest {
     }
 
     /**
+     * Pagination served by the given container.
+     * @param container Container to serve the pages
+     * @return Pagination
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtPagination<JsonObject> page(final MkContainer container)
+        throws IOException {
+        return new RtPagination<>(
+            new ApacheRequest(container.home()),
+            object -> object
+        );
+    }
+
+    /**
+     * Answer with a link to the next page.
+     * @return Answer
+     */
+    private static MkAnswer.Simple linked() {
+        return RtPaginationTest.simple("Hi Jeff").withHeader(
+            "Link",
+            "</s?page=3&per_page=100>; rel=\"next\""
+        );
+    }
+
+    /**
      * Create and return MkAnswer.Simple to test.
      * @param msg Message to build MkAnswer.Simple
      * @return MkAnswer.Simple
      */
     private static MkAnswer.Simple simple(final String msg) {
-        final String message = Json.createArrayBuilder()
-            .add(Json.createObjectBuilder().add("msg", msg))
-            .build().toString();
-        return new MkAnswer.Simple(HttpURLConnection.HTTP_OK, message);
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder()
+                .add(Json.createObjectBuilder().add("msg", msg))
+                .build().toString()
+        );
     }
 }

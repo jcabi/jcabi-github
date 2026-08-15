@@ -40,6 +40,7 @@ public interface Hook extends JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "hook", "jsn" })
     final class Smart implements Hook {
+
         /**
          * Encapsulated Hook.
          */

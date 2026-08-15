@@ -40,19 +40,12 @@ import lombok.ToString;
  * Mock GitHub repo.
  * @since 0.5
  * @todo #1061 Fix code to avoid CouplingBetweenObjects
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  * @checkstyle ClassFanOutComplexity (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@SuppressWarnings(
-    {
-        "PMD.TooManyMethods",
-        "PMD.ExcessiveImports",
-        "PMD.CouplingBetweenObjects"
-    }
-)
+@SuppressWarnings("PMD.CouplingBetweenObjects")
 final class MkRepo implements Repo {
 
     /**
@@ -76,11 +69,7 @@ final class MkRepo implements Repo {
      * @param login User to login
      * @param repo Repo name
      */
-    MkRepo(
-        final MkStorage stg,
-        final String login,
-        final Coordinates repo
-    ) {
+    MkRepo(final MkStorage stg, final String login, final Coordinates repo) {
         this.storage = stg;
         this.self = login;
         this.coords = repo;
@@ -201,9 +190,7 @@ final class MkRepo implements Repo {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -258,12 +245,9 @@ final class MkRepo implements Repo {
     @Override
     public Iterable<Language> languages() {
         final List<Language> languages = new ArrayList<>(0);
-        final int java = 999;
-        languages.add(new RtLanguage("Java", java));
-        final int php = 888;
-        languages.add(new RtLanguage("PHP", php));
-        final int ruby = 777;
-        languages.add(new RtLanguage("Ruby", ruby));
+        languages.add(new RtLanguage("Java", 999));
+        languages.add(new RtLanguage("PHP", 888));
+        languages.add(new RtLanguage("Ruby", 777));
         return languages;
     }
 
@@ -334,5 +318,4 @@ final class MkRepo implements Repo {
             this.coords
         );
     }
-
 }

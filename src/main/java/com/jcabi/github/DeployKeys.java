@@ -45,5 +45,4 @@ public interface DeployKeys {
      * @see <a href="https://developer.github.com/v3/repos/keys/#create">Add a new deploy key</a>
      */
     DeployKey create(String title, String key) throws IOException;
-
 }

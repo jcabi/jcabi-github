@@ -33,8 +33,8 @@ final class MkNotifications implements Notifications {
 
     /**
      * Public ctor.
-     * @param strge The mock storage of github data.
-     * @param entry The xpath to the notifications in the storage.
+     * @param strge The mock storage of github data
+     * @param entry The xpath to the notifications in the storage
      */
     MkNotifications(final MkStorage strge, final String entry) {
         this.storage = strge;

@@ -15,22 +15,35 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkGists}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkGistsTest {
+
+    /**
+     * Name of the file inside a gist.
+     */
+    private static final String FILE = "t.txt";
 
     @Test
     void worksWithMockedGists() throws IOException {
-        final Gist gist = new MkGitHub().gists().create(
-            Collections.singletonMap("test-file-name.txt", "none"), false
-        );
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
+        final Gist gist = MkGistsTest.gist(new MkGitHub().gists());
+        gist.write(MkGistsTest.FILE, "hello, everybody!");
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            gist.read(file),
+            gist.read(MkGistsTest.FILE),
             Matchers.startsWith("hello, ")
+        );
+    }
+
+    /**
+     * This tests that the remove() method in MkGists is working fine.
+     */
+    @Test
+    void createsGist() throws IOException {
+        final Gists gists = new MkGitHub().gists();
+        MatcherAssert.assertThat(
+            "Created gist is not in the collection",
+            gists.iterate(),
+            Matchers.hasItem(MkGistsTest.gist(gists))
         );
     }
 
@@ -40,17 +53,10 @@ final class MkGistsTest {
     @Test
     void removesGistByIdentifier() throws IOException {
         final Gists gists = new MkGitHub().gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap("fileName.txt", "content"), false
-        );
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            gists.iterate(),
-            Matchers.hasItem(gist)
-        );
+        final Gist gist = MkGistsTest.gist(gists);
         gists.remove(gist.identifier());
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed gist is still in the collection",
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))
         );
@@ -63,24 +69,44 @@ final class MkGistsTest {
     @Test
     void worksWithSeveralGists() throws IOException {
         final Gists gists = new MkGitHub().gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap("test-file-name.txt", "none"), false
-        );
-        final Gist othergist = gists.create(
-            Collections.singletonMap("test-file-name2.txt", ""), false
-        );
-        final String file = "t.txt";
-        gist.write(file, "hello, everybody!");
-        othergist.write(file, "bye, everybody!");
+        final Gist gist = MkGistsTest.gist(gists);
+        final Gist other = MkGistsTest.gist(gists);
+        gist.write(MkGistsTest.FILE, "hello, everybody!");
+        other.write(MkGistsTest.FILE, "bye, everybody!");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
-            gist.read(file),
+            "First gist has a wrong content",
+            gist.read(MkGistsTest.FILE),
             Matchers.startsWith("hello, ")
         );
+    }
+
+    /**
+     * MkGists can work several gists.
+     * Test to check issue #128
+     */
+    @Test
+    void keepsSeveralGistsApart() throws IOException {
+        final Gists gists = new MkGitHub().gists();
+        final Gist gist = MkGistsTest.gist(gists);
+        final Gist other = MkGistsTest.gist(gists);
+        gist.write(MkGistsTest.FILE, "hello, everybody!");
+        other.write(MkGistsTest.FILE, "bye, everybody!");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
-            othergist.read(file),
+            "Second gist has a wrong content",
+            other.read(MkGistsTest.FILE),
             Matchers.startsWith("bye, ")
+        );
+    }
+
+    /**
+     * Test that a fresh gist is not starred.
+     */
+    @Test
+    void createsUnstarredGist() throws IOException {
+        MatcherAssert.assertThat(
+            "Fresh gist is starred",
+            MkGistsTest.gist(new MkGitHub().gists()).starred(),
+            Matchers.equalTo(false)
         );
     }
 
@@ -88,18 +114,11 @@ final class MkGistsTest {
      * Test starring and star-checking of a gist.
      */
     @Test
-    void testStar() throws IOException {
-        final Gist gist = new MkGitHub().gists().create(
-            Collections.singletonMap("file-name.txt", ""), false
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            gist.starred(),
-            Matchers.equalTo(false)
-        );
+    void starsGist() throws IOException {
+        final Gist gist = MkGistsTest.gist(new MkGitHub().gists());
         gist.star();
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Gist is not starred",
             gist.starred(),
             Matchers.equalTo(true)
         );
@@ -109,24 +128,12 @@ final class MkGistsTest {
      * Test unstarring and star-checking of a gist.
      */
     @Test
-    void testUnstar() throws IOException {
-        final Gist gist = new MkGitHub().gists().create(
-            Collections.singletonMap("file-name.txt", ""), false
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            gist.starred(),
-            Matchers.equalTo(false)
-        );
+    void unstarsGist() throws IOException {
+        final Gist gist = MkGistsTest.gist(new MkGitHub().gists());
         gist.star();
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            gist.starred(),
-            Matchers.equalTo(true)
-        );
         gist.unstar();
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Gist is still starred",
             gist.starred(),
             Matchers.equalTo(false)
         );
@@ -139,14 +146,24 @@ final class MkGistsTest {
     @Test
     void createGistWithEmptyFile() throws IOException {
         final String filename = "file.txt";
-        final Gist gist = new MkGitHub().gists().create(
-            Collections.singletonMap(filename, ""), false
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            gist.read(filename),
+            new MkGitHub().gists().create(
+                Collections.singletonMap(filename, ""), false
+            ).read(filename),
             Matchers.is(Matchers.emptyString())
         );
     }
 
+    /**
+     * A gist created in the given collection.
+     * @param gists Collection to create the gist in
+     * @return Created gist
+     * @throws IOException If some problem inside
+     */
+    private static Gist gist(final Gists gists) throws IOException {
+        return gists.create(
+            Collections.singletonMap("test-file-name.txt", "none"), false
+        );
+    }
 }

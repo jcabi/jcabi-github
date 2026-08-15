@@ -18,7 +18,6 @@ import org.xembly.Directives;
  * @since 0.7
  */
 @Immutable
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkMilestones implements Milestones {
 
     /**
@@ -53,14 +52,13 @@ final class MkMilestones implements Milestones {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkMilestones.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkMilestones(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/repos/repo[@coords='%s']", this.coords)
-            ).addIf("milestones")
-        );
     }
 
     @Override
@@ -69,9 +67,7 @@ final class MkMilestones implements Milestones {
     }
 
     @Override
-    public Milestone create(
-        final String title
-    ) throws IOException {
+    public Milestone create(final String title) throws IOException {
         final int number = 1 + this.storage.xml().xpath(
             this.xpath().concat(MkMilestones.NUM_XPATH)
         ).size();
@@ -91,9 +87,7 @@ final class MkMilestones implements Milestones {
     }
 
     @Override
-    public Iterable<Milestone> iterate(
-        final Map<String, String> params
-    ) {
+    public Iterable<Milestone> iterate(final Map<String, String> params) {
         return new MkIterable<>(
             this.storage,
             this.xpath().concat("/milestone"),
@@ -121,5 +115,22 @@ final class MkMilestones implements Milestones {
             "/github/repos/repo[@coords='%s']/milestones",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", rep)
+            ).addIf("milestones")
+        );
+        return stg;
     }
 }

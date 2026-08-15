@@ -51,9 +51,7 @@ public interface Gists {
 
     /**
      * Removes a gist by id.
-     *
-     *
-     * @param identifier Identifier of the gist to be removed.
+     * @param identifier Identifier of the gist to be removed
      * @throws IOException If there is any I/O problem
      */
     void remove(String identifier) throws IOException;

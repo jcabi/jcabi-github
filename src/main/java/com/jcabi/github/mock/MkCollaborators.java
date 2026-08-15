@@ -18,7 +18,6 @@ import org.xembly.Directives;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkCollaborators implements Collaborators {
 
     /**
@@ -48,16 +47,13 @@ final class MkCollaborators implements Collaborators {
         final String login,
         final Coordinates crds
     ) throws IOException {
+        this(MkCollaborators.bootstrap(stg, crds), crds, login);
+    }
+
+    private MkCollaborators(final MkStorage stg, final Coordinates crds, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = crds;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']", this.coords
-                )
-            ).addIf("collaborators")
-        );
     }
 
     @Override
@@ -66,18 +62,14 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
-    public boolean isCollaborator(
-        final String user
-    ) throws IOException {
+    public boolean isCollaborator(final String user) throws IOException {
         return !this.storage.xml().xpath(
             this.xpath().concat(String.format("/user[login='%s']/text()", user))
         ).isEmpty();
     }
 
     @Override
-    public void add(
-        final String user
-    ) throws IOException {
+    public void add(final String user) throws IOException {
         this.storage.lock();
         try {
             this.storage.apply(
@@ -90,9 +82,7 @@ final class MkCollaborators implements Collaborators {
     }
 
     @Override
-    public void remove(
-        final String user
-    ) throws IOException {
+    public void remove(final String user) throws IOException {
         this.storage.apply(
             new Directives().xpath(
                 this.xpath().concat(String.format("/user[login='%s']", user))
@@ -128,9 +118,7 @@ final class MkCollaborators implements Collaborators {
      * @param login User login
      * @return Mocked User
      */
-    public User get(
-        final String login
-    ) {
+    User get(final String login) {
         return new MkUser(this.storage, login);
     }
 
@@ -143,5 +131,24 @@ final class MkCollaborators implements Collaborators {
             "/github/repos/repo[@coords='%s']/collaborators",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param crds Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates crds)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']", crds
+                )
+            ).addIf("collaborators")
+        );
+        return stg;
     }
 }

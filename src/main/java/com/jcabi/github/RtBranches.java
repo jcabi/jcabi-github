@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtBranches implements Branches {
+
     /**
      * RESTful API entry point.
      */
@@ -40,15 +40,22 @@ final class RtBranches implements Branches {
      * @param repo Repository
      */
     RtBranches(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/branches")
-            .back();
+        this(
+            req,
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/branches")
+                .back()
+        );
+    }
+
+    private RtBranches(final Request entry, final Repo owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override

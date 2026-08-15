@@ -9,7 +9,8 @@ import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repos;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,13 @@ import org.mockito.Mockito;
  * Test case for {@link MkComment}.
  * @since 0.1
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkCommentTest {
+
+    /**
+     * Body of the comment.
+     */
+    private static final String BODY = "what's up?";
+
     /**
      * MkComment can change body.
      * @throws Exception If some problem inside
@@ -37,94 +43,125 @@ final class MkCommentTest {
     }
 
     @Test
-    void canCompareInstances() throws IOException {
-        final MkComment less = new MkComment(
-            new MkStorage.InFile(),
-            "login-less",
-            Mockito.mock(Coordinates.class),
-            1,
-            1
-        );
-        final MkComment greater = new MkComment(
-            new MkStorage.InFile(),
-            "login-greater",
-            Mockito.mock(Coordinates.class),
-            2,
-            2
-        );
+    void comparesSmallerComment() throws IOException {
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater),
+            "Smaller comment is not smaller",
+            MkCommentTest.comment(1).compareTo(MkCommentTest.comment(2)),
             Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerComment() throws IOException {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less),
+            "Bigger comment is not bigger",
+            MkCommentTest.comment(2).compareTo(MkCommentTest.comment(1)),
             Matchers.greaterThan(0)
         );
     }
 
     /**
-     * MkComment should store all its data properly.
-     * We should get the proper data back when accessing its properties.
+     * MkComment stores its own number.
      * @throws Exception when a problem occurs.
      */
     @Test
-    void dataStoredProperly() throws Exception {
-        final String cmt = "what's up?";
-        final long before = MkCommentTest.now();
-        final Comment comment = MkCommentTest.comment(cmt);
-        final long after = MkCommentTest.now();
+    void storesNumber() throws Exception {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            comment.number(),
+            "Comment has a wrong number",
+            MkCommentTest.comment(MkCommentTest.BODY).number(),
             Matchers.greaterThan(0L)
         );
-        final Comment.Smart smart = new Comment.Smart(comment);
+    }
+
+    /**
+     * MkComment stores the issue it belongs to.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    void storesIssue() throws Exception {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            smart.issue().number(),
+            "Comment belongs to a wrong issue",
+            MkCommentTest.smart().issue().number(),
             Matchers.greaterThan(0)
         );
+    }
+
+    /**
+     * MkComment stores its own author.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    void storesAuthor() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.author().login(),
+            "Comment has a wrong author",
+            MkCommentTest.smart().author().login(),
             Matchers.equalTo("jeff")
         );
+    }
+
+    /**
+     * MkComment stores its own body.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    void storesBody() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.body(),
-            Matchers.equalTo(cmt)
+            "Comment has a wrong body",
+            MkCommentTest.smart().body(),
+            Matchers.equalTo(MkCommentTest.BODY)
         );
+    }
+
+    /**
+     * MkComment stores its own URL.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    void storesUrl() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.url(),
+            "Comment has a wrong URL",
+            MkCommentTest.smart().url(),
             Matchers.equalTo(
                 new URI(
-                    // @checkstyle LineLength (1 line)
                     "https://api.jcabi-github.invalid/repos/jeff/blueharvest/issues/comments/1"
                 ).toURL()
             )
         );
+    }
+
+    /**
+     * MkComment stores the moment of its own creation.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    void storesCreationTime() throws Exception {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            smart.createdAt().getTime(),
-            Matchers.greaterThanOrEqualTo(before)
+            "Comment is created at a wrong moment",
+            MkCommentTest.smart().createdAt().toEpochMilli(),
+            Matchers.allOf(
+                Matchers.greaterThanOrEqualTo(
+                    MkCommentTest.now() - TimeUnit.MINUTES.toMillis(1L)
+                ),
+                Matchers.lessThanOrEqualTo(MkCommentTest.now())
+            )
         );
+    }
+
+    /**
+     * MkComment stores the moment of its own update.
+     * @throws Exception when a problem occurs.
+     */
+    @Test
+    void storesUpdateTime() throws Exception {
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            smart.createdAt().getTime(),
-            Matchers.lessThanOrEqualTo(after)
-        );
-        MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            smart.updatedAt().getTime(),
-            Matchers.greaterThanOrEqualTo(before)
-        );
-        MatcherAssert.assertThat(
-            "Value is not less than expected",
-            smart.updatedAt().getTime(),
-            Matchers.lessThanOrEqualTo(after)
+            "Comment is updated at a wrong moment",
+            MkCommentTest.smart().updatedAt().toEpochMilli(),
+            Matchers.allOf(
+                Matchers.greaterThanOrEqualTo(
+                    MkCommentTest.now() - TimeUnit.MINUTES.toMillis(1L)
+                ),
+                Matchers.lessThanOrEqualTo(MkCommentTest.now())
+            )
         );
     }
 
@@ -132,6 +169,7 @@ final class MkCommentTest {
      * Create a comment to work with.
      * @param text Text of comment
      * @return Comment just created
+     * @throws IOException If some problem inside
      */
     private static Comment comment(final String text) throws IOException {
         return new MkGitHub().repos().create(
@@ -140,11 +178,36 @@ final class MkCommentTest {
     }
 
     /**
+     * Create a comment with the given number.
+     * @param number Number of the comment
+     * @return Comment just created
+     * @throws IOException If some problem inside
+     */
+    private static MkComment comment(final int number) throws IOException {
+        return new MkComment(
+            new MkStorage.InFile(),
+            String.format("login-%d", number),
+            Mockito.mock(Coordinates.class),
+            number,
+            number
+        );
+    }
+
+    /**
+     * Create a smart comment to work with.
+     * @return Comment just created
+     * @throws IOException If some problem inside
+     */
+    private static Comment.Smart smart() throws IOException {
+        return new Comment.Smart(MkCommentTest.comment(MkCommentTest.BODY));
+    }
+
+    /**
      * Obtains the current time.
      * @return Current time (in milliseconds since epoch) truncated to the nearest second
      */
     private static long now() {
-        final long sinceepoch = new Date().getTime();
+        final long sinceepoch = Instant.now().toEpochMilli();
         return sinceepoch - sinceepoch % 1000;
     }
 }

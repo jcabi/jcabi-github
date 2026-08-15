@@ -24,17 +24,34 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtBlobs}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtBlobsTest {
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
+
     @Test
-    void canCreateBlob() throws IOException {
+    void createsBlobWithPost() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    RtBlobsTest.blob().toString()
+                )
+            ).start(RandomPort.port())
+        ) {
+            new RtBlobs(
+                new ApacheRequest(container.home()),
+                RtBlobsTest.repo()
+            ).create("Content of the blob", "utf-8");
+            MatcherAssert.assertThat(
+                "Blob is not created with POST",
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+        }
+    }
+
+    @Test
+    void createsBlobWithUrl() throws IOException {
         final String body = RtBlobsTest.blob().toString();
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -42,39 +59,32 @@ final class RtBlobsTest {
             ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
                 .start(RandomPort.port())
         ) {
-            final RtBlobs blobs = new RtBlobs(
-                new ApacheRequest(container.home()),
-                RtBlobsTest.repo()
-            );
-            final String content = "Content of the blob";
-            final Blob blob = blobs.create(content, "utf-8");
             MatcherAssert.assertThat(
-                "Values are not equal",
-                container.take().method(),
-                Matchers.equalTo(Request.POST)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Blob.Smart(blob).url(),
+                "Created blob has a wrong URL",
+                new Blob.Smart(
+                    new RtBlobs(
+                        new ApacheRequest(container.home()),
+                        RtBlobsTest.repo()
+                    ).create("Content of the blob", "utf-8")
+                ).url(),
                 Matchers.equalTo("http://localhost/1")
             );
         }
     }
 
     @Test
-    void getBlob() {
+    void fetchesBlob() {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db52";
-        final Blobs blobs = new RtBlobs(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("sha", sha)
-                    .build()
-                    .toString()
-            ),
-            RtBlobsTest.repo()
-        );
         MatcherAssert.assertThat(
-            "Values are not equal", blobs.get(sha).sha(), Matchers.equalTo(sha)
+            "Values are not equal", new RtBlobs(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("sha", sha)
+                        .build()
+                        .toString()
+                ),
+                RtBlobsTest.repo()
+            ).get(sha).sha(), Matchers.equalTo(sha)
         );
     }
 
@@ -92,7 +102,6 @@ final class RtBlobsTest {
     /**
      * Create and return JsonObject to test.
      * @return JsonObject
-     * @checkstyle MagicNumberCheck (10 lines)
      */
     private static JsonObject blob() {
         return Json.createObjectBuilder()

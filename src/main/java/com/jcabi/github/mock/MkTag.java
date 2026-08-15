@@ -44,11 +44,10 @@ final class MkTag implements Tag {
 
     /**
      * Public constructor.
-     * @param strg The storage.
+     * @param strg The storage
      * @param login The login name
      * @param crds Credential
-     * @param identifier Tag's sha.
-     * @checkstyle ParameterNumber (5 lines)
+     * @param identifier Tag's sha
      */
     MkTag(
         final MkStorage strg,
@@ -56,11 +55,24 @@ final class MkTag implements Tag {
         final Coordinates crds,
         final String identifier
     ) {
-        this.storage = strg;
-        this.self = login;
-        this.coords = crds;
-        this.sha = new StringBuilder().append('"').append(identifier)
-            .append('"').toString();
+        this(
+            strg,
+            login,
+            String.format("\"%s\"", identifier),
+            crds
+        );
+    }
+
+    private MkTag(
+        final MkStorage storage,
+        final String self,
+        final String sha,
+        final Coordinates coords
+    ) {
+        this.storage = storage;
+        this.self = self;
+        this.sha = sha;
+        this.coords = coords;
     }
 
     @Override
@@ -82,7 +94,6 @@ final class MkTag implements Tag {
 
     /**
      * XPath of this element in XML tree.
-     *
      * @return XPath
      */
     private String xpath() {
@@ -91,5 +102,4 @@ final class MkTag implements Tag {
             this.coords, this.sha
         );
     }
-
 }

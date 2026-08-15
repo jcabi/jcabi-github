@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub Gitignore.
+ *
  * <p>Defines storage of .gitignore templates
  *
  * @see <a href="https://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
@@ -16,6 +17,7 @@ import java.io.IOException;
  */
 @Immutable
 public interface Gitignores {
+
     /**
      * Get its owner.
      * @return GitHub

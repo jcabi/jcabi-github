@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
@@ -30,12 +29,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
  *  RtStatuses/RtStatus against real GitHub commit status data.
  * @todo #1490:30min Continue to close grizzle servers open on tests. Use
  *  try-with-resource statement instead of try-catch whenever is possible.
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtStatusesTest {
+
+    /**
+     * Target URL of the created status.
+     */
+    private static final String URL = "https://ci.example.com/1000/output";
+
+    /**
+     * Description of the created status.
+     */
+    private static final String DESCRIPTION =
+        "Build has completed successfully";
+
+    /**
+     * Context of the created status.
+     */
+    private static final String CONTEXT = "continuous-integration/jenkins";
 
     /**
      * RtStatuses can fetch its commit.
@@ -53,71 +65,133 @@ final class RtStatusesTest {
     }
 
     @Test
-    void createsStatus() throws IOException {
-        final String stateprop = "state";
-        final String urlprop = "target_url";
-        final String descprop = "description";
-        final String contextprop = "context";
-        final String url = "https://ci.example.com/1000/output";
-        final String description = "Build has completed successfully";
-        final String context = "continuous-integration/jenkins";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                Json.createObjectBuilder().add(stateprop, "failure")
-                    .add(urlprop, url)
-                    .add(descprop, description)
-                    .add(contextprop, context)
-                    .build().toString()
-            )
-        ).start(RandomPort.port());
+    void createsStatusWithPost() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtStatusesTest.create(container);
+            MatcherAssert.assertThat(
+                "Status is not created with POST",
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+        }
+    }
+
+    @Test
+    void createsStatusWithState() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtStatusesTest.create(container);
+            MatcherAssert.assertThat(
+                "Created status has a wrong state",
+                RtStatusesTest.sent(container).getString("state"),
+                Matchers.equalTo(Status.State.FAILURE.identifier())
+            );
+        }
+    }
+
+    @Test
+    void createsStatusWithContext() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtStatusesTest.create(container);
+            MatcherAssert.assertThat(
+                "Created status has a wrong context",
+                RtStatusesTest.sent(container).getString("context"),
+                Matchers.equalTo(RtStatusesTest.CONTEXT)
+            );
+        }
+    }
+
+    @Test
+    void createsStatusWithDescription() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtStatusesTest.create(container);
+            MatcherAssert.assertThat(
+                "Created status has a wrong description",
+                RtStatusesTest.sent(container).getString("description"),
+                Matchers.equalTo(RtStatusesTest.DESCRIPTION)
+            );
+        }
+    }
+
+    @Test
+    void createsStatusWithTargetUrl() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtStatusesTest.create(container);
+            MatcherAssert.assertThat(
+                "Created status has a wrong target URL",
+                RtStatusesTest.sent(container).getString("target_url"),
+                Matchers.equalTo(RtStatusesTest.URL)
+            );
+        }
+    }
+
+    /**
+     * Create a status through the given container.
+     * @param container Container to serve the statuses
+     * @throws IOException If there is any I/O problem
+     */
+    private static void create(final MkContainer container) throws IOException {
         final Request entry = new ApacheRequest(container.home());
-        final Statuses statuses = new RtStatuses(
+        new RtStatuses(
             entry,
             new RtCommit(
                 entry,
                 new MkGitHub().randomRepo(),
                 "0abcd89jcabitest"
             )
+        ).create(
+            new Statuses.StatusCreate(Status.State.FAILURE)
+                .withTargetUrl(Optional.of(RtStatusesTest.URL))
+                .withDescription(RtStatusesTest.DESCRIPTION)
+                .withContext(Optional.of(RtStatusesTest.CONTEXT))
         );
-        try {
-            statuses.create(
-                new Statuses.StatusCreate(Status.State.FAILURE)
-                    .withTargetUrl(Optional.of(url))
-                    .withDescription(description)
-                    .withContext(Optional.of(context))
-            );
-            final MkQuery request = container.take();
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                request.method(),
-                Matchers.equalTo(Request.POST)
-            );
-            final JsonObject obj = Json.createReader(
-                new StringReader(request.body())
-            ).readObject();
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                obj.getString(stateprop),
-                Matchers.equalTo(Status.State.FAILURE.identifier())
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                obj.getString(contextprop),
-                Matchers.equalTo(context)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                obj.getString(descprop),
-                Matchers.equalTo(description)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                obj.getString(urlprop),
-                Matchers.equalTo(url)
-            );
-        } finally {
-            container.stop();
-        }
+    }
+
+    /**
+     * The status sent to the given container.
+     * @param container Container that served the statuses
+     * @return JSON of the sent status
+     * @throws IOException If there is any I/O problem
+     */
+    private static JsonObject sent(final MkContainer container)
+        throws IOException {
+        return Json.createReader(
+            new StringReader(container.take().body())
+        ).readObject();
+    }
+
+    /**
+     * Answer with a created status.
+     * @return Answer
+     */
+    private static MkAnswer answer() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            Json.createObjectBuilder()
+                .add("state", "failure")
+                .add("target_url", RtStatusesTest.URL)
+                .add("description", RtStatusesTest.DESCRIPTION)
+                .add("context", RtStatusesTest.CONTEXT)
+                .build().toString()
+        );
     }
 }

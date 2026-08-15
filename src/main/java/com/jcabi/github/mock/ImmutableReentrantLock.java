@@ -9,11 +9,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Immutable ReentrantLock.
- *
  * @since 0.18
  */
 @Immutable
 final class ImmutableReentrantLock extends ReentrantLock {
+
     /**
      * Serialization id.
      */

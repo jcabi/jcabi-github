@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "cmmt", "jsn" })
 public final class RtStatus implements Status {
+
     /**
      * Associated commit.
      */
@@ -34,12 +35,13 @@ public final class RtStatus implements Status {
      * @param cmt Associated commit
      * @param obj Status JSON object
      */
-    public RtStatus(
-        final Commit cmt,
-        final JsonObject obj
-    ) {
-        this.cmmt = cmt;
-        this.jsn = obj.toString();
+    public RtStatus(final Commit cmt, final JsonObject obj) {
+        this(cmt, obj.toString());
+    }
+
+    private RtStatus(final Commit cmmt, final String jsn) {
+        this.cmmt = cmmt;
+        this.jsn = jsn;
     }
 
     @Override

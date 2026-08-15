@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class CarefulWireTest {
+
     /**
      * HTTP 200 status reason.
      */
@@ -33,8 +34,6 @@ final class CarefulWireTest {
      */
     @Test
     void waitUntilReset() throws IOException {
-        final int threshold = 10;
-        // @checkstyle MagicNumber (2 lines)
         final long reset = TimeUnit.MILLISECONDS
             .toSeconds(System.currentTimeMillis()) + 5L;
         new FakeRequest()
@@ -42,13 +41,12 @@ final class CarefulWireTest {
             .withReason(CarefulWireTest.OK)
             .withHeader(CarefulWireTest.REMAINING_HEADER, "9")
             .withHeader("X-RateLimit-Reset", String.valueOf(reset))
-            .through(CarefulWire.class, threshold)
+            .through(CarefulWire.class, 10)
             .fetch();
-        final long now = TimeUnit.MILLISECONDS
-            .toSeconds(System.currentTimeMillis());
         MatcherAssert.assertThat(
             "Value is not greater than expected",
-            now,
+            TimeUnit.MILLISECONDS
+                .toSeconds(System.currentTimeMillis()),
             Matchers.greaterThanOrEqualTo(reset)
         );
     }
@@ -59,12 +57,10 @@ final class CarefulWireTest {
      */
     @Test
     void tolerateMissingRateLimitRemainingHeader() throws IOException {
-        final int threshold = 10;
-        // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
             .withReason(CarefulWireTest.OK)
-            .through(CarefulWire.class, threshold)
+            .through(CarefulWire.class, 10)
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Remaining header was absent",
@@ -79,13 +75,11 @@ final class CarefulWireTest {
      */
     @Test
     void tolerateMissingRateLimitResetHeader() throws IOException {
-        final int threshold = 8;
-        // @checkstyle MagicNumber (1 lines)
         new FakeRequest()
             .withStatus(HttpURLConnection.HTTP_OK)
             .withReason(CarefulWireTest.OK)
             .withHeader(CarefulWireTest.REMAINING_HEADER, "7")
-            .through(CarefulWire.class, threshold)
+            .through(CarefulWire.class, 8)
             .fetch();
         MatcherAssert.assertThat(
             "Did not crash when X-RateLimit-Reset header was absent",

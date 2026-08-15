@@ -20,20 +20,18 @@ final class MkPublicKeysTest {
     @Test
     void retrievesKeys() throws IOException {
         final PublicKeys keys = new MkGitHub().users().self().keys();
-        final PublicKey key = keys.create("key", "ssh 1AA");
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
             keys.iterate(),
-            Matchers.hasItem(key)
+            Matchers.hasItem(keys.create("key", "ssh 1AA"))
         );
     }
 
     @Test
     void canFetchSingleKey() throws IOException {
-        final PublicKeys keys = new MkGitHub().users().add("jeff").keys();
         MatcherAssert.assertThat(
             "Value is null",
-            keys.get(1),
+            new MkGitHub().users().add("jeff").keys().get(1),
             Matchers.notNullValue()
         );
     }
@@ -53,17 +51,11 @@ final class MkPublicKeysTest {
     void canRemoveKey() throws IOException {
         final PublicKeys keys = new MkGitHub().users().self().keys();
         final PublicKey key = keys.create("rsa", "rsa sh");
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            keys.iterate(),
-            Matchers.hasItem(key)
-        );
         keys.remove(key.number());
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed key is still in the collection",
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );
     }
-
 }

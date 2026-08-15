@@ -49,6 +49,7 @@ public interface Limits {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "origin")
     final class Throttled implements Limits {
+
         /**
          * Original.
          */
@@ -64,10 +65,7 @@ public interface Limits {
          * @param limits Original limits
          * @param allowed Maximum allowed
          */
-        public Throttled(
-            final Limits limits,
-            final int allowed
-        ) {
+        public Throttled(final Limits limits, final int allowed) {
             this.origin = limits;
             this.max = allowed;
         }
@@ -78,11 +76,8 @@ public interface Limits {
         }
 
         @Override
-        public Limit get(
-            final String resource
-        ) {
+        public Limit get(final String resource) {
             return new Limit.Throttled(this.origin.get(resource), this.max);
         }
     }
-
 }

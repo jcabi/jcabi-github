@@ -5,7 +5,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
-import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
@@ -13,9 +12,9 @@ import com.jcabi.github.User;
 import com.jcabi.immutable.ArrayMap;
 import com.jcabi.log.VerboseCallable;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,9 +26,9 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkGitHub}.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 final class MkGitHubTest {
+
     /**
      * Settings to use when creating temporary repos.
      */
@@ -39,66 +38,81 @@ final class MkGitHubTest {
             false
         );
 
+    /**
+     * Login of the user to re-login as.
+     */
+    private static final String LOGIN = "mark";
+
     @Test
     void worksWithMockedData() throws IOException {
-        final Repo repo = new MkGitHub().repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
-        final Issue issue = repo.issues().create("hey", "how are you?");
-        final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
-            new Comment.Smart(comment).body(),
+            "Comment has a wrong body",
+            new Comment.Smart(
+                MkGitHubTest.comment(new MkGitHub())
+            ).body(),
             Matchers.startsWith("hey, ")
         );
+    }
+
+    @Test
+    void countsMockedComments() throws IOException {
+        final Repo repo = new MkGitHub().repos()
+            .create(MkGitHubTest.NEW_REPO_SETTINGS);
+        final Issue issue = repo.issues().create("hey", "how are you?");
+        issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            repo.issues().get(issue.number()).comments().iterate(new Date(0L)),
+            repo.issues().get(issue.number()).comments().iterate(Instant.EPOCH),
             Matchers.iterableWithSize(1)
         );
+    }
+
+    @Test
+    void signsMockedComments() throws IOException {
+        final MkGitHub github = new MkGitHub();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new User.Smart(new Comment.Smart(comment).author()).login(),
-            Matchers.equalTo(
-                new User.Smart(repo.github().users().self()).login()
-            )
+            "Comment has a wrong author",
+            new User.Smart(
+                new Comment.Smart(MkGitHubTest.comment(github)).author()
+            ).login(),
+            Matchers.equalTo(new User.Smart(github.users().self()).login())
         );
     }
 
     @Test
     void canRelogin() throws IOException {
-        final String login = "mark";
         final MkGitHub github = new MkGitHub();
-        final Repo repo = github.repos().create(MkGitHubTest.NEW_REPO_SETTINGS);
-        final Issue issue = repo.issues().create("title", "Found a bug");
-        final Comment comment = github
-            .relogin(login)
-            .repos()
-            .get(repo.coordinates())
-            .issues()
-            .get(issue.number())
-            .comments()
-            .post("Nice change");
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new User.Smart(new Comment.Smart(comment).author()).login(),
+            "Comment is signed by the original user",
+            new User.Smart(
+                new Comment.Smart(MkGitHubTest.relogged(github)).author()
+            ).login(),
             Matchers.not(
                 Matchers.equalTo(
-                    new User.Smart(repo.github().users().self()).login()
+                    new User.Smart(github.users().self()).login()
                 )
             )
         );
+    }
+
+    @Test
+    void signsCommentsWithNewLogin() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new User.Smart(new Comment.Smart(comment).author()).login(),
-            Matchers.equalTo(login)
+            "Comment is not signed by the new user",
+            new User.Smart(
+                new Comment.Smart(
+                    MkGitHubTest.relogged(new MkGitHub())
+                ).author()
+            ).login(),
+            Matchers.equalTo(MkGitHubTest.LOGIN)
         );
     }
 
     @Test
     void retrievesMarkdown() throws IOException {
-        final GitHub github = new MkGitHub();
         MatcherAssert.assertThat(
             "Value is null",
-            github.markdown(),
+            new MkGitHub().markdown(),
             Matchers.notNullValue()
         );
     }
@@ -148,5 +162,36 @@ final class MkGitHubTest {
             ).exists(),
             new IsEqual<>(false)
         );
+    }
+
+    /**
+     * A comment posted to a fresh issue of a fresh repo.
+     * @param github GitHub to post the comment to
+     * @return Posted comment
+     * @throws IOException If some problem inside
+     */
+    private static Comment comment(final MkGitHub github) throws IOException {
+        return github.repos().create(MkGitHubTest.NEW_REPO_SETTINGS)
+            .issues().create("hey", "how are you?")
+            .comments().post("hey, works?");
+    }
+
+    /**
+     * A comment posted by a re-logged user.
+     * @param github GitHub to post the comment to
+     * @return Posted comment
+     * @throws IOException If some problem inside
+     */
+    private static Comment relogged(final MkGitHub github) throws IOException {
+        final Repo repo = github.repos()
+            .create(MkGitHubTest.NEW_REPO_SETTINGS);
+        return github
+            .relogin(MkGitHubTest.LOGIN)
+            .repos()
+            .get(repo.coordinates())
+            .issues()
+            .get(repo.issues().create("title", "Found a bug").number())
+            .comments()
+            .post("Nice change");
     }
 }

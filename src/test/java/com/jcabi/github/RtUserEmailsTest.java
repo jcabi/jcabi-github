@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -27,21 +28,19 @@ final class RtUserEmailsTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void fetchesEmails() throws IOException {
         final String email = "test@email.com";
-        final UserEmails emails = new RtUserEmails(
-            new FakeRequest().withBody(
-                Json.createArrayBuilder()
-                    .add(Json.createObjectBuilder().add("email", email))
-                    .build().toString()
-            )
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            emails.iterate().iterator().next(), Matchers.equalTo(email)
+            new RtUserEmails(
+                new FakeRequest().withBody(
+                    Json.createArrayBuilder()
+                        .add(Json.createObjectBuilder().add("email", email))
+                        .build().toString()
+                )
+            ).iterate().iterator().next(), Matchers.equalTo(email)
         );
     }
 
@@ -56,12 +55,11 @@ final class RtUserEmailsTest {
         );
         container.start(RandomPort.port());
         try {
-            final UserEmails emails = new RtUserEmails(
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                emails.add(Collections.singletonList(email)).iterator().next(),
+                new RtUserEmails(
+                    new ApacheRequest(container.home())
+                ).add(Collections.singletonList(email)).iterator().next(),
                 Matchers.equalTo(email)
             );
         } finally {
@@ -70,11 +68,13 @@ final class RtUserEmailsTest {
     }
 
     @Test
-    void removesEmails() throws IOException {
+    void removesEmails() {
         final UserEmails emails = new RtUserEmails(
             new FakeRequest().withStatus(HttpURLConnection.HTTP_NO_CONTENT)
         );
-        emails.remove(Collections.singletonList("test2@email.com"));
+        Assertions.assertDoesNotThrow(
+            () -> emails.remove(Collections.singletonList("test2@email.com")),
+            "Emails are not removed"
+        );
     }
-
 }

@@ -13,11 +13,34 @@ import java.io.IOException;
  */
 @Immutable
 public interface Collaborators {
+
     /**
      * Permission levels a user can be granted in an organization repository.
      * @see <a href="https://developer.github.com/v3/repos/collaborators/#parameters-1">Add user with permissions</a>
      */
-    enum Permission { PULL, PUSH, ADMIN, MAINTAIN, TRIAGE }
+    enum Permission {
+
+        /**
+         * Read access.
+         */
+        PULL,
+        /**
+         * Read and write access.
+         */
+        PUSH,
+        /**
+         * Full access, including settings.
+         */
+        ADMIN,
+        /**
+         * Write access without settings.
+         */
+        MAINTAIN,
+        /**
+         * Access to manage issues and pull requests.
+         */
+        TRIAGE
+    }
 
     /**
      * Owner of them.
@@ -73,7 +96,7 @@ public interface Collaborators {
 
     /**
      * Iterates over repo collaborators.
-     * @return Iterator on repo collaborators.
+     * @return Iterator on repo collaborators
      */
     Iterable<User> iterate();
 }

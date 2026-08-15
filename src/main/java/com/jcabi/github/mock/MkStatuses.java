@@ -22,6 +22,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "cmmt")
 final class MkStatuses implements Statuses {
+
     /**
      * Commit whose statuses this represents.
      */
@@ -31,9 +32,7 @@ final class MkStatuses implements Statuses {
      * Ctor.
      * @param cmt Commit whose statuses this represents
      */
-    MkStatuses(
-        final Commit cmt
-    ) {
+    MkStatuses(final Commit cmt) {
         this.cmmt = cmt;
     }
 
@@ -43,16 +42,12 @@ final class MkStatuses implements Statuses {
     }
 
     @Override
-    public Status create(
-        final Statuses.StatusCreate status
-    ) {
+    public Status create(final Statuses.StatusCreate status) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
-    public Iterable<Status> list(
-        final String ref
-    ) {
+    public Iterable<Status> list(final String ref) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

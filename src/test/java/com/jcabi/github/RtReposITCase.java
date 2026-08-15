@@ -7,6 +7,7 @@ package com.jcabi.github;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -16,16 +17,10 @@ import org.junit.jupiter.api.Test;
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.DELETE_REPO })
 final class RtReposITCase {
 
-    /**
-     * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    public final transient RepoRule rule = new RepoRule();
-
     @Test
     void create() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             MatcherAssert.assertThat(
                 "Value is null", repo, Matchers.notNullValue()
@@ -38,10 +33,14 @@ final class RtReposITCase {
     @Test
     void failsOnCreationOfTwoRepos() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
-            repos.create(
-                new Repos.RepoCreate(repo.coordinates().repo(), false)
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> repos.create(
+                    new Repos.RepoCreate(repo.coordinates().repo(), false)
+                ),
+                "Duplicate repository is not reported as an error"
             );
         } finally {
             repos.remove(repo.coordinates());
@@ -51,7 +50,7 @@ final class RtReposITCase {
     @Test
     void exists() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -79,5 +78,4 @@ final class RtReposITCase {
             repos.remove(repo.coordinates());
         }
     }
-
 }

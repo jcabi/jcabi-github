@@ -14,9 +14,9 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Milestone}.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class MilestoneTest {
+
     @Test
     void fetchesTitle() throws IOException {
         final Milestone milestone = Mockito.mock(Milestone.class);

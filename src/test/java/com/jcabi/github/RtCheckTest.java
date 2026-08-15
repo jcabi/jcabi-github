@@ -6,11 +6,11 @@ package com.jcabi.github;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCheck}.
- *
  * @since 1.5.0
  */
 final class RtCheckTest {
@@ -89,43 +89,19 @@ final class RtCheckTest {
 
     @Test
     void createsWithUnexistingStatus() {
-        try {
-            new RtCheck(
-                "unexisting",
-                "success"
-            ).successful();
-            MatcherAssert.assertThat(
-                "IllegalArgumentException was expected",
-                false,
-                Matchers.is(true)
-            );
-        } catch (final IllegalArgumentException ex) {
-            MatcherAssert.assertThat(
-                "Exception was thrown as expected",
-                ex,
-                Matchers.notNullValue()
-            );
-        }
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new RtCheck("unexisting", "success").successful(),
+            "Unexisting status is not rejected"
+        );
     }
 
     @Test
     void createsWithUnexistingConclusion() {
-        try {
-            new RtCheck(
-                "completed",
-                "unexist"
-            ).successful();
-            MatcherAssert.assertThat(
-                "IllegalArgumentException was expected",
-                false,
-                Matchers.is(true)
-            );
-        } catch (final IllegalArgumentException ex) {
-            MatcherAssert.assertThat(
-                "Exception was thrown as expected",
-                ex,
-                Matchers.notNullValue()
-            );
-        }
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> new RtCheck("completed", "unexist").successful(),
+            "Unexisting conclusion is not rejected"
+        );
     }
 }

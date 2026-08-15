@@ -22,27 +22,32 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link MkIssue}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class MkIssueTest {
 
     /**
-     * MkIssue can open and close.
+     * MkIssue can open.
      * @throws Exception If some problem inside
      */
     @Test
-    void opensAndCloses() throws Exception {
-        final Issue issue = MkIssueTest.issue();
+    void opens() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new Issue.Smart(issue).isOpen(),
+            "Fresh issue is not open",
+            new Issue.Smart(MkIssueTest.issue()).isOpen(),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * MkIssue can close.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void closes() throws Exception {
+        final Issue issue = MkIssueTest.issue();
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Closed issue is still open",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(false)
         );
@@ -54,10 +59,9 @@ final class MkIssueTest {
      */
     @Test
     void pointsToAnEmptyPullRequest() throws Exception {
-        final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new Issue.Smart(issue).isPull(),
+            new Issue.Smart(MkIssueTest.issue()).isPull(),
             Matchers.is(false)
         );
     }
@@ -68,10 +72,9 @@ final class MkIssueTest {
      */
     @Test
     void showsIssueAuthor() throws Exception {
-        final Issue issue = MkIssueTest.issue();
         MatcherAssert.assertThat(
             "Value is null",
-            new Issue.Smart(issue).author().login(),
+            new Issue.Smart(MkIssueTest.issue()).author().login(),
             Matchers.notNullValue()
         );
     }
@@ -107,20 +110,41 @@ final class MkIssueTest {
     }
 
     /**
-     * MkIssue can expose all properties.
+     * MkIssue can expose the moment of its own creation.
      * @throws Exception If some problem inside
      */
     @Test
-    void exponsesProperties() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
+    void exposesCreationTime() throws Exception {
         MatcherAssert.assertThat(
-            "Value is null", issue.createdAt(), Matchers.notNullValue()
+            "Creation time is absent",
+            new Issue.Smart(MkIssueTest.issue()).createdAt(),
+            Matchers.notNullValue()
         );
+    }
+
+    /**
+     * MkIssue can expose the moment of its own update.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void exposesUpdateTime() throws Exception {
         MatcherAssert.assertThat(
-            "Value is null", issue.updatedAt(), Matchers.notNullValue()
+            "Update time is absent",
+            new Issue.Smart(MkIssueTest.issue()).updatedAt(),
+            Matchers.notNullValue()
         );
+    }
+
+    /**
+     * MkIssue can expose its own HTML URL.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void exposesHtmlUrl() throws Exception {
         MatcherAssert.assertThat(
-            "Value is null", issue.htmlUrl(), Matchers.notNullValue()
+            "HTML URL is absent",
+            new Issue.Smart(MkIssueTest.issue()).htmlUrl(),
+            Matchers.notNullValue()
         );
     }
 
@@ -149,27 +173,19 @@ final class MkIssueTest {
     }
 
     @Test
-    void canCompareInstances() throws IOException {
-        final MkIssue less = new MkIssue(
-            new MkStorage.InFile(),
-            "login-less",
-            Mockito.mock(Coordinates.class),
-            1
-        );
-        final MkIssue greater = new MkIssue(
-            new MkStorage.InFile(),
-            "login-greater",
-            Mockito.mock(Coordinates.class),
-            2
-        );
+    void comparesSmallerIssue() throws IOException {
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater),
+            "Smaller issue is not smaller",
+            MkIssueTest.issue(1).compareTo(MkIssueTest.issue(2)),
             Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerIssue() throws IOException {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less),
+            "Bigger issue is not bigger",
+            MkIssueTest.issue(2).compareTo(MkIssueTest.issue(1)),
             Matchers.greaterThan(0)
         );
     }
@@ -182,18 +198,19 @@ final class MkIssueTest {
         final MkGitHub first = new MkGitHub("first");
         final GitHub second = first.relogin("second");
         final Repo repo = first.randomRepo();
-        final int number = second.repos()
-            .get(repo.coordinates())
-            .issues()
-            .create("", "")
-            .number();
-        final Issue issue = first.repos()
-            .get(repo.coordinates())
-            .issues()
-            .get(number);
         MatcherAssert.assertThat(
             "Values are not equal",
-            new Issue.Smart(issue).author().login(),
+            new Issue.Smart(
+                first.repos()
+                    .get(repo.coordinates())
+                    .issues().get(
+                        second.repos()
+                            .get(repo.coordinates())
+                            .issues()
+                            .create("", "")
+                            .number()
+                    )
+            ).author().login(),
             Matchers.is("second")
         );
     }
@@ -247,48 +264,68 @@ final class MkIssueTest {
      */
     @Test
     void createsClosedEvent() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
-        issue.close();
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            issue.events(),
+            MkIssueTest.closed().events(),
             Matchers.iterableWithSize(1)
         );
-        final Event.Smart closed = new Event.Smart(
-            issue.events().iterator().next()
-        );
+    }
+
+    /**
+     * MkIssue can type the event of closing an issue.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void typesClosedEvent() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            closed.type(),
+            "Event of closing has a wrong type",
+            new Event.Smart(
+                MkIssueTest.closed().events().iterator().next()
+            ).type(),
             Matchers.equalTo(Event.CLOSED)
         );
     }
 
     /**
-     * MkIssue can create a reopened event when closing an issue.
+     * MkIssue can create a reopened event when reopening an issue.
      * @throws Exception If some problem inside
      */
     @Test
     void createsReopenedEvent() throws Exception {
-        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
-        issue.close();
-        issue.open();
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            issue.events(),
+            MkIssueTest.reopened().events(),
             Matchers.iterableWithSize(2)
         );
-        final Iterator<Event> events = issue.events().iterator();
-        final Event.Smart closed = new Event.Smart(events.next());
-        final Event.Smart reopened = new Event.Smart(events.next());
+    }
+
+    /**
+     * MkIssue can keep the event of closing after reopening.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void keepsClosedEventAfterReopening() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            closed.type(),
+            "Event of closing has a wrong type",
+            new Event.Smart(
+                MkIssueTest.reopened().events().iterator().next()
+            ).type(),
             Matchers.equalTo(Event.CLOSED)
         );
+    }
+
+    /**
+     * MkIssue can type the event of reopening an issue.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void typesReopenedEvent() throws Exception {
+        final Iterator<Event> events =
+            MkIssueTest.reopened().events().iterator();
+        events.next();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            reopened.type(),
+            "Event of reopening has a wrong type",
+            new Event.Smart(events.next()).type(),
             Matchers.equalTo(Event.REOPENED)
         );
     }
@@ -296,10 +333,47 @@ final class MkIssueTest {
     /**
      * Create an issue to work with.
      * @return Issue just created
+     * @throws IOException If some problem inside
      */
     private static Issue issue() throws IOException {
         return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?");
     }
 
+    /**
+     * Create an issue with the given number.
+     * @param number Number of the issue
+     * @return Issue just created
+     * @throws IOException If some problem inside
+     */
+    private static MkIssue issue(final int number) throws IOException {
+        return new MkIssue(
+            new MkStorage.InFile(),
+            String.format("login-%d", number),
+            Mockito.mock(Coordinates.class),
+            number
+        );
+    }
+
+    /**
+     * Create a closed issue.
+     * @return Closed issue
+     * @throws IOException If some problem inside
+     */
+    private static Issue.Smart closed() throws IOException {
+        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
+        issue.close();
+        return issue;
+    }
+
+    /**
+     * Create a closed and then reopened issue.
+     * @return Reopened issue
+     * @throws IOException If some problem inside
+     */
+    private static Issue.Smart reopened() throws IOException {
+        final Issue.Smart issue = MkIssueTest.closed();
+        issue.open();
+        return issue;
+    }
 }

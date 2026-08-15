@@ -18,10 +18,9 @@ import org.xembly.Directives;
 /**
  * Tests for {@link MkHook}.
  * @since 0.42
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkHookTest {
+
     /**
      * Test if {@link MkHook} is being created with the correct number.
      */

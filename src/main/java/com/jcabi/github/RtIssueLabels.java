@@ -11,20 +11,17 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub get labels.
- *
  * @since 0.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "entry")
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtIssueLabels implements IssueLabels {
 
     /**
@@ -48,17 +45,24 @@ final class RtIssueLabels implements IssueLabels {
      * @param issue Issue we're in
      */
     RtIssueLabels(final Request req, final Issue issue) {
-        this.owner = issue;
-        final Coordinates coords = issue.repo().coordinates();
-        this.entry = req;
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path(Integer.toString(issue.number()))
-            .path("/labels")
-            .back();
+        this(
+            issue,
+            req,
+            req.uri()
+                .path("/repos")
+                .path(issue.repo().coordinates().user())
+                .path(issue.repo().coordinates().repo())
+                .path("/issues")
+                .path(Integer.toString(issue.number()))
+                .path("/labels")
+                .back()
+        );
+    }
+
+    private RtIssueLabels(final Issue owner, final Request entry, final Request request) {
+        this.owner = owner;
+        this.entry = entry;
+        this.request = request;
     }
 
     @Override
@@ -77,9 +81,8 @@ final class RtIssueLabels implements IssueLabels {
         for (final String label : labels) {
             builder = builder.add(label);
         }
-        final JsonStructure json = builder.build();
         this.request.method(Request.POST)
-            .body().set(json).back()
+            .body().set(builder.build()).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
@@ -93,9 +96,8 @@ final class RtIssueLabels implements IssueLabels {
         for (final String label : labels) {
             builder = builder.add(label);
         }
-        final JsonStructure json = builder.build();
         this.request.method(Request.PUT)
-            .body().set(json).back()
+            .body().set(builder.build()).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
@@ -131,5 +133,4 @@ final class RtIssueLabels implements IssueLabels {
             )
         );
     }
-
 }

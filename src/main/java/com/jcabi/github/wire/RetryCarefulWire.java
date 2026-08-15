@@ -40,6 +40,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = "real")
 public final class RetryCarefulWire implements Wire {
+
     /**
      * RetryWire which we're merely wrapping.
      */
@@ -56,7 +57,6 @@ public final class RetryCarefulWire implements Wire {
     }
 
     @Override
-    // @checkstyle ParameterNumber (8 lines)
     public Response send(
         final Request req,
         final String home,
@@ -69,5 +69,4 @@ public final class RetryCarefulWire implements Wire {
             req, home, method, headers, content, connect, read
         );
     }
-
 }

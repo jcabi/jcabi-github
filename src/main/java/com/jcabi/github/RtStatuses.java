@@ -14,9 +14,7 @@ import java.net.HttpURLConnection;
 /**
  * GitHub statuses for a given commit.
  * @since 0.23
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 public class RtStatuses implements Statuses {
 
     /**
@@ -35,15 +33,21 @@ public class RtStatuses implements Statuses {
      * @param commit Specific commit
      */
     RtStatuses(final Request req, final Commit commit) {
-        final Coordinates coords = commit.repo().coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/statuses")
-            .path(commit.sha())
-            .back();
-        this.cmmt = commit;
+        this(
+            commit,
+            req.uri()
+                .path("/repos")
+                .path(commit.repo().coordinates().user())
+                .path(commit.repo().coordinates().repo())
+                .path("/statuses")
+                .path(commit.sha())
+                .back()
+        );
+    }
+
+    private RtStatuses(final Commit cmmt, final Request request) {
+        this.cmmt = cmmt;
+        this.request = request;
     }
 
     @Override
@@ -60,22 +64,22 @@ public class RtStatuses implements Statuses {
     public final Status create(
         final Statuses.StatusCreate status
     ) throws IOException {
-        final JsonObject response = this.request.method(Request.POST)
-            .body().set(status.json()).back()
-            .fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_CREATED)
-            .as(JsonResponse.class)
-            .json().readObject();
-        return new RtStatus(this.cmmt, response);
+        return new RtStatus(
+            this.cmmt,
+            this.request.method(Request.POST)
+                .body().set(status.json()).back()
+                .fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject()
+        );
     }
 
     // @todo #1126:30min Implement this method which gets all status
     //  messages for a given commit.
     @Override
-    public final Iterable<Status> list(
-        final String ref
-    ) {
+    public final Iterable<Status> list(final String ref) {
         throw new UnsupportedOperationException("Not implemented");
     }
 

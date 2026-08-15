@@ -9,7 +9,6 @@ import com.jcabi.github.Pull;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -18,62 +17,59 @@ import org.junit.jupiter.api.Test;
  */
 final class MkChecksTest {
 
-    /**
-     * Pull request.
-     */
-    private transient Pull pull;
-
-    /**
-     * Set up.
-     * @throws IOException If some problem with I/O.
-     */
-    @BeforeEach
-    void setUp() throws IOException {
-        this.pull = new MkGitHub()
-            .randomRepo()
-            .pulls()
-            .create("Test PR", "abcdef8", "abcdef9");
-    }
-
-    /**
-     * MkChecks can return empty checks by default.
-     * @throws IOException If some problem with I/O.
-     */
     @Test
     void returnsEmptyChecksByDefault() throws IOException {
         MatcherAssert.assertThat(
             "Collection is not empty",
-            ((MkChecks) this.pull.checks()).all(),
+            ((MkChecks) MkChecksTest.pull().checks()).all(),
             Matchers.empty()
         );
     }
 
-    /**
-     * MkChecks can create a check.
-     * @throws IOException If some problem with I/O.
-     */
     @Test
     void createsCheck() throws IOException {
-        final MkChecks checks = (MkChecks) this.pull.checks();
-        final Check check = checks.create(
-            Check.Status.COMPLETED,
-            Check.Conclusion.SUCCESS
-        );
+        final MkChecks checks = (MkChecks) MkChecksTest.pull().checks();
+        checks.create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             checks.all(),
             Matchers.hasSize(1)
         );
-        final Check next = checks.all().iterator().next();
+    }
+
+    @Test
+    void storesCreatedCheck() throws IOException {
+        final MkChecks checks = (MkChecks) MkChecksTest.pull().checks();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            check,
-            Matchers.equalTo(next)
+            "Created check is not stored",
+            checks.create(
+                Check.Status.COMPLETED,
+                Check.Conclusion.SUCCESS
+            ),
+            Matchers.equalTo(checks.all().iterator().next())
         );
+    }
+
+    @Test
+    void createsSuccessfulCheck() throws IOException {
+        final MkChecks checks = (MkChecks) MkChecksTest.pull().checks();
+        checks.create(Check.Status.COMPLETED, Check.Conclusion.SUCCESS);
         MatcherAssert.assertThat(
-            "Values are not equal",
-            next.successful(),
+            "Created check is not successful",
+            checks.all().iterator().next().successful(),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * Pull request to make checks for.
+     * @return Pull request
+     * @throws IOException If some problem with I/O
+     */
+    private static Pull pull() throws IOException {
+        return new MkGitHub()
+            .randomRepo()
+            .pulls()
+            .create("Test PR", "abcdef8", "abcdef9");
     }
 }

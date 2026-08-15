@@ -16,7 +16,6 @@ import java.io.IOException;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtTree implements Tree {
 
     /**
@@ -40,22 +39,25 @@ final class RtTree implements Tree {
      * @param repo Owner of this commit
      * @param sha Number of the get
      */
-    RtTree(
-        final Request req,
-        final Repo repo,
-        final String sha
-    ) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/git")
-            .path("/trees")
-            .path(sha)
-            .back();
-        this.owner = repo;
-        this.hash = sha;
+    RtTree(final Request req, final Repo repo, final String sha) {
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/git")
+                .path("/trees")
+                .path(sha)
+                .back(),
+            sha,
+            repo
+        );
+    }
+
+    private RtTree(final Request request, final String hash, final Repo owner) {
+        this.request = request;
+        this.hash = hash;
+        this.owner = owner;
     }
 
     @Override

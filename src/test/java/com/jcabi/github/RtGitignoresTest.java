@@ -26,9 +26,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Immutable
 @ExtendWith(RandomPort.class)
 final class RtGitignoresTest {
+
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void iterateTemplateNames() throws IOException {
@@ -44,12 +44,11 @@ final class RtGitignoresTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtGitignores gitignores = new RtGitignores(
-                new RtGitHub(new JdkRequest(container.home()))
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                    gitignores.iterate(),
+                    new RtGitignores(
+                        new RtGitHub(new JdkRequest(container.home()))
+                    ).iterate(),
                     Matchers.iterableWithSize(2)
             );
             container.stop();
@@ -57,15 +56,13 @@ final class RtGitignoresTest {
     }
 
     @Test
-    void getRawTemplateByName() throws IOException {
-        final RtGitignores gitignores = new RtGitignores(
-            new RtGitHub(new FakeRequest().withBody("# Object files"))
-        );
+    void fetchesRawTemplateByName() throws IOException {
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            gitignores.template("C#"),
+            new RtGitignores(
+                new RtGitHub(new FakeRequest().withBody("# Object files"))
+            ).template("C#"),
             Matchers.startsWith("# Object")
         );
     }
-
 }

@@ -15,7 +15,6 @@ import org.mockito.Mockito;
  * Tests for {@link Organization}.
  * @since 0.1
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class OrganizationTest {
 
     @Test

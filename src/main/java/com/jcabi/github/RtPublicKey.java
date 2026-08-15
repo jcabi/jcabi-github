@@ -37,19 +37,26 @@ final class RtPublicKey implements PublicKey {
 
     /**
      * Public ctor.
-     *
      * @param req RESTful request
      * @param user Owner of this comment
      * @param number Number of the get
      */
     RtPublicKey(final Request req, final User user, final int number) {
-        this.request = req.uri()
-            .path("/user")
-            .path("/keys")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = user;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/user")
+                .path("/keys")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            user
+        );
+    }
+
+    private RtPublicKey(final Request request, final int num, final User owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -68,9 +75,7 @@ final class RtPublicKey implements PublicKey {
     }
 
     @Override
-    public void patch(
-        final JsonObject json)
-        throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 

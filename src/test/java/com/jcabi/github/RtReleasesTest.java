@@ -8,8 +8,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
-import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
@@ -25,25 +23,21 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtReleases}.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtReleasesTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void canFetchEmptyListOfReleases() {
-        final Releases releases = new RtReleases(
-            new FakeRequest().withBody("[]"),
-            RtReleasesTest.repo()
-        );
         MatcherAssert.assertThat(
             "Collection is not empty",
-            releases.iterate(),
+            new RtReleases(
+                new FakeRequest().withBody("[]"),
+                RtReleasesTest.repo()
+            ).iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -51,92 +45,136 @@ final class RtReleasesTest {
     @Test
     void canFetchNonEmptyListOfReleases() {
         final int number = 1;
-        final Releases releases = new RtReleases(
-            new FakeRequest().withBody(
-                Json.createArrayBuilder().add(
-                    Json.createObjectBuilder()
-                        .add("id", number)
-                        .add("tag_name", "v1.0.0")
-                        .add("name", "v1.0.0")
-                        .add("body", "Release")
-                ).build().toString()
-            ),
-            RtReleasesTest.repo()
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            releases.iterate().iterator().next().number(),
+            new RtReleases(
+                new FakeRequest().withBody(
+                    Json.createArrayBuilder().add(
+                        Json.createObjectBuilder()
+                            .add("id", number)
+                            .add("tag_name", "v1.0.0")
+                            .add("name", "v1.0.0")
+                            .add("body", "Release")
+                    ).build().toString()
+                ),
+                RtReleasesTest.repo()
+            ).iterate().iterator().next().number(),
             Matchers.equalTo(number)
         );
     }
 
     @Test
     void canFetchSingleRelease() {
-        final Releases releases = new RtReleases(
-            new FakeRequest(), RtReleasesTest.repo()
-        );
         MatcherAssert.assertThat(
-            "Value is null", releases.get(1), Matchers.notNullValue()
+            "Value is null", new RtReleases(
+                new FakeRequest(), RtReleasesTest.repo()
+            ).get(1), Matchers.notNullValue()
         );
     }
 
     @Test
-    void canCreateRelease() throws IOException {
+    void createsReleaseWithPost() throws IOException {
         final String tag = "v1.0.0";
-        final String rel = RtReleasesTest.release(tag).toString();
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, rel)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, rel))
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtReleasesTest.created(tag))
                 .start(RandomPort.port())
         ) {
-            final RtReleases releases = new RtReleases(
-                new JdkRequest(container.home()),
-                RtReleasesTest.repo()
-            );
-            final Release release = releases.create(tag);
+            RtReleasesTest.releases(container).create(tag);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Release is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                release.json().getString("tag_name"),
-                Matchers.equalTo(tag)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void canDeleteRelease() throws IOException {
+    void createsReleaseWithTag() throws IOException {
+        final String tag = "v1.0.0";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtReleasesTest.created(tag))
+                .next(RtReleasesTest.fetched(tag))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Created release has a wrong tag",
+                RtReleasesTest.releases(container).create(tag)
+                    .json().getString("tag_name"),
+                Matchers.equalTo(tag)
+            );
+        }
+    }
+
+    @Test
+    void deletesReleaseAtCorrectUri() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_NO_CONTENT,
-                    ""
-                )
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(RandomPort.port())
         ) {
-            final Releases releases = new RtReleases(
-                new ApacheRequest(container.home()),
-                RtReleasesTest.repo()
-            );
-            releases.remove(1);
-            final MkQuery query = container.take();
+            RtReleasesTest.releases(container).remove(1);
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                query.uri().toString(),
+                "Release is deleted at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith("/releases/1")
             );
+        }
+    }
+
+    @Test
+    void deletesReleaseWithDelete() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            RtReleasesTest.releases(container).remove(1);
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Release is not deleted with DELETE",
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Releases served by the given container.
+     * @param container Container to serve the releases
+     * @return Releases
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtReleases releases(final MkContainer container)
+        throws IOException {
+        return new RtReleases(
+            new JdkRequest(container.home()),
+            RtReleasesTest.repo()
+        );
+    }
+
+    /**
+     * Answer with a created release of the given tag.
+     * @param tag The tag name of the release
+     * @return Answer
+     */
+    private static MkAnswer created(final String tag) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtReleasesTest.release(tag).toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched release of the given tag.
+     * @param tag The tag name of the release
+     * @return Answer
+     */
+    private static MkAnswer fetched(final String tag) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtReleasesTest.release(tag).toString()
+        );
     }
 
     /**

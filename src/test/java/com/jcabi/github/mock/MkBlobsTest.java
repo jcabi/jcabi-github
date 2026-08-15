@@ -29,12 +29,11 @@ final class MkBlobsTest {
     }
 
     @Test
-    void getBlob() throws IOException {
+    void fetchesBlob() throws IOException {
         final Blobs blobs = new MkGitHub().randomRepo().git().blobs();
-        final Blob created =  blobs.create("content", "base64");
         MatcherAssert.assertThat(
             "Value is null",
-            blobs.get(created.sha()),
+            blobs.get(blobs.create("content", "base64").sha()),
             Matchers.notNullValue()
         );
     }

@@ -11,7 +11,6 @@ import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
@@ -22,50 +21,67 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Testcase for RtCommits.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtCommitsTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
-    void createsCommit() throws IOException {
+    void createsCommitWithPost() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_CREATED,
                     "{\"sha\":\"0abcd89jcabitest\"}"
                 )
-            ).start(RandomPort.port())) {
-            final Commits commits = new RtCommits(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
-            final JsonObject author = Json.createObjectBuilder()
-                .add("name", "Scott").add("email", "scott@gmail.com")
-                .add("date", "2011-06-17T14:53:35-07:00").build();
-            final JsonObject input = Json.createObjectBuilder()
-                .add("message", "initial version")
-                .add("author", author).build();
-            final Commit commit = commits.create(input);
+            ).start(RandomPort.port())
+        ) {
+            RtCommitsTest.create(container);
             MatcherAssert.assertThat(
-                "Object is not of expected type",
-                commit,
-                Matchers.instanceOf(Commit.class)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
+                "Commit is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
+        }
+    }
+
+    @Test
+    void createsCommitWithSha() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"sha\":\"0abcd89jcabitest\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Values are not equal",
-                commit.sha(),
+                "Created commit has a wrong SHA",
+                RtCommitsTest.create(container).sha(),
                 Matchers.equalTo("0abcd89jcabitest")
             );
         }
+    }
+
+    /**
+     * Create a commit through the given container.
+     * @param container Container to serve the request
+     * @return Created commit
+     * @throws IOException If there is any I/O problem
+     */
+    private static Commit create(final MkContainer container)
+        throws IOException {
+        return new RtCommits(
+            new ApacheRequest(container.home()),
+            new MkGitHub().randomRepo()
+        ).create(
+            Json.createObjectBuilder()
+                .add("message", "initial version").add(
+                    "author",
+                    Json.createObjectBuilder()
+                        .add("name", "Scott")
+                        .add("email", "scott@gmail.com")
+                        .add("date", "2011-06-17T14:53:35-07:00").build()
+                ).build()
+        );
     }
 }

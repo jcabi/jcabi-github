@@ -28,6 +28,5 @@ public interface Assignees {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/assignees/#check-assignee">Check assignee</a>
      */
-    boolean check(String login)
-        throws IOException;
+    boolean check(String login) throws IOException;
 }

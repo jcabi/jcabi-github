@@ -10,20 +10,19 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub comments.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
 final class RtGistComments implements GistComments {
+
     /**
      * API entry point.
      */
@@ -45,13 +44,21 @@ final class RtGistComments implements GistComments {
      * @param gist Gist
      */
     RtGistComments(final Request req, final Gist gist) {
-        this.entry = req;
-        this.request = this.entry.uri()
-            .path("/gists")
-            .path(gist.identifier())
-            .path("/comments")
-            .back();
-        this.owner = gist;
+        this(
+            req,
+            req.uri()
+                .path("/gists")
+                .path(gist.identifier())
+                .path("/comments")
+                .back(),
+            gist
+        );
+    }
+
+    private RtGistComments(final Request entry, final Request request, final Gist owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -70,20 +77,18 @@ final class RtGistComments implements GistComments {
     }
 
     @Override
-    public GistComment post(
-        final String text
-    ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("body", text)
-            .build();
+    public GistComment post(final String text) throws IOException {
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("body", text)
+                        .build()
+                ).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                // @checkstyle MultipleStringLiterals (1 line)
                 .json().readObject().getInt("id")
         );
     }

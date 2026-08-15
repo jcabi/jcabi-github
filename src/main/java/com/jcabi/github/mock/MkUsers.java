@@ -16,14 +16,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub users.
- *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "himself" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkUsers implements Users {
 
     /**
@@ -42,16 +40,13 @@ final class MkUsers implements Users {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkUsers(
-        final MkStorage stg,
-        final String login
-    ) throws IOException {
+    MkUsers(final MkStorage stg, final String login) throws IOException {
+        this(login, MkUsers.bootstrap(stg, login));
+    }
+
+    private MkUsers(final String login, final MkStorage stg) {
         this.storage = stg;
         this.himself = login;
-        this.storage.apply(
-            new Directives().xpath("/github").addIf("users")
-        );
-        this.add(login);
     }
 
     @Override
@@ -65,16 +60,12 @@ final class MkUsers implements Users {
     }
 
     @Override
-    public User get(
-        final String login
-    ) {
+    public User get(final String login) {
         return new MkUser(this.storage, login);
     }
 
     @Override
-    public Iterable<User> iterate(
-        final String identifier
-    ) {
+    public Iterable<User> iterate(final String identifier) {
         return new MkIterable<>(
             this.storage,
             "/github/users/user",
@@ -85,23 +76,46 @@ final class MkUsers implements Users {
     @Override
     public User add(final String login) {
         try {
-            this.storage.apply(
-                new Directives()
-                    .xpath(
-                        String.format(
-                            "/github/users[not(user[login='%s'])]", login
-                        )
-                    )
-                    .add("user")
-                    .add("login").set(login).up()
-                    .add("type").set("User").up()
-                    .add("name").set(login).up()
-                    .add("notifications").up()
-            );
+            MkUsers.enter(this.storage, login);
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);
         }
         return this.get(login);
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param login User to login
+     * @return The same storage
+     * @throws IOException If there is any I/O problem
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final String login)
+        throws IOException {
+        stg.apply(new Directives().xpath("/github").addIf("users"));
+        MkUsers.enter(stg, login);
+        return stg;
+    }
+
+    /**
+     * Put a user into the storage.
+     * @param stg Storage
+     * @param login User to login
+     * @throws IOException If there is any I/O problem
+     */
+    private static void enter(final MkStorage stg, final String login)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/users[not(user[login='%s'])]", login
+                )
+                )
+                .add("user")
+                .add("login").set(login).up()
+                .add("type").set("User").up()
+                .add("name").set(login).up()
+                .add("notifications").up()
+        );
+    }
 }

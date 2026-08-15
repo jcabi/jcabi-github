@@ -13,13 +13,13 @@ import lombok.ToString;
 
 /**
  * Mock markdown API.
- *
  * @since  0.10
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 public final class MkMarkdown implements Markdown {
+
     /**
      * Owner github.
      */
@@ -39,16 +39,12 @@ public final class MkMarkdown implements Markdown {
     }
 
     @Override
-    public String render(
-        final JsonObject json
-    ) {
+    public String render(final JsonObject json) {
         return json.getString("text");
     }
 
     @Override
-    public String raw(
-        final String text
-    ) {
+    public String raw(final String text) {
         return text;
     }
 }

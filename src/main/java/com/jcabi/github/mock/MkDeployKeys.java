@@ -18,14 +18,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub deploy keys.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkDeployKeys implements DeployKeys {
 
     /**
@@ -60,14 +58,13 @@ final class MkDeployKeys implements DeployKeys {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkDeployKeys.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkDeployKeys(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format("/github/repos/repo[@coords='%s']", this.coords)
-            ).addIf("deploykeys")
-        );
     }
 
     @Override
@@ -89,8 +86,7 @@ final class MkDeployKeys implements DeployKeys {
     public DeployKey create(
         final String title,
         final String key
-    )
-        throws IOException {
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -121,4 +117,20 @@ final class MkDeployKeys implements DeployKeys {
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format("/github/repos/repo[@coords='%s']", rep)
+            ).addIf("deploykeys")
+        );
+        return stg;
+    }
 }

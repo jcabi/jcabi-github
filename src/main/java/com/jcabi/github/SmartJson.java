@@ -22,7 +22,6 @@ import lombok.ToString;
 @ToString
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "object")
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class SmartJson {
 
     /**
@@ -44,9 +43,7 @@ final class SmartJson {
      * @return Value
      * @throws IOException If there is any I/O problem
      */
-    public String text(
-        final String name
-    ) throws IOException {
+    String text(final String name) throws IOException {
         return this.value(name, JsonString.class).getString();
     }
 
@@ -56,9 +53,7 @@ final class SmartJson {
      * @return Value
      * @throws IOException If there is any I/O problem
      */
-    public int number(
-        final String name
-    ) throws IOException {
+    int number(final String name) throws IOException {
         return this.value(name, JsonNumber.class).intValue();
     }
 
@@ -68,7 +63,7 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      * @since 0.14
      */
-    public JsonObject json() throws IOException {
+    JsonObject json() throws IOException {
         return this.object.json();
     }
 
@@ -80,10 +75,7 @@ final class SmartJson {
      * @return Value
      * @throws IOException If there is any I/O problem
      */
-    public <T> T value(
-        final String name,
-        final Class<T> type
-    ) throws IOException {
+    <T> T value(final String name, final Class<T> type) throws IOException {
         final JsonObject json = this.json();
         if (!json.containsKey(name)) {
             throw new IllegalStateException(
@@ -112,15 +104,13 @@ final class SmartJson {
 
     /**
      * Checks if a certain key is present
-     *  AND its ValueType isn't ValueType.NULL.
-     * @param name Name of the key which ValueType should be checked.
+     * AND its ValueType isn't ValueType.NULL.
+     * @param name Name of the key which ValueType should be checked
      * @return Returns <code>true</code> if key <code>name</code> is present
-     *  and its ValueType isn't ValueType.NULL, <code>false</code> otherwise.
+     *  and its ValueType isn't ValueType.NULL, <code>false</code> otherwise
      * @throws IOException If there is any I/O problem
      */
-    public boolean hasNotNull(
-        final String name
-    ) throws IOException {
+    boolean hasNotNull(final String name) throws IOException {
         final JsonValue value = this.object.json().get(name);
         return value != null
             && !JsonValue.ValueType.NULL.equals(value.getValueType());

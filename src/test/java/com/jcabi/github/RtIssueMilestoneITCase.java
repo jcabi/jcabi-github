@@ -14,11 +14,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link Milestones}.
  * @since 0.33.1
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtIssueMilestoneITCase {
+
     /**
      * Test repos.
      */
@@ -63,20 +62,25 @@ final class RtIssueMilestoneITCase {
     }
 
     @Test
+    void checkAbsentMilestone() throws Exception {
+        MatcherAssert.assertThat(
+            "Fresh issue has a milestone",
+            new Issue.Smart(RtIssueMilestoneITCase.issue()).hasMilestone(),
+            Matchers.is(false)
+        );
+    }
+
+    @Test
     void checkMilestone() throws Exception {
         final Issue.Smart issue = new Issue.Smart(
             RtIssueMilestoneITCase.issue()
         );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            issue.hasMilestone(),
-            Matchers.is(false)
+        issue.milestone(
+            RtIssueMilestoneITCase.repo
+                .milestones().create("two")
         );
-        final Milestone milestone = RtIssueMilestoneITCase.repo
-            .milestones().create("two");
-        issue.milestone(milestone);
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Issue has no milestone",
             issue.hasMilestone(),
             Matchers.is(true)
         );

@@ -23,10 +23,8 @@ final class RtGistITCase {
         final Gists gists = RtGistITCase.github().gists();
         Gist.Smart smart = null;
         try {
-            final String content = "content of file";
-            final String filename = "filename.txt";
             final Gist gist = gists.create(
-                Collections.singletonMap(filename, content), false
+                Collections.singletonMap("filename.txt", "content of file"), false
             );
             smart = new Gist.Smart(gist);
             final String file = smart.files().iterator().next();
@@ -45,7 +43,6 @@ final class RtGistITCase {
 
     /**
      * RtGist can fork a gist.
-     * @checkstyle MultipleStringLiterals (7 lines)
      * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test
@@ -94,5 +91,4 @@ final class RtGistITCase {
         );
         return new RtGitHub(key);
     }
-
 }

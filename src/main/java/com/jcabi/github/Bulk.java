@@ -40,66 +40,84 @@ import lombok.EqualsAndHashCode;
  * );</pre>
  *
  * <p>Now, there will be just two HTTP requests.
+ *
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  * @since 0.4
  */
-@EqualsAndHashCode(of = "origin")
+@EqualsAndHashCode(of = "items")
 public final class Bulk<T extends JsonReadable> implements Iterable<T> {
 
     /**
-     * Original iterable.
+     * Items to decorate.
      */
-    private final transient Iterable<T> origin;
+    private final transient Iterable<T> items;
 
     /**
      * Public ctor.
-     * @param items Items original
-     * @checkstyle AnonInnerLength (50 lines)
+     * @param list Items original
      */
-    @SuppressWarnings({"unchecked", "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"})
-    public Bulk(final Iterable<T> items) {
-        if (items instanceof RtPagination) {
-            final RtPagination<T> page = RtPagination.class.cast(items);
-            final RtValuePagination.Mapping<T, JsonObject> mapping =
-                page.mapping();
-            this.origin = new RtPagination<>(
-                page.request(),
-                object -> {
-                    final T item = mapping.map(object);
-                    return (T) Proxy.newProxyInstance(
-                        Thread.currentThread().getContextClassLoader(),
-                        item.getClass().getInterfaces(),
-                        (proxy, method, args) -> {
-                            final Object result;
-                            if ("json".equals(method.getName())) {
-                                result = object;
-                            } else {
-                                try {
-                                    result = method.invoke(item, args);
-                                } catch (final IllegalAccessException
-                                    | InvocationTargetException ex) {
-                                    throw new IllegalStateException(ex);
-                                }
-                            }
-                            return result;
-                        }
-                    );
-                }
-            );
-        } else {
-            this.origin = items;
-        }
+    public Bulk(final Iterable<T> list) {
+        this.items = list;
     }
 
     @Override
     public String toString() {
-        return this.origin.toString();
+        return this.origin().toString();
     }
 
     @Override
     public Iterator<T> iterator() {
-        return this.origin.iterator();
+        return this.origin().iterator();
     }
 
+    /**
+     * Original iterable, with JSON kept in memory.
+     * @return Iterable
+     */
+    @SuppressWarnings("unchecked")
+    private Iterable<T> origin() {
+        final Iterable<T> origin;
+        if (this.items instanceof RtPagination) {
+            final RtPagination<T> page = RtPagination.class.cast(this.items);
+            final RtValuePagination.Mapping<T, JsonObject> mapping =
+                page.mapping();
+            origin = new RtPagination<>(
+                page.request(),
+                object -> Bulk.proxy(mapping.map(object), object)
+            );
+        } else {
+            origin = this.items;
+        }
+        return origin;
+    }
+
+    /**
+     * Decorate the item, so that it returns the given JSON.
+     * @param item Item to decorate
+     * @param json JSON to return
+     * @param <X> Type of the item
+     * @return Decorated item
+     */
+    @SuppressWarnings("unchecked")
+    private static <X> X proxy(final X item, final JsonObject json) {
+        return (X) Proxy.newProxyInstance(
+            Thread.currentThread().getContextClassLoader(),
+            item.getClass().getInterfaces(),
+            (proxy, method, args) -> {
+                final Object result;
+                if ("json".equals(method.getName())) {
+                    result = json;
+                } else {
+                    try {
+                        result = method.invoke(item, args);
+                    } catch (final IllegalAccessException
+                        | InvocationTargetException ex) {
+                        throw new IllegalStateException(ex);
+                    }
+                }
+                return result;
+            }
+        );
+    }
 }

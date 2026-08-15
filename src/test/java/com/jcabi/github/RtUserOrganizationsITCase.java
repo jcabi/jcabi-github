@@ -16,16 +16,15 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.READ_ORG)
 final class RtUserOrganizationsITCase {
+
     @Test
     void iterateOrganizations() throws IOException {
-        final UserOrganizations orgs = GitHubIT.connect()
-            .users().get("yegor256")
-            .organizations();
         MatcherAssert.assertThat(
             "Value is null",
-            orgs.iterate().iterator().next(),
+            GitHubIT.connect()
+                .users().get("yegor256")
+                .organizations().iterate().iterator().next(),
             Matchers.notNullValue()
         );
     }
-
 }

@@ -8,7 +8,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -26,9 +25,9 @@ import org.mockito.Mockito;
  */
 @ExtendWith(RandomPort.class)
 final class RtPublicKeysTest {
+
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void retrievesKeys() throws IOException {
@@ -43,13 +42,12 @@ final class RtPublicKeysTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtPublicKeys keys = new RtPublicKeys(
-                new ApacheRequest(container.home()),
-                Mockito.mock(User.class)
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                keys.iterate(),
+                new RtPublicKeys(
+                    new ApacheRequest(container.home()),
+                    Mockito.mock(User.class)
+                ).iterate(),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
@@ -66,13 +64,12 @@ final class RtPublicKeysTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtPublicKeys keys = new RtPublicKeys(
-                new ApacheRequest(container.home()),
-                Mockito.mock(User.class)
-            );
             MatcherAssert.assertThat(
                 "Value is null",
-                keys.get(1),
+                new RtPublicKeys(
+                    new ApacheRequest(container.home()),
+                    Mockito.mock(User.class)
+                ).get(1),
                 Matchers.notNullValue()
             );
             container.stop();
@@ -80,72 +77,110 @@ final class RtPublicKeysTest {
     }
 
     @Test
-    void canRemoveKey() throws IOException {
+    void removesKeyAtCorrectUri() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_NO_CONTENT,
-                    ""
-                )
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(RandomPort.port())
         ) {
-            final RtPublicKeys keys = new RtPublicKeys(
-                new ApacheRequest(container.home()),
-                Mockito.mock(User.class)
-            );
-            keys.remove(1);
-            final MkQuery query = container.take();
+            RtPublicKeysTest.keys(container).remove(1);
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                query.uri().toString(),
+                "Key is removed at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith("/user/keys/1")
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
-                Matchers.equalTo(Request.DELETE)
-            );
-            container.stop();
         }
     }
 
-    /**
-     * RtPublicKeys can create a key.
-     * @throws IOException If some problem inside.
-     */
+    @Test
+    void removesKeyWithDelete() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            RtPublicKeysTest.keys(container).remove(1);
+            MatcherAssert.assertThat(
+                "Key is not removed with DELETE",
+                container.take().method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        }
+    }
+
     @Test
     void canCreatePublicKey() throws IOException {
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_CREATED, RtPublicKeysTest.key(1).toString()
-                )
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPublicKeysTest.created())
+                .start(RandomPort.port())
         ) {
-            final RtPublicKeys keys = new RtPublicKeys(
-                new ApacheRequest(container.home()),
-                Mockito.mock(User.class)
-            );
             MatcherAssert.assertThat(
-                "Values are not equal",
-                keys.create("theTitle", "theKey").number(),
+                "Created key has a wrong number",
+                RtPublicKeysTest.keys(container)
+                    .create("theTitle", "theKey").number(),
                 Matchers.is(1)
             );
-            final MkQuery query = container.take();
+        }
+    }
+
+    @Test
+    void createsKeyAtCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPublicKeysTest.created())
+                .start(RandomPort.port())
+        ) {
+            RtPublicKeysTest.keys(container).create("theTitle", "theKey");
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                query.uri().toString(),
+                "Key is created at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith("/user/keys")
             );
+        }
+    }
+
+    @Test
+    void sendsKeyWhileCreating() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPublicKeysTest.created())
+                .start(RandomPort.port())
+        ) {
+            RtPublicKeysTest.keys(container).create("theTitle", "theKey");
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
+                "Key is not sent while creating",
+                container.take().body(),
                 Matchers.equalTo(
                     "{\"title\":\"theTitle\",\"key\":\"theKey\"}"
                 )
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Keys served by the given container.
+     * @param container Container to serve the keys
+     * @return Keys
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtPublicKeys keys(final MkContainer container)
+        throws IOException {
+        return new RtPublicKeys(
+            new ApacheRequest(container.home()),
+            Mockito.mock(User.class)
+        );
+    }
+
+    /**
+     * Answer with a created key.
+     * @return Answer
+     */
+    private static MkAnswer created() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtPublicKeysTest.key(1).toString()
+        );
     }
 
     /**

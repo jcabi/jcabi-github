@@ -22,6 +22,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
 public final class RtCommits implements Commits {
+
     /**
      * RESTful API entry point.
      */
@@ -39,19 +40,24 @@ public final class RtCommits implements Commits {
 
     /**
      * Public constructor.
-     * @param req The entry request.
-     * @param repo The owner repo.
+     * @param req The entry request
+     * @param repo The owner repo
      */
-    RtCommits(
-        final Request req,
-        final Repo repo
-    ) {
-        this.entry = req;
-        this.owner = repo;
-        this.request = req.uri().path("/repos").path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/git")
-            .path("/commits").back();
+    RtCommits(final Request req, final Repo repo) {
+        this(
+            req,
+            repo,
+            req.uri().path("/repos").path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/git")
+                .path("/commits").back()
+        );
+    }
+
+    private RtCommits(final Request entry, final Repo owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -60,9 +66,7 @@ public final class RtCommits implements Commits {
     }
 
     @Override
-    public Commit create(
-        final JsonObject params
-    ) throws IOException {
+    public Commit create(final JsonObject params) throws IOException {
         return this.get(
             this.request.method(Request.POST)
                 .body().set(params).back()
@@ -74,16 +78,12 @@ public final class RtCommits implements Commits {
     }
 
     @Override
-    public Commit get(
-        final String sha
-    ) {
+    public Commit get(final String sha) {
         return new RtCommit(this.entry, this.owner, sha);
     }
 
     @Override
-    public Statuses statuses(
-        final String ref
-    ) {
+    public Statuses statuses(final String ref) {
         return new RtStatuses(this.entry, this.get(ref));
     }
 }

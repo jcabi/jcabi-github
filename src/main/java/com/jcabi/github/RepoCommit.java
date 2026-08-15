@@ -26,10 +26,8 @@ import lombok.ToString;
  *
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
     /**
@@ -53,6 +51,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "commit", "jsn" })
     final class Smart implements RepoCommit {
+
         /**
          * Encapsulated repo commit.
          */
@@ -67,9 +66,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
          * Public ctor.
          * @param cmt RepoCommit
          */
-        public Smart(
-            final RepoCommit cmt
-        ) {
+        public Smart(final RepoCommit cmt) {
             this.commit = cmt;
             this.jsn = new SmartJson(cmt);
         }
@@ -140,11 +137,8 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
         }
 
         @Override
-        public int compareTo(
-            final RepoCommit obj
-        ) {
+        public int compareTo(final RepoCommit obj) {
             return this.commit.compareTo(obj);
         }
     }
-
 }

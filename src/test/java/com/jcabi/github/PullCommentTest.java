@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -17,7 +16,6 @@ import org.mockito.Mockito;
  * Test case for {@link PullComment}.
  * @since 0.8
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class PullCommentTest {
 
     /**
@@ -140,10 +138,12 @@ final class PullCommentTest {
     void retrievesAuthor() throws IOException {
         final PullComment comment = Mockito.mock(PullComment.class);
         final String value = RandomStringUtils.secure().nextAlphanumeric(10);
-        final JsonObject user = Json.createObjectBuilder()
-            .add("login", value).build();
         Mockito.doReturn(
-            Json.createObjectBuilder().add("user", user).build()
+            Json.createObjectBuilder().add(
+                "user",
+                Json.createObjectBuilder()
+                    .add("login", value).build()
+            ).build()
         ).when(comment).json();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -151,5 +151,4 @@ final class PullCommentTest {
             Matchers.is(value)
         );
     }
-
 }

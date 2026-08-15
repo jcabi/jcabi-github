@@ -13,6 +13,7 @@ import java.io.IOException;
  * @since 0.4
  */
 @Immutable
+@FunctionalInterface
 public interface JsonPatchable {
 
     /**
@@ -21,5 +22,4 @@ public interface JsonPatchable {
      * @throws IOException If there is any I/O problem
      */
     void patch(JsonObject json) throws IOException;
-
 }

@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link RtRelease}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtReleaseITCase {
@@ -34,7 +33,6 @@ final class RtReleaseITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static RepoRule rule = new RepoRule();
 
@@ -79,5 +77,4 @@ final class RtReleaseITCase {
             );
         }
     }
-
 }

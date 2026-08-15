@@ -16,16 +16,16 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class MkPullCommentTest {
+
     /**
      * MkPullComment can be represented as JSON.
      * @throws Exception If a problem occurs.
      */
     @Test
     void retrieveAsJson() throws Exception {
-        final PullComment comment = MkPullCommentTest.comment();
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            comment.json().getString("url"),
+            MkPullCommentTest.comment().json().getString("url"),
             Matchers.startsWith("http://")
         );
     }

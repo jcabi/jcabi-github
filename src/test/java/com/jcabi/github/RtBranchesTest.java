@@ -24,80 +24,127 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtBranches}.
  * @since 0.8
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtBranchesTest {
 
     /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
+     * Name of the first branch.
      */
+    private static final String FIRST_NAME = "first";
+
+    /**
+     * Commit SHA of the first branch.
+     */
+    private static final String FIRST_SHA =
+        "a971b1aca044105897297b87b0b0983a54dd5817";
+
+    /**
+     * Name of the second branch.
+     */
+    private static final String SECOND_NAME = "second";
+
+    /**
+     * Commit SHA of the second branch.
+     */
+    private static final String SECOND_SHA =
+        "5d8dc2acf9c95d0d4e8881eebe04c2f0cbb249ff";
+
     @Test
     void iteratesOverBranches() throws IOException {
-        final String firstname = "first";
-        final String firstsha = "a971b1aca044105897297b87b0b0983a54dd5817";
-        final String secondname = "second";
-        final String secondsha = "5d8dc2acf9c95d0d4e8881eebe04c2f0cbb249ff";
-        final MkAnswer answer = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            Json.createArrayBuilder()
-                .add(RtBranchesTest.branch(firstname, firstsha))
-                .add(RtBranchesTest.branch(secondname, secondsha))
-                .build().toString()
-        );
         try (
             MkContainer container = new MkGrizzlyContainer()
-                .next(answer)
-                .next(answer)
+                .next(RtBranchesTest.answer())
                 .start(RandomPort.port())
         ) {
-            final RtBranches branches = new RtBranches(
-                new JdkRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                branches.iterate(),
+                RtBranchesTest.branches(container).iterate(),
                 Matchers.iterableWithSize(2)
             );
-            final Iterator<Branch> iter = branches.iterate().iterator();
-            final Branch first = iter.next();
+        }
+    }
+
+    @Test
+    void iteratesOverNameOfFirstBranch() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtBranchesTest.answer())
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Values are not equal", first.name(), Matchers.equalTo(firstname)
+                "First branch has a wrong name",
+                RtBranchesTest.branches(container)
+                    .iterate().iterator().next().name(),
+                Matchers.equalTo(RtBranchesTest.FIRST_NAME)
             );
+        }
+    }
+
+    @Test
+    void iteratesOverCommitOfFirstBranch() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtBranchesTest.answer())
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Values are not equal",
-                first.commit().sha(),
-                Matchers.equalTo(firstsha)
+                "First branch has a wrong commit",
+                RtBranchesTest.branches(container)
+                    .iterate().iterator().next().commit().sha(),
+                Matchers.equalTo(RtBranchesTest.FIRST_SHA)
             );
-            final Branch second = iter.next();
+        }
+    }
+
+    @Test
+    void iteratesOverNameOfSecondBranch() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtBranchesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            final Iterator<Branch> iter =
+                RtBranchesTest.branches(container).iterate().iterator();
+            iter.next();
             MatcherAssert.assertThat(
-                "Values are not equal",
-                second.name(),
-                Matchers.equalTo(secondname)
+                "Second branch has a wrong name",
+                iter.next().name(),
+                Matchers.equalTo(RtBranchesTest.SECOND_NAME)
             );
+        }
+    }
+
+    @Test
+    void iteratesOverCommitOfSecondBranch() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtBranchesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            final Iterator<Branch> iter =
+                RtBranchesTest.branches(container).iterate().iterator();
+            iter.next();
             MatcherAssert.assertThat(
-                "Values are not equal",
-                second.commit().sha(),
-                Matchers.equalTo(secondsha)
+                "Second branch has a wrong commit",
+                iter.next().commit().sha(),
+                Matchers.equalTo(RtBranchesTest.SECOND_SHA)
             );
-            container.stop();
         }
     }
 
     @Test
     void findBranch() throws IOException {
-        final String thirdname = "third";
-        final String thirdsha = "297b87b0b0983a54dd5817a971b1aca044105897";
         final String fourthname = "fourth";
         final String fourthsha = "d0d4e8881eebe04c5d8dc2acf9c952f0cbb249ff";
         final MkAnswer answer = new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
-            Json.createArrayBuilder()
-                .add(RtBranchesTest.branch(thirdname, thirdsha))
-                .add(RtBranchesTest.branch(fourthname, fourthsha))
+            Json.createArrayBuilder().add(
+                RtBranchesTest.branch(
+                    "third",
+                    "297b87b0b0983a54dd5817a971b1aca044105897"
+                )
+            ).add(RtBranchesTest.branch(fourthname, fourthsha))
                 .build().toString()
         );
         try (
@@ -106,18 +153,12 @@ final class RtBranchesTest {
                 .next(answer)
                 .start(RandomPort.port())
         ) {
-            final RtBranches branches = new RtBranches(
-                new JdkRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
             MatcherAssert.assertThat(
                 "could not find branch correctly",
-                branches.find(fourthname).commit().sha(),
-                new IsEqual<>(
-                    fourthsha
-                )
+                RtBranchesTest.branches(container)
+                    .find(fourthname).commit().sha(),
+                new IsEqual<>(fourthsha)
             );
-            container.stop();
         }
     }
 
@@ -128,17 +169,45 @@ final class RtBranchesTest {
     @Test
     void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final RtBranches branch = new RtBranches(new FakeRequest(), repo);
-        final Coordinates coords = branch.repo().coordinates();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.user(),
-            Matchers.equalTo(repo.coordinates().user())
+            "Branches belong to a wrong repo",
+            new RtBranches(new FakeRequest(), repo).repo().coordinates(),
+            Matchers.equalTo(repo.coordinates())
         );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.repo(),
-            Matchers.equalTo(repo.coordinates().repo())
+    }
+
+    /**
+     * Branches served by the given container.
+     * @param container Container to serve the branches
+     * @return Branches
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtBranches branches(final MkContainer container)
+        throws IOException {
+        return new RtBranches(
+            new JdkRequest(container.home()),
+            new MkGitHub().randomRepo()
+        );
+    }
+
+    /**
+     * Answer with two branches.
+     * @return Answer
+     */
+    private static MkAnswer answer() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder().add(
+                RtBranchesTest.branch(
+                    RtBranchesTest.FIRST_NAME,
+                    RtBranchesTest.FIRST_SHA
+                )
+            ).add(
+                RtBranchesTest.branch(
+                    RtBranchesTest.SECOND_NAME,
+                    RtBranchesTest.SECOND_SHA
+                )
+            ).build().toString()
         );
     }
 
@@ -150,12 +219,10 @@ final class RtBranchesTest {
      */
     private static JsonObject branch(final String name, final String sha) {
         return Json.createObjectBuilder()
-            .add("name", name)
-            .add(
+            .add("name", name).add(
                 "commit",
                 Json.createObjectBuilder()
-                    .add("sha", sha)
-                    .add(
+                    .add("sha", sha).add(
                         "url",
                         String.format(
                             "https://api.jcabi-github.invalid/repos/user/repo/commits/%s",

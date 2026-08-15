@@ -8,11 +8,12 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * An enum whose values correspond to unique strings.
- *
  * @since 0.22.0
  */
 @Immutable
+@FunctionalInterface
 public interface StringEnum {
+
     /**
      * The string that this enum value represents.
      * @return String

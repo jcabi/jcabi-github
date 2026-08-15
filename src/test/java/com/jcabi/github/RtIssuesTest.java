@@ -24,48 +24,46 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtIssues}.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtIssuesTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
-    void createIssue() throws IOException {
+    void createsIssueWithPost() throws IOException {
         final String title = "Found a bug";
-        final String body = RtIssuesTest.issue(title).toString();
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtIssuesTest.answer(title))
                 .start(RandomPort.port())
         ) {
-            final RtIssues issues = new RtIssues(
-                new JdkRequest(container.home()),
-                RtIssuesTest.repo()
-            );
-            final Issue issue = issues.create(
-                title, "having a problem with it."
-            );
+            RtIssuesTest.create(container, title);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Issue is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Issue.Smart(issue).title(),
-                Matchers.equalTo(title)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void getSingleIssue() throws IOException {
+    void createsIssueWithTitle() throws IOException {
+        final String title = "Found a bug";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtIssuesTest.answer(title))
+                .next(RtIssuesTest.fetched(title))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Created issue has a wrong title",
+                new Issue.Smart(RtIssuesTest.create(container, title)).title(),
+                Matchers.equalTo(title)
+            );
+        }
+    }
+
+    @Test
+    void fetchesSingleIssue() throws IOException {
         final String title = "Unit test";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -75,14 +73,14 @@ final class RtIssuesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtIssues issues = new RtIssues(
-                new JdkRequest(container.home()),
-                RtIssuesTest.repo()
-            );
-            final Issue issue = issues.get(1);
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new Issue.Smart(issue).title(),
+                new Issue.Smart(
+                    new RtIssues(
+                        new JdkRequest(container.home()),
+                        RtIssuesTest.repo()
+                    ).get(1)
+                ).title(),
                 Matchers.equalTo(title)
             );
             container.stop();
@@ -102,13 +100,12 @@ final class RtIssuesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtIssues issues = new RtIssues(
-                new JdkRequest(container.home()),
-                RtIssuesTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                issues.iterate(new ArrayMap<>()),
+                new RtIssues(
+                    new JdkRequest(container.home()),
+                    RtIssuesTest.repo()
+                ).iterate(new ArrayMap<>()),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
@@ -128,13 +125,12 @@ final class RtIssuesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtIssues issues = new RtIssues(
-                new JdkRequest(container.home()),
-                RtIssuesTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                issues.search(
+                new RtIssues(
+                    new JdkRequest(container.home()),
+                    RtIssuesTest.repo()
+                ).search(
                     Issues.Sort.UPDATED,
                     Search.Order.ASC,
                     new EnumMap<>(
@@ -145,6 +141,47 @@ final class RtIssuesTest {
             );
             container.stop();
         }
+    }
+
+    /**
+     * Create an issue through the given container.
+     * @param container Container to serve the issues
+     * @param title Title of the issue
+     * @return Created issue
+     * @throws IOException If there is any I/O problem
+     */
+    private static Issue create(
+        final MkContainer container,
+        final String title
+    ) throws IOException {
+        return new RtIssues(
+            new JdkRequest(container.home()),
+            RtIssuesTest.repo()
+        ).create(title, "having a problem with it.");
+    }
+
+    /**
+     * Answer with an issue of the given title.
+     * @param title Title of the issue
+     * @return Answer
+     */
+    private static MkAnswer answer(final String title) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtIssuesTest.issue(title).toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched issue of the given title.
+     * @param title Title of the issue
+     * @return Answer
+     */
+    private static MkAnswer fetched(final String title) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtIssuesTest.issue(title).toString()
+        );
     }
 
     /**

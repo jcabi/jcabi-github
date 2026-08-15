@@ -22,14 +22,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub labels.
- *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "repo", "ticket" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkIssueLabels implements IssueLabels {
 
     /**
@@ -59,7 +57,6 @@ final class MkIssueLabels implements IssueLabels {
      * @param rep Repo
      * @param issue Issue number
      * @throws IOException If fails
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkIssueLabels(
         final MkStorage stg,
@@ -67,19 +64,19 @@ final class MkIssueLabels implements IssueLabels {
         final Coordinates rep,
         final int issue
     ) throws IOException {
+        this(MkIssueLabels.bootstrap(stg, rep, issue), login, issue, rep);
+    }
+
+    private MkIssueLabels(
+        final MkStorage stg,
+        final String login,
+        final int issue,
+        final Coordinates rep
+    ) {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
         this.ticket = issue;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    // @checkstyle LineLength (1 line)
-                    "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
-                    rep, this.ticket
-                )
-            ).addIf("labels")
-        );
     }
 
     @Override
@@ -88,8 +85,7 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void add(final Iterable<String> labels
-    ) throws IOException {
+    public void add(final Iterable<String> labels) throws IOException {
         final Collection<String> existing = this.labels();
         final Set<String> added = new HashSet<>();
         final Directives dirs = new Directives().xpath(this.xpath());
@@ -118,8 +114,7 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void replace(final Iterable<String> labels
-    ) throws IOException {
+    public void replace(final Iterable<String> labels) throws IOException {
         this.clear();
         this.add(labels);
     }
@@ -139,8 +134,7 @@ final class MkIssueLabels implements IssueLabels {
     }
 
     @Override
-    public void remove(final String name
-    ) throws IOException {
+    public void remove(final String name) throws IOException {
         if (this.labels().contains(name)) {
             this.storage.apply(
                 new Directives().xpath(
@@ -188,5 +182,26 @@ final class MkIssueLabels implements IssueLabels {
             labels.add(label.name());
         }
         return labels;
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @param issue Issue number
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final int issue)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
+                    rep, issue
+                )
+            ).addIf("labels")
+        );
+        return stg;
     }
 }

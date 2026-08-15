@@ -21,20 +21,18 @@ final class RtGitignoresITCase {
 
     @Test
     void iterateTemplateNames() throws IOException {
-        final Gitignores gitignores = RtGitignoresITCase.gitignores();
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
-            gitignores.iterate(),
+            RtGitignoresITCase.gitignores().iterate(),
             Matchers.hasItem("C++")
         );
     }
 
     @Test
-    void getRawTemplateByName() throws IOException {
-        final Gitignores gitignores = RtGitignoresITCase.gitignores();
+    void fetchesRawTemplateByName() throws IOException {
         MatcherAssert.assertThat(
             "String does not contain expected value",
-            gitignores.template("C"),
+            RtGitignoresITCase.gitignores().template("C"),
             Matchers.containsString("#")
         );
     }

@@ -26,7 +26,6 @@ import org.xembly.Directives;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 public final class MkCommits implements Commits {
 
     /**
@@ -46,9 +45,9 @@ public final class MkCommits implements Commits {
 
     /**
      * Public constructor.
-     * @param stg The storage.
-     * @param login The login name.
-     * @param rep Repo's coordinates.
+     * @param stg The storage
+     * @param login The login name
+     * @param rep Repo's coordinates
      * @throws IOException If something goes wrong.
      */
     MkCommits(
@@ -56,17 +55,13 @@ public final class MkCommits implements Commits {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkCommits.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkCommits(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/git",
-                    this.coords
-                )
-            ).addIf("commits")
-        );
     }
 
     @Override
@@ -75,9 +70,7 @@ public final class MkCommits implements Commits {
     }
 
     @Override
-    public Commit create(
-        final JsonObject params
-    ) throws IOException {
+    public Commit create(final JsonObject params) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("commit");
         for (final Map.Entry<String, JsonValue> entry : params.entrySet()) {
             final JsonValue value = entry.getValue();
@@ -103,16 +96,12 @@ public final class MkCommits implements Commits {
     }
 
     @Override
-    public Commit get(
-        final String sha
-    ) {
+    public Commit get(final String sha) {
         return new MkCommit(this.storage, this.self, this.coords, sha);
     }
 
     @Override
-    public Statuses statuses(
-        final String sha
-    ) {
+    public Statuses statuses(final String sha) {
         return new MkStatuses(this.get(sha));
     }
 
@@ -140,5 +129,25 @@ public final class MkCommits implements Commits {
             result = value.toString();
         }
         return result;
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    rep
+                )
+            ).addIf("commits")
+        );
+        return stg;
     }
 }

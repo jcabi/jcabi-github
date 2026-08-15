@@ -19,12 +19,10 @@ import lombok.EqualsAndHashCode;
 /**
  * Commits of a GitHub repository.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "entry" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtRepoCommits implements RepoCommits {
 
     /**
@@ -53,24 +51,31 @@ final class RtRepoCommits implements RepoCommits {
      * @param repo Repository
      */
     RtRepoCommits(final Request req, final Repo repo) {
+        this(
+            req,
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+        );
+    }
+
+    private RtRepoCommits(final Request req, final Repo repo,
+        final RequestURI rep) {
+        this(req, repo, rep.path("/commits").back(), rep.path("/compare").back());
+    }
+
+    private RtRepoCommits(final Request req, final Repo repo,
+        final Request commits, final Request compare) {
         this.entry = req;
         this.owner = repo;
-        final RequestURI rep = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo());
-        this.request = rep
-            .path("/commits")
-            .back();
-        this.comp = rep
-            .path("/compare")
-            .back();
+        this.request = commits;
+        this.comp = compare;
     }
 
     @Override
-    public Iterable<RepoCommit> iterate(
-        final Map<String, String> params
-    ) {
+    public Iterable<RepoCommit> iterate(final Map<String, String> params) {
         return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
             value -> this.get(value.getString("sha"))
@@ -78,24 +83,19 @@ final class RtRepoCommits implements RepoCommits {
     }
 
     @Override
-    public RepoCommit get(
-        final String sha
-    ) {
+    public RepoCommit get(final String sha) {
         return new RtRepoCommit(this.entry, this.owner, sha);
     }
 
     @Override
-    public CommitsComparison compare(
-        final String base,
-        final String head) {
+    public CommitsComparison compare(final String base, final String head) {
         return new RtCommitsComparison(this.entry, this.owner, base, head);
     }
 
     @Override
     public String diff(
         final String base,
-        final String head)
-        throws IOException {
+        final String head) throws IOException {
         return this.comp.reset(HttpHeaders.ACCEPT)
             .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.diff")
             .uri()
@@ -109,8 +109,7 @@ final class RtRepoCommits implements RepoCommits {
     @Override
     public String patch(
         final String base,
-        final String head)
-        throws IOException {
+        final String head) throws IOException {
         return this.comp.reset(HttpHeaders.ACCEPT)
             .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.patch")
             .uri()

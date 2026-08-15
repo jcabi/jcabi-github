@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -19,13 +18,12 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub milestones.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"entry", "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtMilestones implements Milestones {
+
     /**
      * API entry point.
      */
@@ -47,15 +45,22 @@ final class RtMilestones implements Milestones {
      * @param repo Repository
      */
     RtMilestones(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/milestones")
-            .back();
-        this.owner = repo;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/milestones")
+                .back(),
+            repo
+        );
+    }
+
+    private RtMilestones(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -69,15 +74,14 @@ final class RtMilestones implements Milestones {
     }
 
     @Override
-    public Milestone create(
-        final String title)
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("title", title)
-            .build();
+    public Milestone create(final String title) throws IOException {
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("title", title)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -100,8 +104,7 @@ final class RtMilestones implements Milestones {
     }
 
     @Override
-    public Iterable<Milestone> iterate(
-        final Map<String, String> params) {
+    public Iterable<Milestone> iterate(final Map<String, String> params) {
         return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
             object -> this.get(object.getInt("number"))

@@ -19,12 +19,17 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkIssueLabels}.
  * @since 0.6
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkIssueLabelsTest {
+
     /**
      * Username of actor.
      */
     private static final String USER = "jeff";
+
+    /**
+     * Name of the label.
+     */
+    private static final String NAME = "confirmed";
 
     @Test
     void iteratesIssues() throws IOException {
@@ -44,8 +49,7 @@ final class MkIssueLabelsTest {
     void createsLabelsThroughDecorator() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
         final Issue issue = repo.issues().create("how are you?", "");
-        final String name = "task";
-        new IssueLabels.Smart(issue.labels()).addIfAbsent(name, "f0f0f0");
+        new IssueLabels.Smart(issue.labels()).addIfAbsent("task", "f0f0f0");
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             issue.labels().iterate(),
@@ -55,82 +59,194 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels creates a "labeled" event when a label is added.
+     * @throws IOException If some problem inside
      */
     @Test
     void addingLabelGeneratesEvent() throws IOException {
-        final Repo repo = new MkGitHub().randomRepo();
-        final String name = "confirmed";
-        repo.labels().create(name, "663399");
-        final Issue issue = repo.issues().create("Titular", "Corpus");
-        issue.labels().add(Collections.singletonList(name));
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            issue.events(),
+            MkIssueLabelsTest.labeled(new MkGitHub().randomRepo()).events(),
             Matchers.iterableWithSize(1)
         );
-        final Event.Smart labeled = new Event.Smart(
-            issue.events().iterator().next()
-        );
+    }
+
+    /**
+     * MkIssueLabels types the event of adding a label.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void typesEventOfAddingLabel() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            labeled.type(),
+            "Event of adding a label has a wrong type",
+            MkIssueLabelsTest.first(
+                MkIssueLabelsTest.labeled(new MkGitHub().randomRepo())
+            ).type(),
             Matchers.equalTo(Event.LABELED)
         );
+    }
+
+    /**
+     * MkIssueLabels signs the event of adding a label.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void signsEventOfAddingLabel() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            labeled.author().login(),
+            "Event of adding a label has a wrong author",
+            MkIssueLabelsTest.first(
+                MkIssueLabelsTest.labeled(new MkGitHub().randomRepo())
+            ).author().login(),
             Matchers.equalTo(MkIssueLabelsTest.USER)
         );
+    }
+
+    /**
+     * MkIssueLabels puts the event of adding a label into its repo.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void putsEventOfAddingLabelIntoRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            labeled.repo(),
+            "Event of adding a label belongs to a wrong repo",
+            MkIssueLabelsTest.first(MkIssueLabelsTest.labeled(repo)).repo(),
             Matchers.equalTo(repo)
         );
+    }
+
+    /**
+     * MkIssueLabels names the label in the event of adding it.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void namesLabelInEventOfAddingIt() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            labeled.label().get().name(),
-            Matchers.equalTo(name)
+            "Event of adding a label names a wrong label",
+            MkIssueLabelsTest.first(
+                MkIssueLabelsTest.labeled(new MkGitHub().randomRepo())
+            ).label().get().name(),
+            Matchers.equalTo(MkIssueLabelsTest.NAME)
         );
     }
 
     /**
      * MkIssueLabels creates an "unlabeled" event when a label is removed.
+     * @throws IOException If some problem inside
      */
     @Test
     void removingLabelGeneratesEvent() throws IOException {
-        final Repo repo = new MkGitHub().randomRepo();
-        final String name = "invalid";
-        repo.labels().create(name, "ee82ee");
-        final Issue issue = repo.issues().create("Rewrite", "Sound good?");
-        issue.labels().add(Collections.singletonList(name));
-        issue.labels().remove(name);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            issue.events(),
+            MkIssueLabelsTest.unlabeled(new MkGitHub().randomRepo()).events(),
             Matchers.iterableWithSize(2)
         );
-        final Iterator<Event> events = issue.events().iterator();
-        events.next();
-        final Event.Smart unlabeled = new Event.Smart(events.next());
+    }
+
+    /**
+     * MkIssueLabels types the event of removing a label.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void typesEventOfRemovingLabel() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            unlabeled.type(),
+            "Event of removing a label has a wrong type",
+            MkIssueLabelsTest.second(
+                MkIssueLabelsTest.unlabeled(new MkGitHub().randomRepo())
+            ).type(),
             Matchers.equalTo(Event.UNLABELED)
         );
+    }
+
+    /**
+     * MkIssueLabels signs the event of removing a label.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void signsEventOfRemovingLabel() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            unlabeled.author().login(),
+            "Event of removing a label has a wrong author",
+            MkIssueLabelsTest.second(
+                MkIssueLabelsTest.unlabeled(new MkGitHub().randomRepo())
+            ).author().login(),
             Matchers.equalTo(MkIssueLabelsTest.USER)
         );
+    }
+
+    /**
+     * MkIssueLabels puts the event of removing a label into its repo.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void putsEventOfRemovingLabelIntoRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            unlabeled.repo(),
+            "Event of removing a label belongs to a wrong repo",
+            MkIssueLabelsTest.second(MkIssueLabelsTest.unlabeled(repo)).repo(),
             Matchers.equalTo(repo)
         );
+    }
+
+    /**
+     * MkIssueLabels names the label in the event of removing it.
+     * @throws IOException If some problem inside
+     */
+    @Test
+    void namesLabelInEventOfRemovingIt() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            unlabeled.label().get().name(),
-            Matchers.equalTo(name)
+            "Event of removing a label names a wrong label",
+            MkIssueLabelsTest.second(
+                MkIssueLabelsTest.unlabeled(new MkGitHub().randomRepo())
+            ).label().get().name(),
+            Matchers.equalTo(MkIssueLabelsTest.NAME)
         );
+    }
+
+    /**
+     * An issue with one label attached to it.
+     * @param repo Repo to create the issue in
+     * @return Issue with a label
+     * @throws IOException If some problem inside
+     */
+    private static Issue labeled(final Repo repo) throws IOException {
+        repo.labels().create(MkIssueLabelsTest.NAME, "663399");
+        final Issue issue = repo.issues().create("Titular", "Corpus");
+        issue.labels().add(
+            Collections.singletonList(MkIssueLabelsTest.NAME)
+        );
+        return issue;
+    }
+
+    /**
+     * An issue with one label attached and then detached.
+     * @param repo Repo to create the issue in
+     * @return Issue without a label
+     * @throws IOException If some problem inside
+     */
+    private static Issue unlabeled(final Repo repo) throws IOException {
+        final Issue issue = MkIssueLabelsTest.labeled(repo);
+        issue.labels().remove(MkIssueLabelsTest.NAME);
+        return issue;
+    }
+
+    /**
+     * The first event of the given issue.
+     * @param issue Issue to take the event from
+     * @return Event
+     * @throws IOException If some problem inside
+     */
+    private static Event.Smart first(final Issue issue) throws IOException {
+        return new Event.Smart(issue.events().iterator().next());
+    }
+
+    /**
+     * The second event of the given issue.
+     * @param issue Issue to take the event from
+     * @return Event
+     * @throws IOException If some problem inside
+     */
+    private static Event.Smart second(final Issue issue) throws IOException {
+        final Iterator<Event> events = issue.events().iterator();
+        events.next();
+        return new Event.Smart(events.next());
     }
 }

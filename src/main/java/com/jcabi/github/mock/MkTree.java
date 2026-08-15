@@ -20,7 +20,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords", "sha" })
-@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 final class MkTree implements Tree {
 
     /**
@@ -45,11 +44,10 @@ final class MkTree implements Tree {
 
     /**
      * Public constructor.
-     * @param strg The storage.
+     * @param strg The storage
      * @param login The login name
      * @param crds Credential
-     * @param identifier Tree's sha.
-     * @checkstyle ParameterNumber (5 lines)
+     * @param identifier Tree's sha
      */
     MkTree(
         final MkStorage strg,
@@ -57,11 +55,24 @@ final class MkTree implements Tree {
         final Coordinates crds,
         final String identifier
     ) {
-        this.storage = strg;
-        this.self = login;
-        this.coords = crds;
-        this.sha = new StringBuilder().append('"').append(identifier)
-            .append('"').toString();
+        this(
+            strg,
+            login,
+            String.format("\"%s\"", identifier),
+            crds
+        );
+    }
+
+    private MkTree(
+        final MkStorage storage,
+        final String self,
+        final String sha,
+        final Coordinates coords
+    ) {
+        this.storage = storage;
+        this.self = self;
+        this.sha = sha;
+        this.coords = coords;
     }
 
     @Override
@@ -83,7 +94,6 @@ final class MkTree implements Tree {
 
     /**
      * XPath of this element in XML tree.
-     *
      * @return XPath
      */
     private String xpath() {
@@ -92,5 +102,4 @@ final class MkTree implements Tree {
             this.coords, this.sha
         );
     }
-
 }

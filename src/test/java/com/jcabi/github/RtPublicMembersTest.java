@@ -11,7 +11,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
@@ -25,11 +24,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtPublicMembers}.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtPublicMembersTest {
+
     /**
      * Test organization.
      */
@@ -71,173 +69,276 @@ final class RtPublicMembersTest {
         );
     }
 
-    /**
-     * RtPublicMembers can conceal a user's membership in the organization.
-     * @throws IOException If there is an I/O problem
-     */
     @Test
-    void concealsMembers() throws IOException {
+    void concealsWithDelete() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
                 .start(RandomPort.port())
         ) {
-            final RtPublicMembers members = new RtPublicMembers(
-                new ApacheRequest(container.home()),
-                RtPublicMembersTest.organization()
-            );
-            members.conceal(RtPublicMembersTest.user());
-            final MkQuery req = container.take();
+            RtPublicMembersTest.members(container)
+                .conceal(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "Values are not equal",
-                req.method(),
+                "Membership is not concealed with DELETE",
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
+        }
+    }
+
+    @Test
+    void concealsWithoutBody() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .start(RandomPort.port())
+        ) {
+            RtPublicMembersTest.members(container)
+                .conceal(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "Values are not equal",
-                req.body(),
+                "Membership is concealed with a body",
+                container.take().body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
+        }
+    }
+
+    @Test
+    void concealsAtCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .start(RandomPort.port())
+        ) {
+            RtPublicMembersTest.members(container)
+                .conceal(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                req.uri().toString(),
+                "Membership is concealed at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
+        }
+    }
+
+    @Test
+    void failsToConcealOnError() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            ).start(RandomPort.port())
+        ) {
+            final RtPublicMembers members =
+                RtPublicMembersTest.members(container);
             Assertions.assertThrows(
                 AssertionError.class,
                 () -> members.conceal(RtPublicMembersTest.user())
             );
-            container.stop();
         }
     }
 
-    /**
-     * RtPublicMembers can publicize the membership of
-     * a user in the organization.
-     * @throws IOException If there is an I/O problem
-     */
     @Test
-    void publicizesMembers() throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-            .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
-            .start(RandomPort.port())
+    void publicizesWithPut() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .start(RandomPort.port())
         ) {
-            final RtPublicMembers members = new RtPublicMembers(
-                new ApacheRequest(container.home()),
-                RtPublicMembersTest.organization()
-            );
-            members.publicize(RtPublicMembersTest.user());
-            final MkQuery req = container.take();
+            RtPublicMembersTest.members(container)
+                .publicize(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "Values are not equal",
-                req.method(),
+                "Membership is not publicized with PUT",
+                container.take().method(),
                 Matchers.equalTo(Request.PUT)
             );
+        }
+    }
+
+    @Test
+    void publicizesAtCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .start(RandomPort.port())
+        ) {
+            RtPublicMembersTest.members(container)
+                .publicize(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                req.uri().toString(),
+                "Membership is publicized at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
+        }
+    }
+
+    @Test
+    void failsToPublicizeOnError() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            ).start(RandomPort.port())
+        ) {
+            final RtPublicMembers members =
+                RtPublicMembersTest.members(container);
             Assertions.assertThrows(
                 AssertionError.class,
                 () -> members.publicize(RtPublicMembersTest.user())
             );
-            container.stop();
         }
     }
 
-    /**
-     * RtPublicMembers can check whether a user
-     * is a public member of the organization.
-     * @throws IOException If there is an I/O problem
-     */
     @Test
-    void checkPublicMembership() throws IOException {
+    void checksMembershipWithGet() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
                 .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
-                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
-                .next(
-                    new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
-                )
                 .start(RandomPort.port())
         ) {
-            final RtPublicMembers members = new RtPublicMembers(
-                new ApacheRequest(container.home()),
-                RtPublicMembersTest.organization()
-            );
-            members.contains(RtPublicMembersTest.user());
-            final MkQuery req = container.take();
+            RtPublicMembersTest.members(container)
+                .contains(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "Values are not equal",
-                req.method(),
+                "Membership is not checked with GET",
+                container.take().method(),
                 Matchers.equalTo(Request.GET)
             );
+        }
+    }
+
+    @Test
+    void checksMembershipAtCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+                .start(RandomPort.port())
+        ) {
+            RtPublicMembersTest.members(container)
+                .contains(RtPublicMembersTest.user());
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                req.uri().toString(),
+                "Membership is checked at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBER_URL)
             );
+        }
+    }
+
+    @Test
+    void treatsNotFoundAsNonMember() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND))
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "404 is interpreted as the user not being a public member",
-                !members.contains(RtPublicMembersTest.user()),
+                "404 is not interpreted as the user not being a member",
+                RtPublicMembersTest.members(container)
+                    .contains(RtPublicMembersTest.user()),
+                Matchers.is(false)
+            );
+        }
+    }
+
+    @Test
+    void treatsNoContentAsMember() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "204 is not interpreted as the user being a member",
+                RtPublicMembersTest.members(container)
+                    .contains(RtPublicMembersTest.user()),
                 Matchers.is(true)
             );
-            MatcherAssert.assertThat(
-                "204 is interpreted as the user being a public member",
-                members.contains(RtPublicMembersTest.user()),
-                Matchers.is(true)
-            );
+        }
+    }
+
+    @Test
+    void failsToCheckMembershipOnError() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            ).start(RandomPort.port())
+        ) {
+            final RtPublicMembers members =
+                RtPublicMembersTest.members(container);
             Assertions.assertThrows(
                 AssertionError.class,
                 () -> members.contains(RtPublicMembersTest.user())
             );
-            container.stop();
         }
     }
 
-    /**
-     * RtPublicMembers can list the public members of the organization.
-     * @throws IOException If there is an I/O problem
-     */
     @Test
-    void iteratesPublicMembers() throws IOException {
+    void iteratesWithGet() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                .next(
-                    new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_OK,
-                        "[{\"login\":\"octobat\"}]"
-                    )
-                )
-                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR))
+                .next(RtPublicMembersTest.octobat())
                 .start(RandomPort.port())
         ) {
-            final RtPublicMembers members = new RtPublicMembers(
-                new ApacheRequest(container.home()),
-                RtPublicMembersTest.organization()
-            );
-            members.iterate().iterator().next();
-            final MkQuery req = container.take();
+            RtPublicMembersTest.members(container).iterate().iterator().next();
             MatcherAssert.assertThat(
-                "Values are not equal",
-                req.method(),
+                "Members are not iterated with GET",
+                container.take().method(),
                 Matchers.equalTo(Request.GET)
             );
+        }
+    }
+
+    @Test
+    void iteratesAtCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPublicMembersTest.octobat())
+                .start(RandomPort.port())
+        ) {
+            RtPublicMembersTest.members(container).iterate().iterator().next();
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                req.uri().toString(),
+                "Members are iterated at a wrong URI",
+                container.take().uri().toString(),
                 Matchers.endsWith(RtPublicMembersTest.MEMBERS_URL)
             );
+        }
+    }
+
+    @Test
+    void failsToIterateOnError() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_INTERNAL_ERROR)
+            ).start(RandomPort.port())
+        ) {
+            final RtPublicMembers members =
+                RtPublicMembersTest.members(container);
             Assertions.assertThrows(
                 AssertionError.class,
                 () -> members.iterate().iterator().next()
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Public members served by the given container.
+     * @param container Container to serve the members
+     * @return Public members
+     * @throws IOException If there is an I/O problem
+     */
+    private static RtPublicMembers members(final MkContainer container)
+        throws IOException {
+        return new RtPublicMembers(
+            new ApacheRequest(container.home()),
+            RtPublicMembersTest.organization()
+        );
+    }
+
+    /**
+     * Answer with a single public member.
+     * @return Answer
+     */
+    private static MkAnswer octobat() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            "[{\"login\":\"octobat\"}]"
+        );
     }
 
     /**

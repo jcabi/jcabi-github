@@ -22,7 +22,6 @@ import lombok.ToString;
  * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
  * @since 0.5
  */
-@SuppressWarnings("PMD.TooManyMethods")
 @Immutable
 public interface Repos {
 
@@ -41,8 +40,7 @@ public interface Repos {
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repository</a>
      * @since 0.5
      */
-    Repo create(Repos.RepoCreate settings)
-        throws IOException;
+    Repo create(Repos.RepoCreate settings) throws IOException;
 
     /**
      * Get repository by name.
@@ -66,18 +64,16 @@ public interface Repos {
 
     /**
      * Iterate all public repos, starting with the one you've seen already.
-     * @param identifier The integer ID of the last Repo that you’ve seen.
+     * @param identifier The integer ID of the last Repo that you’ve seen
      * @return Iterator of repo
      * @see <a href="https://developer.github.com/v3/repos/#list-all-public-repositories">List all public repositories</a>
      */
-    Iterable<Repo> iterate(
-        String identifier
-    );
+    Iterable<Repo> iterate(String identifier);
 
     /**
      * Check if a repository exists on GitHub.
-     * @param coords Coordinates of the repo.
-     * @return True if it exists, false otherwise.
+     * @param coords Coordinates of the repo
+     * @return True if it exists, false otherwise
      * @throws IOException If something goes wrong.
      */
     boolean exists(Coordinates coords) throws IOException;
@@ -95,6 +91,7 @@ public interface Repos {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = {"repo", "priv", "descr", "home", "init"})
     final class RepoCreate implements JsonReadable {
+
         /**
          * Name of the new repo.
          */
@@ -132,9 +129,9 @@ public interface Repos {
 
         /**
          * Public ctor.
-         * @param nme Name of the new repository. Cannot be empty.
+         * @param nme Name of the new repository. Cannot be empty
          * @param prvt Will the new repo be private?
-         *  If not, then it will be public.
+         *  If not, then it will be public
          */
         public RepoCreate(final String nme, final boolean prvt) {
             this(nme, prvt, "", "", Optional.absent(), "");
@@ -142,18 +139,16 @@ public interface Repos {
 
         /**
          * Private ctor.
-         * @param nme Name of the new repo. Cannot be empty.
+         * @param nme Name of the new repo. Cannot be empty
          * @param prvt Will the new repo be private?
-         *  If not, then it will be public.
+         *  If not, then it will be public
          * @param desc Description of the new repo
          * @param page Homepage of the new repo
          * @param auto Auto-init the new repo?
-         * @param org Organization to which this repo belongs.
+         * @param org Organization to which this repo belongs
          *  When empty or null, the repo is created under the
-         *  authenticated user.
-         * @checkstyle ParameterNumberCheck (7 lines)
+         *  authenticated user
          */
-        @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
         private RepoCreate(
             final String nme,
             final boolean prvt,
@@ -162,16 +157,33 @@ public interface Repos {
             final Optional<Boolean> auto,
             final String org
         ) {
-            if (nme.isEmpty()) {
-                throw new IllegalArgumentException("Name cannot be empty!");
-            }
+            this(
+                Repos.RepoCreate.checked(nme),
+                prvt,
+                desc,
+                page,
+                auto,
+                org,
+                new HashMap<>(0)
+            );
+        }
+
+        private RepoCreate(
+            final String nme,
+            final boolean prvt,
+            final String desc,
+            final String page,
+            final Optional<Boolean> auto,
+            final String org,
+            final Map<String, JsonValue> extra
+        ) {
             this.repo = nme;
             this.priv = prvt;
             this.descr = desc;
             this.home = page;
             this.init = auto;
             this.organization = org;
-            this.other = new HashMap<>(0);
+            this.other = extra;
         }
 
         /**
@@ -231,9 +243,7 @@ public interface Repos {
          * @param nme Name of the new repo
          * @return RepoCreate
          */
-        public Repos.RepoCreate withName(
-            final String nme
-        ) {
+        public Repos.RepoCreate withName(final String nme) {
             return new Repos.RepoCreate(
                 nme,
                 this.priv,
@@ -265,9 +275,7 @@ public interface Repos {
          * @param desc Description
          * @return RepoCreate
          */
-        public Repos.RepoCreate withDescription(
-            final String desc
-        ) {
+        public Repos.RepoCreate withDescription(final String desc) {
             return new Repos.RepoCreate(
                 this.repo,
                 this.priv,
@@ -283,9 +291,7 @@ public interface Repos {
          * @param page Homepage URL
          * @return RepoCreate
          */
-        public Repos.RepoCreate withHomepage(
-            final String page
-        ) {
+        public Repos.RepoCreate withHomepage(final String page) {
             return new Repos.RepoCreate(
                 this.repo,
                 this.priv,
@@ -330,7 +336,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given organization.
-         * @param org Organization to which this repo belongs.
+         * @param org Organization to which this repo belongs
          * @return RepoCreate
          */
         public Repos.RepoCreate withOrganization(final String org) {
@@ -348,7 +354,7 @@ public interface Repos {
          * Returns a RepoCreate with the given json fields.
          * @param key Json key
          * @param value Json value
-         * @return The same RepoCreate.
+         * @return The same RepoCreate
          * @todo #1660:30min Make 'with' method immutable.
          *  Currently, the 'with' method mutates the 'other' field.
          *  This is not ideal, as it makes the class mutable.
@@ -375,6 +381,18 @@ public interface Repos {
                 builder.add(entry.getKey(), entry.getValue());
             }
             return builder.build();
+        }
+
+        /**
+         * Check that the name of the new repo is not empty.
+         * @param nme Name of the new repo
+         * @return The same name
+         */
+        private static String checked(final String nme) {
+            if (nme.isEmpty()) {
+                throw new IllegalArgumentException("Name cannot be empty!");
+            }
+            return nme;
         }
     }
 }

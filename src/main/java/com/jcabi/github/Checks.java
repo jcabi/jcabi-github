@@ -9,17 +9,16 @@ import java.util.Collection;
 
 /**
  * GitHub checks.
- *
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
  */
+@FunctionalInterface
 public interface Checks {
 
     /**
      * Get all checks.
-     * @return Checks.
+     * @return Checks
      * @throws IOException If there is any I/O problem.
      */
     Collection<? extends Check> all() throws IOException;
-
 }

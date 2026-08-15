@@ -17,15 +17,14 @@ import org.xembly.Directives;
 
 /**
  * Mock Git branches.
- *
  * @since 0.24
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 public final class MkBranches implements Branches {
+
     /**
      * XPath from a given branch to its commit SHA string.
      */
@@ -58,17 +57,13 @@ public final class MkBranches implements Branches {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkBranches.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkBranches(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("branches")
-        );
     }
 
     @Override
@@ -105,38 +100,35 @@ public final class MkBranches implements Branches {
      */
     public Branch create(
         final String name,
-        final String sha)
-        throws IOException {
-        final Directives directives = new Directives()
-            .xpath(this.xpath())
-            .add("branch")
-            .attr("name", name)
-            .add("sha").set(sha).up();
-        this.storage.apply(directives);
+        final String sha) throws IOException {
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .add("branch")
+                .attr("name", name)
+                .add("sha").set(sha).up()
+        );
         return new MkBranch(this.storage, this.self, this.coords, name, sha);
     }
 
     /**
      * Gets a branch by name.
-     * @param name Name of branch.
+     * @param name Name of branch
      * @return The branch with the given name
      * @throws IOException If there is an I/O problem
      */
-    public Branch get(
-        final String name
-    ) throws IOException {
+    public Branch get(final String name) throws IOException {
         return new MkBranch(
             this.storage,
             this.self,
             this.coords,
             name,
-            this.storage.xml()
-                .nodes(
-                    String.format(
-                        "%s/branch[@name='%s']",
-                        this.xpath(),
-                        name
-                    )
+            this.storage.xml().nodes(
+                String.format(
+                    "%s/branch[@name='%s']",
+                    this.xpath(),
+                    name
+                )
                 )
                 .get(0)
                 .xpath(MkBranches.XPATH_TO_SHA)
@@ -153,5 +145,25 @@ public final class MkBranches implements Branches {
             "/github/repos/repo[@coords='%s']/branches",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("branches")
+        );
+        return stg;
     }
 }

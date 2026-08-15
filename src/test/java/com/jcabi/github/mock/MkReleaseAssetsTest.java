@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkReleaseAssets}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  * @checkstyle MethodNameCheck (200 lines)
  */
 final class MkReleaseAssetsTest {
@@ -29,13 +28,11 @@ final class MkReleaseAssetsTest {
      */
     @Test
     void uploadsNewAsset() throws Exception {
-        final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
-        final ReleaseAsset asset = assets.upload(
-            "testUpload".getBytes(), "text/plain", "upload.txt"
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            asset.number(),
+            MkReleaseAssetsTest.release().assets().upload(
+                "testUpload".getBytes(StandardCharsets.UTF_8), "text/plain", "upload.txt"
+            ).number(),
             Matchers.is(1)
         );
     }
@@ -48,7 +45,7 @@ final class MkReleaseAssetsTest {
     void fetchesSingleAsset() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         final ReleaseAsset asset = assets.upload(
-            "testGet".getBytes(), "text/plain", "get.txt"
+            "testGet".getBytes(StandardCharsets.UTF_8), "text/plain", "get.txt"
         );
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -65,7 +62,7 @@ final class MkReleaseAssetsTest {
     void iteratesAssets() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetsTest.release().assets();
         assets.upload(
-            "testIterate".getBytes(), "text/plain", "iterate.txt"
+            "testIterate".getBytes(StandardCharsets.UTF_8), "text/plain", "iterate.txt"
         );
         MatcherAssert.assertThat(
             "Collection is not empty",
@@ -94,14 +91,16 @@ final class MkReleaseAssetsTest {
     @Test
     void encodesContentsAsBase64() throws IOException {
         final String test = "This is a test asset.";
-        final ReleaseAsset asset = new MkGitHub().randomRepo().releases()
-            .create("v1.0")
-            .assets()
-            .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
             "Values are not equal",
-            IOUtils.toString(asset.raw(), StandardCharsets.UTF_8),
-            Matchers.is(DatatypeConverter.printBase64Binary(test.getBytes()))
+            IOUtils.toString(
+                new MkGitHub().randomRepo().releases()
+                    .create("v1.0")
+                    .assets()
+                    .upload(test.getBytes(StandardCharsets.UTF_8), "type", "name").raw(),
+                StandardCharsets.UTF_8
+            ),
+            Matchers.is(DatatypeConverter.printBase64Binary(test.getBytes(StandardCharsets.UTF_8)))
         );
     }
 

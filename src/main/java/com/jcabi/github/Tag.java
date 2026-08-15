@@ -24,5 +24,4 @@ public interface Tag extends JsonReadable {
      * @return String
      */
     String key();
-
 }

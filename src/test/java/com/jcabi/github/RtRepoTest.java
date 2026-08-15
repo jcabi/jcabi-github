@@ -8,12 +8,10 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonValue;
 import jakarta.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -28,7 +26,6 @@ import org.mockito.Mockito;
  * Test case for {@link RtRepo}.
  * @since 0.1
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 @ExtendWith(RandomPort.class)
 final class RtRepoTest {
 
@@ -44,7 +41,6 @@ final class RtRepoTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void iteratesEvents() throws IOException {
@@ -59,12 +55,11 @@ final class RtRepoTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Repo repo = RtRepoTest.repo(
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                repo.issueEvents().iterate(),
+                RtRepoTest.repo(
+                    new ApacheRequest(container.home())
+                ).issueEvents().iterate(),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
@@ -73,96 +68,88 @@ final class RtRepoTest {
 
     @Test
     void fetchesLabels() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.labels(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).labels(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchesIssues() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.issues(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).issues(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchesBranches() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.branches(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).branches(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchesPulls() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.pulls(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).pulls(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchHooks() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.hooks(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).hooks(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchKeys() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.keys(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).keys(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchReleases() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.releases(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).releases(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchContents() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            repo.contents(),
+            RtRepoTest.repo(
+                new FakeRequest()
+            ).contents(),
             Matchers.notNullValue()
         );
     }
@@ -170,14 +157,13 @@ final class RtRepoTest {
     @Test
     void identifiesItself() {
         final Coordinates coords = new Coordinates.Simple("me", "me-branch");
-        final Repo repo = new RtRepo(
-            Mockito.mock(GitHub.class),
-            new FakeRequest(),
-            coords
-        );
         MatcherAssert.assertThat(
             "Assertion failed",
-            repo.coordinates(),
+            new RtRepo(
+                Mockito.mock(GitHub.class),
+                new FakeRequest(),
+                coords
+            ).coordinates(),
             Matchers.sameInstance(coords)
         );
     }
@@ -207,18 +193,17 @@ final class RtRepoTest {
 
     @Test
     void describeAsJson() throws IOException {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("full_name", "octocat/Hello-World")
-                    .add("fork", true)
-                    .build()
-                    .toString()
-            )
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            repo.json().toString(),
+            RtRepoTest.repo(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("full_name", "octocat/Hello-World")
+                        .add("fork", true)
+                        .build()
+                        .toString()
+                )
+            ).json().toString(),
             Matchers.equalTo(
                 "{\"full_name\":\"octocat/Hello-World\",\"fork\":true}"
             )
@@ -227,37 +212,33 @@ final class RtRepoTest {
 
     @Test
     void fetchCommits() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.commits(), Matchers.notNullValue()
+            "Value is null", RtRepoTest.repo(
+                new FakeRequest()
+            ).commits(), Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchesGit() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.git(), Matchers.notNullValue()
+            "Value is null", RtRepoTest.repo(
+                new FakeRequest()
+            ).git(), Matchers.notNullValue()
         );
     }
 
     @Test
     void fetchStars() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.stars(), Matchers.notNullValue()
+            "Value is null", RtRepoTest.repo(
+                new FakeRequest()
+            ).stars(), Matchers.notNullValue()
         );
     }
 
     /**
      * RtRepo can fetch its default branch.
-     *
      * @throws IOException If some problem occurs.
      */
     @Test
@@ -286,11 +267,10 @@ final class RtRepoTest {
 
     @Test
     void fetchNotifications() {
-        final Repo repo = RtRepoTest.repo(
-            new FakeRequest()
-        );
         MatcherAssert.assertThat(
-            "Value is null", repo.notifications(), Matchers.notNullValue()
+            "Value is null", RtRepoTest.repo(
+                new FakeRequest()
+            ).notifications(), Matchers.notNullValue()
         );
     }
 
@@ -306,99 +286,115 @@ final class RtRepoTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Repo repo = RtRepoTest.repo(
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
-                "Value is null", repo.languages(), Matchers.notNullValue()
+                "Value is null", RtRepoTest.repo(
+                    new ApacheRequest(container.home())
+                ).languages(), Matchers.notNullValue()
             );
             container.stop();
         }
     }
 
     @Test
-    void iteratesLanguages() throws IOException {
-        final String lang = "C";
-        final String other = "Java";
+    void iteratesFirstLanguage() throws IOException {
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_OK,
-                    Json.createObjectBuilder()
-                        .add(lang, 1)
-                        .add(other, 2)
-                        .build().toString()
-                )
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtRepoTest.languages())
+                .start(RandomPort.port())
         ) {
-            final Repo repo = RtRepoTest.repo(
-                new ApacheRequest(container.home())
-            );
-            final Iterator<Language> iter = repo.languages().iterator();
             MatcherAssert.assertThat(
-                "Values are not equal",
-                iter.hasNext(),
-                Matchers.is(true)
+                "First language of the repo is different",
+                RtRepoTest.repo(new ApacheRequest(container.home()))
+                    .languages().iterator().next().name(),
+                Matchers.is("C")
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                iter.next().name(),
-                Matchers.is(lang)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                iter.hasNext(),
-                Matchers.is(true)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                iter.next().name(),
-                Matchers.is(other)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                iter.hasNext(),
-                Matchers.is(false)
-            );
-            container.stop();
         }
     }
 
-    /**
-     * RtStars can retrieve stargazers.
-     *
-     * @throws IOException If something goes wrong.
-     */
+    @Test
+    void iteratesSecondLanguage() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtRepoTest.languages())
+                .start(RandomPort.port())
+        ) {
+            final Iterator<Language> iter = RtRepoTest
+                .repo(new ApacheRequest(container.home()))
+                .languages().iterator();
+            iter.next();
+            MatcherAssert.assertThat(
+                "Second language of the repo is different",
+                iter.next().name(),
+                Matchers.is("Java")
+            );
+        }
+    }
+
+    @Test
+    void stopsIteratingLanguages() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtRepoTest.languages())
+                .start(RandomPort.port())
+        ) {
+            final Iterator<Language> iter = RtRepoTest
+                .repo(new ApacheRequest(container.home()))
+                .languages().iterator();
+            iter.next();
+            iter.next();
+            MatcherAssert.assertThat(
+                "Repo has more than two languages",
+                iter.hasNext(),
+                Matchers.is(false)
+            );
+        }
+    }
+
     @Test
     void retrievesStargazers() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                .next(
-                    new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_OK,
-                        "[]"
-                    )
-                ).start(RandomPort.port())
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]"))
+                .start(RandomPort.port())
         ) {
-            final Repo repo = RtRepoTest.repo(
-                new ApacheRequest(container.home())
-            );
-            final Iterable<JsonValue> stargazers = repo.stargazers()
-                .iterable();
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "We expect no stargazers",
-                stargazers,
+                RtRepoTest.repo(new ApacheRequest(container.home()))
+                    .stargazers().iterable(),
                 Matchers.emptyIterable()
             );
+        }
+    }
+
+    @Test
+    void retrievesStargazersWithGet() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]"))
+                .start(RandomPort.port())
+        ) {
+            RtRepoTest.repo(new ApacheRequest(container.home()))
+                .stargazers().iterable();
             MatcherAssert.assertThat(
                 "Stargazers request should be a GET request",
-                query.method(),
+                container.take().method(),
                 Matchers.equalTo(Request.GET)
             );
+        }
+    }
+
+    @Test
+    void retrievesStargazersFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]"))
+                .start(RandomPort.port())
+        ) {
+            RtRepoTest.repo(new ApacheRequest(container.home()))
+                .stargazers().iterable();
             MatcherAssert.assertThat(
-                "String does not contain expected value",
-                query.uri().getPath(),
+                "Stargazers are retrieved from a wrong URI",
+                container.take().uri().getPath(),
                 Matchers.containsString(
                     UriBuilder.fromPath("repos")
                         .path(RtRepoTest.TEST_USER)
@@ -408,8 +404,21 @@ final class RtRepoTest {
                         .getPath()
                 )
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Answer with two languages.
+     * @return Answer
+     */
+    private static MkAnswer languages() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createObjectBuilder()
+                .add("C", 1)
+                .add("Java", 2)
+                .build().toString()
+        );
     }
 
     /**

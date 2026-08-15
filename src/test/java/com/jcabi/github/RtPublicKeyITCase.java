@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.READ_PUBLIC_KEY)
 final class RtPublicKeyITCase {
+
     @Test
     void retrievesUri() {
         MatcherAssert.assertThat(

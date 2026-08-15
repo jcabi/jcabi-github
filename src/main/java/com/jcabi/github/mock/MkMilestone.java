@@ -14,7 +14,6 @@ import java.io.IOException;
 /**
  * Mock GitHub milestone.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 final class MkMilestone implements Milestone {
@@ -45,7 +44,6 @@ final class MkMilestone implements Milestone {
      * @param login The user to login with
      * @param crds The repo
      * @param num The number of the MkMilestone
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkMilestone(
         final MkStorage strg,
@@ -60,9 +58,7 @@ final class MkMilestone implements Milestone {
     }
 
     @Override
-    public boolean equals(
-        final Object obj
-    ) {
+    public boolean equals(final Object obj) {
         return obj instanceof Milestone
             && this.code == Milestone.class.cast(obj).number();
     }
@@ -73,9 +69,7 @@ final class MkMilestone implements Milestone {
     }
 
     @Override
-    public int compareTo(
-        final Milestone milestone
-    ) {
+    public int compareTo(final Milestone milestone) {
         assert this.self != null;
         assert this.coords != null;
         assert this.storage != null;
@@ -97,9 +91,7 @@ final class MkMilestone implements Milestone {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(
             this.storage
         ).patch(
@@ -133,5 +125,4 @@ final class MkMilestone implements Milestone {
             this.code
         );
     }
-
 }

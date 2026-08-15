@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub limit rate.
- *
  * @since 0.6
  */
 @Immutable
@@ -34,12 +33,13 @@ final class RtLimits implements Limits {
      * @param github GitHub
      * @param req Request
      */
-    RtLimits(
-        final GitHub github,
-        final Request req
-    ) {
-        this.entry = req.uri().path("rate_limit").back();
-        this.ghub = github;
+    RtLimits(final GitHub github, final Request req) {
+        this(req.uri().path("rate_limit").back(), github);
+    }
+
+    private RtLimits(final Request entry, final GitHub ghub) {
+        this.entry = entry;
+        this.ghub = ghub;
     }
 
     @Override
@@ -48,10 +48,7 @@ final class RtLimits implements Limits {
     }
 
     @Override
-    public Limit get(
-        final String resource
-    ) {
+    public Limit get(final String resource) {
         return new RtLimit(this.ghub, this.entry, resource);
     }
-
 }

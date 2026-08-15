@@ -9,7 +9,7 @@ import com.jcabi.aspects.Loggable;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,7 +18,6 @@ import lombok.ToString;
  * GitHub Rate Limit API, one resource limit.
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
  * @since 0.6
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 public interface Limit extends JsonReadable {
@@ -38,6 +37,7 @@ public interface Limit extends JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "origin")
     final class Smart implements Limit {
+
         /**
          * Encapsulated limit.
          */
@@ -47,9 +47,7 @@ public interface Limit extends JsonReadable {
          * Public ctor.
          * @param limit Limit
          */
-        public Smart(
-            final Limit limit
-        ) {
+        public Smart(final Limit limit) {
             this.origin = limit;
         }
 
@@ -76,8 +74,8 @@ public interface Limit extends JsonReadable {
          * @return Date when this will happen
          * @throws IOException If it fails
          */
-        public Date reset() throws IOException {
-            return new Date(
+        public Instant reset() throws IOException {
+            return Instant.ofEpochMilli(
                 TimeUnit.MILLISECONDS.convert(
                     (long) new SmartJson(this.origin).number("reset"),
                     TimeUnit.SECONDS
@@ -103,17 +101,13 @@ public interface Limit extends JsonReadable {
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
-    @EqualsAndHashCode(of = { "origin", "jsn" })
+    @EqualsAndHashCode(of = "origin")
     final class Throttled implements Limit {
+
         /**
          * Original.
          */
         private final transient Limit origin;
-
-        /**
-         * SmartJson object for convenient JSON parsing.
-         */
-        private final transient SmartJson jsn;
 
         /**
          * Maximum allowed, instead of default 5000.
@@ -125,24 +119,21 @@ public interface Limit extends JsonReadable {
          * @param limit Original limit
          * @param allowed Maximum allowed
          */
-        public Throttled(
-            final Limit limit,
-            final int allowed
-        ) {
+        public Throttled(final Limit limit, final int allowed) {
             this.origin = limit;
             this.max = allowed;
-            this.jsn = new SmartJson(limit);
         }
 
         @Override
         public JsonObject json() throws IOException {
             final int limit = new SmartJson(this.origin).number("limit");
-            final int remaining = this.max - (
-                limit - new SmartJson(this.origin).number("remaining")
-                );
             return Json.createObjectBuilder()
-                .add("limit", limit)
-                .add("remaining", remaining)
+                .add("limit", limit).add(
+                    "remaining",
+                    this.max - (
+                        limit - new SmartJson(this.origin).number("remaining")
+                    )
+                )
                 .add("reset", new SmartJson(this.origin).number("reset"))
                 .build();
         }
@@ -152,5 +143,4 @@ public interface Limit extends JsonReadable {
             return this.origin.github();
         }
     }
-
 }

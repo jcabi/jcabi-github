@@ -6,7 +6,6 @@ package com.jcabi.github.mock;
 
 import com.jcabi.github.Tag;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Testcase for MkTag.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class MkTagTest {
 
@@ -37,10 +35,10 @@ final class MkTagTest {
      * @return Tag
      */
     private static Tag tag() throws IOException {
-        final JsonObject json = Json.createObjectBuilder()
-            .add("sha", "abcsha12").add("message", "test tag")
-            .add("name", "v.0.1").build();
-        return new MkGitHub().randomRepo().git().tags().create(json);
+        return new MkGitHub().randomRepo().git().tags().create(
+            Json.createObjectBuilder()
+                .add("sha", "abcsha12").add("message", "test tag")
+                .add("name", "v.0.1").build()
+        );
     }
-
 }

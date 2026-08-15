@@ -16,7 +16,6 @@ import lombok.ToString;
 
 /**
  * Mock GitHub label.
- *
  * @since 0.6
  */
 @Immutable
@@ -51,7 +50,6 @@ final class MkLabel implements Label {
      * @param login User to login
      * @param rep Repo
      * @param name Label name
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkLabel(final MkStorage stg,
         final String login,
@@ -75,8 +73,7 @@ final class MkLabel implements Label {
     }
 
     @Override
-    public void patch(final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -88,8 +85,7 @@ final class MkLabel implements Label {
     }
 
     @Override
-    public int compareTo(final Label lbl
-    ) {
+    public int compareTo(final Label lbl) {
         return this.label.compareTo(lbl.name());
     }
 
@@ -103,5 +99,4 @@ final class MkLabel implements Label {
             this.owner, this.label
         );
     }
-
 }

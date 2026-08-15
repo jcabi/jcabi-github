@@ -35,7 +35,7 @@ final class MkRepoCommitTest {
      * @throws IOException If some problem inside
      */
     @Test
-    void getRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkRepoCommitTest.repo(storage);
         MatcherAssert.assertThat(
@@ -51,7 +51,7 @@ final class MkRepoCommitTest {
      * @throws IOException If some problem inside
      */
     @Test
-    void getSha() throws IOException {
+    void fetchesSha() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -61,30 +61,23 @@ final class MkRepoCommitTest {
     }
 
     @Test
-    void canCompareInstances() throws IOException {
+    void comparesSmallerCommit() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
-        final Repo repoa = new MkRepo(
-            storage, "login1",
-            new Coordinates.Simple("test_login1", "test_repo1")
-        );
-        final Repo repob = new MkRepo(
-            storage, "login2",
-            new Coordinates.Simple("test_login2", "test_repo2")
-        );
-        final MkRepoCommit less =  new MkRepoCommit(
-            storage, repoa, MkRepoCommitTest.SHA1
-        );
-        final MkRepoCommit greater =  new MkRepoCommit(
-            storage, repob, MkRepoCommitTest.SHA2
-        );
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater),
+            "Smaller commit is not smaller",
+            MkRepoCommitTest.commit(storage, 1)
+                .compareTo(MkRepoCommitTest.commit(storage, 2)),
             Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerCommit() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less),
+            "Bigger commit is not bigger",
+            MkRepoCommitTest.commit(storage, 2)
+                .compareTo(MkRepoCommitTest.commit(storage, 1)),
             Matchers.greaterThan(0)
         );
     }
@@ -97,12 +90,11 @@ final class MkRepoCommitTest {
                 .add("repo").attr("coords", "test_login/test_repo")
                 .add("commits").add("commit").add("sha").set(MkRepoCommitTest.SHA1)
         );
-        final MkRepoCommit commit = new MkRepoCommit(
-            storage, MkRepoCommitTest.repo(storage), MkRepoCommitTest.SHA1
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            commit.json(), Matchers.notNullValue()
+            new MkRepoCommit(
+                storage, MkRepoCommitTest.repo(storage), MkRepoCommitTest.SHA1
+            ).json(), Matchers.notNullValue()
         );
     }
 
@@ -111,15 +103,11 @@ final class MkRepoCommitTest {
         final String sha = "c2c53d66948214258a26ca9ca845d7ac0c17f8e7";
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkRepoCommitTest.repo(storage);
-        final MkRepoCommit commit = new MkRepoCommit(storage, repo, sha);
-        final MkRepoCommit other = new MkRepoCommit(storage, repo, sha);
         MatcherAssert.assertThat(
-            "Values are not equal",
-            commit.compareTo(other), Matchers.equalTo(0)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            other.compareTo(commit), Matchers.equalTo(0)
+            "Equal commits are not equal",
+            new MkRepoCommit(storage, repo, sha)
+                .compareTo(new MkRepoCommit(storage, repo, sha)),
+            Matchers.equalTo(0)
         );
     }
 
@@ -127,19 +115,16 @@ final class MkRepoCommitTest {
     void compareDifferent() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final Repo repo = MkRepoCommitTest.repo(storage);
-        final MkRepoCommit commit = new MkRepoCommit(
-            storage, repo, "6dcd4ce23d88e2ee9568ba546c007c63d9131c1b"
-        );
-        final MkRepoCommit other = new MkRepoCommit(
-            storage, repo, "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98"
-        );
         MatcherAssert.assertThat(
-            "Assertion failed",
-            commit.compareTo(other), Matchers.not(0)
-        );
-        MatcherAssert.assertThat(
-            "Assertion failed",
-            other.compareTo(commit), Matchers.not(0)
+            "Different commits are equal",
+            new MkRepoCommit(
+                storage, repo, "6dcd4ce23d88e2ee9568ba546c007c63d9131c1b"
+            ).compareTo(
+                new MkRepoCommit(
+                    storage, repo, "e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98"
+                )
+            ),
+            Matchers.not(0)
         );
     }
 
@@ -154,6 +139,28 @@ final class MkRepoCommitTest {
             storage,
             login,
             new Coordinates.Simple(login, "test_repo")
+        );
+    }
+
+    /**
+     * Create a commit in its own repo.
+     * @param storage The storage
+     * @param number Number of the repo
+     * @return Commit
+     */
+    private static MkRepoCommit commit(
+        final MkStorage storage, final int number) {
+        return new MkRepoCommit(
+            storage,
+            new MkRepo(
+                storage,
+                String.format("login%d", number),
+                new Coordinates.Simple(
+                    String.format("test_login%d", number),
+                    String.format("test_repo%d", number)
+                )
+            ),
+            MkRepoCommitTest.SHA1
         );
     }
 }

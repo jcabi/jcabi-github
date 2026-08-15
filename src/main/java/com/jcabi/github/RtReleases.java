@@ -10,14 +10,12 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub releases.
- *
  * @since 0.8
  */
 @Immutable
@@ -46,14 +44,22 @@ final class RtReleases implements Releases {
      * @param repo Repository
      */
     RtReleases(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/releases")
-            .back();
+        this(
+            req,
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/releases")
+                .back()
+        );
+    }
+
+    private RtReleases(final Request entry, final Repo owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -68,7 +74,6 @@ final class RtReleases implements Releases {
             object -> new RtRelease(
                 this.entry,
                 this.owner,
-                // @checkstyle MultipleStringLiterals (1 line)
                 object.getInt("id")
             )
         );
@@ -80,15 +85,14 @@ final class RtReleases implements Releases {
     }
 
     @Override
-    public Release create(
-        final String tag
-    ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("tag_name", tag)
-            .build();
+    public Release create(final String tag) throws IOException {
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("tag_name", tag)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -104,5 +108,4 @@ final class RtReleases implements Releases {
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
-
 }

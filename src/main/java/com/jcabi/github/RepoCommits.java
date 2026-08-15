@@ -14,7 +14,6 @@ import java.util.Map;
  * @since 0.3
  */
 @Immutable
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface RepoCommits extends JsonReadable {
 
     /**
@@ -23,13 +22,10 @@ public interface RepoCommits extends JsonReadable {
      * @return All commits
      * @see <a href="https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
      */
-    Iterable<RepoCommit> iterate(
-        Map<String, String> params
-    );
+    Iterable<RepoCommit> iterate(Map<String, String> params);
 
     /**
      * Get single repository's commits.
-     *
      * @param sha SHA of a commit
      * @return RepoCommit
      * @see <a href="https://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
@@ -42,9 +38,7 @@ public interface RepoCommits extends JsonReadable {
      * @param head SHA of the head repo commit
      * @return Commits comparison
      */
-    CommitsComparison compare(
-        String base,
-        String head);
+    CommitsComparison compare(String base, String head);
 
     /**
      * Compare two commits and provide result in diff format.
@@ -54,10 +48,7 @@ public interface RepoCommits extends JsonReadable {
      * @throws IOException If there is any I/O problem
      * @since 0.8
      */
-    String diff(
-        String base,
-        String head
-    ) throws IOException;
+    String diff(String base, String head) throws IOException;
 
     /**
      * Compare two commits and provide result in patch format.
@@ -67,8 +58,5 @@ public interface RepoCommits extends JsonReadable {
      * @throws IOException If there is any I/O problem
      * @since 0.8
      */
-    String patch(
-        String base,
-        String head
-    ) throws IOException;
+    String patch(String base, String head) throws IOException;
 }

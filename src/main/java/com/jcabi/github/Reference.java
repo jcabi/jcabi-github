@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 @Immutable
 public interface Reference {
+
     /**
      * Return its owner repo.
      * @return Repo
@@ -38,7 +39,5 @@ public interface Reference {
      * @param json JSON object
      * @throws IOException If there is any I/O problem
      */
-    void patch(JsonObject json)
-        throws IOException;
-
+    void patch(JsonObject json) throws IOException;
 }

@@ -13,6 +13,7 @@ import com.jcabi.aspects.Immutable;
  */
 @Immutable
 public interface Notifications {
+
     /**
      * Iterate them all.
      * @return Iterable of Notifications
@@ -36,8 +37,8 @@ public interface Notifications {
 
     /**
      * Get thread data.
-     * @param number Thread ID.
-     * @return Data of the specified thread.
+     * @param number Thread ID
+     * @return Data of the specified thread
      * @see <a href="https://developer.github.com/v3/activity/notifications/#view-a-single-thread">View a single thread</a>
      */
     GitHubThread thread(int number);

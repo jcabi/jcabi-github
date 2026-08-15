@@ -13,8 +13,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -56,13 +55,13 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
     /**
      * Smart ReleaseAsset with extra features.
      * @since 0.8
-     * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = {"asset", "jsn" })
     final class Smart implements ReleaseAsset {
+
         /**
          * Encapsulated Release Asset.
          */
@@ -77,9 +76,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param ast Release asset
          */
-        public Smart(
-            final ReleaseAsset ast
-        ) {
+        public Smart(final ReleaseAsset ast) {
             this.asset = ast;
             this.jsn = new SmartJson(ast);
         }
@@ -156,14 +153,10 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -171,14 +164,10 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        public Date updatedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("updated_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant updatedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("updated_at")
+            ).date();
         }
 
         /**
@@ -186,9 +175,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @param text Name of release asset
          * @throws IOException If there is any I/O problem
          */
-        public void name(
-            final String text
-        ) throws IOException {
+        public void name(final String text) throws IOException {
             this.asset.patch(
                 Json.createObjectBuilder().add("name", text).build()
             );
@@ -199,9 +186,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
          * @param text Label of release asset
          * @throws IOException If there is any I/O problem
          */
-        public void label(
-            final String text
-        ) throws IOException {
+        public void label(final String text) throws IOException {
             this.asset.patch(
                 Json.createObjectBuilder().add("label", text).build()
             );
@@ -228,9 +213,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.asset.patch(json);
         }
 

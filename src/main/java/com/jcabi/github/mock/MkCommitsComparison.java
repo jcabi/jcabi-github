@@ -23,13 +23,13 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkCommitsComparison implements CommitsComparison {
+
     /**
      * File change JSON object.
      */
     private static final JsonObject FILE_JSON = Json.createObjectBuilder()
         .add("sha", "bbcd538c8e72b8c175046e27cc8f907076331401")
         .add("filename", "test-file")
-        // @checkstyle MultipleStringLiterals (1 lines)
         .add("status", "modified")
         .build();
 
@@ -72,18 +72,14 @@ final class MkCommitsComparison implements CommitsComparison {
     @Override
     public JsonObject json() {
         return Json.createObjectBuilder()
-            // @checkstyle MultipleStringLiterals (3 lines)
             .add("status", "test-status")
             .add("ahead_by", 1)
-            .add("behind_by", 2)
-            .add(
+            .add("behind_by", 2).add(
                 "author",
                 Json.createObjectBuilder()
-                    // @checkstyle MultipleStringLiterals (3 lines)
                     .add("login", "test")
                     .build()
-            )
-            .add(
+            ).add(
                 "files",
                 Json.createArrayBuilder()
                     .add(MkCommitsComparison.FILE_JSON)

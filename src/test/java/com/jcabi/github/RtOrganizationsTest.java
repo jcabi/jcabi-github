@@ -27,7 +27,6 @@ final class RtOrganizationsTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void fetchesSingleOrganization() throws IOException {
@@ -36,61 +35,74 @@ final class RtOrganizationsTest {
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
             ).start(RandomPort.port())
         ) {
-            final Organizations orgs = new RtOrganizations(
-                new MkGitHub(),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
                 "Value is null",
-                orgs.get("org"),
+                new RtOrganizations(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home())
+                ).get("org"),
                 Matchers.notNullValue()
             );
             container.stop();
         }
     }
 
-    /**
-     * RtOrganizations should be able to iterate
-     * the logged-in user's organizations.
-     * @checkstyle MagicNumberCheck (25 lines)
-     */
     @Test
     void retrievesOrganizations() throws IOException {
-        final GitHub github = new MkGitHub();
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_OK,
-                    Json.createArrayBuilder()
-                        .add(RtOrganizationsTest.org(1, "org1"))
-                        .add(RtOrganizationsTest.org(2, "org2"))
-                        .add(RtOrganizationsTest.org(3, "org3"))
-                        .build().toString()
-                )
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtOrganizationsTest.answer())
+                .start(RandomPort.port())
         ) {
-            final Organizations orgs = new RtOrganizations(
-                github,
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
-                "Collection size is incorrect",
-                orgs.iterate(),
+                "Wrong amount of organizations is retrieved",
+                new RtOrganizations(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home())
+                ).iterate(),
                 Matchers.iterableWithSize(3)
             );
+        }
+    }
+
+    @Test
+    void retrievesOrganizationsFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtOrganizationsTest.answer())
+                .start(RandomPort.port())
+        ) {
+            new RtOrganizations(
+                new MkGitHub(),
+                new ApacheRequest(container.home())
+            ).iterate().iterator().next();
             MatcherAssert.assertThat(
-                "String does not end with expected value",
+                "Organizations are retrieved from a wrong URI",
                 container.take().uri().toString(),
                 Matchers.endsWith("/user/orgs")
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Answer with three organizations.
+     * @return Answer
+     */
+    private static MkAnswer answer() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder()
+                .add(RtOrganizationsTest.org(1, "org1"))
+                .add(RtOrganizationsTest.org(2, "org2"))
+                .add(RtOrganizationsTest.org(3, "org3"))
+                .build().toString()
+        );
     }
 
     /**
      * Create and return organization to test.
      * @param number Organization ID
-     * @param login Organization login name.
+     * @param login Organization login name
      * @return JsonObject
      */
     private static JsonObject org(final int number, final String login) {

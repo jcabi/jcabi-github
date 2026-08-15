@@ -18,15 +18,12 @@ import org.xembly.Directives;
 
 /**
  * GitHub repos.
- *
  * @since 0.5
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkRepos implements Repos {
 
     /**
@@ -45,13 +42,13 @@ final class MkRepos implements Repos {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkRepos(
-        final MkStorage stg,
-        final String login
-    ) throws IOException {
+    MkRepos(final MkStorage stg, final String login) throws IOException {
+        this(login, MkRepos.bootstrap(stg));
+    }
+
+    private MkRepos(final String login, final MkStorage stg) {
         this.storage = stg;
         this.self = login;
-        this.storage.apply(new Directives().xpath("/github").addIf("repos"));
     }
 
     @Override
@@ -60,9 +57,7 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public Repo create(
-        final Repos.RepoCreate settings
-    ) throws IOException {
+    public Repo create(final Repos.RepoCreate settings) throws IOException {
         String owner = this.self;
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
@@ -90,14 +85,15 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public Repo get(
-        final Coordinates coords
-    ) {
+    public Repo get(final Coordinates coords) {
         try {
-            final String xpath = String.format(
-                "%s/repo[@coords='%s']", MkRepos.xpath(), coords
-            );
-            if (this.storage.xml().nodes(xpath).isEmpty()) {
+            if (
+                this.storage.xml().nodes(
+                    String.format(
+                        "%s/repo[@coords='%s']", MkRepos.xpath(), coords
+                    )
+                ).isEmpty()
+            ) {
                 throw new IllegalArgumentException(
                     String.format("repository %s doesn't exist", coords)
                 );
@@ -109,8 +105,7 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public void remove(
-        final Coordinates coords) {
+    public void remove(final Coordinates coords) {
         try {
             this.storage.apply(
                 new Directives().xpath(
@@ -123,8 +118,7 @@ final class MkRepos implements Repos {
     }
 
     @Override
-    public Iterable<Repo> iterate(
-        final String identifier) {
+    public Iterable<Repo> iterate(final String identifier) {
         return new MkIterable<>(
             this.storage,
             "/github/repos/repo",
@@ -137,10 +131,11 @@ final class MkRepos implements Repos {
 
     @Override
     public boolean exists(final Coordinates coords) throws IOException {
-        final String xpath = String.format(
-            "%s/repo[@coords='%s']", MkRepos.xpath(), coords
-        );
-        return !this.storage.xml().nodes(xpath).isEmpty();
+        return !this.storage.xml().nodes(
+            String.format(
+                "%s/repo[@coords='%s']", MkRepos.xpath(), coords
+                )
+        ).isEmpty();
     }
 
     /**
@@ -151,4 +146,14 @@ final class MkRepos implements Repos {
         return "/github/repos";
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg) throws IOException {
+        stg.apply(new Directives().xpath("/github").addIf("repos"));
+        return stg;
+    }
 }

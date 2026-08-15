@@ -19,7 +19,6 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock GitHub content.
- *
  * @since 0.8
  */
 @Immutable
@@ -59,7 +58,6 @@ final class MkContent implements Content {
      * @param rep Repo
      * @param path Path of this file
      * @param ref Branch of this file
-     * @checkstyle ParameterNumberCheck (6 lines)
      */
     MkContent(
         final MkStorage stg,
@@ -76,9 +74,7 @@ final class MkContent implements Content {
     }
 
     @Override
-    public int compareTo(
-        final Content cont
-    ) {
+    public int compareTo(final Content cont) {
         return new CompareToBuilder()
             .append(this.path(), cont.path())
                 .append(this.repo().coordinates(), cont.repo().coordinates())
@@ -86,9 +82,7 @@ final class MkContent implements Content {
     }
 
     @Override
-    public void patch(
-        final JsonObject json)
-        throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -154,7 +148,6 @@ final class MkContent implements Content {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",
             this.coords, this.location, this.branch
         );

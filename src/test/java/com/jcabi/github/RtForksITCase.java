@@ -17,44 +17,30 @@ import org.junit.jupiter.api.Test;
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtForksITCase {
 
-    /**
-     * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    public final transient RepoRule rule = new RepoRule();
+    @Test
+    void createsFork() throws IOException {
+        final String organization = RtForksITCase.organization();
+        final Repo repo = new RepoRule().repo(RtForksITCase.repos());
+        try {
+            MatcherAssert.assertThat(
+                "Fork is not created",
+                repo.forks().create(organization),
+                Matchers.notNullValue()
+            );
+        } finally {
+            RtForksITCase.repos().remove(repo.coordinates());
+        }
+    }
 
     @Test
     void retrievesForks() throws IOException {
-        final String organization = System.getProperty(
-            "failsafe.github.organization"
-        );
-        Assumptions.assumeTrue(
-            organization != null,
-            "Organization must be set for this test"
-        );
-        final Repo repo = this.rule.repo(RtForksITCase.repos());
+        final String organization = RtForksITCase.organization();
+        final Repo repo = new RepoRule().repo(RtForksITCase.repos());
         try {
-            final Fork fork = repo.forks().create(organization);
             MatcherAssert.assertThat(
-                "Value is null",
-                fork,
-                Matchers.notNullValue()
-            );
-            final Iterable<Fork> forks = repo.forks().iterate("newest");
-            MatcherAssert.assertThat(
-                "Value is null",
-                forks,
-                Matchers.notNullValue()
-            );
-            MatcherAssert.assertThat(
-                "Collection is not empty",
-                forks,
-                Matchers.not(Matchers.emptyIterable())
-            );
-            MatcherAssert.assertThat(
-                "Assertion failed",
-                forks,
-                Matchers.contains(fork)
+                "Created fork is not retrieved",
+                repo.forks().iterate("newest"),
+                Matchers.contains(repo.forks().create(organization))
             );
         } finally {
             RtForksITCase.repos().remove(repo.coordinates());
@@ -62,11 +48,25 @@ final class RtForksITCase {
     }
 
     /**
+     * The organization to fork into.
+     * @return Name of the organization
+     */
+    private static String organization() {
+        final String organization = System.getProperty(
+            "failsafe.github.organization"
+        );
+        Assumptions.assumeTrue(
+            organization != null,
+            "Organization must be set for this test"
+        );
+        return organization;
+    }
+
+    /**
      * Returns github repos.
-     * @return GitHub repos.
+     * @return GitHub repos
      */
     private static Repos repos() {
         return GitHubIT.connect().repos();
     }
-
 }

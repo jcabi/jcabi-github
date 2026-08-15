@@ -5,7 +5,6 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Coordinates;
-import com.jcabi.github.Fork;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -22,13 +21,12 @@ final class MkForksTest {
     @Test
     @Disabled
     void createsFork() throws IOException {
-        final MkForks forks = new MkForks(
-            new MkStorage.InFile(),
-            "Test", new Coordinates.Simple("tests", "forks")
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            forks.create("blah"),
+            new MkForks(
+                new MkStorage.InFile(),
+                "Test", new Coordinates.Simple("tests", "forks")
+            ).create("blah"),
             Matchers.notNullValue()
         );
     }
@@ -36,17 +34,21 @@ final class MkForksTest {
     @Test
     void iteratesForks() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Fork fork = repo.forks().create("Organization");
-        final Iterable<Fork> iterate = repo.forks().iterate("Order");
+        repo.forks().create("Organization");
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            iterate,
+            repo.forks().iterate("Order"),
             Matchers.iterableWithSize(1)
         );
+    }
+
+    @Test
+    void iteratesCreatedFork() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
         MatcherAssert.assertThat(
             "Collection does not contain expected item",
-            iterate,
-            Matchers.hasItem(fork)
+            repo.forks().iterate("Order"),
+            Matchers.hasItem(repo.forks().create("Organization"))
         );
     }
 }

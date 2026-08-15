@@ -7,7 +7,7 @@ package com.jcabi.github;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Limit}.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 final class LimitTest {
 
@@ -42,41 +41,38 @@ final class LimitTest {
      */
     @Test
     void timeIsCreatedForReset() throws IOException {
-        // @checkstyle MagicNumberCheck (21 lines)
-        final RtLimit limit = new RtLimit(
-            Mockito.mock(GitHub.class),
-            new FakeRequest().withBody(
-                Json.createObjectBuilder().add(
-                    "rate", Json.createObjectBuilder()
-                        .add("limit", 5000)
-                        .add("remaining", 4999)
-                        .add("reset", 1_372_700_873)
-                        .build()
-                ).add(
-                    "resources", Json.createObjectBuilder().add(
-                        "core", Json.createObjectBuilder()
-                            .add("limit", 5000)
-                            .add("remaining", 4999)
-                            .add("reset", 1_372_700_873)
-                            .build()
-                    ).add(
-                        "search", Json.createObjectBuilder()
-                            .add("limit", 5000)
-                            .add("remaining", 4999)
-                            .add("reset", 1_372_700_873)
-                            .build()
-                    ).build()
-                ).build().toString()
-            ),
-            "core"
-        );
-        final RtLimit.Smart smart = new RtLimit.Smart(limit);
-        // @checkstyle MagicNumberCheck (3 lines)
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.reset(),
-            Matchers.equalTo(new Date(1_372_700_873_000L))
+            new Limit.Smart(
+                new RtLimit(
+                    Mockito.mock(GitHub.class),
+                    new FakeRequest().withBody(
+                        Json.createObjectBuilder().add(
+                            "rate", Json.createObjectBuilder()
+                                .add("limit", 5000)
+                                .add("remaining", 4999)
+                                .add("reset", 1_372_700_873)
+                                .build()
+                        ).add(
+                            "resources", Json.createObjectBuilder().add(
+                                "core", Json.createObjectBuilder()
+                                    .add("limit", 5000)
+                                    .add("remaining", 4999)
+                                    .add("reset", 1_372_700_873)
+                                    .build()
+                            ).add(
+                                "search", Json.createObjectBuilder()
+                                    .add("limit", 5000)
+                                    .add("remaining", 4999)
+                                    .add("reset", 1_372_700_873)
+                                    .build()
+                            ).build()
+                        ).build().toString()
+                    ),
+                    "core"
+                    )
+            ).reset(),
+            Matchers.equalTo(Instant.ofEpochMilli(1_372_700_873_000L))
         );
     }
-
 }

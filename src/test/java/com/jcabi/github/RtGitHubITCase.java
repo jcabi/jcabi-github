@@ -13,28 +13,25 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link GitHub}.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtGitHubITCase {
 
     @Test
     void authenticatesItself() {
-        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Value is null",
-            github.users().self(),
+            GitHubIT.connect().users().self(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void connectsAnonymously() throws IOException {
-        final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             "Value is null",
             new Issue.Smart(
-                github.repos().get(
+                new RtGitHub().repos().get(
                     new Coordinates.Simple("jcabi/jcabi-github")
                 ).issues().get(1)
             ).title(),
@@ -44,20 +41,18 @@ final class RtGitHubITCase {
 
     @Test
     void fetchesMeta() throws IOException {
-        final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             "Collection is not empty",
-            github.meta().getJsonArray("hooks"),
+            new RtGitHub().meta().getJsonArray("hooks"),
             Matchers.not(Matchers.empty())
         );
     }
 
     @Test
     void fetchesEmojis() throws IOException {
-        final GitHub github = new RtGitHub();
         MatcherAssert.assertThat(
             "Values are not equal",
-            github.emojis().getString("+1"),
+            new RtGitHub().emojis().getString("+1"),
             Matchers.startsWith("https://")
         );
     }
@@ -74,22 +69,19 @@ final class RtGitHubITCase {
             password != null && !password.isBlank(),
             "GitHub password is required for this test"
         );
-        final GitHub github = new RtGitHub(user, password);
         MatcherAssert.assertThat(
             "Values are not equal",
-            new User.Smart(github.users().self()).login(),
+            new User.Smart(new RtGitHub(user, password).users().self()).login(),
             Matchers.is(user)
         );
     }
 
     @Test
     void fetchesUsers() {
-        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Iterating over github.users() should return something",
-            github.users().iterate("").iterator().next(),
+            GitHubIT.connect().users().iterate("").iterator().next(),
             Matchers.anything()
         );
     }
-
 }

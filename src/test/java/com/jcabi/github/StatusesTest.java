@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 final class StatusesTest {
+
     /**
      * Name of state property in Status JSON object.
      */

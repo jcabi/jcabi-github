@@ -21,14 +21,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtReference}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtReferenceTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void patchesContent() throws IOException {
@@ -68,14 +66,13 @@ final class RtReferenceTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Reference reference = new RtReference(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo(),
-                "refs/heads/featureB"
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                reference.json().getString("ref"),
+                new RtReference(
+                    new ApacheRequest(container.home()),
+                    new MkGitHub().randomRepo(),
+                    "refs/heads/featureB"
+                ).json().getString("ref"),
                 Matchers.is("refs/heads/featureB")
             );
             container.stop();
@@ -92,14 +89,13 @@ final class RtReferenceTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Reference reference = new RtReference(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo(),
-                "refs/heads/featureC"
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                reference.ref(),
+                new RtReference(
+                    new ApacheRequest(container.home()),
+                    new MkGitHub().randomRepo(),
+                    "refs/heads/featureC"
+                ).ref(),
                 Matchers.is("refs/heads/featureC")
             );
             container.stop();
@@ -117,14 +113,13 @@ final class RtReferenceTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Reference reference = new RtReference(
-                new ApacheRequest(container.home()),
-                owner,
-                "refs/heads/featureD"
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                reference.repo(),
+                new RtReference(
+                    new ApacheRequest(container.home()),
+                    owner,
+                    "refs/heads/featureD"
+                ).repo(),
                 Matchers.is(owner)
             );
             container.stop();

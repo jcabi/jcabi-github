@@ -30,10 +30,10 @@ public interface ReleaseAssets {
 
     /**
      * Upload a release asset.
-     * @param content The raw content bytes.
-     * @param type Content-Type of the release asset.
-     * @param name Name of the release asset.
-     * @return The new release asset.
+     * @param content The raw content bytes
+     * @param type Content-Type of the release asset
+     * @param name Name of the release asset
+     * @return The new release asset
      * @throws IOException If an IO Exception occurs
      * @see <a href="https://developer.github.com/v3/repos/releases/#upload-a-release-asset">Upload a Release Asset</a>
      */
@@ -45,10 +45,9 @@ public interface ReleaseAssets {
 
     /**
      * Get a single release asset.
-     * @param number The release asset ID.
-     * @return The release asset.
+     * @param number The release asset ID
+     * @return The release asset
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>
      */
     ReleaseAsset get(int number);
-
 }

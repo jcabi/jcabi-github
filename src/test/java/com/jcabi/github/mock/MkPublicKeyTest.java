@@ -21,28 +21,32 @@ final class MkPublicKeyTest {
     /**
      * Json name of key.
      */
-    public static final String KEY = "key";
+    static final String KEY = "key";
 
     @Test
-    void canRetrieveAsJson() throws IOException {
-        final String title = "Title1";
-        final String key = "PublicKey1";
-        final JsonObject json = new MkGitHub().users().add("john").keys()
-            .create(title, key).json();
+    void canRetrieveIdAsJson() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getString("id"),
+            "Key has a wrong id",
+            MkPublicKeyTest.json().getString("id"),
             Matchers.equalTo("1")
         );
+    }
+
+    @Test
+    void canRetrieveTitleAsJson() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getString("title"),
-            Matchers.equalTo(title)
+            "Key has a wrong title",
+            MkPublicKeyTest.json().getString("title"),
+            Matchers.equalTo("Title1")
         );
+    }
+
+    @Test
+    void canRetrieveKeyAsJson() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getString(MkPublicKeyTest.KEY),
-            Matchers.equalTo(key)
+            "Key has a wrong body",
+            MkPublicKeyTest.json().getString(MkPublicKeyTest.KEY),
+            Matchers.equalTo("PublicKey1")
         );
     }
 
@@ -62,4 +66,13 @@ final class MkPublicKeyTest {
         );
     }
 
+    /**
+     * JSON of a freshly created public key.
+     * @return JSON of the key
+     * @throws IOException If some problem inside
+     */
+    private static JsonObject json() throws IOException {
+        return new MkGitHub().users().add("john").keys()
+            .create("Title1", "PublicKey1").json();
+    }
 }

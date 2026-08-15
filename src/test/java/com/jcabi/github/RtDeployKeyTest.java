@@ -8,7 +8,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -27,7 +26,6 @@ final class RtDeployKeyTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void canDeleteDeployKey() throws IOException {
@@ -45,10 +43,9 @@ final class RtDeployKeyTest {
                 RtDeployKeyTest.repo()
             );
             key.remove();
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(),
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
         }

@@ -22,6 +22,7 @@ import org.hamcrest.Matchers;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "organization" })
 public final class RtPublicMembers implements PublicMembers {
+
     /**
      * API entry point.
      */
@@ -42,17 +43,26 @@ public final class RtPublicMembers implements PublicMembers {
      * @param req Request
      * @param organ Organization
      */
-    public RtPublicMembers(
-        final Request req,
-        final Organization organ
+    public RtPublicMembers(final Request req, final Organization organ) {
+        this(
+            req,
+            req.uri()
+                .path("/orgs")
+                .path(organ.login())
+                .path("public_members")
+                .back(),
+            organ
+        );
+    }
+
+    private RtPublicMembers(
+        final Request entry,
+        final Request request,
+        final Organization organization
     ) {
-        this.entry = req;
-        this.request = req.uri()
-            .path("/orgs")
-            .path(organ.login())
-            .path("public_members")
-            .back();
-        this.organization = organ;
+        this.entry = entry;
+        this.request = request;
+        this.organization = organization;
     }
 
     @Override
@@ -61,9 +71,7 @@ public final class RtPublicMembers implements PublicMembers {
     }
 
     @Override
-    public void conceal(
-        final User user
-    ) throws IOException {
+    public void conceal(final User user) throws IOException {
         this.request
             .uri().path(user.login()).back()
             .method(Request.DELETE)
@@ -72,9 +80,7 @@ public final class RtPublicMembers implements PublicMembers {
     }
 
     @Override
-    public void publicize(
-        final User user
-    ) throws IOException {
+    public void publicize(final User user) throws IOException {
         this.request
             .uri().path(user.login()).back()
             .method(Request.PUT)
@@ -95,14 +101,11 @@ public final class RtPublicMembers implements PublicMembers {
     }
 
     @Override
-    public boolean contains(
-        final User user
-    ) throws IOException {
+    public boolean contains(final User user) throws IOException {
         return this.request
             .uri().path(user.login()).back()
             .method(Request.GET)
-            .fetch().as(RestResponse.class)
-            .assertStatus(
+            .fetch().as(RestResponse.class).assertStatus(
                 Matchers.is(
                     Matchers.oneOf(
                         HttpURLConnection.HTTP_NO_CONTENT,
@@ -110,6 +113,6 @@ public final class RtPublicMembers implements PublicMembers {
                     )
             )
         )
-            .status() == HttpURLConnection.HTTP_NO_CONTENT;
+        .status() == HttpURLConnection.HTTP_NO_CONTENT;
     }
 }

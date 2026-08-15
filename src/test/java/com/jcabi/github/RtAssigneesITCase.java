@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.READ_ORG)
 final class RtAssigneesITCase {
+
     /**
      * Test repos.
      */

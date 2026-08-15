@@ -9,7 +9,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -28,17 +27,13 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtHooks}.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtHooksTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void canFetchEmptyListOfHooks() throws IOException {
@@ -47,13 +42,12 @@ final class RtHooksTest {
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[]")
             ).start(RandomPort.port())
         ) {
-            final Hooks hooks = new RtHooks(
-                new JdkRequest(container.home()),
-                RtHooksTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection is not empty",
-                hooks.iterate(),
+                new RtHooks(
+                    new JdkRequest(container.home()),
+                    RtHooksTest.repo()
+                ).iterate(),
                 Matchers.emptyIterable()
             );
             container.stop();
@@ -66,14 +60,12 @@ final class RtHooksTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    Json.createArrayBuilder()
-                        .add(
-                            RtHooksTest.hook(
-                                "hook 1",
-                                Collections.emptyMap()
-                            )
+                    Json.createArrayBuilder().add(
+                        RtHooksTest.hook(
+                            "hook 1",
+                            Collections.emptyMap()
                         )
-                        .add(
+                        ).add(
                             RtHooksTest.hook(
                                 "hook 2",
                                 Collections.emptyMap()
@@ -83,13 +75,12 @@ final class RtHooksTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtHooks hooks = new RtHooks(
-                new JdkRequest(container.home()),
-                RtHooksTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                hooks.iterate(),
+                new RtHooks(
+                    new JdkRequest(container.home()),
+                    RtHooksTest.repo()
+                ).iterate(),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
@@ -110,14 +101,14 @@ final class RtHooksTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Hooks hooks = new RtHooks(
-                new JdkRequest(container.home()),
-                RtHooksTest.repo()
-            );
-            final Hook hook = hooks.get(1);
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new Hook.Smart(hook).name(),
+                new Hook.Smart(
+                    new RtHooks(
+                        new JdkRequest(container.home()),
+                        RtHooksTest.repo()
+                    ).get(1)
+                ).name(),
                 Matchers.equalTo(name)
             );
             container.stop();
@@ -125,65 +116,127 @@ final class RtHooksTest {
     }
 
     @Test
-    void canCreateHook() throws IOException {
-        final ConcurrentHashMap<String, String> config =
-            new ConcurrentHashMap<>(2);
-        config.put("url", "http://example.com");
-        config.put("content_type", "json");
+    void createsHookWithPost() throws IOException {
         final String name = "hook name";
-        final String body = RtHooksTest.hook(name, config).toString();
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtHooksTest.answer(name))
                 .start(RandomPort.port())
         ) {
-            final Hooks hooks = new RtHooks(
-                new JdkRequest(container.home()),
-                RtHooksTest.repo()
-            );
-            final Hook hook = hooks.create(
-                name, config, Collections.emptyList(), true
-            );
+            RtHooksTest.create(container, name);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Hook is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Hook.Smart(hook).name(),
-                Matchers.equalTo(name)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void canDeleteHook() throws IOException {
+    void createsHookWithName() throws IOException {
+        final String name = "hook name";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtHooksTest.answer(name))
+                .next(RtHooksTest.fetched(name))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Created hook has a wrong name",
+                new Hook.Smart(RtHooksTest.create(container, name)).name(),
+                Matchers.equalTo(name)
+            );
+        }
+    }
+
+    @Test
+    void deletesHookWithDelete() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(RandomPort.port())
         ) {
-            final Hooks hooks = new RtHooks(
+            new RtHooks(
                 new JdkRequest(container.home()),
                 RtHooksTest.repo()
-            );
-            hooks.remove(1);
-            final MkQuery query = container.take();
+            ).remove(1);
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Hook is not deleted with DELETE",
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
+        }
+    }
+
+    @Test
+    void deletesHookWithoutBody() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            new RtHooks(
+                new JdkRequest(container.home()),
+                RtHooksTest.repo()
+            ).remove(1);
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
+                "Hook is deleted with a body",
+                container.take().body(),
                 Matchers.is(Matchers.emptyString())
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Create a hook through the given container.
+     * @param container Container to serve the hooks
+     * @param name Name of the hook
+     * @return Created hook
+     * @throws IOException If there is any I/O problem
+     */
+    private static Hook create(final MkContainer container, final String name)
+        throws IOException {
+        return new RtHooks(
+            new JdkRequest(container.home()),
+            RtHooksTest.repo()
+        ).create(
+            name, RtHooksTest.config(), Collections.emptyList(), true
+        );
+    }
+
+    /**
+     * Answer with a hook of the given name.
+     * @param name Name of the hook
+     * @return Answer
+     */
+    private static MkAnswer answer(final String name) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtHooksTest.hook(name, RtHooksTest.config()).toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched hook of the given name.
+     * @param name Name of the hook
+     * @return Answer
+     */
+    private static MkAnswer fetched(final String name) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtHooksTest.hook(name, RtHooksTest.config()).toString()
+        );
+    }
+
+    /**
+     * Config of the hook.
+     * @return Config
+     */
+    private static Map<String, String> config() {
+        final Map<String, String> config = new ConcurrentHashMap<>(2);
+        config.put("url", "http://example.com");
+        config.put("content_type", "json");
+        return config;
     }
 
     /**

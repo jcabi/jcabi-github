@@ -19,29 +19,27 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Issue}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class IssueTest {
 
     @Test
-    void fetchesProperties() throws IOException {
-        final Issue issue = Mockito.mock(Issue.class);
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("title", "this is some text \u20ac")
-                .add("body", "body of the issue")
-                .build()
-        ).when(issue).json();
-        final Issue.Smart smart = new Issue.Smart(issue);
+    void fetchesTitle() throws IOException {
         MatcherAssert.assertThat(
-            "Value is null",
-            smart.title(),
+            "Title is not fetched",
+            new Issue.Smart(
+                IssueTest.issue("title", "this is some text €")
+            ).title(),
             Matchers.notNullValue()
         );
+    }
+
+    @Test
+    void fetchesBody() throws IOException {
         MatcherAssert.assertThat(
-            "Value is null",
-            smart.body(),
+            "Body is not fetched",
+            new Issue.Smart(
+                IssueTest.issue("body", "body of the issue")
+            ).body(),
             Matchers.notNullValue()
         );
     }
@@ -107,22 +105,10 @@ final class IssueTest {
      */
     @Test
     void fetchLabelsRO() throws IOException {
-        final String name = "bug";
-        final JsonObject json = Json.createObjectBuilder().add(
-            "labels",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("name", name)
-                    .add("color", "f29513")
-            )
-        ).build();
-        final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
-        );
-        final IssueLabels labels = new Issue.Smart(issue).roLabels();
-        final Label label = labels.iterate().iterator().next();
         MatcherAssert.assertThat(
-            "Value is null", label, Matchers.notNullValue()
+            "Value is null",
+            IssueTest.roLabels().iterate().iterator().next(),
+            Matchers.notNullValue()
         );
     }
 
@@ -132,18 +118,7 @@ final class IssueTest {
      */
     @Test
     void roLabelsCannotAdd() throws IOException {
-        final JsonObject json = Json.createObjectBuilder().add(
-            "labels",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("name", "bug")
-                    .add("color", "f29513")
-            )
-        ).build();
-        final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
-        );
-        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        final IssueLabels labels = IssueTest.roLabels();
         Assertions.assertThrows(
             UnsupportedOperationException.class,
             () -> labels.add(new ArrayList<>(0)),
@@ -157,18 +132,7 @@ final class IssueTest {
      */
     @Test
     void roLabelsCannotReplace() throws IOException {
-        final JsonObject json = Json.createObjectBuilder().add(
-            "labels",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("name", "bug")
-                    .add("color", "f29513")
-            )
-        ).build();
-        final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
-        );
-        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        final IssueLabels labels = IssueTest.roLabels();
         Assertions.assertThrows(
             UnsupportedOperationException.class,
             () -> labels.replace(new ArrayList<>(0)),
@@ -182,18 +146,7 @@ final class IssueTest {
      */
     @Test
     void roLabelsCannotRemove() throws IOException {
-        final JsonObject json = Json.createObjectBuilder().add(
-            "labels",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("name", "bug")
-                    .add("color", "f29513")
-            )
-        ).build();
-        final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
-        );
-        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        final IssueLabels labels = IssueTest.roLabels();
         Assertions.assertThrows(
             UnsupportedOperationException.class,
             () -> labels.remove("bug"),
@@ -207,18 +160,7 @@ final class IssueTest {
      */
     @Test
     void roLabelsCannotClear() throws IOException {
-        final JsonObject json = Json.createObjectBuilder().add(
-            "labels",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("name", "bug")
-                    .add("color", "f29513")
-            )
-        ).build();
-        final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
-        );
-        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        final IssueLabels labels = IssueTest.roLabels();
         Assertions.assertThrows(
             UnsupportedOperationException.class,
             () -> labels.clear(),
@@ -232,18 +174,7 @@ final class IssueTest {
      */
     @Test
     void roLabelCannotBePatchedTest() throws IOException {
-        final JsonObject json = Json.createObjectBuilder().add(
-            "labels",
-            Json.createArrayBuilder().add(
-                Json.createObjectBuilder()
-                    .add("name", "bug")
-                    .add("color", "f29513")
-            )
-        ).build();
-        final Issue issue = new RtIssue(
-            new FakeRequest().withBody(json.toString()), IssueTest.repo(), 1
-        );
-        final IssueLabels labels = new Issue.Smart(issue).roLabels();
+        final IssueLabels labels = IssueTest.roLabels();
         final Label label = labels.iterate().iterator().next();
         Assertions.assertThrows(
             UnsupportedOperationException.class,
@@ -254,7 +185,7 @@ final class IssueTest {
 
     /**
      * Mock repo for GhIssue creation.
-     * @return The mock repo.
+     * @return The mock repo
      */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
@@ -263,5 +194,45 @@ final class IssueTest {
         Mockito.doReturn("user").when(coords).user();
         Mockito.doReturn("repo").when(coords).repo();
         return repo;
+    }
+
+    /**
+     * Read-only labels of an issue with one label in it.
+     * @return Labels
+     * @throws IOException If fails
+     */
+    private static IssueLabels roLabels() throws IOException {
+        return new Issue.Smart(
+            new RtIssue(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder().add(
+                        "labels",
+                        Json.createArrayBuilder().add(
+                            Json.createObjectBuilder()
+                                .add("name", "bug")
+                                .add("color", "f29513")
+                        )
+                    ).build().toString()
+                ), IssueTest.repo(), 1
+            )
+        ).roLabels();
+    }
+
+    /**
+     * Issue with a single property.
+     * @param key Name of the property
+     * @param value Value of the property
+     * @return Issue
+     * @throws IOException If fails
+     */
+    private static Issue issue(final String key, final String value)
+        throws IOException {
+        final Issue issue = Mockito.mock(Issue.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add(key, value)
+                .build()
+        ).when(issue).json();
+        return issue;
     }
 }

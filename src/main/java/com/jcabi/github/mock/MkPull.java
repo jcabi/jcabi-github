@@ -28,14 +28,13 @@ import lombok.ToString;
 /**
  * Mock GitHub pull.
  * @since 0.5
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords", "num"})
-@SuppressWarnings("PMD.TooManyMethods")
 final class MkPull implements Pull {
+
     /**
      * The separator between the username and
      * the branch name in the labels of pull request base/head objects.
@@ -98,7 +97,6 @@ final class MkPull implements Pull {
      * @param login User to login
      * @param rep Repo
      * @param number Pull request number
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkPull(
         final MkStorage stg,
@@ -147,18 +145,16 @@ final class MkPull implements Pull {
         if (parts.length != 2) {
             throw new IllegalStateException("Invalid MkPull head");
         }
-        final String user = parts[0];
-        final String branch = parts[1];
         return new MkPullRef(
             this.storage,
             new MkBranches(
                 this.storage,
                 this.self,
                 new Coordinates.Simple(
-                    user,
+                    parts[0],
                     this.coords.repo()
                 )
-            ).get(branch)
+            ).get(parts[1])
         );
     }
 
@@ -173,17 +169,12 @@ final class MkPull implements Pull {
     }
 
     @Override
-    public void merge(
-        final String msg
-    ) {
+    public void merge(final String msg) {
         // nothing to do here
     }
 
     @Override
-    public MergeState merge(
-        final String msg,
-        final String sha
-    ) {
+    public MergeState merge(final String msg, final String sha) {
         throw new UnsupportedOperationException("Merge not supported");
     }
 
@@ -198,16 +189,12 @@ final class MkPull implements Pull {
     }
 
     @Override
-    public int compareTo(
-        final Pull pull
-    ) {
+    public int compareTo(final Pull pull) {
         return this.number() - pull.number();
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -244,8 +231,7 @@ final class MkPull implements Pull {
                 json.add(
                     MkPull.BASE_PROP,
                     Json.createObjectBuilder()
-                        .add(MkPull.REF_PROP, branch)
-                        .add(
+                        .add(MkPull.REF_PROP, branch).add(
                             MkPull.LABEL_PROP,
                             String.format(
                                 "%s:%s",
@@ -282,10 +268,8 @@ final class MkPull implements Pull {
      */
     private String comment() {
         return String.format(
-            // @checkstyle LineLengthCheck (1 line)
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment",
             this.coords, this.num
         );
     }
-
 }

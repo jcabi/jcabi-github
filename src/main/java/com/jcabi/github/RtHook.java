@@ -13,13 +13,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub hooks.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtHook implements Hook {
 
     /**
@@ -44,16 +42,23 @@ final class RtHook implements Hook {
      * @param number Id of the get
      */
     RtHook(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/hooks")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/hooks")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            repo
+        );
+    }
+
+    private RtHook(final Request request, final int num, final Repo owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override

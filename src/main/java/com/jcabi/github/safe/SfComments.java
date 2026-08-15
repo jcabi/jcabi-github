@@ -14,12 +14,11 @@ import com.jcabi.github.UnexpectedHttpStatus;
 import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 
 /**
  * Safe comments.
- *
  * @since 0.34
  */
 @Immutable
@@ -56,7 +55,7 @@ public final class SfComments implements Comments {
     }
 
     @Override
-    public Iterable<Comment> iterate(final Date since) {
+    public Iterable<Comment> iterate(final Instant since) {
         return Iterables.transform(
             this.origin.iterate(since),
             input -> new SfComment(input)

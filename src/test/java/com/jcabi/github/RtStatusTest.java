@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 final class RtStatusTest {
+
     /**
      * RtStatus can fetch its ID number.
      * @throws IOException If there is an I/O problem.

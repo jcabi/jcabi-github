@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
@@ -28,62 +27,58 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(RandomPort.class)
 final class RtValuePaginationTest {
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
+
+    @Test
+    void readsFirstPage() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtValuePaginationTest.linked())
+                .next(RtValuePaginationTest.simple("Judy", "Jessy"))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "First page is different",
+                RtValuePaginationTest.page(container)
+                    .iterator().next().toString(),
+                Matchers.allOf(
+                    Matchers.containsString("Jeff"),
+                    Matchers.containsString("Mark")
+                )
+            );
+        }
+    }
+
     @Test
     void jumpNextPage() throws IOException {
-        final String jeff = "Jeff";
-        final String mark = "Mark";
-        final String judy = "Judy";
-        final String jessy = "Jessy";
-        final MkContainer container = new MkGrizzlyContainer().next(
-            RtValuePaginationTest.simple(jeff, mark)
-                .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"")
-        ).next(RtValuePaginationTest.simple(judy, jessy))
-            .start(RandomPort.port());
-        final Request request = new ApacheRequest(container.home());
-        final RtValuePagination<JsonObject, JsonArray> page =
-            new RtValuePagination<>(
-                request,
-                object -> Json.createObjectBuilder()
-                    .add("id1", object.getString(0))
-                    .add("id2", object.getString(1))
-                    .build()
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtValuePaginationTest.linked())
+                .next(RtValuePaginationTest.simple("Judy", "Jessy"))
+                .start(RandomPort.port())
+        ) {
+            final Iterator<JsonObject> iterator =
+                RtValuePaginationTest.page(container).iterator();
+            iterator.next();
+            MatcherAssert.assertThat(
+                "Next page is different",
+                iterator.next().toString(),
+                Matchers.allOf(
+                    Matchers.containsString("Judy"),
+                    Matchers.containsString("Jessy")
+                )
             );
-        final Iterator<JsonObject> iterator = page.iterator();
-        MatcherAssert.assertThat(
-            "String does not contain expected value",
-            iterator.next().toString(),
-            Matchers.allOf(
-                Matchers.containsString(jeff),
-                Matchers.containsString(mark)
-            )
-        );
-        MatcherAssert.assertThat(
-            "String does not contain expected value",
-            iterator.next().toString(),
-            Matchers.allOf(
-                Matchers.containsString(judy),
-                Matchers.containsString(jessy)
-            )
-        );
-        container.stop();
+        }
     }
 
     @Test
     void throwsIfNoMoreElement() throws IOException {
-        final String jeff = "other Jeff";
-        final String mark = "other Mark";
         final MkContainer container = new MkGrizzlyContainer().next(
-            RtValuePaginationTest.simple(jeff, mark)
+            RtValuePaginationTest.simple("other Jeff", "other Mark")
         ).start(RandomPort.port());
         try {
-            final Request request = new ApacheRequest(container.home());
             final RtValuePagination<JsonObject, JsonArray> page =
                 new RtValuePagination<>(
-                    request,
+                    new ApacheRequest(container.home()),
                     object -> Json.createObjectBuilder()
                         .add("id3", object.getString(0))
                         .add("id4", object.getString(1))
@@ -102,6 +97,33 @@ final class RtValuePaginationTest {
     }
 
     /**
+     * Pagination served by the given container.
+     * @param container Container to serve the pages
+     * @return Pagination
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtValuePagination<JsonObject, JsonArray> page(
+        final MkContainer container
+    ) throws IOException {
+        return new RtValuePagination<>(
+            new ApacheRequest(container.home()),
+            object -> Json.createObjectBuilder()
+                .add("id1", object.getString(0))
+                .add("id2", object.getString(1))
+                .build()
+        );
+    }
+
+    /**
+     * Answer with a link to the next page.
+     * @return Answer
+     */
+    private static MkAnswer.Simple linked() {
+        return RtValuePaginationTest.simple("Jeff", "Mark")
+            .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"");
+    }
+
+    /**
      * Create and return MkAnswer.Simple to test.
      * @param one First array element
      * @param another Second array element
@@ -110,9 +132,11 @@ final class RtValuePaginationTest {
     private static MkAnswer.Simple simple(final String one,
         final String another
     ) {
-        final String message = Json.createArrayBuilder()
-            .add(Json.createArrayBuilder().add(one).add(another))
-            .build().toString();
-        return new MkAnswer.Simple(HttpURLConnection.HTTP_OK, message);
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder()
+                .add(Json.createArrayBuilder().add(one).add(another))
+                .build().toString()
+        );
     }
 }

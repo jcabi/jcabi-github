@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonValue;
@@ -25,10 +24,7 @@ import org.mockito.Mockito;
 /**
  * Tests for {@link RtCollaborators}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 @ExtendWith(RandomPort.class)
 final class RtCollaboratorsTest {
 
@@ -38,22 +34,23 @@ final class RtCollaboratorsTest {
      */
     @Test
     void canIterate() throws Exception {
-        try (MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(RtCollaboratorsTest.json("octocat"))
-                    .add(RtCollaboratorsTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(RandomPort.port())) {
-            final Collaborators users = new RtCollaborators(
-                new JdkRequest(container.home()),
-                RtCollaboratorsTest.repo()
-            );
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(RtCollaboratorsTest.json("octocat"))
+                        .add(RtCollaboratorsTest.json("dummy"))
+                        .build().toString()
+                )
+                ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                users.iterate(),
+                new RtCollaborators(
+                    new JdkRequest(container.home()),
+                    RtCollaboratorsTest.repo()
+                ).iterate(),
                 Matchers.iterableWithSize(2)
             );
         }
@@ -65,24 +62,25 @@ final class RtCollaboratorsTest {
      */
     @Test
     void userCanBeAddedAsCollaborator() throws Exception {
-        try (MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_NO_CONTENT,
-                Json.createArrayBuilder()
-                    .add(RtCollaboratorsTest.json("octocat2"))
-                    .add(RtCollaboratorsTest.json("dummy"))
-                    .build().toString()
-            )
-        ).start(RandomPort.port())) {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    Json.createArrayBuilder()
+                        .add(RtCollaboratorsTest.json("octocat2"))
+                        .add(RtCollaboratorsTest.json("dummy"))
+                        .build().toString()
+                )
+                ).start(RandomPort.port())
+        ) {
             final Collaborators users = new RtCollaborators(
                 new JdkRequest(container.home()),
                 RtCollaboratorsTest.repo()
             );
             users.add("dummy1");
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(),
+                container.take().method(),
                 Matchers.equalTo(Request.PUT)
             );
             container.stop();
@@ -106,13 +104,12 @@ final class RtCollaboratorsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Collaborators users = new RtCollaborators(
-                new JdkRequest(container.home()),
-                RtCollaboratorsTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                users.isCollaborator("octocat2"),
+                new RtCollaborators(
+                    new JdkRequest(container.home()),
+                    RtCollaboratorsTest.repo()
+                ).isCollaborator("octocat2"),
                 Matchers.equalTo(true)
             );
             container.stop();
@@ -141,10 +138,9 @@ final class RtCollaboratorsTest {
                 RtCollaboratorsTest.repo()
             );
             users.remove("dummy");
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(),
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
             container.stop();

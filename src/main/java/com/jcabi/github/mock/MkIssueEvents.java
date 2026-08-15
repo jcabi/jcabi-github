@@ -20,15 +20,14 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub issue events.
- *
  * @since 0.23
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkIssueEvents implements IssueEvents {
+
     /**
      * XPath suffix for issue event number text.
      */
@@ -61,17 +60,13 @@ final class MkIssueEvents implements IssueEvents {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkIssueEvents.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkIssueEvents(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("issue-events")
-        );
     }
 
     @Override
@@ -113,7 +108,7 @@ final class MkIssueEvents implements IssueEvents {
      *  See https://developer.github.com/v3/issues/events/ for details.
      * @checkstyle ParameterNumberCheck (4 lines)
      */
-    public Event create(
+    Event create(
         final String type,
         final int issue, final String login, final Optional<String> label
     ) throws IOException {
@@ -156,5 +151,25 @@ final class MkIssueEvents implements IssueEvents {
             "/github/repos/repo[@coords='%s']/issue-events",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("issue-events")
+        );
+        return stg;
     }
 }

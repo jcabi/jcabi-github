@@ -25,33 +25,31 @@ import lombok.EqualsAndHashCode;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
-@EqualsAndHashCode(of = "request")
+@EqualsAndHashCode(of = "entry")
 final class RtUserEmails implements UserEmails {
 
     /**
-     * RESTful API request for the emails.
+     * RESTful API entry point.
      */
-    private final transient Request request;
+    private final transient Request entry;
 
     /**
      * Ctor.
      * @param req RESTful API entry point
      */
     RtUserEmails(final Request req) {
-        this.request = req.header("Accept", "application/vnd.github.v3")
-            .uri().path("/user/emails").back();
+        this.entry = req;
     }
 
     @Override
     public Iterable<String> iterate() throws IOException {
-        final List<JsonObject> array = this.request.method(Request.GET)
+        final List<JsonObject> array = this.request().method(Request.GET)
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK)
             .as(JsonResponse.class)
             .json().readArray().getValuesAs(JsonObject.class);
         final Collection<String> emails = new ArrayList<>(array.size());
         for (final JsonObject obj : array) {
-            // @checkstyle MultipleStringLiterals (1 line)
             emails.add(obj.getString("email"));
         }
         return emails;
@@ -65,7 +63,7 @@ final class RtUserEmails implements UserEmails {
         for (final String email : emails) {
             json.add(email);
         }
-        final List<JsonObject> array = this.request.method(Request.POST)
+        final List<JsonObject> array = this.request().method(Request.POST)
             .body().set(json.build()).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)
@@ -84,7 +82,7 @@ final class RtUserEmails implements UserEmails {
         for (final String email : emails) {
             json.add(email);
         }
-        this.request.method(Request.DELETE)
+        this.request().method(Request.DELETE)
             .body().set(json.build()).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
@@ -92,12 +90,20 @@ final class RtUserEmails implements UserEmails {
 
     @Override
     public String toString() {
-        return this.request.uri().get().toString();
+        return this.request().uri().get().toString();
     }
 
     @Override
     public JsonObject json() throws IOException {
-        return new RtJson(this.request).fetch();
+        return new RtJson(this.request()).fetch();
     }
 
+    /**
+     * RESTful API request for the emails.
+     * @return Request
+     */
+    private Request request() {
+        return this.entry.header("Accept", "application/vnd.github.v3")
+            .uri().path("/user/emails").back();
+    }
 }

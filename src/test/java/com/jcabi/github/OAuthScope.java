@@ -19,15 +19,25 @@ import java.lang.annotation.Target;
  *  it is run and make the case fail if the required OAuth scopes is not
  *  present.
  * @see <a href="https://developer.github.com/v3/oauth/#scopes">GitHub OAuth
- * scopes</a>
+ *  scopes</a>
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface OAuthScope {
+
+    /**
+     * Scopes of the OAuth token.
+     * @return Scopes required by the test
+     */
     OAuthScope.Scope[] value();
 
+    /**
+     * OAuth scope of a GitHub token.
+     * @since 0.10
+     */
     enum Scope {
+
         /**
          * No scope.
          */
@@ -111,6 +121,6 @@ public @interface OAuthScope {
         /**
          * Admin public key scope.
          */
-        ADMIN_PUBLIC_KEY;
+        ADMIN_PUBLIC_KEY
     }
 }

@@ -9,11 +9,9 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
@@ -26,30 +24,33 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtComment}.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtCommentTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
-    void canCompareInstances() throws IOException {
-        final Repo repo = new MkGitHub().randomRepo();
-        final Issue issue = repo.issues().create("title", "body");
-        final RtComment less = new RtComment(new FakeRequest(), issue, 1);
-        final RtComment greater = new RtComment(new FakeRequest(), issue, 2);
+    void comparesSmallerComment() throws IOException {
+        final Issue issue = new MkGitHub().randomRepo()
+            .issues().create("title", "body");
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater), Matchers.lessThan(0)
+            "Comment is not less than the greater one",
+            new RtComment(new FakeRequest(), issue, 1).compareTo(
+                new RtComment(new FakeRequest(), issue, 2)
+            ),
+            Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerComment() throws IOException {
+        final Issue issue = new MkGitHub().randomRepo()
+            .issues().create("title", "body");
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less), Matchers.greaterThan(0)
+            "Comment is not greater than the smaller one",
+            new RtComment(new FakeRequest(), issue, 2).compareTo(
+                new RtComment(new FakeRequest(), issue, 1)
+            ),
+            Matchers.greaterThan(0)
         );
     }
 
@@ -58,22 +59,27 @@ final class RtCommentTest {
      */
     @Test
     void returnsItsIssue() throws IOException {
-        final Repo repo = new MkGitHub().randomRepo();
-        final Issue issue = repo.issues().create("testing1", "issue1");
-        final RtComment comment = new RtComment(new FakeRequest(), issue, 1);
+        final Issue issue = new MkGitHub().randomRepo()
+            .issues().create("testing1", "issue1");
         MatcherAssert.assertThat(
-            "Values are not equal", comment.issue(), Matchers.is(issue)
+            "Values are not equal",
+            new RtComment(new FakeRequest(), issue, 1).issue(),
+            Matchers.is(issue)
         );
     }
 
     @Test
     void returnsItsNumber() throws IOException {
-        final Repo repo = new MkGitHub().randomRepo();
-        final Issue issue = repo.issues().create("testing2", "issue2");
         final long num = 10L;
-        final RtComment comment = new RtComment(new FakeRequest(), issue, num);
         MatcherAssert.assertThat(
-            "Values are not equal", comment.number(), Matchers.is(num)
+            "Values are not equal",
+            new RtComment(
+                new FakeRequest(),
+                new MkGitHub().randomRepo()
+                    .issues().create("testing2", "issue2"),
+                num
+            ).number(),
+            Matchers.is(num)
         );
     }
 
@@ -85,17 +91,12 @@ final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
-            ).start(RandomPort.port())) {
-            final Repo repo = new MkGitHub().randomRepo();
-            final Issue issue = repo.issues().create("testing3", "issue3");
-            final RtComment comment = new RtComment(
-                new ApacheRequest(container.home()), issue, 10
-            );
-            comment.remove();
-            final MkQuery query = container.take();
+            ).start(RandomPort.port())
+        ) {
+            RtCommentTest.comment(container).remove();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(),
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
         }
@@ -103,20 +104,14 @@ final class RtCommentTest {
 
     @Test
     void returnsItsJSon() throws IOException {
-        final String body = "{\"body\":\"test5\"}";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
-            ).start(RandomPort.port())) {
-            final Repo repo = new MkGitHub().randomRepo();
-            final Issue issue = repo.issues().create("testing4", "issue4");
-            final RtComment comment = new RtComment(
-                new ApacheRequest(container.home()), issue, 10
-            );
-            final JsonObject json = comment.json();
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "{\"body\":\"test5\"}")
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
-                json.getString("body"),
+                RtCommentTest.comment(container).json().getString("body"),
                 Matchers.is("test5")
             );
         }
@@ -127,19 +122,15 @@ final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(RandomPort.port())) {
-            final Repo repo = new MkGitHub().randomRepo();
-            final Issue issue = repo.issues().create("testing5", "issue5");
-            final RtComment comment = new RtComment(
-                new ApacheRequest(container.home()), issue, 10
+            ).start(RandomPort.port())
+        ) {
+            RtCommentTest.comment(container).patch(
+                Json.createObjectBuilder()
+                    .add("title", "test comment").build()
             );
-            final JsonObject patch = Json.createObjectBuilder()
-                .add("title", "test comment").build();
-            comment.patch(patch);
-            final MkQuery query = container.take();
             MatcherAssert.assertThat(
                 "Values are not equal",
-                query.method(), Matchers.equalTo(Request.PATCH)
+                container.take().method(), Matchers.equalTo(Request.PATCH)
             );
         }
     }
@@ -149,19 +140,13 @@ final class RtCommentTest {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(RandomPort.port())) {
-            final Repo repo = new MkGitHub().randomRepo();
-            final Issue issue = repo.issues().create(
-                "Reaction adding test", "This is a test for adding a reaction"
-            );
-            final RtComment comment = new RtComment(
-                new ApacheRequest(container.home()), issue, 10
-            );
-            comment.react(new Reaction.Simple(Reaction.HEART));
-            final MkQuery query = container.take();
+            ).start(RandomPort.port())
+        ) {
+            RtCommentTest.comment(container)
+                .react(new Reaction.Simple(Reaction.HEART));
             MatcherAssert.assertThat(
                 "Assertion failed",
-                query.method(),
+                container.take().method(),
                 new IsEqual<>(Request.POST)
             );
         }
@@ -173,55 +158,73 @@ final class RtCommentTest {
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    Json.createArrayBuilder()
-                    .add(
+                    Json.createArrayBuilder().add(
                         Json.createObjectBuilder()
                         .add("id", "1")
                         .add("content", "heart")
                         .build()
                     ).build().toString()
                 )
-            ).start(RandomPort.port())) {
-            final Repo repo = new MkGitHub().randomRepo();
-            final Issue issue = repo.issues().create(
-                "Reaction Listing test", "This is a test for listing reactions"
-            );
-            final RtComment comment = new RtComment(
-                new ApacheRequest(container.home()), issue, 10
-            );
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Assertion failed",
-                comment.reactions(),
+                RtCommentTest.comment(container).reactions(),
                 new IsIterableWithSize<>(new IsEqual<>(1))
             );
         }
     }
 
     /**
-     * This tests that the toString() method is working fine.
+     * This tests that the toString() method is not empty.
+     * @throws IOException If there is any I/O problem
      */
     @Test
-    void givesToString() throws IOException {
+    void givesNotEmptyToString() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
-            ).start(RandomPort.port())) {
-            final Repo repo = new MkGitHub().randomRepo();
-            final Issue issue = repo.issues().create("testing6", "issue6");
-            final RtComment comment = new RtComment(
-                new ApacheRequest(container.home()), issue, 10
-            );
-            final String text = comment.toString();
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Values are not equal",
-                text,
+                "Text of the comment is empty",
+                RtCommentTest.comment(container).toString(),
                 Matchers.not(Matchers.is(Matchers.emptyOrNullString()))
             );
+        }
+    }
+
+    /**
+     * This tests that the toString() method ends with the number.
+     * @throws IOException If there is any I/O problem
+     */
+    @Test
+    void givesToStringWithNumber() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "")
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "String does not end with expected value",
-                text,
+                "Text of the comment does not end with its number",
+                RtCommentTest.comment(container).toString(),
                 Matchers.endsWith("10")
             );
         }
+    }
+
+    /**
+     * Comment served by the given container.
+     * @param container Container to serve the comment
+     * @return Comment
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtComment comment(final MkContainer container)
+        throws IOException {
+        return new RtComment(
+            new ApacheRequest(container.home()),
+            new MkGitHub().randomRepo().issues().create("testing6", "issue6"),
+            10
+        );
     }
 }

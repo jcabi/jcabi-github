@@ -17,9 +17,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link SmartJsonTest}.
  * @since 0.5
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class SmartJsonTest {
 
     @Test
@@ -109,5 +107,4 @@ final class SmartJsonTest {
             IOUtils.toInputStream(txt, StandardCharsets.UTF_8)
         ).readObject();
     }
-
 }

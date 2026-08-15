@@ -17,25 +17,44 @@ import org.junit.jupiter.api.Test;
 final class MkCollaboratorsTest {
 
     /**
-     * MkCollaborators can add, remove and iterate collaborators.
+     * Login of the collaborator.
+     */
+    private static final String LOGIN = "some_user";
+
+    /**
+     * MkCollaborators can add a collaborator.
      * @throws Exception If some problem inside
      */
     @Test
-    void addAndRemove() throws Exception {
-        final Collaborators collabs = MkCollaboratorsTest.collaborators();
-        final String login = "some_user";
-        collabs.add(login);
+    void adds() throws Exception {
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            collabs.iterate(),
+            MkCollaboratorsTest.added().iterate(),
             Matchers.iterableWithSize(1)
         );
+    }
+
+    /**
+     * MkCollaborators can remember the login of a collaborator.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void remembersLogin() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            collabs.iterate().iterator().next().login(),
-            Matchers.equalTo(login)
+            "Collaborator has a wrong login",
+            MkCollaboratorsTest.added().iterate().iterator().next().login(),
+            Matchers.equalTo(MkCollaboratorsTest.LOGIN)
         );
-        collabs.remove(login);
+    }
+
+    /**
+     * MkCollaborators can remove a collaborator.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void removes() throws Exception {
+        final Collaborators collabs = MkCollaboratorsTest.added();
+        collabs.remove(MkCollaboratorsTest.LOGIN);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             collabs.iterate(),
@@ -44,32 +63,41 @@ final class MkCollaboratorsTest {
     }
 
     /**
-     * MkCollaborators can check whether  user is collaborator or not.
+     * MkCollaborators can recognize a collaborator.
      * @throws Exception If some problem inside
      */
     @Test
-    void isCollaborator() throws Exception {
-        final Collaborators collabs = MkCollaboratorsTest.collaborators();
-        final String collaborator = "collaborator";
-        collabs.add(collaborator);
+    void recognizesCollaborator() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            collabs.isCollaborator(collaborator),
+            "Collaborator is not recognized",
+            MkCollaboratorsTest.added()
+                .isCollaborator(MkCollaboratorsTest.LOGIN),
             Matchers.equalTo(true)
         );
-        final String stranger = "stranger";
+    }
+
+    /**
+     * MkCollaborators can recognize a stranger.
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void recognizesStranger() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            collabs.isCollaborator(stranger),
+            "Stranger is taken for a collaborator",
+            MkCollaboratorsTest.added().isCollaborator("stranger"),
             Matchers.equalTo(false)
         );
     }
 
     /**
-     * Create a collaborators to work with.
+     * Collaborators with one collaborator in them.
      * @return Collaborators just created
+     * @throws IOException If some problem inside
      */
-    private static Collaborators collaborators() throws IOException {
-        return new MkGitHub().randomRepo().collaborators();
+    private static Collaborators added() throws IOException {
+        final Collaborators collabs = new MkGitHub().randomRepo()
+            .collaborators();
+        collabs.add(MkCollaboratorsTest.LOGIN);
+        return collabs;
     }
 }

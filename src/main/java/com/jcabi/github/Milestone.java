@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -103,9 +102,7 @@ public interface Milestone extends Comparable<Milestone>,
          * Public ctor.
          * @param mls Issue
          */
-        public Smart(
-            final Milestone mls
-        ) {
+        public Smart(final Milestone mls) {
             this.milestone = mls;
             this.jsn = new SmartJson(mls);
         }
@@ -162,9 +159,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @param state State of milestone
          * @throws IOException If there is any I/O problem
          */
-        public void state(
-            final String state
-        ) throws IOException {
+        public void state(final String state) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder().add(Milestone.Smart.STATE, state).build()
             );
@@ -184,9 +179,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @param title Title of milestone
          * @throws IOException If there is any I/O problem
          */
-        public void title(
-            final String title
-        ) throws IOException {
+        public void title(final String title) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder().add(Milestone.Smart.TITLE, title).build()
             );
@@ -206,9 +199,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @param description Description of milestone
          * @throws IOException If there is any I/O problem
          */
-        public void description(
-            final String description
-        ) throws IOException {
+        public void description(final String description) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder()
                     .add(Milestone.Smart.DESCRIPTION, description).build()
@@ -233,14 +224,10 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -248,14 +235,10 @@ public interface Milestone extends Comparable<Milestone>,
          * @return The milestone due date
          * @throws IOException If there is any I/O problem
          */
-        public Date dueOn() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text(Milestone.Smart.DUE_ON)
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant dueOn() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text(Milestone.Smart.DUE_ON)
+            ).date();
         }
 
         /**
@@ -263,14 +246,10 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Date of last update
          * @throws IOException If there is any I/O problem
          */
-        public Date updatedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("updated_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant updatedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("updated_at")
+            ).date();
         }
 
         /**
@@ -278,14 +257,10 @@ public interface Milestone extends Comparable<Milestone>,
          * @return Date of closure
          * @throws IOException If there is any I/O problem
          */
-        public Date closedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("closed_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant closedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("closed_at")
+            ).date();
         }
 
         /**
@@ -293,9 +268,7 @@ public interface Milestone extends Comparable<Milestone>,
          * @param dueon New milestone due date
          * @throws IOException If there is any I/O problem
          */
-        public void dueOn(
-            final Date dueon
-        ) throws IOException {
+        public void dueOn(final Instant dueon) throws IOException {
             this.milestone.patch(
                 Json.createObjectBuilder()
                     .add(Milestone.Smart.DUE_ON, new GitHub.Time(dueon).toString()).build()
@@ -336,18 +309,13 @@ public interface Milestone extends Comparable<Milestone>,
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.milestone.patch(json);
         }
 
         @Override
-        public int compareTo(
-            final Milestone obj
-        ) {
+        public int compareTo(final Milestone obj) {
             return this.milestone.compareTo(obj);
         }
-
     }
 }

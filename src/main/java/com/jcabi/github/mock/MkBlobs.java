@@ -20,7 +20,6 @@ import org.xembly.Directives;
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkBlobs implements Blobs {
 
     /**
@@ -50,17 +49,13 @@ final class MkBlobs implements Blobs {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkBlobs.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkBlobs(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/git",
-                    this.coords
-                )
-            ).addIf("blobs")
-        );
     }
 
     @Override
@@ -68,21 +63,15 @@ final class MkBlobs implements Blobs {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
-    /**
-     * Gets a mocked Blob.
-     * @param sha Blob sha
-     * @return Mocked Blob
-     */
-    public Blob get(
-        final String sha) {
+    @Override
+    public Blob get(final String sha) {
         return new MkBlob(this.storage, sha, this.coords);
     }
 
     @Override
     public Blob create(
         final String content,
-        final String encoding)
-        throws IOException {
+        final String encoding) throws IOException {
         this.storage.lock();
         final String sha = MkBlobs.fakeSha();
         try {
@@ -112,12 +101,29 @@ final class MkBlobs implements Blobs {
 
     /**
      * Generate a random fake SHA hex string.
-     *
-     * @return Fake SHA string.
+     * @return Fake SHA string
      */
     private static String fakeSha() {
-        // @checkstyle MagicNumberCheck (1 line)
         return RandomStringUtils.secure().next(40, "0123456789abcdef");
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    rep
+                )
+            ).addIf("blobs")
+        );
+        return stg;
+    }
 }

@@ -14,13 +14,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull comment.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtPullComment implements PullComment {
 
     /**
@@ -45,17 +43,24 @@ final class RtPullComment implements PullComment {
      * @param number Number of the get
      */
     RtPullComment(final Request req, final Pull pull, final int number) {
-        final Coordinates coords = pull.repo().coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/pulls")
-            .path("/comments")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = pull;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(pull.repo().coordinates().user())
+                .path(pull.repo().coordinates().repo())
+                .path("/pulls")
+                .path("/comments")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            pull
+        );
+    }
+
+    private RtPullComment(final Request request, final int num, final Pull owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -69,9 +74,7 @@ final class RtPullComment implements PullComment {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
@@ -98,10 +101,7 @@ final class RtPullComment implements PullComment {
     }
 
     @Override
-    public int compareTo(
-        final PullComment comment
-    ) {
+    public int compareTo(final PullComment comment) {
         return this.number() - comment.number();
     }
-
 }

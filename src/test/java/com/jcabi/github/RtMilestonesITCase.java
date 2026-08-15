@@ -18,10 +18,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link Milestones}.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtMilestonesITCase {
+
     /**
      * Test repos.
      */
@@ -74,9 +74,6 @@ final class RtMilestonesITCase {
     @Test
     void createsNewMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
-        final Milestone milestone = milestones.create(
-            RandomStringUtils.secure().nextAlphabetic(10)
-        );
         try {
             MatcherAssert.assertThat(
                 "Collection is not empty",
@@ -84,22 +81,33 @@ final class RtMilestonesITCase {
                 Matchers.not(Matchers.emptyIterable())
             );
         } finally {
-            milestones.remove(milestone.number());
+            milestones.remove(
+                milestones.create(
+                    RandomStringUtils.secure().nextAlphabetic(10)
+                    ).number()
+            );
         }
+    }
+
+    @Test
+    void createsMilestone() throws IOException {
+        final Milestones milestones = RtMilestonesITCase.repo.milestones();
+        final Milestone milestone = milestones.create("a milestones");
+        MatcherAssert.assertThat(
+            "Created milestone is absent",
+            milestones.iterate(new ArrayMap<>()),
+            Matchers.hasItem(milestone)
+        );
+        milestones.remove(milestone.number());
     }
 
     @Test
     void deleteMilestone() throws IOException {
         final Milestones milestones = RtMilestonesITCase.repo.milestones();
         final Milestone milestone = milestones.create("a milestones");
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            milestones.iterate(new ArrayMap<>()),
-            Matchers.hasItem(milestone)
-        );
         milestones.remove(milestone.number());
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed milestone is still there",
             milestones.iterate(new ArrayMap<>()),
             Matchers.not(Matchers.hasItem(milestone))
         );

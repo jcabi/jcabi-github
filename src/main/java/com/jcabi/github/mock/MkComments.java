@@ -13,21 +13,19 @@ import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.xembly.Directives;
 
 /**
  * Mock GitHub comments.
- *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "ticket" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkComments implements Comments {
 
     /**
@@ -67,7 +65,6 @@ final class MkComments implements Comments {
      * @param rep Repo
      * @param issue Issue number
      * @throws IOException If there is any I/O problem
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkComments(
         final MkStorage stg,
@@ -75,19 +72,19 @@ final class MkComments implements Comments {
         final Coordinates rep,
         final int issue
     ) throws IOException {
+        this(MkComments.bootstrap(stg, rep, issue), login, issue, rep);
+    }
+
+    private MkComments(
+        final MkStorage stg,
+        final String login,
+        final int issue,
+        final Coordinates rep
+    ) {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
         this.ticket = issue;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    // @checkstyle LineLength (1 line)
-                    "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
-                    this.repo, this.ticket
-                )
-            ).addIf("comments")
-        );
     }
 
     @Override
@@ -103,7 +100,7 @@ final class MkComments implements Comments {
     }
 
     @Override
-    public Iterable<Comment> iterate(final Date since) {
+    public Iterable<Comment> iterate(final Instant since) {
         return new MkIterable<>(
             this.storage,
             this.xpath().concat(MkComments.COMMENT_PATH),
@@ -114,35 +111,31 @@ final class MkComments implements Comments {
     }
 
     @Override
-    public Comment post(
-        final String text
-    ) throws IOException {
+    public Comment post(final String text) throws IOException {
         this.storage.lock();
         final long number;
         try {
             final String timestamp = new GitHub.Time().toString();
-            number = 1 + this.storage.xml()
+            number = 1L + this.storage.xml()
                 .nodes(MkComments.COMMENT_NUM_XPATH).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Long.toString(number)).up()
-                    .add("url")
-                    .set(
+                    .add("url").set(
                         String.format(
-                            // @checkstyle LineLength (1 line)
                             "https://api.jcabi-github.invalid/repos/%s/%s/issues/comments/%d",
                             this.repo.user(),
                             this.repo.repo(),
                             number
                     )
                 )
-                    .up()
-                    .add("body").set(text).up()
-                    .add("user")
-                        .add("login").set(this.self).up()
-                    .up()
-                    .add("created_at").set(timestamp).up()
-                    .add("updated_at").set(timestamp)
+                .up()
+                .add("body").set(text).up()
+                .add("user")
+                    .add("login").set(this.self).up()
+                .up()
+                .add("created_at").set(timestamp).up()
+                .add("updated_at").set(timestamp)
             );
         } finally {
             this.storage.unlock();
@@ -160,10 +153,29 @@ final class MkComments implements Comments {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments",
             this.repo, this.ticket
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @param issue Issue number
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final int issue)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
+                    rep, issue
+                )
+            ).addIf("comments")
+        );
+        return stg;
+    }
 }

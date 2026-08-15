@@ -15,9 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtReleaseAsset}.
- *
  * @since 0.8
- * @checkstyle MultipleStringLiterals (300 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtReleaseAssetITCase {
@@ -34,7 +32,6 @@ final class RtReleaseAssetITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static RepoRule rule = new RepoRule();
 
@@ -63,8 +60,9 @@ final class RtReleaseAssetITCase {
 
     @Test
     void fetchAsJson() throws IOException {
-        final String name = RandomStringUtils.secure().nextAlphanumeric(10);
-        final Release release = RtReleaseAssetITCase.repo.releases().create(name);
+        final Release release = RtReleaseAssetITCase.repo.releases().create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
+        );
         try {
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -95,24 +93,33 @@ final class RtReleaseAssetITCase {
     }
 
     @Test
-    void removesReleaseAsset() throws IOException {
+    void createsRelease() throws IOException {
         final Releases releases = RtReleaseAssetITCase.repo.releases();
-        final String rname = RandomStringUtils.secure().nextAlphanumeric(10);
-        final Release release = releases.create(rname);
+        final Release release = releases.create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
+        );
         try {
             MatcherAssert.assertThat(
-                "Value is null",
+                "Created release is absent",
                 releases.get(release.number()),
                 Matchers.notNullValue()
             );
         } finally {
             release.delete();
         }
+    }
+
+    @Test
+    void removesReleaseAsset() throws IOException {
+        final Releases releases = RtReleaseAssetITCase.repo.releases();
+        final Release release = releases.create(
+            RandomStringUtils.secure().nextAlphanumeric(10)
+        );
+        release.delete();
         MatcherAssert.assertThat(
-            "Assertion failed",
+            "Removed release is still there",
             releases.iterate(),
             Matchers.not(Matchers.contains(release))
         );
     }
-
 }

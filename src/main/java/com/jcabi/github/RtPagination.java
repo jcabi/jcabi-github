@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 /**
  * GitHub pagination.
+ *
  * <p>This class is a convenient iterator over multiple JSON objects
  * returned by GitHub API. For example, to iterate through notifications
  * (see Notifications API) you can use this code:</p>
@@ -19,6 +20,7 @@ import java.util.Iterator;
  *     .uri().path("/notifications").back(),
  *   RtPagination.COPYING
  * );</pre>
+ *
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  * @since 0.11
@@ -28,7 +30,6 @@ public final class RtPagination<T> implements Iterable<T> {
 
     /**
      * Mapping that just copies JsonObject.
-     * @checkstyle LineLength (3 lines)
      */
     public static final RtValuePagination.Mapping<JsonObject, JsonObject> COPYING =
         value -> value;

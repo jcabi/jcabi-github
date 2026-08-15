@@ -14,16 +14,15 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 final class RtOrganizationsITCase {
+
     @Test
-    void getOrganization() {
+    void fetchesOrganization() {
         final String login = "github";
-        final Organization org = GitHubIT.connect()
-            .organizations().get(login);
         MatcherAssert.assertThat(
             "Values are not equal",
-            org.login(),
+            GitHubIT.connect()
+                .organizations().get(login).login(),
             Matchers.equalTo(login)
         );
     }
-
 }

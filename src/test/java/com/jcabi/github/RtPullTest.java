@@ -8,17 +8,16 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Collection;
 import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,9 +27,9 @@ import org.mockito.Mockito;
  * Test case for {@link RtPull}.
  * @since 0.7
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 @ExtendWith(RandomPort.class)
 final class RtPullTest {
+
     /**
      * Property name for ref name in pull request ref JSON object.
      */
@@ -43,7 +42,6 @@ final class RtPullTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void fetchesCommits() throws IOException {
@@ -55,14 +53,13 @@ final class RtPullTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtPull pull = new RtPull(
-                new ApacheRequest(container.home()),
-                RtPullTest.repo(),
-                1
-            );
             MatcherAssert.assertThat(
                 "Value is null",
-                pull.commits(),
+                new RtPull(
+                    new ApacheRequest(container.home()),
+                    RtPullTest.repo(),
+                    1
+                ).commits(),
                 Matchers.notNullValue()
             );
             container.stop();
@@ -79,203 +76,250 @@ final class RtPullTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtPull pull = new RtPull(
-                new ApacheRequest(container.home()),
-                RtPullTest.repo(),
-                2
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                pull.files().iterator().next().getString("file1"),
+                new RtPull(
+                    new ApacheRequest(container.home()),
+                    RtPullTest.repo(),
+                    2
+                ).files().iterator().next().getString("file1"),
                 Matchers.equalTo("testFile")
             );
             container.stop();
         }
     }
 
-    /**
-     * RtPull can fetch its base ref.
-     * @throws IOException If some I/O problem occurs
-     */
     @Test
     void fetchesBase() throws IOException {
-        final String ref = "sweet-feature-branch";
-        final String sha = "e93c6a2216c69daa574abc16e7c14767fce44ad6";
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_OK,
-                    Json.createObjectBuilder()
-                        .add(
-                            "base",
-                            Json.createObjectBuilder()
-                                .add(RtPullTest.REF_PROP, ref)
-                                .add(RtPullTest.SHA_PROP, sha)
-                                .build()
-                        )
-                        .build()
-                        .toString()
-                )
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.base()))
+                .start(RandomPort.port())
         ) {
-            final RtPull pull = new RtPull(
-                new ApacheRequest(container.home()),
-                RtPullTest.repo(),
-                1
-            );
-            final PullRef base = pull.base();
             MatcherAssert.assertThat(
-                "Value is null",
-                base,
+                "Base of the pull is absent",
+                RtPullTest.pull(container, 1).base(),
                 Matchers.notNullValue()
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                base.ref(),
-                Matchers.equalTo(ref)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                base.sha(),
-                Matchers.equalTo(sha)
-            );
-            container.stop();
         }
     }
 
-    /**
-     * RtPull can fetch its head ref.
-     * @throws IOException If some I/O problem occurs
-     */
+    @Test
+    void fetchesRefOfBase() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.base()))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Base of the pull has a wrong ref",
+                RtPullTest.pull(container, 1).base().ref(),
+                Matchers.equalTo("sweet-feature-branch")
+            );
+        }
+    }
+
+    @Test
+    void fetchesShaOfBase() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.base()))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Base of the pull has a wrong SHA",
+                RtPullTest.pull(container, 1).base().sha(),
+                Matchers.equalTo("e93c6a2216c69daa574abc16e7c14767fce44ad6")
+            );
+        }
+    }
+
     @Test
     void fetchesHead() throws IOException {
-        final String ref = "neat-other-branch";
-        final String sha = "9c717b4716e4fc4d917f546e8e6b562e810e3922";
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_OK,
-                    RtPullTest.head(ref, sha).toString()
-                )
-            ).start(RandomPort.port())
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.head()))
+                .start(RandomPort.port())
         ) {
-            final RtPull pull = new RtPull(
-                new ApacheRequest(container.home()),
-                RtPullTest.repo(),
-                1
-            );
-            final PullRef head = pull.head();
             MatcherAssert.assertThat(
-                "Value is null",
-                head,
+                "Head of the pull is absent",
+                RtPullTest.pull(container, 1).head(),
                 Matchers.notNullValue()
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                head.ref(),
-                Matchers.equalTo(ref)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                head.sha(),
-                Matchers.equalTo(sha)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void executeMerge() throws IOException {
+    void fetchesRefOfHead() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.head()))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Head of the pull has a wrong ref",
+                RtPullTest.pull(container, 1).head().ref(),
+                Matchers.equalTo("ref-ref")
+            );
+        }
+    }
+
+    @Test
+    void fetchesShaOfHead() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.head()))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Head of the pull has a wrong SHA",
+                RtPullTest.pull(container, 1).head().sha(),
+                Matchers.equalTo("6d299617d9094ae6940b3958bbabab68fd1ddabb")
+            );
+        }
+    }
+
+    @Test
+    void mergesWithPut() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
             ).start(RandomPort.port())
         ) {
-            final RtPull pull = new RtPull(
-                new ApacheRequest(container.home()),
-                RtPullTest.repo(),
-                3
-            );
-            pull.merge("Test commit.");
-            final MkQuery query = container.take();
+            RtPullTest.pull(container, 3).merge("Test commit.");
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Pull is not merged with PUT",
+                container.take().method(),
                 Matchers.equalTo(Request.PUT)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
-                Matchers.equalTo("{\"commit_message\":\"Test commit.\"}")
-            );
-            container.stop();
         }
     }
 
-    /**
-     * RtPull should be able to fetch pull checks.
-     * @throws IOException If some I/O problem occurs.
-     */
+    @Test
+    void sendsCommitMessageWhileMerging() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "testMerge")
+            ).start(RandomPort.port())
+        ) {
+            RtPullTest.pull(container, 3).merge("Test commit.");
+            MatcherAssert.assertThat(
+                "Commit message is not sent while merging",
+                container.take().body(),
+                Matchers.equalTo("{\"commit_message\":\"Test commit.\"}")
+            );
+        }
+    }
+
     @Test
     void canFetchChecks() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer()
-                .next(
-                    new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_OK,
-                        RtPullTest.head().toString()
-                    )
-                )
-                .next(
-                    new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_OK,
-                        RtPullTest.check().toString()
-                    )
-                )
+                .next(RtPullTest.answer(RtPullTest.head()))
+                .next(RtPullTest.answer(RtPullTest.check()))
                 .start(RandomPort.port())
         ) {
-            final Collection<? extends Check> all = new RtPull(
-                new ApacheRequest(container.home()),
-                RtPullTest.repo(),
-                new Random().nextInt()
-            ).checks().all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect",
-                all,
+                "Pull has a wrong amount of checks",
+                RtPullTest.pull(container, 1).checks().all(),
                 Matchers.hasSize(1)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                all.iterator().next().successful(),
-                Matchers.is(true)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void canCompareInstances() {
-        final RtPull less = new RtPull(new FakeRequest(), RtPullTest.repo(), 1);
-        final RtPull greater = new RtPull(new FakeRequest(), RtPullTest.repo(), 2);
+    void fetchesSuccessfulCheck() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullTest.answer(RtPullTest.head()))
+                .next(RtPullTest.answer(RtPullTest.check()))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Check of the pull is not successful",
+                RtPullTest.pull(container, 1).checks().all()
+                    .iterator().next().successful(),
+                Matchers.is(true)
+            );
+        }
+    }
+
+    @Test
+    void comparesSmallerPull() {
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater), Matchers.lessThan(0)
+            "Pull is not less than the greater one",
+            RtPullTest.pull(1).compareTo(RtPullTest.pull(2)),
+            Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerPull() {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less), Matchers.greaterThan(0)
+            "Pull is not greater than the smaller one",
+            RtPullTest.pull(2).compareTo(RtPullTest.pull(1)),
+            Matchers.greaterThan(0)
         );
     }
 
     @Test
     @Disabled
     void canFetchComments() {
-        //to be implemented
+        Assertions.fail("Fetching of pull comments is not tested yet");
+    }
+
+    /**
+     * Pull served by the given container.
+     * @param container Container to serve the pull
+     * @param number Number of the pull
+     * @return The pull
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtPull pull(final MkContainer container, final int number)
+        throws IOException {
+        return new RtPull(
+            new ApacheRequest(container.home()), RtPullTest.repo(), number
+        );
+    }
+
+    /**
+     * Pull with the given number.
+     * @param number Number of the pull
+     * @return The pull
+     */
+    private static RtPull pull(final int number) {
+        return new RtPull(new FakeRequest(), RtPullTest.repo(), number);
+    }
+
+    /**
+     * Answer with the given JSON body.
+     * @param body Body of the answer
+     * @return Answer
+     */
+    private static MkAnswer answer(final JsonObject body) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK, body.toString()
+        );
+    }
+
+    /**
+     * Base as JSON object.
+     * @return Base as JSON object
+     */
+    private static JsonObject base() {
+        return Json.createObjectBuilder().add(
+            "base",
+            Json.createObjectBuilder()
+                .add(RtPullTest.REF_PROP, "sweet-feature-branch").add(
+                    RtPullTest.SHA_PROP,
+                    "e93c6a2216c69daa574abc16e7c14767fce44ad6"
+                )
+        ).build();
     }
 
     /**
      * Mock repository for testing purposes.
-     * @return Repo the mock repository.
+     * @return Repo the mock repository
      */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
@@ -288,27 +332,25 @@ final class RtPullTest {
 
     /**
      * Check as JSON object.
-     * @return Check as JSON object.
+     * @return Check as JSON object
      */
     private static JsonObject check() {
         return Json.createObjectBuilder()
-            .add("total_count", Json.createValue(1))
-            .add(
+            .add("total_count", Json.createValue(1)).add(
                 "check_runs",
-                Json.createArrayBuilder()
-                    .add(
-                        Json.createObjectBuilder()
-                            .add("id", Json.createValue(new Random().nextInt()))
-                            .add("status", "completed")
-                            .add("conclusion", "success")
-                            .build()
+                Json.createArrayBuilder().add(
+                    Json.createObjectBuilder()
+                        .add("id", Json.createValue(new Random().nextInt()))
+                        .add("status", "completed")
+                        .add("conclusion", "success")
+                        .build()
                     )
             ).build();
     }
 
     /**
      * Head as JSON object.
-     * @return Head as JSON object.
+     * @return Head as JSON object
      */
     private static JsonObject head() {
         return RtPullTest.head(
@@ -319,20 +361,18 @@ final class RtPullTest {
 
     /**
      * Head as JSON object.
-     * @param ref Ref.
-     * @param sha Sha.
-     * @return Head as JSON object.
+     * @param ref Ref
+     * @param sha Sha
+     * @return Head as JSON object
      */
     private static JsonObject head(final String ref, final String sha) {
-        return Json.createObjectBuilder()
-            .add(
-                "head",
-                Json.createObjectBuilder()
-                    .add(RtPullTest.REF_PROP, ref)
-                    .add(RtPullTest.SHA_PROP, sha)
-                    .build()
+        return Json.createObjectBuilder().add(
+            "head",
+            Json.createObjectBuilder()
+                .add(RtPullTest.REF_PROP, ref)
+                .add(RtPullTest.SHA_PROP, sha)
+                .build()
             )
             .build();
     }
-
 }

@@ -18,13 +18,13 @@ import lombok.ToString;
 
 /**
  * Mock GitHub event.
- *
  * @since 0.6.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkEvent implements Event {
+
     /**
      * Created at.
      */
@@ -66,7 +66,6 @@ final class MkEvent implements Event {
      * @param login User to login
      * @param rep Repo
      * @param nmbr Number
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkEvent(
         final MkStorage stg,
@@ -91,9 +90,7 @@ final class MkEvent implements Event {
     }
 
     @Override
-    public int compareTo(
-        final Event event
-    ) {
+    public int compareTo(final Event event) {
         throw new UnsupportedOperationException("#compareTo()");
     }
 
@@ -103,27 +100,21 @@ final class MkEvent implements Event {
             this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
         JsonObjectBuilder builder = Json.createObjectBuilder()
-            .add("id", this.num)
-            .add(
+            .add("id", this.num).add(
                 "url",
                 String.format(
-                    // @checkstyle LineLength (1 line)
                     "https://api.jcabi-github.invalid/repos/%s/issues/events/%s",
                     this.coords,
                     this.num
                 )
             )
             .add("commit_id", JsonValue.NULL)
-            // @checkstyle MultipleStringLiteralsCheck (1 line)
-            .add(MkEvent.EVENT, obj.getString(MkEvent.EVENT))
-            .add(
+            .add(MkEvent.EVENT, obj.getString(MkEvent.EVENT)).add(
                 "actor",
                 Json.createObjectBuilder()
-                    // @checkstyle MultipleStringLiteralsCheck (1 line)
                     .add(MkEvent.LOGIN, obj.getString(MkEvent.LOGIN))
                     .build()
             )
-            // @checkstyle MultipleStringLiteralsCheck (1 line)
             .add(MkEvent.CREATED_AT, obj.getString(MkEvent.CREATED_AT));
         final String label = "label";
         if (obj.containsKey(label)) {
@@ -169,7 +160,6 @@ final class MkEvent implements Event {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/issue-events/issue-event[number='%d']",
             this.coords, this.num
         );

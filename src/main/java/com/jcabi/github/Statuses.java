@@ -16,16 +16,17 @@ import lombok.ToString;
 
 /**
  * GitHub status.
+ *
  * <p>The status exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
  * "smart" decorator, which helps you to get access to all JSON properties,
  * for example:
  * <pre> URL url = new Status.Smart(status).url();</pre>
+ *
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
  * @since 0.23
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Statuses extends JsonReadable {
 
     /**
@@ -41,19 +42,15 @@ public interface Statuses extends JsonReadable {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      */
-    Status create(
-        Statuses.StatusCreate status
-    ) throws IOException;
+    Status create(Statuses.StatusCreate status) throws IOException;
 
     /**
      * List all statuses for a given ref.
-     * @param ref It can be a SHA, a branch name, or a tag name.
+     * @param ref It can be a SHA, a branch name, or a tag name
      * @return Iterable of statuses
      * @see <a href="https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref">List Statuses for a specific Ref</a>
      */
-    Iterable<Status> list(
-        String ref
-    );
+    Iterable<Status> list(String ref);
 
     /**
      * Data to use when creating a new GitHub commit status.
@@ -71,6 +68,7 @@ public interface Statuses extends JsonReadable {
         }
     )
     final class StatusCreate implements JsonReadable {
+
         /**
          * State.
          */
@@ -95,9 +93,7 @@ public interface Statuses extends JsonReadable {
          * Public ctor.
          * @param stat State
          */
-        public StatusCreate(
-            final Status.State stat
-        ) {
+        public StatusCreate(final Status.State stat) {
             this(
                 stat,
                 "",
@@ -112,7 +108,6 @@ public interface Statuses extends JsonReadable {
          * @param desc Description
          * @param cntxt Context
          * @param target Target URL
-         * @checkstyle ParameterNumberCheck (10 lines)
          */
         private StatusCreate(
             final Status.State stat,

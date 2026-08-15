@@ -16,12 +16,10 @@ import org.hamcrest.Matchers;
 /**
  * GitHub Assignees.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtAssignees implements Assignees {
 
     /**
@@ -45,15 +43,22 @@ final class RtAssignees implements Assignees {
      * @param repo Repo
      */
     RtAssignees(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/assignees")
-            .back();
-        this.owner = repo;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/assignees")
+                .back(),
+            repo
+        );
+    }
+
+    private RtAssignees(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -69,15 +74,12 @@ final class RtAssignees implements Assignees {
     }
 
     @Override
-    public boolean check(
-        final String login
-    ) throws IOException {
+    public boolean check(final String login) throws IOException {
         return this.request
             .method(Request.GET)
             .uri().path(login).back()
             .fetch()
-            .as(RestResponse.class)
-            .assertStatus(
+            .as(RestResponse.class).assertStatus(
                 Matchers.is(
                     Matchers.oneOf(
                         HttpURLConnection.HTTP_NO_CONTENT,

@@ -28,11 +28,7 @@ import org.junit.jupiter.api.Test;
  *  readable and maintainable. Moreover all this variables don't follow
  *  PMD and Checkstyle rules. When it is done, remove this puzzle and
  *  all the checkstyle and PMD suppressions.
- * @checkstyle StaticVariableNameCheck (1000 lines)
- * @checkstyle MagicNumberCheck (1000 lines)
- * @checkstyle LineLengthCheck (2 lines)
  */
-@SuppressWarnings({"PMD.SuspiciousConstantFieldName", "PMD.VariableNamingConventions"})
 final class RepositoryStatisticsTest {
 
     /**
@@ -120,8 +116,7 @@ final class RepositoryStatisticsTest {
      * @throws IOException If some problem with I/O happened.
      */
     @Test
-    void retrievesBasicStatisticsFromRepo()
-        throws IOException {
+    void retrievesBasicStatisticsFromRepo() throws IOException {
         MatcherAssert.assertThat(
             "We expect to have basic statistics from repo",
             new RepositoryStatistics(RepositoryStatisticsTest.repo()).toMap(),
@@ -173,55 +168,93 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve all values.
+     * Checks that RepositoryStatistics.Smart can retrieve forks.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
-    void retrievesSmartStatistics() throws IOException {
-        final RepositoryStatistics.Smart smart =
-            new RepositoryStatistics.Smart(RepositoryStatisticsTest.repo());
+    void retrievesSmartForks() throws IOException {
         MatcherAssert.assertThat(
             "Forks should be equal to 1",
-            smart.forks(),
-            Matchers.equalTo(
-                RepositoryStatisticsTest.FORKS_VALUE
-            )
+            new RepositoryStatistics.Smart(
+                RepositoryStatisticsTest.repo()
+            ).forks(),
+            Matchers.equalTo(RepositoryStatisticsTest.FORKS_VALUE)
         );
+    }
+
+    /**
+     * Checks that RepositoryStatistics.Smart can retrieve stargazers.
+     * @throws IOException If some problem with I/O happened.
+     */
+    @Test
+    void retrievesSmartStargazers() throws IOException {
         MatcherAssert.assertThat(
             "Stargazers should be equal to 2",
-            smart.stargazers(),
-            Matchers.equalTo(
-                RepositoryStatisticsTest.stargazersValue
-            )
+            new RepositoryStatistics.Smart(
+                RepositoryStatisticsTest.repo()
+            ).stargazers(),
+            Matchers.equalTo(RepositoryStatisticsTest.stargazersValue)
         );
+    }
+
+    /**
+     * Checks that RepositoryStatistics.Smart can retrieve watchers.
+     * @throws IOException If some problem with I/O happened.
+     */
+    @Test
+    void retrievesSmartWatchers() throws IOException {
         MatcherAssert.assertThat(
             "Watchers should be equal to 3",
-            smart.watchers(),
-            Matchers.equalTo(
-                RepositoryStatisticsTest.watchersValue
-            )
+            new RepositoryStatistics.Smart(
+                RepositoryStatisticsTest.repo()
+            ).watchers(),
+            Matchers.equalTo(RepositoryStatisticsTest.watchersValue)
         );
+    }
+
+    /**
+     * Checks that RepositoryStatistics.Smart can retrieve size.
+     * @throws IOException If some problem with I/O happened.
+     */
+    @Test
+    void retrievesSmartSize() throws IOException {
         MatcherAssert.assertThat(
             "Size should be equal to 4",
-            smart.size(),
-            Matchers.equalTo(
-                RepositoryStatisticsTest.sizeValue
-            )
+            new RepositoryStatistics.Smart(
+                RepositoryStatisticsTest.repo()
+            ).size(),
+            Matchers.equalTo(RepositoryStatisticsTest.sizeValue)
         );
+    }
+
+    /**
+     * Checks that RepositoryStatistics.Smart can retrieve open issues.
+     * @throws IOException If some problem with I/O happened.
+     */
+    @Test
+    void retrievesSmartOpenIssues() throws IOException {
         MatcherAssert.assertThat(
             "Issues should be equal to 5",
-            smart.openIssues(),
-            Matchers.equalTo(
-                RepositoryStatisticsTest.issuesValue
-            )
+            new RepositoryStatistics.Smart(
+                RepositoryStatisticsTest.repo()
+            ).openIssues(),
+            Matchers.equalTo(RepositoryStatisticsTest.issuesValue)
         );
+    }
+
+    /**
+     * Checks that RepositoryStatistics.Smart can retrieve creation date.
+     * @throws IOException If some problem with I/O happened.
+     */
+    @Test
+    void retrievesSmartCreated() throws IOException {
         MatcherAssert.assertThat(
             "Created date should be equal to 2011-01-26T19:14:43Z",
-            smart.created(),
+            new RepositoryStatistics.Smart(
+                RepositoryStatisticsTest.repo()
+            ).created(),
             Matchers.equalTo(
-                ZonedDateTime.parse(
-                    RepositoryStatisticsTest.createdValue
-                )
+                ZonedDateTime.parse(RepositoryStatisticsTest.createdValue)
             )
         );
     }
@@ -233,52 +266,43 @@ final class RepositoryStatisticsTest {
      */
     private static Repo repo() throws IOException {
         return new MkGitHub()
-            .repos()
-            .create(
-                new Repos.RepoCreate("volodya-lombrozo", false)
-                    .with(
-                        RepositoryStatisticsTest.LANGUAGE_KEY,
-                        Json.createValue(
-                            RepositoryStatisticsTest.languageValue
-                        )
+            .repos().create(
+                new Repos.RepoCreate("volodya-lombrozo", false).with(
+                    RepositoryStatisticsTest.LANGUAGE_KEY,
+                    Json.createValue(
+                        RepositoryStatisticsTest.languageValue
                     )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.FORKS_KEY,
                         Json.createValue(
                             RepositoryStatisticsTest.FORKS_VALUE
                         )
-                    )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.stargazersKey,
                         Json.createValue(
                             RepositoryStatisticsTest.stargazersValue
                         )
-                    )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.watchersKey,
                         Json.createValue(
                             RepositoryStatisticsTest.watchersValue
                         )
-                    )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.sizeKey,
                         Json.createValue(
                             RepositoryStatisticsTest.sizeValue
                         )
-                    )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.issuesKey,
                         Json.createValue(
                             RepositoryStatisticsTest.issuesValue
                         )
-                    )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.createdKey,
                         Json.createValue(
                             RepositoryStatisticsTest.createdValue
                         )
-                    )
-                    .with(
+                    ).with(
                         RepositoryStatisticsTest.updatedKey,
                         Json.createValue(
                             RepositoryStatisticsTest.updatedValue

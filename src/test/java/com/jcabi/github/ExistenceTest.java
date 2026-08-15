@@ -52,5 +52,4 @@ final class ExistenceTest {
             "Should rethrow IOException"
         );
     }
-
 }

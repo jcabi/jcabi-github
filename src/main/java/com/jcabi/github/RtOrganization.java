@@ -52,13 +52,27 @@ final class RtOrganization implements Organization {
         final Request req,
         final String login
     ) {
-        this.ghub = github;
-        this.entry = req;
-        this.request = req.uri()
-            .path("/orgs")
-            .path(login)
-            .back();
-        this.self = login;
+        this(
+            github,
+            req,
+            req.uri()
+                .path("/orgs")
+                .path(login)
+                .back(),
+            login
+        );
+    }
+
+    private RtOrganization(
+        final GitHub ghub,
+        final Request entry,
+        final Request request,
+        final String self
+    ) {
+        this.ghub = ghub;
+        this.entry = entry;
+        this.request = request;
+        this.self = self;
     }
 
     @Override
@@ -82,15 +96,12 @@ final class RtOrganization implements Organization {
     }
 
     @Override
-    public int compareTo(
-        final Organization other
-    ) {
+    public int compareTo(final Organization other) {
         return this.login().compareTo(other.login());
     }
 
     @Override
-    public void patch(
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
@@ -98,5 +109,4 @@ final class RtOrganization implements Organization {
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
-
 }

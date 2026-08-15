@@ -7,7 +7,6 @@ package com.jcabi.github;
 import jakarta.json.Json;
 import jakarta.json.JsonValue;
 import java.io.IOException;
-import java.text.ParseException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,7 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Release}.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (400 lines)
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class ReleaseTest {
 
     @Test
@@ -30,10 +27,9 @@ final class ReleaseTest {
                 .add("url", url)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.url().toString(),
+            new Release.Smart(release).url().toString(),
             Matchers.equalTo(url)
         );
     }
@@ -47,10 +43,9 @@ final class ReleaseTest {
                 .add("html_url", htmlurl)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.htmlUrl().toString(),
+            new Release.Smart(release).htmlUrl().toString(),
             Matchers.equalTo(htmlurl)
         );
     }
@@ -64,10 +59,9 @@ final class ReleaseTest {
                 .add("assets_url", assetsurl)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.assetsUrl().toString(),
+            new Release.Smart(release).assetsUrl().toString(),
             Matchers.equalTo(assetsurl)
         );
     }
@@ -81,22 +75,20 @@ final class ReleaseTest {
                 .add("upload_url", uploadurl)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.uploadUrl().toString(),
+            new Release.Smart(release).uploadUrl().toString(),
             Matchers.equalTo(uploadurl)
         );
     }
 
     @Test
-    void testId() {
+    void fetchesId() {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(1).when(release).number();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.number(),
+            new Release.Smart(release).number(),
             Matchers.equalTo(1)
         );
     }
@@ -110,10 +102,9 @@ final class ReleaseTest {
                 .add("tag_name", tag)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.tag(),
+            new Release.Smart(release).tag(),
             Matchers.equalTo(tag)
         );
     }
@@ -127,34 +118,28 @@ final class ReleaseTest {
                 .add("target_commitish", master)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.commitish(),
+            new Release.Smart(release).commitish(),
             Matchers.equalTo(master)
         );
     }
 
     @Test
-    void fetchName() throws IOException {
-        final Release release = Mockito.mock(Release.class);
-        final String name = "v1";
-        // @checkstyle MultipleStringLiterals (3 lines)
-        Mockito.doReturn(
-            Json.createObjectBuilder()
-                .add("name", name)
-                .build()
-        ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
+    void indicatesName() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.hasName(),
+            "Named release does not have a name",
+            new Release.Smart(ReleaseTest.named("v1")).hasName(),
             Matchers.is(true)
         );
+    }
+
+    @Test
+    void fetchName() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            smart.name(),
-            Matchers.equalTo(name)
+            "Name of the release is not fetched",
+            new Release.Smart(ReleaseTest.named("v1")).name(),
+            Matchers.equalTo("v1")
         );
     }
 
@@ -170,10 +155,9 @@ final class ReleaseTest {
                 .add("name", JsonValue.NULL)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.hasName(),
+            new Release.Smart(release).hasName(),
             Matchers.is(false)
         );
     }
@@ -187,16 +171,15 @@ final class ReleaseTest {
                 .add("body", description)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.body(),
+            new Release.Smart(release).body(),
             Matchers.equalTo(description)
         );
     }
 
     @Test
-    void fetchDescription() throws IOException, ParseException {
+    void fetchDescription() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String created = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -204,16 +187,15 @@ final class ReleaseTest {
                 .add("created_at", created)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.createdAt(),
+            new Release.Smart(release).createdAt(),
             Matchers.equalTo(new GitHub.Time(created).date())
         );
     }
 
     @Test
-    void fetchPublished() throws IOException, ParseException {
+    void fetchPublished() throws IOException {
         final Release release = Mockito.mock(Release.class);
         final String published = "2013-01-27T19:35:32Z";
         Mockito.doReturn(
@@ -221,10 +203,9 @@ final class ReleaseTest {
                 .add("published_at", published)
                 .build()
         ).when(release).json();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.publishedAt(),
+            new Release.Smart(release).publishedAt(),
             Matchers.equalTo(new GitHub.Time(published).date())
         );
     }
@@ -233,7 +214,7 @@ final class ReleaseTest {
     void isPrerelease() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
-            Json.createObjectBuilder().add("prerelease", Boolean.TRUE).build()
+            Json.createObjectBuilder().add("prerelease", true).build()
         ).when(release).json();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -272,7 +253,7 @@ final class ReleaseTest {
     void isDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
-            Json.createObjectBuilder().add("draft", Boolean.TRUE).build()
+            Json.createObjectBuilder().add("draft", true).build()
         ).when(release).json();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -285,7 +266,7 @@ final class ReleaseTest {
     void isNotDraft() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(
-            Json.createObjectBuilder().add("draft", Boolean.FALSE).build()
+            Json.createObjectBuilder().add("draft", false).build()
         ).when(release).json();
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -305,5 +286,21 @@ final class ReleaseTest {
             new Release.Smart(release).draft(),
             Matchers.is(Boolean.FALSE)
         );
+    }
+
+    /**
+     * Release with the given name.
+     * @param name Name of the release
+     * @return Release
+     * @throws IOException If fails
+     */
+    private static Release named(final String name) throws IOException {
+        final Release release = Mockito.mock(Release.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder()
+                .add("name", name)
+                .build()
+        ).when(release).json();
+        return release;
     }
 }

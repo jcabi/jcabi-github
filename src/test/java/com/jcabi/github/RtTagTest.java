@@ -19,14 +19,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Testcase for RtTag.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtTagTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void fetchesContent() throws IOException {
@@ -36,15 +34,14 @@ final class RtTagTest {
                 "{\"sha\":\"abdes00test\", \"tag\":\"v.0.1\"}"
             )
         ).start(RandomPort.port());
-        final Tag tag = new RtTag(
-            new ApacheRequest(container.home()),
-            new MkGitHub().randomRepo(),
-            "abdes00test"
-        );
         try {
             MatcherAssert.assertThat(
                 "Values are not equal",
-                tag.json().getString("tag"),
+                new RtTag(
+                    new ApacheRequest(container.home()),
+                    new MkGitHub().randomRepo(),
+                    "abdes00test"
+                ).json().getString("tag"),
                 Matchers.is("v.0.1")
             );
         } finally {

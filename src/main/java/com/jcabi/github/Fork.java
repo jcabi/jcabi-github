@@ -22,6 +22,7 @@ import lombok.ToString;
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
 public interface Fork extends JsonReadable, JsonPatchable {
+
     /**
      * Fork id.
      * @return Id
@@ -37,6 +38,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "fork", "jsn" })
     final class Smart implements Fork {
+
         /**
          * Encapsulated Fork.
          */

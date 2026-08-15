@@ -14,30 +14,36 @@ import org.junit.jupiter.api.Test;
  */
 final class CoordinatesTest {
 
+    /**
+     * HTTPS coordinates of the Kafka repository.
+     */
+    private static final String KAFKA = "https://github.com/apache/kafka.git";
+
+    /**
+     * HTTPS coordinates of the jcabi-github repository.
+     */
+    private static final String JCABI =
+        "https://github.com/jcabi/jcabi-github";
+
     @Test
-    void retrievesUserAndRepoFromHttpsCoordinates() {
-        final Coordinates coords = new Coordinates.Https(
-            "https://github.com/yegor256/takes.git"
-        );
-        final String repo = "takes";
+    void retrievesRepoFromHttpsCoordinates() {
         MatcherAssert.assertThat(
-            String.format(
-                "Repo is retrieved incorrectly, we expect '%s', but was '%s'",
-                repo,
-                coords.repo()
-            ),
-            coords.repo(),
-            Matchers.equalTo(repo)
+            "Repo is retrieved incorrectly from HTTPS coordinates",
+            new Coordinates.Https(
+                "https://github.com/yegor256/takes.git"
+            ).repo(),
+            Matchers.equalTo("takes")
         );
-        final String user = "yegor256";
+    }
+
+    @Test
+    void retrievesUserFromHttpsCoordinates() {
         MatcherAssert.assertThat(
-            String.format(
-                "User is retrieved incorrectly, we expect '%s', but was '%s'",
-                user,
-                coords.user()
-            ),
-            coords.user(),
-            Matchers.equalTo(user)
+            "User is retrieved incorrectly from HTTPS coordinates",
+            new Coordinates.Https(
+                "https://github.com/yegor256/takes.git"
+            ).user(),
+            Matchers.equalTo("yegor256")
         );
     }
 
@@ -52,26 +58,34 @@ final class CoordinatesTest {
     }
 
     @Test
-    void comparesHttpsCoordinates() {
-        final String first = "https://github.com/apache/kafka.git";
-        final String second = "https://github.com/jcabi/jcabi-github";
-        final int difference = 9;
+    void comparesSmallerHttpsCoordinates() {
         MatcherAssert.assertThat(
-            "First coordinates are less than second",
-            new Coordinates.Https(first)
-                .compareTo(new Coordinates.Https(second)),
-            Matchers.equalTo(-difference)
+            "First coordinates are not less than second",
+            new Coordinates.Https(CoordinatesTest.KAFKA).compareTo(
+                new Coordinates.Https(CoordinatesTest.JCABI)
+            ),
+            Matchers.equalTo(-9)
         );
+    }
+
+    @Test
+    void comparesBiggerHttpsCoordinates() {
         MatcherAssert.assertThat(
-            "Second coordinates are greater than first",
-            new Coordinates.Https(second)
-                .compareTo(new Coordinates.Https(first)),
-            Matchers.equalTo(difference)
+            "Second coordinates are not greater than first",
+            new Coordinates.Https(CoordinatesTest.JCABI).compareTo(
+                new Coordinates.Https(CoordinatesTest.KAFKA)
+            ),
+            Matchers.equalTo(9)
         );
+    }
+
+    @Test
+    void comparesEqualHttpsCoordinates() {
         MatcherAssert.assertThat(
-            "Same https coordinates are equal",
-            new Coordinates.Https(first)
-                .compareTo(new Coordinates.Https(first)),
+            "Same HTTPS coordinates are not equal",
+            new Coordinates.Https(CoordinatesTest.KAFKA).compareTo(
+                new Coordinates.Https(CoordinatesTest.KAFKA)
+            ),
             Matchers.equalTo(0)
         );
     }
@@ -80,12 +94,11 @@ final class CoordinatesTest {
     void comparesSimpleAndHttpsCoordinates() {
         MatcherAssert.assertThat(
             "Coordinates should be equal",
-            new Coordinates.Simple("volodya-lombrozo/jtcop")
-                .compareTo(
-                    new Coordinates.Https(
-                        "https://github.com/volodya-lombrozo/jtcop"
-                    )
-                ),
+            new Coordinates.Simple("volodya-lombrozo/jtcop").compareTo(
+                new Coordinates.Https(
+                    "https://github.com/volodya-lombrozo/jtcop"
+                )
+            ),
             Matchers.equalTo(0)
         );
     }

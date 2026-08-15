@@ -15,21 +15,19 @@ import jakarta.json.JsonValue;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Random;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtChecks}.
- *
  * @since 1.5.0
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtChecksTest {
 
     /**
@@ -48,21 +46,21 @@ final class RtChecksTest {
      */
     @Test
     void getsAllChecks() throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.jsonWithCheckRuns()
                 )
-            )
-            .start(RandomPort.port())) {
-            final Checks checks = new RtChecks(
-                new JdkRequest(container.home()),
-                RtChecksTest.repo().pulls().get(0)
-            );
+                )
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                checks.all(),
+                new RtChecks(
+                    new JdkRequest(container.home()),
+                    RtChecksTest.repo().pulls().get(0)
+                ).all(),
                 Matchers.iterableWithSize(1)
             );
         }
@@ -74,14 +72,15 @@ final class RtChecksTest {
      */
     @Test
     void returnsEmptyChecksIfTheyAreAbsent() throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.empty()
                 )
-            )
-            .start(RandomPort.port())) {
+                )
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
                 ((Checks) new RtChecks(
@@ -100,164 +99,208 @@ final class RtChecksTest {
      */
     @Test
     void assertsOkResponse() throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_NOT_FOUND,
                     RtChecksTest.jsonWithCheckRuns()
                 )
             ).start(RandomPort.port())
         ) {
-            final Checks checks = new RtChecks(
-                new JdkRequest(container.home()),
-                RtChecksTest.repo().pulls().get(0)
+            Assertions.assertThrows(
+                AssertionError.class,
+                RtChecksTest.checks(container)::all,
+                "Not found response is not reported as an error"
             );
-            try {
-                checks.all();
-                MatcherAssert.assertThat(
-                    "AssertionError was expected",
-                    false,
-                    Matchers.is(true)
-                );
-            } catch (final AssertionError ex) {
-                MatcherAssert.assertThat(
-                    "Exception was thrown as expected",
-                    ex,
-                    Matchers.notNullValue()
-                );
-            }
         }
     }
 
     /**
-     * Checks that library can handle unfinished checks.
+     * Checks that library can retrieve a check without conclusion.
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    void retrievesUnfinishedChecksWithoutConclusion()
-        throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(
+    void retrievesCheckWithoutConclusion() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.jsonChecks(
-                        RtChecksTest.jsonCheck()
-                            .add(
-                                RtChecksTest.CONCLUSION_KEY,
-                                Check.Conclusion.SUCCESS.value()
-                            )
+                        RtChecksTest.jsonCheck().add(
+                            RtChecksTest.CONCLUSION_KEY,
+                            Check.Conclusion.SUCCESS.value()
+                        )
                     )
                 )
             ).start(RandomPort.port())
         ) {
-            final Checks checks = new RtChecks(
-                new JdkRequest(container.home()),
-                RtChecksTest.repo().pulls().get(0)
-            );
-            final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect", all, Matchers.hasSize(1)
+                "Collection size is incorrect",
+                RtChecksTest.checks(container).all(),
+                Matchers.hasSize(1)
             );
-            for (final Check check : all) {
-                MatcherAssert.assertThat(
-                    "Values are not equal",
-                    check.successful(),
-                    Matchers.is(false)
-                );
-            }
         }
     }
 
     /**
-     * Checks that library can handle unfinished checks.
+     * Checks that a check without conclusion is not successful.
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    void retrievesUnfinishedChecksWithNullableConclusion()
-        throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(
+    void retrievesUnfinishedCheckWithoutConclusion() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.jsonChecks(
-                        RtChecksTest.jsonCheck()
-                            .add(
-                                RtChecksTest.CONCLUSION_KEY,
-                                JsonValue.NULL
-                            ).add(
-                                RtChecksTest.STATUS_KEY,
-                                Check.Status.QUEUED.value()
-                            )
+                        RtChecksTest.jsonCheck().add(
+                            RtChecksTest.CONCLUSION_KEY,
+                            Check.Conclusion.SUCCESS.value()
+                        )
                     )
                 )
             ).start(RandomPort.port())
         ) {
-            final Checks checks = new RtChecks(
-                new JdkRequest(container.home()),
-                RtChecksTest.repo().pulls().get(0)
-            );
-            final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect", all, Matchers.hasSize(1)
+                "Check without status is successful",
+                RtChecksTest.checks(container).all().iterator().next()
+                    .successful(),
+                Matchers.is(false)
             );
-            for (final Check check : all) {
-                MatcherAssert.assertThat(
-                    "Values are not equal",
-                    check.successful(),
-                    Matchers.is(false)
-                );
-            }
         }
     }
 
     /**
-     * Checks that library can handle unfinished checks.
+     * Checks that library can retrieve a check with nullable conclusion.
      * @throws IOException If some I/O problem happens.
      */
     @Test
-    void retrievesUnfinishedChecksWithoutStatusAndConclusion()
-        throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer()
-            .next(
+    void retrievesCheckWithNullableConclusion() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
                     HttpURLConnection.HTTP_OK,
-                    RtChecksTest.jsonChecks(
-                        RtChecksTest.jsonCheck()
-                    )
+                    RtChecksTest.queued()
                 )
             ).start(RandomPort.port())
         ) {
-            final Checks checks = new RtChecks(
-                new JdkRequest(container.home()),
-                RtChecksTest.repo().pulls().get(0)
-            );
-            final Collection<? extends Check> all = checks.all();
             MatcherAssert.assertThat(
-                "Collection size is incorrect", all, Matchers.hasSize(1)
+                "Collection size is incorrect",
+                RtChecksTest.checks(container).all(),
+                Matchers.hasSize(1)
             );
-            for (final Check check : all) {
-                MatcherAssert.assertThat(
-                    "Values are not equal",
-                    check.successful(),
-                    Matchers.is(false)
-                );
-            }
         }
+    }
+
+    /**
+     * Checks that a check with nullable conclusion is not successful.
+     * @throws IOException If some I/O problem happens.
+     */
+    @Test
+    void retrievesUnfinishedCheckWithNullableConclusion() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.queued()
+                )
+            ).start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Queued check is successful",
+                RtChecksTest.checks(container).all().iterator().next()
+                    .successful(),
+                Matchers.is(false)
+            );
+        }
+    }
+
+    /**
+     * Checks that library can retrieve a check without status.
+     * @throws IOException If some I/O problem happens.
+     */
+    @Test
+    void retrievesCheckWithoutStatusAndConclusion() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.jsonChecks(RtChecksTest.jsonCheck())
+                )
+            ).start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Collection size is incorrect",
+                RtChecksTest.checks(container).all(),
+                Matchers.hasSize(1)
+            );
+        }
+    }
+
+    /**
+     * Checks that a check without status is not successful.
+     * @throws IOException If some I/O problem happens.
+     */
+    @Test
+    void retrievesUnfinishedCheckWithoutStatusAndConclusion()
+        throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtChecksTest.jsonChecks(RtChecksTest.jsonCheck())
+                )
+            ).start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Check without status and conclusion is successful",
+                RtChecksTest.checks(container).all().iterator().next()
+                    .successful(),
+                Matchers.is(false)
+            );
+        }
+    }
+
+    /**
+     * Checks served by the given container.
+     * @param container Container to serve the checks
+     * @return Checks
+     * @throws IOException If some problem happens.
+     */
+    private static Checks checks(final MkContainer container)
+        throws IOException {
+        return new RtChecks(
+            new JdkRequest(container.home()),
+            RtChecksTest.repo().pulls().get(0)
+        );
+    }
+
+    /**
+     * Creates json of a queued check.
+     * @return Json response body
+     */
+    private static String queued() {
+        return RtChecksTest.jsonChecks(
+            RtChecksTest.jsonCheck().add(
+                RtChecksTest.CONCLUSION_KEY,
+                JsonValue.NULL
+            ).add(
+                RtChecksTest.STATUS_KEY,
+                Check.Status.QUEUED.value()
+            )
+        );
     }
 
     /**
      * Creates json response body.
-     *
-     * @return Json response body.
+     * @return Json response body
      */
     private static String jsonWithCheckRuns() {
         return RtChecksTest.jsonChecks(
-            RtChecksTest.jsonCheck()
-                .add(
-                    RtChecksTest.STATUS_KEY,
-                    Check.Status.COMPLETED.value()
-                )
-                .add(
+            RtChecksTest.jsonCheck().add(
+                RtChecksTest.STATUS_KEY,
+                Check.Status.COMPLETED.value()
+                ).add(
                     RtChecksTest.CONCLUSION_KEY,
                     Check.Conclusion.SUCCESS.value()
                 )
@@ -266,7 +309,7 @@ final class RtChecksTest {
 
     /**
      * Creates Json Check Builder.
-     * @return JsonObjectBuilder.
+     * @return JsonObjectBuilder
      */
     private static JsonObjectBuilder jsonCheck() {
         return Json.createObjectBuilder()
@@ -275,8 +318,8 @@ final class RtChecksTest {
 
     /**
      * Creates json checks.
-     * @param checks All checks that have to be included.
-     * @return Json.
+     * @param checks All checks that have to be included
+     * @return Json
      */
     private static String jsonChecks(final JsonObjectBuilder... checks) {
         final JsonArrayBuilder all = Json.createArrayBuilder();
@@ -290,7 +333,7 @@ final class RtChecksTest {
 
     /**
      * Creates json response body without check runs.
-     * @return Json response body.
+     * @return Json response body
      */
     private static String empty() {
         return Json.createObjectBuilder()

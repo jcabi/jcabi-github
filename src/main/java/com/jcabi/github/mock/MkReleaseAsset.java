@@ -25,6 +25,7 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkReleaseAsset implements ReleaseAsset {
+
     /**
      * Storage.
      */
@@ -57,7 +58,6 @@ final class MkReleaseAsset implements ReleaseAsset {
      * @param rep Repo
      * @param release Release ID
      * @param asset Asset ID
-     * @checkstyle ParameterNumber (7 lines)
      */
     MkReleaseAsset(
         final MkStorage stg,
@@ -81,9 +81,7 @@ final class MkReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -150,7 +148,6 @@ final class MkReleaseAsset implements ReleaseAsset {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets/asset[id='%d']",
             this.coords, this.rel, this.num
         );

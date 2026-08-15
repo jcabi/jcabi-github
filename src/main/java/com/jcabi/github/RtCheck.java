@@ -23,8 +23,8 @@ class RtCheck implements Check {
 
     /**
      * Ctor.
-     * @param stat Status.
-     * @param conc Conclusion.
+     * @param stat Status
+     * @param conc Conclusion
      */
     RtCheck(final String stat, final String conc) {
         this(Check.Status.fromString(stat), Check.Conclusion.fromString(conc));
@@ -32,13 +32,10 @@ class RtCheck implements Check {
 
     /**
      * Ctor.
-     * @param stat Status.
-     * @param conc Conclusion.
+     * @param stat Status
+     * @param conc Conclusion
      */
-    RtCheck(
-        final Check.Status stat,
-        final Check.Conclusion conc
-    ) {
+    RtCheck(final Check.Status stat, final Check.Conclusion conc) {
         this.status = stat;
         this.conclusion = conc;
     }

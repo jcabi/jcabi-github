@@ -24,19 +24,16 @@ public interface Tags {
 
     /**
      * Create a Tag object.
-     * @param params The input for creating the Tag.
+     * @param params The input for creating the Tag
      * @return Tag
      * @throws IOException - If anything goes wrong.
      */
-    Tag create(
-        JsonObject params
-    ) throws IOException;
+    Tag create(JsonObject params) throws IOException;
 
     /**
      * Return a Tag by its SHA.
-     * @param sha The sha of the Tag.
+     * @param sha The sha of the Tag
      * @return Tag
      */
     Tag get(String sha);
-
 }

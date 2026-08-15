@@ -21,7 +21,6 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub organization.
- *
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
@@ -30,6 +29,7 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
 public final class MkOrganization implements Organization {
+
     /**
      * Random generator.
      */
@@ -55,10 +55,7 @@ public final class MkOrganization implements Organization {
      * @param stg Storage
      * @param login Username of organization
      */
-    public MkOrganization(
-        final MkStorage stg,
-        final String login
-    ) {
+    public MkOrganization(final MkStorage stg, final String login) {
         this.storage = stg;
         this.self = login;
     }

@@ -22,14 +22,14 @@ public interface Check {
 
     /**
      * Checks whether Check was successful.
-     * @return True if Check was successful.
+     * @return True if Check was successful
      * @throws IOException If there is any I/O problem.
      */
     boolean successful() throws IOException;
 
     /**
      * Checks whether Check was skipped.
-     * @return True if Check was skipped.
+     * @return True if Check was skipped
      * @throws IOException If there is any I/O problem.
      */
     boolean skipped() throws IOException;
@@ -37,10 +37,10 @@ public interface Check {
     /**
      * Check status.
      * You can read more about it
-     * @checkstyle LineLengthCheck (1 lines)
      * <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28#list-check-runs-for-a-git-reference"> here </a>
      */
     enum Status {
+
         /**
          * Queued.
          */
@@ -68,7 +68,7 @@ public interface Check {
 
         /**
          * Ctor.
-         * @param stat Status.
+         * @param stat Status
          */
         Status(final String stat) {
             this.status = stat;
@@ -76,7 +76,7 @@ public interface Check {
 
         /**
          * Status.
-         * @return Status.
+         * @return Status
          */
         public String value() {
             return this.status;
@@ -84,15 +84,14 @@ public interface Check {
 
         /**
          * Get status from string.
-         * @param value String value.
-         * @return Status.
+         * @param value String value
+         * @return Status
          */
         @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static Check.Status fromString(final String value) {
             return Arrays.stream(Check.Status.values())
                 .filter(stat -> stat.same(value))
-                .findFirst()
-                .orElseThrow(
+                .findFirst().orElseThrow(
                     () -> new IllegalArgumentException(
                         String.format("Invalid value %s for status", value)
                     )
@@ -101,7 +100,7 @@ public interface Check {
 
         /**
          * Check if check is finished.
-         * @return True if check is finished.
+         * @return True if check is finished
          */
         boolean finished() {
             return this == Check.Status.COMPLETED;
@@ -109,8 +108,8 @@ public interface Check {
 
         /**
          * Check if status is the same as value.
-         * @param value Value.
-         * @return True if status is the same as value.
+         * @param value Value
+         * @return True if status is the same as value
          */
         boolean same(final String value) {
             return this.status.equals(value.toLowerCase(Locale.ROOT));
@@ -120,7 +119,6 @@ public interface Check {
     /**
      * Check conclusion.
      * You can read more about it
-     * @checkstyle LineLengthCheck (1 lines)
      * <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28#list-check-runs-for-a-git-reference"> here </a>
      */
     enum Conclusion {
@@ -177,7 +175,7 @@ public interface Check {
 
         /**
          * Ctor.
-         * @param con Conclusion.
+         * @param con Conclusion
          */
         Conclusion(final String con) {
             this.conclusion = con;
@@ -185,15 +183,14 @@ public interface Check {
 
         /**
          * Get conclusion from string.
-         * @param value String value.
-         * @return Conclusion.
+         * @param value String value
+         * @return Conclusion
          */
         @SuppressWarnings("PMD.ProhibitPublicStaticMethods")
         public static Check.Conclusion fromString(final String value) {
             return Arrays.stream(Check.Conclusion.values())
                 .filter(stat -> stat.same(value))
-                .findFirst()
-                .orElseThrow(
+                .findFirst().orElseThrow(
                     () -> new IllegalArgumentException(
                         String.format("Invalid value %s for conclusion", value)
                     )
@@ -202,7 +199,7 @@ public interface Check {
 
         /**
          * Conclusion.
-         * @return Conclusion.
+         * @return Conclusion
          */
         public String value() {
             return this.conclusion;
@@ -210,7 +207,7 @@ public interface Check {
 
         /**
          * Check if check is successful.
-         * @return True if check is successful.
+         * @return True if check is successful
          */
         boolean successful() {
             return this == Check.Conclusion.SUCCESS;
@@ -218,7 +215,7 @@ public interface Check {
 
         /**
          * Check if check is skipped.
-         * @return True if check is skipped.
+         * @return True if check is skipped
          */
         boolean skipped() {
             return this == Check.Conclusion.SKIPPED;
@@ -226,8 +223,8 @@ public interface Check {
 
         /**
          * Check if conclusion is the same as value.
-         * @param value Value to compare.
-         * @return True if conclusion is the same as value.
+         * @param value Value to compare
+         * @return True if conclusion is the same as value
          */
         boolean same(final String value) {
             return this.conclusion.equals(value.toLowerCase(Locale.ROOT));

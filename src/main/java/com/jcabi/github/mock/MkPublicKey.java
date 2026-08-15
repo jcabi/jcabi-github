@@ -20,6 +20,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkPublicKey implements PublicKey {
+
     /**
      * Storage.
      */
@@ -41,11 +42,7 @@ final class MkPublicKey implements PublicKey {
      * @param login User to login
      * @param number Key number
      */
-    MkPublicKey(
-        final MkStorage stg,
-        final String login,
-        final int number
-    ) {
+    MkPublicKey(final MkStorage stg, final String login, final int number) {
         this.storage = stg;
         this.self = login;
         this.num = number;
@@ -59,9 +56,7 @@ final class MkPublicKey implements PublicKey {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -101,7 +96,6 @@ final class MkPublicKey implements PublicKey {
 
     /**
      * XPath of this element in XML tree.
-     *
      * @return XPath
      */
     private String xpath() {

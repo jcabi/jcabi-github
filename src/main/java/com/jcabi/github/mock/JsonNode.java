@@ -33,10 +33,8 @@ final class JsonNode {
     /**
      * Fetch JSON object.
      * @return JSON
-     * @checkstyle MultipleStringLiteralsCheck (30 lines)
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public JsonObject json() {
+    JsonObject json() {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
         for (final XML child : this.xml.nodes("* ")) {
             final Node node = child.inner();

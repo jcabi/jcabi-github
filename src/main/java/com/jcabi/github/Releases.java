@@ -16,6 +16,7 @@ import lombok.ToString;
  */
 @Immutable
 public interface Releases {
+
     /**
      * Owner of them.
      * @return Repo
@@ -44,13 +45,11 @@ public interface Releases {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#create-a-release">Create an Release</a>
      */
-    Release create(
-        String tag)
-        throws IOException;
+    Release create(String tag) throws IOException;
 
     /**
      * Remove a release.
-     * @param number ID of the release to remove.
+     * @param number ID of the release to remove
      * @throws IOException If an IO problem occurs.
      * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
      */
@@ -65,6 +64,7 @@ public interface Releases {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "releases")
     final class Smart implements Releases {
+
         /**
          * Encapsulated releases.
          */
@@ -74,9 +74,7 @@ public interface Releases {
          * Public CTOR.
          * @param original Original releases
          */
-        public Smart(
-            final Releases original
-        ) {
+        public Smart(final Releases original) {
             this.releases = original;
         }
 

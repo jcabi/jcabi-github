@@ -39,14 +39,21 @@ final class RtDeployKey implements DeployKey {
      * @param repo Repository
      */
     RtDeployKey(final Request req, final int number, final Repo repo) {
-        this.key = number;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/keys")
-            .path(String.valueOf(number))
-            .back();
+        this(
+            number,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/keys")
+                .path(String.valueOf(number))
+                .back()
+        );
+    }
+
+    private RtDeployKey(final int key, final Request request) {
+        this.key = key;
+        this.request = request;
     }
 
     @Override
@@ -72,9 +79,7 @@ final class RtDeployKey implements DeployKey {
     }
 
     @Override
-    public void patch(
-        final JsonObject json)
-        throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 }

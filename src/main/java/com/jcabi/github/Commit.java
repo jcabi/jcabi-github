@@ -52,6 +52,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "commit", "jsn" })
     final class Smart implements Commit {
+
         /**
          * Encapsulated commit.
          */
@@ -113,5 +114,4 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
             return this.commit.compareTo(obj);
         }
     }
-
 }

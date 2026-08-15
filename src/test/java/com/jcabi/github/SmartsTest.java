@@ -24,14 +24,12 @@ final class SmartsTest {
         Mockito.doReturn(
             Json.createObjectBuilder().add("body", "hello, world!").build()
         ).when(origin).json();
-        final Iterable<Comment.Smart> comments = new Smarts<>(
-            Collections.singletonList(origin)
-        );
         MatcherAssert.assertThat(
             "String does not end with expected value",
-            comments.iterator().next().body(),
+            new Smarts<Comment.Smart>(
+                Collections.singletonList(origin)
+            ).iterator().next().body(),
             Matchers.endsWith("world!")
         );
     }
-
 }

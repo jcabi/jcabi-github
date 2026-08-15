@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -13,10 +14,8 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link RtSearch}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (140 lines)
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtSearchITCase {
 
     @Test
@@ -51,7 +50,7 @@ final class RtSearchITCase {
 
     @Test
     void canSearchForIssues() {
-        final EnumMap<Search.Qualifier, String> qualifiers =
+        final Map<Search.Qualifier, String> qualifiers =
             new EnumMap<>(Search.Qualifier.class);
         qualifiers.put(Search.Qualifier.LABEL, "bug");
         MatcherAssert.assertThat(
@@ -90,5 +89,4 @@ final class RtSearchITCase {
             Matchers.not(Matchers.emptyIterableOf(Content.class))
         );
     }
-
 }

@@ -14,9 +14,7 @@ import org.xembly.Directives;
 /**
  * Test case for {@link MkNotifications}.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkNotificationsTest {
 
     @Test
@@ -50,7 +48,6 @@ final class MkNotificationsTest {
                 storage,
                 "/github/notifications/notification"
             ).iterate(),
-            // @checkstyle MagicNumberCheck (1 line)
             Matchers.iterableWithSize(3)
         );
     }

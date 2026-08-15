@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link DeployKey}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (150 lines)
  */
 final class DeployKeyTest {
 
@@ -35,5 +34,4 @@ final class DeployKeyTest {
             Json.createObjectBuilder().add("title", prop).build()
         );
     }
-
 }

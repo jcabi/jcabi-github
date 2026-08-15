@@ -21,7 +21,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtAssignees}.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtAssigneesTest {
@@ -39,13 +38,12 @@ final class RtAssigneesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Assignees users = new RtAssignees(
-                new JdkRequest(container.home()),
-                RtAssigneesTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                users.iterate(),
+                new RtAssignees(
+                    new JdkRequest(container.home()),
+                    RtAssigneesTest.repo()
+                ).iterate(),
                 Matchers.iterableWithSize(2)
             );
         }
@@ -62,14 +60,14 @@ final class RtAssigneesTest {
                         .add(RtAssigneesTest.json("dummy"))
                         .build().toString()
                 )
-            ).start(RandomPort.port())) {
-            final Assignees users = new RtAssignees(
-                new JdkRequest(container.home()),
-                RtAssigneesTest.repo()
-            );
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
-                users.check("octocat2"),
+                new RtAssignees(
+                    new JdkRequest(container.home()),
+                    RtAssigneesTest.repo()
+                ).check("octocat2"),
                 Matchers.equalTo(true)
             );
         }
@@ -88,13 +86,12 @@ final class RtAssigneesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Assignees users = new RtAssignees(
-                new JdkRequest(container.home()),
-                RtAssigneesTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Values are not equal",
-                users.check("octocat33"),
+                new RtAssignees(
+                    new JdkRequest(container.home()),
+                    RtAssigneesTest.repo()
+                ).check("octocat33"),
                 Matchers.equalTo(false)
             );
         }

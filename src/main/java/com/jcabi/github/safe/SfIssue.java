@@ -21,13 +21,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Safe issue.
- *
  * @since 0.36
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = "origin")
-@SuppressWarnings("PMD.TooManyMethods")
 public final class SfIssue implements Issue {
 
     /**

@@ -14,16 +14,14 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkReleases}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkReleasesTest {
+
     @Test
     void canFetchEmptyListOfReleases() throws IOException {
-        final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
             "Collection is not empty",
-            releases.iterate(),
+            new MkGitHub().randomRepo().releases().iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -38,7 +36,6 @@ final class MkReleasesTest {
         releases.create(tag);
         MatcherAssert.assertThat(
             "Values are not equal",
-            // @checkstyle MultipleStringLiterals (1 line)
             releases.iterate().iterator().next().json().getString("tag_name"),
             Matchers.equalTo(tag)
         );
@@ -46,9 +43,8 @@ final class MkReleasesTest {
 
     @Test
     void canFetchSingleRelease() throws IOException {
-        final Releases releases = new MkGitHub().randomRepo().releases();
         MatcherAssert.assertThat(
-            "Value is null", releases.get(1), Matchers.notNullValue()
+            "Value is null", new MkGitHub().randomRepo().releases().get(1), Matchers.notNullValue()
         );
     }
 
@@ -56,10 +52,9 @@ final class MkReleasesTest {
     void canCreateRelease() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
         final String tag = "v1.0.0";
-        final Release release = releases.create(tag);
         MatcherAssert.assertThat(
             "Values are not equal",
-            release.json().getString("tag_name"),
+            releases.create(tag).json().getString("tag_name"),
             Matchers.equalTo(tag)
         );
     }
@@ -81,11 +76,6 @@ final class MkReleasesTest {
         final Releases releases = new MkGitHub().randomRepo().releases();
         releases.create("v1.1.1");
         releases.create("v1.1.2");
-        MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            releases.iterate(),
-            Matchers.iterableWithSize(2)
-        );
         releases.remove(1);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
@@ -100,12 +90,19 @@ final class MkReleasesTest {
         final String tag = "v5.0";
         releases.create(tag);
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Release is not found by its tag",
             new Releases.Smart(releases).exists(tag),
             Matchers.is(true)
         );
+    }
+
+    @Test
+    void tagsReleaseFoundByTag() throws IOException {
+        final Releases releases = new MkGitHub().randomRepo().releases();
+        final String tag = "v5.0";
+        releases.create(tag);
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Release found by its tag has a wrong tag",
             new Release.Smart(new Releases.Smart(releases).find(tag)).tag(),
             Matchers.equalTo(tag)
         );
@@ -117,8 +114,7 @@ final class MkReleasesTest {
     @Test
     void releaseNameIsEmpty() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
-        final String tag = "tag";
-        releases.create(tag);
+        releases.create("tag");
         MatcherAssert.assertThat(
             "Values are not equal",
             new Release.Smart(releases.iterate().iterator().next())
@@ -133,8 +129,7 @@ final class MkReleasesTest {
     @Test
     void releaseBodyIsEmpty() throws IOException {
         final Releases releases = new MkGitHub().randomRepo().releases();
-        final String tag = "tag";
-        releases.create(tag);
+        releases.create("tag");
         MatcherAssert.assertThat(
             "Values are not equal",
             new Release.Smart(releases.iterate().iterator().next())

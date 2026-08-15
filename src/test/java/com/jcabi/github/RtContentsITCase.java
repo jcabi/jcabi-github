@@ -7,32 +7,26 @@ package com.jcabi.github;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtContents}.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtContentsITCase {
-
-    /**
-     * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    public final transient RepoRule rule = new RepoRule();
 
     @Test
     void canFetchReadmeFiles() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -47,7 +41,7 @@ final class RtContentsITCase {
     @Test
     void canUpdateFileContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
             final String path = RandomStringUtils.secure().nextAlphanumeric(10);
@@ -55,7 +49,8 @@ final class RtContentsITCase {
             final Content content = contents.create(
                 RtContentsITCase.jsonObject(
                     path, new String(
-                        Base64.encodeBase64("init content".getBytes())
+                        Base64.encodeBase64("init content".getBytes(StandardCharsets.UTF_8)),
+                        StandardCharsets.UTF_8
                     ),
                     message
                 )
@@ -65,8 +60,10 @@ final class RtContentsITCase {
                 path,
                 Json.createObjectBuilder()
                     .add("path", path)
-                    .add("message", message)
-                    .add("content", Base64.encodeBase64String(text.getBytes()))
+                    .add("message", message).add(
+                        "content",
+                        Base64.encodeBase64String(text.getBytes(StandardCharsets.UTF_8))
+                    )
                     .add("sha", new Content.Smart(content).sha()).build()
             );
             MatcherAssert.assertThat(
@@ -76,7 +73,8 @@ final class RtContentsITCase {
                         new Content.Smart(
                             contents.get(path, "master")
                         ).content()
-                    )
+                    ),
+                    StandardCharsets.UTF_8
                 ),
                 Matchers.equalTo(text)
             );
@@ -88,7 +86,7 @@ final class RtContentsITCase {
     @Test
     void canUpdateFileContentInSpecificBranch() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
             final String path = RandomStringUtils.secure().nextAlphanumeric(10);
@@ -96,7 +94,8 @@ final class RtContentsITCase {
             final Content content = contents.create(
                 RtContentsITCase.jsonObject(
                     path, new String(
-                        Base64.encodeBase64("Initial.".getBytes())
+                        Base64.encodeBase64("Initial.".getBytes(StandardCharsets.UTF_8)),
+                        StandardCharsets.UTF_8
                     ),
                     message
                 )
@@ -107,8 +106,10 @@ final class RtContentsITCase {
                 Json.createObjectBuilder()
                     .add("path", path)
                     .add("message", message)
-                    .add("ref", "master")
-                    .add("content", Base64.encodeBase64String(text.getBytes()))
+                    .add("ref", "master").add(
+                        "content",
+                        Base64.encodeBase64String(text.getBytes(StandardCharsets.UTF_8))
+                    )
                     .add("sha", new Content.Smart(content).sha()).build()
             );
             MatcherAssert.assertThat(
@@ -118,7 +119,8 @@ final class RtContentsITCase {
                         new Content.Smart(
                             contents.get(path, "master")
                         ).content()
-                    )
+                    ),
+                    StandardCharsets.UTF_8
                 ),
                 Matchers.equalTo(text)
             );
@@ -130,26 +132,39 @@ final class RtContentsITCase {
     @Test
     void throwsWhenTryingToGetAnAbsentContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         final Contents contents = repos.get(repo.coordinates()).contents();
         try {
             final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             final String message = "commit message";
-            final Content content = contents.create(
-                RtContentsITCase.jsonObject(
-                    path, new String(
-                        Base64.encodeBase64("first content".getBytes())
-                    ),
-                    message
-                )
-            );
             contents.remove(
                 Json.createObjectBuilder()
                     .add("path", path)
-                    .add("message", message)
-                    .add("sha", new Content.Smart(content).sha()).build()
+                    .add("message", message).add(
+                        "sha",
+                        new Content.Smart(
+                            contents.create(
+                                RtContentsITCase.jsonObject(
+                                    path,
+                                    new String(
+                                        Base64.encodeBase64(
+                                            "first content".getBytes(
+                                                StandardCharsets.UTF_8
+                                            )
+                                        ),
+                                        StandardCharsets.UTF_8
+                                    ),
+                                    message
+                                )
+                            )
+                        ).sha()
+                    ).build()
             );
-            contents.get(path, "master");
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> contents.get(path, "master"),
+                "Absent content is not reported as an error"
+            );
         } finally {
             repos.remove(repo.coordinates());
         }
@@ -158,7 +173,7 @@ final class RtContentsITCase {
     @Test
     void canCreateFileContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             final String path = RandomStringUtils.secure().nextAlphanumeric(10);
             MatcherAssert.assertThat(
@@ -166,7 +181,8 @@ final class RtContentsITCase {
                 repos.get(repo.coordinates()).contents().create(
                     RtContentsITCase.jsonObject(
                         path, new String(
-                            Base64.encodeBase64("some content".getBytes())
+                            Base64.encodeBase64("some content".getBytes(StandardCharsets.UTF_8)),
+                            StandardCharsets.UTF_8
                         ), "theMessage"
                     )
                 ).path(),
@@ -178,34 +194,68 @@ final class RtContentsITCase {
     }
 
     @Test
-    void getContent() throws IOException {
+    void fetchesContentPath() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             final String path = RandomStringUtils.secure().nextAlphanumeric(10);
-            final String message = String.format("testMessage");
-            final String cont = new String(
-                Base64.encodeBase64(
-                    String.format("content%d", System.currentTimeMillis())
-                        .getBytes()
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(
+                RtContentsITCase.jsonObject(
+                    path,
+                    RtContentsITCase.encoded("content"),
+                    "testMessage"
                 )
             );
-            final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(RtContentsITCase.jsonObject(path, cont, message));
-            final Content content = contents.get(path, "master");
             MatcherAssert.assertThat(
-                "Values are not equal",
-                content.path(),
+                "Fetched content has a wrong path",
+                contents.get(path, "master").path(),
                 Matchers.equalTo(path)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Content.Smart(content).content(),
-                Matchers.equalTo(String.format("%s\n", cont))
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    @Test
+    void fetchesContentBody() throws IOException {
+        final Repos repos = GitHubIT.connect().repos();
+        final Repo repo = new RepoRule().repo(repos);
+        try {
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
+            final String cont = RtContentsITCase.encoded("content");
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(
+                RtContentsITCase.jsonObject(path, cont, "testMessage")
             );
-            final Content other = contents.get(path);
             MatcherAssert.assertThat(
-                "Values are not equal", content, Matchers.equalTo(other)
+                "Fetched content has a wrong body",
+                new Content.Smart(contents.get(path, "master")).content(),
+                Matchers.equalTo(String.format("%s%n", cont))
+            );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    @Test
+    void fetchesContentOfDefaultBranch() throws IOException {
+        final Repos repos = GitHubIT.connect().repos();
+        final Repo repo = new RepoRule().repo(repos);
+        try {
+            final String path = RandomStringUtils.secure().nextAlphanumeric(10);
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(
+                RtContentsITCase.jsonObject(
+                    path,
+                    RtContentsITCase.encoded("content"),
+                    "testMessage"
+                )
+            );
+            MatcherAssert.assertThat(
+                "Content of the default branch is different",
+                contents.get(path, "master"),
+                Matchers.equalTo(contents.get(path))
             );
         } finally {
             repos.remove(repo.coordinates());
@@ -221,7 +271,7 @@ final class RtContentsITCase {
     @Disabled
     void iteratesContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             final String afile = RandomStringUtils.secure().nextAlphanumeric(10);
             final String dir = RandomStringUtils.secure().nextAlphanumeric(10);
@@ -240,8 +290,9 @@ final class RtContentsITCase {
                             String.format(
                                 "content a:%d",
                                 System.currentTimeMillis()
-                            ).getBytes()
-                        )
+                            ).getBytes(StandardCharsets.UTF_8)
+                        ),
+                        StandardCharsets.UTF_8
                     ),
                     message
                 )
@@ -254,16 +305,16 @@ final class RtContentsITCase {
                             String.format(
                                 "content b:%d",
                                 System.currentTimeMillis()
-                            ).getBytes()
-                        )
+                            ).getBytes(StandardCharsets.UTF_8)
+                        ),
+                        StandardCharsets.UTF_8
                     ),
                     message
                 )
             );
-            final Iterable<Content> iterated = contents.iterate("", "master");
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                iterated,
+                contents.iterate("", "master"),
                 Matchers.allOf(
                     Matchers.hasItems(contents.get(afile), contents.get(dir)),
                     Matchers.iterableWithSize(3)
@@ -275,33 +326,59 @@ final class RtContentsITCase {
     }
 
     @Test
-    void checkExists() throws IOException {
+    void checksExistingContent() throws IOException {
         final Repos repos = GitHubIT.connect().repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             final String path = RandomStringUtils.secure().nextAlphanumeric(10);
-            final String cont = new String(
-                Base64.encodeBase64(
-                    String.format("exist%d", System.currentTimeMillis())
-                        .getBytes()
+            final Contents contents = repos.get(repo.coordinates()).contents();
+            contents.create(
+                RtContentsITCase.jsonObject(
+                    path,
+                    RtContentsITCase.encoded("exist"),
+                    "test exist"
                 )
             );
-            final Contents contents = repos.get(repo.coordinates()).contents();
-            contents.create(RtContentsITCase.jsonObject(path, cont, "test exist"));
-            final String branch = "master";
             MatcherAssert.assertThat(
-                "Values are not equal",
-                contents.exists(path, branch),
+                "Existing content is reported as absent",
+                contents.exists(path, "master"),
                 Matchers.is(true)
             );
+        } finally {
+            repos.remove(repo.coordinates());
+        }
+    }
+
+    @Test
+    void checksAbsentContent() throws IOException {
+        final Repos repos = GitHubIT.connect().repos();
+        final Repo repo = new RepoRule().repo(repos);
+        try {
             MatcherAssert.assertThat(
-                "Values are not equal",
-                contents.exists("content-not-exist.txt", branch),
+                "Absent content is reported as existing",
+                repos.get(repo.coordinates()).contents()
+                    .exists("content-not-exist.txt", "master"),
                 Matchers.is(false)
             );
         } finally {
             repos.remove(repo.coordinates());
         }
+    }
+
+    /**
+     * Base64 encoded unique content.
+     * @param prefix Prefix of the content
+     * @return Encoded content
+     */
+    private static String encoded(final String prefix) {
+        return new String(
+            Base64.encodeBase64(
+                String.format(
+                    "%s%d", prefix, System.currentTimeMillis()
+                ).getBytes(StandardCharsets.UTF_8)
+            ),
+            StandardCharsets.UTF_8
+        );
     }
 
     /**
@@ -321,5 +398,4 @@ final class RtContentsITCase {
             .add("ref", "master")
             .build();
     }
-
 }

@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -21,7 +20,6 @@ import lombok.ToString;
  * GitHub pull request.
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @since 0.3
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -75,8 +73,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
      */
-    void merge(String msg)
-        throws IOException;
+    void merge(String msg) throws IOException;
 
     /**
      * Merge it.
@@ -85,13 +82,11 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
      * @return State of the Merge
      * @throws IOException IOException If there is any I/O problem
      */
-    MergeState merge(String msg,
-        String sha
-    ) throws IOException;
+    MergeState merge(String msg, String sha) throws IOException;
 
     /**
      * Get Pull Comments.
-     * @return Comments.
+     * @return Comments
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
      */
@@ -99,7 +94,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Get Pull Checks.
-     * @return Checks.
+     * @return Checks
      * @throws IOException If there is any I/O problem.
      * @see <a href="https://developer.github.com/v3/checks/runs/">Checks API</a>
      * @since 1.6.0
@@ -115,6 +110,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = {"pull", "jsn"})
     final class Smart implements Pull {
+
         /**
          * Encapsulated pull request.
          */
@@ -129,9 +125,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * Public ctor.
          * @param pll Pull request
          */
-        public Smart(
-            final Pull pll
-        ) {
+        public Smart(final Pull pll) {
             this.pull = pll;
             this.jsn = new SmartJson(pll);
         }
@@ -159,9 +153,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @param state State of pull request
          * @throws IOException If there is any I/O problem
          */
-        public void state(
-            final String state
-        ) throws IOException {
+        public void state(final String state) throws IOException {
             this.pull.patch(
                 Json.createObjectBuilder().add("state", state).build()
             );
@@ -181,9 +173,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @param text Title of pull request
          * @throws IOException If there is any I/O problem
          */
-        public void title(
-            final String text
-        ) throws IOException {
+        public void title(final String text) throws IOException {
             this.pull.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
@@ -203,9 +193,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @param text Body of pull request
          * @throws IOException If there is any I/O problem
          */
-        public void body(
-            final String text
-        ) throws IOException {
+        public void body(final String text) throws IOException {
             this.pull.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -242,14 +230,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -257,14 +241,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        public Date updatedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("updated_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant updatedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("updated_at")
+            ).date();
         }
 
         /**
@@ -272,14 +252,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of closing
          * @throws IOException If there is any I/O problem
          */
-        public Date closedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("closed_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant closedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("closed_at")
+            ).date();
         }
 
         /**
@@ -287,14 +263,10 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
          * @return Date of merging
          * @throws IOException If there is any I/O problem
          */
-        public Date mergedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("merged_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant mergedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("merged_at")
+            ).date();
         }
 
         /**
@@ -349,9 +321,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void merge(
-            final String msg
-        ) throws IOException {
+        public void merge(final String msg) throws IOException {
             this.pull.merge(msg);
         }
 
@@ -359,8 +329,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         public MergeState merge(
             final String msg,
             final String sha
-        )
-            throws IOException {
+        ) throws IOException {
             return this.pull.merge(msg, sha);
         }
 
@@ -380,16 +349,12 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.pull.patch(json);
         }
 
         @Override
-        public int compareTo(
-            final Pull obj
-        ) {
+        public int compareTo(final Pull obj) {
             return this.pull.compareTo(obj);
         }
 

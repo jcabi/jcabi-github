@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -21,10 +20,8 @@ import lombok.ToString;
  * GitHub event.
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
  * @since 0.4
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
@@ -150,6 +147,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "event", "jsn" })
     final class Smart implements Event {
+
         /**
          * Encapsulated event.
          */
@@ -216,14 +214,10 @@ public interface Event extends Comparable<Event>, JsonReadable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -277,5 +271,4 @@ public interface Event extends Comparable<Event>, JsonReadable {
             return this.event.compareTo(obj);
         }
     }
-
 }

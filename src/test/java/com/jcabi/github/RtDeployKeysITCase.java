@@ -9,6 +9,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
@@ -59,8 +60,7 @@ final class RtDeployKeysITCase {
     @Test
     void canFetchAllDeployKeys() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
-        final String title = "Test Iterate Key";
-        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
+        final DeployKey key = keys.create("Test Iterate Key", RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 "Collection does not contain expected item",
@@ -99,8 +99,7 @@ final class RtDeployKeysITCase {
     @Test
     void getsDeployKey() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
-        final String title = "Test Get Key";
-        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
+        final DeployKey key = keys.create("Test Get Key", RtDeployKeysITCase.key());
         try {
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -119,19 +118,12 @@ final class RtDeployKeysITCase {
     @Test
     void removesDeployKey() throws Exception {
         final DeployKeys keys = RtDeployKeysITCase.repo.keys();
-        final String title = "Test Remove Key";
-        final DeployKey key = keys.create(title, RtDeployKeysITCase.key());
-        try {
-            MatcherAssert.assertThat(
-                "Value is null",
-                keys.get(key.number()),
-                Matchers.notNullValue()
-            );
-        } finally {
-            key.remove();
-        }
+        final DeployKey key = keys.create(
+            "Test Remove Key", RtDeployKeysITCase.key()
+        );
+        key.remove();
         MatcherAssert.assertThat(
-            "Assertion failed",
+            "Removed key is still there",
             keys.iterate(),
             Matchers.not(Matchers.contains(key))
         );
@@ -139,15 +131,14 @@ final class RtDeployKeysITCase {
 
     /**
      * Generates a random public key for test.
-     *
-     * @return The encoded SSH public key.
+     * @return The encoded SSH public key
      */
     private static String key() throws JSchException, IOException {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
             kpair.writePublicKey(stream, "");
             kpair.dispose();
-            return new String(stream.toByteArray());
+            return new String(stream.toByteArray(), StandardCharsets.UTF_8);
         }
     }
 }

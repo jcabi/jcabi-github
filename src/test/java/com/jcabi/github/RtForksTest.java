@@ -31,60 +31,93 @@ final class RtForksTest {
     /**
      * Fork's organization name in JSON object.
      */
-    public static final String ORGANIZATION = "organization";
+    static final String ORGANIZATION = "organization";
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
     void retrievesForks() {
-        final RtForks forks = new RtForks(
-            new FakeRequest()
-                .withBody("[]"), RtForksTest.repo()
-        );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            forks.iterate("newest"),
+            new RtForks(
+                new FakeRequest()
+                    .withBody("[]"), RtForksTest.repo()
+            ).iterate("newest"),
             Matchers.iterableWithSize(0)
         );
     }
 
     @Test
-    void createsFork() throws IOException {
-        final String organization = RandomStringUtils.secure().nextAlphanumeric(10);
-        final MkAnswer answer = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            RtForksTest.fork(organization).toString()
-        );
+    void createsForkWithPost() throws IOException {
+        final String organization =
+            RandomStringUtils.secure().nextAlphanumeric(10);
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                    HttpURLConnection.HTTP_ACCEPTED,
-                    RtForksTest.fork(organization).toString()
-                )
-            ).next(answer).start(RandomPort.port())) {
-            final Repo owner = Mockito.mock(Repo.class);
-            final Coordinates coordinates = new Coordinates.Simple(
-                "test_user", "test_repo"
-            );
-            Mockito.doReturn(coordinates).when(owner).coordinates();
-            final RtForks forks = new RtForks(
-                new JdkRequest(container.home()),
-                owner
-            );
-            final Fork fork = forks.create(organization);
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtForksTest.answer(organization))
+                .start(RandomPort.port())
+        ) {
+            RtForksTest.forks(container).create(organization);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Fork is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
+        }
+    }
+
+    @Test
+    void createsForkForOrganization() throws IOException {
+        final String organization =
+            RandomStringUtils.secure().nextAlphanumeric(10);
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtForksTest.answer(organization))
+                .next(RtForksTest.fetched(organization))
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Values are not equal",
-                fork.json().getString(RtForksTest.ORGANIZATION),
+                "Fork belongs to a wrong organization",
+                RtForksTest.forks(container).create(organization)
+                    .json().getString(RtForksTest.ORGANIZATION),
                 Matchers.equalTo(organization)
             );
         }
+    }
+
+    /**
+     * Forks served by the given container.
+     * @param container Container to serve the forks
+     * @return Forks
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtForks forks(final MkContainer container)
+        throws IOException {
+        final Repo owner = Mockito.mock(Repo.class);
+        Mockito.doReturn(new Coordinates.Simple("test_user", "test_repo"))
+            .when(owner).coordinates();
+        return new RtForks(new JdkRequest(container.home()), owner);
+    }
+
+    /**
+     * Answer with a fork of the given organization.
+     * @param organization The organization of the fork
+     * @return Answer
+     */
+    private static MkAnswer answer(final String organization) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_ACCEPTED,
+            RtForksTest.fork(organization).toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched fork of the given organization.
+     * @param organization The organization of the fork
+     * @return Answer
+     */
+    private static MkAnswer fetched(final String organization) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtForksTest.fork(organization).toString()
+        );
     }
 
     /**
@@ -103,8 +136,7 @@ final class RtForksTest {
      * @param organization The organization of the fork
      * @return JsonObject
      */
-    private static JsonObject fork(
-        final String organization) {
+    private static JsonObject fork(final String organization) {
         return Json.createObjectBuilder()
             .add("id", 1)
             .add(RtForksTest.ORGANIZATION, organization)

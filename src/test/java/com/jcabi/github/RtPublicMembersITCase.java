@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.4
  */
 final class RtPublicMembersITCase {
+
     /**
      * Test organization name.
      */
@@ -48,33 +49,47 @@ final class RtPublicMembersITCase {
     }
 
     @Test
-    void checksPublicMembership() throws IOException {
+    void findsPublicMember() throws IOException {
         MatcherAssert.assertThat(
-            "Check true positive of public membership in an organization",
-            RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.member),
+            "Public member is not found in the organization",
+            RtPublicMembersITCase.org.publicMembers()
+                .contains(RtPublicMembersITCase.member),
             Matchers.is(true)
         );
+    }
+
+    @Test
+    void dontFindPublicNonMember() throws IOException {
         MatcherAssert.assertThat(
-            "Check true negative of public membership in an organization",
-            !RtPublicMembersITCase.org.publicMembers().contains(RtPublicMembersITCase.nonMember),
-            Matchers.is(true)
+            "Non-member is found in the organization",
+            RtPublicMembersITCase.org.publicMembers()
+                .contains(RtPublicMembersITCase.nonMember),
+            Matchers.is(false)
         );
     }
 
     @Test
     void listsPublicMembers() {
         MatcherAssert.assertThat(
-            "Collection size is incorrect",
+            "Organization has no public members",
             RtPublicMembersITCase.org.publicMembers().iterate(),
             Matchers.iterableWithSize(Matchers.greaterThanOrEqualTo(1))
         );
+    }
+
+    @Test
+    void listsPublicMember() {
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Public member is not listed",
             RtPublicMembersITCase.org.publicMembers().iterate(),
             Matchers.hasItem(RtPublicMembersITCase.member)
         );
+    }
+
+    @Test
+    void dontListPublicNonMember() {
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Non-member is listed",
             RtPublicMembersITCase.org.publicMembers().iterate(),
             Matchers.not(Matchers.hasItem(RtPublicMembersITCase.nonMember))
         );

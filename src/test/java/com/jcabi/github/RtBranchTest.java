@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtBranch}.
  * @since 0.8
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtBranchTest {
+
     /**
      * Test branch name.
      */
@@ -24,27 +24,25 @@ final class RtBranchTest {
 
     /**
      * Commit SHA for test branch.
-     * @checkstyle LineLengthCheck (2 lines)
      */
     private static final String SHA = "b9b0b8a357bbf70f7c9f8ef17160ee31feb508a9";
 
     @Test
-    void fetchesCommit() throws IOException {
+    void fetchesCommitSha() throws IOException {
+        MatcherAssert.assertThat(
+            "Commit has a wrong SHA",
+            RtBranchTest.newBranch(new MkGitHub().randomRepo()).commit().sha(),
+            Matchers.equalTo(RtBranchTest.SHA)
+        );
+    }
+
+    @Test
+    void fetchesCommitRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Commit commit = RtBranchTest.newBranch(repo).commit();
         MatcherAssert.assertThat(
-            "Values are not equal", commit.sha(), Matchers.equalTo(RtBranchTest.SHA)
-        );
-        final Coordinates coords = commit.repo().coordinates();
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.user(),
-            Matchers.equalTo(repo.coordinates().user())
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.repo(),
-            Matchers.equalTo(repo.coordinates().repo())
+            "Commit belongs to a wrong repo",
+            RtBranchTest.newBranch(repo).commit().repo().coordinates(),
+            Matchers.equalTo(repo.coordinates())
         );
     }
 
@@ -60,24 +58,17 @@ final class RtBranchTest {
     @Test
     void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Coordinates coords = RtBranchTest.newBranch(repo)
-            .repo().coordinates();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.user(),
-            Matchers.equalTo(repo.coordinates().user())
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.repo(),
-            Matchers.equalTo(repo.coordinates().repo())
+            "Branch belongs to a wrong repo",
+            RtBranchTest.newBranch(repo).repo().coordinates(),
+            Matchers.equalTo(repo.coordinates())
         );
     }
 
     /**
      * RtBranch for testing.
      * @param repo Repository to create the branch in
-     * @return The RtBranch.
+     * @return The RtBranch
      */
     private static Branch newBranch(final Repo repo) {
         return new RtBranch(

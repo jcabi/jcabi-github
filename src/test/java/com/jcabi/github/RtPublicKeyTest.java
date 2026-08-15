@@ -19,14 +19,13 @@ final class RtPublicKeyTest {
 
     @Test
     void canRepresentAsJson() throws IOException {
-        final RtPublicKey key = new RtPublicKey(
-            new FakeRequest().withBody("{}"),
-            Mockito.mock(User.class),
-            1
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            key.json(),
+            new RtPublicKey(
+                new FakeRequest().withBody("{}"),
+                Mockito.mock(User.class),
+                1
+            ).json(),
             Matchers.notNullValue()
         );
     }
@@ -34,10 +33,9 @@ final class RtPublicKeyTest {
     @Test
     void canObtainUser() {
         final User user = Mockito.mock(User.class);
-        final RtPublicKey key = new RtPublicKey(new FakeRequest(), user, 2);
         MatcherAssert.assertThat(
             "Assertion failed",
-            key.user(),
+            new RtPublicKey(new FakeRequest(), user, 2).user(),
             Matchers.sameInstance(user)
         );
     }
@@ -45,16 +43,14 @@ final class RtPublicKeyTest {
     @Test
     void canObtainNumber() {
         final int number = 39;
-        final RtPublicKey key = new RtPublicKey(
-            new FakeRequest(),
-            Mockito.mock(User.class),
-            number
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            key.number(),
+            new RtPublicKey(
+                new FakeRequest(),
+                Mockito.mock(User.class),
+                number
+            ).number(),
             Matchers.equalTo(number)
         );
     }
-
 }

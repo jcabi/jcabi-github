@@ -30,8 +30,7 @@ public interface Milestones {
      * @see <a href="https://developer.github.com/v3/issues/milestones/#create-a-milestone">Create Milestone</a>
      * @since 0.5
      */
-    Milestone create(String title)
-        throws IOException;
+    Milestone create(String title) throws IOException;
 
     /**
      * Get specific milestone by number.
@@ -47,8 +46,7 @@ public interface Milestones {
      * @return Iterator of milestones
      * @see <a href="https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a>
      */
-    Iterable<Milestone> iterate(
-        Map<String, String> params);
+    Iterable<Milestone> iterate(Map<String, String> params);
 
     /**
      * Remove milestone by number.
@@ -56,6 +54,5 @@ public interface Milestones {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>
      */
-    void remove(int number)
-        throws IOException;
+    void remove(int number) throws IOException;
 }

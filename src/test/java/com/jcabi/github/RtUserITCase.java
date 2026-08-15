@@ -18,11 +18,9 @@ final class RtUserITCase {
 
     @Test
     void checksWhoAmI() throws IOException {
-        final GitHub github = GitHubIT.connect();
-        final User self = github.users().self();
         MatcherAssert.assertThat(
             "Values are not equal",
-            self.login(),
+            GitHubIT.connect().users().self().login(),
             Matchers.not(Matchers.is(Matchers.emptyString()))
         );
     }
@@ -35,5 +33,4 @@ final class RtUserITCase {
             Matchers.equalTo("https://api.github.com/user/keys")
         );
     }
-
 }

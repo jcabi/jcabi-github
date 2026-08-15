@@ -16,7 +16,6 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub Checks.
- *
  * @since 1.6.0
  */
 public final class MkChecks implements Checks {
@@ -42,11 +41,7 @@ public final class MkChecks implements Checks {
      * @param coord Coordinates of repo
      * @param pll Pull
      */
-    MkChecks(
-        final MkStorage strg,
-        final Coordinates coord,
-        final Pull pll
-    ) {
+    MkChecks(final MkStorage strg, final Coordinates coord, final Pull pll) {
         this.storage = strg;
         this.coordinates = coord;
         this.pull = pll;
@@ -70,9 +65,9 @@ public final class MkChecks implements Checks {
 
     /**
      * Create check.
-     * @param status Status.
-     * @param conclusion Conclusion.
-     * @return Check.
+     * @param status Status
+     * @param conclusion Conclusion
+     * @return Check
      * @throws IOException If fails.
      */
     public Check create(
@@ -80,14 +75,15 @@ public final class MkChecks implements Checks {
         final Check.Conclusion conclusion
     ) throws IOException {
         final int identifier = new SecureRandom().nextInt();
-        final Directives directives = new Directives()
-            .xpath(this.xpath())
-            .add("check")
-            .attr("id", identifier)
-            .attr("status", status.value())
-            .attr("conclusion", conclusion.value())
-            .up();
-        this.storage.apply(directives);
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .add("check")
+                .attr("id", identifier)
+                .attr("status", status.value())
+                .attr("conclusion", conclusion.value())
+                .up()
+        );
         return new MkCheck(
             this.storage,
             this.coordinates,
@@ -102,7 +98,6 @@ public final class MkChecks implements Checks {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks",
             this.coordinates, this.pull.number()
         );

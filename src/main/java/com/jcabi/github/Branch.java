@@ -13,6 +13,7 @@ import com.jcabi.aspects.Immutable;
  */
 @Immutable
 public interface Branch {
+
     /**
      * The repo we're in.
      * @return Repo

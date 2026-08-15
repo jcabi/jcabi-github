@@ -23,7 +23,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtReleaseAsset implements ReleaseAsset {
 
     /**
@@ -45,24 +44,31 @@ final class RtReleaseAsset implements ReleaseAsset {
      * Public ctor.
      * @param req RESTful Request
      * @param release Release
-     * @param number Number of the release asset.
+     * @param number Number of the release asset
      */
     RtReleaseAsset(
         final Request req,
         final Release release,
         final int number
     ) {
-        final Coordinates coords = release.repo().coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/releases")
-            .path("/assets")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = release;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(release.repo().coordinates().user())
+                .path(release.repo().coordinates().repo())
+                .path("/releases")
+                .path("/assets")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            release
+        );
+    }
+
+    private RtReleaseAsset(final Request request, final int num, final Release owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -86,9 +92,7 @@ final class RtReleaseAsset implements ReleaseAsset {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 
@@ -113,5 +117,4 @@ final class RtReleaseAsset implements ReleaseAsset {
                 .binary()
         );
     }
-
 }

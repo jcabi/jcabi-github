@@ -6,7 +6,6 @@ package com.jcabi.github;
 
 /**
  * Reaction for issue / comment.
- *
  * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
  * @since 1.0
  * @todo #1469:30min Add support to team discussion and team discussion comments
@@ -14,6 +13,7 @@ package com.jcabi.github;
  *  https://developer.github.com/changes/2018-02-07-team-discussions-api/ )
  *  After this implementation, add reaction support to these elements.
  */
+@FunctionalInterface
 public interface Reaction {
 
     /**
@@ -48,7 +48,7 @@ public interface Reaction {
 
     /**
      * The reaction type.
-     * @return The type of the reaction.
+     * @return The type of the reaction
      */
     String type();
 
@@ -65,19 +65,15 @@ public interface Reaction {
 
         /**
          * Constructor.
-         * @param reaction Reaction type.
+         * @param reaction Reaction type
          */
         Simple(final String reaction) {
             this.type = reaction;
         }
 
-        /**
-         * Returns the reaction type.
-         * @return Reaction type.
-         */
+        @Override
         public String type() {
             return this.type;
         }
-
     }
 }

@@ -24,7 +24,7 @@ final class MkRepoCommitsTest {
      */
     @Test
     void returnIterator() throws IOException {
-        final String user =  "testuser1";
+        final String user = "testuser1";
         MatcherAssert.assertThat(
             "Value is null",
             new MkRepoCommits(
@@ -41,16 +41,15 @@ final class MkRepoCommitsTest {
      * @throws IOException if some problem inside
      */
     @Test
-    void getCommit() throws IOException {
-        final String user =  "testuser2";
-        final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db5e";
+    void fetchesCommit() throws IOException {
+        final String user = "testuser2";
         MatcherAssert.assertThat(
             "Value is null",
             new MkRepoCommits(
                 new MkStorage.InFile(),
                 user,
                 new Coordinates.Simple(user, "testrepo2")
-            ).get(sha),
+            ).get("6dcb09b5b57875f334f61aebed695e2e4193db5e"),
             Matchers.notNullValue()
         );
     }
@@ -61,7 +60,7 @@ final class MkRepoCommitsTest {
      */
     @Test
     void canCompare() throws IOException {
-        final String user =  "testuser3";
+        final String user = "testuser3";
         MatcherAssert.assertThat(
             "Value is null",
             new MkRepoCommits(
@@ -75,9 +74,9 @@ final class MkRepoCommitsTest {
 
     @Test
     void canCompareAsDiffFormat() throws IOException {
-        final String user =  "testuser4";
-        final String base =  "c034abc";
-        final String head =  "a0ed832";
+        final String user = "testuser4";
+        final String base = "c034abc";
+        final String head = "a0ed832";
         MatcherAssert.assertThat(
             "Assertion failed",
             new MkRepoCommits(
@@ -91,7 +90,7 @@ final class MkRepoCommitsTest {
 
     @Test
     void canCompareAsPatch() throws IOException {
-        final String user =  "testuser5";
+        final String user = "testuser5";
         final String head = "9b2e6e7de9";
         MatcherAssert.assertThat(
             "Assertion failed",

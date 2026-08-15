@@ -39,11 +39,7 @@ public interface Pulls {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#create-a-pull-request">Create a Pull Request</a>
      */
-    Pull create(
-        String title,
-        String head,
-        String base)
-        throws IOException;
+    Pull create(String title, String head, String base) throws IOException;
 
     /**
      * Iterate them all.
@@ -52,5 +48,4 @@ public interface Pulls {
      * @see <a href="https://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>
      */
     Iterable<Pull> iterate(Map<String, String> params);
-
 }

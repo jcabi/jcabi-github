@@ -11,7 +11,6 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import org.hamcrest.MatcherAssert;
@@ -23,89 +22,131 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtTrees}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtTreesTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
     void createsTree() throws IOException {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                "{\"sha\":\"0abcd89jcabitest\", \"url\":\"http://localhost/1\"}"
-            )
-        ).start(RandomPort.port());
-        final Trees trees = new RtTrees(
-            new ApacheRequest(container.home()),
-            RtTreesTest.repo()
-        );
-        final JsonObject tree = Json.createObjectBuilder()
-            .add("path", "/path").add("mode", "100644 ")
-            .add("type", "blob").add("sha", "sha1")
-            .add("content", "content1").build();
-        final JsonObject input = Json.createObjectBuilder()
-            .add("tree", tree).add("base_tree", "SHA1")
-            .build();
-        try {
-            final Tree tri = trees.create(input);
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtTreesTest.answer())
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Object is not of expected type",
-                tri,
+                "Created tree is of a wrong type",
+                RtTreesTest.create(RtTreesTest.trees(container)),
                 Matchers.instanceOf(Tree.class)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                trees.get(tri.sha()),
-                Matchers.equalTo(tri)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                container.take().method(),
-                Matchers.equalTo(Request.POST)
-            );
-        } finally {
-            container.stop();
         }
     }
 
     @Test
-    void getTree() {
+    void findsCreatedTree() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtTreesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            final Trees trees = RtTreesTest.trees(container);
+            final Tree tree = RtTreesTest.create(trees);
+            MatcherAssert.assertThat(
+                "Created tree is not found",
+                trees.get(tree.sha()),
+                Matchers.equalTo(tree)
+            );
+        }
+    }
+
+    @Test
+    void createsTreeWithPost() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtTreesTest.answer())
+                .start(RandomPort.port())
+        ) {
+            RtTreesTest.create(RtTreesTest.trees(container));
+            MatcherAssert.assertThat(
+                "Tree is not created with POST",
+                container.take().method(),
+                Matchers.equalTo(Request.POST)
+            );
+        }
+    }
+
+    @Test
+    void fetchesTree() {
         final String sha = "0abcd89jcabitest";
-        final Trees trees = new RtTrees(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("sha", sha)
-                    .build()
-                    .toString()
-            ),
-            RtTreesTest.repo()
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            trees.get(sha).sha(), Matchers.equalTo(sha)
+            new RtTrees(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("sha", sha)
+                        .build()
+                        .toString()
+                ),
+                RtTreesTest.repo()
+            ).get(sha).sha(), Matchers.equalTo(sha)
         );
     }
 
     @Test
-    void getTreeRec() {
+    void fetchesTreeRecursively() {
         final String sha = "0abcd89jcabitest";
-        final Trees trees = new RtTrees(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder()
-                    .add("sha", sha)
-                    .build()
-                    .toString()
-            ),
-            RtTreesTest.repo()
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            trees.getRec(sha).sha(), Matchers.equalTo(sha)
+            new RtTrees(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder()
+                        .add("sha", sha)
+                        .build()
+                        .toString()
+                ),
+                RtTreesTest.repo()
+            ).getRec(sha).sha(), Matchers.equalTo(sha)
+        );
+    }
+
+    /**
+     * Trees served by the given container.
+     * @param container Container to serve the trees
+     * @return Trees
+     * @throws IOException If there is any I/O problem
+     */
+    private static Trees trees(final MkContainer container) throws IOException {
+        return new RtTrees(
+            new ApacheRequest(container.home()),
+            RtTreesTest.repo()
+        );
+    }
+
+    /**
+     * Create a tree in the given trees.
+     * @param trees Trees to create the tree in
+     * @return Created tree
+     * @throws IOException If there is any I/O problem
+     */
+    private static Tree create(final Trees trees) throws IOException {
+        return trees.create(
+            Json.createObjectBuilder().add(
+                "tree",
+                Json.createObjectBuilder()
+                    .add("path", "/path").add("mode", "100644 ")
+                    .add("type", "blob").add("sha", "sha1")
+                    .add("content", "content1")
+            ).add("base_tree", "SHA1").build()
+        );
+    }
+
+    /**
+     * Answer with a created tree.
+     * @return Answer
+     */
+    private static MkAnswer answer() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            "{\"sha\":\"0abcd89jcabitest\", \"url\":\"http://localhost/1\"}"
         );
     }
 
@@ -119,5 +160,4 @@ final class RtTreesTest {
             .when(repo).coordinates();
         return repo;
     }
-
 }

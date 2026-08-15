@@ -24,16 +24,12 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtHook}.
  * @since 0.8
- * @checkstyle ClassDataAbstractionCouplingCheck (2 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtHookTest {
 
-    /**
-     * RtHook should perform a JSON request to "/repos/:owner/:repo/hooks/:id".
-     */
     @Test
-    void performsValidRequest() throws IOException {
+    void fetchesJson() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(
@@ -42,22 +38,38 @@ final class RtHookTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final Hook hook = new RtHook(
+            MatcherAssert.assertThat(
+                "JSON of the hook is absent",
+                new RtHook(
+                    new ApacheRequest(container.home()),
+                    RtHookTest.repo(),
+                    1
+                ).json(),
+                Matchers.notNullValue()
+            );
+        }
+    }
+
+    @Test
+    void fetchesJsonFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"test\":\"hook\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
+            new RtHook(
                 new ApacheRequest(container.home()),
                 RtHookTest.repo(),
                 1
-            );
+            ).json();
             MatcherAssert.assertThat(
-                "Value is null",
-                hook.json(),
-                Matchers.notNullValue()
-            );
-            MatcherAssert.assertThat(
-                "String does not end with expected value",
+                "JSON of the hook is fetched from a wrong URI",
                 container.take().uri().toString(),
                 Matchers.endsWith("/repos/test/repo/hooks/1")
             );
-            container.stop();
         }
     }
 
@@ -106,5 +118,4 @@ final class RtHookTest {
             .when(repo).coordinates();
         return repo;
     }
-
 }

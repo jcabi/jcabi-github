@@ -11,8 +11,8 @@ import com.jcabi.http.response.RestResponse;
 import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -22,8 +22,8 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "ghub", "request" })
-@SuppressWarnings("PMD.TooManyMethods")
 final class RtUser implements User {
+
     /**
      * Path for the notifications resource.
      */
@@ -49,10 +49,7 @@ final class RtUser implements User {
      * @param github GitHub
      * @param req Request
      */
-    RtUser(
-        final GitHub github,
-        final Request req
-    ) {
+    RtUser(final GitHub github, final Request req) {
         this(github, req, "");
     }
 
@@ -62,19 +59,14 @@ final class RtUser implements User {
      * @param req Request
      * @param login User identity/identity
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
-    RtUser(
-        final GitHub github,
-        final Request req,
-        final String login
-    ) {
+    RtUser(final GitHub github, final Request req, final String login) {
+        this(github, login, RtUser.path(req, login));
+    }
+
+    private RtUser(final GitHub github, final String login, final Request req) {
         this.ghub = github;
-        if (login.isEmpty()) {
-            this.request = req.uri().path("/user").back();
-        } else {
-            this.request = req.uri().path("/users").path(login).back();
-        }
         this.self = login;
+        this.request = req;
     }
 
     @Override
@@ -121,12 +113,11 @@ final class RtUser implements User {
     }
 
     @Override
-    public void markAsRead(final Date lastread) throws IOException {
+    public void markAsRead(final Instant lastread) throws IOException {
         this.github().entry().uri()
-            .path(RtUser.NOTIF_PATH)
-            .queryParam(
+            .path(RtUser.NOTIF_PATH).queryParam(
                 "last_read_at",
-                DateTimeFormatter.ISO_INSTANT.format(lastread.toInstant())
+                DateTimeFormatter.ISO_INSTANT.format(lastread)
             ).back()
             .method(Request.PUT)
             .fetch()
@@ -140,9 +131,23 @@ final class RtUser implements User {
     }
 
     @Override
-    public void patch(
-        final JsonObject json)
-        throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
+    }
+
+    /**
+     * Build a request for the user with this login.
+     * @param req RESTful API entry point
+     * @param login Login of the user, empty for the authenticated one
+     * @return Request
+     */
+    private static Request path(final Request req, final String login) {
+        final Request path;
+        if (login.isEmpty()) {
+            path = req.uri().path("/user").back();
+        } else {
+            path = req.uri().path("/users").path(login).back();
+        }
+        return path;
     }
 }

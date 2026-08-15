@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkHooks}.
  * @since 0.8
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkHooksTest {
+
     /**
      * Type of hook to create and use for tests.
      */
@@ -29,10 +29,9 @@ final class MkHooksTest {
      */
     @Test
     void canFetchEmptyListOfHooks() throws Exception {
-        final Hooks hooks = MkHooksTest.newHooks();
         MatcherAssert.assertThat(
             "Collection is not empty",
-            hooks.iterate(),
+            MkHooksTest.newHooks().iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -44,22 +43,26 @@ final class MkHooksTest {
     @Test
     void canDeleteSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
-        final Hook hook = hooks.create(
-            MkHooksTest.HOOK_TYPE,
-            Collections.emptyMap(),
-            Collections.emptyList(),
-            true
-        );
-        MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            hooks.iterate(),
-            Matchers.iterableWithSize(1)
-        );
-        hooks.remove(hook.number());
+        hooks.remove(MkHooksTest.hook(hooks).number());
         MatcherAssert.assertThat(
             "Collection is not empty",
             hooks.iterate(),
             Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * MkHooks can fetch a list with a single hook.
+     * @throws Exception if something goes wrong.
+     */
+    @Test
+    void canFetchListWithSingleHook() throws Exception {
+        final Hooks hooks = MkHooksTest.newHooks();
+        MkHooksTest.hook(hooks);
+        MatcherAssert.assertThat(
+            "Collection size is incorrect",
+            hooks.iterate(),
+            Matchers.iterableWithSize(1)
         );
     }
 
@@ -70,15 +73,9 @@ final class MkHooksTest {
     @Test
     void canFetchSingleHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
-        final Hook hook = hooks.create(
-            MkHooksTest.HOOK_TYPE,
-            Collections.emptyMap(),
-            Collections.emptyList(),
-            true
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            hooks.get(hook.number()),
+            hooks.get(MkHooksTest.hook(hooks).number()),
             Matchers.notNullValue()
         );
     }
@@ -90,18 +87,8 @@ final class MkHooksTest {
     @Test
     void canFetchNonEmptyListOfHooks() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
-        hooks.create(
-            MkHooksTest.HOOK_TYPE,
-            Collections.emptyMap(),
-            Collections.emptyList(),
-            true
-        );
-        hooks.create(
-            MkHooksTest.HOOK_TYPE,
-            Collections.emptyMap(),
-            Collections.emptyList(),
-            true
-        );
+        MkHooksTest.hook(hooks);
+        MkHooksTest.hook(hooks);
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             hooks.iterate(),
@@ -116,24 +103,34 @@ final class MkHooksTest {
     @Test
     void canCreateHook() throws Exception {
         final Hooks hooks = MkHooksTest.newHooks();
-        final Hook hook = hooks.create(
-            MkHooksTest.HOOK_TYPE,
-            Collections.emptyMap(),
-            Collections.emptyList(),
-            true
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            hooks.iterate().iterator().next().number(),
-            Matchers.equalTo(hook.number())
+            MkHooksTest.hook(hooks).number(),
+            Matchers.equalTo(hooks.iterate().iterator().next().number())
         );
     }
 
     /**
      * Create hooks to work with.
      * @return Hooks
+     * @throws IOException If some problem inside
      */
     private static Hooks newHooks() throws IOException {
         return new MkGitHub().randomRepo().hooks();
+    }
+
+    /**
+     * Create a hook in the given collection.
+     * @param hooks Collection to create the hook in
+     * @return Created hook
+     * @throws IOException If some problem inside
+     */
+    private static Hook hook(final Hooks hooks) throws IOException {
+        return hooks.create(
+            MkHooksTest.HOOK_TYPE,
+            Collections.emptyMap(),
+            Collections.emptyList(),
+            true
+        );
     }
 }

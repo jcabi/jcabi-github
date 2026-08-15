@@ -11,7 +11,6 @@ import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -19,9 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub gists.
- *
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -49,9 +46,13 @@ final class RtGists implements Gists {
      * @param req Request
      */
     RtGists(final GitHub github, final Request req) {
-        this.entry = req;
-        this.ghub = github;
-        this.request = this.entry.uri().path("/gists").back();
+        this(req, github, req.uri().path("/gists").back());
+    }
+
+    private RtGists(final Request entry, final GitHub ghub, final Request request) {
+        this.entry = entry;
+        this.ghub = ghub;
+        this.request = request;
     }
 
     @Override
@@ -74,13 +75,14 @@ final class RtGists implements Gists {
                 Json.createObjectBuilder().add("content", file.getValue())
             );
         }
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("files", builder)
-            .add("public", visible)
-            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("files", builder)
+                        .add("public", visible)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -102,9 +104,7 @@ final class RtGists implements Gists {
     }
 
     @Override
-    public void remove(
-        final String identifier
-    ) throws IOException {
+    public void remove(final String identifier) throws IOException {
         this.request.method(Request.DELETE)
             .uri().path(identifier).back()
             .fetch()

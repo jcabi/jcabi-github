@@ -20,21 +20,19 @@ final class RtSearchPaginationTest {
     void iteratesItems() {
         final String key = "key";
         final String value = "value";
-        final Iterable<String> pagination = new RtSearchPagination<>(
-            new FakeRequest().withBody(
-                Json.createObjectBuilder().add(
-                    "items", Json.createArrayBuilder().add(
-                        Json.createObjectBuilder().add(key, value)
-                    )
-                ).build().toString()
-            ),
-            "/search/path", "keywords", "sort", "order",
-            object -> object.getString(key)
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            pagination.iterator().next(), Matchers.equalTo(value)
+            new RtSearchPagination<>(
+                new FakeRequest().withBody(
+                    Json.createObjectBuilder().add(
+                        "items", Json.createArrayBuilder().add(
+                            Json.createObjectBuilder().add(key, value)
+                        )
+                    ).build().toString()
+                ),
+                "/search/path", "keywords", "sort", "order",
+                object -> object.getString(key)
+            ).iterator().next(), Matchers.equalTo(value)
         );
     }
-
 }

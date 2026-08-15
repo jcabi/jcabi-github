@@ -21,7 +21,6 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = "ghub")
-@SuppressWarnings("PMD.UseConcurrentHashMap")
 final class MkGitignores implements Gitignores {
 
     /**
@@ -30,7 +29,10 @@ final class MkGitignores implements Gitignores {
     private static final Map<String, String> GITIGNORES =
         Collections.singletonMap(
             "Java",
-            "*.class\n\n# Package Files #\n*.jar\n*.war\n*.ear\n"
+            String.join(
+                System.lineSeparator(),
+                "*.class", "", "# Package Files #", "*.jar", "*.war", "*.ear", ""
+            )
         );
 
     /**
@@ -57,8 +59,7 @@ final class MkGitignores implements Gitignores {
     }
 
     @Override
-    public String template(
-        final String name) {
+    public String template(final String name) {
         final String template = MkGitignores.GITIGNORES.get(name);
         if (template == null) {
             throw new IllegalArgumentException("Template not found.");

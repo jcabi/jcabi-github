@@ -28,8 +28,7 @@ public interface Markdown {
      * @return HTML
      * @throws IOException If it fails due to I/O problem
      */
-    String render(JsonObject json)
-        throws IOException;
+    String render(JsonObject json) throws IOException;
 
     /**
      * Raw rendering.
@@ -37,7 +36,5 @@ public interface Markdown {
      * @return HTML
      * @throws IOException If it fails due to I/O problem
      */
-    String raw(String text)
-        throws IOException;
-
+    String raw(String text) throws IOException;
 }

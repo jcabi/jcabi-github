@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
@@ -22,7 +21,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtLabels implements Labels {
 
     /**
@@ -46,15 +44,22 @@ final class RtLabels implements Labels {
      * @param repo Repo we're in
      */
     RtLabels(final Request req, final Repo repo) {
-        this.owner = repo;
-        final Coordinates coords = repo.coordinates();
-        this.entry = req;
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/labels")
-            .back();
+        this(
+            repo,
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/labels")
+                .back()
+        );
+    }
+
+    private RtLabels(final Repo owner, final Request entry, final Request request) {
+        this.owner = owner;
+        this.entry = entry;
+        this.request = request;
     }
 
     @Override
@@ -70,15 +75,14 @@ final class RtLabels implements Labels {
     @Override
     public Label create(
         final String name,
-        final String color)
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            // @checkstyle MultipleStringLiterals (1 line)
-            .add("name", name)
-            .add("color", color)
-            .build();
+        final String color) throws IOException {
         this.request.method(Request.POST)
-            .body().set(json).back()
+            .body().set(
+                Json.createObjectBuilder()
+                    .add("name", name)
+                    .add("color", color)
+                    .build()
+            ).back()
             .fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_CREATED)
@@ -112,5 +116,4 @@ final class RtLabels implements Labels {
             )
         );
     }
-
 }

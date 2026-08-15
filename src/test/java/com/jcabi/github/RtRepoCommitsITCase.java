@@ -15,9 +15,11 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RepoCommits}.
+ *
  * <p>WARNING: As there is no way to create Commit directly it was decided to
- *  use real commits from jcabi-github repository for integration testing of
- *  RtRepoCommits
+ * use real commits from jcabi-github repository for integration testing of
+ * RtRepoCommits
+ *
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
@@ -52,20 +54,20 @@ final class RtRepoCommitsITCase {
 
     @Test
     void compareCommitsPatch() throws IOException {
-        final String patch = RtRepoCommitsITCase.repo().commits().patch(
-            "5339b8e35b",
-            "9b2e6efde9"
-        );
         MatcherAssert.assertThat(
-            "String does not start with expected value",
-            patch,
+            "Patch does not start with the commit hash",
+            RtRepoCommitsITCase.patch(),
             Matchers.startsWith(
                 "From 9b2e6efde94fabec5876dc481b38811e8b4e992f"
             )
         );
+    }
+
+    @Test
+    void compareCommitsPatchMessage() throws IOException {
         MatcherAssert.assertThat(
-            "String does not contain expected value",
-            patch,
+            "Patch does not contain the commit message",
+            RtRepoCommitsITCase.patch(),
             Matchers.containsString(
                 "Issue #430 RepoCommit interface was added"
             )
@@ -74,24 +76,35 @@ final class RtRepoCommitsITCase {
 
     @Test
     void compareCommitsDiff() throws IOException {
-        final String diff = RtRepoCommitsITCase.repo().commits().diff(
-            "2b3814e",
-            "b828dfa"
-        );
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            diff,
+            RtRepoCommitsITCase.repo().commits().diff(
+                "2b3814e",
+                "b828dfa"
+            ),
             Matchers.startsWith("diff --git")
         );
     }
 
     @Test
-    void getCommit() {
+    void fetchesCommit() {
         final String sha = "94e4216";
         MatcherAssert.assertThat(
             "Values are not equal",
             RtRepoCommitsITCase.repo().commits().get(sha).sha(),
             Matchers.equalTo(sha)
+        );
+    }
+
+    /**
+     * Patch between two commits.
+     * @return Patch
+     * @throws IOException If there is any I/O problem
+     */
+    private static String patch() throws IOException {
+        return RtRepoCommitsITCase.repo().commits().patch(
+            "5339b8e35b",
+            "9b2e6efde9"
         );
     }
 

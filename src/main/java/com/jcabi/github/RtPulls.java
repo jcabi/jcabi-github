@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -18,14 +17,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull requests.
- *
  * @since 0.3
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtPulls implements Pulls {
 
     /**
@@ -49,15 +45,22 @@ final class RtPulls implements Pulls {
      * @param repo Repository
      */
     RtPulls(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/pulls")
-            .back();
-        this.owner = repo;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/pulls")
+                .back(),
+            repo
+        );
+    }
+
+    private RtPulls(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -79,16 +82,16 @@ final class RtPulls implements Pulls {
     public Pull create(
         final String title,
         final String head,
-        final String base)
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("title", title)
-            .add("head", head)
-            .add("base", base)
-            .build();
+        final String base) throws IOException {
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("title", title)
+                        .add("head", head)
+                        .add("base", base)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -103,5 +106,4 @@ final class RtPulls implements Pulls {
             object -> this.get(object.getInt("number"))
         );
     }
-
 }

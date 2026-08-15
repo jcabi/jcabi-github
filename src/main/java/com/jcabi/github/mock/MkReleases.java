@@ -24,7 +24,6 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkReleases implements Releases {
 
     /**
@@ -59,17 +58,13 @@ final class MkReleases implements Releases {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkReleases.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkReleases(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("releases")
-        );
     }
 
     @Override
@@ -94,9 +89,7 @@ final class MkReleases implements Releases {
     }
 
     @Override
-    public Release create(
-        final String tag
-    ) throws IOException {
+    public Release create(final String tag) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -148,5 +141,25 @@ final class MkReleases implements Releases {
             "/github/repos/repo[@coords='%s']/releases",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("releases")
+        );
+        return stg;
     }
 }

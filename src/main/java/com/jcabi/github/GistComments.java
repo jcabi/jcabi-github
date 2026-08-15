@@ -21,6 +21,7 @@ import java.io.IOException;
  */
 @Immutable
 public interface GistComments {
+
     /**
      * The gist we're in.
      * @return Issue
@@ -49,6 +50,5 @@ public interface GistComments {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/gists/comments/#create-a-comment">Create a Comment</a>
      */
-    GistComment post(String text)
-        throws IOException;
+    GistComment post(String text) throws IOException;
 }

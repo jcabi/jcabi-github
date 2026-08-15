@@ -39,13 +39,12 @@ import org.apache.commons.lang3.RandomStringUtils;
  * on JVM exit:
  *
  * <pre> GitHub github = new MkGitHub("jeff");</pre>
+ *
  * @since 0.5
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self" })
-@SuppressWarnings("PMD.TooManyMethods")
 public final class MkGitHub implements GitHub {
 
     /**
@@ -71,9 +70,7 @@ public final class MkGitHub implements GitHub {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    public MkGitHub(
-        final String login
-    ) throws IOException {
+    public MkGitHub(final String login) throws IOException {
         this(new MkStorage.Synced(new MkStorage.InFile()), login);
     }
 
@@ -82,10 +79,7 @@ public final class MkGitHub implements GitHub {
      * @param stg Storage
      * @param login User to login
      */
-    public MkGitHub(
-        final MkStorage stg,
-        final String login
-    ) {
+    public MkGitHub(final MkStorage stg, final String login) {
         this.storage = stg;
         this.self = login;
     }
@@ -179,8 +173,7 @@ public final class MkGitHub implements GitHub {
      * @param login User to login
      * @return GitHub
      */
-    public GitHub relogin(final String login
-    ) {
+    public GitHub relogin(final String login) {
         return new MkGitHub(this.storage, login);
     }
 

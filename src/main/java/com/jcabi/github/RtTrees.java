@@ -44,15 +44,23 @@ final class RtTrees implements Trees {
      * @param repo Repository
      */
     RtTrees(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/git")
-            .path("/trees")
-            .back();
+        this(
+            req,
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/git")
+                .path("/trees")
+                .back()
+        );
+    }
+
+    private RtTrees(final Request entry, final Repo owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -66,9 +74,7 @@ final class RtTrees implements Trees {
     }
 
     @Override
-    public Tree getRec(
-        final String sha
-    ) {
+    public Tree getRec(final String sha) {
         return new RtTree(
             this.entry.uri().queryParam("recursive", "1").back(),
             this.owner, sha
@@ -76,9 +82,7 @@ final class RtTrees implements Trees {
     }
 
     @Override
-    public Tree create(
-        final JsonObject params
-    ) throws IOException {
+    public Tree create(final JsonObject params) throws IOException {
         return this.get(
             this.request.method(Request.POST)
                 .body().set(params).back()

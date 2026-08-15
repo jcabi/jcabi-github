@@ -15,10 +15,10 @@ import lombok.ToString;
  * GitHub Git blob.
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  * @since 0.5
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 public interface Blob extends JsonReadable {
+
     /**
      * SHA of it.
      * @return SHA
@@ -34,6 +34,7 @@ public interface Blob extends JsonReadable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "blob", "jsn" })
     final class Smart implements Blob {
+
         /**
          * Encapsulated blob.
          */

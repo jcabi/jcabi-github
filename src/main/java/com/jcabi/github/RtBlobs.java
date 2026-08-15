@@ -21,7 +21,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "owner", "request" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtBlobs implements Blobs {
 
     /**
@@ -44,19 +43,24 @@ final class RtBlobs implements Blobs {
      * @param req Request
      * @param repo Repository
      */
-    RtBlobs(
-        final Request req,
-        final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/git")
-            .path("/blobs")
-            .back();
-        this.owner = repo;
+    RtBlobs(final Request req, final Repo repo) {
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/git")
+                .path("/blobs")
+                .back(),
+            repo
+        );
+    }
+
+    private RtBlobs(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -65,16 +69,14 @@ final class RtBlobs implements Blobs {
     }
 
     @Override
-    public Blob get(
-        final String sha) {
+    public Blob get(final String sha) {
         return new RtBlob(this.entry, this.owner, sha);
     }
 
     @Override
     public Blob create(
         final String content,
-        final String encoding)
-        throws IOException {
+        final String encoding) throws IOException {
         return this.get(
             this.request.method(Request.POST)
                 .body().set(

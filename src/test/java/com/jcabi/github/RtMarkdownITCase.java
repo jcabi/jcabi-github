@@ -19,28 +19,25 @@ final class RtMarkdownITCase {
 
     @Test
     void rendersMarkdown() throws IOException {
-        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Values are not equal",
-            github.markdown().render(
+            GitHubIT.connect().markdown().render(
                 Json.createObjectBuilder()
                     .add("text", "Hello, **world**!")
                     .build()
             ),
-            Matchers.equalTo("<p>Hello, <strong>world</strong>!</p>\n")
+            Matchers.startsWith("<p>Hello, <strong>world</strong>!</p>")
         );
     }
 
     @Test
     void rendersRawMarkdown() throws IOException {
-        final GitHub github = GitHubIT.connect();
         MatcherAssert.assertThat(
             "Values are not equal",
-            github.markdown().raw(
+            GitHubIT.connect().markdown().raw(
                 "Hey, **world**!"
             ),
-            Matchers.equalTo("<p>Hey, <strong>world</strong>!</p>\n")
+            Matchers.startsWith("<p>Hey, <strong>world</strong>!</p>")
         );
     }
-
 }

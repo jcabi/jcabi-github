@@ -17,7 +17,6 @@ import lombok.ToString;
 
 /**
  * Mock GitHub pull request ref.
- *
  * @since 0.24
  */
 @Immutable
@@ -25,6 +24,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(of = { "storage", "branch" })
 final class MkPullRef implements PullRef {
+
     /**
      * Storage.
      */
@@ -40,10 +40,7 @@ final class MkPullRef implements PullRef {
      * @param stg Storage
      * @param brnch Branch
      */
-    MkPullRef(
-        final MkStorage stg,
-        final Branch brnch
-    ) {
+    MkPullRef(final MkStorage stg, final Branch brnch) {
         this.storage = stg;
         this.branch = brnch;
     }

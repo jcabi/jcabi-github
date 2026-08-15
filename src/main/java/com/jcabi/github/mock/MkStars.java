@@ -23,7 +23,6 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = {"storage", "self", "coords"})
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkStars implements Stars {
 
     /**
@@ -43,9 +42,9 @@ final class MkStars implements Stars {
 
     /**
      * Public ctor.
-     * @param stg The storage.
-     * @param login The login name.
-     * @param rep The Repository.
+     * @param stg The storage
+     * @param login The login name
+     * @param rep The Repository
      * @throws IOException If something goes wrong.
      */
     MkStars(
@@ -53,13 +52,13 @@ final class MkStars implements Stars {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkStars.bootstrap(stg), rep, login);
+    }
+
+    private MkStars(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath("/github/repos/repo")
-                .addIf("stars")
-        );
     }
 
     @Override
@@ -102,5 +101,19 @@ final class MkStars implements Stars {
             "/github/repos/repo[@coords='%s']/stars",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg) throws IOException {
+        stg.apply(
+            new Directives().xpath("/github/repos/repo")
+                .addIf("stars")
+        );
+        return stg;
     }
 }

@@ -14,9 +14,9 @@ import org.xembly.Xembler;
 /**
  * Unit tests for {@link MkNotification}.
  * @since 0.40
- * @checkstyle MagicNumberCheck (500 lines)
  */
 final class MkNotificationTest {
+
     @Test
     void returnsNumber() {
         MatcherAssert.assertThat(

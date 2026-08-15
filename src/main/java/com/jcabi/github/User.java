@@ -11,8 +11,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -20,11 +19,9 @@ import lombok.ToString;
  * GitHub user.
  * @see <a href="https://developer.github.com/v3/users/">User API</a>
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount",
-    "PMD.GodClass" })
+@SuppressWarnings("PMD.TooManyMethods")
 public interface User extends JsonReadable, JsonPatchable {
 
     /**
@@ -62,7 +59,7 @@ public interface User extends JsonReadable, JsonPatchable {
      * Notifications for this user.
      * Wraps the call "List your notifications". See "List your notifications"
      * at https://developer.github.com/v3/activity/notifications/
-     * @return Notifications for this user.
+     * @return Notifications for this user
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#list-your-notifications">List your notifications</a>
@@ -72,12 +69,12 @@ public interface User extends JsonReadable, JsonPatchable {
     /**
      * Marks notifications as read.
      * @param lastread Describes the last point that notifications were
-     *  checked.
+     *  checked
      * @throws IOException Thrown, if an error during sending request and/or
      *  receiving response occurs.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-as-read">Mark as read</a>
      */
-    void markAsRead(Date lastread) throws IOException;
+    void markAsRead(Instant lastread) throws IOException;
 
     /**
      * Smart user with extra features.
@@ -89,6 +86,7 @@ public interface User extends JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "user", "jsn" })
     final class Smart implements User {
+
         /**
          * Encapsulated user.
          */
@@ -122,9 +120,7 @@ public interface User extends JsonReadable, JsonPatchable {
          * Get his ID.
          * @return Unique user ID
          * @throws IOException If it fails
-         * @checkstyle MethodName (3 lines)
          */
-        @SuppressWarnings("PMD.ShortMethodName")
         public int id() throws IOException {
             return this.user.json().getJsonNumber("id").intValue();
         }
@@ -166,7 +162,6 @@ public interface User extends JsonReadable, JsonPatchable {
             if (!json.containsKey(key) || json.isNull(key)) {
                 throw new IllegalStateException(
                     String.format(
-                        // @checkstyle LineLength (1 line)
                         "User %s doesn't have a name specified in his/her GitHub account; use #hasName() first.",
                         this.login()
                     )
@@ -244,7 +239,7 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void markAsRead(final Date lastread) throws IOException {
+        public void markAsRead(final Instant lastread) throws IOException {
             this.user.markAsRead(lastread);
         }
 
@@ -254,15 +249,13 @@ public interface User extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.user.patch(json);
         }
 
         /**
          * Returns the value of html_url property of User's JSON.
-         * @return The 'html_url' property value.
+         * @return The 'html_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String htmlUrl() throws IOException {
@@ -271,7 +264,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of followers_url property of User's JSON.
-         * @return The 'followers_url' property value.
+         * @return The 'followers_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String followersUrl() throws IOException {
@@ -280,7 +273,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of following_url property of User's JSON.
-         * @return The 'following_url' property value.
+         * @return The 'following_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String followingUrl() throws IOException {
@@ -289,7 +282,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of gists_url property of User's JSON.
-         * @return The 'gists_url' property value.
+         * @return The 'gists_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String gistsUrl() throws IOException {
@@ -298,7 +291,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of starred_url property of User's JSON.
-         * @return The 'starred_url' property value.
+         * @return The 'starred_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String starredUrl() throws IOException {
@@ -307,7 +300,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of subscriptions_url property of User's JSON.
-         * @return The 'subscriptions_url' property value.
+         * @return The 'subscriptions_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String subscriptionsUrl() throws IOException {
@@ -316,7 +309,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of organizations_url property of User's JSON.
-         * @return The 'organizations_url' property value.
+         * @return The 'organizations_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String organizationsUrl() throws IOException {
@@ -325,7 +318,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of repos_url property of User's JSON.
-         * @return The 'repos_url' property value.
+         * @return The 'repos_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String reposUrl() throws IOException {
@@ -334,7 +327,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of events_url property of User's JSON.
-         * @return The 'events_url' property value.
+         * @return The 'events_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String eventsUrl() throws IOException {
@@ -343,7 +336,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of received_events_url property of User's JSON.
-         * @return The 'received_events_url' property value.
+         * @return The 'received_events_url' property value
          * @throws IOException If any I/O error occurs.
          */
         public String receivedEventsUrl() throws IOException {
@@ -352,7 +345,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of type property of User's JSON.
-         * @return The 'type' property value.
+         * @return The 'type' property value
          * @throws IOException If any I/O error occurs.
          */
         public String type() throws IOException {
@@ -361,7 +354,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of site_admin property of User's JSON.
-         * @return The 'site_admin' property value.
+         * @return The 'site_admin' property value
          * @throws IOException If any I/O error occurs.
          */
         public boolean siteAdmin() throws IOException {
@@ -370,7 +363,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of blog property of User's JSON.
-         * @return The 'blog' property value.
+         * @return The 'blog' property value
          * @throws IOException If any I/O error occurs.
          */
         public String blog() throws IOException {
@@ -379,7 +372,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of hireable property of User's JSON.
-         * @return The 'hireable' property value.
+         * @return The 'hireable' property value
          * @throws IOException If any I/O error occurs.
          */
         public boolean hireable() throws IOException {
@@ -388,7 +381,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of bio property of User's JSON.
-         * @return The 'bio' property value.
+         * @return The 'bio' property value
          * @throws IOException If any I/O error occurs.
          */
         public String bio() throws IOException {
@@ -397,7 +390,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of public_repos property of User's JSON.
-         * @return The 'public_repos' property value.
+         * @return The 'public_repos' property value
          * @throws IOException If any I/O error occurs.
          */
         public int publicRepos() throws IOException {
@@ -406,7 +399,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of public_gists property of User's JSON.
-         * @return The 'public_gists' property value.
+         * @return The 'public_gists' property value
          * @throws IOException If any I/O error occurs.
          */
         public int publicGists() throws IOException {
@@ -415,7 +408,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of followers property of User's JSON.
-         * @return The 'followers' property value.
+         * @return The 'followers' property value
          * @throws IOException If any I/O error occurs.
          */
         public int followersCount() throws IOException {
@@ -424,7 +417,7 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of following property of User's JSON.
-         * @return The 'following' property value.
+         * @return The 'following' property value
          * @throws IOException If any I/O error occurs.
          */
         public int followingCount() throws IOException {
@@ -433,34 +426,20 @@ public interface User extends JsonReadable, JsonPatchable {
 
         /**
          * Returns the value of created_at property of User's JSON.
-         * @return The 'created_at' property value.
+         * @return The 'created_at' property value
          * @throws IOException If any I/O error occurs.
          */
         public GitHub.Time created() throws IOException {
-            try {
-                return new GitHub.Time(this.jsn.text("created_at"));
-            } catch (final ParseException ex) {
-                throw new IllegalArgumentException(
-                    "Cannot parse value of 'created_at' property",
-                    ex
-                );
-            }
+            return new GitHub.Time(this.jsn.text("created_at"));
         }
 
         /**
          * Returns the value of updated_at property of User's JSON.
-         * @return The 'updated_at' property value.
+         * @return The 'updated_at' property value
          * @throws IOException If any I/O error occurs.
          */
         public GitHub.Time updated() throws IOException {
-            try {
-                return new GitHub.Time(this.jsn.text("updated_at"));
-            } catch (final ParseException ex) {
-                throw new IllegalArgumentException(
-                    "Cannot parse value of 'updated_at' property",
-                    ex
-                );
-            }
+            return new GitHub.Time(this.jsn.text("updated_at"));
         }
     }
 }

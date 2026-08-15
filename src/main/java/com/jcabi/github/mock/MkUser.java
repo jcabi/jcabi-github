@@ -16,19 +16,16 @@ import com.jcabi.xml.XML;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.ToString;
 
 /**
  * GitHub user.
- *
  * @since 0.5
- * @checkstyle ClassDataAbstractionCouplingCheck (8 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@SuppressWarnings("PMD.TooManyMethods")
 final class MkUser implements User {
 
     /**
@@ -97,12 +94,12 @@ final class MkUser implements User {
     }
 
     @Override
-    public void markAsRead(final Date lastread) throws IOException {
+    public void markAsRead(final Instant lastread) throws IOException {
         final Iterable<XML> ids = this.storage.xml().nodes(
             this.xpath().concat(
                 String.format(
                     "/notifications/notification[date <= %s]/id",
-                    lastread.getTime()
+                    lastread.toEpochMilli()
                 )
             )
         );
@@ -123,9 +120,7 @@ final class MkUser implements User {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -165,5 +160,4 @@ final class MkUser implements User {
     private String xpath() {
         return String.format("/github/users/user[login='%s']", this.self);
     }
-
 }

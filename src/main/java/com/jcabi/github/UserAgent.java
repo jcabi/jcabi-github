@@ -8,6 +8,7 @@ package com.jcabi.github;
  * User agent data.
  * @since 0.37
  */
+@FunctionalInterface
 interface UserAgent {
 
     /**

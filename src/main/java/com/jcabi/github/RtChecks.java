@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 /**
  * GitHub Checks.
- *
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
  */
@@ -47,33 +46,33 @@ class RtChecks implements Checks {
     @Override
     public Collection<? extends Check> all() throws IOException {
         final Coordinates coords = this.pull.repo().coordinates();
-        final RestResponse rest = this.request.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/commits")
-            .path(this.pull.head().sha())
-            .path("/check-runs")
-            .back()
-            .method(Request.GET).fetch()
-            .as(RestResponse.class)
-            .assertStatus(HttpURLConnection.HTTP_OK);
-        final JsonObject object = rest.as(JsonResponse.class)
-            .json()
-            .readObject();
-        return Optional.ofNullable(object.getJsonArray("check_runs"))
-            .map(
-                obj -> obj.stream()
-                    .map(RtChecks::check)
-                    .collect(Collectors.toList())
+        return Optional.ofNullable(
+            this.request.uri()
+                .path("/repos")
+                .path(coords.user())
+                .path(coords.repo())
+                .path("/commits")
+                .path(this.pull.head().sha())
+                .path("/check-runs")
+                .back()
+                .method(Request.GET).fetch()
+                .as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_OK)
+                .as(JsonResponse.class)
+                .json()
+                .readObject().getJsonArray("check_runs")
+        ).map(
+            obj -> obj.stream()
+                .map(RtChecks::check)
+                .collect(Collectors.toList())
             )
             .orElseGet(Collections::emptyList);
     }
 
     /**
      * Get check by id.
-     * @param value Json value.
-     * @return Check.
+     * @param value Json value
+     * @return Check
      */
     private static RtCheck check(final JsonValue value) {
         final JsonObject check = value.asJsonObject();
@@ -85,9 +84,9 @@ class RtChecks implements Checks {
 
     /**
      * Retrieves String value from JsonObject by key or return "undefined".
-     * @param key Json key.
+     * @param key Json key
      * @param check Retrieve from
-     * @return Json String value or "undefined".
+     * @return Json String value or "undefined"
      */
     private static String getOrUndefined(
         final String key,

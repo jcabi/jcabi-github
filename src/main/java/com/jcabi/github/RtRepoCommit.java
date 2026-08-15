@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repo commit.
- *
  * @since 0.8
  */
 @Immutable
@@ -42,18 +41,24 @@ final class RtRepoCommit implements RepoCommit {
      * @param repo Owner of this commit
      * @param sha Number of the get
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtRepoCommit(final Request req, final Repo repo, final String sha) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/commits")
-            .path(sha)
-            .back();
-        this.owner = repo;
-        this.hash = sha;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/commits")
+                .path(sha)
+                .back(),
+            sha,
+            repo
+        );
+    }
+
+    private RtRepoCommit(final Request request, final String hash, final Repo owner) {
+        this.request = request;
+        this.hash = hash;
+        this.owner = owner;
     }
 
     @Override
@@ -77,9 +82,7 @@ final class RtRepoCommit implements RepoCommit {
     }
 
     @Override
-    public int compareTo(
-        final RepoCommit commit
-    ) {
+    public int compareTo(final RepoCommit commit) {
         return this.sha().compareTo(commit.sha());
     }
 }

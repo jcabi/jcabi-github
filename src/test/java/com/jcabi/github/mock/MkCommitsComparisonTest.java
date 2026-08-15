@@ -22,7 +22,7 @@ final class MkCommitsComparisonTest {
      * @throws IOException if some problem inside
      */
     @Test
-    void getRepo() throws IOException {
+    void fetchesRepo() throws IOException {
         final String user = "test_user";
         MatcherAssert.assertThat(
             "Value is null",
@@ -34,42 +34,53 @@ final class MkCommitsComparisonTest {
     }
 
     @Test
-    void canGetJson() throws IOException {
+    void fetchesStatus() throws IOException {
         MatcherAssert.assertThat(
-            "Value is null",
-            new MkCommitsComparison(
-                new MkStorage.InFile(), "test1", new Coordinates.Simple(
-                    "test_user1", "test_repo1"
-                )
-            ).json().getString("status"),
-            Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            "Value is null",
-            new MkCommitsComparison(
-                new MkStorage.InFile(), "test2", new Coordinates.Simple(
-                    "test_user2", "test_repo2"
-                )
-            ).json().getInt("ahead_by"),
+            "Status is absent",
+            MkCommitsComparisonTest.comparison().json().getString("status"),
             Matchers.notNullValue()
         );
     }
 
     @Test
-    void canGetJsonWithCommits() throws IOException {
-        final CommitsComparison cmp = new MkCommitsComparison(
-            new MkStorage.InFile(), "test-9",
-            new Coordinates.Simple("test_user_A", "test_repo_B")
+    void fetchesAheadBy() throws IOException {
+        MatcherAssert.assertThat(
+            "Number of commits ahead is absent",
+            MkCommitsComparisonTest.comparison().json().getInt("ahead_by"),
+            Matchers.notNullValue()
         );
+    }
+
+    @Test
+    void fetchesCommits() throws IOException {
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            new CommitsComparison.Smart(cmp).commits(),
+            new CommitsComparison.Smart(
+                MkCommitsComparisonTest.comparison()
+            ).commits(),
             Matchers.iterableWithSize(0)
         );
+    }
+
+    @Test
+    void fetchesCommitsInJson() throws IOException {
         MatcherAssert.assertThat(
-            "Value is null",
-            cmp.json().getJsonArray("commits"),
+            "Commits are absent",
+            MkCommitsComparisonTest.comparison().json()
+                .getJsonArray("commits"),
             Matchers.notNullValue()
+        );
+    }
+
+    /**
+     * Comparison of two commits.
+     * @return Comparison
+     * @throws IOException if some problem inside
+     */
+    private static CommitsComparison comparison() throws IOException {
+        return new MkCommitsComparison(
+            new MkStorage.InFile(), "test-9",
+            new Coordinates.Simple("test_user_A", "test_repo_B")
         );
     }
 }

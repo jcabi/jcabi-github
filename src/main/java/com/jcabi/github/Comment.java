@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
+import java.time.Instant;
 import java.util.Collection;
-import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -36,10 +35,8 @@ import lombok.ToString;
  *
  * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Comment
     extends Comparable<Comment>, JsonReadable, JsonPatchable {
 
@@ -64,14 +61,14 @@ public interface Comment
 
     /**
      * Adds the reaction to the comment.
-     * @param reaction Reaction to be added.
+     * @param reaction Reaction to be added
      * @throws IOException In case something goes wrong.
      */
     void react(Reaction reaction) throws IOException;
 
     /**
      * List the reactions of the comment.
-     * @return Comment reactions.
+     * @return Comment reactions
      */
     Iterable<Reaction> reactions();
 
@@ -84,6 +81,7 @@ public interface Comment
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "comment", "jsn" })
     final class Smart implements Comment {
+
         /**
          * Encapsulated comment.
          */
@@ -152,14 +150,10 @@ public interface Comment
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IOException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -167,14 +161,10 @@ public interface Comment
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        public Date updatedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("updated_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IOException(ex);
-            }
+        public Instant updatedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("updated_at")
+            ).date();
         }
 
         @Override
@@ -219,5 +209,4 @@ public interface Comment
             return this.comment.compareTo(obj);
         }
     }
-
 }

@@ -19,15 +19,14 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub pull requests.
- *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkPulls implements Pulls {
+
     /**
      * The separator between the username and
      * the branch name in the base/head parameters
@@ -62,17 +61,13 @@ final class MkPulls implements Pulls {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkPulls.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkPulls(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("pulls")
-        );
     }
 
     @Override
@@ -149,5 +144,25 @@ final class MkPulls implements Pulls {
             "/github/repos/repo[@coords='%s']/pulls",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("pulls")
+        );
+        return stg;
     }
 }

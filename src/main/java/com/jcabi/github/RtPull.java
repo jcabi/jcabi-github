@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -19,14 +18,11 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub pull request.
- *
  * @since 0.3
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.TooManyMethods")
 final class RtPull implements Pull {
 
     /**
@@ -55,19 +51,26 @@ final class RtPull implements Pull {
      * @param repo Repository
      * @param number Number of the get
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtPull(final Request req, final Repo repo, final int number) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/pulls")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/pulls")
+                .path(Integer.toString(number))
+                .back(),
+            repo,
+            number
+        );
+    }
+
+    private RtPull(final Request entry, final Request request, final Repo owner, final int num) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
+        this.num = num;
     }
 
     @Override
@@ -106,31 +109,29 @@ final class RtPull implements Pull {
     }
 
     @Override
-    public void merge(
-        final String msg)
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("commit_message", msg)
-            .build();
-        this.merge(json).assertStatus(HttpURLConnection.HTTP_OK);
+    public void merge(final String msg) throws IOException {
+        this.merge(
+            Json.createObjectBuilder()
+                .add("commit_message", msg)
+                .build()
+        ).assertStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
     public MergeState merge(
         final String msg,
-        final String sha)
-        throws IOException {
-        final JsonObjectBuilder builder = Json.createObjectBuilder()
-            .add("commit_message", msg).add("sha", sha);
-        final RestResponse response = this.merge(builder.build())
-            .assertStatus(
-                Matchers.is(
-                    Matchers.oneOf(
-                        HttpURLConnection.HTTP_OK,
-                        HttpURLConnection.HTTP_BAD_METHOD,
-                        HttpURLConnection.HTTP_CONFLICT
-                    )
+        final String sha) throws IOException {
+        final RestResponse response = this.merge(
+            Json.createObjectBuilder()
+                .add("commit_message", msg).add("sha", sha).build()
+        ).assertStatus(
+            Matchers.is(
+                Matchers.oneOf(
+                    HttpURLConnection.HTTP_OK,
+                    HttpURLConnection.HTTP_BAD_METHOD,
+                    HttpURLConnection.HTTP_CONFLICT
                 )
+            )
             );
         final MergeState state;
         switch (response.status()) {
@@ -184,9 +185,7 @@ final class RtPull implements Pull {
     }
 
     @Override
-    public int compareTo(
-        final Pull pull
-    ) {
+    public int compareTo(final Pull pull) {
         return this.number() - pull.number();
     }
 
@@ -196,8 +195,7 @@ final class RtPull implements Pull {
      * @return Response received from GitHub
      * @throws IOException If there is any I/O problem
      */
-    private RestResponse merge(final JsonStructure payload)
-        throws IOException {
+    private RestResponse merge(final JsonStructure payload) throws IOException {
         return this.request.uri()
             .path("/merge").back()
             .body().set(payload).back()
@@ -205,5 +203,4 @@ final class RtPull implements Pull {
             .fetch()
             .as(RestResponse.class);
     }
-
 }

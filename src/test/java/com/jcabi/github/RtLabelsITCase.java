@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link Labels}.
  * @since 0.6
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtLabelsITCase {
+
     /**
      * Test repos.
      */
@@ -50,9 +50,8 @@ final class RtLabelsITCase {
 
     @Test
     void listsLabels() throws IOException {
-        final Labels labels = RtLabelsITCase.repo.labels();
         final Iterable<Label.Smart> list =
-            new Smarts<>(labels.iterate());
+            new Smarts<>(RtLabelsITCase.repo.labels().iterate());
         for (final Label.Smart label : list) {
             MatcherAssert.assertThat(
                 "Values are not equal",
@@ -64,15 +63,22 @@ final class RtLabelsITCase {
 
     @Test
     void createsNewLabel() throws IOException {
-        final Labels labels = RtLabelsITCase.repo.labels();
-        final Label label = new Labels.Smart(labels).createOrGet("test-3");
         MatcherAssert.assertThat(
-            "Value is null",
-            new Label.Smart(label).color(),
+            "Created label has no color",
+            new Label.Smart(
+                new Labels.Smart(RtLabelsITCase.repo.labels())
+                    .createOrGet("test-3")
+            ).color(),
             Matchers.notNullValue()
         );
+    }
+
+    @Test
+    void iteratesCreatedLabels() throws IOException {
+        final Labels labels = RtLabelsITCase.repo.labels();
+        new Labels.Smart(labels).createOrGet("test-4");
         MatcherAssert.assertThat(
-            "Collection is not empty",
+            "Created label is not iterated",
             labels.iterate(),
             Matchers.not(Matchers.emptyIterable())
         );

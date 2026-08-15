@@ -22,12 +22,11 @@ final class MkUserEmailsTest {
     void canAddEmails() throws IOException {
         final UserEmails emails = new MkGitHub().users().add("john").emails();
         final String email = "john@nowhere.com";
-        final Iterable<String> added = emails.add(
-            Collections.singleton(email)
-        );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            added,
+            emails.add(
+                Collections.singleton(email)
+            ),
             Matchers.allOf(
                 Matchers.iterableWithSize(1),
                 Matchers.hasItems(email)
@@ -86,5 +85,4 @@ final class MkUserEmailsTest {
             Matchers.is(email)
         );
     }
-
 }

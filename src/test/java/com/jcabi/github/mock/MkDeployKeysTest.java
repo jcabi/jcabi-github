@@ -16,12 +16,12 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 final class MkDeployKeysTest {
+
     @Test
     void canFetchEmptyListOfDeployKeys() throws IOException {
-        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         MatcherAssert.assertThat(
             "Collection is not empty",
-            keys.iterate(),
+            new MkGitHub().randomRepo().keys().iterate(),
             Matchers.emptyIterable()
         );
     }
@@ -55,17 +55,24 @@ final class MkDeployKeysTest {
     @Test
     void canCreateDistinctDeployKeys() throws IOException {
         final DeployKeys keys = new MkGitHub().randomRepo().keys();
-        final DeployKey first = keys.create("Title2", "Key2");
-        final DeployKey second = keys.create("Title3", "Key3");
         MatcherAssert.assertThat(
-            "Values are not equal",
-            first,
-            Matchers.not(Matchers.is(second))
+            "Deploy keys are not distinct",
+            keys.create("Title2", "Key2"),
+            Matchers.not(Matchers.is(keys.create("Title3", "Key3")))
         );
+    }
+
+    /**
+     * MkDeployKeys can number deploy keys distinctly.
+     * Reproduces bug described in issue #346.
+     */
+    @Test
+    void canNumberDeployKeysDistinctly() throws IOException {
+        final DeployKeys keys = new MkGitHub().randomRepo().keys();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            first.number(),
-            Matchers.not(Matchers.is(second.number()))
+            "Deploy keys have equal numbers",
+            keys.create("Title2", "Key2").number(),
+            Matchers.not(Matchers.is(keys.create("Title3", "Key3").number()))
         );
     }
 
@@ -75,11 +82,10 @@ final class MkDeployKeysTest {
      */
     @Test
     void canRepresentAsJson() throws IOException {
-        final DeployKeys keys = new MkGitHub().randomRepo().keys();
-        final DeployKey first = keys.create("Title4", "Key4");
         MatcherAssert.assertThat(
             "String does not contain expected value",
-            first.json().toString(),
+            new MkGitHub().randomRepo().keys()
+                .create("Title4", "Key4").json().toString(),
             Matchers.allOf(
                 Matchers.containsString("\"title\":\"Title4\""),
                 Matchers.containsString("\"key\":\"Key4\"")

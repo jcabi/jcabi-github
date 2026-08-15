@@ -10,21 +10,18 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub comments.
- *
  * @since 0.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtComments implements Comments {
 
     /**
@@ -48,17 +45,24 @@ final class RtComments implements Comments {
      * @param issue Issue
      */
     RtComments(final Request req, final Issue issue) {
-        this.entry = req;
-        final Coordinates coords = issue.repo().coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path(Integer.toString(issue.number()))
-            .path("/comments")
-            .back();
-        this.owner = issue;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(issue.repo().coordinates().user())
+                .path(issue.repo().coordinates().repo())
+                .path("/issues")
+                .path(Integer.toString(issue.number()))
+                .path("/comments")
+                .back(),
+            issue
+        );
+    }
+
+    private RtComments(final Request entry, final Request request, final Issue owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -78,23 +82,23 @@ final class RtComments implements Comments {
 
     @Override
     public Comment post(final String text) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("body", text)
-            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("body", text)
+                        .build()
+                ).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
-                // @checkstyle MultipleStringLiterals (1 line)
                 .json().readObject().getJsonNumber("id").longValue()
         );
     }
 
     @Override
-    public Iterable<Comment> iterate(final Date since) {
+    public Iterable<Comment> iterate(final Instant since) {
         return new RtPagination<>(
             this.request.uri()
                 .queryParam("since", new GitHub.Time(since))
@@ -102,5 +106,4 @@ final class RtComments implements Comments {
             object -> this.get(object.getJsonNumber("id").longValue())
         );
     }
-
 }

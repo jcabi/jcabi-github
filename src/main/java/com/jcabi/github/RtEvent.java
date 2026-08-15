@@ -13,14 +13,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub event.
- *
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtEvent implements Event {
 
     /**
@@ -45,17 +42,24 @@ final class RtEvent implements Event {
      * @param number Number of the get
      */
     RtEvent(final Request req, final Repo repo, final int number) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/events")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/issues")
+                .path("/events")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            repo
+        );
+    }
+
+    private RtEvent(final Request request, final int num, final Repo owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -79,10 +83,7 @@ final class RtEvent implements Event {
     }
 
     @Override
-    public int compareTo(
-        final Event event
-    ) {
+    public int compareTo(final Event event) {
         return this.number() - event.number();
     }
-
 }

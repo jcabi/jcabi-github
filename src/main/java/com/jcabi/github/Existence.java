@@ -25,7 +25,7 @@ final class Existence {
 
     /**
      * Ctor.
-     * @param rdbl Checked object.
+     * @param rdbl Checked object
      */
     Existence(final JsonReadable rdbl) {
         this.readable = rdbl;
@@ -33,10 +33,10 @@ final class Existence {
 
     /**
      * Check existence.
-     * @return True if exists, false otherwise.
+     * @return True if exists, false otherwise
      * @throws IOException If there is a networking problem.
      */
-    public boolean check() throws IOException {
+    boolean check() throws IOException {
         boolean exists = true;
         try {
             this.readable.json();
@@ -46,5 +46,4 @@ final class Existence {
         }
         return exists;
     }
-
 }

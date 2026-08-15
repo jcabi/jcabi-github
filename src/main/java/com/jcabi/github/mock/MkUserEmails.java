@@ -15,14 +15,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub User Emails.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkUserEmails implements UserEmails {
 
     /**
@@ -47,15 +45,13 @@ final class MkUserEmails implements UserEmails {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkUserEmails(
-        final MkStorage stg,
-        final String login
-    ) throws IOException {
+    MkUserEmails(final MkStorage stg, final String login) throws IOException {
+        this(login, MkUserEmails.bootstrap(stg, login));
+    }
+
+    private MkUserEmails(final String login, final MkStorage stg) {
         this.storage = stg;
         this.self = login;
-        this.storage.apply(
-            new Directives().xpath(this.userXpath()).addIf("emails")
-        );
     }
 
     @Override
@@ -92,9 +88,7 @@ final class MkUserEmails implements UserEmails {
     }
 
     @Override
-    public void remove(
-        final Iterable<String> emails
-    ) throws IOException {
+    public void remove(final Iterable<String> emails) throws IOException {
         final Directives directives = new Directives();
         for (final String email : emails) {
             directives.xpath(
@@ -106,10 +100,11 @@ final class MkUserEmails implements UserEmails {
 
     /**
      * XPath of user element in XML tree.
+     * @param login User login
      * @return XPath
      */
-    private String userXpath() {
-        return String.format("/github/users/user[login='%s']", this.self);
+    private static String userXpath(final String login) {
+        return String.format("/github/users/user[login='%s']", login);
     }
 
     /**
@@ -117,6 +112,20 @@ final class MkUserEmails implements UserEmails {
      * @return XPath
      */
     private String xpath() {
-        return String.format("%s/emails", this.userXpath());
+        return String.format("%s/emails", MkUserEmails.userXpath(this.self));
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param login String
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final String login) throws IOException {
+        stg.apply(
+            new Directives().xpath(MkUserEmails.userXpath(login)).addIf("emails")
+        );
+        return stg;
     }
 }

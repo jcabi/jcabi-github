@@ -18,10 +18,8 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
  * GitHub label.
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
@@ -46,6 +44,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "label", "jsn" })
     final class Smart implements Label {
+
         /**
          * Encapsulated label.
          */
@@ -120,6 +119,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "repo", "obj" })
     final class Unmodified implements Label {
+
         /**
          * Encapsulated Repo.
          */
@@ -135,9 +135,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
          * @param rep Repo
          * @param object String
          */
-        public Unmodified(
-            final Repo rep, final String object
-        ) {
+        public Unmodified(final Repo rep, final String object) {
             this.repo = rep;
             this.obj = object;
         }

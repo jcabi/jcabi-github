@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -19,16 +20,10 @@ import org.junit.jupiter.api.Test;
 @OAuthScope(OAuthScope.Scope.ADMIN_REPO_HOOK)
 final class RtHooksITCase {
 
-    /**
-     * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
-    public final transient RepoRule rule = new RepoRule();
-
     @Test
     void canFetchAllHooks() throws IOException {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             RtHooksITCase.createHook(repo);
             MatcherAssert.assertThat(
@@ -43,7 +38,7 @@ final class RtHooksITCase {
     @Test
     void canCreateAHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             MatcherAssert.assertThat(
                 "Value is null",
@@ -57,7 +52,7 @@ final class RtHooksITCase {
     @Test
     void canFetchSingleHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             final int number = RtHooksITCase.createHook(repo).number();
             MatcherAssert.assertThat(
@@ -73,7 +68,7 @@ final class RtHooksITCase {
     @Test
     void canRemoveHook() throws IOException {
         final Repos repos = RtHooksITCase.repos();
-        final Repo repo = this.rule.repo(repos);
+        final Repo repo = new RepoRule().repo(repos);
         try {
             final Hook hook = RtHooksITCase.createHook(repo);
             repo.hooks().remove(hook.number());
@@ -101,7 +96,7 @@ final class RtHooksITCase {
      * @throws IOException If there is any I/O problem
      */
     private static Hook createHook(final Repo repo) throws IOException {
-        final ConcurrentHashMap<String, String> config =
+        final Map<String, String> config =
             new ConcurrentHashMap<>();
         config.put(
             "url",

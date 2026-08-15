@@ -10,20 +10,17 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub comment.
- *
  * @since 0.1
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtComment implements Comment {
 
     /**
@@ -53,17 +50,24 @@ final class RtComment implements Comment {
      * @param number Number of the get
      */
     RtComment(final Request req, final Issue issue, final long number) {
-        final Coordinates coords = issue.repo().coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path("/comments")
-            .path(Long.toString(number))
-            .back();
-        this.owner = issue;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(issue.repo().coordinates().user())
+                .path(issue.repo().coordinates().repo())
+                .path("/issues")
+                .path("/comments")
+                .path(Long.toString(number))
+                .back(),
+            number,
+            issue
+        );
+    }
+
+    private RtComment(final Request request, final long num, final Issue owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -99,19 +103,18 @@ final class RtComment implements Comment {
     }
 
     @Override
-    public int compareTo(
-        final Comment comment
-    ) {
+    public int compareTo(final Comment comment) {
         return Long.compare(this.number(), comment.number());
     }
 
     @Override
     public void react(final Reaction reaction) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add(RtComment.CONTENT, reaction.type())
-            .build();
         this.request.method(Request.POST)
-            .body().set(json).back()
+            .body().set(
+                Json.createObjectBuilder()
+                    .add(RtComment.CONTENT, reaction.type())
+                    .build()
+            ).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }

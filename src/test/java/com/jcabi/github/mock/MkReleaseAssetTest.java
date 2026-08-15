@@ -19,10 +19,18 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkReleaseAsset}.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkReleaseAssetTest {
+
+    /**
+     * Name of the JSON attribute with the name of an asset.
+     */
+    private static final String NAME = "name";
+
+    /**
+     * Amount of assets to upload.
+     */
+    private static final int LIMIT = 3;
 
     /**
      * MkReleaseAsset can fetch its own Release.
@@ -44,11 +52,25 @@ final class MkReleaseAssetTest {
      */
     @Test
     void fetchesNumber() throws Exception {
-        final Release rel = MkReleaseAssetTest.release();
         MatcherAssert.assertThat(
             "Values are not equal",
-            rel.assets().get(1).number(),
+            MkReleaseAssetTest.release().assets().get(1).number(),
             Matchers.is(1)
+        );
+    }
+
+    /**
+     * MkReleaseAsset can be removed.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    void uploadsAsset() throws Exception {
+        final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
+        MkReleaseAssetTest.uploaded(assets);
+        MatcherAssert.assertThat(
+            "Collection size is incorrect",
+            assets.iterate(),
+            Matchers.iterableWithSize(1)
         );
     }
 
@@ -59,19 +81,28 @@ final class MkReleaseAssetTest {
     @Test
     void removesAsset() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
-        final ReleaseAsset asset = assets.upload(
-            "testRemove".getBytes(), "text/plain", "remove.txt"
-        );
-        MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            assets.iterate(),
-            Matchers.iterableWithSize(1)
-        );
-        asset.remove();
+        MkReleaseAssetTest.uploaded(assets).remove();
         MatcherAssert.assertThat(
             "Collection is not empty",
             assets.iterate(),
             Matchers.emptyIterable()
+        );
+    }
+
+    /**
+     * MkReleaseAsset can be uploaded several times.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    void uploadsSeveralAssets() throws Exception {
+        final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
+        for (int idx = 0; idx < MkReleaseAssetTest.LIMIT; ++idx) {
+            MkReleaseAssetTest.uploaded(assets);
+        }
+        MatcherAssert.assertThat(
+            "Collection size is incorrect",
+            assets.iterate(),
+            Matchers.iterableWithSize(MkReleaseAssetTest.LIMIT)
         );
     }
 
@@ -82,21 +113,13 @@ final class MkReleaseAssetTest {
     @Test
     void removesSeveralAssets() throws Exception {
         final ReleaseAssets assets = MkReleaseAssetTest.release().assets();
-        // @checkstyle MagicNumberCheck (1 line)
-        final int limit = 3;
-        final ReleaseAsset[] bodies = new ReleaseAsset[limit];
-        for (int idx = 0; idx < limit; ++idx) {
-            bodies[idx] = assets.upload(
-                "testRemove".getBytes(), "text/plain", "remove.txt"
-            );
+        final ReleaseAsset[] bodies =
+            new ReleaseAsset[MkReleaseAssetTest.LIMIT];
+        for (int idx = 0; idx < MkReleaseAssetTest.LIMIT; ++idx) {
+            bodies[idx] = MkReleaseAssetTest.uploaded(assets);
         }
-        MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            assets.iterate(),
-            Matchers.iterableWithSize(limit)
-        );
-        for (int idx = 0; idx < limit; ++idx) {
-            bodies[idx].remove();
+        for (final ReleaseAsset body : bodies) {
+            body.remove();
         }
         MatcherAssert.assertThat(
             "Collection is not empty",
@@ -111,20 +134,27 @@ final class MkReleaseAssetTest {
      */
     @Test
     void canRepresentAsJson() throws Exception {
-        final String name = "json.txt";
-        final String type = "text/plain";
-        final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
-            "testJson".getBytes(), type, name
-        );
         MatcherAssert.assertThat(
-            "Values are not equal",
-            asset.json().getString("content_type"),
-            Matchers.is(type)
+            "Asset has a wrong content type",
+            MkReleaseAssetTest.uploaded(
+                MkReleaseAssetTest.release().assets()
+            ).json().getString("content_type"),
+            Matchers.is("text/plain")
         );
+    }
+
+    /**
+     * MkReleaseAsset can show its own name in JSON format.
+     * @throws Exception If a problem occurs.
+     */
+    @Test
+    void showsNameInJson() throws Exception {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            asset.json().getString("name"),
-            Matchers.is(name)
+            "Asset has a wrong name",
+            MkReleaseAssetTest.uploaded(
+                MkReleaseAssetTest.release().assets()
+            ).json().getString(MkReleaseAssetTest.NAME),
+            Matchers.is("remove.txt")
         );
     }
 
@@ -134,23 +164,18 @@ final class MkReleaseAssetTest {
      */
     @Test
     void canPatchJson() throws Exception {
-        final String orig = "orig.txt";
-        final ReleaseAsset asset = MkReleaseAssetTest.release().assets().upload(
-            "testPatch".getBytes(), "text/plain", orig
-        );
-        final String attribute = "name";
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            asset.json().getString(attribute),
-            Matchers.is(orig)
+        final ReleaseAsset asset = MkReleaseAssetTest.uploaded(
+            MkReleaseAssetTest.release().assets()
         );
         final String patched = "patched.txt";
         asset.patch(
-            Json.createObjectBuilder().add(attribute, patched).build()
+            Json.createObjectBuilder()
+                .add(MkReleaseAssetTest.NAME, patched)
+                .build()
         );
         MatcherAssert.assertThat(
-            "Values are not equal",
-            asset.json().getString(attribute),
+            "Asset is not patched",
+            asset.json().getString(MkReleaseAssetTest.NAME),
             Matchers.is(patched)
         );
     }
@@ -162,16 +187,19 @@ final class MkReleaseAssetTest {
     @Test
     void fetchesRawRepresentation() throws IOException {
         final String test = "This is a test asset.";
-        final ReleaseAsset asset = new MkGitHub().randomRepo().releases()
-            .create("v1.0")
-            .assets()
-            .upload(test.getBytes(), "type", "name");
         MatcherAssert.assertThat(
             "Values are not equal",
             new String(
                 DatatypeConverter.parseBase64Binary(
-                    IOUtils.toString(asset.raw(), StandardCharsets.UTF_8)
-                )
+                    IOUtils.toString(
+                        new MkGitHub().randomRepo().releases()
+                            .create("v1.0")
+                            .assets()
+                            .upload(test.getBytes(StandardCharsets.UTF_8), "type", "name").raw(),
+                        StandardCharsets.UTF_8
+                    )
+                ),
+                StandardCharsets.UTF_8
             ),
             Matchers.is(test)
         );
@@ -180,8 +208,24 @@ final class MkReleaseAssetTest {
     /**
      * Create a Release to work with.
      * @return Repo
+     * @throws IOException If a problem occurs.
      */
     private static Release release() throws IOException {
         return new MkGitHub().randomRepo().releases().create("v1.0");
+    }
+
+    /**
+     * Upload an asset to the given collection.
+     * @param assets Collection to upload to
+     * @return Uploaded asset
+     * @throws IOException If a problem occurs.
+     */
+    private static ReleaseAsset uploaded(final ReleaseAssets assets)
+        throws IOException {
+        return assets.upload(
+            "testRemove".getBytes(StandardCharsets.UTF_8),
+            "text/plain",
+            "remove.txt"
+        );
     }
 }

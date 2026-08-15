@@ -7,9 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -19,7 +19,6 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface IssueLabels {
 
     /**
@@ -75,6 +74,7 @@ public interface IssueLabels {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "labels")
     final class Smart implements IssueLabels {
+
         /**
          * Encapsulated labels.
          */
@@ -123,7 +123,6 @@ public interface IssueLabels {
             if (label == null) {
                 throw new IllegalArgumentException(
                     String.format(
-                        // @checkstyle LineLength (1 line)
                         "label '%s' not found among %d others, use #contains() first",
                         name, count
                     )
@@ -192,7 +191,7 @@ public interface IssueLabels {
          */
         public Collection<Label> findByColor(final String color)
             throws IOException {
-            final Collection<Label> found = new LinkedList<>();
+            final Collection<Label> found = new ArrayList<>(0);
             for (final Label label : this.labels.iterate()) {
                 if (new Label.Smart(label).color().equals(color)) {
                     found.add(label);
@@ -208,8 +207,7 @@ public interface IssueLabels {
          * @throws IOException If there is any I/O problem
          * @since 0.7
          */
-        public boolean removeIfExists(final String name)
-            throws IOException {
+        public boolean removeIfExists(final String name) throws IOException {
             boolean removed = false;
             for (final Label label : this.labels.iterate()) {
                 if (label.name().equals(name)) {

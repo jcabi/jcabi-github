@@ -19,9 +19,14 @@ import lombok.ToString;
  * @since 0.24
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface FileChange extends JsonReadable {
+
+    /**
+     * Status of the file in the commit.
+     * @since 0.24
+     */
     enum Status implements StringEnum {
+
         /**
          * File was added.
          */
@@ -46,7 +51,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Ctor.
-         * @param stat File status string.
+         * @param stat File status string
          */
         Status(final String stat) {
             this.status = stat;
@@ -76,8 +81,8 @@ public interface FileChange extends JsonReadable {
     @ToString
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = { "change", "jsn" })
-    @SuppressWarnings("PMD.TooManyMethods")
     final class Smart implements FileChange {
+
         /**
          * Encapsulated file change.
          */

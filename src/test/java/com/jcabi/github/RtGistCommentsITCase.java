@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.GIST)
 final class RtGistCommentsITCase {
+
     /**
      * RtGistComments can create a comment.
      * @throws Exception if some problem inside
@@ -40,7 +41,7 @@ final class RtGistCommentsITCase {
      * @throws Exception if some problem inside
      */
     @Test
-    void getComment() throws Exception {
+    void fetchesComment() throws Exception {
         final Gist gist = RtGistCommentsITCase.gist();
         final GistComments comments = gist.comments();
         final GistComment comment = comments.post("test comment");
@@ -78,9 +79,8 @@ final class RtGistCommentsITCase {
     private static Gist gist() throws IOException {
         return GitHubIT
             .connect()
-            .gists()
-            .create(
-                Collections.singletonMap("file.txt",  "file content"), false
+            .gists().create(
+                Collections.singletonMap("file.txt", "file content"), false
             );
     }
 }

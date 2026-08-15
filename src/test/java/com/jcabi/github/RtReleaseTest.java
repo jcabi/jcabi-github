@@ -8,7 +8,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -17,8 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -29,89 +26,99 @@ import org.mockito.Mockito;
  */
 @ExtendWith(RandomPort.class)
 final class RtReleaseTest {
+
     /**
      * An empty JSON string.
      */
     private static final String EMPTY_JSON = "{}";
 
-    /**
-     * A mock container used in test to mimic the GitHub server.
-     */
-    private transient MkContainer container;
-
-    /**
-     * Setting up the test fixture.
-     */
-    @BeforeEach
-    void setUp() {
-        this.container = new MkGrizzlyContainer();
-    }
-
-    /**
-     * Tear down the test fixture to return to the original state.
-     */
-    @AfterEach
-    void tearDown() {
-        this.container.stop();
+    @Test
+    void editsReleaseThroughPatch() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtReleaseTest.EMPTY_JSON
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReleaseTest.release(container.home()).patch(
+                Json.createObjectBuilder().add("tag_name", "v1.0.0").build()
+            );
+            MatcherAssert.assertThat(
+                "Release is not edited through PATCH",
+                container.take().method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+        }
     }
 
     @Test
-    void editRelease() throws IOException {
-        this.container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
-        ).start(RandomPort.port());
-        final RtRelease release = RtReleaseTest.release(this.container.home());
+    void sendsEditedRelease() throws IOException {
         final JsonObject json = Json.createObjectBuilder()
             .add("tag_name", "v1.0.0")
             .build();
-        release.patch(json);
-        final MkQuery query = this.container.take();
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            query.method(),
-            Matchers.equalTo(Request.PATCH)
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            query.body(),
-            Matchers.equalTo(json.toString())
-        );
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtReleaseTest.EMPTY_JSON
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReleaseTest.release(container.home()).patch(json);
+            MatcherAssert.assertThat(
+                "Edited release is not sent",
+                container.take().body(),
+                Matchers.equalTo(json.toString())
+            );
+        }
     }
 
     @Test
-    void deleteRelease() throws IOException {
-        this.container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, RtReleaseTest.EMPTY_JSON)
-        ).start(RandomPort.port());
-        final RtRelease release = RtReleaseTest.release(this.container.home());
-        release.delete();
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            this.container.take().method(),
-            Matchers.equalTo(Request.DELETE)
-        );
+    void deletesRelease() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_NO_CONTENT,
+                    RtReleaseTest.EMPTY_JSON
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReleaseTest.release(container.home()).delete();
+            MatcherAssert.assertThat(
+                "Release is not deleted through DELETE",
+                container.take().method(),
+                Matchers.equalTo(Request.DELETE)
+            );
+        }
     }
 
     @Test
-    void executePatchRequest() throws IOException {
-        this.container.next(
-            new MkAnswer.Simple(HttpURLConnection.HTTP_OK, RtReleaseTest.EMPTY_JSON)
-        ).start(RandomPort.port());
-        final RtRelease release = RtReleaseTest.release(this.container.home());
-        release.patch(Json.createObjectBuilder().add("name", "v1")
-            .build()
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            this.container.take().method(),
-            Matchers.equalTo(Request.PATCH)
-        );
+    void executesPatchRequest() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    RtReleaseTest.EMPTY_JSON
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReleaseTest.release(container.home()).patch(
+                Json.createObjectBuilder().add("name", "v1").build()
+            );
+            MatcherAssert.assertThat(
+                "Request is not sent through PATCH",
+                container.take().method(),
+                Matchers.equalTo(Request.PATCH)
+            );
+        }
     }
 
     /**
      * Create a test release.
-     * @param uri REST API entry point.
-     * @return A test release.
+     * @param uri REST API entry point
+     * @return A test release
      */
     private static RtRelease release(final URI uri) {
         final Repo repo = Mockito.mock(Repo.class);
@@ -125,5 +132,4 @@ final class RtReleaseTest {
             2
         );
     }
-
 }

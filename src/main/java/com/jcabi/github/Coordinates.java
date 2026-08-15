@@ -37,6 +37,7 @@ public interface Coordinates extends Comparable<Coordinates> {
      */
     @Immutable
     final class Simple implements Coordinates {
+
         /**
          * User name.
          */
@@ -49,16 +50,6 @@ public interface Coordinates extends Comparable<Coordinates> {
 
         /**
          * Public ctor.
-         * @param user User name
-         * @param repo Repository name
-         */
-        public Simple(final String user, final String repo) {
-            this.usr = user;
-            this.rpo = repo;
-        }
-
-        /**
-         * Public ctor.
          * @param mnemo Mnemo name
          */
         public Simple(final String mnemo) {
@@ -66,6 +57,16 @@ public interface Coordinates extends Comparable<Coordinates> {
                 Coordinates.Simple.parse(mnemo)[0],
                 Coordinates.Simple.parse(mnemo)[1]
             );
+        }
+
+        /**
+         * Public ctor.
+         * @param user User name
+         * @param repo Repository name
+         */
+        public Simple(final String user, final String repo) {
+            this.usr = user;
+            this.rpo = repo;
         }
 
         @Override
@@ -188,8 +189,7 @@ public interface Coordinates extends Comparable<Coordinates> {
             } else if (obj == null || this.getClass() != obj.getClass()) {
                 result = false;
             } else {
-                final Coordinates.Https other = (Coordinates.Https) obj;
-                result = this.url.equals(other.url);
+                result = this.url.equals(((Coordinates.Https) obj).url);
             }
             return result;
         }
@@ -201,7 +201,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
         /**
          * Split URL.
-         * @return Array of repo coordinates.
+         * @return Array of repo coordinates
          */
         private String[] split() {
             if (!this.url.startsWith(Coordinates.Https.DOMAIN)) {

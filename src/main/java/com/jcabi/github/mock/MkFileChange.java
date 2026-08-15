@@ -18,6 +18,7 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "jsn")
 @ToString
 public final class MkFileChange implements FileChange {
+
     /**
      * Encapsulated file change JSON object.
      */
@@ -27,9 +28,7 @@ public final class MkFileChange implements FileChange {
      * Public ctor.
      * @param obj File change JSON object
      */
-    public MkFileChange(
-        final JsonObject obj
-    ) {
+    public MkFileChange(final JsonObject obj) {
         this.jsn = obj;
     }
 

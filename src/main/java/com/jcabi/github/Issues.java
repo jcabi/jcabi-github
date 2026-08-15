@@ -6,7 +6,6 @@ package com.jcabi.github;
 
 import com.jcabi.aspects.Immutable;
 import java.io.IOException;
-import java.util.EnumMap;
 import java.util.Map;
 
 /**
@@ -60,9 +59,14 @@ public interface Issues {
      */
     Iterable<Issue> search(
         Issues.Sort sort, Search.Order direction,
-        EnumMap<Issues.Qualifier, String> qualifiers);
+        Map<Issues.Qualifier, String> qualifiers);
 
+    /**
+     * Search qualifier.
+     * @since 0.22
+     */
     enum Qualifier implements StringEnum {
+
         /**
          * Filter issues based on which milestone they are assigned to.
          * "none" means no assigned milestone. "*" means any milestone.
@@ -116,7 +120,12 @@ public interface Issues {
         }
     }
 
+    /**
+     * Sorting order of found issues.
+     * @since 0.22
+     */
     enum Sort implements StringEnum {
+
         /**
          * Issue creation timestamp.
          */

@@ -43,11 +43,7 @@ final class MkDeployKey implements DeployKey {
      * @param number Id
      * @param repo Repository
      */
-    MkDeployKey(
-        final MkStorage stg,
-        final int number,
-        final Repo repo
-    ) {
+    MkDeployKey(final MkStorage stg, final int number, final Repo repo) {
         this.storage = stg;
         this.key = number;
         this.owner = repo;
@@ -73,9 +69,7 @@ final class MkDeployKey implements DeployKey {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -114,5 +108,4 @@ final class MkDeployKey implements DeployKey {
             this.key
         );
     }
-
 }

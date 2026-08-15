@@ -10,7 +10,6 @@ import java.util.Arrays;
  * Runtime Reaction.
  * @since 1.0
  */
-@SuppressWarnings("PMD.BeanMembersShouldSerialize")
 public final class RtReaction implements Reaction {
 
     /**
@@ -20,7 +19,7 @@ public final class RtReaction implements Reaction {
 
     /**
      * Constructor.
-     * @param reaction Decorated reaction.
+     * @param reaction Decorated reaction
      */
     public RtReaction(final Reaction reaction) {
         this.origin = reaction;

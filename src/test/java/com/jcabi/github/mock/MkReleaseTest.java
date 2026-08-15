@@ -19,8 +19,8 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MkRelease}.
  * @since 0.1
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class MkReleaseTest {
+
     @Test
     void canDeleteRelease() throws IOException {
         final Releases releases = MkReleaseTest.releases();
@@ -40,10 +40,9 @@ final class MkReleaseTest {
     @Test
     void canGetUrl() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.url().toString(),
+            new Release.Smart(release).url().toString(),
             Matchers.equalTo(MkReleaseTest.value(release, "url"))
         );
     }
@@ -55,10 +54,9 @@ final class MkReleaseTest {
     @Test
     void canGetAssetsUrl() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.assetsUrl().toString(),
+            new Release.Smart(release).assetsUrl().toString(),
             Matchers.equalTo(MkReleaseTest.value(release, "assets_url"))
         );
     }
@@ -70,10 +68,9 @@ final class MkReleaseTest {
     @Test
     void canGetHtmlUrl() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.htmlUrl().toString(),
+            new Release.Smart(release).htmlUrl().toString(),
             Matchers.equalTo(MkReleaseTest.value(release, "html_url"))
         );
     }
@@ -85,10 +82,9 @@ final class MkReleaseTest {
     @Test
     void canGetUploadUrl() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.uploadUrl().toString(),
+            new Release.Smart(release).uploadUrl().toString(),
             Matchers.equalTo(MkReleaseTest.value(release, "upload_url"))
         );
     }
@@ -100,10 +96,9 @@ final class MkReleaseTest {
     @Test
     void canGetTag() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.tag(),
+            new Release.Smart(release).tag(),
             Matchers.equalTo(MkReleaseTest.value(release, "tag_name"))
         );
     }
@@ -115,10 +110,9 @@ final class MkReleaseTest {
     @Test
     void canGetCommitish() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.commitish(),
+            new Release.Smart(release).commitish(),
             Matchers.equalTo(MkReleaseTest.value(release, "target_commitish"))
         );
     }
@@ -130,10 +124,9 @@ final class MkReleaseTest {
     @Test
     void canGetName() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.name(),
+            new Release.Smart(release).name(),
             Matchers.equalTo(MkReleaseTest.value(release, "name"))
         );
     }
@@ -145,10 +138,9 @@ final class MkReleaseTest {
     @Test
     void canGetBody() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.body(),
+            new Release.Smart(release).body(),
             Matchers.equalTo(MkReleaseTest.value(release, "body"))
         );
     }
@@ -160,12 +152,12 @@ final class MkReleaseTest {
     @Test
     void canGetCreatedAt() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.createdAt(),
-            Matchers.equalTo(new GitHub.Time(MkReleaseTest.value(release, "created_at"))
-                .date()
+            new Release.Smart(release).createdAt(),
+            Matchers.equalTo(
+                new GitHub.Time(MkReleaseTest.value(release, "created_at"))
+                    .date()
             )
         );
     }
@@ -194,10 +186,9 @@ final class MkReleaseTest {
     @Test
     void canGetPublishedAt() throws Exception {
         final Release release = MkReleaseTest.release();
-        final Release.Smart smart = new Release.Smart(release);
         MatcherAssert.assertThat(
             "Values are not equal",
-            smart.publishedAt(),
+            new Release.Smart(release).publishedAt(),
             Matchers.equalTo(
                 new GitHub.Time(MkReleaseTest.value(release, "published_at")).date()
             )
@@ -231,7 +222,7 @@ final class MkReleaseTest {
 
     /**
      * Creates a Releases instance set to work with.
-     * @return A test Releases instance.
+     * @return A test Releases instance
      * @throws IOException if any I/O problems occur.
      */
     private static Releases releases() throws IOException {

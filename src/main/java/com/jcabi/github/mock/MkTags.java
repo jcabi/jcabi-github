@@ -20,12 +20,10 @@ import org.xembly.Directives;
 /**
  * Mock of GitHub Tags.
  * @since 0.15
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkTags implements Tags {
 
     /**
@@ -45,9 +43,9 @@ final class MkTags implements Tags {
 
     /**
      * Public constructor.
-     * @param stg The storage.
-     * @param login The login name.
-     * @param rep Repo's coordinates.
+     * @param stg The storage
+     * @param login The login name
+     * @param rep Repo's coordinates
      * @throws IOException If something goes wrong.
      */
     MkTags(
@@ -55,17 +53,13 @@ final class MkTags implements Tags {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkTags.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkTags(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/git",
-                    this.coords
-                )
-            ).addIf("tags")
-        );
     }
 
     @Override
@@ -74,18 +68,14 @@ final class MkTags implements Tags {
     }
 
     @Override
-    public Tag create(
-        final JsonObject params
-    ) throws IOException {
+    public Tag create(final JsonObject params) throws IOException {
         final Directives dirs = new Directives().xpath(this.xpath()).add("tag");
         for (final Map.Entry<String, JsonValue> entry : params.entrySet()) {
             dirs.add(entry.getKey()).set(entry.getValue().toString()).up();
         }
         this.storage.apply(dirs);
         new MkReferences(this.storage, this.self, this.coords).create(
-            new StringBuilder().append("refs/tags/").append(
-                params.getString("name")
-            ).toString(),
+            String.format("refs/tags/%s", params.getString("name")),
             params.getString("sha")
         );
         return this.get(params.getString("sha"));
@@ -107,4 +97,23 @@ final class MkTags implements Tags {
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    rep
+                )
+            ).addIf("tags")
+        );
+        return stg;
+    }
 }

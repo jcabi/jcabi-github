@@ -16,8 +16,8 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link PullRef}.
  * @since 0.24
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class PullRefTest {
+
     /**
      * Test ref.
      */
@@ -25,7 +25,6 @@ final class PullRefTest {
 
     /**
      * Test commit SHA.
-     * @checkstyle LineLength (2 lines)
      */
     private static final String SHA = "7a1f68e743e8a81e158136c8661011fb55abd703";
 
@@ -88,21 +87,28 @@ final class PullRefTest {
     }
 
     /**
-     * PullRef.Smart can fetch its commit.
+     * PullRef.Smart can fetch the repo of its commit.
      * @throws IOException If there is an I/O problem.
      */
     @Test
-    void fetchesCommit() throws IOException {
+    void fetchesCommitRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Commit commit = PullRefTest.pullRef(repo).commit();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            commit.repo().coordinates(),
+            "Commit belongs to a wrong repo",
+            PullRefTest.pullRef(repo).commit().repo().coordinates(),
             Matchers.equalTo(repo.coordinates())
         );
+    }
+
+    /**
+     * PullRef.Smart can fetch the SHA of its commit.
+     * @throws IOException If there is an I/O problem.
+     */
+    @Test
+    void fetchesCommitSha() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            commit.sha(),
+            "Commit has a wrong SHA",
+            PullRefTest.pullRef(new MkGitHub().randomRepo()).commit().sha(),
             Matchers.equalTo(PullRefTest.SHA)
         );
     }
@@ -138,8 +144,7 @@ final class PullRefTest {
                     .add("label", PullRefTest.LABEL)
                     .add("ref", PullRefTest.REF)
                     .add("sha", PullRefTest.SHA)
-                    .add("user", user)
-                    .add(
+                    .add("user", user).add(
                         "repo",
                         Json.createObjectBuilder()
                             .add("name", coords.repo())

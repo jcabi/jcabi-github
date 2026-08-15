@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 /**
  * Repository statistics.
- *
  * @since 1.8.0
  */
 public final class RepositoryStatistics {
@@ -41,19 +40,17 @@ public final class RepositoryStatistics {
      */
     public Map<String, Object> toMap() throws IOException {
         final JsonObject json = this.repo.json();
-        return Arrays.stream(RepositoryStatistics.Key.values())
-            .collect(
-                Collectors.toMap(
-                    key -> key.key,
-                    key -> key.value(json)
-                )
+        return Arrays.stream(RepositoryStatistics.Key.values()).collect(
+            Collectors.toMap(
+                key -> key.key,
+                key -> key.value(json)
+            )
             );
     }
 
     /**
      * Keys of the JSON object returned by the GitHub API.
-     *
-             * @since 1.8.0
+     * @since 1.8.0
      */
     private enum Key {
 
@@ -117,7 +114,7 @@ public final class RepositoryStatistics {
 
         /**
          * Constructor.
-         * @param json The key of the JSON object returned by the GitHub API.
+         * @param json The key of the JSON object returned by the GitHub API
          */
         Key(final String json) {
             this.key = json;
@@ -125,16 +122,16 @@ public final class RepositoryStatistics {
 
         /**
          * Getter for the key.
-         * @return The key of the JSON object returned by the GitHub API.
+         * @return The key of the JSON object returned by the GitHub API
          */
-        public String getKey() {
+        String getKey() {
             return this.key;
         }
 
         /**
          * Extracts the JSON object returned by the GitHub to a map entry.
-         * @param object The JSON object returned by the GitHub API.
-         * @return The map entry.
+         * @param object The JSON object returned by the GitHub API
+         * @return The map entry
          */
         Object value(final JsonObject object) {
             if (!object.containsKey(this.key)) {
@@ -160,8 +157,7 @@ public final class RepositoryStatistics {
 
     /**
      * Smart RepositoryStatistics.
-     *
-             * @since 1.8.0
+     * @since 1.8.0
      */
     public static final class Smart {
 
@@ -172,7 +168,7 @@ public final class RepositoryStatistics {
 
         /**
          * Public ctor.
-         * @param repo Repository.
+         * @param repo Repository
          */
         public Smart(final Repo repo) {
             this(new RepositoryStatistics(repo));
@@ -180,7 +176,7 @@ public final class RepositoryStatistics {
 
         /**
          * Public ctor.
-         * @param statistics Repository statistics.
+         * @param statistics Repository statistics
          */
         public Smart(final RepositoryStatistics statistics) {
             this.stats = statistics;
@@ -242,8 +238,8 @@ public final class RepositoryStatistics {
 
         /**
          * Parses integer from JSON.
-         * @param key Json key.
-         * @return Integer value.
+         * @param key Json key
+         * @return Integer value
          * @throws IOException If there is any I/O problem
          */
         private int integer(final RepositoryStatistics.Key key) throws IOException {
@@ -254,8 +250,8 @@ public final class RepositoryStatistics {
 
         /**
          * Parses datetime from JSON.
-         * @param key Json key.
-         * @return Datetime value.
+         * @param key Json key
+         * @return Datetime value
          * @throws IOException If there is any I/O problem
          */
         private ZonedDateTime datetime(final RepositoryStatistics.Key key) throws IOException {

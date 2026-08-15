@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -22,7 +21,6 @@ import lombok.ToString;
  * GitHub release.
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -48,7 +46,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
     /**
      * Get all release assets of this release.
-     * @return Release assets.
+     * @return Release assets
      * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
      */
     ReleaseAssets assets();
@@ -77,9 +75,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * Public CTOR.
          * @param original Original release
          */
-        public Smart(
-            final Release original
-        ) {
+        public Smart(final Release original) {
             this.release = original;
             this.jsn = new SmartJson(original);
         }
@@ -90,9 +86,7 @@ public interface Release extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.release.patch(json);
         }
 
@@ -187,9 +181,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @param text Tag name
          * @throws IOException If there is any I/O problem
          */
-        public void tag(
-            final String text
-        ) throws IOException {
+        public void tag(final String text) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("tag_name", text).build()
             );
@@ -206,12 +198,10 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its target commitish.
-         * @param text Target commitish.
+         * @param text Target commitish
          * @throws IOException If there is any I/O problem
          */
-        public void commitish(
-            final String text
-        ) throws IOException {
+        public void commitish(final String text) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder()
                     .add("target_commitish", text)
@@ -240,12 +230,10 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its name.
-         * @param text Name of release.
+         * @param text Name of release
          * @throws IOException If there is any I/O problem
          */
-        public void name(
-            final String text
-        ) throws IOException {
+        public void name(final String text) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("name", text).build()
             );
@@ -280,9 +268,7 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @param text Text describing the contents of the tag
          * @throws IOException If there is any I/O problem
          */
-        public void body(
-            final String text
-        ) throws IOException {
+        public void body(final String text) throws IOException {
             this.release.patch(
                 Json.createObjectBuilder().add("body", text).build()
             );
@@ -293,13 +279,9 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release creation date
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(this.jsn.text("created_at"))
-                    .date();
-            } catch (final ParseException ex) {
-                throw new IOException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(this.jsn.text("created_at"))
+                .date();
         }
 
         /**
@@ -307,13 +289,9 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @return Release publication date
          * @throws IOException If there is any I/O problem
          */
-        public Date publishedAt() throws IOException {
-            try {
-                return new GitHub.Time(this.jsn.text("published_at"))
-                    .date();
-            } catch (final ParseException ex) {
-                throw new IOException(ex);
-            }
+        public Instant publishedAt() throws IOException {
+            return new GitHub.Time(this.jsn.text("published_at"))
+                .date();
         }
 
         /**
@@ -322,12 +300,12 @@ public interface Release extends JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          */
         public boolean draft() throws IOException {
-            return this.json().getBoolean("draft", Boolean.FALSE);
+            return this.json().getBoolean("draft", false);
         }
 
         /**
          * Change its status.
-         * @param draft True makes the release a draft.
+         * @param draft True makes the release a draft
          * @throws IOException If there is any I/O problem
          */
         public void draft(final boolean draft) throws IOException {
@@ -351,7 +329,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its prerelease.
-         * @param pre True to identify the release as a prerelease.
+         * @param pre True to identify the release as a prerelease
          * @throws IOException If there is any I/O problem
          */
         public void prerelease(final boolean pre) throws IOException {
@@ -364,7 +342,5 @@ public interface Release extends JsonReadable, JsonPatchable {
         public void delete() throws IOException {
             this.release.delete();
         }
-
     }
-
 }

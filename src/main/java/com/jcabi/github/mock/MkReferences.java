@@ -17,12 +17,10 @@ import org.xembly.Directives;
 /**
  * Mock of GitHub References.
  * @since 0.24
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkReferences implements References {
 
     /**
@@ -42,9 +40,9 @@ final class MkReferences implements References {
 
     /**
      * Public constructor.
-     * @param stg Storage.
-     * @param login Login name.
-     * @param rep Repo coordinates.
+     * @param stg Storage
+     * @param login Login name
+     * @param rep Repo coordinates
      * @throws IOException - If something goes wrong.
      */
     MkReferences(
@@ -52,17 +50,13 @@ final class MkReferences implements References {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkReferences.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkReferences(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/git",
-                    this.coords
-                )
-            ).addIf("refs")
-        );
     }
 
     @Override
@@ -84,9 +78,7 @@ final class MkReferences implements References {
     }
 
     @Override
-    public Reference get(
-        final String identifier
-    ) {
+    public Reference get(final String identifier) {
         return new MkReference(
             this.storage, this.self, this.coords, identifier
         );
@@ -104,9 +96,7 @@ final class MkReferences implements References {
     }
 
     @Override
-    public Iterable<Reference> iterate(
-        final String subnamespace
-    ) {
+    public Iterable<Reference> iterate(final String subnamespace) {
         return new MkIterable<>(
             this.storage,
             String.format(
@@ -130,9 +120,7 @@ final class MkReferences implements References {
     }
 
     @Override
-    public void remove(
-        final String identifier
-    ) throws IOException {
+    public void remove(final String identifier) throws IOException {
         this.storage.apply(
             new Directives().xpath(
                 String.format(
@@ -153,4 +141,23 @@ final class MkReferences implements References {
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    rep
+                )
+            ).addIf("refs")
+        );
+        return stg;
+    }
 }

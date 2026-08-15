@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link IssueLabels}.
  * @since 0.6
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtIssueLabelsITCase {
+
     /**
      * Test repos.
      */
@@ -75,5 +75,4 @@ final class RtIssueLabelsITCase {
     private static Issue issue() throws IOException {
         return RtIssueLabelsITCase.repo.issues().create("test issue title", "test issue body");
     }
-
 }

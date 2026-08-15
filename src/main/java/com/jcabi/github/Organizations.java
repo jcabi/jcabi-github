@@ -13,9 +13,10 @@ import com.jcabi.aspects.Immutable;
  */
 @Immutable
 public interface Organizations {
+
     /**
      * Get specific organization by name.
-     * @param login Login name of the organization.
+     * @param login Login name of the organization
      * @return Organization
      * @see <a href="https://developer.github.com/v3/orgs/#get-an-organization">Get a Single Organization</a>
      */

@@ -44,11 +44,10 @@ public final class MkCommit implements Commit {
 
     /**
      * Public constructor.
-     * @param strg The storage.
+     * @param strg The storage
      * @param login The login name
      * @param crds Credential
-     * @param commitsha Commit's sha.
-     * @checkstyle ParameterNumber (5 lines)
+     * @param commitsha Commit's sha
      */
     public MkCommit(
         final MkStorage strg,
@@ -86,7 +85,6 @@ public final class MkCommit implements Commit {
 
     /**
      * XPath of this element in XML tree.
-     *
      * @return XPath
      */
     private String xpath() {

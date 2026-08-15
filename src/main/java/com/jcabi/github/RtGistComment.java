@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
 final class RtGistComment implements GistComment {
+
     /**
      * RESTful request.
      */
@@ -43,14 +44,22 @@ final class RtGistComment implements GistComment {
      * @param number Number of the get
      */
     RtGistComment(final Request req, final Gist gist, final int number) {
-        this.request = req.uri()
-            .path("/gists")
-            .path(new Gist.Smart(gist).identifier())
-            .path("/comments")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = gist;
-        this.num = number;
+        this(
+            req.uri()
+                .path("/gists")
+                .path(new Gist.Smart(gist).identifier())
+                .path("/comments")
+                .path(Integer.toString(number))
+                .back(),
+            number,
+            gist
+        );
+    }
+
+    private RtGistComment(final Request request, final int num, final Gist owner) {
+        this.request = request;
+        this.num = num;
+        this.owner = owner;
     }
 
     @Override
@@ -76,16 +85,12 @@ final class RtGistComment implements GistComment {
     }
 
     @Override
-    public int compareTo(
-        final GistComment comment
-    ) {
+    public int compareTo(final GistComment comment) {
         return this.number() - comment.number();
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 

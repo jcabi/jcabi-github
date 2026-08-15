@@ -8,6 +8,7 @@ import com.jcabi.github.mock.MkGitHub;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -25,13 +26,12 @@ final class RtReleaseAssetsTest {
      */
     @Test
     void listReleaseAssets() throws Exception {
-        final ReleaseAssets assets = new RtReleaseAssets(
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
-                .withBody("[{\"id\":1}, {\"id\":2}]"), RtReleaseAssetsTest.release()
-        );
         MatcherAssert.assertThat(
             "Collection size is incorrect",
-            assets.iterate(),
+            new RtReleaseAssets(
+                new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
+                    .withBody("[{\"id\":1}, {\"id\":2}]"), RtReleaseAssetsTest.release()
+            ).iterate(),
             Matchers.iterableWithSize(2)
         );
     }
@@ -43,14 +43,13 @@ final class RtReleaseAssetsTest {
     @Test
     void uploadReleaseAsset() throws Exception {
         final String body = "{\"id\":1}";
-        final ReleaseAssets assets = new RtReleaseAssets(
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
-                .withBody(body),
-            RtReleaseAssetsTest.release()
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            assets.upload(body.getBytes(), "text/plain", "hello.txt")
+            new RtReleaseAssets(
+                new FakeRequest().withStatus(HttpURLConnection.HTTP_CREATED)
+                    .withBody(body),
+                RtReleaseAssetsTest.release()
+            ).upload(body.getBytes(StandardCharsets.UTF_8), "text/plain", "hello.txt")
                 .number(),
             Matchers.is(1)
         );
@@ -61,27 +60,25 @@ final class RtReleaseAssetsTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    void getReleaseAsset() throws Exception {
-        final ReleaseAssets assets = new RtReleaseAssets(
-            new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
-                .withBody("{\"id\":3}"),
-            RtReleaseAssetsTest.release()
-        );
+    void fetchesReleaseAsset() throws Exception {
         MatcherAssert.assertThat(
             "Values are not equal",
-            assets.get(3).number(),
+            new RtReleaseAssets(
+                new FakeRequest().withStatus(HttpURLConnection.HTTP_OK)
+                    .withBody("{\"id\":3}"),
+                RtReleaseAssetsTest.release()
+            ).get(3).number(),
             Matchers.is(3)
         );
     }
 
     /**
      * This method returns a Release for testing.
-     * @return Release to be used for test.
+     * @return Release to be used for test
      */
     private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
-        final Repo repo = new MkGitHub("john").randomRepo();
-        Mockito.doReturn(repo).when(release).repo();
+        Mockito.doReturn(new MkGitHub("john").randomRepo()).when(release).repo();
         Mockito.doReturn(1).when(release).number();
         return release;
     }

@@ -45,19 +45,14 @@ final class MkRepoCommit implements RepoCommit {
      * @param repo The repository
      * @param sha Commit SHA
      */
-    MkRepoCommit(
-        final MkStorage stg,
-        final Repo repo,
-        final String sha) {
+    MkRepoCommit(final MkStorage stg, final Repo repo, final String sha) {
         this.storage = stg;
         this.repository = repo;
         this.hash = sha;
     }
 
     @Override
-    public int compareTo(
-        final RepoCommit other
-    ) {
+    public int compareTo(final RepoCommit other) {
         return new CompareToBuilder().append(
             this.repo().coordinates(),
             other.repo().coordinates()
@@ -85,5 +80,4 @@ final class MkRepoCommit implements RepoCommit {
     public String sha() {
         return this.hash;
     }
-
 }

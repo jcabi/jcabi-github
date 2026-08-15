@@ -18,7 +18,6 @@ import lombok.EqualsAndHashCode;
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = {"request", "hash" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtBlob implements Blob {
 
     /**
@@ -37,20 +36,23 @@ final class RtBlob implements Blob {
      * @param repo Repository
      * @param sha Number of the get
      */
-    RtBlob(
-        final Request req,
-        final Repo repo,
-        final String sha) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/git")
-            .path("/blobs")
-            .path(sha)
-            .back();
-        this.hash = sha;
+    RtBlob(final Request req, final Repo repo, final String sha) {
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/git")
+                .path("/blobs")
+                .path(sha)
+                .back(),
+            sha
+        );
+    }
+
+    private RtBlob(final Request request, final String hash) {
+        this.request = request;
+        this.hash = hash;
     }
 
     @Override

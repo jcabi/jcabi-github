@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkAssignees}.
  * @since 0.7
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 final class MkAssigneesTest {
 

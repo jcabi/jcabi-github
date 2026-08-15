@@ -28,14 +28,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock GitHub issue.
- *
  * @since 0.5
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "storage", "self", "coords", "num" })
-@SuppressWarnings("PMD.TooManyMethods")
 final class MkIssue implements Issue {
 
     /**
@@ -64,7 +61,6 @@ final class MkIssue implements Issue {
      * @param login User to login
      * @param rep Repo
      * @param number Issue number
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkIssue(
         final MkStorage stg,
@@ -120,7 +116,6 @@ final class MkIssue implements Issue {
         return new MkIterable<>(
             this.storage,
             String.format(
-                // @checkstyle LineLength (1 line)
                 "/github/repos/repo[@coords='%s']/issue-events/issue-event[issue='%s']",
                 this.coords,
                 this.num
@@ -137,16 +132,12 @@ final class MkIssue implements Issue {
     }
 
     @Override
-    public int compareTo(
-        final Issue issue
-    ) {
+    public int compareTo(final Issue issue) {
         return this.number() - issue.number();
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         final Issue.Smart smart = new Issue.Smart(this);
         final boolean was = smart.isOpen();
         new JsonPatch(this.storage).patch(this.xpath(), json);
@@ -170,7 +161,7 @@ final class MkIssue implements Issue {
             xml.nodes(this.xpath()).get(0)
         ).json();
         final JsonObjectBuilder json = Json.createObjectBuilder();
-        for (final Map.Entry<String, JsonValue> val: obj.entrySet()) {
+        for (final Map.Entry<String, JsonValue> val : obj.entrySet()) {
             json.add(val.getKey(), val.getValue());
         }
         final JsonArrayBuilder array = Json.createArrayBuilder();
@@ -180,9 +171,7 @@ final class MkIssue implements Issue {
             );
         }
         final JsonObjectBuilder res = json
-            .add("labels", array)
-            .add(
-                // @checkstyle MultipleStringLiteralsCheck (1 line)
+            .add("labels", array).add(
                 "assignee",
                 Json.createObjectBuilder().add(
                     "login", obj.getString("assignee", "")
@@ -192,7 +181,6 @@ final class MkIssue implements Issue {
         final String html = "html_url";
         if (xml.nodes(
             String.format(
-                // @checkstyle LineLengthCheck (1 line)
                 "/github/repos/repo[@coords='%s']/pulls/pull/number[text() = '%d']",
                 this.coords,
                 this.num
@@ -254,6 +242,7 @@ final class MkIssue implements Issue {
      */
     private static class MkIssueEventMapping
         implements MkIterable.Mapping<Event> {
+
         /**
          * Issue events.
          */
@@ -264,9 +253,7 @@ final class MkIssue implements Issue {
          * @param issue Mock issue to get events from
          * @throws IOException If there is any I/O problem
          */
-        MkIssueEventMapping(
-            final MkIssue issue
-        ) throws IOException {
+        MkIssueEventMapping(final MkIssue issue) throws IOException {
             this.evts = new MkIssueEvents(
                 issue.storage,
                 issue.self,
@@ -275,9 +262,7 @@ final class MkIssue implements Issue {
         }
 
         @Override
-        public Event map(
-            final XML xml
-        ) {
+        public Event map(final XML xml) {
             return this.evts.get(
                 Integer.parseInt(xml.xpath("number/text()").get(0))
             );

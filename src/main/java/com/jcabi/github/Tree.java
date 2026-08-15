@@ -25,5 +25,4 @@ public interface Tree extends JsonReadable {
      * @return SHA
      */
     String sha();
-
 }

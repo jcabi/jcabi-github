@@ -8,7 +8,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.JdkRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -25,49 +24,68 @@ import org.mockito.Mockito;
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtLabelsTest {
+
     /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
+     * Name of the created label.
      */
+    private static final String NAME = "API";
+
+    /**
+     * Color of the created label.
+     */
+    private static final String COLOR = "FFFFFF";
+
     @Test
-    void createLabel() throws IOException {
-        final String name = "API";
-        final String color = "FFFFFF";
-        final String body = RtLabelsTest.label(name, color).toString();
+    void createsLabelWithPost() throws IOException {
         try (
-            MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, body)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body))
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtLabelsTest.answer())
                 .start(RandomPort.port())
         ) {
-            final RtLabels labels = new RtLabels(
-                new JdkRequest(container.home()),
-                RtLabelsTest.repo()
-            );
-            final Label label = labels.create(name, color);
+            RtLabelsTest.create(container);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Label is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Label.Smart(label).name(),
-                Matchers.equalTo(name)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                new Label.Smart(label).color(),
-                Matchers.equalTo(color)
-            );
-            container.stop();
         }
     }
 
     @Test
-    void getSingleLabel() throws IOException {
+    void createsLabelWithName() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtLabelsTest.answer())
+                .next(RtLabelsTest.fetched())
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Created label has a wrong name",
+                new Label.Smart(RtLabelsTest.create(container)).name(),
+                Matchers.equalTo(RtLabelsTest.NAME)
+            );
+        }
+    }
+
+    @Test
+    void createsLabelWithColor() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtLabelsTest.answer())
+                .next(RtLabelsTest.fetched())
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Created label has a wrong color",
+                new Label.Smart(RtLabelsTest.create(container)).color(),
+                Matchers.equalTo(RtLabelsTest.COLOR)
+            );
+        }
+    }
+
+    @Test
+    void fetchesSingleLabel() throws IOException {
         final String name = "bug";
         final String color = "f29513";
         try (
@@ -78,14 +96,14 @@ final class RtLabelsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtLabels issues = new RtLabels(
-                new JdkRequest(container.home()),
-                RtLabelsTest.repo()
-            );
-            final Label label = issues.get(name);
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new Label.Smart(label).color(),
+                new Label.Smart(
+                    new RtLabels(
+                        new JdkRequest(container.home()),
+                        RtLabelsTest.repo()
+                    ).get(name)
+                ).color(),
                 Matchers.equalTo(color)
             );
             container.stop();
@@ -93,29 +111,40 @@ final class RtLabelsTest {
     }
 
     @Test
-    void deleteLabel() throws IOException {
+    void deletesLabelWithDelete() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(RandomPort.port())
         ) {
-            final RtLabels issues = new RtLabels(
+            new RtLabels(
                 new JdkRequest(container.home()),
                 RtLabelsTest.repo()
-            );
-            issues.delete("issue");
-            final MkQuery query = container.take();
+            ).delete("issue");
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Label is not deleted with DELETE",
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
+        }
+    }
+
+    @Test
+    void deletesLabelWithoutBody() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            new RtLabels(
+                new JdkRequest(container.home()),
+                RtLabelsTest.repo()
+            ).delete("issue");
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
+                "Label is deleted with a body",
+                container.take().body(),
                 Matchers.is(Matchers.emptyOrNullString())
             );
-            container.stop();
         }
     }
 
@@ -132,17 +161,54 @@ final class RtLabelsTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtLabels labels = new RtLabels(
-                new JdkRequest(container.home()),
-                RtLabelsTest.repo()
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                labels.iterate(),
+                new RtLabels(
+                    new JdkRequest(container.home()),
+                    RtLabelsTest.repo()
+                ).iterate(),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
         }
+    }
+
+    /**
+     * Create a label through the given container.
+     * @param container Container to serve the labels
+     * @return Created label
+     * @throws IOException If there is any I/O problem
+     */
+    private static Label create(final MkContainer container)
+        throws IOException {
+        return new RtLabels(
+            new JdkRequest(container.home()),
+            RtLabelsTest.repo()
+        ).create(RtLabelsTest.NAME, RtLabelsTest.COLOR);
+    }
+
+    /**
+     * Answer with a created label.
+     * @return Answer
+     */
+    private static MkAnswer answer() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtLabelsTest.label(RtLabelsTest.NAME, RtLabelsTest.COLOR)
+                .toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched label.
+     * @return Answer
+     */
+    private static MkAnswer fetched() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtLabelsTest.label(RtLabelsTest.NAME, RtLabelsTest.COLOR)
+                .toString()
+        );
     }
 
     /**
@@ -151,8 +217,7 @@ final class RtLabelsTest {
      * @param color A 6 character hex code, identifying the color
      * @return JsonObject
      */
-    private static JsonObject label(
-        final String name, final String color) {
+    private static JsonObject label(final String name, final String color) {
         return Json.createObjectBuilder()
             .add("name", name)
             .add("color", color)

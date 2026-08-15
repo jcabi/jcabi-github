@@ -18,13 +18,11 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub gist.
- *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@SuppressWarnings("PMD.TooManyMethods")
 final class MkGist implements Gist {
 
     /**
@@ -52,13 +50,8 @@ final class MkGist implements Gist {
      * @param stg Storage
      * @param login User to login
      * @param name Gist name
-     * @checkstyle ParameterNumber (5 lines)
      */
-    MkGist(
-        final MkStorage stg,
-        final String login,
-        final String name
-    ) {
+    MkGist(final MkStorage stg, final String login, final String name) {
         this.storage = stg;
         this.self = login;
         this.gist = name;
@@ -75,9 +68,7 @@ final class MkGist implements Gist {
     }
 
     @Override
-    public String read(
-        final String file
-    ) throws IOException {
+    public String read(final String file) throws IOException {
         final List<XML> files = this.storage.xml().nodes(
             String.format(
                 "%s/files/file[filename='%s']",
@@ -102,10 +93,8 @@ final class MkGist implements Gist {
     public void write(
         final String file,
         final String content
-    )
-        throws IOException {
+    ) throws IOException {
         this.storage.apply(
-            // @checkstyle MultipleStringLiterals (3 lines)
             new Directives().xpath(this.xpath()).xpath(
                 String.format("files[not(file[filename='%s'])]", file)
             ).add("file").add("filename").set(file).up().add("raw_content")
@@ -165,7 +154,6 @@ final class MkGist implements Gist {
             );
             for (final XML file : files) {
                 final String filename = file.xpath("filename/text()").get(0);
-                // @checkstyle MultipleStringLiterals (3 lines)
                 dirs.add("file")
                     .add("filename").set(filename).up()
                     .add("raw_content").set(this.read(filename)).up().up();
@@ -190,9 +178,7 @@ final class MkGist implements Gist {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
@@ -230,5 +216,4 @@ final class MkGist implements Gist {
             this.gist
         );
     }
-
 }

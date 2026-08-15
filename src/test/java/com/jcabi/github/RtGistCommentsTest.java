@@ -28,10 +28,9 @@ final class RtGistCommentsTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
-    void getComment() throws IOException {
+    void fetchesComment() throws IOException {
         final String body = "Just commenting";
         try (
             MkContainer container = new MkGrizzlyContainer().next(
@@ -43,14 +42,14 @@ final class RtGistCommentsTest {
         ) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("1").when(gist).identifier();
-            final RtGistComments comments = new RtGistComments(
-                new JdkRequest(container.home()),
-                gist
-            );
-            final GistComment comment = comments.get(1);
             MatcherAssert.assertThat(
                 "Values are not equal",
-                new GistComment.Smart(comment).body(),
+                new GistComment.Smart(
+                    new RtGistComments(
+                        new JdkRequest(container.home()),
+                        gist
+                    ).get(1)
+                ).body(),
                 Matchers.equalTo(body)
             );
         }
@@ -58,61 +57,101 @@ final class RtGistCommentsTest {
 
     @Test
     void iterateComments() throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                Json.createArrayBuilder()
-                    .add(RtGistCommentsTest.comment("comment 1"))
-                    .add(RtGistCommentsTest.comment("comment 2"))
-                    .build().toString()
-            )
-        ).start(RandomPort.port())) {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    Json.createArrayBuilder()
+                        .add(RtGistCommentsTest.comment("comment 1"))
+                        .add(RtGistCommentsTest.comment("comment 2"))
+                        .build().toString()
+                )
+                ).start(RandomPort.port())
+        ) {
             final Gist gist = Mockito.mock(Gist.class);
             Mockito.doReturn("2").when(gist).identifier();
-            final RtGistComments comments = new RtGistComments(
-                new JdkRequest(container.home()),
-                gist
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                comments.iterate(),
+                new RtGistComments(
+                    new JdkRequest(container.home()),
+                    gist
+                ).iterate(),
                 Matchers.iterableWithSize(2)
             );
         }
     }
 
     @Test
-    void postComment() throws IOException {
+    void postsCommentWithPost() throws IOException {
         final String body = "new commenting";
-        final MkAnswer answer = new MkAnswer.Simple(
-            HttpURLConnection.HTTP_OK,
-            RtGistCommentsTest.comment(body).toString()
-        );
-        try (MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_CREATED,
-                RtGistCommentsTest.comment(body).toString()
-            )
-        ).next(answer).start(RandomPort.port())
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtGistCommentsTest.answer(body))
+                .start(RandomPort.port())
         ) {
-            final Gist gist = Mockito.mock(Gist.class);
-            Mockito.doReturn("3").when(gist).identifier();
-            final RtGistComments comments = new RtGistComments(
-                new JdkRequest(container.home()),
-                gist
-            );
-            final GistComment comment = comments.post(body);
+            RtGistCommentsTest.comments(container).post(body);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Comment is not posted with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
+        }
+    }
+
+    @Test
+    void postsCommentWithBody() throws IOException {
+        final String body = "new commenting";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtGistCommentsTest.answer(body))
+                .next(RtGistCommentsTest.fetched(body))
+                .start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Values are not equal",
-                new GistComment.Smart(comment).body(),
+                "Posted comment has a wrong body",
+                new GistComment.Smart(
+                    RtGistCommentsTest.comments(container).post(body)
+                ).body(),
                 Matchers.equalTo(body)
             );
         }
+    }
+
+    /**
+     * Comments served by the given container.
+     * @param container Container to serve the comments
+     * @return Comments
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtGistComments comments(final MkContainer container)
+        throws IOException {
+        final Gist gist = Mockito.mock(Gist.class);
+        Mockito.doReturn("3").when(gist).identifier();
+        return new RtGistComments(new JdkRequest(container.home()), gist);
+    }
+
+    /**
+     * Answer with a comment of the given body.
+     * @param body Body of the comment
+     * @return Answer
+     */
+    private static MkAnswer answer(final String body) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_CREATED,
+            RtGistCommentsTest.comment(body).toString()
+        );
+    }
+
+    /**
+     * Answer with a fetched comment of the given body.
+     * @param body Body of the comment
+     * @return Answer
+     */
+    private static MkAnswer fetched(final String body) {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            RtGistCommentsTest.comment(body).toString()
+        );
     }
 
     /**

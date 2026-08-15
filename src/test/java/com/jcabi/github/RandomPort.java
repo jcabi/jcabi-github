@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
  * @since 0.8
  */
 public class RandomPort implements InvocationInterceptor {
+
     @Override
     public final void interceptTestMethod(
         final Invocation<Void> invocation,
@@ -31,10 +32,8 @@ public class RandomPort implements InvocationInterceptor {
         } catch (final BindException ignored) {
             Logger.warn(
                 this,
-                String.format(
-                    "Test %s skipped due to no available ports",
-                    extension.getDisplayName()
-                )
+                "Test %s skipped due to no available ports",
+                extension.getDisplayName()
             );
             Assumptions.assumeTrue(false);
         }
@@ -44,7 +43,6 @@ public class RandomPort implements InvocationInterceptor {
      * Returns available port number.
      * @return Available port number
      * @throws IOException in case of IO error.
-     * @checkstyle NonStaticMethodCheck (5 lines)
      */
     @RetryOnFailure
     @SuppressWarnings("PMD.ProhibitPublicStaticMethods")

@@ -13,10 +13,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -33,14 +32,9 @@ import lombok.ToString;
  *
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
-@SuppressWarnings(
-    {
-        "PMD.TooManyMethods", "PMD.GodClass", "PMD.ExcessivePublicCount"
-    }
-)
+@SuppressWarnings("PMD.TooManyMethods")
 public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
@@ -96,14 +90,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Adds the reaction to the issue.
-     * @param reaction Reaction to be added.
+     * @param reaction Reaction to be added
      * @throws IOException If there is any I/O problem
      */
     void react(Reaction reaction) throws IOException;
 
     /**
      * List the reactions of the issue.
-     * @return Issue reactions.
+     * @return Issue reactions
      */
     Iterable<Reaction> reactions();
 
@@ -120,7 +114,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * The issue conversation is locked?
-     * @return If the issue is locked.
+     * @return If the issue is locked
      */
     boolean isLocked();
 
@@ -133,6 +127,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = {"issue", "jsn"})
     final class Smart implements Issue {
+
         /**
          * Encapsulated issue.
          */
@@ -332,14 +327,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -348,14 +339,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @throws IOException If there is any I/O problem
          * @since 0.34
          */
-        public Date closedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("closed_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant closedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("closed_at")
+            ).date();
         }
 
         /**
@@ -363,14 +350,10 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
-        public Date updatedAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("updated_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant updatedAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("updated_at")
+            ).date();
         }
 
         /**
@@ -455,16 +438,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 }
 
                 @Override
-                public void add(
-                    final Iterable<String> labels) {
+                public void add(final Iterable<String> labels) {
                     throw new UnsupportedOperationException(
                         "The issue is read-only."
                     );
                 }
 
                 @Override
-                public void replace(
-                    final Iterable<String> labels) {
+                public void replace(final Iterable<String> labels) {
                     throw new UnsupportedOperationException(
                         "The issue is read-only."
                     );
@@ -476,8 +457,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
                 }
 
                 @Override
-                public void remove(
-                    final String name) {
+                public void remove(final String name) {
                     throw new UnsupportedOperationException(
                         "This issue is read-only."
                     );
@@ -598,5 +578,4 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
             throw new UnsupportedOperationException("isLocked not implemented");
         }
     }
-
 }

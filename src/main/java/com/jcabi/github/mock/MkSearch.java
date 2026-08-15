@@ -13,14 +13,13 @@ import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
 import com.jcabi.github.User;
-import java.util.EnumMap;
+import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 /**
  * Mock GitHub search.
  * @since 0.8
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -40,14 +39,10 @@ final class MkSearch implements Search {
 
     /**
      * Public ctor.
-     *
      * @param stg Storage
      * @param login User to login
      */
-    MkSearch(
-        final MkStorage stg,
-        final String login
-    ) {
+    MkSearch(final MkStorage stg, final String login) {
         this.storage = stg;
         this.self = login;
     }
@@ -73,10 +68,9 @@ final class MkSearch implements Search {
         );
     }
 
-    //@checkstyle ParameterNumberCheck (5 lines)
     @Override
     public Iterable<Issue> issues(final String keywords, final String sort,
-        final Search.Order order, final EnumMap<Search.Qualifier, String> qualifiers
+        final Search.Order order, final Map<Search.Qualifier, String> qualifiers
     ) {
         return new MkIterable<>(
             this.storage,
@@ -125,5 +119,4 @@ final class MkSearch implements Search {
             )
         );
     }
-
 }

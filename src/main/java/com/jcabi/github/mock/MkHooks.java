@@ -25,7 +25,6 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkHooks implements Hooks {
 
     /**
@@ -65,17 +64,13 @@ final class MkHooks implements Hooks {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkHooks.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkHooks(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("hooks")
-        );
     }
 
     @Override
@@ -99,7 +94,6 @@ final class MkHooks implements Hooks {
         return new MkHook(this.storage, this.self, this.coords, number);
     }
 
-    // @checkstyle ParameterNumberCheck (2 lines)
     @Override
     public Hook create(
         final String name,
@@ -153,4 +147,23 @@ final class MkHooks implements Hooks {
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("hooks")
+        );
+        return stg;
+    }
 }

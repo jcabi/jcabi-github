@@ -9,6 +9,7 @@ package com.jcabi.github;
  * @since 1.0
  */
 public interface GitHubThread {
+
     /**
      * Marks this thread as read.
      * @see <a href="https://developer.github.com/v3/activity/notifications/#mark-a-thread-as-read">Mark a thread as read</a>
@@ -17,23 +18,22 @@ public interface GitHubThread {
 
     /**
      * Checks, if the current user is subscribed to this thread.
-     * @return Subscription data, if the user is subscribe, null otherwise.
+     * @return Subscription data, if the user is subscribe, null otherwise
      * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>
      */
     ThreadSubscription getSubscription();
 
     /**
      * Subscribes the user to the thread and/or makes the user ignore the
-     *  thread.
+     * thread
      * @param subscribe True, if notifications should be received from this
-     *  thread.
+     *  thread
      * @param ignore True, if all notifications should be blocked from this
-     *  thread.
-     * @return Data of the subscription.
+     *  thread
+     * @return Data of the subscription
      * @see <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
      */
-    ThreadSubscription setSubscription(boolean subscribe,
-        boolean ignore);
+    ThreadSubscription subscribe(boolean subscribe, boolean ignore);
 
     /**
      * Unsubscribes the user from this thread.

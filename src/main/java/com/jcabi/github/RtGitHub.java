@@ -39,24 +39,21 @@ import lombok.ToString;
  * <pre> GitHub github = new RtGitHub(
  *   new RtGitHub(oauthKey).entry().through(RetryWire.class)
  * );</pre>
+ *
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
- * @checkstyle MultipleStringLiteralsCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
-@SuppressWarnings("PMD.TooManyMethods")
 public final class RtGitHub implements GitHub {
 
     /**
      * Default request to start with.
      */
     private static final Request REQUEST =
-        new ApacheRequest("https://api.github.com")
-            .header(
-                HttpHeaders.USER_AGENT,
-                new FromProperties("jcabigithub.properties").format()
+        new ApacheRequest("https://api.github.com").header(
+            HttpHeaders.USER_AGENT,
+            new FromProperties("jcabigithub.properties").format()
             )
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
@@ -78,10 +75,10 @@ public final class RtGitHub implements GitHub {
     /**
      * Public ctor, for anonymous access to GitHub.<br><br>
      *
-     * Use this ctor when you want to access GitHub's API over a
+     * <p>Use this ctor when you want to access GitHub's API over a
      * custom domain, other than https//api.github.com.<br><br>
      *
-     * For instance, if you have your own instance of GitHub deployed
+     * <p>For instance, if you have your own instance of GitHub deployed
      * somewhere.
      *
      * <pre>
@@ -89,7 +86,8 @@ public final class RtGitHub implements GitHub {
      *         URI.create("https://github.mydomain.com")
      *     );
      * </pre>
-     * @param domain Your domain.
+     *
+     * @param domain Your domain
      */
     public RtGitHub(final URI domain) {
         this(RtGitHub.REQUEST.uri().set(domain).back());
@@ -119,10 +117,10 @@ public final class RtGitHub implements GitHub {
     /**
      * Public ctor, for HTTP Basic Authentication.
      *
-     * Use this ctor when you want to access GitHub's API over a
+     * <p>Use this ctor when you want to access GitHub's API over a
      * custom domain, other than https//api.github.com.<br><br>
      *
-     * For instance, if you have your own instance of GitHub deployed
+     * <p>For instance, if you have your own instance of GitHub deployed
      * somewhere.
      *
      * <pre>
@@ -131,22 +129,22 @@ public final class RtGitHub implements GitHub {
      *         URI.create("https://github.mydomain.com")
      *     );
      * </pre>
-     * @param user User's username.
-     * @param pwd User's password.
-     * @param domain Your custom domain.
+     *
+     * @param user User's username
+     * @param pwd User's password
+     * @param domain Your custom domain
      */
     public RtGitHub(final String user, final String pwd, final URI domain) {
         this(
-            RtGitHub.REQUEST.uri().set(domain).back()
-                .header(
-                    HttpHeaders.AUTHORIZATION,
-                    String.format(
-                        "Basic %s",
-                        DatatypeConverter.printBase64Binary(
-                            String.format("%s:%s", user, pwd)
-                                .getBytes(StandardCharsets.UTF_8)
-                        )
+            RtGitHub.REQUEST.uri().set(domain).back().header(
+                HttpHeaders.AUTHORIZATION,
+                String.format(
+                    "Basic %s",
+                    DatatypeConverter.printBase64Binary(
+                        String.format("%s:%s", user, pwd)
+                            .getBytes(StandardCharsets.UTF_8)
                     )
+                )
                 )
         );
     }
@@ -154,10 +152,10 @@ public final class RtGitHub implements GitHub {
     /**
      * Public ctor, for authentication with OAuth2 token.
      *
-     * Use this ctor when you want to access GitHub's API over a
+     * <p>Use this ctor when you want to access GitHub's API over a
      * custom domain, other than https//api.github.com.<br><br>
      *
-     * For instance, if you have your own instance of GitHub deployed
+     * <p>For instance, if you have your own instance of GitHub deployed
      * somewhere.
      *
      * <pre>
@@ -168,14 +166,13 @@ public final class RtGitHub implements GitHub {
      * </pre>
      *
      * @param token OAuth token
-     * @param domain Your custom domain.
+     * @param domain Your custom domain
      */
     public RtGitHub(final String token, final URI domain) {
         this(
-            RtGitHub.REQUEST.uri().set(domain).back()
-                .header(
-                    HttpHeaders.AUTHORIZATION,
-                    String.format("token %s", token)
+            RtGitHub.REQUEST.uri().set(domain).back().header(
+                HttpHeaders.AUTHORIZATION,
+                String.format("token %s", token)
                 )
         );
     }
@@ -269,8 +266,7 @@ public final class RtGitHub implements GitHub {
         } else if (obj == null || this.getClass() != obj.getClass()) {
             result = false;
         } else {
-            final RtGitHub other = (RtGitHub) obj;
-            result = this.request.equals(other.request);
+            result = this.request.equals(((RtGitHub) obj).request);
         }
         return result;
     }
@@ -279,5 +275,4 @@ public final class RtGitHub implements GitHub {
     public int hashCode() {
         return this.request.hashCode();
     }
-
 }

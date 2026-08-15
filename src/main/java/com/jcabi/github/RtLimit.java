@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub limit rate.
- *
  * @since 0.6
  */
 @Immutable

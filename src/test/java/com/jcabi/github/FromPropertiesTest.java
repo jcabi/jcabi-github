@@ -32,5 +32,4 @@ final class FromPropertiesTest {
             "Should throw when properties file is missing"
         );
     }
-
 }

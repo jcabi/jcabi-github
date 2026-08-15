@@ -20,6 +20,7 @@ import lombok.ToString;
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkBlob implements Blob {
+
     /**
      * Storage.
      */
@@ -41,10 +42,7 @@ final class MkBlob implements Blob {
      * @param sha Blob sha
      * @param repo Repo name
      */
-    MkBlob(
-        final MkStorage stg,
-        final String sha,
-        final Coordinates repo) {
+    MkBlob(final MkStorage stg, final String sha, final Coordinates repo) {
         this.storage = stg;
         this.hash = sha;
         this.coords = repo;
@@ -96,5 +94,4 @@ final class MkBlob implements Blob {
             this.coords, this.sha()
         );
     }
-
 }

@@ -36,5 +36,4 @@ final class RtGitTest {
             .when(repo).coordinates();
         return repo;
     }
-
 }

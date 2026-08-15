@@ -10,19 +10,15 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub issues.
- *
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -49,17 +45,23 @@ final class RtIssues implements Issues {
      * @param req Request
      * @param repo Repository
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtIssues(final Request req, final Repo repo) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .back();
-        this.owner = repo;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/issues")
+                .back(),
+            repo
+        );
+    }
+
+    private RtIssues(final Request entry, final Request request, final Repo owner) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
     }
 
     @Override
@@ -80,15 +82,15 @@ final class RtIssues implements Issues {
     @Override
     public Issue create(
         final String title,
-        final String body)
-        throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("title", title)
-            .add("body", body)
-            .build();
+        final String body) throws IOException {
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("title", title)
+                        .add("body", body)
+                        .build()
+                ).back()
                 .fetch().as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
                 .as(JsonResponse.class)
@@ -97,8 +99,7 @@ final class RtIssues implements Issues {
     }
 
     @Override
-    public Iterable<Issue> iterate(
-        final Map<String, String> params) {
+    public Iterable<Issue> iterate(final Map<String, String> params) {
         return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
             object -> this.get(object.getInt("number"))
@@ -106,13 +107,12 @@ final class RtIssues implements Issues {
     }
 
     @Override
-    @SuppressWarnings("PMD.UseConcurrentHashMap")
     public Iterable<Issue> search(
         final Issues.Sort sort,
         final Search.Order direction,
-        final EnumMap<Issues.Qualifier, String> qualifiers) {
+        final Map<Issues.Qualifier, String> qualifiers) {
         final Map<String, String> params = new HashMap<>();
-        for (final EnumMap.Entry<Issues.Qualifier, String> pair : qualifiers
+        for (final Map.Entry<Issues.Qualifier, String> pair : qualifiers
             .entrySet()) {
             params.put(pair.getKey().identifier(), pair.getValue());
         }

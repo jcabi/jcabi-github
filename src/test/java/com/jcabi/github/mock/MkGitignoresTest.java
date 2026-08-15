@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Gitignores;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -15,22 +14,21 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 final class MkGitignoresTest {
+
     @Test
     void canFetchSingleRawTemplate() throws IOException {
-        final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
             "String does not start with expected value",
-            gitignores.template("Java"),
+            new MkGitHub().gitignores().template("Java"),
             Matchers.startsWith("*.class")
         );
     }
 
     @Test
     void canIterateOverTemplates() throws IOException {
-        final Gitignores gitignores = new MkGitHub().gitignores();
         MatcherAssert.assertThat(
             "Collection is not empty",
-            gitignores.iterate(),
+            new MkGitHub().gitignores().iterate(),
             Matchers.not(Matchers.emptyIterable())
         );
     }

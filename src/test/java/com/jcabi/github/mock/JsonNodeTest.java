@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.xml.XML;
 import com.jcabi.xml.XMLDocument;
 import jakarta.json.JsonObject;
 import org.hamcrest.MatcherAssert;
@@ -20,37 +19,44 @@ final class JsonNodeTest {
 
     @Test
     void convertsXmlToJson() {
-        final XML xml = new XMLDocument(
-            "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
-        );
-        final JsonObject json = new JsonNode(xml.nodes("user").get(0)).json();
         MatcherAssert.assertThat(
-            "Value is null", json, Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getString("name"),
+            "Plain element is not converted",
+            JsonNodeTest.user().getString("name"),
             Matchers.equalTo("Jeff")
         );
+    }
+
+    @Test
+    void convertsNestedXmlToJson() {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            json.getJsonObject("dept").getString("title"),
+            "Nested element is not converted",
+            JsonNodeTest.user().getJsonObject("dept").getString("title"),
             Matchers.equalTo("IT")
         );
     }
 
     @Test
     void convertsXmlToJsonArray() {
-        final XML xml = new XMLDocument(
-            // @checkstyle LineLength (1 line)
-            "<users array=\"true\"><item>Jeff</item><item>Bauer</item><item>Iko</item></users>"
-        );
-        final JsonObject json = new JsonNode(xml).json();
         MatcherAssert.assertThat(
             "Assertion failed",
-            json.toString(),
+            new JsonNode(
+                new XMLDocument(
+                    "<users array=\"true\"><item>Jeff</item><item>Bauer</item><item>Iko</item></users>"
+                )
+            ).json().toString(),
             new IsEqual<>("{\"users\":[\"Jeff\",\"Bauer\",\"Iko\"]}")
         );
     }
 
+    /**
+     * A user with a name and a department.
+     * @return JSON of the user
+     */
+    private static JsonObject user() {
+        return new JsonNode(
+            new XMLDocument(
+                "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
+            ).nodes("user").get(0)
+        ).json();
+    }
 }

@@ -15,34 +15,32 @@ import org.junit.jupiter.api.Test;
 /**
  * Testcase for MkTrees.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkTreesTest {
 
     @Test
     void createsMkTree() throws IOException {
-        final JsonObject tree = Json.createObjectBuilder()
-            .add("base_tree", "base_tree_sha")
-            .add(
-                "tree",
-                Json.createArrayBuilder().add(
-                    Json.createObjectBuilder()
-                        .add("path", "dir/File.java")
-                        .add("mode", "100644")
-                        .add("type", "blob")
-                        .add("sha", "sha-test")
-                )
-            ).build();
         MatcherAssert.assertThat(
             "Value is null",
-            new MkGitHub().randomRepo().git().trees().create(tree),
+            new MkGitHub().randomRepo().git().trees().create(
+                Json.createObjectBuilder()
+                    .add("base_tree", "base_tree_sha").add(
+                        "tree",
+                        Json.createArrayBuilder().add(
+                            Json.createObjectBuilder()
+                                .add("path", "dir/File.java")
+                                .add("mode", "100644")
+                                .add("type", "blob")
+                                .add("sha", "sha-test")
+                        )
+                    ).build()
+            ),
             Matchers.notNullValue()
         );
     }
 
     @Test
-    void getTreeRec() throws IOException {
+    void fetchesTreeRecursively() throws IOException {
         final String sha = "0abcd89jcabitest";
         final JsonObject json = Json.createObjectBuilder().add(
             "tree",

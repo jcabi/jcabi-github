@@ -38,13 +38,14 @@ final class RtUsers implements Users {
      * @param github GitHub
      * @param req Request
      */
-    RtUsers(
-        final GitHub github,
-        final Request req
-    ) {
-        this.entry = req;
-        this.ghub = github;
-        this.request = this.entry.uri().path("/users").back();
+    RtUsers(final GitHub github, final Request req) {
+        this(req, github, req.uri().path("/users").back());
+    }
+
+    private RtUsers(final Request entry, final GitHub ghub, final Request request) {
+        this.entry = entry;
+        this.ghub = ghub;
+        this.request = request;
     }
 
     @Override
@@ -73,9 +74,7 @@ final class RtUsers implements Users {
     }
 
     @Override
-    public Iterable<User> iterate(
-        final String identifier
-    ) {
+    public Iterable<User> iterate(final String identifier) {
         return new RtPagination<>(
             this.request.uri().queryParam("since", identifier).back(),
             object -> this.get(
@@ -83,5 +82,4 @@ final class RtUsers implements Users {
             )
         );
     }
-
 }

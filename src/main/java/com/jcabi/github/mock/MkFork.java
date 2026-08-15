@@ -14,13 +14,13 @@ import lombok.ToString;
 
 /**
  * GitHub Fork.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkFork implements Fork {
+
     /**
      * Storage.
      */
@@ -42,11 +42,7 @@ final class MkFork implements Fork {
      * @param number Fork id
      * @param repo Repo name
      */
-    MkFork(
-        final MkStorage stg,
-        final int number,
-        final Coordinates repo
-    ) {
+    MkFork(final MkStorage stg, final int number, final Coordinates repo) {
         this.storage = stg;
         this.num = number;
         this.coords = repo;
@@ -65,9 +61,7 @@ final class MkFork implements Fork {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 

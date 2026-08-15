@@ -12,29 +12,36 @@ import org.mockito.Mockito;
 /**
  * Tests for {@link Label}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class LabelTest {
 
     @Test
-    void canBeComparedProperly() {
-        final Label.Unmodified one = new Label.Unmodified(
-            LabelTest.repo("jef", "jef_repo"),
-            "{\"name\":\"paul\"}"
-        );
-        final Label.Unmodified other = new Label.Unmodified(
-            LabelTest.repo("stan", "stan_repo"),
-            "{\"name\":\"paul\"}"
-        );
+    void distinguishesLabelsOfDifferentRepos() {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            one.equals(other),
+            "Labels of different repos are equal",
+            LabelTest.label("jef").equals(LabelTest.label("stan")),
             Matchers.is(false)
         );
+    }
+
+    @Test
+    void comparesLabelsOfDifferentRepos() {
         MatcherAssert.assertThat(
-            "Assertion failed",
-            one.compareTo(other),
+            "Labels of different repos are the same",
+            LabelTest.label("jef").compareTo(LabelTest.label("stan")),
             Matchers.not(0)
+        );
+    }
+
+    /**
+     * Create and return label for testing.
+     * @param user User name
+     * @return Label
+     */
+    private static Label.Unmodified label(final String user) {
+        return new Label.Unmodified(
+            LabelTest.repo(user, String.format("%s_repo", user)),
+            "{\"name\":\"paul\"}"
         );
     }
 

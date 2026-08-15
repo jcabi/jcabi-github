@@ -15,114 +15,104 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RtGitHub}.
  * @since 0.1
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtGitHubTest {
 
     @Test
     void retrievesRepos() {
-        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
-            github.repos(),
+            new RtGitHub(new FakeRequest()).repos(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void retrievesGists() {
-        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
-            github.gists(),
+            new RtGitHub(new FakeRequest()).gists(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void retrievesUsers() {
-        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
-            github.users(),
+            new RtGitHub(new FakeRequest()).users(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void retrievesMetaAsJson() throws IOException {
-        final RtGitHub github = new RtGitHub(
-            new FakeRequest().withBody("{\"meta\":\"blah\"}")
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            github.meta().getString("meta"),
+            new RtGitHub(
+                new FakeRequest().withBody("{\"meta\":\"blah\"}")
+            ).meta().getString("meta"),
             Matchers.equalTo("blah")
         );
     }
 
     @Test
     void retrievesEmojisAsJson() throws IOException {
-        final RtGitHub github = new RtGitHub(
-            new FakeRequest().withBody(
-            "{ \"emojikey\": \"urlvalue\" }"
-            )
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            github.emojis().getString("emojikey"),
+            new RtGitHub(
+                new FakeRequest().withBody(
+                "{ \"emojikey\": \"urlvalue\" }"
+                )
+            ).emojis().getString("emojikey"),
             new IsEqual<>("urlvalue")
         );
     }
 
     @Test
     void retrievesMarkdown() {
-        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
-            github.markdown(),
+            new RtGitHub(new FakeRequest()).markdown(),
             Matchers.notNullValue()
         );
     }
 
     @Test
     void retrievesGitignores() {
-        final RtGitHub github = new RtGitHub(new FakeRequest());
         MatcherAssert.assertThat(
             "Value is null",
-            github.gitignores(),
+            new RtGitHub(new FakeRequest()).gitignores(),
             Matchers.notNullValue()
         );
     }
 
     @Test
-    void testSameTimesAreEqual() {
+    void equalsSameTimes() {
         final long time = System.currentTimeMillis();
-        final GitHub.Time first = new GitHub.Time(time);
-        final GitHub.Time second = new GitHub.Time(time);
         MatcherAssert.assertThat(
             "Values are not equal",
-            first.toString(),
-            Matchers.equalTo(second.toString())
+            new GitHub.Time(time).toString(),
+            Matchers.equalTo(new GitHub.Time(time).toString())
         );
     }
 
     @Test
-    void testDifferentTimesAreNotEqual() {
-        final GitHub.Time first = new GitHub.Time(System.currentTimeMillis());
-        final GitHub.Time second = new GitHub.Time(
-            System.currentTimeMillis() + 1
-        );
+    void differsFromOtherTimes() {
         MatcherAssert.assertThat(
             "Values are not equal",
-            first.equals(second),
+            new GitHub.Time(System.currentTimeMillis()).equals(
+                new GitHub.Time(
+                    System.currentTimeMillis() + 1
+                    )
+            ),
             Matchers.is(false)
         );
     }
 
     @Test
-    void equalsToAnotherGitHub() {
+    void differsFromGitHubWithOtherHeaders() {
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "GitHubs with different headers are the same",
             new RtGitHub(new FakeRequest().header("abc", "cde")),
             Matchers.not(
                 Matchers.equalTo(
@@ -130,8 +120,12 @@ final class RtGitHubTest {
                 )
             )
         );
+    }
+
+    @Test
+    void equalsToAnotherGitHub() {
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "GitHubs with the same request are different",
             new RtGitHub(new FakeRequest()),
             Matchers.equalTo(new RtGitHub(new FakeRequest()))
         );

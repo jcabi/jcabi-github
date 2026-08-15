@@ -44,11 +44,10 @@ final class MkReference implements Reference {
 
     /**
      * Public constructor.
-     * @param strg Storage.
-     * @param login Login name.
-     * @param crds Repo coordinates.
-     * @param reference Name of the reference.
-     * @checkstyle ParameterNumber (5 lines)
+     * @param strg Storage
+     * @param login Login name
+     * @param crds Repo coordinates
+     * @param reference Name of the reference
      */
     MkReference(
         final MkStorage strg,
@@ -80,15 +79,12 @@ final class MkReference implements Reference {
     }
 
     @Override
-    public void patch(
-        final JsonObject json
-    ) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
     /**
      * XPath of this element in XML tree.
-     *
      * @return XPath
      */
     private String xpath() {

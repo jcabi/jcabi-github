@@ -5,7 +5,6 @@
 package com.jcabi.github;
 
 import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.MatcherAssert;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration testcase for RtTags.
  * @since 0.15
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
 final class RtTagsITCase {
@@ -34,7 +32,6 @@ final class RtTagsITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static RepoRule rule = new RepoRule();
 
@@ -64,20 +61,21 @@ final class RtTagsITCase {
         final String sha = refs.get("refs/heads/master").json()
             .getJsonObject("object").getString("sha");
         final String tag = RandomStringUtils.secure().nextAlphanumeric(5);
-        final JsonObject tagger = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "scott@gmail.com")
-            .add("date", "2013-06-17T14:53:35-07:00").build();
         MatcherAssert.assertThat(
             "Value is null",
             RtTagsITCase.repo.git().tags().create(
                 Json.createObjectBuilder()
                     .add("tag", tag).add("message", "initial version")
-                    .add("object", sha).add("type", "commit")
-                    .add("tagger", tagger).build()
+                    .add("object", sha).add("type", "commit").add(
+                        "tagger",
+                        Json.createObjectBuilder()
+                            .add("name", "Scott").add("email", "scott@gmail.com")
+                            .add("date", "2013-06-17T14:53:35-07:00").build()
+                    ).build()
             ), Matchers.notNullValue()
         );
         refs.remove(
-            new StringBuilder().append("tags/").append(tag).toString()
+            String.format("tags/%s", tag)
         );
     }
 }

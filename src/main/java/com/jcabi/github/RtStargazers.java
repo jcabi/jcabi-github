@@ -17,18 +17,16 @@ import java.io.IOException;
 public final class RtStargazers implements Stargazers {
 
     /**
-     * RESTful request.
+     * Entry request.
      */
-    private final transient Request request;
+    private final transient Request entry;
 
     /**
      * Public ctor.
-     * @param entry Entry request.
+     * @param req Entry request
      */
-    RtStargazers(final Request entry) {
-        this.request = entry.uri()
-            .path("stargazers")
-            .back();
+    RtStargazers(final Request req) {
+        this.entry = req;
     }
 
     @Override
@@ -36,11 +34,19 @@ public final class RtStargazers implements Stargazers {
         final Iterable<JsonValue> res;
         try (
             JsonReader json = new JsonResponse(
-                this.request.method(Request.GET).fetch()
+                this.request().method(Request.GET).fetch()
             ).json()
         ) {
             res = json.readArray();
         }
         return res;
+    }
+
+    /**
+     * RESTful request for stargazers.
+     * @return Request
+     */
+    private Request request() {
+        return this.entry.uri().path("stargazers").back();
     }
 }

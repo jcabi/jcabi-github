@@ -14,34 +14,31 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link CommitsComparison}.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (75 lines)
  */
 final class CommitsComparisonTest {
 
     @Test
     void fetchesCommits() throws IOException {
         final String sha = "6dcb09b5b57875f334f61aebed695e2e4193db50";
-        final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
-            new RtCommitsComparison(
-                new FakeRequest().withBody(
-                    Json.createObjectBuilder()
-                        .add("base_commit", Json.createObjectBuilder())
-                        .add(
-                            "commits",
-                            Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder().add("sha", sha))
-                        )
-                        .add("files", Json.createArrayBuilder())
-                        .build().toString()
-                ),
-                CommitsComparisonTest.repo(),
-                "6dcb09b5b57875f334f61aebed695e2e4193db51",
-                "6dcb09b5b57875f334f61aebed695e2e4193db52"
-            )
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            comparison.commits().iterator().next().sha(),
+            new CommitsComparison.Smart(
+                new RtCommitsComparison(
+                    new FakeRequest().withBody(
+                        Json.createObjectBuilder()
+                            .add("base_commit", Json.createObjectBuilder()).add(
+                                "commits",
+                                Json.createArrayBuilder()
+                                    .add(Json.createObjectBuilder().add("sha", sha))
+                            )
+                            .add("files", Json.createArrayBuilder())
+                            .build().toString()
+                    ),
+                    CommitsComparisonTest.repo(),
+                    "6dcb09b5b57875f334f61aebed695e2e4193db51",
+                    "6dcb09b5b57875f334f61aebed695e2e4193db52"
+                )
+            ).commits().iterator().next().sha(),
             Matchers.equalTo(sha)
         );
     }
@@ -49,30 +46,28 @@ final class CommitsComparisonTest {
     @Test
     void fetchesFiles() throws IOException {
         final String filename = "file.txt";
-        final CommitsComparison.Smart comparison = new CommitsComparison.Smart(
-            new RtCommitsComparison(
-                new FakeRequest().withBody(
-                    Json.createObjectBuilder()
-                        .add("base_commit", Json.createObjectBuilder())
-                        .add("commits", Json.createArrayBuilder())
-                        .add(
-                            "files",
-                            Json.createArrayBuilder().add(
-                                Json.createObjectBuilder()
-                                    .add("filename", filename)
-                            )
-                        )
-                        .build().toString()
-                ),
-                CommitsComparisonTest.repo(),
-                "6dcb09b5b57875f334f61aebed695e2e4193db53",
-                "6dcb09b5b57875f334f61aebed695e2e4193db54"
-            )
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
             new FileChange.Smart(
-                comparison.files().iterator().next()
+                new CommitsComparison.Smart(
+                    new RtCommitsComparison(
+                        new FakeRequest().withBody(
+                            Json.createObjectBuilder()
+                                .add("base_commit", Json.createObjectBuilder())
+                                .add("commits", Json.createArrayBuilder()).add(
+                                    "files",
+                                    Json.createArrayBuilder().add(
+                                        Json.createObjectBuilder()
+                                            .add("filename", filename)
+                                    )
+                                )
+                                .build().toString()
+                        ),
+                        CommitsComparisonTest.repo(),
+                        "6dcb09b5b57875f334f61aebed695e2e4193db53",
+                        "6dcb09b5b57875f334f61aebed695e2e4193db54"
+                    )
+                ).files().iterator().next()
             ).filename(),
             Matchers.equalTo(filename)
         );
@@ -86,5 +81,4 @@ final class CommitsComparisonTest {
         return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));
     }
-
 }

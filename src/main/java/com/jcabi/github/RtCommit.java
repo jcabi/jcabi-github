@@ -13,13 +13,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub commit.
- *
  * @since 0.3
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "hash" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class RtCommit implements Commit {
 
     /**
@@ -44,17 +42,24 @@ final class RtCommit implements Commit {
      * @param sha Number of the get
      */
     RtCommit(final Request req, final Repo repo, final String sha) {
-        final Coordinates coords = repo.coordinates();
-        this.request = req.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/git")
-            .path("/commits")
-            .path(sha)
-            .back();
-        this.owner = repo;
-        this.hash = sha;
+        this(
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/git")
+                .path("/commits")
+                .path(sha)
+                .back(),
+            sha,
+            repo
+        );
+    }
+
+    private RtCommit(final Request request, final String hash, final Repo owner) {
+        this.request = request;
+        this.hash = hash;
+        this.owner = owner;
     }
 
     @Override
@@ -78,9 +83,7 @@ final class RtCommit implements Commit {
     }
 
     @Override
-    public int compareTo(
-        final Commit commit
-    ) {
+    public int compareTo(final Commit commit) {
         return this.sha().compareTo(commit.sha());
     }
 }

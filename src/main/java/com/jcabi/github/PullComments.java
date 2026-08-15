@@ -36,8 +36,7 @@ public interface PullComments {
      * @return Iterable of pull comments
      * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-in-a-repository">List comments in a repository</a>
      */
-    Iterable<PullComment> iterate(
-        Map<String, String> params);
+    Iterable<PullComment> iterate(Map<String, String> params);
 
     /**
      * Iterate all pull comments for a pull request.
@@ -46,8 +45,7 @@ public interface PullComments {
      * @return Iterable of pull comments
      * @see <a href="https://developer.github.com/v3/pulls/comments/#list-comments-on-a-pull-request">List comments on a pull request</a>
      */
-    Iterable<PullComment> iterate(int number,
-        Map<String, String> params);
+    Iterable<PullComment> iterate(int number, Map<String, String> params);
 
     /**
      * Post a new pull comment.
@@ -75,16 +73,12 @@ public interface PullComments {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/comments/#create-a-comment">Create a comment</a>
      */
-    PullComment reply(
-        String body,
-        int comment)
-        throws IOException;
+    PullComment reply(String body, int comment) throws IOException;
 
     /**
      * Removes a pull comment by ID.
-     * @param number The ID of the pull comment to delete.
+     * @param number The ID of the pull comment to delete
      * @throws IOException If there is any I/O problem.
      */
     void remove(int number) throws IOException;
-
 }

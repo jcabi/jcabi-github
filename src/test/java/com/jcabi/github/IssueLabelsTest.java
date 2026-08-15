@@ -17,7 +17,6 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link IssueLabels}.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class IssueLabelsTest {
 
@@ -44,24 +43,25 @@ final class IssueLabelsTest {
     }
 
     /**
-     * IssueLabels.Smart can check label's existence by name.
+     * IssueLabels.Smart can find an existing label by name.
      */
     @Test
-    void checksLabelExistenceByName() {
-        final Label first = Mockito.mock(Label.class);
-        Mockito.doReturn("first").when(first).name();
-        final Label second = Mockito.mock(Label.class);
-        Mockito.doReturn("second").when(second).name();
-        final IssueLabels labels = Mockito.mock(IssueLabels.class);
-        Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
+    void findsExistingLabelByName() {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new IssueLabels.Smart(labels).contains("first"),
+            "Existing label is not found by name",
+            new IssueLabels.Smart(IssueLabelsTest.labels()).contains("first"),
             Matchers.is(true)
         );
+    }
+
+    /**
+     * IssueLabels.Smart cannot find an absent label by name.
+     */
+    @Test
+    void doesntFindAbsentLabelByName() {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            new IssueLabels.Smart(labels).contains("third"),
+            "Absent label is found by name",
+            new IssueLabels.Smart(IssueLabelsTest.labels()).contains("third"),
             Matchers.is(false)
         );
     }
@@ -92,4 +92,17 @@ final class IssueLabelsTest {
         );
     }
 
+    /**
+     * Labels named "first" and "second".
+     * @return Labels
+     */
+    private static IssueLabels labels() {
+        final Label first = Mockito.mock(Label.class);
+        Mockito.doReturn("first").when(first).name();
+        final Label second = Mockito.mock(Label.class);
+        Mockito.doReturn("second").when(second).name();
+        final IssueLabels labels = Mockito.mock(IssueLabels.class);
+        Mockito.doReturn(Arrays.asList(first, second)).when(labels).iterate();
+        return labels;
+    }
 }

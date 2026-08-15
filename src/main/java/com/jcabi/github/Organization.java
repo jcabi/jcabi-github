@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.text.ParseException;
-import java.util.Date;
+import java.time.Instant;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -27,9 +26,9 @@ import lombok.ToString;
  * if (org.name() == null) {
  *   name = "new_name";
  * }</pre>
+ *
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @SuppressWarnings("PMD.TooManyMethods")
@@ -78,9 +77,7 @@ public interface Organization extends Comparable<Organization>,
          * Public ctor.
          * @param orgn Organization
          */
-        public Smart(
-            final Organization orgn
-        ) {
+        public Smart(final Organization orgn) {
             this.org = orgn;
             this.jsn = new SmartJson(orgn);
         }
@@ -108,9 +105,7 @@ public interface Organization extends Comparable<Organization>,
          * @param company Company of organization
          * @throws IOException If there is any I/O problem
          */
-        public void company(
-            final String company
-        ) throws IOException {
+        public void company(final String company) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("company", company).build()
             );
@@ -130,9 +125,7 @@ public interface Organization extends Comparable<Organization>,
          * @param location Location of organization
          * @throws IOException If there is any I/O problem
          */
-        public void location(
-            final String location
-        ) throws IOException {
+        public void location(final String location) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("location", location).build()
             );
@@ -152,9 +145,7 @@ public interface Organization extends Comparable<Organization>,
          * @param name Company of organization
          * @throws IOException If there is any I/O problem
          */
-        public void name(
-            final String name
-        ) throws IOException {
+        public void name(final String name) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("name", name).build()
             );
@@ -174,9 +165,7 @@ public interface Organization extends Comparable<Organization>,
          * @param email Email of organization
          * @throws IOException If there is any I/O problem
          */
-        public void email(
-            final String email
-        ) throws IOException {
+        public void email(final String email) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder().add("email", email).build()
             );
@@ -198,8 +187,7 @@ public interface Organization extends Comparable<Organization>,
          */
         public void billingEmail(
             final String billingemail
-        )
-            throws IOException {
+        ) throws IOException {
             this.org.patch(
                 Json.createObjectBuilder()
                     .add("billing_email", billingemail).build()
@@ -259,14 +247,10 @@ public interface Organization extends Comparable<Organization>,
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
-        public Date createdAt() throws IOException {
-            try {
-                return new GitHub.Time(
-                    this.jsn.text("created_at")
-                ).date();
-            } catch (final ParseException ex) {
-                throw new IllegalStateException(ex);
-            }
+        public Instant createdAt() throws IOException {
+            return new GitHub.Time(
+                this.jsn.text("created_at")
+            ).date();
         }
 
         /**
@@ -335,18 +319,13 @@ public interface Organization extends Comparable<Organization>,
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.org.patch(json);
         }
 
         @Override
-        public int compareTo(
-            final Organization obj
-        ) {
+        public int compareTo(final Organization obj) {
             return this.org.compareTo(obj);
         }
     }
-
 }

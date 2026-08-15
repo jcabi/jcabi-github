@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 /**
  * Tests for {@link Pull}.
  * @since 0.7
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class PullTest {
 
@@ -81,12 +80,11 @@ final class PullTest {
         final Pull pull = Mockito.mock(Pull.class);
         final String login = "rose";
         Mockito.when(pull.json()).thenReturn(
-            Json.createObjectBuilder()
-                .add(
-                    "user",
-                    Json.createObjectBuilder()
-                        .add("login", login)
-                        .build()
+            Json.createObjectBuilder().add(
+                "user",
+                Json.createObjectBuilder()
+                    .add("login", login)
+                    .build()
                 )
                 .build()
         );

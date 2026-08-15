@@ -33,12 +33,10 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface PublicKey extends JsonReadable, JsonPatchable {
 
     /**
      * User we're in.
-     *
      * @return User
      */
     User user();
@@ -52,7 +50,6 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
     /**
      * Smart PublicKey with extra features.
      * @since 0.1
-     * @checkstyle MultipleStringLiterals (500 lines)
      */
     @Immutable
     @ToString
@@ -74,9 +71,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * Public ctor.
          * @param pkey Public key
          */
-        public Smart(
-            final PublicKey pkey
-        ) {
+        public Smart(final PublicKey pkey) {
             this.key = pkey;
             this.jsn = new SmartJson(pkey);
         }
@@ -95,9 +90,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @param value Title of public key
          * @throws IOException If there is any I/O problem
          */
-        public void key(
-            final String value
-        ) throws IOException {
+        public void key(final String value) throws IOException {
             this.key.patch(
                 Json.createObjectBuilder().add("key", value).build()
             );
@@ -130,9 +123,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
          * @param text Title of public key
          * @throws IOException If there is any I/O problem
          */
-        public void title(
-            final String text
-        ) throws IOException {
+        public void title(final String text) throws IOException {
             this.key.patch(
                 Json.createObjectBuilder().add("title", text).build()
             );
@@ -144,9 +135,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
         }
 
         @Override
-        public void patch(
-            final JsonObject json
-        ) throws IOException {
+        public void patch(final JsonObject json) throws IOException {
             this.key.patch(json);
         }
 

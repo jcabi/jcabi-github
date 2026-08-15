@@ -20,15 +20,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtReferences}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtReferencesTest {
 
-    /**
-     * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
-     */
     @Test
     void createsReference() throws IOException {
         try (
@@ -39,21 +34,32 @@ final class RtReferencesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final References refs = new RtReferences(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
             MatcherAssert.assertThat(
-                "Object is not of expected type",
-                refs.create("abceefgh3456", "refs/heads/feature-a"),
+                "Created reference is of a wrong type",
+                RtReferencesTest.references(container)
+                    .create("abceefgh3456", "refs/heads/feature-a"),
                 Matchers.instanceOf(Reference.class)
             );
+        }
+    }
+
+    @Test
+    void createsReferenceWithPost() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED,
+                    "{\"ref\":\"refs/heads/feature-a\"}"
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReferencesTest.references(container)
+                .create("abceefgh3456", "refs/heads/feature-a");
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Reference is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
-            container.stop();
         }
     }
 
@@ -67,13 +73,12 @@ final class RtReferencesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final References refs = new RtReferences(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
             MatcherAssert.assertThat(
                 "Value is null",
-                refs.iterate(),
+                new RtReferences(
+                    new ApacheRequest(container.home()),
+                    new MkGitHub().randomRepo()
+                ).iterate(),
                 Matchers.notNullValue()
             );
             container.stop();
@@ -111,21 +116,30 @@ final class RtReferencesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final References refs = new RtReferences(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
             MatcherAssert.assertThat(
-                "Collection size is incorrect",
-                refs.tags(),
+                "Wrong amount of tags is iterated",
+                RtReferencesTest.references(container).tags(),
                 Matchers.iterableWithSize(1)
             );
+        }
+    }
+
+    @Test
+    void iteratesTagsFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "[{\"ref\":\"refs/tags/feature-b\"}]"
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReferencesTest.references(container).tags().iterator().next();
             MatcherAssert.assertThat(
-                "String does not end with expected value",
+                "Tags are iterated from a wrong URI",
                 container.take().uri().toString(),
                 Matchers.endsWith("/git/refs/tags")
             );
-            container.stop();
         }
     }
 
@@ -139,21 +153,44 @@ final class RtReferencesTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final References refs = new RtReferences(
-                new ApacheRequest(container.home()),
-                new MkGitHub().randomRepo()
-            );
             MatcherAssert.assertThat(
-                "Collection size is incorrect",
-                refs.heads(),
+                "Wrong amount of heads is iterated",
+                RtReferencesTest.references(container).heads(),
                 Matchers.iterableWithSize(1)
             );
+        }
+    }
+
+    @Test
+    void iteratesHeadsFromCorrectUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "[{\"ref\":\"refs/heads/feature-c\"}]"
+                )
+            ).start(RandomPort.port())
+        ) {
+            RtReferencesTest.references(container).heads().iterator().next();
             MatcherAssert.assertThat(
-                "String does not end with expected value",
+                "Heads are iterated from a wrong URI",
                 container.take().uri().toString(),
                 Matchers.endsWith("/git/refs/heads")
             );
-            container.stop();
         }
+    }
+
+    /**
+     * References served by the given container.
+     * @param container Container to serve the references
+     * @return References
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtReferences references(final MkContainer container)
+        throws IOException {
+        return new RtReferences(
+            new ApacheRequest(container.home()),
+            new MkGitHub().randomRepo()
+        );
     }
 }

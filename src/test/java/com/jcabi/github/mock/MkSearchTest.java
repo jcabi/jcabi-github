@@ -16,9 +16,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link MkSearch}.
  * @since 0.1
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MkSearchTest {
 
     @Test

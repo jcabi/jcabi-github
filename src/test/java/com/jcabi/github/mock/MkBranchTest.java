@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Coordinates;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class MkBranchTest {
+
     /**
      * MkBranch can fetch its name.
      * @throws IOException If an I/O problem occurs
@@ -48,23 +48,31 @@ final class MkBranchTest {
     }
 
     /**
+     * MkBranch can fetch the user of its repo.
+     * @throws IOException If an I/O problem occurs
+     */
+    @Test
+    void fetchesUserOfRepo() throws IOException {
+        final Repo repo = new MkGitHub().randomRepo();
+        MatcherAssert.assertThat(
+            "Branch belongs to a wrong user",
+            MkBranchTest.branches(repo).create("test", "sha")
+                .repo().coordinates().user(),
+            Matchers.equalTo(repo.coordinates().user())
+        );
+    }
+
+    /**
      * MkBranch can fetch its repo.
      * @throws IOException If an I/O problem occurs
      */
     @Test
     void fetchesRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Coordinates coords = MkBranchTest.branches(repo)
-            .create("test", "sha")
-            .repo().coordinates();
         MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.user(),
-            Matchers.equalTo(repo.coordinates().user())
-        );
-        MatcherAssert.assertThat(
-            "Values are not equal",
-            coords.repo(),
+            "Branch belongs to a wrong repo",
+            MkBranchTest.branches(repo).create("test", "sha")
+                .repo().coordinates().repo(),
             Matchers.equalTo(repo.coordinates().repo())
         );
     }

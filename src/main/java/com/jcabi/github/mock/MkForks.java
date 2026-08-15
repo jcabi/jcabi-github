@@ -20,7 +20,6 @@ import org.xembly.Directives;
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkForks implements Forks {
 
     /**
@@ -55,17 +54,13 @@ final class MkForks implements Forks {
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkForks.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkForks(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("forks")
-        );
     }
 
     @Override
@@ -73,19 +68,8 @@ final class MkForks implements Forks {
         return new MkRepo(this.storage, this.self, this.coords);
     }
 
-    /**
-     * Gets a mocked Fork.
-     * @param forkid Fork id
-     * @return Mocked Fork
-     */
-    public Fork get(final int forkid) {
-        return new MkFork(this.storage, forkid, this.coords);
-    }
-
     @Override
-    public Iterable<Fork> iterate(
-        final String sort
-    ) {
+    public Iterable<Fork> iterate(final String sort) {
         return new MkIterable<>(
             this.storage,
             this.xpath().concat("/fork"),
@@ -96,9 +80,7 @@ final class MkForks implements Forks {
     }
 
     @Override
-    public Fork create(
-        final String org
-    ) throws IOException {
+    public Fork create(final String org) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -121,6 +103,15 @@ final class MkForks implements Forks {
     }
 
     /**
+     * Gets a mocked Fork.
+     * @param forkid Fork id
+     * @return Mocked Fork
+     */
+    Fork get(final int forkid) {
+        return new MkFork(this.storage, forkid, this.coords);
+    }
+
+    /**
      * XPath of this element in XML tree.
      * @return XPath
      */
@@ -129,5 +120,25 @@ final class MkForks implements Forks {
             "/github/repos/repo[@coords='%s']/forks",
             this.coords
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("forks")
+        );
+        return stg;
     }
 }

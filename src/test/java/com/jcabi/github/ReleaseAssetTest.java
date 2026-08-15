@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.ParseException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -18,15 +17,12 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link ReleaseAsset}.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (150 lines)
  */
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.AvoidDuplicateLiterals"})
 final class ReleaseAssetTest {
 
     @Test
     void fetchesUrl() throws IOException, MalformedURLException, URISyntaxException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
-        // @checkstyle LineLength (1 line)
         final String prop = "https://api.github.com/repos/octo/Hello/releases/assets/1";
         Mockito.doReturn(
             Json.createObjectBuilder()
@@ -137,7 +133,7 @@ final class ReleaseAssetTest {
     }
 
     @Test
-    void fetchesCreatedAt() throws IOException, ParseException {
+    void fetchesCreatedAt() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(
@@ -153,7 +149,7 @@ final class ReleaseAssetTest {
     }
 
     @Test
-    void fetchesUpdatedAt() throws IOException, ParseException {
+    void fetchesUpdatedAt() throws IOException {
         final ReleaseAsset asset = Mockito.mock(ReleaseAsset.class);
         final String prop = "2013-02-27T19:35:32Z";
         Mockito.doReturn(

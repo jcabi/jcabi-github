@@ -8,12 +8,10 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.TimeZone;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -56,6 +54,7 @@ import lombok.EqualsAndHashCode;
  *   .getJsonObject()
  *   .getNumber("total_count")
  *   .intValue();</pre>
+ *
  * @since 0.1
  */
 @Immutable
@@ -149,6 +148,7 @@ public interface GitHub {
     @Immutable
     @EqualsAndHashCode(of = "msec")
     final class Time {
+
         /**
          * Pattern to present day in ISO-8601.
          */
@@ -157,7 +157,7 @@ public interface GitHub {
         /**
          * The time zone we're in.
          */
-        public static final TimeZone TIMEZONE = TimeZone.getTimeZone("UTC");
+        public static final ZoneId TIMEZONE = ZoneId.of("UTC");
 
         /**
          * Encapsulated time in milliseconds.
@@ -168,24 +168,23 @@ public interface GitHub {
          * Ctor.
          */
         public Time() {
-            this(new Date());
+            this(Instant.now());
         }
 
         /**
          * Ctor.
          * @param text ISO date/time
-         * @throws ParseException If fails
          */
-        public Time(final String text) throws ParseException {
-            this(GitHub.Time.format().parse(text));
+        public Time(final String text) {
+            this(Instant.from(GitHub.Time.format().parse(text)));
         }
 
         /**
          * Ctor.
-         * @param date Date to encapsulate
+         * @param instant Moment to encapsulate
          */
-        public Time(final Date date) {
-            this(date.getTime());
+        public Time(final Instant instant) {
+            this(instant.toEpochMilli());
         }
 
         /**
@@ -203,23 +202,20 @@ public interface GitHub {
 
         /**
          * Get date.
-         * @return Date
+         * @return Moment in time
          */
-        public Date date() {
-            return new Date(this.msec);
+        public Instant date() {
+            return Instant.ofEpochMilli(this.msec);
         }
 
         /**
          * Make format.
          * @return Date format
          */
-        private static DateFormat format() {
-            final DateFormat fmt = new SimpleDateFormat(
-                GitHub.Time.FORMAT_ISO, Locale.ENGLISH
-            );
-            fmt.setTimeZone(GitHub.Time.TIMEZONE);
-            return fmt;
+        private static DateTimeFormatter format() {
+            return DateTimeFormatter
+                .ofPattern(GitHub.Time.FORMAT_ISO, Locale.ENGLISH)
+                .withZone(GitHub.Time.TIMEZONE);
         }
     }
-
 }

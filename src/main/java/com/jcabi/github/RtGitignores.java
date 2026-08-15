@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Gitignore.
+ *
  * <p>Defines storage of .gitignore templates
  *
  * @since 0.8
@@ -40,11 +41,16 @@ final class RtGitignores implements Gitignores {
      * Public CTOR.
      * @param github GitHub
      */
-    RtGitignores(
-        final GitHub github) {
+    RtGitignores(final GitHub github) {
+        this(
+            github,
+            github.entry().uri().path("/gitignore/templates").back()
+        );
+    }
+
+    private RtGitignores(final GitHub github, final Request req) {
         this.ghub = github;
-        this.request = this.github().entry().uri()
-            .path("/gitignore/templates").back();
+        this.request = req;
     }
 
     @Override
@@ -67,9 +73,7 @@ final class RtGitignores implements Gitignores {
     }
 
     @Override
-    public String template(
-        final String name)
-        throws IOException {
+    public String template(final String name) throws IOException {
         return this.request.reset(HttpHeaders.ACCEPT)
             .header(HttpHeaders.ACCEPT, "application/vnd.github.v3.raw")
             .uri().path(name).back().fetch()

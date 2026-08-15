@@ -15,7 +15,6 @@ import lombok.EqualsAndHashCode;
  * GitHub user organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -65,9 +64,8 @@ final class RtUserOrganizations implements UserOrganizations {
 
     @Override
     public Iterable<Organization> iterate() throws IOException {
-        final String login = this.owner.login();
         return new RtPagination<>(
-            this.entry.uri().path("/users").path(login).path("/orgs").back(),
+            this.entry.uri().path("/users").path(this.owner.login()).path("/orgs").back(),
             new RtUserOrganizations.OrganizationMapping(this.ghub.organizations())
         );
     }
@@ -78,6 +76,7 @@ final class RtUserOrganizations implements UserOrganizations {
      */
     private static final class OrganizationMapping
         implements RtValuePagination.Mapping<Organization, JsonObject> {
+
         /**
          * Organizations.
          */

@@ -17,13 +17,11 @@ import org.xembly.Directives;
 /**
  * Mock github public keys.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkPublicKeys implements PublicKeys {
 
     /**
@@ -47,15 +45,13 @@ final class MkPublicKeys implements PublicKeys {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkPublicKeys(
-        final MkStorage stg,
-        final String login
-    ) throws IOException {
+    MkPublicKeys(final MkStorage stg, final String login) throws IOException {
+        this(login, MkPublicKeys.bootstrap(stg, login));
+    }
+
+    private MkPublicKeys(final String login, final MkStorage stg) {
         this.storage = stg;
         this.self = login;
-        this.storage.apply(
-            new Directives().xpath(this.userXpath()).addIf("keys")
-        );
     }
 
     @Override
@@ -114,10 +110,11 @@ final class MkPublicKeys implements PublicKeys {
 
     /**
      * XPath of user element in XML tree.
+     * @param login User login
      * @return XPath
      */
-    private String userXpath() {
-        return String.format("/github/users/user[login='%s']", this.self);
+    private static String userXpath(final String login) {
+        return String.format("/github/users/user[login='%s']", login);
     }
 
     /**
@@ -125,6 +122,20 @@ final class MkPublicKeys implements PublicKeys {
      * @return XPath
      */
     private String xpath() {
-        return String.format("%s/keys", this.userXpath());
+        return String.format("%s/keys", MkPublicKeys.userXpath(this.self));
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param login String
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final String login) throws IOException {
+        stg.apply(
+            new Directives().xpath(MkPublicKeys.userXpath(login)).addIf("keys")
+        );
+        return stg;
     }
 }

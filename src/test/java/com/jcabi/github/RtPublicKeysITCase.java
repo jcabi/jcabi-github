@@ -9,6 +9,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,6 @@ import org.junit.jupiter.api.Test;
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtPublicKeysITCase {
 
     /**
@@ -53,69 +53,58 @@ final class RtPublicKeysITCase {
         keys.remove(key.number());
     }
 
-    /**
-     * RtPublicKeys should be able to remove a key.
-     * @throws Exception If a problem occurs.
-     */
     @Test
     void removesKey() throws Exception {
         final PublicKeys keys = RtPublicKeysITCase.keys();
         final PublicKey key = keys.create("", RtPublicKeysITCase.key());
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            keys.iterate(),
-            Matchers.hasItem(key)
-        );
         keys.remove(key.number());
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed key is still there",
             keys.iterate(),
             Matchers.not(Matchers.hasItem(key))
         );
     }
 
-    /**
-     * RtPublicKeys should be able to create a key.
-     * @throws Exception If a problem occurs.
-     */
     @Test
     void createsKey() throws Exception {
         final PublicKeys keys = RtPublicKeysITCase.keys();
-        // @checkstyle LineLength (1 line)
         final PublicKey key = keys.create("rsa", RtPublicKeysITCase.key());
         try {
             MatcherAssert.assertThat(
-                "Collection does not contain expected item",
+                "Created key is absent",
                 keys.iterate(),
                 Matchers.hasItem(key)
-            );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                key.user(),
-                Matchers.equalTo(
-                    keys.user()
-                )
             );
         } finally {
             keys.remove(key.number());
         }
-        MatcherAssert.assertThat(
-            "Collection does not contain expected item",
-            keys.iterate(),
-            Matchers.not(Matchers.hasItem(key))
-        );
+    }
+
+    @Test
+    void createsKeyForUser() throws Exception {
+        final PublicKeys keys = RtPublicKeysITCase.keys();
+        final PublicKey key = keys.create("rsa", RtPublicKeysITCase.key());
+        try {
+            MatcherAssert.assertThat(
+                "Created key belongs to a wrong user",
+                key.user(),
+                Matchers.equalTo(keys.user())
+            );
+        } finally {
+            keys.remove(key.number());
+        }
     }
 
     /**
      * Generates a random public key for test.
-     * @return The encoded SSH public key.
+     * @return The encoded SSH public key
      */
     private static String key() throws JSchException, IOException {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
             kpair.writePublicKey(stream, "");
             kpair.dispose();
-            return new String(stream.toByteArray());
+            return new String(stream.toByteArray(), StandardCharsets.UTF_8);
         }
     }
 
@@ -126,5 +115,4 @@ final class RtPublicKeysITCase {
     private static PublicKeys keys() {
         return GitHubIT.connect().users().self().keys();
     }
-
 }

@@ -21,15 +21,13 @@ import org.xembly.Directives;
  * GitHub user organizations.
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
- * @checkstyle ClassDataAbstractionCoupling (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-@SuppressWarnings("PMD.TooManyMethods")
 final class MkUserOrganizations implements UserOrganizations {
+
     /**
      * Storage.
      */
@@ -46,17 +44,16 @@ final class MkUserOrganizations implements UserOrganizations {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkUserOrganizations(
         final MkStorage stg,
         final String login
-    )
-        throws IOException {
+    ) throws IOException {
+        this(login, MkUserOrganizations.bootstrap(stg));
+    }
+
+    private MkUserOrganizations(final String login, final MkStorage stg) {
         this.storage = stg;
         this.self = login;
-        this.storage.apply(
-            new Directives().xpath("/github").addIf("orgs")
-        );
     }
 
     @Override
@@ -79,11 +76,25 @@ final class MkUserOrganizations implements UserOrganizations {
     }
 
     /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg) throws IOException {
+        stg.apply(
+            new Directives().xpath("/github").addIf("orgs")
+        );
+        return stg;
+    }
+
+    /**
      * Mapping for Organizations.
      * @since 0.24
      */
     private static final class OrganizationMapping
         implements MkIterable.Mapping<Organization> {
+
         /**
          * Organizations.
          */

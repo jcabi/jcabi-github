@@ -19,27 +19,26 @@ import org.junit.jupiter.api.Test;
  * @since 0.1
  */
 final class MkEventTest {
+
     @Test
     void canGetCreatedAt() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         final String user = "test_user";
         final Repo repo = new MkGitHub(storage, user).randomRepo();
-        final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
-        final int eventnum = events.create(
-            "test_type",
-            1,
-            user,
-            Optional.of("test_label")
-        ).number();
         MatcherAssert.assertThat(
             "Value is null",
             new MkEvent(
                 storage,
                 user,
                 repo.coordinates(),
-                eventnum
+                ((MkIssueEvents) repo.issueEvents()).create(
+                    "test_type",
+                    1,
+                    user,
+                    Optional.of("test_label")
+                ).number()
             )
-                .json().getString("created_at"),
+            .json().getString("created_at"),
             Matchers.notNullValue()
         );
     }
@@ -51,14 +50,7 @@ final class MkEventTest {
         final Repo repo = new MkGitHub(storage, user).repos().create(
             new Repos.RepoCreate("foo", false)
         );
-        final MkIssueEvents events = (MkIssueEvents) repo.issueEvents();
         final String label = "problem";
-        final int num = events.create(
-            Event.LABELED,
-            1,
-            user,
-            Optional.of(label)
-        ).number();
         MatcherAssert.assertThat(
             "Values are not equal",
             new Event.Smart(
@@ -66,7 +58,12 @@ final class MkEventTest {
                     storage,
                     user,
                     repo.coordinates(),
-                    num
+                    ((MkIssueEvents) repo.issueEvents()).create(
+                        Event.LABELED,
+                        1,
+                        user,
+                        Optional.of(label)
+                    ).number()
                 )
             ).label().get().name(),
             Matchers.equalTo(label)
@@ -80,12 +77,6 @@ final class MkEventTest {
         final Repo repo = new MkGitHub(storage, user).repos().create(
             new Repos.RepoCreate("bar", false)
         );
-        final int num = ((MkIssueEvents) repo.issueEvents()).create(
-            Event.LABELED,
-            1,
-            user,
-            Optional.absent()
-        ).number();
         MatcherAssert.assertThat(
             "Values are not equal",
             new Event.Smart(
@@ -93,7 +84,12 @@ final class MkEventTest {
                     storage,
                     user,
                     repo.coordinates(),
-                    num
+                    ((MkIssueEvents) repo.issueEvents()).create(
+                        Event.LABELED,
+                        1,
+                        user,
+                        Optional.absent()
+                    ).number()
                 )
             ).label(),
             Matchers.equalTo(Optional.<Label>absent())

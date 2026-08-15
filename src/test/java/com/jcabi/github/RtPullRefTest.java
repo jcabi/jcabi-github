@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
  * @since 0.24
  */
 final class RtPullRefTest {
+
     /**
      * Test commit SHA.
      */
@@ -92,8 +93,7 @@ final class RtPullRefTest {
             Json.createObjectBuilder()
                 .add("ref", RtPullRefTest.REF)
                 .add("sha", RtPullRefTest.SHA)
-                .add("user", user)
-                .add(
+                .add("user", user).add(
                     "repo",
                     Json.createObjectBuilder()
                         .add("owner", user)

@@ -13,6 +13,7 @@ import com.jcabi.aspects.Immutable;
  */
 @Immutable
 public interface Language {
+
     /**
      * Language name.
      * @return Name

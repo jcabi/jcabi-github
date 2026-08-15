@@ -18,7 +18,6 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Safe comment.
- *
  * @since 0.34
  */
 @Immutable
@@ -93,10 +92,11 @@ public final class SfComment implements Comment {
         try {
             json = this.origin.json();
         } catch (final UnexpectedHttpStatus | AssertionError ex) {
-            final String author = new Issue.Smart(
-                new SfIssue(this.origin.issue())
-            ).author().login();
-            json = new MkGitHub(author).randomRepo()
+            json = new MkGitHub(
+                new Issue.Smart(
+                    new SfIssue(this.origin.issue())
+                    ).author().login()
+            ).randomRepo()
                 .issues().create("", "")
                 .comments().post("deleted comment").json();
             Logger.warn(this, "failed to fetch comment: %[exception]s", ex);

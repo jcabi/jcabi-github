@@ -22,8 +22,8 @@ import org.xembly.Directives;
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = "storage")
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkOrganizations implements Organizations {
+
     /**
      * Storage.
      */
@@ -34,32 +34,24 @@ final class MkOrganizations implements Organizations {
      * @param stg Storage
      * @throws IOException If there is any I/O problem
      */
-    MkOrganizations(
-        final MkStorage stg
-    )
-        throws IOException {
+    MkOrganizations(final MkStorage stg) throws IOException {
         this.storage = stg;
-        this.storage.apply(
-            new Directives().xpath("/github").addIf("orgs")
-        );
     }
 
     @Override
-    public Organization get(
-        final String login
-    ) {
+    public Organization get(final String login) {
         try {
             this.storage.apply(
                 new Directives()
-                    .xpath(
+                    .xpath("/github").addIf("orgs").xpath(
                         String.format(
                             "/github/orgs[not(org[login='%s'])]",
                             login
                     )
                 )
-                    .add("org")
-                    .add("login").set(login).up()
-                    .add("members").up()
+                .add("org")
+                .add("login").set(login).up()
+                .add("members").up()
             );
         } catch (final IOException ex) {
             throw new IllegalStateException(ex);

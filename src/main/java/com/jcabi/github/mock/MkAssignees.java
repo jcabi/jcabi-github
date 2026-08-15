@@ -15,7 +15,6 @@ import java.util.Set;
 
 /**
  * Mock for GitHub Assignees.
- *
  * @since 0.7
  */
 @Immutable
@@ -71,9 +70,7 @@ final class MkAssignees implements Assignees {
     }
 
     @Override
-    public boolean check(
-        final String login
-    ) {
+    public boolean check(final String login) {
         try {
             final List<String> xpath = this.storage.xml().xpath(
                 this.xpath().concat("/user/login/text()")

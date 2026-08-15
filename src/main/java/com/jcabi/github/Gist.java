@@ -20,7 +20,6 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
@@ -96,6 +95,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "gist")
     final class Smart implements Gist {
+
         /**
          * Encapsulated gist.
          */
@@ -180,5 +180,4 @@ public interface Gist extends JsonReadable, JsonPatchable {
             this.gist.patch(json);
         }
     }
-
 }

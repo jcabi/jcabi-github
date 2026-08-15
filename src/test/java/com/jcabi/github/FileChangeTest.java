@@ -16,33 +16,56 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link FileChange}.
  * @since 0.24
  */
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class FileChangeTest {
+
     /**
-     * FileChange.Smart can get the status of the file.
+     * FileChange.Smart can get the added status of the file.
      * @throws IOException If an I/O problem occurs
      */
     @Test
-    void getsStatus() throws IOException {
-        final String status = "status";
+    void getsAddedStatus() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            FileChangeTest.stringFileChange(status, "added").status(),
+            "Added status is not recognized",
+            FileChangeTest.stringFileChange("status", "added").status(),
             Matchers.equalTo(FileChange.Status.ADDED)
         );
+    }
+
+    /**
+     * FileChange.Smart can get the modified status of the file.
+     * @throws IOException If an I/O problem occurs
+     */
+    @Test
+    void getsModifiedStatus() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            FileChangeTest.stringFileChange(status, "modified").status(),
+            "Modified status is not recognized",
+            FileChangeTest.stringFileChange("status", "modified").status(),
             Matchers.equalTo(FileChange.Status.MODIFIED)
         );
+    }
+
+    /**
+     * FileChange.Smart can get the removed status of the file.
+     * @throws IOException If an I/O problem occurs
+     */
+    @Test
+    void getsRemovedStatus() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            FileChangeTest.stringFileChange(status, "removed").status(),
+            "Removed status is not recognized",
+            FileChangeTest.stringFileChange("status", "removed").status(),
             Matchers.equalTo(FileChange.Status.REMOVED)
         );
+    }
+
+    /**
+     * FileChange.Smart can get the renamed status of the file.
+     * @throws IOException If an I/O problem occurs
+     */
+    @Test
+    void getsRenamedStatus() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            FileChangeTest.stringFileChange(status, "renamed").status(),
+            "Renamed status is not recognized",
+            FileChangeTest.stringFileChange("status", "renamed").status(),
             Matchers.equalTo(FileChange.Status.RENAMED)
         );
     }
@@ -81,7 +104,6 @@ final class FileChangeTest {
      */
     @Test
     void getsAdditions() throws IOException {
-        // @checkstyle MagicNumberCheck (1 line)
         final int adds = 42;
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -96,7 +118,6 @@ final class FileChangeTest {
      */
     @Test
     void getsDeletions() throws IOException {
-        // @checkstyle MagicNumberCheck (1 line)
         final int deletions = 97;
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -111,7 +132,6 @@ final class FileChangeTest {
      */
     @Test
     void getsChanges() throws IOException {
-        // @checkstyle MagicNumberCheck (1 line)
         final int changes = 11;
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -145,7 +165,6 @@ final class FileChangeTest {
      */
     @Test
     void getsPresentPatch() throws IOException {
-        // @checkstyle LineLength (1 line)
         final String patch = "@@ -120,7 +120,7 @@ class Test1 @@ -1000,7 +1000,7 @@ class Test1";
         MatcherAssert.assertThat(
             "Values are not equal",

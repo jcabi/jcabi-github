@@ -17,14 +17,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub gists.
- *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkGists implements Gists {
 
     /**
@@ -48,15 +46,13 @@ final class MkGists implements Gists {
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
-    MkGists(
-        final MkStorage stg,
-        final String login
-    ) throws IOException {
+    MkGists(final MkStorage stg, final String login) throws IOException {
+        this(login, MkGists.bootstrap(stg));
+    }
+
+    private MkGists(final String login, final MkStorage stg) {
         this.storage = stg;
         this.self = login;
-        this.storage.apply(
-            new Directives().xpath("/github").addIf("gists")
-        );
     }
 
     @Override
@@ -65,7 +61,6 @@ final class MkGists implements Gists {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidAccessToStaticMembersViaThis")
     public Gist create(
         final Map<String, String> files, final boolean visible
     ) throws IOException {
@@ -95,8 +90,7 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public Gist get(final String name
-    ) {
+    public Gist get(final String name) {
         return new MkGist(this.storage, this.self, name);
     }
 
@@ -110,8 +104,7 @@ final class MkGists implements Gists {
     }
 
     @Override
-    public void remove(final String identifier
-    ) throws IOException {
+    public void remove(final String identifier) throws IOException {
         this.storage.apply(
             new Directives().xpath(
                 String.format("%s/gist[id='%s']", MkGists.xpath(), identifier)
@@ -127,4 +120,16 @@ final class MkGists implements Gists {
         return "/github/gists";
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg) throws IOException {
+        stg.apply(
+            new Directives().xpath("/github").addIf("gists")
+        );
+        return stg;
+    }
 }

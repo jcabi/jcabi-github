@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Arrays;
@@ -21,15 +20,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub issue.
- *
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "request", "owner", "num" })
-@SuppressWarnings("PMD.TooManyMethods")
 final class RtIssue implements Issue {
 
     /**
@@ -71,19 +66,26 @@ final class RtIssue implements Issue {
      * @param repo Repository
      * @param number Number of the get
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     RtIssue(final Request req, final Repo repo, final int number) {
-        this.entry = req;
-        final Coordinates coords = repo.coordinates();
-        this.request = this.entry.uri()
-            .path("/repos")
-            .path(coords.user())
-            .path(coords.repo())
-            .path("/issues")
-            .path(Integer.toString(number))
-            .back();
-        this.owner = repo;
-        this.num = number;
+        this(
+            req,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/issues")
+                .path(Integer.toString(number))
+                .back(),
+            repo,
+            number
+        );
+    }
+
+    private RtIssue(final Request entry, final Request request, final Repo owner, final int num) {
+        this.entry = entry;
+        this.request = request;
+        this.owner = owner;
+        this.num = num;
     }
 
     @Override
@@ -130,11 +132,12 @@ final class RtIssue implements Issue {
 
     @Override
     public void react(final Reaction reaction) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add(RtIssue.CONTENT, reaction.type())
-            .build();
         this.request.method(Request.POST)
-            .body().set(json).back()
+            .body().set(
+                Json.createObjectBuilder()
+                    .add(RtIssue.CONTENT, reaction.type())
+                    .build()
+            ).back()
             .fetch().as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_OK);
     }
@@ -157,12 +160,13 @@ final class RtIssue implements Issue {
                 )
             );
         }
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("lock_reason", reason)
-            .build();
         try {
             this.request.method(Request.PUT).uri().path("/lock").back()
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("lock_reason", reason)
+                        .build()
+                ).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
@@ -210,10 +214,7 @@ final class RtIssue implements Issue {
     }
 
     @Override
-    public int compareTo(
-        final Issue issue
-    ) {
+    public int compareTo(final Issue issue) {
         return this.number() - issue.number();
     }
-
 }

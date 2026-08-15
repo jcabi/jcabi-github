@@ -15,15 +15,12 @@ import org.junit.jupiter.api.Test;
 /**
  * Test case for {@link RtReferences}.
  * @since 0.6
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-@SuppressWarnings("PMD.ConsecutiveLiteralAppends")
 final class RtReferencesITCase {
 
     /**
      * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     private static final RepoRule RULE = new RepoRule();
 
@@ -63,14 +60,13 @@ final class RtReferencesITCase {
         final String name = RandomStringUtils.secure().nextAlphanumeric(10);
         final StringBuilder builder = new StringBuilder("refs/tags/")
             .append(name);
-        final Reference reference = refs.create(
-            builder.toString(),
-            refs.get("refs/heads/master").json().getJsonObject("object")
-                .getString("sha")
-        );
         MatcherAssert.assertThat(
             "Value is null",
-            reference,
+            refs.create(
+                builder.toString(),
+                refs.get("refs/heads/master").json().getJsonObject("object")
+                    .getString("sha")
+            ),
             Matchers.notNullValue()
         );
         builder.delete(0, builder.length());
@@ -122,5 +118,4 @@ final class RtReferencesITCase {
         builder.append("heads/").append(name);
         refs.remove(builder.toString());
     }
-
 }

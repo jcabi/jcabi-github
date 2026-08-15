@@ -8,6 +8,7 @@ import java.io.IOException;
 
 /**
  * Thrown when a GitHub API response has an unexpected HTTP status code.
+ *
  * <p>This is a subclass of {@link IOException} that wraps the
  * {@link AssertionError} produced by
  * {@code com.jcabi.http.response.RestResponse#assertStatus(int)}, so that

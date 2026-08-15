@@ -4,7 +4,6 @@
  */
 package com.jcabi.github;
 
-import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -21,11 +20,10 @@ final class BulkTest {
     @Test
     void cachesJsonData() throws IOException {
         final Comment origin = Mockito.mock(Comment.class);
-        final Request request = new FakeRequest()
-            .withBody("[{\"body\": \"hey you\"}]");
         final Iterable<Comment> comments = new Bulk<>(
             new RtPagination<>(
-                request,
+                new FakeRequest()
+                    .withBody("[{\"body\": \"hey you\"}]"),
                 object -> origin
             )
         );
@@ -39,5 +37,4 @@ final class BulkTest {
         Mockito.verify(origin).number();
         Mockito.verify(origin, Mockito.never()).json();
     }
-
 }

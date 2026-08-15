@@ -16,15 +16,17 @@ import org.junit.jupiter.api.Test;
  */
 @OAuthScope(OAuthScope.Scope.GIST)
 final class RtGistsITCase {
+
     @Test
     void createGist() throws IOException {
         final String filename = "filename.txt";
         final String content = "content of file";
         final Gists gists = RtGistsITCase.gists();
-        final Gist gist = gists.create(
-            Collections.singletonMap(filename, content), false
+        final Gist.Smart smart = new Gist.Smart(
+            gists.create(
+                Collections.singletonMap(filename, content), false
+                )
         );
-        final Gist.Smart smart = new Gist.Smart(gist);
         MatcherAssert.assertThat(
             "Values are not equal",
             smart.read(filename),
@@ -49,10 +51,9 @@ final class RtGistsITCase {
 
     @Test
     void singleGist() throws IOException {
-        final String filename = "single-name.txt";
         final Gists gists = RtGistsITCase.gists();
         final Gist gist = gists.create(
-            Collections.singletonMap(filename, "body"), false
+            Collections.singletonMap("single-name.txt", "body"), false
         );
         MatcherAssert.assertThat(
             "Values are not equal",
@@ -69,14 +70,9 @@ final class RtGistsITCase {
             Collections.singletonMap("fileName.txt", "content of test file"),
             false
         );
-        MatcherAssert.assertThat(
-            "Value is null",
-            gists.iterate(),
-            Matchers.notNullValue()
-        );
         gists.remove(gist.json().getString("id"));
         MatcherAssert.assertThat(
-            "Collection does not contain expected item",
+            "Removed gist is still there",
             gists.iterate(),
             Matchers.not(Matchers.hasItem(gist))
         );

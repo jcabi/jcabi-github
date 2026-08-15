@@ -12,11 +12,11 @@ import org.xembly.Directives;
 
 /**
  * Mock for public members of a GitHub organization.
- *
  * @see <a href="https://developer.github.com/v3/orgs/members/">Organization Members API</a>
  * @since 0.24
  */
 public final class MkPublicMembers implements PublicMembers {
+
     /**
      * Storage.
      */
@@ -32,10 +32,7 @@ public final class MkPublicMembers implements PublicMembers {
      * @param stg Storage
      * @param organ Organization
      */
-    public MkPublicMembers(
-        final MkStorage stg,
-        final Organization organ
-    ) {
+    public MkPublicMembers(final MkStorage stg, final Organization organ) {
         this.storage = stg;
         this.organization = organ;
     }
@@ -46,9 +43,7 @@ public final class MkPublicMembers implements PublicMembers {
     }
 
     @Override
-    public void conceal(
-        final User user
-    ) throws IOException {
+    public void conceal(final User user) throws IOException {
         this.storage.apply(
             new Directives()
                 .xpath(this.xpath(user))
@@ -57,9 +52,7 @@ public final class MkPublicMembers implements PublicMembers {
     }
 
     @Override
-    public void publicize(
-        final User user
-    ) throws IOException {
+    public void publicize(final User user) throws IOException {
         this.storage.apply(
             new Directives()
                 .xpath(this.xpath(user))
@@ -80,9 +73,7 @@ public final class MkPublicMembers implements PublicMembers {
     }
 
     @Override
-    public boolean contains(
-        final User user
-    ) {
+    public boolean contains(final User user) {
         boolean result = false;
         for (final User member : this.iterate()) {
             if (member.equals(user)) {

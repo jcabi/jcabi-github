@@ -20,70 +20,79 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link RtEvent}.
  * @since 0.6.1
- * @checkstyle MultipleStringLiteralsCheck (100 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtEventTest {
 
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void canRetrieveOwnRepo() {
         final Repo repo = RtEventTest.repo();
-        final RtEvent event = new RtEvent(new FakeRequest(), repo, 1);
         MatcherAssert.assertThat(
             "Assertion failed",
-            event.repo(),
+            new RtEvent(new FakeRequest(), repo, 1).repo(),
             Matchers.sameInstance(repo)
         );
     }
 
     @Test
     void canRetrieveOwnNumber() {
-        final Repo repo = RtEventTest.repo();
-        final RtEvent event = new RtEvent(new FakeRequest(), repo, 2);
         MatcherAssert.assertThat(
             "Values are not equal",
-            event.number(),
+            new RtEvent(new FakeRequest(), RtEventTest.repo(), 2).number(),
             Matchers.equalTo(2)
         );
     }
 
     @Test
     void retrieveEventAsJson() throws IOException {
-        try (MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"test\":\"events\"}"
-            )
-        ).start(RandomPort.port())) {
-            final RtEvent event = new RtEvent(
-                new ApacheRequest(container.home()),
-                RtEventTest.repo(),
-                3
-            );
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_OK,
+                    "{\"test\":\"events\"}"
+                )
+                ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
                 "Values are not equal",
-                event.json().getString("test"),
+                new RtEvent(
+                    new ApacheRequest(container.home()),
+                    RtEventTest.repo(),
+                    3
+                ).json().getString("test"),
                 Matchers.equalTo("events")
             );
         }
     }
 
     @Test
-    void canCompareInstances() {
-        final RtEvent less = new RtEvent(new FakeRequest(), RtEventTest.repo(), 1);
-        final RtEvent greater = new RtEvent(new FakeRequest(), RtEventTest.repo(), 2);
+    void comparesSmallerEvent() {
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater), Matchers.lessThan(0)
+            "Event is not less than the greater one",
+            RtEventTest.event(1).compareTo(RtEventTest.event(2)),
+            Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerEvent() {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less), Matchers.greaterThan(0)
+            "Event is not greater than the smaller one",
+            RtEventTest.event(2).compareTo(RtEventTest.event(1)),
+            Matchers.greaterThan(0)
         );
+    }
+
+    /**
+     * Event with the given number.
+     * @param number Number of the event
+     * @return The event
+     */
+    private static RtEvent event(final int number) {
+        return new RtEvent(new FakeRequest(), RtEventTest.repo(), number);
     }
 
     /**
@@ -96,5 +105,4 @@ final class RtEventTest {
             .when(repo).coordinates();
         return repo;
     }
-
 }

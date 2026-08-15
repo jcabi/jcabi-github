@@ -16,7 +16,6 @@ import lombok.ToString;
  * @since 0.1
  */
 @Immutable
-@SuppressWarnings("PMD.TooManyMethods")
 public interface Labels {
 
     /**
@@ -33,9 +32,7 @@ public interface Labels {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#create-a-label">Create a Label</a>
      */
-    Label create(
-        String name, String color
-    ) throws IOException;
+    Label create(String name, String color) throws IOException;
 
     /**
      * Get a label by name.
@@ -58,8 +55,7 @@ public interface Labels {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
      */
-    void delete(String name)
-        throws IOException;
+    void delete(String name) throws IOException;
 
     /**
      * Smart Labels with extra features.
@@ -70,6 +66,7 @@ public interface Labels {
     @Loggable(Loggable.DEBUG)
     @EqualsAndHashCode(of = "labels")
     final class Smart implements Labels {
+
         /**
          * Encapsulated labels.
          */
@@ -79,9 +76,7 @@ public interface Labels {
          * Public ctor.
          * @param lbl Labels
          */
-        public Smart(
-            final Labels lbl
-        ) {
+        public Smart(final Labels lbl) {
             this.labels = lbl;
         }
 
@@ -90,9 +85,7 @@ public interface Labels {
          * @param name Name of the label
          * @return TRUE if it exists
          */
-        public boolean contains(
-            final String name
-        ) {
+        public boolean contains(final String name) {
             boolean contains = false;
             for (final Label label : this.labels.iterate()) {
                 if (label.name().equals(name)) {
@@ -109,9 +102,7 @@ public interface Labels {
          * @return Label found or created
          * @throws IOException If there is any I/O problem
          */
-        public Label createOrGet(
-            final String name
-        ) throws IOException {
+        public Label createOrGet(final String name) throws IOException {
             return this.createOrGet(name, "c0c0c0");
         }
 
@@ -151,9 +142,7 @@ public interface Labels {
         }
 
         @Override
-        public Label get(
-            final String name
-        ) {
+        public Label get(final String name) {
             return this.labels.get(name);
         }
 
@@ -163,11 +152,8 @@ public interface Labels {
         }
 
         @Override
-        public void delete(
-            final String name
-        ) throws IOException {
+        public void delete(final String name) throws IOException {
             this.labels.delete(name);
         }
     }
-
 }

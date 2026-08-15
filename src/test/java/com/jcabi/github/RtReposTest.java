@@ -8,7 +8,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -24,44 +23,62 @@ import org.mockito.Mockito;
 /**
  * Test case for {@link Repos}.
  * @since 0.8
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtReposTest {
 
     /**
-     * RepoRule.
-     * @checkstyle VisibilityModifierCheck (3 lines)
+     * Owner of the created repo.
      */
-    public final transient RepoRule rule = new RepoRule();
+    private static final String OWNER = "test-owner";
+
+    /**
+     * Name of the created repo.
+     */
+    private static final String NAME = "test-repo";
 
     @Test
-    void createRepo() throws IOException {
-        final String owner = "test-owner";
-        final String name = "test-repo";
-        final String response = RtReposTest.response(owner, name).toString();
+    void createsRepoWithPost() throws IOException {
+        final String response = RtReposTest.response(
+            RtReposTest.OWNER, RtReposTest.NAME
+        ).toString();
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
-            ).next(new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response))
-                .start(RandomPort.port())
+            ).next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response)
+            ).start(RandomPort.port())
         ) {
-            final RtRepos repos = new RtRepos(
-                Mockito.mock(GitHub.class),
-                new ApacheRequest(container.home())
-            );
-            final Repo repo = this.rule.repo(repos);
+            RtReposTest.create(container);
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Repo is not created with POST",
                 container.take().method(),
                 Matchers.equalTo(Request.POST)
             );
+        }
+    }
+
+    @Test
+    void createsRepoWithCoordinates() throws IOException {
+        final String response = RtReposTest.response(
+            RtReposTest.OWNER, RtReposTest.NAME
+        ).toString();
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_CREATED, response)
+            ).next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, response)
+            ).start(RandomPort.port())
+        ) {
             MatcherAssert.assertThat(
-                "Assertion failed",
-                repo.coordinates(),
-                new IsEqual<>(new Coordinates.Simple(owner, name))
+                "Created repo has wrong coordinates",
+                RtReposTest.create(container).coordinates(),
+                new IsEqual<>(
+                    new Coordinates.Simple(
+                        RtReposTest.OWNER, RtReposTest.NAME
+                    )
+                )
             );
-            container.stop();
         }
     }
 
@@ -79,13 +96,12 @@ final class RtReposTest {
                 )
             ).start(RandomPort.port())
         ) {
-            final RtRepos repos = new RtRepos(
-                Mockito.mock(GitHub.class),
-                new ApacheRequest(container.home())
-            );
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
-                repos.iterate(identifier),
+                new RtRepos(
+                    Mockito.mock(GitHub.class),
+                    new ApacheRequest(container.home())
+                ).iterate(identifier),
                 Matchers.iterableWithSize(2)
             );
             container.stop();
@@ -121,30 +137,56 @@ final class RtReposTest {
     }
 
     @Test
-    void removeRepo() throws IOException {
+    void removesRepoWithDelete() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
             ).start(RandomPort.port())
         ) {
-            final Repos repos = new RtRepos(
+            new RtRepos(
                 Mockito.mock(GitHub.class),
                 new ApacheRequest(container.home())
-            );
-            repos.remove(new Coordinates.Simple("", ""));
-            final MkQuery query = container.take();
+            ).remove(new Coordinates.Simple("", ""));
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Repo is not removed with DELETE",
+                container.take().method(),
                 Matchers.equalTo(Request.DELETE)
             );
+        }
+    }
+
+    @Test
+    void removesRepoWithoutBody() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            new RtRepos(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            ).remove(new Coordinates.Simple("", ""));
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
+                "Repo is removed with a body",
+                container.take().body(),
                 Matchers.is(Matchers.emptyString())
             );
-            container.stop();
         }
+    }
+
+    /**
+     * Create a repo through the given container.
+     * @param container Container to serve the repos
+     * @return Created repo
+     * @throws IOException If there is any I/O problem
+     */
+    private static Repo create(final MkContainer container) throws IOException {
+        return new RepoRule().repo(
+            new RtRepos(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            )
+        );
     }
 
     /**
@@ -153,16 +195,13 @@ final class RtReposTest {
      * @param name Repo name
      * @return JsonObject
      */
-    private static JsonObject response(
-        final String owner, final String name) {
+    private static JsonObject response(final String owner, final String name) {
         return Json.createObjectBuilder()
             .add("name", name)
-            .add("full_name", String.format("%s/%s", owner, name))
-            .add(
+            .add("full_name", String.format("%s/%s", owner, name)).add(
                 "owner",
                 Json.createObjectBuilder().add("login", owner).build()
             )
             .build();
     }
-
 }

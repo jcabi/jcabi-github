@@ -19,15 +19,14 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub Release Assets.
- *
  * @since 0.8
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 @EqualsAndHashCode(of = { "storage", "coords", "rel" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkReleaseAssets implements ReleaseAssets {
+
     /**
      * XPath suffix for asset ID text.
      */
@@ -60,7 +59,6 @@ final class MkReleaseAssets implements ReleaseAssets {
      * @param rep Repo
      * @param number Release ID
      * @throws IOException If an IO Exception occurs
-     * @checkstyle ParameterNumber (7 lines)
      */
     MkReleaseAssets(
         final MkStorage stg,
@@ -68,19 +66,19 @@ final class MkReleaseAssets implements ReleaseAssets {
         final Coordinates rep,
         final int number
     ) throws IOException {
+        this(MkReleaseAssets.bootstrap(stg, rep, number), login, number, rep);
+    }
+
+    private MkReleaseAssets(
+        final MkStorage stg,
+        final String login,
+        final int number,
+        final Coordinates rep
+    ) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
         this.rel = number;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    // @checkstyle LineLengthCheck (1 line)
-                    "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
-                    this.coords, this.rel
-                )
-            ).addIf("assets")
-        );
     }
 
     @Override
@@ -157,5 +155,26 @@ final class MkReleaseAssets implements ReleaseAssets {
             "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets",
             this.coords, this.rel
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @param number Release number
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final int number)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/releases/release[id='%d']",
+                    rep, number
+                )
+            ).addIf("assets")
+        );
+        return stg;
     }
 }

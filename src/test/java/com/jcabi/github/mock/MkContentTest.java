@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Content;
 import com.jcabi.github.Contents;
 import com.jcabi.github.Repo;
 import jakarta.json.Json;
@@ -27,13 +26,11 @@ final class MkContentTest {
     @Test
     void canGetOwnRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Contents contents = repo.contents();
-        final Content content = contents.create(
-            MkContentTest.jsonContent("repo.txt", "for repo", "json repo")
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            content.repo(),
+            repo.contents().create(
+                MkContentTest.jsonContent("repo.txt", "for repo", "json repo")
+            ).repo(),
             Matchers.is(repo)
         );
     }
@@ -42,12 +39,11 @@ final class MkContentTest {
     void canGetOwnPath() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String path = "dummy.txt";
-        final Content content = contents.create(
-            MkContentTest.jsonContent(path, "for path", "path test")
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            content.path(),
+            contents.create(
+                MkContentTest.jsonContent(path, "for path", "path test")
+            ).path(),
             Matchers.is(path)
         );
     }
@@ -56,13 +52,11 @@ final class MkContentTest {
     void fetchesJsonRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         final String path = "fake.txt";
-        final Content content = contents.create(
-            MkContentTest.jsonContent(path, "for json", "json test")
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            // @checkstyle MultipleStringLiterals (1 line)
-            content.json().getString("name"),
+            contents.create(
+                MkContentTest.jsonContent(path, "for json", "json test")
+            ).json().getString("name"),
             Matchers.is(path)
         );
     }
@@ -70,7 +64,7 @@ final class MkContentTest {
     @Test
     void fetchesRawRepresentation() throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
-        final String raw = "raw test \u20ac\u0000";
+        final String raw = "raw test €\0";
         try (
             InputStream stream = contents.create(
                 MkContentTest.jsonContent("raw.txt", "for raw", raw)
@@ -98,8 +92,7 @@ final class MkContentTest {
     ) {
         return Json.createObjectBuilder()
             .add("path", path)
-            .add("message", message)
-            .add(
+            .add("message", message).add(
                 "content",
                 DatatypeConverter.printBase64Binary(
                     content.getBytes(StandardCharsets.UTF_8)

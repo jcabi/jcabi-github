@@ -37,16 +37,24 @@ final class RtReference implements Reference {
 
     /**
      * Public constructor.
-     * @param req RESTful request.
-     * @param repo Owner of this reference.
-     * @param ref The name of the reference.
+     * @param req RESTful request
+     * @param repo Owner of this reference
+     * @param ref The name of the reference
      */
     RtReference(final Request req, final Repo repo, final String ref) {
-        this.request = req.uri()
-            .path("/repos").path(repo.coordinates().user())
-            .path(repo.coordinates().repo()).path("/git").path(ref).back();
-        this.owner = repo;
-        this.name = ref;
+        this(
+            req.uri()
+                .path("/repos").path(repo.coordinates().user())
+                .path(repo.coordinates().repo()).path("/git").path(ref).back(),
+            ref,
+            repo
+        );
+    }
+
+    private RtReference(final Request request, final String name, final Repo owner) {
+        this.request = request;
+        this.name = name;
+        this.owner = owner;
     }
 
     @Override
@@ -65,8 +73,7 @@ final class RtReference implements Reference {
     }
 
     @Override
-    public void patch(
-        final JsonObject json) throws IOException {
+    public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
     }
 }

@@ -18,7 +18,6 @@ import lombok.EqualsAndHashCode;
  * GitHub public keys.
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (200 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -42,14 +41,17 @@ final class RtPublicKeys implements PublicKeys {
 
     /**
      * Public ctor.
-     *
      * @param req Request
      * @param user User
      */
     RtPublicKeys(final Request req, final User user) {
-        this.entry = req;
-        this.owner = user;
-        this.request = this.entry.uri().path("/user").path("/keys").back();
+        this(req, user, req.uri().path("/user").path("/keys").back());
+    }
+
+    private RtPublicKeys(final Request entry, final User owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -103,5 +105,4 @@ final class RtPublicKeys implements PublicKeys {
     public String toString() {
         return this.request.uri().get().toString();
     }
-
 }

@@ -21,51 +21,72 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RtFork}.
  * @since 0.8
- * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @ExtendWith(RandomPort.class)
 final class RtForkTest {
 
-    /**
-     * RtFork can patch comment and return new json.
-     * @throws IOException if has some problems with json parsing.
-     */
     @Test
-    void patchAndCheckJsonFork() throws IOException {
-        final String original = "some organization";
+    void patchesOrganizationOfFork() throws IOException {
         final String patched = "some patched organization";
         try (
-            MkContainer container =
-                new MkGrizzlyContainer().next(RtForkTest.answer(original))
-                    .next(
-                        RtForkTest.answer(patched)
-                    ).next(RtForkTest.answer(original)).start(
-                        RandomPort.port()
-                    );
-            MkContainer forksContainer = new MkGrizzlyContainer().start(
-                RandomPort.port()
-            )) {
-            final RtRepo repo =
-                new RtRepo(
-                    new MkGitHub(),
-                    new ApacheRequest(forksContainer.home()),
-                    new Coordinates.Simple("test_user", "test_repo")
-                );
-            final RtFork fork = new RtFork(
-                new ApacheRequest(container.home()), repo, 1
-            );
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtForkTest.answer("some organization"))
+                .next(RtForkTest.answer(patched))
+                .start(RandomPort.port());
+            MkContainer forks = new MkGrizzlyContainer()
+                .start(RandomPort.port())
+        ) {
+            final RtFork fork = RtForkTest.fork(container, forks);
             fork.patch(RtForkTest.fork(patched));
             MatcherAssert.assertThat(
-                "Values are not equal",
+                "Organization of the fork is not patched",
                 new Fork.Smart(fork).organization(),
                 Matchers.equalTo(patched)
             );
+        }
+    }
+
+    @Test
+    void fetchesNameOfPatchedFork() throws IOException {
+        final String patched = "some patched organization";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtForkTest.answer("some organization"))
+                .next(RtForkTest.answer(patched))
+                .start(RandomPort.port());
+            MkContainer forks = new MkGrizzlyContainer()
+                .start(RandomPort.port())
+        ) {
+            final RtFork fork = RtForkTest.fork(container, forks);
+            fork.patch(RtForkTest.fork(patched));
             MatcherAssert.assertThat(
-                "Value is null",
+                "Patched fork has no name",
                 new Fork.Smart(fork).name(),
                 Matchers.notNullValue()
             );
         }
+    }
+
+    /**
+     * Fork served by the given containers.
+     * @param container Container to serve the fork
+     * @param forks Container to serve the forks of the repository
+     * @return The fork
+     * @throws IOException If there is any I/O problem
+     */
+    private static RtFork fork(
+        final MkContainer container,
+        final MkContainer forks
+    ) throws IOException {
+        return new RtFork(
+            new ApacheRequest(container.home()),
+            new RtRepo(
+                new MkGitHub(),
+                new ApacheRequest(forks.home()),
+                new Coordinates.Simple("test_user", "test_repo")
+            ),
+            1
+        );
     }
 
     /**
@@ -91,5 +112,4 @@ final class RtForkTest {
             .add("name", "nm")
             .build();
     }
-
 }

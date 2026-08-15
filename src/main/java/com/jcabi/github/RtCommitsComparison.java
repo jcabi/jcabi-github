@@ -44,13 +44,20 @@ final class RtCommitsComparison implements CommitsComparison {
      */
     RtCommitsComparison(final Request req, final Repo repo,
         final String base, final String head) {
+        this(
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().toString())
+                .path("/compare")
+                .path(String.format("%s...%s", base, head))
+                .back()
+        );
+    }
+
+    private RtCommitsComparison(final Repo repo, final Request req) {
         this.owner = repo;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().toString())
-            .path("/compare")
-            .path(String.format("%s...%s", base, head))
-            .back();
+        this.request = req;
     }
 
     @Override
@@ -82,6 +89,7 @@ final class RtCommitsComparison implements CommitsComparison {
     @ToString
     private static final class FileChangesIterator
         implements Iterator<FileChange> {
+
         /**
          * Encapsulated iterator of file change JSON objects.
          */
@@ -91,9 +99,7 @@ final class RtCommitsComparison implements CommitsComparison {
          * Ctor.
          * @param iter Iterator of file change JSON objects
          */
-        FileChangesIterator(
-            final Iterator<JsonObject> iter
-        ) {
+        FileChangesIterator(final Iterator<JsonObject> iter) {
             this.iterator = iter;
         }
 
@@ -123,6 +129,7 @@ final class RtCommitsComparison implements CommitsComparison {
     @ToString
     private static final class FileChanges
         implements Iterable<FileChange> {
+
         /**
          * List of file change JSON objects.
          */
@@ -132,10 +139,12 @@ final class RtCommitsComparison implements CommitsComparison {
          * Ctor.
          * @param files JsonArray of file change objects
          */
-        FileChanges(
-            final JsonArray files
-        ) {
-            this.list = files.getValuesAs(JsonObject.class);
+        FileChanges(final JsonArray files) {
+            this(files.getValuesAs(JsonObject.class));
+        }
+
+        private FileChanges(final List<JsonObject> files) {
+            this.list = files;
         }
 
         @Override

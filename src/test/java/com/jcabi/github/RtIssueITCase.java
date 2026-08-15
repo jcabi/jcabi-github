@@ -6,7 +6,7 @@ package com.jcabi.github;
 
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.Date;
+import java.time.Instant;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
@@ -19,11 +19,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration case for {@link Issue}.
  * @since 0.1
- * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @OAuthScope(OAuthScope.Scope.REPO)
-@SuppressWarnings({"PMD.AvoidDuplicateLiterals", "PMD.TooManyMethods"})
 final class RtIssueITCase {
+
     /**
      * Test repos.
      */
@@ -61,75 +60,93 @@ final class RtIssueITCase {
      */
     @Disabled
     @Test
-    void talksInGitHubProject() throws Exception {
-        final Issue issue = RtIssueITCase.issue();
-        final Comment comment = issue.comments().post("hey, works?");
+    void postsCommentWithBody() throws Exception {
+        final Comment comment = RtIssueITCase.issue()
+            .comments().post("hey, works?");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
+            "Posted comment has a wrong body",
             new Comment.Smart(comment).body(),
             Matchers.startsWith("hey, ")
         );
+        comment.remove();
+    }
+
+    @Disabled
+    @Test
+    void countsPostedComments() throws Exception {
+        final Issue issue = RtIssueITCase.issue();
+        final Comment comment = issue.comments().post("hey, works?");
         MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            issue.comments().iterate(new Date(0L)),
+            "Issue has a wrong amount of comments",
+            issue.comments().iterate(Instant.EPOCH),
             Matchers.iterableWithSize(1)
         );
+        comment.remove();
+    }
+
+    @Disabled
+    @Test
+    void postsCommentOnBehalfOfSelf() throws Exception {
+        final Issue issue = RtIssueITCase.issue();
+        final Comment comment = issue.comments().post("hey, works?");
         final User.Smart author = new User.Smart(
-            new Comment.Smart(comment)
-                .author()
+            new Comment.Smart(comment).author()
         );
         final User.Smart self = new User.Smart(
             issue.repo().github().users().self()
         );
-        if (author.hasName() && self.hasName()) {
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                author.name(),
-                Matchers.equalTo(
-                    self.name()
-                )
-            );
-        }
+        Assumptions.assumeTrue(
+            author.hasName() && self.hasName(),
+            "Both users must have names"
+        );
+        MatcherAssert.assertThat(
+            "Comment is posted on behalf of a wrong user",
+            author.name(),
+            Matchers.equalTo(self.name())
+        );
         comment.remove();
     }
 
-    /**
-     * RtIssue can change title and body.
-     * @throws Exception If some problem inside
-     */
     @Test
-    void changesTitleAndBody() throws Exception {
+    void changesTitle() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).title("test one more time");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
+            "Title of the issue is not changed",
             new Issue.Smart(issue).title(),
             Matchers.startsWith("test o")
         );
+    }
+
+    @Test
+    void changesBody() throws Exception {
+        final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).body("some new body of the issue");
         MatcherAssert.assertThat(
-            "String does not start with expected value",
+            "Body of the issue is not changed",
             new Issue.Smart(issue).body(),
             Matchers.startsWith("some new ")
         );
     }
 
-    /**
-     * RtIssue can change issue state.
-     * @throws Exception If some problem inside
-     */
     @Test
-    void changesIssueState() throws Exception {
+    void closesIssue() throws Exception {
         final Issue issue = RtIssueITCase.issue();
         new Issue.Smart(issue).close();
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Closed issue is still open",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(false)
         );
+    }
+
+    @Test
+    void reopensIssue() throws Exception {
+        final Issue issue = RtIssueITCase.issue();
+        new Issue.Smart(issue).close();
         new Issue.Smart(issue).open();
         MatcherAssert.assertThat(
-            "Values are not equal",
+            "Reopened issue is still closed",
             new Issue.Smart(issue).isOpen(),
             Matchers.is(true)
         );
@@ -138,11 +155,12 @@ final class RtIssueITCase {
     /**
      * RtIssue can fetch assignee.
      *
-     * <p> If you get AssertionError during this test execution and test was
-     *  ignored it means that something happened with account that you try to
-     *  edit with Issue.assign(). We had this problem when our account was
-     *  flagged as suspicious by GitHub. In this case you should contact GitHub
-     *  support and ask them to unblock account you use.
+     * <p>If you get AssertionError during this test execution and test was
+     * ignored it means that something happened with account that you try to
+     * edit with Issue.assign(). We had this problem when our account was
+     * flagged as suspicious by GitHub. In this case you should contact GitHub
+     * support and ask them to unblock account you use.
+     *
      * @throws Exception if any problem inside.
      * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
      */
@@ -159,10 +177,9 @@ final class RtIssueITCase {
                 "Something wrong with your test account. Read test's java-doc."
             );
         }
-        final User assignee = new Issue.Smart(issue).assignee();
         MatcherAssert.assertThat(
             "Values are not equal",
-            assignee.login(),
+            new Issue.Smart(issue).assignee().login(),
             Matchers.equalTo(login)
         );
     }
@@ -173,10 +190,9 @@ final class RtIssueITCase {
      */
     @Test
     void checksForPullRequest() throws Exception {
-        final Issue issue = RtIssueITCase.issue();
         MatcherAssert.assertThat(
             "Values are not equal",
-            new Issue.Smart(issue).isPull(),
+            new Issue.Smart(RtIssueITCase.issue()).isPull(),
             Matchers.is(false)
         );
     }
@@ -215,7 +231,6 @@ final class RtIssueITCase {
 
     /**
      * RtIssue always exists in GitHub.
-     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -264,5 +279,4 @@ final class RtIssueITCase {
     private static Issue issue() throws IOException {
         return RtIssueITCase.repo.issues().create("test issue title", "test issue body");
     }
-
 }

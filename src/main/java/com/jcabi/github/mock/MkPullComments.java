@@ -26,8 +26,8 @@ import org.xembly.Directives;
 @Immutable
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "owner" })
-@SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
 final class MkPullComments implements PullComments {
+
     /**
      * XPath suffix for comment ID text.
      */
@@ -60,7 +60,6 @@ final class MkPullComments implements PullComments {
      * @param rep Repo
      * @param pull Pull
      * @throws IOException If there is any I/O problem
-     * @checkstyle ParameterNumber (5 lines)
      */
     MkPullComments(
         final MkStorage stg,
@@ -68,18 +67,19 @@ final class MkPullComments implements PullComments {
         final Coordinates rep,
         final Pull pull
     ) throws IOException {
+        this(MkPullComments.bootstrap(stg, rep, pull), login, pull, rep);
+    }
+
+    private MkPullComments(
+        final MkStorage stg,
+        final String login,
+        final Pull pull,
+        final Coordinates rep
+    ) {
         this.storage = stg;
         this.self = login;
         this.repo = rep;
         this.owner = pull;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
-                    this.repo, this.owner.number()
-                )
-            ).addIf("comments")
-        );
     }
 
     @Override
@@ -93,9 +93,7 @@ final class MkPullComments implements PullComments {
     }
 
     @Override
-    public Iterable<PullComment> iterate(
-        final Map<String, String> params
-    ) {
+    public Iterable<PullComment> iterate(final Map<String, String> params) {
         return new MkIterable<>(
             this.storage,
             String.format(
@@ -121,7 +119,6 @@ final class MkPullComments implements PullComments {
         );
     }
 
-    // @checkstyle ParameterNumberCheck (7 lines)
     @Override
     public PullComment post(
         final String body,
@@ -140,7 +137,6 @@ final class MkPullComments implements PullComments {
                     .add("id").set(Integer.toString(number)).up()
                     .add("url").set("http://localhost/1").up()
                     .add("diff_hunk").set("@@ -16,33 +16,40 @@ public...").up()
-                    // @checkstyle MultipleStringLiteralsCheck (4 lines)
                     .add("path").set(path).up()
                     .add("position").set(Integer.toString(position)).up()
                     .add("original_position").set(Integer.toString(number)).up()
@@ -162,8 +158,7 @@ final class MkPullComments implements PullComments {
     public PullComment reply(
         final String body,
         final int comment
-    )
-        throws IOException {
+    ) throws IOException {
         this.storage.lock();
         try {
             final JsonObject orig = this.get(comment).json();
@@ -198,9 +193,29 @@ final class MkPullComments implements PullComments {
      */
     private String xpath() {
         return String.format(
-            // @checkstyle LineLength (1 line)
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments",
             this.repo, this.owner.number()
         );
+    }
+
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @param pull Pull
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final Pull pull)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']",
+                    rep, pull.number()
+                )
+            ).addIf("comments")
+        );
+        return stg;
     }
 }

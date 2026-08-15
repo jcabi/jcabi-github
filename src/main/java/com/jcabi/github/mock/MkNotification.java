@@ -23,7 +23,7 @@ final class MkNotification implements Notification {
 
     /**
      * Public ctor.
-     * @param xml XML holding the data for this notification.
+     * @param xml XML holding the data for this notification
      */
     MkNotification(final XML xml) {
         this.data = xml;
@@ -31,6 +31,6 @@ final class MkNotification implements Notification {
 
     @Override
     public long number() {
-        return Long.valueOf(this.data.xpath("//id/text()").get(0));
+        return Long.parseLong(this.data.xpath("//id/text()").get(0));
     }
 }

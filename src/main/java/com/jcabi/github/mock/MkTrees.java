@@ -21,7 +21,6 @@ import org.xembly.Directives;
 /**
  * Mock of GitHub Trees.
  * @since 0.24
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
@@ -45,28 +44,23 @@ final class MkTrees implements Trees {
 
     /**
      * Public constructor.
-     * @param stg The storage.
-     * @param login The login name.
-     * @param rep Repo's coordinates.
+     * @param stg The storage
+     * @param login The login name
+     * @param rep Repo's coordinates
      * @throws IOException If something goes wrong.
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkTrees(
         final MkStorage stg,
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkTrees.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkTrees(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']/git",
-                    this.coords
-                )
-            ).addIf("trees")
-        );
     }
 
     @Override
@@ -75,10 +69,7 @@ final class MkTrees implements Trees {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public Tree create(
-        final JsonObject params
-    ) throws IOException {
+    public Tree create(final JsonObject params) throws IOException {
         final JsonArray trees = params.getJsonArray("tree");
         for (final JsonValue val : trees) {
             final JsonObject tree = (JsonObject) val;
@@ -90,13 +81,13 @@ final class MkTrees implements Trees {
             }
             this.storage.apply(dirs);
             final String ref;
-            if (tree.containsValue("name")) {
+            if (tree.containsKey("name")) {
                 ref = tree.getString("name");
             } else {
                 ref = sha;
             }
             new MkReferences(this.storage, this.self, this.coords).create(
-                new StringBuilder("refs/trees/").append(ref).toString(),
+                String.format("refs/trees/%s", ref),
                 sha
             );
         }
@@ -109,8 +100,7 @@ final class MkTrees implements Trees {
     }
 
     @Override
-    public Tree getRec(final String sha
-    ) {
+    public Tree getRec(final String sha) {
         return new MkTree(this.storage, this.self, this.coords, sha);
     }
 
@@ -125,4 +115,23 @@ final class MkTrees implements Trees {
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']/git",
+                    rep
+                )
+            ).addIf("trees")
+        );
+        return stg;
+    }
 }

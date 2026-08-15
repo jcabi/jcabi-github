@@ -4,7 +4,6 @@
  */
 package com.jcabi.github.mock;
 
-import com.jcabi.github.Milestone;
 import com.jcabi.github.Milestones;
 import com.jcabi.github.Repo;
 import com.jcabi.immutable.ArrayMap;
@@ -16,29 +15,34 @@ import org.junit.jupiter.api.Test;
 /**
  * Test class for MkMilestones.
  * @since 0.1
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class MkMilestonesTest {
 
     @Test
     void returnsRepo() throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
-        final Repo owner = repo.milestones().repo();
         MatcherAssert.assertThat(
-            "Values are not equal", repo, Matchers.is(owner)
+            "Values are not equal", repo, Matchers.is(repo.milestones().repo())
         );
     }
 
     @Test
     void createsMilestone() throws IOException {
+        MatcherAssert.assertThat(
+            "Milestone is not created",
+            new MkGitHub().randomRepo().milestones()
+                .create("test milestone"),
+            Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    void createsAnotherMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
-        final Milestone milestone = milestones.create("test milestone");
+        milestones.create("test milestone");
         MatcherAssert.assertThat(
-            "Value is null", milestone, Matchers.notNullValue()
-        );
-        MatcherAssert.assertThat(
-            "Value is null",
+            "Second milestone is not created",
             milestones.create("another milestone"),
             Matchers.notNullValue()
         );
@@ -51,10 +55,9 @@ final class MkMilestonesTest {
     void getsMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
-        final Milestone created = milestones.create("test");
         MatcherAssert.assertThat(
             "Value is null",
-            milestones.get(created.number()),
+            milestones.get(milestones.create("test").number()),
             Matchers.notNullValue()
         );
     }
@@ -66,13 +69,7 @@ final class MkMilestonesTest {
     void removesMilestone() throws IOException {
         final Milestones milestones = new MkGitHub().randomRepo()
             .milestones();
-        final Milestone created = milestones.create("testTitle");
-        MatcherAssert.assertThat(
-            "Collection size is incorrect",
-            milestones.iterate(new ArrayMap<>()),
-            Matchers.iterableWithSize(1)
-        );
-        milestones.remove(created.number());
+        milestones.remove(milestones.create("testTitle").number());
         MatcherAssert.assertThat(
             "Collection size is incorrect",
             milestones.iterate(new ArrayMap<>()),

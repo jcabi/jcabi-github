@@ -14,7 +14,6 @@ import com.jcabi.github.Repo;
 import com.jcabi.github.Search;
 import com.jcabi.log.Logger;
 import java.io.IOException;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -23,7 +22,6 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub issues.
- *
  * @since 0.5
  */
 @Immutable
@@ -59,23 +57,18 @@ final class MkIssues implements Issues {
      * @param rep Repo
      * @throws IOException If there is any I/O problem
      */
-    @SuppressWarnings("PMD.ConstructorOnlyInitializesOrCallOtherConstructors")
     MkIssues(
         final MkStorage stg,
         final String login,
         final Coordinates rep
     ) throws IOException {
+        this(MkIssues.bootstrap(stg, rep), rep, login);
+    }
+
+    private MkIssues(final MkStorage stg, final Coordinates rep, final String login) {
         this.storage = stg;
         this.self = login;
         this.coords = rep;
-        this.storage.apply(
-            new Directives().xpath(
-                String.format(
-                    "/github/repos/repo[@coords='%s']",
-                    this.coords
-                )
-            ).addIf("issues")
-        );
     }
 
     @Override
@@ -91,8 +84,7 @@ final class MkIssues implements Issues {
     @Override
     public Issue create(final String title,
         final String body
-    )
-        throws IOException {
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -122,8 +114,7 @@ final class MkIssues implements Issues {
     }
 
     @Override
-    public Iterable<Issue> iterate(final Map<String, String> params
-    ) {
+    public Iterable<Issue> iterate(final Map<String, String> params) {
         return new MkIterable<>(
             this.storage,
             this.xpath().concat("/issue"),
@@ -134,13 +125,12 @@ final class MkIssues implements Issues {
     }
 
     @Override
-    @SuppressWarnings("PMD.UseConcurrentHashMap")
     public Iterable<Issue> search(
         final Issues.Sort sort,
         final Search.Order direction,
-        final EnumMap<Issues.Qualifier, String> qualifiers) {
+        final Map<Issues.Qualifier, String> qualifiers) {
         final Map<String, String> params = new HashMap<>();
-        for (final EnumMap.Entry<Issues.Qualifier, String> entry : qualifiers
+        for (final Map.Entry<Issues.Qualifier, String> entry : qualifiers
             .entrySet()) {
             params.put(entry.getKey().identifier(), entry.getValue());
         }
@@ -160,4 +150,23 @@ final class MkIssues implements Issues {
         );
     }
 
+    /**
+     * Prepare the storage.
+     * @param stg Storage
+     * @param rep Coordinates
+     * @return The same storage
+     * @throws IOException If fails
+     */
+    private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
+        throws IOException {
+        stg.apply(
+            new Directives().xpath(
+                String.format(
+                    "/github/repos/repo[@coords='%s']",
+                    rep
+                )
+            ).addIf("issues")
+        );
+        return stg;
+    }
 }

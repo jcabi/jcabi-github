@@ -9,7 +9,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
@@ -26,77 +25,85 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(RandomPort.class)
 final class RtOrganizationTest {
+
     /**
      * The rule for skipping test if there's BindException.
-     * @checkstyle VisibilityModifierCheck (3 lines)
      */
     @Test
     void canFetchIssueAsJson() throws IOException {
-        final RtOrganization org = new RtOrganization(
-            new MkGitHub(),
-            new FakeRequest().withBody("{\"organization\":\"json\"}"),
-            "testJson"
-        );
         MatcherAssert.assertThat(
             "Values are not equal",
-            org.json().getString("organization"),
+            new RtOrganization(
+                new MkGitHub(),
+                new FakeRequest().withBody("{\"organization\":\"json\"}"),
+                "testJson"
+            ).json().getString("organization"),
             Matchers.equalTo("json")
         );
     }
 
     @Test
-    void patchWithJson() throws IOException {
+    void patchesThroughPatchMethod() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
             ).start(RandomPort.port())
         ) {
-            final RtOrganization org = new RtOrganization(
-                new MkGitHub(),
-                new ApacheRequest(container.home()),
-                "testPatch"
-            );
-            org.patch(
-                Json.createObjectBuilder().add("patch", "test").build()
-            );
-            final MkQuery query = container.take();
+            RtOrganizationTest.patch(container);
             MatcherAssert.assertThat(
-                "Values are not equal",
-                query.method(),
+                "Organization is not patched through PATCH",
+                container.take().method(),
                 Matchers.equalTo(Request.PATCH)
             );
-            MatcherAssert.assertThat(
-                "Values are not equal",
-                query.body(),
-                Matchers.equalTo("{\"patch\":\"test\"}")
-            );
-            container.stop();
         }
     }
 
     @Test
-    void canCompareInstances() throws IOException {
-        final RtOrganization less = new RtOrganization(
-            new MkGitHub(),
-            new FakeRequest(),
-            "abc"
-        );
-        final RtOrganization greater = new RtOrganization(
-            new MkGitHub(),
-            new FakeRequest(),
-            "def"
-        );
+    void sendsPatchInRequestBody() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "response")
+            ).start(RandomPort.port())
+        ) {
+            RtOrganizationTest.patch(container);
+            MatcherAssert.assertThat(
+                "Patch is not sent in the request body",
+                container.take().body(),
+                Matchers.equalTo("{\"patch\":\"test\"}")
+            );
+        }
+    }
+
+    @Test
+    void comparesSmallerOrganization() throws IOException {
         MatcherAssert.assertThat(
-            "Value is not less than expected",
-            less.compareTo(greater), Matchers.lessThan(0)
+            "Organization is not less than the greater one",
+            RtOrganizationTest.organization("abc").compareTo(
+                RtOrganizationTest.organization("def")
+            ),
+            Matchers.lessThan(0)
         );
+    }
+
+    @Test
+    void comparesBiggerOrganization() throws IOException {
         MatcherAssert.assertThat(
-            "Value is not greater than expected",
-            greater.compareTo(less), Matchers.greaterThan(0)
+            "Organization is not greater than the smaller one",
+            RtOrganizationTest.organization("def").compareTo(
+                RtOrganizationTest.organization("abc")
+            ),
+            Matchers.greaterThan(0)
         );
+    }
+
+    @Test
+    void comparesEqualOrganizations() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            less.compareTo(less), Matchers.equalTo(0)
+            "Equal organizations are not the same",
+            RtOrganizationTest.organization("abc").compareTo(
+                RtOrganizationTest.organization("abc")
+            ),
+            Matchers.equalTo(0)
         );
     }
 
@@ -107,18 +114,44 @@ final class RtOrganizationTest {
                 new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "blah")
             ).start(RandomPort.port())
         ) {
-            final RtOrganization org = new RtOrganization(
-                new MkGitHub(),
-                new ApacheRequest(container.home()),
-                "testToString"
-            );
             MatcherAssert.assertThat(
                 "String does not end with expected value",
-                org.toString(),
+                new RtOrganization(
+                    new MkGitHub(),
+                    new ApacheRequest(container.home()),
+                    "testToString"
+                ).toString(),
                 Matchers.endsWith("/orgs/testToString")
             );
             container.stop();
         }
     }
 
+    /**
+     * Patch the organization served by the given container.
+     * @param container Container to serve the organization
+     * @throws IOException If there is any I/O problem
+     */
+    private static void patch(final MkContainer container) throws IOException {
+        new RtOrganization(
+            new MkGitHub(),
+            new ApacheRequest(container.home()),
+            "testPatch"
+        ).patch(Json.createObjectBuilder().add("patch", "test").build());
+    }
+
+    /**
+     * Organization with the given login.
+     * @param login Login of the organization
+     * @return The organization
+     * @throws IOException If fails
+     */
+    private static RtOrganization organization(final String login)
+        throws IOException {
+        return new RtOrganization(
+            new MkGitHub(),
+            new FakeRequest(),
+            login
+        );
+    }
 }

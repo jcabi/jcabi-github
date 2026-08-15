@@ -10,7 +10,6 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
-import jakarta.json.JsonStructure;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -46,17 +45,24 @@ final class RtPullComments implements PullComments {
      * @param pull Pull
      */
     RtPullComments(final Request req, final Pull pull) {
-        this.entry = req;
-        this.owner = pull;
-        this.request = this.entry.uri()
-            // @checkstyle MultipleStringLiterals (8 lines)
-            .path("/repos")
-            .path(pull.repo().coordinates().user())
-            .path(pull.repo().coordinates().repo())
-            .path("/pulls")
-            .path(Integer.toString(pull.number()))
-            .path("/comments")
-            .back();
+        this(
+            req,
+            pull,
+            req.uri()
+                .path("/repos")
+                .path(pull.repo().coordinates().user())
+                .path(pull.repo().coordinates().repo())
+                .path("/pulls")
+                .path(Integer.toString(pull.number()))
+                .path("/comments")
+                .back()
+        );
+    }
+
+    private RtPullComments(final Request entry, final Pull owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -70,13 +76,10 @@ final class RtPullComments implements PullComments {
     }
 
     @Override
-    public Iterable<PullComment> iterate(
-        final Map<String, String> params
-    ) {
+    public Iterable<PullComment> iterate(final Map<String, String> params) {
         return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
             value -> this.get(
-                // @checkstyle MultipleStringLiterals (3 lines)
                 value.getInt("id")
             )
         );
@@ -86,23 +89,21 @@ final class RtPullComments implements PullComments {
     public Iterable<PullComment> iterate(
         final int number,
         final Map<String, String> params) {
-        final Request newreq = this.entry.uri()
-            .path("/repos")
-            .path(this.owner.repo().coordinates().user())
-            .path(this.owner.repo().coordinates().repo())
-            .path("/pulls")
-            .path(String.valueOf(number))
-            .path("/comments")
-            .back();
         return new RtPagination<>(
-            newreq.uri().queryParams(params).back(),
+            this.entry.uri()
+                .path("/repos")
+                .path(this.owner.repo().coordinates().user())
+                .path(this.owner.repo().coordinates().repo())
+                .path("/pulls")
+                .path(String.valueOf(number))
+                .path("/comments")
+                .back().uri().queryParams(params).back(),
             value -> this.get(
                 value.getInt("id")
             )
         );
     }
 
-    // @checkstyle ParameterNumberCheck (7 lines)
     @Override
     public PullComment post(
         final String body,
@@ -110,16 +111,16 @@ final class RtPullComments implements PullComments {
         final String path,
         final int position
     ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            // @checkstyle MultipleStringLiterals (4 line)
-            .add("body", body)
-            .add("commit_id", commit)
-            .add("path", path)
-            .add("position", position)
-            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("body", body)
+                        .add("commit_id", commit)
+                        .add("path", path)
+                        .add("position", position)
+                        .build()
+                ).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)
@@ -133,13 +134,14 @@ final class RtPullComments implements PullComments {
         final String body,
         final int comment
     ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("body", body)
-            .add("in_reply_to", comment)
-            .build();
         return this.get(
             this.request.method(Request.POST)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("body", body)
+                        .add("in_reply_to", comment)
+                        .build()
+                ).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_CREATED)

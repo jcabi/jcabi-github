@@ -7,8 +7,6 @@ package com.jcabi.github.mock;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Commits;
 import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -17,33 +15,23 @@ import org.junit.jupiter.api.Test;
 /**
  * Testcase for MkTags.
  * @since 0.8
- * @checkstyle MultipleStringLiterals (500 lines)
  */
 final class MkCommitsTest {
 
     @Test
     void createsMkCommit() throws IOException {
-        final JsonObject author = Json.createObjectBuilder()
-            .add("name", "Scott").add("email", "Scott@gmail.com")
-            .add("date", "2008-07-09T16:13:30+12:00").build();
-        final JsonArray tree = Json.createArrayBuilder()
-            .add("xyzsha12").build();
-        final Commit commit = new MkGitHub().randomRepo()
-            .git().commits().create(
-                Json.createObjectBuilder().add("message", "my commit message")
-                    .add("sha", "12ahscba")
-                    .add("tree", "abcsha12")
-                    .add("parents", tree)
-                    .add("author", author).build()
-            );
         MatcherAssert.assertThat(
-            "Value is null",
-            commit,
+            "Commit is not created",
+            MkCommitsTest.created(),
             Matchers.notNullValue()
         );
+    }
+
+    @Test
+    void createsMkCommitWithSha() throws IOException {
         MatcherAssert.assertThat(
-            "Values are not equal",
-            commit.sha(),
+            "Created commit has a wrong SHA",
+            MkCommitsTest.created().sha(),
             Matchers.equalTo("12ahscba")
         );
     }
@@ -61,12 +49,10 @@ final class MkCommitsTest {
             Json.createObjectBuilder()
                 .add("message", "persisted commit message")
                 .add("sha", sha)
-                .add("tree", "treesha9e1f3c7b8d4a")
-                .add(
+                .add("tree", "treesha9e1f3c7b8d4a").add(
                     "parents",
                     Json.createArrayBuilder().add("parentsha0123456789").build()
-                )
-                .add(
+                ).add(
                     "author",
                     Json.createObjectBuilder()
                         .add("name", "Alice")
@@ -104,5 +90,30 @@ final class MkCommitsTest {
             commits.get(sha).json().getString("message"),
             Matchers.equalTo(message)
         );
+    }
+
+    /**
+     * A commit created in a random repo.
+     * @return Created commit
+     * @throws IOException if there is any I/O problem
+     */
+    private static Commit created() throws IOException {
+        return new MkGitHub().randomRepo()
+            .git().commits().create(
+                Json.createObjectBuilder().add("message", "my commit message")
+                    .add("sha", "12ahscba")
+                    .add("tree", "abcsha12").add(
+                        "parents",
+                        Json.createArrayBuilder()
+                            .add("xyzsha12").build()
+                    ).add(
+                        "author",
+                        Json.createObjectBuilder()
+                            .add("name", "Scott")
+                            .add("email", "Scott@gmail.com")
+                            .add("date", "2008-07-09T16:13:30+12:00")
+                            .build()
+                    ).build()
+            );
     }
 }

@@ -20,12 +20,10 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub contents.
  * @since 0.8
- * @checkstyle MultipleStringLiteralsCheck (300 lines)
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @EqualsAndHashCode(of = { "entry", "request", "owner" })
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class RtContents implements Contents {
 
     /**
@@ -49,14 +47,22 @@ final class RtContents implements Contents {
      * @param repo Repository
      */
     RtContents(final Request req, final Repo repo) {
-        this.entry = req;
-        this.owner = repo;
-        this.request = req.uri()
-            .path("/repos")
-            .path(repo.coordinates().user())
-            .path(repo.coordinates().repo())
-            .path("/contents")
-            .back();
+        this(
+            req,
+            repo,
+            req.uri()
+                .path("/repos")
+                .path(repo.coordinates().user())
+                .path(repo.coordinates().repo())
+                .path("/contents")
+                .back()
+        );
+    }
+
+    private RtContents(final Request entry, final Repo owner, final Request request) {
+        this.entry = entry;
+        this.owner = owner;
+        this.request = request;
     }
 
     @Override
@@ -84,12 +90,7 @@ final class RtContents implements Contents {
     }
 
     @Override
-    public Content readme(
-        final String branch
-    ) throws IOException {
-        final JsonStructure json = Json.createObjectBuilder()
-            .add("ref", branch)
-            .build();
+    public Content readme(final String branch) throws IOException {
         return new RtContent(
             this.entry, this.owner,
             this.entry.uri()
@@ -99,7 +100,11 @@ final class RtContents implements Contents {
                 .path("/readme")
                 .back()
                 .method(Request.GET)
-                .body().set(json).back()
+                .body().set(
+                    Json.createObjectBuilder()
+                        .add("ref", branch)
+                        .build()
+                ).back()
                 .fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
@@ -109,20 +114,16 @@ final class RtContents implements Contents {
     }
 
     @Override
-    public Content create(
-        final JsonObject content
-    )
-        throws IOException {
+    public Content create(final JsonObject content) throws IOException {
         if (!content.containsKey("path")) {
             throw new IllegalStateException(
                 "Content should have path parameter"
             );
         }
-        final String path = content.getString("path");
         return new RtContent(
             this.entry, this.owner,
             this.request.method(Request.PUT)
-                .uri().path(path).back()
+                .uri().path(content.getString("path")).back()
                 .body().set(content).back()
                 .fetch()
                 .as(RestResponse.class)
@@ -141,17 +142,12 @@ final class RtContents implements Contents {
     }
 
     @Override
-    public Content get(
-        final String path
-    ) throws IOException {
+    public Content get(final String path) throws IOException {
         return this.content(path, this.repo().defaultBranch().name());
     }
 
     @Override
-    public Iterable<Content> iterate(
-        final String path,
-        final String ref
-    ) {
+    public Iterable<Content> iterate(final String path, final String ref) {
         return new RtPagination<>(
             this.request.method(Request.GET)
                 .uri().path(path).queryParam("ref", ref).back(),
@@ -163,20 +159,17 @@ final class RtContents implements Contents {
     }
 
     @Override
-    public RepoCommit remove(final JsonObject content
-    )
-        throws IOException {
+    public RepoCommit remove(final JsonObject content) throws IOException {
         if (!content.containsKey("path")) {
             throw new IllegalStateException(
                 "Content should have path parameter"
             );
         }
-        final String path = content.getString("path");
         return new RtRepoCommit(
             this.entry,
             this.owner,
             this.request.method(Request.DELETE)
-                .uri().path(path).back()
+                .uri().path(content.getString("path")).back()
                 .body().set(content).back().fetch()
                 .as(RestResponse.class)
                 .assertStatus(HttpURLConnection.HTTP_OK)
@@ -188,8 +181,7 @@ final class RtContents implements Contents {
     @Override
     public RepoCommit update(
         final String path,
-        final JsonObject json)
-        throws IOException {
+        final JsonObject json) throws IOException {
         return new RtRepoCommit(
             this.entry,
             this.owner,
@@ -207,16 +199,15 @@ final class RtContents implements Contents {
     @Override
     public boolean exists(final String path, final String ref)
         throws IOException {
-        final RestResponse response = this.request.method(Request.GET)
+        return this.request.method(Request.GET)
             .uri().path(path).queryParam("ref", ref).back()
-            .fetch().as(RestResponse.class);
-        return response.status() == HttpURLConnection.HTTP_OK;
+            .fetch().as(RestResponse.class).status() == HttpURLConnection.HTTP_OK;
     }
 
     /**
      * Get the contents of a file or symbolic link in a repository.
      * @param path The content path
-     * @param ref The name of the commit/branch/tag.
+     * @param ref The name of the commit/branch/tag
      * @return Content fetched
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
@@ -241,5 +232,4 @@ final class RtContents implements Contents {
         }
         return content;
     }
-
 }
