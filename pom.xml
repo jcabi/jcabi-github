@@ -307,10 +307,7 @@
             <version>0.30.11</version>
             <configuration>
               <excludes combine.children="append">
-                <exclude>xml:/src/it/settings.xml</exclude>
-                <exclude>findbugs:.*</exclude>
                 <exclude>duplicatefinder:.*</exclude>
-                <exclude>dependencies:.*</exclude>
               </excludes>
             </configuration>
           </plugin>
