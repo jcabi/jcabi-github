@@ -114,11 +114,6 @@ public interface Coordinates extends Comparable<Coordinates> {
             return result;
         }
 
-        /**
-         * Parse mnemo into parts.
-         * @param mnemo Mnemo name
-         * @return Parts
-         */
         private static String[] parse(final String mnemo) {
             final String[] parts = mnemo.split(Coordinates.SEPARATOR, 2);
             if (parts.length != 2) {
@@ -199,10 +194,6 @@ public interface Coordinates extends Comparable<Coordinates> {
             return this.url.hashCode();
         }
 
-        /**
-         * Split URL.
-         * @return Array of repo coordinates
-         */
         private String[] split() {
             if (!this.url.startsWith(Coordinates.Https.DOMAIN)) {
                 throw new IllegalArgumentException(

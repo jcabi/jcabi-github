@@ -128,11 +128,6 @@ final class MkRepoCommitTest {
         );
     }
 
-    /**
-     * Create repository for test.
-     * @param storage The storage
-     * @return Repo
-     */
     private static Repo repo(final MkStorage storage) {
         final String login = "test_login";
         return new MkRepo(
@@ -142,12 +137,6 @@ final class MkRepoCommitTest {
         );
     }
 
-    /**
-     * Create a commit in its own repo.
-     * @param storage The storage
-     * @param number Number of the repo
-     * @return Commit
-     */
     private static MkRepoCommit commit(
         final MkStorage storage, final int number) {
         return new MkRepoCommit(

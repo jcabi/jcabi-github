@@ -164,24 +164,12 @@ final class MkGitHubTest {
         );
     }
 
-    /**
-     * A comment posted to a fresh issue of a fresh repo.
-     * @param github GitHub to post the comment to
-     * @return Posted comment
-     * @throws IOException If some problem inside
-     */
     private static Comment comment(final MkGitHub github) throws IOException {
         return github.repos().create(MkGitHubTest.NEW_REPO_SETTINGS)
             .issues().create("hey", "how are you?")
             .comments().post("hey, works?");
     }
 
-    /**
-     * A comment posted by a re-logged user.
-     * @param github GitHub to post the comment to
-     * @return Posted comment
-     * @throws IOException If some problem inside
-     */
     private static Comment relogged(final MkGitHub github) throws IOException {
         final Repo repo = github.repos()
             .create(MkGitHubTest.NEW_REPO_SETTINGS);

@@ -171,11 +171,6 @@ final class MkRepoTest {
         );
     }
 
-    /**
-     * Languages of a test repo.
-     * @return Languages
-     * @throws IOException if some problem inside
-     */
     private static Iterable<Language> languages() throws IOException {
         final String user = "testuser4";
         return new MkRepo(

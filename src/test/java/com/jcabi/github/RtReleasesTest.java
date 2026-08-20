@@ -139,12 +139,6 @@ final class RtReleasesTest {
         }
     }
 
-    /**
-     * Releases served by the given container.
-     * @param container Container to serve the releases
-     * @return Releases
-     * @throws IOException If there is any I/O problem
-     */
     private static RtReleases releases(final MkContainer container)
         throws IOException {
         return new RtReleases(
@@ -153,11 +147,6 @@ final class RtReleasesTest {
         );
     }
 
-    /**
-     * Answer with a created release of the given tag.
-     * @param tag The tag name of the release
-     * @return Answer
-     */
     private static MkAnswer created(final String tag) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -165,11 +154,6 @@ final class RtReleasesTest {
         );
     }
 
-    /**
-     * Answer with a fetched release of the given tag.
-     * @param tag The tag name of the release
-     * @return Answer
-     */
     private static MkAnswer fetched(final String tag) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -177,10 +161,6 @@ final class RtReleasesTest {
         );
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "releases"))
@@ -188,11 +168,6 @@ final class RtReleasesTest {
         return repo;
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param tag The tag name of the release
-     * @return JsonObject
-     */
     private static JsonObject release(final String tag) {
         return Json.createObjectBuilder()
             .add("id", 1)

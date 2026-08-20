@@ -9,7 +9,6 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
 import java.io.IOException;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,14 +44,14 @@ public final class RepositoryStatistics {
                 key -> key.key,
                 key -> key.value(json)
             )
-            );
+        );
     }
 
     /**
      * Keys of the JSON object returned by the GitHub API.
      * @since 1.8.0
      */
-    private enum Key {
+    enum Key {
 
         /**
          * The main programming language used in the repository.
@@ -152,112 +151,6 @@ public final class RepositoryStatistics {
                 result = ((JsonString) value).getString();
             }
             return result;
-        }
-    }
-
-    /**
-     * Smart RepositoryStatistics.
-     * @since 1.8.0
-     */
-    public static final class Smart {
-
-        /**
-         * Repository statistics.
-         */
-        private final transient RepositoryStatistics stats;
-
-        /**
-         * Public ctor.
-         * @param repo Repository
-         */
-        public Smart(final Repo repo) {
-            this(new RepositoryStatistics(repo));
-        }
-
-        /**
-         * Public ctor.
-         * @param statistics Repository statistics
-         */
-        public Smart(final RepositoryStatistics statistics) {
-            this.stats = statistics;
-        }
-
-        /**
-         * Number of forks of this repository.
-         * @return Number of forks
-         * @throws IOException If there is any I/O problem
-         */
-        public int forks() throws IOException {
-            return this.integer(RepositoryStatistics.Key.FORKS_COUNT);
-        }
-
-        /**
-         * Number of users who have starred this repository.
-         * @return Number of stargazers
-         * @throws IOException If there is any I/O problem
-         */
-        public int stargazers() throws IOException {
-            return this.integer(RepositoryStatistics.Key.STARGAZERS_COUNT);
-        }
-
-        /**
-         * Number of users watching the repository.
-         * @return Number of watchers
-         * @throws IOException If there is any I/O problem
-         */
-        public int watchers() throws IOException {
-            return this.integer(RepositoryStatistics.Key.WATCHERS_COUNT);
-        }
-
-        /**
-         * The size of the repository.
-         * @return Size of the repository
-         * @throws IOException If there is any I/O problem
-         */
-        public int size() throws IOException {
-            return this.integer(RepositoryStatistics.Key.SIZE);
-        }
-
-        /**
-         * The number of open issues in this repository.
-         * @return Number of open issues
-         * @throws IOException If there is any I/O problem
-         */
-        public int openIssues() throws IOException {
-            return this.integer(RepositoryStatistics.Key.OPEN_ISSUES_COUNT);
-        }
-
-        /**
-         * The time the repository was created.
-         * @return Time the repository was created
-         * @throws IOException If there is any I/O problem
-         */
-        public ZonedDateTime created() throws IOException {
-            return this.datetime(RepositoryStatistics.Key.CREATED_AT);
-        }
-
-        /**
-         * Parses integer from JSON.
-         * @param key Json key
-         * @return Integer value
-         * @throws IOException If there is any I/O problem
-         */
-        private int integer(final RepositoryStatistics.Key key) throws IOException {
-            return Integer.parseInt(
-                String.valueOf(this.stats.toMap().get(key.getKey()))
-            );
-        }
-
-        /**
-         * Parses datetime from JSON.
-         * @param key Json key
-         * @return Datetime value
-         * @throws IOException If there is any I/O problem
-         */
-        private ZonedDateTime datetime(final RepositoryStatistics.Key key) throws IOException {
-            return ZonedDateTime.parse(
-                String.valueOf(this.stats.toMap().get(key.getKey()))
-            );
         }
     }
 }

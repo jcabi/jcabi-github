@@ -102,10 +102,6 @@ final class MkPullComment implements PullComment {
         return this.number() - other.number();
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments/comment[id='%d']",

@@ -158,12 +158,6 @@ final class RtPublicKeysTest {
         }
     }
 
-    /**
-     * Keys served by the given container.
-     * @param container Container to serve the keys
-     * @return Keys
-     * @throws IOException If there is any I/O problem
-     */
     private static RtPublicKeys keys(final MkContainer container)
         throws IOException {
         return new RtPublicKeys(
@@ -172,10 +166,6 @@ final class RtPublicKeysTest {
         );
     }
 
-    /**
-     * Answer with a created key.
-     * @return Answer
-     */
     private static MkAnswer created() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -183,11 +173,6 @@ final class RtPublicKeysTest {
         );
     }
 
-    /**
-     * Create and return key to test.
-     * @param number Public Key Id
-     * @return JsonObject
-     */
     private static JsonObject key(final int number) {
         return Json.createObjectBuilder()
             .add("id", number)

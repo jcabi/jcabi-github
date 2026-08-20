@@ -142,10 +142,6 @@ final class MkContent implements Content {
         return result;
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return The XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/contents/content[path='%s' and @ref='%s']",

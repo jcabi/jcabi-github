@@ -213,12 +213,6 @@ final class RtCommentTest {
         }
     }
 
-    /**
-     * Comment served by the given container.
-     * @param container Container to serve the comment
-     * @return Comment
-     * @throws IOException If there is any I/O problem
-     */
     private static RtComment comment(final MkContainer container)
         throws IOException {
         return new RtComment(

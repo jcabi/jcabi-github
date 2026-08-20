@@ -105,10 +105,6 @@ public final class MkCommits implements Commits {
         return new MkStatuses(this.get(sha));
     }
 
-    /**
-     * XPath of the commits element in the storage XML.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/commits",
@@ -116,11 +112,6 @@ public final class MkCommits implements Commits {
         );
     }
 
-    /**
-     * Render JSON value as plain text suitable for XML storage.
-     * @param value JSON value
-     * @return Plain string
-     */
     private static String asText(final JsonValue value) {
         final String result;
         if (value.getValueType() == JsonValue.ValueType.STRING) {
@@ -131,13 +122,6 @@ public final class MkCommits implements Commits {
         return result;
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
         throws IOException {
         stg.apply(

@@ -153,11 +153,6 @@ final class MkReposTest {
         );
     }
 
-    /**
-     * JSON of a repo created by a named user.
-     * @return JSON of the repo
-     * @throws IOException If some problem inside
-     */
     private static JsonObject owned() throws IOException {
         return MkReposTest.repo(
             new MkRepos(new MkStorage.InFile(), "amihaiemil"),
@@ -166,14 +161,6 @@ final class MkReposTest {
         ).json();
     }
 
-    /**
-     * Create and return Repo to test.
-     * @param repos Repos
-     * @param name Repo name
-     * @param desc Repo description
-     * @return Repo
-     * @throws IOException If some problem inside
-     */
     private static Repo repo(final Repos repos, final String name,
         final String desc) throws IOException {
         return repos.create(
@@ -181,13 +168,6 @@ final class MkReposTest {
         );
     }
 
-    /**
-     * Create and return Repo to test.
-     * @param repos Repos
-     * @param name Repo name
-     * @param org Repo organization
-     * @return Repo
-     */
     private static Repo repoWithOrg(final Repos repos, final String name,
         final String org) throws IOException {
         return repos.create(

@@ -82,12 +82,6 @@ final class RtPaginationTest {
         }
     }
 
-    /**
-     * Pagination served by the given container.
-     * @param container Container to serve the pages
-     * @return Pagination
-     * @throws IOException If there is any I/O problem
-     */
     private static RtPagination<JsonObject> page(final MkContainer container)
         throws IOException {
         return new RtPagination<>(
@@ -96,10 +90,6 @@ final class RtPaginationTest {
         );
     }
 
-    /**
-     * Answer with a link to the next page.
-     * @return Answer
-     */
     private static MkAnswer.Simple linked() {
         return RtPaginationTest.simple("Hi Jeff").withHeader(
             "Link",
@@ -107,11 +97,6 @@ final class RtPaginationTest {
         );
     }
 
-    /**
-     * Create and return MkAnswer.Simple to test.
-     * @param msg Message to build MkAnswer.Simple
-     * @return MkAnswer.Simple
-     */
     private static MkAnswer.Simple simple(final String msg) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

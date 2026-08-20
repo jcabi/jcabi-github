@@ -108,12 +108,6 @@ final class RtTreesTest {
         );
     }
 
-    /**
-     * Trees served by the given container.
-     * @param container Container to serve the trees
-     * @return Trees
-     * @throws IOException If there is any I/O problem
-     */
     private static Trees trees(final MkContainer container) throws IOException {
         return new RtTrees(
             new ApacheRequest(container.home()),
@@ -121,12 +115,6 @@ final class RtTreesTest {
         );
     }
 
-    /**
-     * Create a tree in the given trees.
-     * @param trees Trees to create the tree in
-     * @return Created tree
-     * @throws IOException If there is any I/O problem
-     */
     private static Tree create(final Trees trees) throws IOException {
         return trees.create(
             Json.createObjectBuilder().add(
@@ -139,10 +127,6 @@ final class RtTreesTest {
         );
     }
 
-    /**
-     * Answer with a created tree.
-     * @return Answer
-     */
     private static MkAnswer answer() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -150,10 +134,6 @@ final class RtTreesTest {
         );
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))

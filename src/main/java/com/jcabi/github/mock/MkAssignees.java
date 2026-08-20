@@ -82,10 +82,6 @@ final class MkAssignees implements Assignees {
         }
     }
 
-    /**
-     * XPath of the Collaborators element in the XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/collaborators",

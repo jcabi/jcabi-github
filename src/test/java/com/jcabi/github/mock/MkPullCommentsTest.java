@@ -171,22 +171,12 @@ final class MkPullCommentsTest {
         );
     }
 
-    /**
-     * Generate pull comments for test.
-     * @return The pull comments
-     * @throws IOException If an IO Exception occurs
-     */
     private static PullComments comments() throws IOException {
         return new MkGitHub().randomRepo().pulls()
             .create("hello", "awesome-head", "awesome-base")
             .comments();
     }
 
-    /**
-     * Generate pull comments of a repo with two commented pull requests.
-     * @return The pull comments of the first pull request
-     * @throws IOException If an IO Exception occurs
-     */
     private static PullComments crowded() throws IOException {
         final PullComments comments = MkPullCommentsTest.comments();
         comments.pull()
@@ -199,12 +189,6 @@ final class MkPullCommentsTest {
         return comments;
     }
 
-    /**
-     * Post a comment to be replied to.
-     * @param comments Comments to post to
-     * @return Number of the posted comment
-     * @throws IOException If an IO Exception occurs
-     */
     private static int original(final PullComments comments)
         throws IOException {
         return comments.post(
@@ -215,12 +199,6 @@ final class MkPullCommentsTest {
         ).number();
     }
 
-    /**
-     * Create a repo with one commented pull request in it.
-     * @param storage The storage
-     * @return The repo
-     * @throws IOException If any I/O error occurs.
-     */
     private static Repo posted(final MkStorage storage) throws IOException {
         final Repo repo = new MkGitHub(storage, "jamie").repos().create(
             new Repos.RepoCreate("incredible", false)
@@ -235,13 +213,6 @@ final class MkPullCommentsTest {
         return repo;
     }
 
-    /**
-     * Assert if fields doesn't contain value.
-     * @param storage The storage
-     * @param repo The repo
-     * @param element The element to be tested and the value
-     * @throws IOException If any I/O error occurs.
-     */
     private static void assertFieldContains(
         final MkStorage storage,
         final Repo repo,
@@ -253,14 +224,6 @@ final class MkPullCommentsTest {
         );
     }
 
-    /**
-     * Value of one field of the only comment in the storage.
-     * @param storage The storage
-     * @param repo The repo
-     * @param element Name of the field
-     * @return Value of the field
-     * @throws IOException If any I/O error occurs.
-     */
     private static String field(
         final MkStorage storage,
         final Repo repo,

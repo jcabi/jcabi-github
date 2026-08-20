@@ -144,11 +144,6 @@ final class RtContentTest {
         }
     }
 
-    /**
-     * Patch the content served by the given container.
-     * @param container Container to serve the content
-     * @throws IOException If there is any I/O problem
-     */
     private static void patch(final MkContainer container) throws IOException {
         new RtContent(
             new ApacheRequest(container.home()),
@@ -157,12 +152,6 @@ final class RtContentTest {
         ).patch(Json.createObjectBuilder().add("patch", "test").build());
     }
 
-    /**
-     * Raw content served by the given container.
-     * @param container Container to serve the content
-     * @return Stream of the raw content
-     * @throws IOException If there is any I/O problem
-     */
     private static InputStream raw(final MkContainer container)
         throws IOException {
         return new RtContent(
@@ -172,11 +161,6 @@ final class RtContentTest {
         ).raw();
     }
 
-    /**
-     * Content with the given path.
-     * @param path Path of the content
-     * @return The content
-     */
     private static RtContent content(final String path) {
         return new RtContent(
             new FakeRequest(),
@@ -185,10 +169,6 @@ final class RtContentTest {
         );
     }
 
-    /**
-     * Mock repo for GhIssue creation.
-     * @return The mock repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);

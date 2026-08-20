@@ -66,12 +66,6 @@ final class RtUserOrganizationsTest {
         }
     }
 
-    /**
-     * Organizations served by the given container.
-     * @param container Container to serve the organizations
-     * @return Organizations
-     * @throws IOException If there is any I/O problem
-     */
     private static RtUserOrganizations organizations(
         final MkContainer container
     ) throws IOException {
@@ -83,10 +77,6 @@ final class RtUserOrganizationsTest {
         );
     }
 
-    /**
-     * Answer with three organizations.
-     * @return Answer
-     */
     private static MkAnswer answer() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -98,12 +88,6 @@ final class RtUserOrganizationsTest {
         );
     }
 
-    /**
-     * Create and return organization to test.
-     * @param number Organization ID
-     * @param login Organization login name
-     * @return JsonObject
-     */
     private static JsonObject org(final int number, final String login) {
         return Json.createObjectBuilder()
             .add("id", number)

@@ -76,12 +76,6 @@ final class RtTagsTest {
         }
     }
 
-    /**
-     * Create a tag through the given container.
-     * @param container Container to serve the tags
-     * @return Created tag
-     * @throws IOException If there is any I/O problem
-     */
     private static Tag create(final MkContainer container) throws IOException {
         return new RtTags(
             new ApacheRequest(container.home()),
@@ -102,10 +96,6 @@ final class RtTagsTest {
         );
     }
 
-    /**
-     * Answer with a created tag.
-     * @return Answer
-     */
     private static MkAnswer tag() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -113,10 +103,6 @@ final class RtTagsTest {
         );
     }
 
-    /**
-     * Answer with a created reference.
-     * @return Answer
-     */
     private static MkAnswer reference() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,

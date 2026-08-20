@@ -120,7 +120,9 @@ final class MkIssue implements Issue {
                 this.coords,
                 this.num
             ),
-            new MkIssue.MkIssueEventMapping(this)
+            new MkIssueEventMapping(
+                new MkIssueEvents(this.storage, this.self, this.coords)
+            )
         );
     }
 
@@ -225,47 +227,10 @@ final class MkIssue implements Issue {
         throw new UnsupportedOperationException("isLocked not implemented");
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']",
             this.coords, this.num
         );
-    }
-
-    /**
-     * Mapping for MkIssueEvents.
-     * @since 0.5
-     */
-    private static class MkIssueEventMapping
-        implements MkIterable.Mapping<Event> {
-
-        /**
-         * Issue events.
-         */
-        private final transient MkIssueEvents evts;
-
-        /**
-         * Constructor.
-         * @param issue Mock issue to get events from
-         * @throws IOException If there is any I/O problem
-         */
-        MkIssueEventMapping(final MkIssue issue) throws IOException {
-            this.evts = new MkIssueEvents(
-                issue.storage,
-                issue.self,
-                issue.coords
-            );
-        }
-
-        @Override
-        public Event map(final XML xml) {
-            return this.evts.get(
-                Integer.parseInt(xml.xpath("number/text()").get(0))
-            );
-        }
     }
 }

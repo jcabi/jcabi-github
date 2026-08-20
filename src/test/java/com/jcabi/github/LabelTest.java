@@ -33,11 +33,6 @@ final class LabelTest {
         );
     }
 
-    /**
-     * Create and return label for testing.
-     * @param user User name
-     * @return Label
-     */
     private static Label.Unmodified label(final String user) {
         return new Label.Unmodified(
             LabelTest.repo(user, String.format("%s_repo", user)),
@@ -45,12 +40,6 @@ final class LabelTest {
         );
     }
 
-    /**
-     * Create and return repo for testing.
-     * @param user User name
-     * @param rpo Repo name
-     * @return Repo
-     */
     private static Repo repo(final String user, final String rpo) {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple(user, rpo))

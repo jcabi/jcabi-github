@@ -147,10 +147,6 @@ final class MkComments implements Comments {
         return this.get(number);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments",
@@ -158,14 +154,6 @@ final class MkComments implements Comments {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @param issue Issue number
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final int issue)
         throws IOException {
         stg.apply(

@@ -172,11 +172,6 @@ final class RtReleaseAssetTest {
         }
     }
 
-    /**
-     * Patch the asset served by the given container.
-     * @param container Container to serve the asset
-     * @throws IOException If there is any I/O problem
-     */
     private static void patch(final MkContainer container) throws IOException {
         new RtReleaseAsset(
             new ApacheRequest(container.home()),
@@ -185,12 +180,6 @@ final class RtReleaseAssetTest {
         ).patch(Json.createObjectBuilder().add("name", "hello").build());
     }
 
-    /**
-     * Raw content of the asset served by the given container.
-     * @param container Container to serve the asset
-     * @return Stream of the raw content
-     * @throws IOException If there is any I/O problem
-     */
     private static InputStream raw(final MkContainer container)
         throws IOException {
         return new RtReleaseAsset(
@@ -200,10 +189,6 @@ final class RtReleaseAssetTest {
         ).raw();
     }
 
-    /**
-     * This method returns a Release for testing.
-     * @return Release to be used for test
-     */
     private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(

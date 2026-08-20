@@ -106,10 +106,6 @@ final class MkDeployKeys implements DeployKeys {
         return this.get(number);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/deploykeys",
@@ -117,13 +113,6 @@ final class MkDeployKeys implements DeployKeys {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
         throws IOException {
         stg.apply(

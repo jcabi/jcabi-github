@@ -92,11 +92,6 @@ final class MkCommitsTest {
         );
     }
 
-    /**
-     * A commit created in a random repo.
-     * @return Created commit
-     * @throws IOException if there is any I/O problem
-     */
     private static Commit created() throws IOException {
         return new MkGitHub().randomRepo()
             .git().commits().create(

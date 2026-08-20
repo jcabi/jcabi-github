@@ -83,10 +83,6 @@ final class MkReference implements Reference {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/refs/reference[ref='%s']",

@@ -173,12 +173,6 @@ final class RtLabelsTest {
         }
     }
 
-    /**
-     * Create a label through the given container.
-     * @param container Container to serve the labels
-     * @return Created label
-     * @throws IOException If there is any I/O problem
-     */
     private static Label create(final MkContainer container)
         throws IOException {
         return new RtLabels(
@@ -187,10 +181,6 @@ final class RtLabelsTest {
         ).create(RtLabelsTest.NAME, RtLabelsTest.COLOR);
     }
 
-    /**
-     * Answer with a created label.
-     * @return Answer
-     */
     private static MkAnswer answer() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -199,10 +189,6 @@ final class RtLabelsTest {
         );
     }
 
-    /**
-     * Answer with a fetched label.
-     * @return Answer
-     */
     private static MkAnswer fetched() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -211,12 +197,6 @@ final class RtLabelsTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param name The name of the label
-     * @param color A 6 character hex code, identifying the color
-     * @return JsonObject
-     */
     private static JsonObject label(final String name, final String color) {
         return Json.createObjectBuilder()
             .add("name", name)
@@ -224,10 +204,6 @@ final class RtLabelsTest {
             .build();
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))

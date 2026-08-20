@@ -90,11 +90,6 @@ final class RtForks implements Forks {
         );
     }
 
-    /**
-     * Get fork by number.
-     * @param number Fork number
-     * @return Fork
-     */
     private RtFork get(final Integer number) {
         return new RtFork(this.request, this.owner, number);
     }

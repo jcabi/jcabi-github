@@ -62,12 +62,6 @@ final class RtCommitsTest {
         }
     }
 
-    /**
-     * Create a commit through the given container.
-     * @param container Container to serve the request
-     * @return Created commit
-     * @throws IOException If there is any I/O problem
-     */
     private static Commit create(final MkContainer container)
         throws IOException {
         return new RtCommits(

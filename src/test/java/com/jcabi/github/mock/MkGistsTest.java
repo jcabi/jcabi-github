@@ -155,12 +155,6 @@ final class MkGistsTest {
         );
     }
 
-    /**
-     * A gist created in the given collection.
-     * @param gists Collection to create the gist in
-     * @return Created gist
-     * @throws IOException If some problem inside
-     */
     private static Gist gist(final Gists gists) throws IOException {
         return gists.create(
             Collections.singletonMap("test-file-name.txt", "none"), false

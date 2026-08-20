@@ -112,11 +112,6 @@ final class MkReferencesTest {
         );
     }
 
-    /**
-     * References with one head and one tag in them.
-     * @return References
-     * @throws IOException If some problem inside
-     */
     private static References filled() throws IOException {
         final Repo owner = new MkGitHub().randomRepo();
         final References refs = owner.git().references();

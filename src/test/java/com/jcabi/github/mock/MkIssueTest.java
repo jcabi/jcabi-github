@@ -330,22 +330,11 @@ final class MkIssueTest {
         );
     }
 
-    /**
-     * Create an issue to work with.
-     * @return Issue just created
-     * @throws IOException If some problem inside
-     */
     private static Issue issue() throws IOException {
         return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?");
     }
 
-    /**
-     * Create an issue with the given number.
-     * @param number Number of the issue
-     * @return Issue just created
-     * @throws IOException If some problem inside
-     */
     private static MkIssue issue(final int number) throws IOException {
         return new MkIssue(
             new MkStorage.InFile(),
@@ -355,22 +344,12 @@ final class MkIssueTest {
         );
     }
 
-    /**
-     * Create a closed issue.
-     * @return Closed issue
-     * @throws IOException If some problem inside
-     */
     private static Issue.Smart closed() throws IOException {
         final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
         issue.close();
         return issue;
     }
 
-    /**
-     * Create a closed and then reopened issue.
-     * @return Reopened issue
-     * @throws IOException If some problem inside
-     */
     private static Issue.Smart reopened() throws IOException {
         final Issue.Smart issue = MkIssueTest.closed();
         issue.open();

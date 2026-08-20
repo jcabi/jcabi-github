@@ -154,23 +154,12 @@ public interface MkStorage {
             // nothing
         }
 
-        /**
-         * Create temp file.
-         * @return File
-         * @throws IOException If there is any I/O problem
-         */
         private static File temp() throws IOException {
             final File file = File.createTempFile("jcabi-github", ".xml");
             file.deleteOnExit();
             return file;
         }
 
-        /**
-         * Write an empty document into the file.
-         * @param file File to write
-         * @return Absolute path of the file
-         * @throws IOException If there is any I/O problem
-         */
         private static String blank(final File file) throws IOException {
             FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
             return file.getAbsolutePath();

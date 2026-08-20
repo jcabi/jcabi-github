@@ -181,21 +181,12 @@ final class RtCommitsComparisonTest {
         );
     }
 
-    /**
-     * The only file change of the comparison.
-     * @return File change
-     * @throws IOException If there is any I/O problem
-     */
     private static FileChange.Smart change() throws IOException {
         return new FileChange.Smart(
             RtCommitsComparisonTest.comparison().files().iterator().next()
         );
     }
 
-    /**
-     * Comparison of two commits with a single changed file.
-     * @return Comparison
-     */
     private static CommitsComparison comparison() {
         return new RtCommitsComparison(
             new FakeRequest().withBody(
@@ -259,10 +250,6 @@ final class RtCommitsComparisonTest {
         );
     }
 
-    /**
-     * Return repo for tests.
-     * @return Repository
-     */
     private static Repo repo() {
         return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));

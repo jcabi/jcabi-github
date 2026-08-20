@@ -97,11 +97,6 @@ final class SmartJsonTest {
         );
     }
 
-    /**
-     * Make a readable with this JSON content.
-     * @param txt JSON content
-     * @return Readable
-     */
     private static JsonReadable json(final String txt) {
         return () -> Json.createReader(
             IOUtils.toInputStream(txt, StandardCharsets.UTF_8)

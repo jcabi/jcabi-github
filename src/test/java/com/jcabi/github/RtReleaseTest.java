@@ -115,11 +115,6 @@ final class RtReleaseTest {
         }
     }
 
-    /**
-     * Create a test release.
-     * @param uri REST API entry point
-     * @return A test release
-     */
     private static RtRelease release(final URI uri) {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);

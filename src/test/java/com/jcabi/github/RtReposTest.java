@@ -174,12 +174,6 @@ final class RtReposTest {
         }
     }
 
-    /**
-     * Create a repo through the given container.
-     * @param container Container to serve the repos
-     * @return Created repo
-     * @throws IOException If there is any I/O problem
-     */
     private static Repo create(final MkContainer container) throws IOException {
         return new RepoRule().repo(
             new RtRepos(
@@ -189,12 +183,6 @@ final class RtReposTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test response.
-     * @param owner Owner name
-     * @param name Repo name
-     * @return JsonObject
-     */
     private static JsonObject response(final String owner, final String name) {
         return Json.createObjectBuilder()
             .add("name", name)

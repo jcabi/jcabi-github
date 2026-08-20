@@ -213,25 +213,12 @@ final class MkIssueEventsTest {
         );
     }
 
-    /**
-     * Create an MkIssueEvents to work with.
-     * Can't use normal IssueEvents because we need the mock-only
-     * {@link MkIssueEvents#create(String, int, String, Optional)} method.
-     * @return MkIssueEvents
-     * @throws IOException If some problem inside
-     */
     private static MkIssueEvents issueEvents() throws IOException {
         return MkIssueEvents.class.cast(
             new MkGitHub().randomRepo().issueEvents()
         );
     }
 
-    /**
-     * Create an event about a locked issue.
-     * @param events Events to create the event in
-     * @return Created event
-     * @throws IOException If some problem inside
-     */
     private static Event.Smart locked(final MkIssueEvents events)
         throws IOException {
         return new Event.Smart(
@@ -244,12 +231,6 @@ final class MkIssueEventsTest {
         );
     }
 
-    /**
-     * Create an event about a closed issue.
-     * @param events Events to create the event in
-     * @return Created event
-     * @throws IOException If some problem inside
-     */
     private static Event closed(final MkIssueEvents events) throws IOException {
         return events.create(
             "closed",
@@ -259,12 +240,6 @@ final class MkIssueEventsTest {
         );
     }
 
-    /**
-     * Create an event about a reopened issue.
-     * @param events Events to create the event in
-     * @return Created event
-     * @throws IOException If some problem inside
-     */
     private static Event reopened(final MkIssueEvents events)
         throws IOException {
         return events.create(
@@ -275,10 +250,6 @@ final class MkIssueEventsTest {
         );
     }
 
-    /**
-     * Obtains the current time.
-     * @return Current time (in milliseconds since epoch) truncated to the nearest second
-     */
     private static long now() {
         final long sinceepoch = System.currentTimeMillis();
         return sinceepoch - sinceepoch % 1000;

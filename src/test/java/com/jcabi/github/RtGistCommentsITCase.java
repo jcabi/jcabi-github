@@ -72,10 +72,6 @@ final class RtGistCommentsITCase {
         gist.github().gists().remove(gist.identifier());
     }
 
-    /**
-     * Return gist to test.
-     * @return Gist
-     */
     private static Gist gist() throws IOException {
         return GitHubIT
             .connect()

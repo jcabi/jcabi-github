@@ -237,12 +237,6 @@ final class RtPullCommentsTest {
         }
     }
 
-    /**
-     * Comments served by the given container.
-     * @param container Container to serve the comments
-     * @return Comments
-     * @throws IOException If there is any I/O problem
-     */
     private static RtPullComments comments(final MkContainer container)
         throws IOException {
         final Pull pull = Mockito.mock(Pull.class);
@@ -250,11 +244,6 @@ final class RtPullCommentsTest {
         return new RtPullComments(new ApacheRequest(container.home()), pull);
     }
 
-    /**
-     * Create and return JsonObject of a reply.
-     * @param number Number of the comment to reply to
-     * @return JsonObject
-     */
     private static JsonObject reply(final int number) {
         return Json.createObjectBuilder()
             .add("id", 1_000_000_000)
@@ -263,22 +252,10 @@ final class RtPullCommentsTest {
             .build();
     }
 
-    /**
-     * This method returns a Repo for testing.
-     * @return Repo - a repo to be used for test
-     */
     private static Repo repo() throws IOException {
         return new MkGitHub("johnny").randomRepo();
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param body The body
-     * @param commit Commit
-     * @param path Path
-     * @param position Position
-     * @return JsonObject
-     */
     private static JsonObject pulls(final String body, final String commit,
         final String path, final int position) {
         return Json.createObjectBuilder()
@@ -290,11 +267,6 @@ final class RtPullCommentsTest {
             .build();
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param bodytext Body of the comment
-     * @return JsonObject
-     */
     private static JsonObject comment(final String bodytext) {
         return Json.createObjectBuilder()
             .add("id", 1)

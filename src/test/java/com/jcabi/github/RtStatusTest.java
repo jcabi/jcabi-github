@@ -65,11 +65,6 @@ final class RtStatusTest {
         );
     }
 
-    /**
-     * Returns a test commit to work with.
-     * @return Commit
-     * @throws IOException If there is an I/O problem.
-     */
     private static Commit commit() throws IOException {
         return new MkGitHub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");

@@ -176,12 +176,6 @@ final class RtBranchesTest {
         );
     }
 
-    /**
-     * Branches served by the given container.
-     * @param container Container to serve the branches
-     * @return Branches
-     * @throws IOException If there is any I/O problem
-     */
     private static RtBranches branches(final MkContainer container)
         throws IOException {
         return new RtBranches(
@@ -190,10 +184,6 @@ final class RtBranchesTest {
         );
     }
 
-    /**
-     * Answer with two branches.
-     * @return Answer
-     */
     private static MkAnswer answer() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -211,12 +201,6 @@ final class RtBranchesTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param name Name of the branch
-     * @param sha Commit SHA of the branch
-     * @return JsonObject
-     */
     private static JsonObject branch(final String name, final String sha) {
         return Json.createObjectBuilder()
             .add("name", name).add(

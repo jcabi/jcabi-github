@@ -89,10 +89,6 @@ final class MkFork implements Fork {
         return result;
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/forks/fork[id='%d']",

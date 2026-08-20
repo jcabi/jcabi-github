@@ -156,23 +156,12 @@ final class MkPublicMembersTest {
         );
     }
 
-    /**
-     * Get test organization.
-     * @return Organization
-     * @throws IOException If there is an I/O problem
-     */
     private static MkOrganization organization() throws IOException {
         return (MkOrganization) new MkOrganizations(
             new MkStorage.InFile()
         ).get(RandomStringUtils.secure().nextAlphanumeric(20));
     }
 
-    /**
-     * Add a member to the given organization.
-     * @param org Organization to add the member to
-     * @return Added member
-     * @throws IOException If there is an I/O problem
-     */
     private static User member(final MkOrganization org) throws IOException {
         final User user = org.github().users().get("johnny5");
         org.addMember(user);

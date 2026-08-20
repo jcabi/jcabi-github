@@ -144,11 +144,6 @@ final class RtStatusesTest {
         }
     }
 
-    /**
-     * Create a status through the given container.
-     * @param container Container to serve the statuses
-     * @throws IOException If there is any I/O problem
-     */
     private static void create(final MkContainer container) throws IOException {
         final Request entry = new ApacheRequest(container.home());
         new RtStatuses(
@@ -166,12 +161,6 @@ final class RtStatusesTest {
         );
     }
 
-    /**
-     * The status sent to the given container.
-     * @param container Container that served the statuses
-     * @return JSON of the sent status
-     * @throws IOException If there is any I/O problem
-     */
     private static JsonObject sent(final MkContainer container)
         throws IOException {
         return Json.createReader(
@@ -179,10 +168,6 @@ final class RtStatusesTest {
         ).readObject();
     }
 
-    /**
-     * Answer with a created status.
-     * @return Answer
-     */
     private static MkAnswer answer() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,

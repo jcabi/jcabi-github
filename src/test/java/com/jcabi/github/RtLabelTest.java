@@ -80,10 +80,6 @@ final class RtLabelTest {
         }
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))

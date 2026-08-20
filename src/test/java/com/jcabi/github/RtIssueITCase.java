@@ -272,10 +272,6 @@ final class RtIssueITCase {
         );
     }
 
-    /**
-     * Create and return issue to test.
-     * @return Issue
-     */
     private static Issue issue() throws IOException {
         return RtIssueITCase.repo.issues().create("test issue title", "test issue body");
     }

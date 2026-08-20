@@ -98,10 +98,6 @@ final class RtUserEmails implements UserEmails {
         return new RtJson(this.request()).fetch();
     }
 
-    /**
-     * RESTful API request for the emails.
-     * @return Request
-     */
     private Request request() {
         return this.entry.header("Accept", "application/vnd.github.v3")
             .uri().path("/user/emails").back();

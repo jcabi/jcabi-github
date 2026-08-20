@@ -383,11 +383,6 @@ public interface Repos {
             return builder.build();
         }
 
-        /**
-         * Check that the name of the new repo is not empty.
-         * @param nme Name of the new repo
-         * @return The same name
-         */
         private static String checked(final String nme) {
             if (nme.isEmpty()) {
                 throw new IllegalArgumentException("Name cannot be empty!");

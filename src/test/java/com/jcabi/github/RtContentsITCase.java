@@ -365,11 +365,6 @@ final class RtContentsITCase {
         }
     }
 
-    /**
-     * Base64 encoded unique content.
-     * @param prefix Prefix of the content
-     * @return Encoded content
-     */
     private static String encoded(final String prefix) {
         return new String(
             Base64.encodeBase64(
@@ -381,13 +376,6 @@ final class RtContentsITCase {
         );
     }
 
-    /**
-     * Create and return JsonObject of content.
-     * @param path Content's path
-     * @param cont Content's Base64 string
-     * @param message Message
-     * @return JsonObject
-     */
     private static JsonObject jsonObject(
         final String path, final String cont, final String message
     ) {

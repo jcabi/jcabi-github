@@ -86,19 +86,10 @@ final class RtEventTest {
         );
     }
 
-    /**
-     * Event with the given number.
-     * @param number Number of the event
-     * @return The event
-     */
     private static RtEvent event(final int number) {
         return new RtEvent(new FakeRequest(), RtEventTest.repo(), number);
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "event"))

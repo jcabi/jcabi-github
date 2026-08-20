@@ -165,12 +165,6 @@ final class MkHookTest {
         );
     }
 
-    /**
-     * Directives to build a hook XML that only includes its id.
-     * @param number Hook number
-     * @param coords Repo coords
-     * @return Hook directives
-     */
     private static Directives hookDirs(final int number, final Coordinates coords) {
         return new Directives().xpath("/github")
             .add("repos").add("repo").attr("coords", coords.toString())

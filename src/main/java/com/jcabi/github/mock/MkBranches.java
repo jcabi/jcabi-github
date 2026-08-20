@@ -129,17 +129,13 @@ public final class MkBranches implements Branches {
                     this.xpath(),
                     name
                 )
-                )
-                .get(0)
-                .xpath(MkBranches.XPATH_TO_SHA)
-                .get(0)
+            )
+            .get(0)
+            .xpath(MkBranches.XPATH_TO_SHA)
+            .get(0)
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/branches",
@@ -147,13 +143,6 @@ public final class MkBranches implements Branches {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
         throws IOException {
         stg.apply(

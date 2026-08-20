@@ -127,11 +127,6 @@ final class RtOrganizationTest {
         }
     }
 
-    /**
-     * Patch the organization served by the given container.
-     * @param container Container to serve the organization
-     * @throws IOException If there is any I/O problem
-     */
     private static void patch(final MkContainer container) throws IOException {
         new RtOrganization(
             new MkGitHub(),
@@ -140,12 +135,6 @@ final class RtOrganizationTest {
         ).patch(Json.createObjectBuilder().add("patch", "test").build());
     }
 
-    /**
-     * Organization with the given login.
-     * @param login Login of the organization
-     * @return The organization
-     * @throws IOException If fails
-     */
     private static RtOrganization organization(final String login)
         throws IOException {
         return new RtOrganization(

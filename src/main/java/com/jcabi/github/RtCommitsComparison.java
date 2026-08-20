@@ -7,13 +7,9 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * Commits comparison.
@@ -67,7 +63,7 @@ final class RtCommitsComparison implements CommitsComparison {
 
     @Override
     public Iterable<FileChange> files() throws IOException {
-        return new RtCommitsComparison.FileChanges(this.json().getJsonArray("files"));
+        return new FileChanges(this.json().getJsonArray("files"));
     }
 
     @Override
@@ -78,78 +74,5 @@ final class RtCommitsComparison implements CommitsComparison {
     @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
-    }
-
-    /**
-     * Iterator that yields FileChange objects converted
-     * from JSON objects in a JSON list.
-     * @since 0.24
-     */
-    @EqualsAndHashCode(of = "iterator")
-    @ToString
-    private static final class FileChangesIterator
-        implements Iterator<FileChange> {
-
-        /**
-         * Encapsulated iterator of file change JSON objects.
-         */
-        private final transient Iterator<JsonObject> iterator;
-
-        /**
-         * Ctor.
-         * @param iter Iterator of file change JSON objects
-         */
-        FileChangesIterator(final Iterator<JsonObject> iter) {
-            this.iterator = iter;
-        }
-
-        @Override
-        public FileChange next() {
-            return new RtFileChange(this.iterator.next());
-        }
-
-        @Override
-        public boolean hasNext() {
-            return this.iterator.hasNext();
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("#remove()");
-        }
-    }
-
-    /**
-     * Trivial iterable that returns FileChangesIterators using
-     * the given JSON list.
-     * @since 0.24
-     */
-    @EqualsAndHashCode(of = "list")
-    @Loggable(Loggable.DEBUG)
-    @ToString
-    private static final class FileChanges
-        implements Iterable<FileChange> {
-
-        /**
-         * List of file change JSON objects.
-         */
-        private final transient List<JsonObject> list;
-
-        /**
-         * Ctor.
-         * @param files JsonArray of file change objects
-         */
-        FileChanges(final JsonArray files) {
-            this(files.getValuesAs(JsonObject.class));
-        }
-
-        private FileChanges(final List<JsonObject> files) {
-            this.list = files;
-        }
-
-        @Override
-        public Iterator<FileChange> iterator() {
-            return new RtCommitsComparison.FileChangesIterator(this.list.iterator());
-        }
     }
 }

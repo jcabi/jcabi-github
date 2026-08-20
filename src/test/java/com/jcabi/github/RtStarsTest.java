@@ -145,12 +145,6 @@ final class RtStarsTest {
         }
     }
 
-    /**
-     * Create and return repo for testing.
-     * @param user User
-     * @param reponame Repository
-     * @return Repo
-     */
     private static Repo repo(final String user, final String reponame) {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple(user, reponame))

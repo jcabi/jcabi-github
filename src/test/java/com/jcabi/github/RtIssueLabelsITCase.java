@@ -68,10 +68,6 @@ final class RtIssueLabelsITCase {
         labels.remove(name);
     }
 
-    /**
-     * Create and return issue to test.
-     * @return Issue
-     */
     private static Issue issue() throws IOException {
         return RtIssueLabelsITCase.repo.issues().create("test issue title", "test issue body");
     }

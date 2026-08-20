@@ -88,10 +88,6 @@ final class MkBlobs implements Blobs {
         return this.get(sha);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/blobs",
@@ -99,21 +95,10 @@ final class MkBlobs implements Blobs {
         );
     }
 
-    /**
-     * Generate a random fake SHA hex string.
-     * @return Fake SHA string
-     */
     private static String fakeSha() {
         return RandomStringUtils.secure().next(40, "0123456789abcdef");
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
         throws IOException {
         stg.apply(

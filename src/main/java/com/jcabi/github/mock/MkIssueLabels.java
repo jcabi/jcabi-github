@@ -161,10 +161,6 @@ final class MkIssueLabels implements IssueLabels {
         }
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/labels",
@@ -172,10 +168,6 @@ final class MkIssueLabels implements IssueLabels {
         );
     }
 
-    /**
-     * Returns a set of all of the issue's labels.
-     * @return Set of label names
-     */
     private Collection<String> labels() {
         final Set<String> labels = new HashSet<>();
         for (final Label label : this.iterate()) {
@@ -184,14 +176,6 @@ final class MkIssueLabels implements IssueLabels {
         return labels;
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @param issue Issue number
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final int issue)
         throws IOException {
         stg.apply(

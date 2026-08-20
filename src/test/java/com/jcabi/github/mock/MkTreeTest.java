@@ -30,10 +30,6 @@ final class MkTreeTest {
         );
     }
 
-    /**
-     * Return a Tree for testing.
-     * @return Tree
-     */
     private static Tree tree() throws IOException {
         return new MkGitHub().randomRepo().git().trees().create(
             Json.createObjectBuilder().add(

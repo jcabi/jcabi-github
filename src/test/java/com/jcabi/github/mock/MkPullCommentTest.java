@@ -46,10 +46,6 @@ final class MkPullCommentTest {
         );
     }
 
-    /**
-     * Create and return pull comment to test.
-     * @return PullComment
-     */
     private static PullComment comment() throws IOException {
         return new MkGitHub()
             .randomRepo()

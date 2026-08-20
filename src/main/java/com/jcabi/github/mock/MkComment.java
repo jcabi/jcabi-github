@@ -118,10 +118,6 @@ final class MkComment implements Comment {
         throw new UnsupportedOperationException("reactions() not implemented");
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/issues/issue[number='%d']/comments/comment[number='%d']",

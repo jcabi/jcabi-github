@@ -204,14 +204,6 @@ final class RtContents implements Contents {
             .fetch().as(RestResponse.class).status() == HttpURLConnection.HTTP_OK;
     }
 
-    /**
-     * Get the contents of a file or symbolic link in a repository.
-     * @param path The content path
-     * @param ref The name of the commit/branch/tag
-     * @return Content fetched
-     * @throws IOException If there is any I/O problem
-     * @see <a href="https://developer.github.com/v3/repos/contents/#get-contents">Get contents</a>
-     */
     private Content content(
         final String path, final String ref
     ) throws IOException {

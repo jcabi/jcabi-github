@@ -81,20 +81,10 @@ final class RtHooksITCase {
         }
     }
 
-    /**
-     * Return repos for tests.
-     * @return Repos
-     */
     private static Repos repos() {
         return GitHubIT.connect().repos();
     }
 
-    /**
-     * Create a new hook in a repository.
-     * @param repo Repository
-     * @return Hook
-     * @throws IOException If there is any I/O problem
-     */
     private static Hook createHook(final Repo repo) throws IOException {
         final Map<String, String> config =
             new ConcurrentHashMap<>();

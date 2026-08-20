@@ -58,7 +58,7 @@ final class RtDeployKeysTest {
                         .add(RtDeployKeysTest.key(2))
                         .build().toString()
                 )
-                )
+            )
         ) {
             container.start(RandomPort.port());
             MatcherAssert.assertThat(
@@ -102,7 +102,7 @@ final class RtDeployKeysTest {
                     HttpURLConnection.HTTP_CREATED,
                     String.format("{\"id\":%d}", number)
                 )
-                )
+            )
         ) {
             container.start(RandomPort.port());
             MatcherAssert.assertThat(
@@ -115,10 +115,6 @@ final class RtDeployKeysTest {
         }
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "keys"))
@@ -126,11 +122,6 @@ final class RtDeployKeysTest {
         return repo;
     }
 
-    /**
-     * Create and return key to test.
-     * @param number Deploy Key Id
-     * @return JsonObject
-     */
     private static JsonObject key(final int number) {
         return Json.createObjectBuilder()
             .add("id", number)

@@ -67,13 +67,6 @@ final class RtForkTest {
         }
     }
 
-    /**
-     * Fork served by the given containers.
-     * @param container Container to serve the fork
-     * @param forks Container to serve the forks of the repository
-     * @return The fork
-     * @throws IOException If there is any I/O problem
-     */
     private static RtFork fork(
         final MkContainer container,
         final MkContainer forks
@@ -89,11 +82,6 @@ final class RtForkTest {
         );
     }
 
-    /**
-     * Create and return success MkAnswer object to test.
-     * @param organization The organization of the fork
-     * @return Success MkAnswer
-     */
     private static MkAnswer.Simple answer(final String organization) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -101,11 +89,6 @@ final class RtForkTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param organization The organization of the fork
-     * @return JsonObject
-     */
     private static JsonObject fork(final String organization) {
         return Json.createObjectBuilder()
             .add("organization", organization)

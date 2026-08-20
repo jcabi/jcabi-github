@@ -8,10 +8,8 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.github.GitHub;
 import com.jcabi.github.Organization;
-import com.jcabi.github.Organizations;
 import com.jcabi.github.User;
 import com.jcabi.github.UserOrganizations;
-import com.jcabi.xml.XML;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -71,48 +69,14 @@ final class MkUserOrganizations implements UserOrganizations {
         return new MkIterable<>(
             this.storage,
             "/github/orgs/org",
-            new MkUserOrganizations.OrganizationMapping(new MkOrganizations(this.storage))
+            new OrganizationMapping(new MkOrganizations(this.storage))
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg) throws IOException {
         stg.apply(
             new Directives().xpath("/github").addIf("orgs")
         );
         return stg;
-    }
-
-    /**
-     * Mapping for Organizations.
-     * @since 0.24
-     */
-    private static final class OrganizationMapping
-        implements MkIterable.Mapping<Organization> {
-
-        /**
-         * Organizations.
-         */
-        private final transient Organizations orgs;
-
-        /**
-         * Ctor.
-         * @param organizations Organizations
-         */
-        OrganizationMapping(final Organizations organizations) {
-            this.orgs = organizations;
-        }
-
-        @Override
-        public Organization map(final XML xml) {
-            return this.orgs.get(
-                xml.xpath("login/text()").get(0)
-            );
-        }
     }
 }

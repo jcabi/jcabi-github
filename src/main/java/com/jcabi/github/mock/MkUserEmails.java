@@ -98,30 +98,14 @@ final class MkUserEmails implements UserEmails {
         this.storage.apply(directives);
     }
 
-    /**
-     * XPath of user element in XML tree.
-     * @param login User login
-     * @return XPath
-     */
     private static String userXpath(final String login) {
         return String.format("/github/users/user[login='%s']", login);
     }
 
-    /**
-     * XPath of user emails element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format("%s/emails", MkUserEmails.userXpath(this.self));
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param login String
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final String login) throws IOException {
         stg.apply(
             new Directives().xpath(MkUserEmails.userXpath(login)).addIf("emails")

@@ -168,14 +168,14 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve forks.
+     * Checks that Smart can retrieve forks.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
     void retrievesSmartForks() throws IOException {
         MatcherAssert.assertThat(
             "Forks should be equal to 1",
-            new RepositoryStatistics.Smart(
+            new Smart(
                 RepositoryStatisticsTest.repo()
             ).forks(),
             Matchers.equalTo(RepositoryStatisticsTest.FORKS_VALUE)
@@ -183,14 +183,14 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve stargazers.
+     * Checks that Smart can retrieve stargazers.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
     void retrievesSmartStargazers() throws IOException {
         MatcherAssert.assertThat(
             "Stargazers should be equal to 2",
-            new RepositoryStatistics.Smart(
+            new Smart(
                 RepositoryStatisticsTest.repo()
             ).stargazers(),
             Matchers.equalTo(RepositoryStatisticsTest.stargazersValue)
@@ -198,14 +198,14 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve watchers.
+     * Checks that Smart can retrieve watchers.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
     void retrievesSmartWatchers() throws IOException {
         MatcherAssert.assertThat(
             "Watchers should be equal to 3",
-            new RepositoryStatistics.Smart(
+            new Smart(
                 RepositoryStatisticsTest.repo()
             ).watchers(),
             Matchers.equalTo(RepositoryStatisticsTest.watchersValue)
@@ -213,14 +213,14 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve size.
+     * Checks that Smart can retrieve size.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
     void retrievesSmartSize() throws IOException {
         MatcherAssert.assertThat(
             "Size should be equal to 4",
-            new RepositoryStatistics.Smart(
+            new Smart(
                 RepositoryStatisticsTest.repo()
             ).size(),
             Matchers.equalTo(RepositoryStatisticsTest.sizeValue)
@@ -228,14 +228,14 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve open issues.
+     * Checks that Smart can retrieve open issues.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
     void retrievesSmartOpenIssues() throws IOException {
         MatcherAssert.assertThat(
             "Issues should be equal to 5",
-            new RepositoryStatistics.Smart(
+            new Smart(
                 RepositoryStatisticsTest.repo()
             ).openIssues(),
             Matchers.equalTo(RepositoryStatisticsTest.issuesValue)
@@ -243,14 +243,14 @@ final class RepositoryStatisticsTest {
     }
 
     /**
-     * Checks that RepositoryStatistics.Smart can retrieve creation date.
+     * Checks that Smart can retrieve creation date.
      * @throws IOException If some problem with I/O happened.
      */
     @Test
     void retrievesSmartCreated() throws IOException {
         MatcherAssert.assertThat(
             "Created date should be equal to 2011-01-26T19:14:43Z",
-            new RepositoryStatistics.Smart(
+            new Smart(
                 RepositoryStatisticsTest.repo()
             ).created(),
             Matchers.equalTo(
@@ -259,11 +259,6 @@ final class RepositoryStatisticsTest {
         );
     }
 
-    /**
-     * Creates mock repo.
-     * @return Repo
-     * @throws IOException If some problem with I/O happened.
-     */
     private static Repo repo() throws IOException {
         return new MkGitHub()
             .repos().create(

@@ -84,12 +84,6 @@ public final class MkPublicMembers implements PublicMembers {
         return result;
     }
 
-    /**
-     * XPath of publicity of user's membership in the organization.
-     * @param user User
-     * @return XPath
-     * @throws IOException If there is an I/O problem
-     */
     private String xpath(final User user) throws IOException {
         return String.format(
             "%s/member[login='%s']/public",
@@ -98,10 +92,6 @@ public final class MkPublicMembers implements PublicMembers {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/orgs/org[login='%s']/members",

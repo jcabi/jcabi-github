@@ -73,10 +73,6 @@ final class CommitsComparisonTest {
         );
     }
 
-    /**
-     * Return repo for tests.
-     * @return Repository
-     */
     private static Repo repo() {
         return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));

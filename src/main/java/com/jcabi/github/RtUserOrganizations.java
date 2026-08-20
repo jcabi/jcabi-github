@@ -7,7 +7,6 @@ package com.jcabi.github;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
-import jakarta.json.JsonObject;
 import java.io.IOException;
 import lombok.EqualsAndHashCode;
 
@@ -66,33 +65,7 @@ final class RtUserOrganizations implements UserOrganizations {
     public Iterable<Organization> iterate() throws IOException {
         return new RtPagination<>(
             this.entry.uri().path("/users").path(this.owner.login()).path("/orgs").back(),
-            new RtUserOrganizations.OrganizationMapping(this.ghub.organizations())
+            new OrganizationMapping(this.ghub.organizations())
         );
-    }
-
-    /**
-     * Maps organization JSON objects to Organization instances.
-     * @since 0.24
-     */
-    private static final class OrganizationMapping
-        implements RtValuePagination.Mapping<Organization, JsonObject> {
-
-        /**
-         * Organizations.
-         */
-        private final transient Organizations orgs;
-
-        /**
-         * Ctor.
-         * @param organizations Organizations
-         */
-        OrganizationMapping(final Organizations organizations) {
-            this.orgs = organizations;
-        }
-
-        @Override
-        public Organization map(final JsonObject object) {
-            return this.orgs.get(object.getString("login"));
-        }
     }
 }

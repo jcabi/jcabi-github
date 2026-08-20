@@ -104,13 +104,6 @@ public final class CarefulWire implements Wire {
         return resp;
     }
 
-    /**
-     * Get the header with the given name from the response.
-     * If there is no such header, returns null.
-     * @param resp Response to get header from
-     * @param headername Name of header to get
-     * @return The value of the first header with the given name, or null
-     */
     private static String headerOrNull(
         final Response resp,
         final String headername) {
@@ -122,12 +115,6 @@ public final class CarefulWire implements Wire {
         return value;
     }
 
-    /**
-     * Returns the value of the X-RateLimit-Remaining header.
-     * If there is no such header, returns Integer.MAX_VALUE (no rate limit).
-     * @param resp Response to get header from
-     * @return Number of requests remaining before the rate limit will be hit
-     */
     private static int remainingHeader(final Response resp) {
         final String remainingstr = CarefulWire.headerOrNull(
             resp,
@@ -140,12 +127,6 @@ public final class CarefulWire implements Wire {
         return remaining;
     }
 
-    /**
-     * Returns the value of the X-RateLimit-Reset header.
-     * If there is no such header, returns 0 (reset immediately).
-     * @param resp Response to get header from
-     * @return Timestamp (in seconds) at which the rate limit will reset
-     */
     private static long resetHeader(final Response resp) {
         final String resetstr = CarefulWire.headerOrNull(resp, "X-RateLimit-Reset");
         long reset = 0;

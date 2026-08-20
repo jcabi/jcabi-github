@@ -240,13 +240,6 @@ final class FileChangeTest {
         );
     }
 
-    /**
-     * Make a new smart file change backed by a JSON object consisting of a
-     * single key-value pair, where the value is a string.
-     * @param key Key string
-     * @param value Value string
-     * @return FileChange.Smart
-     */
     private static FileChange.Smart stringFileChange(
         final String key,
         final String value
@@ -260,13 +253,6 @@ final class FileChangeTest {
         );
     }
 
-    /**
-     * Make a new smart file change backed by a JSON object consisting of a
-     * single key-value pair, where the value is an integer.
-     * @param key Key string
-     * @param value Value integer
-     * @return FileChange.Smart
-     */
     private static FileChange.Smart intFileChange(
         final String key,
         final int value

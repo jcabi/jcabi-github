@@ -357,10 +357,6 @@ final class StatusTest {
         );
     }
 
-    /**
-     * Returns a test commit to work with.
-     * @return Commit
-     */
     private static Commit commit() throws IOException {
         return new MkGitHub().randomRepo().git().commits()
             .get("d288364af5028c72e2a2c91c29343bae11fffcbe");

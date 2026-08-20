@@ -52,8 +52,7 @@ final class RtChecksTest {
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.jsonWithCheckRuns()
                 )
-                )
-                .start(RandomPort.port())
+            ).start(RandomPort.port())
         ) {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
@@ -78,8 +77,7 @@ final class RtChecksTest {
                     HttpURLConnection.HTTP_OK,
                     RtChecksTest.empty()
                 )
-                )
-                .start(RandomPort.port())
+            ).start(RandomPort.port())
         ) {
             MatcherAssert.assertThat(
                 "Collection size is incorrect",
@@ -261,12 +259,6 @@ final class RtChecksTest {
         }
     }
 
-    /**
-     * Checks served by the given container.
-     * @param container Container to serve the checks
-     * @return Checks
-     * @throws IOException If some problem happens.
-     */
     private static Checks checks(final MkContainer container)
         throws IOException {
         return new RtChecks(
@@ -275,10 +267,6 @@ final class RtChecksTest {
         );
     }
 
-    /**
-     * Creates json of a queued check.
-     * @return Json response body
-     */
     private static String queued() {
         return RtChecksTest.jsonChecks(
             RtChecksTest.jsonCheck().add(
@@ -291,10 +279,6 @@ final class RtChecksTest {
         );
     }
 
-    /**
-     * Creates json response body.
-     * @return Json response body
-     */
     private static String jsonWithCheckRuns() {
         return RtChecksTest.jsonChecks(
             RtChecksTest.jsonCheck().add(
@@ -307,20 +291,11 @@ final class RtChecksTest {
         );
     }
 
-    /**
-     * Creates Json Check Builder.
-     * @return JsonObjectBuilder
-     */
     private static JsonObjectBuilder jsonCheck() {
         return Json.createObjectBuilder()
             .add("id", Json.createValue(new Random().nextInt()));
     }
 
-    /**
-     * Creates json checks.
-     * @param checks All checks that have to be included
-     * @return Json
-     */
     private static String jsonChecks(final JsonObjectBuilder... checks) {
         final JsonArrayBuilder all = Json.createArrayBuilder();
         Arrays.stream(checks).map(JsonObjectBuilder::build).forEach(all::add);
@@ -331,21 +306,12 @@ final class RtChecksTest {
             .toString();
     }
 
-    /**
-     * Creates json response body without check runs.
-     * @return Json response body
-     */
     private static String empty() {
         return Json.createObjectBuilder()
             .build()
             .toString();
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     * @throws IOException If some problem happens.
-     */
     private static Repo repo() throws IOException {
         final Repo repo = Mockito.mock(Repo.class);
         final Pulls pulls = Mockito.mock(Pulls.class);

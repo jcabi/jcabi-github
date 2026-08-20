@@ -89,11 +89,6 @@ final class MkCollaboratorsTest {
         );
     }
 
-    /**
-     * Collaborators with one collaborator in them.
-     * @return Collaborators just created
-     * @throws IOException If some problem inside
-     */
     private static Collaborators added() throws IOException {
         final Collaborators collabs = new MkGitHub().randomRepo()
             .collaborators();

@@ -88,11 +88,6 @@ final class MkReferenceTest {
         );
     }
 
-    /**
-     * Return a Reference for testing.
-     * @return Reference
-     * @throws IOException If some problem inside
-     */
     private static Reference reference() throws IOException {
         return new MkGitHub().randomRepo().git()
             .references().create("refs/tags/hello", "testsha");

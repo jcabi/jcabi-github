@@ -69,11 +69,6 @@ class RtChecks implements Checks {
             .orElseGet(Collections::emptyList);
     }
 
-    /**
-     * Get check by id.
-     * @param value Json value
-     * @return Check
-     */
     private static RtCheck check(final JsonValue value) {
         final JsonObject check = value.asJsonObject();
         return new RtCheck(
@@ -82,12 +77,6 @@ class RtChecks implements Checks {
         );
     }
 
-    /**
-     * Retrieves String value from JsonObject by key or return "undefined".
-     * @param key Json key
-     * @param check Retrieve from
-     * @return Json String value or "undefined"
-     */
     private static String getOrUndefined(
         final String key,
         final JsonObject check

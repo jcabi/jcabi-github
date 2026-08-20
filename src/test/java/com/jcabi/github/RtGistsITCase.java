@@ -78,10 +78,6 @@ final class RtGistsITCase {
         );
     }
 
-    /**
-     * Return gists to test.
-     * @return Gists
-     */
     private static Gists gists() {
         return GitHubIT.connect().gists();
     }

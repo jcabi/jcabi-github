@@ -88,10 +88,6 @@ final class RtBlobsTest {
         );
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))
@@ -99,10 +95,6 @@ final class RtBlobsTest {
         return repo;
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @return JsonObject
-     */
     private static JsonObject blob() {
         return Json.createObjectBuilder()
             .add("url", "http://localhost/1")

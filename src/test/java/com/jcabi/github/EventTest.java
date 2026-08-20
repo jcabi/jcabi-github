@@ -64,12 +64,6 @@ final class EventTest {
         );
     }
 
-    /**
-     * Build an Event whose json() method returns the given object.
-     * @param obj JSON object to expose via Event.json()
-     * @return Mocked Event
-     * @throws IOException If stubbing fails
-     */
     private static Event eventWithJson(final JsonObject obj)
         throws IOException {
         final Event event = Mockito.mock(Event.class);

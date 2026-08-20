@@ -96,11 +96,6 @@ final class RtRepoCommitsITCase {
         );
     }
 
-    /**
-     * Patch between two commits.
-     * @return Patch
-     * @throws IOException If there is any I/O problem
-     */
     private static String patch() throws IOException {
         return RtRepoCommitsITCase.repo().commits().patch(
             "5339b8e35b",
@@ -108,10 +103,6 @@ final class RtRepoCommitsITCase {
         );
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         return GitHubIT.connect().repos().get(
             new Coordinates.Simple("jcabi", "jcabi-github")

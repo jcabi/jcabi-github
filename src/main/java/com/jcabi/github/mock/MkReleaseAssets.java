@@ -146,10 +146,6 @@ final class MkReleaseAssets implements ReleaseAssets {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/releases/release[id='%d']/assets",
@@ -157,14 +153,6 @@ final class MkReleaseAssets implements ReleaseAssets {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @param number Release number
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final int number)
         throws IOException {
         stg.apply(

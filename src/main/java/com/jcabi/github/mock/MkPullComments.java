@@ -187,10 +187,6 @@ final class MkPullComments implements PullComments {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/comments",
@@ -198,14 +194,6 @@ final class MkPullComments implements PullComments {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @param pull Pull
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep, final Pull pull)
         throws IOException {
         stg.apply(

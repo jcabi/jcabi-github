@@ -112,20 +112,10 @@ final class MkGists implements Gists {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private static String xpath() {
         return "/github/gists";
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg) throws IOException {
         stg.apply(
             new Directives().xpath("/github").addIf("gists")

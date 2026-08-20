@@ -92,10 +92,6 @@ final class IssueLabelsTest {
         );
     }
 
-    /**
-     * Labels named "first" and "second".
-     * @return Labels
-     */
     private static IssueLabels labels() {
         final Label first = Mockito.mock(Label.class);
         Mockito.doReturn("first").when(first).name();

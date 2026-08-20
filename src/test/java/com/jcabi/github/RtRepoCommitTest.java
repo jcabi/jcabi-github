@@ -33,10 +33,6 @@ final class RtRepoCommitTest {
         );
     }
 
-    /**
-     * Create repository for tests.
-     * @return Repository
-     */
     private static Repo repo() {
         return new RtGitHub().repos()
             .get(new Coordinates.Simple("user", "repo"));

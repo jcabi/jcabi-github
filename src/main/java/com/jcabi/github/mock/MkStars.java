@@ -92,10 +92,6 @@ final class MkStars implements Stars {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/stars",
@@ -103,12 +99,6 @@ final class MkStars implements Stars {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg) throws IOException {
         stg.apply(
             new Directives().xpath("/github/repos/repo")

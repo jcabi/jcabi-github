@@ -72,10 +72,6 @@ final class RtReleaseAssetsTest {
         );
     }
 
-    /**
-     * This method returns a Release for testing.
-     * @return Release to be used for test
-     */
     private static Release release() throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(new MkGitHub("john").randomRepo()).when(release).repo();

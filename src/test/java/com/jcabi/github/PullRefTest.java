@@ -127,11 +127,6 @@ final class PullRefTest {
         );
     }
 
-    /**
-     * Returns a smart pull request ref in the given repo for testing.
-     * @param repo Repo to create the pull request ref in
-     * @return PullRef.Smart
-     */
     private static PullRef.Smart pullRef(final Repo repo) {
         final Coordinates coords = repo.coordinates();
         final JsonObject user = Json.createObjectBuilder()
@@ -156,11 +151,6 @@ final class PullRefTest {
         );
     }
 
-    /**
-     * Returns a smart pull request ref for testing.
-     * @return PullRef.Smart
-     * @throws IOException If there is an I/O problem.
-     */
     private static PullRef.Smart pullRef() throws IOException {
         return PullRefTest.pullRef(new MkGitHub().randomRepo());
     }

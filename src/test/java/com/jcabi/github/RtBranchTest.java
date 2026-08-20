@@ -65,11 +65,6 @@ final class RtBranchTest {
         );
     }
 
-    /**
-     * RtBranch for testing.
-     * @param repo Repository to create the branch in
-     * @return The RtBranch
-     */
     private static Branch newBranch(final Repo repo) {
         return new RtBranch(
             new FakeRequest(),

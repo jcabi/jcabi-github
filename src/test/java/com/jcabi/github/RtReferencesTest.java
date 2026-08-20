@@ -180,12 +180,6 @@ final class RtReferencesTest {
         }
     }
 
-    /**
-     * References served by the given container.
-     * @param container Container to serve the references
-     * @return References
-     * @throws IOException If there is any I/O problem
-     */
     private static RtReferences references(final MkContainer container)
         throws IOException {
         return new RtReferences(

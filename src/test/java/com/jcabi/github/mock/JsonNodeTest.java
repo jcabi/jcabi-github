@@ -48,10 +48,6 @@ final class JsonNodeTest {
         );
     }
 
-    /**
-     * A user with a name and a department.
-     * @return JSON of the user
-     */
     private static JsonObject user() {
         return new JsonNode(
             new XMLDocument(

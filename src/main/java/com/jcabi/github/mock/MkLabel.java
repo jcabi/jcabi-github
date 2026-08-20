@@ -89,10 +89,6 @@ final class MkLabel implements Label {
         return this.label.compareTo(lbl.name());
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/labels/label[name='%s']",

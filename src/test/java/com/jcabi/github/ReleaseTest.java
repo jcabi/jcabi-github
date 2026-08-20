@@ -288,12 +288,6 @@ final class ReleaseTest {
         );
     }
 
-    /**
-     * Release with the given name.
-     * @param name Name of the release
-     * @return Release
-     * @throws IOException If fails
-     */
     private static Release named(final String name) throws IOException {
         final Release release = Mockito.mock(Release.class);
         Mockito.doReturn(

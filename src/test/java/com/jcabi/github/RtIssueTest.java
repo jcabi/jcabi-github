@@ -183,11 +183,6 @@ final class RtIssueTest {
         }
     }
 
-    /**
-     * Patch the issue served by the given container.
-     * @param container Container to serve the issue
-     * @throws IOException If there is any I/O problem
-     */
     private static void patch(final MkContainer container) throws IOException {
         new RtIssue(
             new ApacheRequest(container.home()),
@@ -196,11 +191,6 @@ final class RtIssueTest {
         ).patch(Json.createObjectBuilder().add("patch", "test").build());
     }
 
-    /**
-     * Lock the issue served by the given container.
-     * @param container Container to serve the issue
-     * @throws IOException If there is any I/O problem
-     */
     private static void lock(final MkContainer container) throws IOException {
         new RtIssue(
             new ApacheRequest(container.home()),
@@ -209,19 +199,10 @@ final class RtIssueTest {
         ).lock("off-topic");
     }
 
-    /**
-     * Issue with the given number.
-     * @param number Number of the issue
-     * @return The issue
-     */
     private static RtIssue issue(final int number) {
         return new RtIssue(new FakeRequest(), RtIssueTest.repo(), number);
     }
 
-    /**
-     * Mock repo for GhIssue creation.
-     * @return The mock repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);

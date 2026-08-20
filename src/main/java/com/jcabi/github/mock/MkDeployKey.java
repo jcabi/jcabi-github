@@ -97,10 +97,6 @@ final class MkDeployKey implements DeployKey {
         return result;
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/deploykeys/deploykey[id='%d']",

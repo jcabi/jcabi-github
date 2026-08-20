@@ -145,7 +145,7 @@ public final class RtGitHub implements GitHub {
                             .getBytes(StandardCharsets.UTF_8)
                     )
                 )
-                )
+            )
         );
     }
 

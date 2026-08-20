@@ -105,11 +105,6 @@ final class RtGistCommentTest {
         }
     }
 
-    /**
-     * An answer with a comment in it.
-     * @param body Body of the comment
-     * @return Answer
-     */
     private static MkAnswer answer(final String body) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

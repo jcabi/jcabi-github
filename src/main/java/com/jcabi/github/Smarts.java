@@ -71,11 +71,6 @@ public final class Smarts<T> implements Iterable<T> {
         };
     }
 
-    /**
-     * Wrap an object, and make a "smart" decorator.
-     * @param object Object to wrap
-     * @return Decorator
-     */
     private static Object wrap(final Object object) {
         try {
             return Smarts.type(object).newInstance(object);
@@ -86,11 +81,6 @@ public final class Smarts<T> implements Iterable<T> {
         }
     }
 
-    /**
-     * Find "smart" class for the object.
-     * @param object Object to wrap
-     * @return Class to use
-     */
     private static Constructor<?> type(final Object object) {
         for (final Class<?> iface : object.getClass().getInterfaces()) {
             try {

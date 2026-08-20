@@ -58,10 +58,6 @@ final class MkAssigneesTest {
         );
     }
 
-    /**
-     * Create a repo to work with.
-     * @return Repo
-     */
     private static Repo repo() throws IOException {
         return new MkGitHub("Jonathan").randomRepo();
     }

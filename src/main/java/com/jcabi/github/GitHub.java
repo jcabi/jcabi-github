@@ -208,10 +208,6 @@ public interface GitHub {
             return Instant.ofEpochMilli(this.msec);
         }
 
-        /**
-         * Make format.
-         * @return Date format
-         */
         private static DateTimeFormatter format() {
             return DateTimeFormatter
                 .ofPattern(GitHub.Time.FORMAT_ISO, Locale.ENGLISH)

@@ -86,11 +86,6 @@ final class MkUserTest {
         );
     }
 
-    /**
-     * Put two notifications into the storage and mark the older one as read.
-     * @param storage The storage
-     * @throws IOException If any error occurs.
-     */
     private static void notified(final MkStorage storage) throws IOException {
         storage.apply(new Directives().xpath("/github").add("users"));
         final User user = new MkUsers(storage, "joe").add("joe");

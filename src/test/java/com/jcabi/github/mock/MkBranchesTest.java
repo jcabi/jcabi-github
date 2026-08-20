@@ -169,12 +169,6 @@ final class MkBranchesTest {
         );
     }
 
-    /**
-     * A branch created in the given repo.
-     * @param repo Repo to create the branch in
-     * @return Created branch
-     * @throws IOException if there is any I/O problem
-     */
     private static Branch created(final Repo repo) throws IOException {
         return ((MkBranches) repo.branches()).create(
             MkBranchesTest.FIRST_NAME,
@@ -182,11 +176,6 @@ final class MkBranchesTest {
         );
     }
 
-    /**
-     * Branches of a random repo, with two branches in them.
-     * @return Branches
-     * @throws IOException if there is any I/O problem
-     */
     private static MkBranches branches() throws IOException {
         final MkBranches branches = (MkBranches) new MkGitHub().randomRepo()
             .branches();

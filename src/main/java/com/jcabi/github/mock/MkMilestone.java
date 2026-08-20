@@ -114,10 +114,6 @@ final class MkMilestone implements Milestone {
         return this.code;
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/milestones[number='%d']",

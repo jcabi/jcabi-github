@@ -471,12 +471,6 @@ final class RtContentsTest {
         }
     }
 
-    /**
-     * Contents served by the given container.
-     * @param container Container to serve the contents
-     * @return Contents
-     * @throws IOException If there is any I/O problem
-     */
     private static RtContents contents(final MkContainer container)
         throws IOException {
         return new RtContents(
@@ -485,12 +479,6 @@ final class RtContentsTest {
         );
     }
 
-    /**
-     * Create a file through the given container.
-     * @param container Container to serve the contents
-     * @return Created content
-     * @throws IOException If there is any I/O problem
-     */
     private static Content create(final MkContainer container)
         throws IOException {
         return RtContentsTest.contents(container).create(
@@ -502,12 +490,6 @@ final class RtContentsTest {
         );
     }
 
-    /**
-     * Remove a file through the given container.
-     * @param container Container to serve the contents
-     * @return Removal commit
-     * @throws IOException If there is any I/O problem
-     */
     private static RepoCommit remove(final MkContainer container)
         throws IOException {
         return RtContentsTest.contents(container).remove(
@@ -519,22 +501,12 @@ final class RtContentsTest {
         );
     }
 
-    /**
-     * Update a file through the given container.
-     * @param container Container to serve the contents
-     * @return Update commit
-     * @throws IOException If there is any I/O problem
-     */
     private static RepoCommit update(final MkContainer container)
         throws IOException {
         return RtContentsTest.contents(container)
             .update("test.txt", RtContentsTest.change());
     }
 
-    /**
-     * The change to apply to a file.
-     * @return JSON of the change
-     */
     private static JsonObject change() {
         return Json.createObjectBuilder()
             .add("message", "let's change it.")
@@ -543,12 +515,6 @@ final class RtContentsTest {
             .build();
     }
 
-    /**
-     * Answer with a single content.
-     * @param path Path of the content
-     * @param name Name of the content
-     * @return Answer
-     */
     private static MkAnswer answer(final String path, final String name) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -559,10 +525,6 @@ final class RtContentsTest {
         );
     }
 
-    /**
-     * Answer with a created content.
-     * @return Answer
-     */
     private static MkAnswer created() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -575,11 +537,6 @@ final class RtContentsTest {
         );
     }
 
-    /**
-     * Answer with a commit.
-     * @param sha SHA of the commit
-     * @return Answer
-     */
     private static MkAnswer commit(final String sha) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -590,10 +547,6 @@ final class RtContentsTest {
         );
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "contents"))

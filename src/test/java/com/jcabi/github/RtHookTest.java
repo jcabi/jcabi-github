@@ -108,10 +108,6 @@ final class RtHookTest {
         }
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "repo"))

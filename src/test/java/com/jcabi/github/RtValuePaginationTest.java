@@ -96,12 +96,6 @@ final class RtValuePaginationTest {
         }
     }
 
-    /**
-     * Pagination served by the given container.
-     * @param container Container to serve the pages
-     * @return Pagination
-     * @throws IOException If there is any I/O problem
-     */
     private static RtValuePagination<JsonObject, JsonArray> page(
         final MkContainer container
     ) throws IOException {
@@ -114,21 +108,11 @@ final class RtValuePaginationTest {
         );
     }
 
-    /**
-     * Answer with a link to the next page.
-     * @return Answer
-     */
     private static MkAnswer.Simple linked() {
         return RtValuePaginationTest.simple("Jeff", "Mark")
             .withHeader("Link", "</s?page=3&per_page=100>; rel=\"next\"");
     }
 
-    /**
-     * Create and return MkAnswer.Simple to test.
-     * @param one First array element
-     * @param another Second array element
-     * @return MkAnswer.Simple
-     */
     private static MkAnswer.Simple simple(final String one,
         final String another
     ) {

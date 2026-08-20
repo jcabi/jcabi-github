@@ -110,21 +110,10 @@ final class MkHooksTest {
         );
     }
 
-    /**
-     * Create hooks to work with.
-     * @return Hooks
-     * @throws IOException If some problem inside
-     */
     private static Hooks newHooks() throws IOException {
         return new MkGitHub().randomRepo().hooks();
     }
 
-    /**
-     * Create a hook in the given collection.
-     * @param hooks Collection to create the hook in
-     * @return Created hook
-     * @throws IOException If some problem inside
-     */
     private static Hook hook(final Hooks hooks) throws IOException {
         return hooks.create(
             MkHooksTest.HOOK_TYPE,

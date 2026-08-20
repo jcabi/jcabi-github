@@ -72,11 +72,6 @@ final class MkCommitsComparisonTest {
         );
     }
 
-    /**
-     * Comparison of two commits.
-     * @return Comparison
-     * @throws IOException if some problem inside
-     */
     private static CommitsComparison comparison() throws IOException {
         return new MkCommitsComparison(
             new MkStorage.InFile(), "test-9",

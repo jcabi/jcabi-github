@@ -187,13 +187,6 @@ final class RtHooksTest {
         }
     }
 
-    /**
-     * Create a hook through the given container.
-     * @param container Container to serve the hooks
-     * @param name Name of the hook
-     * @return Created hook
-     * @throws IOException If there is any I/O problem
-     */
     private static Hook create(final MkContainer container, final String name)
         throws IOException {
         return new RtHooks(
@@ -204,11 +197,6 @@ final class RtHooksTest {
         );
     }
 
-    /**
-     * Answer with a hook of the given name.
-     * @param name Name of the hook
-     * @return Answer
-     */
     private static MkAnswer answer(final String name) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -216,11 +204,6 @@ final class RtHooksTest {
         );
     }
 
-    /**
-     * Answer with a fetched hook of the given name.
-     * @param name Name of the hook
-     * @return Answer
-     */
     private static MkAnswer fetched(final String name) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -228,10 +211,6 @@ final class RtHooksTest {
         );
     }
 
-    /**
-     * Config of the hook.
-     * @return Config
-     */
     private static Map<String, String> config() {
         final Map<String, String> config = new ConcurrentHashMap<>(2);
         config.put("url", "http://example.com");
@@ -239,12 +218,6 @@ final class RtHooksTest {
         return config;
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param name Name of the hook
-     * @param config Config of hook
-     * @return JsonObject
-     */
     private static JsonObject hook(final String name,
         final Map<String, String> config) {
         final JsonObjectBuilder builder = Json.createObjectBuilder();
@@ -258,10 +231,6 @@ final class RtHooksTest {
             .build();
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "hooks"))

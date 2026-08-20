@@ -135,10 +135,6 @@ public final class MkOrganization implements Organization {
         }
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format("/github/orgs/org[login='%s']", this.self);
     }

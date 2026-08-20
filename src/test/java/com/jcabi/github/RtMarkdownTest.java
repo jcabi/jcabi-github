@@ -92,12 +92,6 @@ final class RtMarkdownTest {
         }
     }
 
-    /**
-     * Markdown served by the given container.
-     * @param container Container to serve the markdown
-     * @return Markdown
-     * @throws IOException If there is any I/O problem
-     */
     private static RtMarkdown markdown(final MkContainer container)
         throws IOException {
         return new RtMarkdown(
@@ -106,11 +100,6 @@ final class RtMarkdownTest {
         );
     }
 
-    /**
-     * Answer with the given HTML body.
-     * @param body Body of the answer
-     * @return Answer
-     */
     private static MkAnswer answer(final String body) {
         return new MkAnswer.Simple(HttpURLConnection.HTTP_OK, body)
             .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML);

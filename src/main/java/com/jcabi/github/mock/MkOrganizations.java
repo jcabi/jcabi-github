@@ -70,10 +70,6 @@ final class MkOrganizations implements Organizations {
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private static String xpath() {
         return "/github/orgs";
     }

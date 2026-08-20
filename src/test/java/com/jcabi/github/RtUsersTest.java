@@ -91,12 +91,6 @@ final class RtUsersTest {
         container.stop();
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param login Username to login
-     * @param identifier User Id
-     * @return JsonObject
-     */
     private static JsonObject json(
         final String login, final String identifier
     ) {

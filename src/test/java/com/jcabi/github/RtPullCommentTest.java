@@ -183,13 +183,6 @@ final class RtPullCommentTest {
         }
     }
 
-    /**
-     * Comment served by the given container.
-     * @param container Container to serve the comment
-     * @param number Number of the comment
-     * @return The comment
-     * @throws IOException If there is any I/O problem
-     */
     private static RtPullComment comment(
         final MkContainer container,
         final int number
@@ -201,21 +194,12 @@ final class RtPullCommentTest {
         );
     }
 
-    /**
-     * Patch the comment served by the given container.
-     * @param container Container to serve the comment
-     * @throws IOException If there is any I/O problem
-     */
     private static void patch(final MkContainer container) throws IOException {
         RtPullCommentTest.comment(container, 2).patch(
             Json.createObjectBuilder().add("body", "test comment").build()
         );
     }
 
-    /**
-     * This method returns a Repo for testing.
-     * @return Repo - a repo to be used for test
-     */
     private static Repo repo() throws IOException {
         return new MkGitHub("joe").repos().create(
             new Repos.RepoCreate("blueharvest", false)

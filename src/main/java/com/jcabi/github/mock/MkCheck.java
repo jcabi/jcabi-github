@@ -98,32 +98,18 @@ public final class MkCheck implements Check {
         return result;
     }
 
-    /**
-     * Returns the status of this check from storage.
-     * @return Check status
-     * @throws IOException If there is any I/O problem.
-     */
     private Check.Status status() throws IOException {
         return Check.Status.fromString(
             this.storage.xml().nodes(this.xpath()).get(0).xpath("@status").get(0)
         );
     }
 
-    /**
-     * Returns the conclusion of this check from storage.
-     * @return Check conclusion
-     * @throws IOException If there is any I/O problem.
-     */
     private Check.Conclusion conclusion() throws IOException {
         return Check.Conclusion.fromString(
             this.storage.xml().nodes(this.xpath()).get(0).xpath("@conclusion").get(0)
         );
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/pulls/pull[number='%d']/checks/check[@id='%d']",

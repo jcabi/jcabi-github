@@ -117,12 +117,6 @@ final class RtGistCommentsTest {
         }
     }
 
-    /**
-     * Comments served by the given container.
-     * @param container Container to serve the comments
-     * @return Comments
-     * @throws IOException If there is any I/O problem
-     */
     private static RtGistComments comments(final MkContainer container)
         throws IOException {
         final Gist gist = Mockito.mock(Gist.class);
@@ -130,11 +124,6 @@ final class RtGistCommentsTest {
         return new RtGistComments(new JdkRequest(container.home()), gist);
     }
 
-    /**
-     * Answer with a comment of the given body.
-     * @param body Body of the comment
-     * @return Answer
-     */
     private static MkAnswer answer(final String body) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -142,11 +131,6 @@ final class RtGistCommentsTest {
         );
     }
 
-    /**
-     * Answer with a fetched comment of the given body.
-     * @param body Body of the comment
-     * @return Answer
-     */
     private static MkAnswer fetched(final String body) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -154,11 +138,6 @@ final class RtGistCommentsTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param body The body of the comment
-     * @return JsonObject
-     */
     private static JsonObject comment(final String body) {
         return Json.createObjectBuilder()
             .add("id", 1)

@@ -42,10 +42,6 @@ public final class RtStargazers implements Stargazers {
         return res;
     }
 
-    /**
-     * RESTful request for stargazers.
-     * @return Request
-     */
     private Request request() {
         return this.entry.uri().path("stargazers").back();
     }

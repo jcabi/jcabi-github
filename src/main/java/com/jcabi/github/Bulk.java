@@ -71,10 +71,6 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
         return this.origin().iterator();
     }
 
-    /**
-     * Original iterable, with JSON kept in memory.
-     * @return Iterable
-     */
     @SuppressWarnings("unchecked")
     private Iterable<T> origin() {
         final Iterable<T> origin;
@@ -92,13 +88,6 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
         return origin;
     }
 
-    /**
-     * Decorate the item, so that it returns the given JSON.
-     * @param item Item to decorate
-     * @param json JSON to return
-     * @param <X> Type of the item
-     * @return Decorated item
-     */
     @SuppressWarnings("unchecked")
     private static <X> X proxy(final X item, final JsonObject json) {
         return (X) Proxy.newProxyInstance(

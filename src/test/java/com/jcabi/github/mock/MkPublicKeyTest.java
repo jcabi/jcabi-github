@@ -66,11 +66,6 @@ final class MkPublicKeyTest {
         );
     }
 
-    /**
-     * JSON of a freshly created public key.
-     * @return JSON of the key
-     * @throws IOException If some problem inside
-     */
     private static JsonObject json() throws IOException {
         return new MkGitHub().users().add("john").keys()
             .create("Title1", "PublicKey1").json();

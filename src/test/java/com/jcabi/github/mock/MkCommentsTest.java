@@ -33,10 +33,6 @@ final class MkCommentsTest {
         );
     }
 
-    /**
-     * Create a comments to work with.
-     * @return Comments just created
-     */
     private static Comments comments() throws IOException {
         return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?")

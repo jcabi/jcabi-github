@@ -50,11 +50,6 @@ final class MkCheckTest {
         );
     }
 
-    /**
-     * Pull request to make checks for.
-     * @return Pull request
-     * @throws IOException If some problem with I/O
-     */
     private static Pull pull() throws IOException {
         return new MkGitHub()
             .randomRepo()

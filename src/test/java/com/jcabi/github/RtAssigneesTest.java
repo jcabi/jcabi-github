@@ -97,21 +97,12 @@ final class RtAssigneesTest {
         }
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param login Username to login
-     * @return JsonObject
-     */
     private static JsonValue json(final String login) {
         return Json.createObjectBuilder()
             .add("login", login)
             .build();
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "assignee"))

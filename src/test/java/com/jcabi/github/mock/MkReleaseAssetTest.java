@@ -205,21 +205,10 @@ final class MkReleaseAssetTest {
         );
     }
 
-    /**
-     * Create a Release to work with.
-     * @return Repo
-     * @throws IOException If a problem occurs.
-     */
     private static Release release() throws IOException {
         return new MkGitHub().randomRepo().releases().create("v1.0");
     }
 
-    /**
-     * Upload an asset to the given collection.
-     * @param assets Collection to upload to
-     * @return Uploaded asset
-     * @throws IOException If a problem occurs.
-     */
     private static ReleaseAsset uploaded(final ReleaseAssets assets)
         throws IOException {
         return assets.upload(

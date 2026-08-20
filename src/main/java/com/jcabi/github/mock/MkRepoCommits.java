@@ -125,10 +125,6 @@ final class MkRepoCommits implements RepoCommits {
         ).json();
     }
 
-    /**
-     * Xpath of this element in XML tree.
-     * @return Xpath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/commits",
@@ -136,13 +132,6 @@ final class MkRepoCommits implements RepoCommits {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param repo Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates repo)
         throws IOException {
         stg.apply(

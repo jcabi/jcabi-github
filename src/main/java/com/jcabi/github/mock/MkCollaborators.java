@@ -122,10 +122,6 @@ final class MkCollaborators implements Collaborators {
         return new MkUser(this.storage, login);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/collaborators",
@@ -133,13 +129,6 @@ final class MkCollaborators implements Collaborators {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param crds Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates crds)
         throws IOException {
         stg.apply(

@@ -47,10 +47,6 @@ final class RtForksITCase {
         }
     }
 
-    /**
-     * The organization to fork into.
-     * @return Name of the organization
-     */
     private static String organization() {
         final String organization = System.getProperty(
             "failsafe.github.organization"
@@ -62,10 +58,6 @@ final class RtForksITCase {
         return organization;
     }
 
-    /**
-     * Returns github repos.
-     * @return GitHub repos
-     */
     private static Repos repos() {
         return GitHubIT.connect().repos();
     }

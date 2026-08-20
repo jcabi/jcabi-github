@@ -195,13 +195,6 @@ final class MkReleaseTest {
         );
     }
 
-    /**
-     * Returns string property value.
-     * @param release Release
-     * @param name Property name
-     * @return Value as a string
-     * @throws IOException If some problem inside
-     */
     private static String value(final Release release, final String name)
         throws IOException {
         final JsonValue json = release.json().get(name);
@@ -212,19 +205,10 @@ final class MkReleaseTest {
         return result;
     }
 
-    /**
-     * Create a release to work with.
-     * @return Release
-     */
     private static Release release() throws IOException {
         return MkReleaseTest.releases().create("v1");
     }
 
-    /**
-     * Creates a Releases instance set to work with.
-     * @return A test Releases instance
-     * @throws IOException if any I/O problems occur.
-     */
     private static Releases releases() throws IOException {
         return new MkGitHub().randomRepo().releases();
     }

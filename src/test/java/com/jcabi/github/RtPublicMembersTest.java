@@ -316,12 +316,6 @@ final class RtPublicMembersTest {
         }
     }
 
-    /**
-     * Public members served by the given container.
-     * @param container Container to serve the members
-     * @return Public members
-     * @throws IOException If there is an I/O problem
-     */
     private static RtPublicMembers members(final MkContainer container)
         throws IOException {
         return new RtPublicMembers(
@@ -330,10 +324,6 @@ final class RtPublicMembersTest {
         );
     }
 
-    /**
-     * Answer with a single public member.
-     * @return Answer
-     */
     private static MkAnswer octobat() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -341,20 +331,10 @@ final class RtPublicMembersTest {
         );
     }
 
-    /**
-     * Get test organization.
-     * @return Organization
-     * @throws IOException If there is an I/O problem
-     */
     private static Organization organization() throws IOException {
         return new MkOrganization(new MkStorage.InFile(), RtPublicMembersTest.ORG);
     }
 
-    /**
-     * Get test user.
-     * @return User
-     * @throws IOException If there is an I/O problem
-     */
     private static User user() throws IOException {
         return new MkGitHub().users().get(RtPublicMembersTest.USERNAME);
     }

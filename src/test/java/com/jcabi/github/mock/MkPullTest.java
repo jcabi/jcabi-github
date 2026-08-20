@@ -261,21 +261,10 @@ final class MkPullTest {
         );
     }
 
-    /**
-     * Create an repo to work with.
-     * @return Repo
-     * @throws IOException If some problem inside
-     */
     private static Repo repo() throws IOException {
         return new MkGitHub(MkPullTest.USERNAME).randomRepo();
     }
 
-    /**
-     * Create a pull request with the given number.
-     * @param number Number of the pull request
-     * @return Pull request
-     * @throws IOException If some problem inside
-     */
     private static MkPull pull(final int number) throws IOException {
         return new MkPull(
             new MkStorage.InFile(),
@@ -285,21 +274,11 @@ final class MkPullTest {
         );
     }
 
-    /**
-     * JSON of a freshly created pull request.
-     * @return JSON of the pull request
-     * @throws IOException If some problem inside
-     */
     private static JsonObject json() throws IOException {
         return MkPullTest.repo().pulls()
             .create("Test Pull Json", "blah", "aaa").json();
     }
 
-    /**
-     * Create a pull request to work with.
-     * @return Repo
-     * @throws Exception If some problem inside
-     */
     private static Pull pullRequest() throws Exception {
         final Repo rpo = MkPullTest.repo();
         final MkBranches branches = (MkBranches) rpo.branches();

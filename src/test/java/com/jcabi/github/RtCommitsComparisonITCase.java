@@ -204,23 +204,12 @@ final class RtCommitsComparisonITCase {
         );
     }
 
-    /**
-     * The only file change of the comparison.
-     * @return File change
-     * @throws IOException If there is any I/O problem
-     */
     private static FileChange.Smart change() throws IOException {
         return new FileChange.Smart(
             RtCommitsComparisonITCase.files().iterator().next()
         );
     }
 
-    /**
-     * File changes of the comparison.
-     * @return File changes
-     * @throws IOException If there is any I/O problem
-     * @see <a href="https://api.github.com/repos/jcabi/jcabi-github/compare/fec537c74da115b01a5c27b225d22a3976545acf...3ebe52aaf7bf7681fa30a19fcbbbb246db7ad8b4">The relevant commit comparison</a>
-     */
     private static Iterable<FileChange> files() throws IOException {
         return GitHubIT.connect()
             .repos()

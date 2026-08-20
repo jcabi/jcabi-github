@@ -139,13 +139,6 @@ final class RtSearchTest {
         );
     }
 
-    /**
-     * Create content JsonObject.
-     * @param path Content path
-     * @param name Content name
-     * @param url Content url
-     * @return JsonObjectBuilder
-     */
     private static JsonObjectBuilder content(
         final String path, final String name, final String url) {
         return Json.createObjectBuilder()
@@ -154,11 +147,6 @@ final class RtSearchTest {
             .add("url", url);
     }
 
-    /**
-     * Create search response JsonObjectBuilder.
-     * @param contents Contents to add
-     * @return JsonObject
-     */
     private static JsonObject search(final JsonObject... contents) {
         final JsonArrayBuilder builder = Json.createArrayBuilder();
         for (final JsonObject content : contents) {

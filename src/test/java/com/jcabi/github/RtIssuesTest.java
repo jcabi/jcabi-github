@@ -143,13 +143,6 @@ final class RtIssuesTest {
         }
     }
 
-    /**
-     * Create an issue through the given container.
-     * @param container Container to serve the issues
-     * @param title Title of the issue
-     * @return Created issue
-     * @throws IOException If there is any I/O problem
-     */
     private static Issue create(
         final MkContainer container,
         final String title
@@ -160,11 +153,6 @@ final class RtIssuesTest {
         ).create(title, "having a problem with it.");
     }
 
-    /**
-     * Answer with an issue of the given title.
-     * @param title Title of the issue
-     * @return Answer
-     */
     private static MkAnswer answer(final String title) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -172,11 +160,6 @@ final class RtIssuesTest {
         );
     }
 
-    /**
-     * Answer with a fetched issue of the given title.
-     * @param title Title of the issue
-     * @return Answer
-     */
     private static MkAnswer fetched(final String title) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -184,11 +167,6 @@ final class RtIssuesTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param title The title of the issue
-     * @return JsonObject
-     */
     private static JsonObject issue(final String title) {
         return Json.createObjectBuilder()
             .add("number", 1)
@@ -197,10 +175,6 @@ final class RtIssuesTest {
             .build();
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))

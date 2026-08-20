@@ -220,13 +220,6 @@ final class ForkTest {
         );
     }
 
-    /**
-     * Smart fork with a single string property.
-     * @param key Name of the property
-     * @param value Value of the property
-     * @return Smart fork
-     * @throws IOException If fails
-     */
     private static Fork.Smart smart(final String key, final String value)
         throws IOException {
         final Fork fork = Mockito.mock(Fork.class);
@@ -238,13 +231,6 @@ final class ForkTest {
         return new Fork.Smart(fork);
     }
 
-    /**
-     * Smart fork with a single integer property.
-     * @param key Name of the property
-     * @param value Value of the property
-     * @return Smart fork
-     * @throws IOException If fails
-     */
     private static Fork.Smart smart(final String key, final int value)
         throws IOException {
         final Fork fork = Mockito.mock(Fork.class);

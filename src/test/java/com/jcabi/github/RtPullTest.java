@@ -268,13 +268,6 @@ final class RtPullTest {
         Assertions.fail("Fetching of pull comments is not tested yet");
     }
 
-    /**
-     * Pull served by the given container.
-     * @param container Container to serve the pull
-     * @param number Number of the pull
-     * @return The pull
-     * @throws IOException If there is any I/O problem
-     */
     private static RtPull pull(final MkContainer container, final int number)
         throws IOException {
         return new RtPull(
@@ -282,30 +275,16 @@ final class RtPullTest {
         );
     }
 
-    /**
-     * Pull with the given number.
-     * @param number Number of the pull
-     * @return The pull
-     */
     private static RtPull pull(final int number) {
         return new RtPull(new FakeRequest(), RtPullTest.repo(), number);
     }
 
-    /**
-     * Answer with the given JSON body.
-     * @param body Body of the answer
-     * @return Answer
-     */
     private static MkAnswer answer(final JsonObject body) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK, body.toString()
         );
     }
 
-    /**
-     * Base as JSON object.
-     * @return Base as JSON object
-     */
     private static JsonObject base() {
         return Json.createObjectBuilder().add(
             "base",
@@ -317,10 +296,6 @@ final class RtPullTest {
         ).build();
     }
 
-    /**
-     * Mock repository for testing purposes.
-     * @return Repo the mock repository
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
@@ -330,10 +305,6 @@ final class RtPullTest {
         return repo;
     }
 
-    /**
-     * Check as JSON object.
-     * @return Check as JSON object
-     */
     private static JsonObject check() {
         return Json.createObjectBuilder()
             .add("total_count", Json.createValue(1)).add(
@@ -348,10 +319,6 @@ final class RtPullTest {
             ).build();
     }
 
-    /**
-     * Head as JSON object.
-     * @return Head as JSON object
-     */
     private static JsonObject head() {
         return RtPullTest.head(
             "ref-ref",
@@ -359,12 +326,6 @@ final class RtPullTest {
         );
     }
 
-    /**
-     * Head as JSON object.
-     * @param ref Ref
-     * @param sha Sha
-     * @return Head as JSON object
-     */
     private static JsonObject head(final String ref, final String sha) {
         return Json.createObjectBuilder().add(
             "head",

@@ -84,10 +84,6 @@ final class MkBlob implements Blob {
         return result;
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/blobs/blob[sha='%s']",

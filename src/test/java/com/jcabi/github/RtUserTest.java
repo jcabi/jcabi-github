@@ -434,10 +434,6 @@ final class RtUserTest {
         }
     }
 
-    /**
-     * Return User.Smart with a JSON null "name" property.
-     * @return User.Smart whose JSON has "name":null
-     */
     private static User.Smart userWithNullName() {
         return new User.Smart(
             new RtUser(
@@ -453,12 +449,6 @@ final class RtUserTest {
         );
     }
 
-    /**
-     * Return User.Smart with given property.
-     * @param property The property as specified at https://developer.github.com/v3/users/#get-a-single-user
-     * @param value The property value
-     * @return User.Smart with given property
-     */
     private static User.Smart userWith(final String property, final String value) {
         return new User.Smart(
             new RtUser(

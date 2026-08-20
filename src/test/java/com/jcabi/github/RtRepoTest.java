@@ -407,10 +407,6 @@ final class RtRepoTest {
         }
     }
 
-    /**
-     * Answer with two languages.
-     * @return Answer
-     */
     private static MkAnswer languages() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -421,11 +417,6 @@ final class RtRepoTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param event Event type
-     * @return JsonObject
-     */
     private static JsonObject event(final String event) {
         return Json.createObjectBuilder()
             .add("id", 1)
@@ -433,11 +424,6 @@ final class RtRepoTest {
             .build();
     }
 
-    /**
-     * Create test Repo.
-     * @param request Request
-     * @return Repo
-     */
     private static Repo repo(final Request request) {
         return new RtRepo(
             Mockito.mock(GitHub.class),

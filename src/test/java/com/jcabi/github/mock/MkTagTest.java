@@ -30,10 +30,6 @@ final class MkTagTest {
         );
     }
 
-    /**
-     * Return a Tag for testing.
-     * @return Tag
-     */
     private static Tag tag() throws IOException {
         return new MkGitHub().randomRepo().git().tags().create(
             Json.createObjectBuilder()

@@ -135,12 +135,6 @@ final class RtUser implements User {
         new RtJson(this.request).patch(json);
     }
 
-    /**
-     * Build a request for the user with this login.
-     * @param req RESTful API entry point
-     * @param login Login of the user, empty for the authenticated one
-     * @return Request
-     */
     private static Request path(final Request req, final String login) {
         final Request path;
         if (login.isEmpty()) {

@@ -118,11 +118,6 @@ final class RtIssuesITCase {
         }
     }
 
-    /**
-     * Issues found by the target label.
-     * @return Issues
-     * @throws IOException If there is any I/O problem
-     */
     private static Iterable<Issue.Smart> found() throws IOException {
         final Map<Issues.Qualifier, String> qualifiers =
             new EnumMap<>(Issues.Qualifier.class);

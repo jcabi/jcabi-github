@@ -75,11 +75,6 @@ final class MkPullRefTest {
         );
     }
 
-    /**
-     * Returns an MkPullRef for testing.
-     * @return MkPullRef for testing
-     * @throws IOException If there is an I/O problem
-     */
     private static PullRef pullRef() throws IOException {
         final MkStorage storage = new MkStorage.InFile();
         return new MkPullRef(
@@ -90,13 +85,6 @@ final class MkPullRefTest {
         );
     }
 
-    /**
-     * Returns a pull request ref for testing.
-     * @param storage Storage
-     * @param repo Repo to create the pull request ref in
-     * @return PullRef for testing
-     * @throws IOException If there is an I/O problem
-     */
     private static PullRef pullRef(
         final MkStorage storage,
         final Repo repo

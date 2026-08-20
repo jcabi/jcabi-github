@@ -69,20 +69,10 @@ final class RtPullRefTest {
         );
     }
 
-    /**
-     * Returns an RtPullRef for testing.
-     * @return Test RtPullRef
-     * @throws IOException If there is an I/O problem.
-     */
     private static PullRef pullRef() throws IOException {
         return RtPullRefTest.pullRef(new MkGitHub().randomRepo());
     }
 
-    /**
-     * Returns an RtPullRef in the given repo for testing.
-     * @param repo Repo to create the pull request ref in
-     * @return Test RtPullRef
-     */
     private static PullRef pullRef(final Repo repo) {
         final Coordinates coords = repo.coordinates();
         final JsonObject user = Json.createObjectBuilder()

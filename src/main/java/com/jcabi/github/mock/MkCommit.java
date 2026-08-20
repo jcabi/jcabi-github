@@ -83,10 +83,6 @@ public final class MkCommit implements Commit {
         return this.identifier.compareTo(commit.sha());
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords = '%s']/git/commits/commit[sha = '%s']",

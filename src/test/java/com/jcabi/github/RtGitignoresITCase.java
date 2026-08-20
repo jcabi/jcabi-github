@@ -37,10 +37,6 @@ final class RtGitignoresITCase {
         );
     }
 
-    /**
-     * Create and return gitignores object to test.
-     * @return Gitignores
-     */
     private static Gitignores gitignores() {
         return new RtGitignores(GitHubIT.connect());
     }

@@ -92,10 +92,6 @@ final class MkTree implements Tree {
         return this.sha;
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords = '%s']/git/trees/tree[sha = '%s']",

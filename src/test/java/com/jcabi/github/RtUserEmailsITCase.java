@@ -78,10 +78,6 @@ final class RtUserEmailsITCase {
         );
     }
 
-    /**
-     * Return UserEmails for tests.
-     * @return UserEmails
-     */
     private static UserEmails userEmails() {
         return GitHubIT.connect().users().self().emails();
     }

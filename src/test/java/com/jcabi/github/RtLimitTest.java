@@ -46,10 +46,6 @@ final class RtLimitTest {
         );
     }
 
-    /**
-     * Example response from rate API.
-     * @return Body string
-     */
     private static String body() {
         return String.join(
             "",

@@ -78,13 +78,6 @@ final class MkContentTest {
         }
     }
 
-    /**
-     * Get a JSON object for content creation.
-     * @param path The path of the file
-     * @param message Commit message
-     * @param content File content
-     * @return JSON representation of content attributes
-     */
     private static JsonObject jsonContent(
         final String path,
         final String message,

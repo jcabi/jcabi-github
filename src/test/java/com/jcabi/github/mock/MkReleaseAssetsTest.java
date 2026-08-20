@@ -104,10 +104,6 @@ final class MkReleaseAssetsTest {
         );
     }
 
-    /**
-     * Create a Release to work with.
-     * @return Repo
-     */
     private static Release release() throws IOException {
         return new MkGitHub().randomRepo().releases().create("v1.0");
     }

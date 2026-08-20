@@ -72,12 +72,6 @@ final class MkLabelsTest {
         );
     }
 
-    /**
-     * An issue with one label attached to it.
-     * @param repo Repo to create the issue in
-     * @return Issue with a label
-     * @throws IOException If some problem inside
-     */
     private static Issue labeled(final Repo repo) throws IOException {
         repo.labels().create(MkLabelsTest.NAME, "e1e1e1");
         final Issue issue = repo.issues().create("hey, you!", "");

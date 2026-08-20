@@ -86,10 +86,6 @@ final class MkTags implements Tags {
         return new MkTag(this.storage, this.self, this.coords, sha);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/git/tags",
@@ -97,13 +93,6 @@ final class MkTags implements Tags {
         );
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
         throws IOException {
         stg.apply(

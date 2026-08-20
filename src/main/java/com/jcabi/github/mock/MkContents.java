@@ -206,20 +206,10 @@ final class MkContents implements Contents {
         ).size() > 0;
     }
 
-    /**
-     * Builder method for MkContent.
-     * @param ref Branch name
-     * @param path Path to MkContent
-     * @return MkContent instance
-     */
     private MkContent mkContent(final String ref, final String path) {
         return new MkContent(this.storage, this.self, this.coords, path, ref);
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return The XPath
-     */
     private String xpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/contents",
@@ -227,10 +217,6 @@ final class MkContents implements Contents {
         );
     }
 
-    /**
-     * Xpath of the commits element in XML tree.
-     * @return Xpath
-     */
     private String commitXpath() {
         return String.format(
             "/github/repos/repo[@coords='%s']/commits",
@@ -238,12 +224,6 @@ final class MkContents implements Contents {
         );
     }
 
-    /**
-     * XML Directives for commit creation.
-     * @param json Source
-     * @return SHA string
-     * @throws IOException If an IO Exception occurs
-     */
     private MkRepoCommit commit(final JsonObject json) throws IOException {
         final String sha = MkContents.fakeSha();
         final Directives commit = new Directives().xpath(this.commitXpath())
@@ -268,21 +248,10 @@ final class MkContents implements Contents {
         return new MkRepoCommit(this.storage, this.repo(), sha);
     }
 
-    /**
-     * Generate a random fake SHA hex string.
-     * @return Fake SHA string
-     */
     private static String fakeSha() {
         return RandomStringUtils.secure().next(40, "0123456789abcdef");
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param rep Coordinates
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg, final Coordinates rep)
         throws IOException {
         stg.apply(

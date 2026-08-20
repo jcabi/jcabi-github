@@ -132,7 +132,7 @@ final class RtPull implements Pull {
                     HttpURLConnection.HTTP_CONFLICT
                 )
             )
-            );
+        );
         final MergeState state;
         switch (response.status()) {
             case HttpURLConnection.HTTP_OK:
@@ -189,12 +189,6 @@ final class RtPull implements Pull {
         return this.number() - pull.number();
     }
 
-    /**
-     * Helper method for merge operations.
-     * @param payload The JSON payload for the merge
-     * @return Response received from GitHub
-     * @throws IOException If there is any I/O problem
-     */
     private RestResponse merge(final JsonStructure payload) throws IOException {
         return this.request.uri()
             .path("/merge").back()

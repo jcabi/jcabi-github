@@ -407,13 +407,6 @@ final class MkContentsTest {
         );
     }
 
-    /**
-     * Adds collection of test content items.
-     * @param repo The repo
-     * @param paths Test items to be created inside the repo
-     * @return Iterable with created items
-     * @throws IOException If any I/O error occurs.
-     */
     private static Content[] addContent(final Repo repo,
         final String... paths) throws IOException {
         final Content[] result = new Content[paths.length];
@@ -429,22 +422,12 @@ final class MkContentsTest {
         return result;
     }
 
-    /**
-     * A file created in a random repo.
-     * @return Created content
-     * @throws IOException If any I/O error occurs.
-     */
     private static Content.Smart created() throws IOException {
         return new Content.Smart(
             MkContentsTest.createFile(new MkGitHub().randomRepo())
         );
     }
 
-    /**
-     * A file created in a branch of a random repo.
-     * @return Created content
-     * @throws IOException If any I/O error occurs.
-     */
     private static Content.Smart branched() throws IOException {
         return new Content.Smart(
             new MkGitHub().randomRepo().contents().create(
@@ -455,12 +438,6 @@ final class MkContentsTest {
         );
     }
 
-    /**
-     * A commit that removes a file from a random repo.
-     * @param extra Extra attributes of the removal request
-     * @return Commit of the removal
-     * @throws IOException If any I/O error occurs.
-     */
     private static RepoCommit removed(final JsonObjectBuilder extra)
         throws IOException {
         final Repo repo = new MkGitHub().randomRepo();
@@ -473,12 +450,6 @@ final class MkContentsTest {
         );
     }
 
-    /**
-     * Contents with one file in the given branch.
-     * @param branch Name of the branch
-     * @return Contents
-     * @throws IOException If any I/O error occurs.
-     */
     private static Contents existing(final String branch) throws IOException {
         final Contents contents = new MkGitHub().randomRepo().contents();
         contents.create(
@@ -489,12 +460,6 @@ final class MkContentsTest {
         return contents;
     }
 
-    /**
-     * Contents with one file in them, kept in the given storage.
-     * @param storage The storage
-     * @return Contents
-     * @throws IOException If any I/O error occurs.
-     */
     private static Contents stored(final MkStorage storage) throws IOException {
         final Contents contents = MkContentsTest.repo(storage).contents();
         contents.create(
@@ -506,12 +471,6 @@ final class MkContentsTest {
         return contents;
     }
 
-    /**
-     * Updates the file under test.
-     * @param contents Contents to update the file in
-     * @return Commit of the update
-     * @throws IOException If any I/O error occurs.
-     */
     private static RepoCommit update(final Contents contents)
         throws IOException {
         return contents.update(
@@ -522,12 +481,6 @@ final class MkContentsTest {
         );
     }
 
-    /**
-     * Creates a new file.
-     * @param repo The repository
-     * @return Created content
-     * @throws IOException If any I/O error occurs.
-     */
     private static Content createFile(final Repo repo) throws IOException {
         return repo.contents().create(
             MkContentsTest
@@ -537,13 +490,6 @@ final class MkContentsTest {
         );
     }
 
-    /**
-     * Create content JsonObjectBuilder.
-     * @param path Content path
-     * @param message Commit message
-     * @param content Base64 encoded content
-     * @return JsonObjectBuilder
-     */
     private static JsonObjectBuilder content(
         final String path, final String message, final String content) {
         return Json.createObjectBuilder()
@@ -552,22 +498,12 @@ final class MkContentsTest {
             .add(MkContentsTest.CONTENT, content);
     }
 
-    /**
-     * Creates default committer.
-     * @return JsonObjectBuilder
-     */
     private static JsonObjectBuilder committer() {
         return Json.createObjectBuilder()
             .add("name", "joe")
             .add("email", "joe@contents.com");
     }
 
-    /**
-     * Create a test repo with custom {@code MkStorage}.
-     * @param storage The storage
-     * @return Test repo
-     * @throws IOException If any I/O error occurs.
-     */
     private static Repo repo(final MkStorage storage) throws IOException {
         return new MkGitHub(storage, "test").randomRepo();
     }

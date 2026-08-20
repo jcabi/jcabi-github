@@ -111,13 +111,6 @@ final class RtPullsTest {
         }
     }
 
-    /**
-     * Create a pull through the given container.
-     * @param container Container to serve the pulls
-     * @param title Title of the pull
-     * @return Created pull
-     * @throws IOException If there is any I/O problem
-     */
     private static Pull create(
         final MkContainer container,
         final String title
@@ -128,11 +121,6 @@ final class RtPullsTest {
         ).create(title, "octocat", "master");
     }
 
-    /**
-     * Answer with a created pull of the given title.
-     * @param title Title of the pull
-     * @return Answer
-     */
     private static MkAnswer answer(final String title) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_CREATED,
@@ -140,11 +128,6 @@ final class RtPullsTest {
         );
     }
 
-    /**
-     * Answer with a fetched pull of the given title.
-     * @param title Title of the pull
-     * @return Answer
-     */
     private static MkAnswer fetched(final String title) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -152,11 +135,6 @@ final class RtPullsTest {
         );
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param title The title of the pull request
-     * @return JsonObject
-     */
     private static JsonObject pull(final String title) {
         return Json.createObjectBuilder()
             .add("number", 1_000_000_000)
@@ -165,10 +143,6 @@ final class RtPullsTest {
             .build();
     }
 
-    /**
-     * Create and return repo to test.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("mark", "test"))

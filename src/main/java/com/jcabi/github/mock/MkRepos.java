@@ -138,20 +138,10 @@ final class MkRepos implements Repos {
         ).isEmpty();
     }
 
-    /**
-     * XPath of this element in XML tree.
-     * @return XPath
-     */
     private static String xpath() {
         return "/github/repos";
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @return The same storage
-     * @throws IOException If fails
-     */
     private static MkStorage bootstrap(final MkStorage stg) throws IOException {
         stg.apply(new Directives().xpath("/github").addIf("repos"));
         return stg;

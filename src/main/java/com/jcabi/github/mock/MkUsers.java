@@ -83,13 +83,6 @@ final class MkUsers implements Users {
         return this.get(login);
     }
 
-    /**
-     * Prepare the storage.
-     * @param stg Storage
-     * @param login User to login
-     * @return The same storage
-     * @throws IOException If there is any I/O problem
-     */
     private static MkStorage bootstrap(final MkStorage stg, final String login)
         throws IOException {
         stg.apply(new Directives().xpath("/github").addIf("users"));
@@ -97,12 +90,6 @@ final class MkUsers implements Users {
         return stg;
     }
 
-    /**
-     * Put a user into the storage.
-     * @param stg Storage
-     * @param login User to login
-     * @throws IOException If there is any I/O problem
-     */
     private static void enter(final MkStorage stg, final String login)
         throws IOException {
         stg.apply(
@@ -110,12 +97,12 @@ final class MkUsers implements Users {
                 String.format(
                     "/github/users[not(user[login='%s'])]", login
                 )
-                )
-                .add("user")
-                .add("login").set(login).up()
-                .add("type").set("User").up()
-                .add("name").set(login).up()
-                .add("notifications").up()
+            )
+            .add("user")
+            .add("login").set(login).up()
+            .add("type").set("User").up()
+            .add("name").set(login).up()
+            .add("notifications").up()
         );
     }
 }

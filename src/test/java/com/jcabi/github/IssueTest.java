@@ -183,10 +183,6 @@ final class IssueTest {
         );
     }
 
-    /**
-     * Mock repo for GhIssue creation.
-     * @return The mock repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         final Coordinates coords = Mockito.mock(Coordinates.class);
@@ -196,11 +192,6 @@ final class IssueTest {
         return repo;
     }
 
-    /**
-     * Read-only labels of an issue with one label in it.
-     * @return Labels
-     * @throws IOException If fails
-     */
     private static IssueLabels roLabels() throws IOException {
         return new Issue.Smart(
             new RtIssue(
@@ -218,13 +209,6 @@ final class IssueTest {
         ).roLabels();
     }
 
-    /**
-     * Issue with a single property.
-     * @param key Name of the property
-     * @param value Value of the property
-     * @return Issue
-     * @throws IOException If fails
-     */
     private static Issue issue(final String key, final String value)
         throws IOException {
         final Issue issue = Mockito.mock(Issue.class);

@@ -165,24 +165,12 @@ final class MkCommentTest {
         );
     }
 
-    /**
-     * Create a comment to work with.
-     * @param text Text of comment
-     * @return Comment just created
-     * @throws IOException If some problem inside
-     */
     private static Comment comment(final String text) throws IOException {
         return new MkGitHub().repos().create(
             new Repos.RepoCreate("blueharvest", false)
         ).issues().create("hey", "how are you?").comments().post(text);
     }
 
-    /**
-     * Create a comment with the given number.
-     * @param number Number of the comment
-     * @return Comment just created
-     * @throws IOException If some problem inside
-     */
     private static MkComment comment(final int number) throws IOException {
         return new MkComment(
             new MkStorage.InFile(),
@@ -193,19 +181,10 @@ final class MkCommentTest {
         );
     }
 
-    /**
-     * Create a smart comment to work with.
-     * @return Comment just created
-     * @throws IOException If some problem inside
-     */
     private static Comment.Smart smart() throws IOException {
         return new Comment.Smart(MkCommentTest.comment(MkCommentTest.BODY));
     }
 
-    /**
-     * Obtains the current time.
-     * @return Current time (in milliseconds since epoch) truncated to the nearest second
-     */
     private static long now() {
         final long sinceepoch = Instant.now().toEpochMilli();
         return sinceepoch - sinceepoch % 1000;

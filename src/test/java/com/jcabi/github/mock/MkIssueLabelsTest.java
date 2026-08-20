@@ -201,12 +201,6 @@ final class MkIssueLabelsTest {
         );
     }
 
-    /**
-     * An issue with one label attached to it.
-     * @param repo Repo to create the issue in
-     * @return Issue with a label
-     * @throws IOException If some problem inside
-     */
     private static Issue labeled(final Repo repo) throws IOException {
         repo.labels().create(MkIssueLabelsTest.NAME, "663399");
         final Issue issue = repo.issues().create("Titular", "Corpus");
@@ -216,34 +210,16 @@ final class MkIssueLabelsTest {
         return issue;
     }
 
-    /**
-     * An issue with one label attached and then detached.
-     * @param repo Repo to create the issue in
-     * @return Issue without a label
-     * @throws IOException If some problem inside
-     */
     private static Issue unlabeled(final Repo repo) throws IOException {
         final Issue issue = MkIssueLabelsTest.labeled(repo);
         issue.labels().remove(MkIssueLabelsTest.NAME);
         return issue;
     }
 
-    /**
-     * The first event of the given issue.
-     * @param issue Issue to take the event from
-     * @return Event
-     * @throws IOException If some problem inside
-     */
     private static Event.Smart first(final Issue issue) throws IOException {
         return new Event.Smart(issue.events().iterator().next());
     }
 
-    /**
-     * The second event of the given issue.
-     * @param issue Issue to take the event from
-     * @return Event
-     * @throws IOException If some problem inside
-     */
     private static Event.Smart second(final Issue issue) throws IOException {
         final Iterator<Event> events = issue.events().iterator();
         events.next();

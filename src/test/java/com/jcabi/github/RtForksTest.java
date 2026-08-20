@@ -82,12 +82,6 @@ final class RtForksTest {
         }
     }
 
-    /**
-     * Forks served by the given container.
-     * @param container Container to serve the forks
-     * @return Forks
-     * @throws IOException If there is any I/O problem
-     */
     private static RtForks forks(final MkContainer container)
         throws IOException {
         final Repo owner = Mockito.mock(Repo.class);
@@ -96,11 +90,6 @@ final class RtForksTest {
         return new RtForks(new JdkRequest(container.home()), owner);
     }
 
-    /**
-     * Answer with a fork of the given organization.
-     * @param organization The organization of the fork
-     * @return Answer
-     */
     private static MkAnswer answer(final String organization) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_ACCEPTED,
@@ -108,11 +97,6 @@ final class RtForksTest {
         );
     }
 
-    /**
-     * Answer with a fetched fork of the given organization.
-     * @param organization The organization of the fork
-     * @return Answer
-     */
     private static MkAnswer fetched(final String organization) {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,
@@ -120,10 +104,6 @@ final class RtForksTest {
         );
     }
 
-    /**
-     * Create and return repo for testing.
-     * @return Repo
-     */
     private static Repo repo() {
         final Repo repo = Mockito.mock(Repo.class);
         Mockito.doReturn(new Coordinates.Simple("test", "forks"))
@@ -131,11 +111,6 @@ final class RtForksTest {
         return repo;
     }
 
-    /**
-     * Create and return JsonObject to test.
-     * @param organization The organization of the fork
-     * @return JsonObject
-     */
     private static JsonObject fork(final String organization) {
         return Json.createObjectBuilder()
             .add("id", 1)

@@ -95,10 +95,6 @@ final class RtPublicKeysITCase {
         }
     }
 
-    /**
-     * Generates a random public key for test.
-     * @return The encoded SSH public key
-     */
     private static String key() throws JSchException, IOException {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream()) {
             final KeyPair kpair = KeyPair.genKeyPair(new JSch(), KeyPair.DSA);
@@ -108,10 +104,6 @@ final class RtPublicKeysITCase {
         }
     }
 
-    /**
-     * Create and return PublicKeys object to test.
-     * @return PublicKeys
-     */
     private static PublicKeys keys() {
         return GitHubIT.connect().users().self().keys();
     }
