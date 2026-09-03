@@ -36,6 +36,24 @@ final class MkCommitsTest {
         );
     }
 
+    @Test
+    void createdCommitHasCreatedAt() throws IOException {
+        MatcherAssert.assertThat(
+            "created_at is missing",
+            MkCommitsTest.created().json().getString("created_at"),
+            Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    void createdCommitHasUpdatedAt() throws IOException {
+        MatcherAssert.assertThat(
+            "updated_at is missing",
+            MkCommitsTest.created().json().getString("updated_at"),
+            Matchers.notNullValue()
+        );
+    }
+
     /**
      * MkCommits.create() must persist the new commit's sha in storage so
      * that subsequent calls (e.g. json(), get()) can find the commit.
