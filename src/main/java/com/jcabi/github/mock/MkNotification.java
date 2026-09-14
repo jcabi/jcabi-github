@@ -10,6 +10,7 @@ import com.jcabi.xml.XML;
 
 /**
  * Mock for GitHub Notification.
+ *
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  * @since 0.25
  */
@@ -23,6 +24,7 @@ final class MkNotification implements Notification {
 
     /**
      * Public ctor.
+     *
      * @param xml XML holding the data for this notification
      */
     MkNotification(final XML xml) {

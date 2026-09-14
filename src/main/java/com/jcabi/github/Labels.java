@@ -12,6 +12,7 @@ import lombok.ToString;
 
 /**
  * GitHub labels.
+ *
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1
  */
@@ -20,12 +21,14 @@ public interface Labels {
 
     /**
      * The repo we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Create new label.
+     *
      * @param name The name of it
      * @param color Color of it
      * @return The label created
@@ -36,6 +39,7 @@ public interface Labels {
 
     /**
      * Get a label by name.
+     *
      * @param name The name of it
      * @return The label
      * @see <a href="https://developer.github.com/v3/issues/labels/#get-a-single-label">Get a single label</a>
@@ -44,6 +48,7 @@ public interface Labels {
 
     /**
      * Iterate them all.
+     *
      * @return Iterator of labels
      * @see <a href="https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
@@ -51,6 +56,7 @@ public interface Labels {
 
     /**
      * Delete label by name.
+     *
      * @param name Name of the label to remove
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#delete-a-label">Delete a Label</a>
@@ -59,6 +65,7 @@ public interface Labels {
 
     /**
      * Smart Labels with extra features.
+     *
      * @since 0.5
      */
     @Immutable
@@ -74,6 +81,7 @@ public interface Labels {
 
         /**
          * Public ctor.
+         *
          * @param lbl Labels
          */
         public Smart(final Labels lbl) {
@@ -82,6 +90,7 @@ public interface Labels {
 
         /**
          * Label exists?
+         *
          * @param name Name of the label
          * @return TRUE if it exists
          */
@@ -98,6 +107,7 @@ public interface Labels {
 
         /**
          * Create or get label.
+         *
          * @param name Name of the label
          * @return Label found or created
          * @throws IOException If there is any I/O problem
@@ -108,6 +118,7 @@ public interface Labels {
 
         /**
          * Create or get label (with this explicit color).
+         *
          * @param name Name of the label
          * @param color Color to set (or modify)
          * @return Label found or created

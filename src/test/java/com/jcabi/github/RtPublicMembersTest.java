@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtPublicMembers}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
@@ -57,6 +58,7 @@ final class RtPublicMembersTest {
 
     /**
      * RtPublicMembers can fetch its organization.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test

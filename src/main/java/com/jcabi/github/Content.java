@@ -18,6 +18,7 @@ import lombok.ToString;
 
 /**
  * GitHub content.
+ *
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  * @since 0.8
  */
@@ -27,18 +28,21 @@ public interface Content extends Comparable<Content>,
 
     /**
      * Repository we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its path name.
+     *
      * @return The path name
      */
     String path();
 
     /**
      * Get the raw contents.
+     *
      * @return Input stream of the raw content
      * @throws IOException If an IO error occurs
      */
@@ -46,6 +50,7 @@ public interface Content extends Comparable<Content>,
 
     /**
      * Smart Content with extra features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -66,6 +71,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Public ctor.
+         *
          * @param cont Content
          */
         public Smart(final Content cont) {
@@ -75,6 +81,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its name.
+         *
          * @return Name of content
          * @throws IOException If there is any I/O problem
          */
@@ -84,6 +91,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its type.
+         *
          * @return Type of content
          * @throws IOException If there is any I/O problem
          */
@@ -93,6 +101,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its size.
+         *
          * @return Size content
          * @throws IOException If it fails
          */
@@ -102,6 +111,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its sha hash.
+         *
          * @return Sha hash of content
          * @throws IOException If there is any I/O problem
          */
@@ -111,6 +121,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its URL.
+         *
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
@@ -124,6 +135,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its HTML URL.
+         *
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
@@ -137,6 +149,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its GIT URL.
+         *
          * @return URL of content
          * @throws IOException If there is any I/O problem
          */
@@ -150,6 +163,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its encoded content.
+         *
          * @return Base64 encoded content
          * @throws IOException If there is any I/O problem
          */
@@ -159,6 +173,7 @@ public interface Content extends Comparable<Content>,
 
         /**
          * Get its decoded content.
+         *
          * @return Decoded content
          * @throws IOException If there is any I/O problem
          */

@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * Mock commits' comparison of a GitHub repository.
+ *
  * @since 0.24
  */
 @Immutable
@@ -50,6 +51,7 @@ final class MkCommitsComparison implements CommitsComparison {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param repo Repository coordinates

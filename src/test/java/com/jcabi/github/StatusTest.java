@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Status}.
+ *
  * @since 0.24
  */
 final class StatusTest {
@@ -35,6 +36,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its commit.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -51,6 +53,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its ID number.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -70,6 +73,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its URL.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -89,6 +93,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's error.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -108,6 +113,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's failure.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -127,6 +133,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's pending.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -146,6 +153,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its state when it's success.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -165,6 +173,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its target URL when it's present.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -185,6 +194,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its target URL when it's absent.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -203,6 +213,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its target URL when it's null.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -222,6 +233,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its description when it's present.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -242,6 +254,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its description when it's absent.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -260,6 +273,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its description when it's null.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -279,6 +293,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its context.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -298,6 +313,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its created-at timestamp.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -317,6 +333,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its last-updated-at timestamp.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -336,6 +353,7 @@ final class StatusTest {
 
     /**
      * Status.Smart can fetch its creator.
+     *
      * @throws Exception If some problem inside
      */
     @Test

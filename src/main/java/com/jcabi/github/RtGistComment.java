@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Gist comment.
+ *
  * @since 0.8
  */
 @Immutable
@@ -39,6 +40,7 @@ final class RtGistComment implements GistComment {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful request
      * @param gist Gist of this comment
      * @param number Number of the get

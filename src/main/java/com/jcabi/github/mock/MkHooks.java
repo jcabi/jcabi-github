@@ -19,6 +19,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub hooks.
+ *
  * @since 0.8
  */
 @Immutable
@@ -26,16 +27,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkHooks implements Hooks {
-
-    /**
-     * XPath suffix for hook element.
-     */
-    private static final String HOOK_PATH = "/hook";
-
-    /**
-     * XPath suffix for hook ID text.
-     */
-    private static final String HOOK_ID_TEXT_PATH = "/hook/id/text()";
 
     /**
      * Storage.
@@ -54,6 +45,7 @@ final class MkHooks implements Hooks {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -82,7 +74,7 @@ final class MkHooks implements Hooks {
     public Iterable<Hook> iterate() {
         return new MkIterable<>(
             this.storage,
-            this.xpath().concat(MkHooks.HOOK_PATH),
+            this.xpath().concat("/hook"),
             xml -> this.get(
                 Integer.parseInt(xml.xpath("id/text()").get(0))
             )
@@ -104,7 +96,7 @@ final class MkHooks implements Hooks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkHooks.HOOK_ID_TEXT_PATH)
+                this.xpath().concat("/hook/id/text()")
             ).size();
             final Directives dirs = new Directives().xpath(this.xpath())
                 .add("hook")

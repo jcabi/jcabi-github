@@ -11,6 +11,7 @@ import lombok.ToString;
 
 /**
  * GitHub Rate Limit API.
+ *
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
  * @since 0.6
  */
@@ -29,12 +30,14 @@ public interface Limits {
 
     /**
      * GitHub we're in.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Get limit for the given resource.
+     *
      * @param resource Name of resource
      * @return Limit
      */
@@ -42,6 +45,7 @@ public interface Limits {
 
     /**
      * Throttled Limits.
+     *
      * @since 0.6
      */
     @Immutable
@@ -62,6 +66,7 @@ public interface Limits {
 
         /**
          * Public ctor.
+         *
          * @param limits Original limits
          * @param allowed Maximum allowed
          */

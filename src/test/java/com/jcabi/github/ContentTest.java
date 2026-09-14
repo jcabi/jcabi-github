@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Content}.
+ *
  * @since 0.8
  */
 final class ContentTest {

@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Git Data Blobs.
+ *
  * @since 0.1
  */
 @Immutable
@@ -40,6 +41,7 @@ final class RtBlobs implements Blobs {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

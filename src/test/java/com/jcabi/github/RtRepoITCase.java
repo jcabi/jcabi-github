@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link GitHub}.
+ *
  * @since 0.1
  *  See https://developer.github.com/v3/repos/#list-languages for API details
  */

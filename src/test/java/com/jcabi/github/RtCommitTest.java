@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for RtCommit.
+ *
  * @since 0.18.2
  */
 @ExtendWith(RandomPort.class)

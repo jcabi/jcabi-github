@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtComment}.
+ *
  * @since 0.7
  */
 @ExtendWith(RandomPort.class)
@@ -177,6 +178,7 @@ final class RtCommentTest {
 
     /**
      * This tests that the toString() method is not empty.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -196,6 +198,7 @@ final class RtCommentTest {
 
     /**
      * This tests that the toString() method ends with the number.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test

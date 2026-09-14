@@ -20,6 +20,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub comments.
+ *
  * @since 0.5
  */
 @Immutable
@@ -27,16 +28,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "ticket" })
 final class MkComments implements Comments {
-
-    /**
-     * XPath suffix for comment.
-     */
-    private static final String COMMENT_PATH = "/comment";
-
-    /**
-     * XPath for comment number.
-     */
-    private static final String COMMENT_NUM_XPATH = "//comment/number";
 
     /**
      * Storage.
@@ -60,6 +51,7 @@ final class MkComments implements Comments {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -103,7 +95,7 @@ final class MkComments implements Comments {
     public Iterable<Comment> iterate(final Instant since) {
         return new MkIterable<>(
             this.storage,
-            this.xpath().concat(MkComments.COMMENT_PATH),
+            this.xpath().concat("/comment"),
             xml -> this.get(
                 Long.parseLong(xml.xpath("number/text()").get(0))
             )
@@ -117,7 +109,7 @@ final class MkComments implements Comments {
         try {
             final String timestamp = new GitHub.Time().toString();
             number = 1L + this.storage.xml()
-                .nodes(MkComments.COMMENT_NUM_XPATH).size();
+                .nodes("//comment/number").size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")
                     .add("number").set(Long.toString(number)).up()

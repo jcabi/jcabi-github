@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 /**
  * Annotates an integration test case to indicate required OAuth scopes to run
  * such case.
+ *
  * @todo #975:30min Now all IT cases are annotated with OAuthScope annotation
  *  to marked down its required scopes. A checker needs to be implemented to
  *  check if the supplied account can fulfill the IT case requirement before
@@ -28,12 +29,14 @@ public @interface OAuthScope {
 
     /**
      * Scopes of the OAuth token.
+     *
      * @return Scopes required by the test
      */
     OAuthScope.Scope[] value();
 
     /**
      * OAuth scope of a GitHub token.
+     *
      * @since 0.10
      */
     enum Scope {

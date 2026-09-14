@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub trees.
+ *
  * @since 0.6
  */
 @Immutable
@@ -40,6 +41,7 @@ final class RtTrees implements Trees {
 
     /**
      * Public ctor.
+     *
      * @param req Entry point of API
      * @param repo Repository
      */

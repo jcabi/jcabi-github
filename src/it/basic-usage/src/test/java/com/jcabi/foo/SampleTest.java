@@ -14,12 +14,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Sample test.
+ *
  * @since 1.0
  */
 final class SampleTest {
 
     /**
      * Fetches labels from GitHub.
+     *
      * @throws Exception If fails
      */
     @Test

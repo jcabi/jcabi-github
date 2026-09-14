@@ -23,6 +23,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtIssues}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)

@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub Commit.
+ *
  * @since 0.3
  */
 @Immutable
@@ -44,6 +45,7 @@ public final class MkCommit implements Commit {
 
     /**
      * Public constructor.
+     *
      * @param strg The storage
      * @param login The login name
      * @param crds Credential

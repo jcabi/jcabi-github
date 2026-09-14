@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkCommitsComparison}.
+ *
  * @since 0.1
  */
 final class MkCommitsComparisonTest {
 
     /**
      * MkCommitsComparison can get a repo.
+     *
      * @throws IOException if some problem inside
      */
     @Test

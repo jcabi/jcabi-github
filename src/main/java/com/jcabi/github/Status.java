@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * GitHub commit status.
+ *
  * @since 0.23
  */
 @Immutable
@@ -23,24 +24,28 @@ public interface Status extends JsonReadable {
 
     /**
      * Associated commit.
+     *
      * @return Commit
      */
     Commit commit();
 
     /**
      * Get its ID number.
+     *
      * @return ID number
      */
     int identifier();
 
     /**
      * Get its URL.
+     *
      * @return URL
      */
     String url();
 
     /**
      * States of Status API.
+     *
      * @author Marcin Cylke(marcin.cylke+github@gmail.com)
      */
     enum State implements StringEnum {
@@ -69,6 +74,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Private ctor.
+         *
          * @param stat Commit status state identifier string
          */
         State(final String stat) {
@@ -82,6 +88,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Get enum value from identifier string.
+         *
          * @param ident Commit status state string
          * @return Corresponding State
          */
@@ -93,6 +100,7 @@ public interface Status extends JsonReadable {
 
     /**
      * Smart Status with extra features.
+     *
      * @since 0.24
      */
     @Immutable
@@ -113,6 +121,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param stat Status
          */
         public Smart(final Status stat) {
@@ -122,6 +131,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Get state.
+         *
          * @return State as enum
          * @throws IOException If there is an I/O problem
          */
@@ -131,6 +141,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Get URL.
+         *
          * @return URL as string
          * @throws IOException If there is an I/O problem
          */
@@ -142,6 +153,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Get description.
+         *
          * @return Description as string
          * @throws IOException If there is an I/O problem
          */
@@ -151,6 +163,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Get context.
+         *
          * @return Context as string
          * @throws IOException If there is an I/O problem
          */
@@ -160,6 +173,7 @@ public interface Status extends JsonReadable {
 
         /**
          * When this commit status was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -171,6 +185,7 @@ public interface Status extends JsonReadable {
 
         /**
          * When this commit status was updated.
+         *
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
@@ -182,6 +197,7 @@ public interface Status extends JsonReadable {
 
         /**
          * Get its creator.
+         *
          * @return Creator of the commit status
          * @throws IOException If there is any I/O problem
          */

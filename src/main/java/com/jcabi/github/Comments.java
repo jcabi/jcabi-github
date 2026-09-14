@@ -11,7 +11,8 @@ import java.time.Instant;
 /**
  * GitHub comments.
  *
- * <p>Use this class to get access to all comments in an issue, for example:
+ * <p>Use this class to get access to all comments in an issue, for example:</p>
+ *
  * <pre> issue = // ... get it somewhere
  * Comments comments = issue.comments();
  * Comment comment = comments.post("Hi, how are you?");</pre>
@@ -24,12 +25,14 @@ public interface Comments {
 
     /**
      * The issue we're in.
+     *
      * @return Issue
      */
     Issue issue();
 
     /**
      * Get comment by number.
+     *
      * @param number Comment number
      * @return Comment
      * @see <a href="https://developer.github.com/v3/issues/comments/#get-a-single-comment">Get a Single Comment</a>
@@ -38,6 +41,7 @@ public interface Comments {
 
     /**
      * Iterate them all.
+     *
      * @param since Since when? Just give {@code new Date(0)} if you want
      *  all comments
      * @return All comments
@@ -47,6 +51,7 @@ public interface Comments {
 
     /**
      * Post new comment.
+     *
      * @param text Text of comment to post in Markdown format
      * @return Comment
      * @throws IOException If there is any I/O problem

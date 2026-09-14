@@ -15,6 +15,7 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub starring API.
+ *
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  * @since 0.15
  */
@@ -35,6 +36,7 @@ final class RtStars implements Stars {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

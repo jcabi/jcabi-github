@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 /**
  * Repository statistics.
+ *
  * @since 1.8.0
  */
 public final class RepositoryStatistics {
@@ -26,6 +27,7 @@ public final class RepositoryStatistics {
 
     /**
      * Public ctor.
+     *
      * @param repository Repository
      */
     public RepositoryStatistics(final Repo repository) {
@@ -34,6 +36,7 @@ public final class RepositoryStatistics {
 
     /**
      * Get all statistics as a map.
+     *
      * @return Map of statistics
      * @throws IOException If there is any I/O problem
      */
@@ -49,6 +52,7 @@ public final class RepositoryStatistics {
 
     /**
      * Keys of the JSON object returned by the GitHub API.
+     *
      * @since 1.8.0
      */
     enum Key {
@@ -113,6 +117,7 @@ public final class RepositoryStatistics {
 
         /**
          * Constructor.
+         *
          * @param json The key of the JSON object returned by the GitHub API
          */
         Key(final String json) {
@@ -121,6 +126,7 @@ public final class RepositoryStatistics {
 
         /**
          * Getter for the key.
+         *
          * @return The key of the JSON object returned by the GitHub API
          */
         String getKey() {
@@ -129,6 +135,7 @@ public final class RepositoryStatistics {
 
         /**
          * Extracts the JSON object returned by the GitHub to a map entry.
+         *
          * @param object The JSON object returned by the GitHub API
          * @return The map entry
          */

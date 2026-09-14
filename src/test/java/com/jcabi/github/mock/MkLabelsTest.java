@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkLabels}.
+ *
  * @since 0.6
  */
 final class MkLabelsTest {

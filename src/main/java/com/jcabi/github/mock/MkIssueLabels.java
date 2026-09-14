@@ -22,6 +22,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub labels.
+ *
  * @since 0.5
  */
 @Immutable
@@ -52,6 +53,7 @@ final class MkIssueLabels implements IssueLabels {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login Login
      * @param rep Repo

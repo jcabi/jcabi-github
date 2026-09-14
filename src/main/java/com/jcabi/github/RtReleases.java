@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub releases.
+ *
  * @since 0.8
  */
 @Immutable
@@ -40,6 +41,7 @@ final class RtReleases implements Releases {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful API entry point
      * @param repo Repository
      */

@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullComment}.
+ *
  * @since 0.1
  */
 final class MkPullCommentTest {
 
     /**
      * MkPullComment can be represented as JSON.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -32,6 +34,7 @@ final class MkPullCommentTest {
 
     /**
      * MkPullComment can accept a PATCH request.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test

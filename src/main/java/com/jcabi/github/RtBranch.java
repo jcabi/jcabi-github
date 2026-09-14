@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Git branch implementation.
+ *
  * @since 0.24
  */
 @Immutable
@@ -40,6 +41,7 @@ public final class RtBranch implements Branch {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param nom Name of branch

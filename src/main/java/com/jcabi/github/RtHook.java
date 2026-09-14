@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub hooks.
+ *
  * @since 0.8
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtHook implements Hook {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param number Id of the get

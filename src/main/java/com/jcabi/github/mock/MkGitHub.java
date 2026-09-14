@@ -28,7 +28,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 /**
  * Mock GitHub client.
  *
- * <p>This is how you use it:
+ * <p>This is how you use it:</p>
  *
  * <pre> GitHub gitHub = new MkGitHub("username");
  * Repos.RepoCreate create = new Repos.RepoCreate("dummy", false);
@@ -36,7 +36,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  * Issue issue = repo.issues().create("title", "body");</pre>
  *
  * <p>By default, it works with a temporary file, which will be deleted
- * on JVM exit:
+ * on JVM exit:</p>
  *
  * <pre> GitHub github = new MkGitHub("jeff");</pre>
  *
@@ -59,6 +59,7 @@ public final class MkGitHub implements GitHub {
 
     /**
      * Public ctor.
+     *
      * @throws IOException If there is any I/O problem
      */
     public MkGitHub() throws IOException {
@@ -67,6 +68,7 @@ public final class MkGitHub implements GitHub {
 
     /**
      * Public ctor.
+     *
      * @param login User to login
      * @throws IOException If there is any I/O problem
      */
@@ -76,6 +78,7 @@ public final class MkGitHub implements GitHub {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      */
@@ -170,6 +173,7 @@ public final class MkGitHub implements GitHub {
 
     /**
      * Relogin.
+     *
      * @param login User to login
      * @return GitHub
      */
@@ -179,6 +183,7 @@ public final class MkGitHub implements GitHub {
 
     /**
      * Create repo with random name.
+     *
      * @return Repo
      * @throws IOException If fails
      */

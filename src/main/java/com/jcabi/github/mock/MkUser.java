@@ -21,6 +21,7 @@ import lombok.ToString;
 
 /**
  * GitHub user.
+ *
  * @since 0.5
  */
 @Immutable
@@ -40,6 +41,7 @@ final class MkUser implements User {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      */

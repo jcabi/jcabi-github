@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPullComments}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
@@ -32,6 +33,7 @@ final class RtPullCommentsTest {
 
     /**
      * RtPullComments can fetch a single comment.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -47,6 +49,7 @@ final class RtPullCommentsTest {
 
     /**
      * RtPullComments can fetch all pull comments for a repo.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -77,6 +80,7 @@ final class RtPullCommentsTest {
 
     /**
      * RtPullComments can fetch pull comments for a pull request.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test

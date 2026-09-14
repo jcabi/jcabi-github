@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtMilestones}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)

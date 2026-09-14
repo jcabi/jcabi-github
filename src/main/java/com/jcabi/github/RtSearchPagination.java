@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub search pagination.
+ *
  * @param <T> Type of iterable objects
  * @since 0.4
  */
@@ -31,6 +32,7 @@ final class RtSearchPagination<T> implements Iterable<T> {
 
     /**
      * Ctor.
+     *
      * @param req RESTful API entry point
      * @param path Search path
      * @param keywords Search keywords

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtDeployKeys}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
@@ -55,6 +56,7 @@ final class RtDeployKeysITCase {
 
     /**
      * RtDeployKeys can iterate deploy keys.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -74,6 +76,7 @@ final class RtDeployKeysITCase {
 
     /**
      * RtDeployKeys can create a deploy key.
+     *
      * @throws Exception If something goes wrong
      */
     @Test
@@ -94,6 +97,7 @@ final class RtDeployKeysITCase {
 
     /**
      * RtDeployKeys can get a single deploy key.
+     *
      * @throws Exception If something goes wrong
      */
     @Test
@@ -113,6 +117,7 @@ final class RtDeployKeysITCase {
 
     /**
      * RtDeployKeys can remove a deploy key.
+     *
      * @throws Exception If something goes wrong
      */
     @Test

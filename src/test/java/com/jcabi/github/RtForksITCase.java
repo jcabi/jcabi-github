@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtForks}.
+ *
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)

@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Blobs.
+ *
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  * @since 0.8
  */
@@ -17,12 +18,14 @@ public interface Blobs {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get specific blob by sha.
+     *
      * @param sha SHA of a blob
      * @return Blob
      * @see <a href="https://developer.github.com/v3/git/blobs/#get-a-blob">Get single blob</a>
@@ -31,6 +34,7 @@ public interface Blobs {
 
     /**
      * Create a blob.
+     *
      * @param content Content
      * @param encoding Encoding
      * @return A new blob

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * GitHub Milestones.
+ *
  * @see <a href="https://developer.github.com/v3/issues/milestones/">Milestones API</a>
  * @since 0.7
  */
@@ -18,12 +19,14 @@ public interface Milestones {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Create Milestone.
+     *
      * @param title Milestone creation JSON
      * @return Milestone
      * @throws IOException If there is any I/O problem
@@ -34,6 +37,7 @@ public interface Milestones {
 
     /**
      * Get specific milestone by number.
+     *
      * @param number Milestone number
      * @return Milestone
      * @see <a href="https://developer.github.com/v3/issues/milestones/#get-a-single-milestone">Get a single milestone</a>
@@ -42,6 +46,7 @@ public interface Milestones {
 
     /**
      * Iterate them all.
+     *
      * @param params Iterating parameters, as requested by API
      * @return Iterator of milestones
      * @see <a href="https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository">List milestones for a repository</a>
@@ -50,6 +55,7 @@ public interface Milestones {
 
     /**
      * Remove milestone by number.
+     *
      * @param number Milestone number
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/milestones/#delete-a-milestone">Delete a milestone</a>

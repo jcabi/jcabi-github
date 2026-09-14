@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * GitHub search.
+ *
  * @see <a href="https://developer.github.com/v3/search/">Search API</a>
  * @since 0.8
  */
@@ -17,12 +18,14 @@ public interface Search {
 
     /**
      * GitHub we're in.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Search repositories.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -33,6 +36,7 @@ public interface Search {
 
     /**
      * Search issues.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -49,6 +53,7 @@ public interface Search {
 
     /**
      * Search users.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -59,6 +64,7 @@ public interface Search {
 
     /**
      * Search code.
+     *
      * @param keywords The search keywords
      * @param sort The sort field
      * @param order The sort order
@@ -69,6 +75,7 @@ public interface Search {
 
     /**
      * Search qualifier.
+     *
      * @since 0.8
      */
     enum Qualifier implements StringEnum {
@@ -168,6 +175,7 @@ public interface Search {
 
         /**
          * Ctor.
+         *
          * @param key Search qualifier
          */
         Qualifier(final String key) {
@@ -182,6 +190,7 @@ public interface Search {
 
     /**
      * Sorting order of search results.
+     *
      * @since 0.8
      */
     enum Order implements StringEnum {
@@ -202,6 +211,7 @@ public interface Search {
 
         /**
          * Ctor.
+         *
          * @param key The sort order
          */
         Order(final String key) {

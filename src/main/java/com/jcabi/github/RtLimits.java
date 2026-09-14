@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub limit rate.
+ *
  * @since 0.6
  */
 @Immutable
@@ -30,6 +31,7 @@ final class RtLimits implements Limits {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      */

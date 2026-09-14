@@ -20,6 +20,7 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub gist.
+ *
  * @since 0.1
  */
 @Immutable
@@ -49,6 +50,7 @@ final class RtGist implements Gist {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      * @param name Name of gist

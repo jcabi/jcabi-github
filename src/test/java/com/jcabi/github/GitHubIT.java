@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assumptions;
 
 /**
  * GitHub for IT testing.
+ *
  * @since 1.0
  */
 public final class GitHubIT {
@@ -21,6 +22,7 @@ public final class GitHubIT {
 
     /**
      * Return GitHub connected to live server.
+     *
      * @return The obj
      */
     @SuppressWarnings("PMD.ProhibitPublicStaticMethods")

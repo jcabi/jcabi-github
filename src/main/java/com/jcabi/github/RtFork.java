@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub fork.
+ *
  * @since 0.8
  */
 @Immutable
@@ -32,6 +33,7 @@ final class RtFork implements Fork {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param number Number of the get

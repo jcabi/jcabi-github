@@ -16,16 +16,12 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub forks.
+ *
  * @since 0.8
  */
 @Immutable
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkForks implements Forks {
-
-    /**
-     * XPath suffix for fork ID text.
-     */
-    private static final String FORK_ID_TEXT_PATH = "/fork/id/text()";
 
     /**
      * Storage.
@@ -44,6 +40,7 @@ final class MkForks implements Forks {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -85,7 +82,7 @@ final class MkForks implements Forks {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkForks.FORK_ID_TEXT_PATH)
+                this.xpath().concat("/fork/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("fork")
@@ -104,6 +101,7 @@ final class MkForks implements Forks {
 
     /**
      * Gets a mocked Fork.
+     *
      * @param forkid Fork id
      * @return Mocked Fork
      */

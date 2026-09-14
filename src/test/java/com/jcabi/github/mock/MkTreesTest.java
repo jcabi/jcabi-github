@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTrees.
+ *
  * @since 0.8
  */
 final class MkTreesTest {

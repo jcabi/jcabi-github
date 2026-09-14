@@ -22,10 +22,11 @@ import lombok.ToString;
  * times before giving up and rethrowing the exception.
  *
  * <p>Just a wrapper for a {@link RetryWire} that wraps a
- * {@link CarefulWire} that wraps the underlying wire.
+ * {@link CarefulWire} that wraps the underlying wire.</p>
  *
  * <p>You can use {@code RetryCarefulWire} with a
- * {@link com.jcabi.github.GitHub} object:
+ * {@link com.jcabi.github.GitHub} object:</p>
+ *
  * <pre>
  * {@code
  * GitHub github = new RtGitHub(
@@ -48,6 +49,7 @@ public final class RetryCarefulWire implements Wire {
 
     /**
      * Public ctor.
+     *
      * @param wire Original wire
      * @param threshold Threshold of number of remaining requests, below which
      *  requests are blocked until reset

@@ -14,12 +14,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link FileChange}.
+ *
  * @since 0.24
  */
 final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the added status of the file.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -33,6 +35,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the modified status of the file.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -46,6 +49,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the removed status of the file.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -59,6 +63,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the renamed status of the file.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -72,6 +77,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the filename of the file.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -86,6 +92,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the commit SHA of the file.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -100,6 +107,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the file's count of lines added.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -114,6 +122,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the file's count of lines deleted.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -128,6 +137,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the file's count of lines changed.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -143,6 +153,7 @@ final class FileChangeTest {
     /**
      * FileChange.Smart does not fail when attempting to get the
      * it is absent (which is normally the case for binary files).
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -161,6 +172,7 @@ final class FileChangeTest {
     /**
      * FileChange.Smart can get the file's diff patch string when
      * it is present (which is normally the case for text files).
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -178,6 +190,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the URL for the file's raw content.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -200,6 +213,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the URL of the file's blob.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -222,6 +236,7 @@ final class FileChangeTest {
 
     /**
      * FileChange.Smart can get the contents URL of the file.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test

@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub public key.
+ *
  * @since 0.8
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtPublicKey implements PublicKey {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful request
      * @param user Owner of this comment
      * @param number Number of the get

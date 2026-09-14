@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtDeployKeys}.
+ *
  * @since 0.8
  */
 @Immutable
@@ -45,6 +46,7 @@ final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can fetch non empty list of deploy keys.
+     *
      * @throws IOException If some problem inside.
      */
     @Test
@@ -74,6 +76,7 @@ final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can fetch single deploy key.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -91,6 +94,7 @@ final class RtDeployKeysTest {
 
     /**
      * RtDeployKeys can create a key.
+     *
      * @throws IOException If some problem inside.
      */
     @Test

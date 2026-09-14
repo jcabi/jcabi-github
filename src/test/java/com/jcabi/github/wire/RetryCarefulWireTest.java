@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 /**
  * Test case for {@link RetryCarefulWire}.
  * Just combines the RetryWire and CarefulWire test cases.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
@@ -68,6 +69,7 @@ final class RetryCarefulWireTest {
 
     /**
      * RetryCarefulWire can tolerate the lack the X-RateLimit-Remaining header.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -86,6 +88,7 @@ final class RetryCarefulWireTest {
 
     /**
      * RetryCarefulWire can tolerate the lack the X-RateLimit-Reset header.
+     *
      * @throws IOException If some problem inside
      */
     @Test

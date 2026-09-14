@@ -18,6 +18,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub releases.
+ *
  * @since 0.8
  */
 @Immutable
@@ -25,11 +26,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkReleases implements Releases {
-
-    /**
-     * XPath suffix for release ID text.
-     */
-    private static final String RELEASE_ID_XPATH = "/release/id/text()";
 
     /**
      * Storage.
@@ -48,6 +44,7 @@ final class MkReleases implements Releases {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -94,7 +91,7 @@ final class MkReleases implements Releases {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkReleases.RELEASE_ID_XPATH)
+                this.xpath().concat("/release/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("release")

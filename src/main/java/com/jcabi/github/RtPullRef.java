@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull request ref.
+ *
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)
@@ -28,6 +29,7 @@ final class RtPullRef implements PullRef {
 
     /**
      * Public ctor.
+     *
      * @param gthb GitHub
      * @param json Pull request ref JSON object
      */

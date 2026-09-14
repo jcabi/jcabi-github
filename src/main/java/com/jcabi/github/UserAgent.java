@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 /**
  * User agent data.
+ *
  * @since 0.37
  */
 @FunctionalInterface
@@ -13,6 +14,7 @@ interface UserAgent {
 
     /**
      * Format user-agent http header value.
+     *
      * @return String
      */
     String format();

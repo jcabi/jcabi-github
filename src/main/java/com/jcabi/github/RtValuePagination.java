@@ -12,20 +12,21 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub value pagination.
+ *
  * @param <T> Type of iterable objects
- * @param <P> Type of source objects
+ * @param <S> Type of source objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
  * @since 0.8
  */
 @Immutable
 @EqualsAndHashCode(of = { "entry", "map" })
-public final class RtValuePagination<T, P extends JsonValue> implements
+public final class RtValuePagination<T, S extends JsonValue> implements
     Iterable<T> {
 
     /**
      * Mapping to use.
      */
-    private final transient RtValuePagination.Mapping<T, P> map;
+    private final transient RtValuePagination.Mapping<T, S> map;
 
     /**
      * Start entry to use.
@@ -34,12 +35,13 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param mpp Mapping
      */
     public RtValuePagination(
         final Request req,
-        final RtValuePagination.Mapping<T, P> mpp
+        final RtValuePagination.Mapping<T, S> mpp
     ) {
         this.entry = req;
         this.map = mpp;
@@ -57,6 +59,7 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
     /**
      * Entry.
+     *
      * @return Entry point
      */
     public Request request() {
@@ -65,27 +68,30 @@ public final class RtValuePagination<T, P extends JsonValue> implements
 
     /**
      * Mapping.
+     *
      * @return Mapping
      */
-    public RtValuePagination.Mapping<T, P> mapping() {
+    public RtValuePagination.Mapping<T, S> mapping() {
         return this.map;
     }
 
     /**
      * Mapping from JsonValue successor to the destination type.
+     *
      * @param <X> Type of custom object
-     * @param <P> Type of source object
+     * @param <S> Type of source object
      * @since 0.8
      */
     @Immutable
     @FunctionalInterface
-    public interface Mapping<X, P extends JsonValue> {
+    public interface Mapping<X, S extends JsonValue> {
 
         /**
          * Map JsonValue successor to the type required.
+         *
          * @param value Extends JsonValue
          * @return Custom object
          */
-        X map(P value);
+        X map(S value);
     }
 }

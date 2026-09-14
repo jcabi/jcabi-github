@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Runtime Reaction.
+ *
  * @since 1.0
  */
 final class RtReactionTest {

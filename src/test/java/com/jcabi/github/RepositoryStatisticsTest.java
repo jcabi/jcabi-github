@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RepositoryStatistics}.
+ *
  * @since 1.8.0
  * @todo #1660:90min MkRepo returns only string values from json.
  *  MkRepo returns only strings values, it is why in all tests
@@ -113,6 +114,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that RepositoryStatistics can convert all values to a map.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -169,6 +171,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that Smart can retrieve forks.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -184,6 +187,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that Smart can retrieve stargazers.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -199,6 +203,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that Smart can retrieve watchers.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -214,6 +219,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that Smart can retrieve size.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -229,6 +235,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that Smart can retrieve open issues.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test
@@ -244,6 +251,7 @@ final class RepositoryStatisticsTest {
 
     /**
      * Checks that Smart can retrieve creation date.
+     *
      * @throws IOException If some problem with I/O happened.
      */
     @Test

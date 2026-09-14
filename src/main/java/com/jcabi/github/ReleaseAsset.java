@@ -19,6 +19,7 @@ import lombok.ToString;
 
 /**
  * GitHub release asset.
+ *
  * @since 0.8
  */
 @Immutable
@@ -27,18 +28,21 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * The release we're in.
+     *
      * @return Release
      */
     Release release();
 
     /**
      * Number.
+     *
      * @return Release asset number
      */
     int number();
 
     /**
      * Delete the release asset.
+     *
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release-asset">Delete a Release Asset</a>
      */
@@ -46,6 +50,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * Gets release asset raw content.
+     *
      * @return Release asset number
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a single release asset</a>
@@ -54,6 +59,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
     /**
      * Smart ReleaseAsset with extra features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -74,6 +80,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param ast Release asset
          */
         public Smart(final ReleaseAsset ast) {
@@ -83,6 +90,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its URL.
+         *
          * @return URL of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -96,6 +104,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its name.
+         *
          * @return Name of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -105,6 +114,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its label.
+         *
          * @return Label of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -114,6 +124,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its state.
+         *
          * @return State of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -123,6 +134,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its content type.
+         *
          * @return Content type of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -132,6 +144,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its size.
+         *
          * @return Size of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -141,6 +154,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Get its downloadCount.
+         *
          * @return Download count of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -150,6 +164,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * When it was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -161,6 +176,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * When it was updated.
+         *
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
@@ -172,6 +188,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Change its name.
+         *
          * @param text Name of release asset
          * @throws IOException If there is any I/O problem
          */
@@ -183,6 +200,7 @@ public interface ReleaseAsset extends JsonReadable, JsonPatchable {
 
         /**
          * Change its label.
+         *
          * @param text Label of release asset
          * @throws IOException If there is any I/O problem
          */

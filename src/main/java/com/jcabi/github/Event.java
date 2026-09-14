@@ -18,6 +18,7 @@ import lombok.ToString;
 
 /**
  * GitHub event.
+ *
  * @see <a href="https://developer.github.com/v3/issues/events/">Issue Events API</a>
  * @since 0.4
  */
@@ -26,120 +27,140 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String CLOSED = "closed";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String REOPENED = "reopened";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String SUBSCRIBED = "subscribed";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String MERGED = "merged";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String REFERENCED = "referenced";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String MENTIONED = "mentioned";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String ASSIGNED = "assigned";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String UNASSIGNED = "unassigned";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String LABELED = "labeled";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String UNLABELED = "unlabeled";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String MILESTONED = "milestoned";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String DEMILESTONED = "demilestoned";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String RENAMED = "renamed";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String LOCKED = "locked";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String UNLOCKED = "unlocked";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String HEAD_REF_DELETED = "head_ref_deleted";
 
     /**
      * Event type.
+     *
      * @see <a href="https://developer.github.com/v3/issues/events/">Event Types</a>
      */
     String HEAD_REF_RESTORED = "head_ref_restored";
 
     /**
      * Repository we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its number.
+     *
      * @return Issue number
      */
     int number();
 
     /**
      * Smart event with extra features.
+     *
      * @since 0.6.1
      */
     @Immutable
@@ -160,6 +181,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param evt Event
          */
         public Smart(final Event evt) {
@@ -169,6 +191,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * Does it have an author?
+         *
          * @return TRUE if the author exists
          * @throws IOException If there is any I/O problem
          */
@@ -178,6 +201,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * Get its author.
+         *
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
@@ -189,6 +213,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * Get its type.
+         *
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
@@ -198,6 +223,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * Get its URL.
+         *
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
@@ -211,6 +237,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * When this issue was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -222,6 +249,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * SHA of the commit referenced by this event (if any).
+         *
          * @return SHA of the commit, or absent if not associated with one
          * @throws IOException If there is any I/O problem
          * @since 1.7.0
@@ -234,6 +262,7 @@ public interface Event extends Comparable<Event>, JsonReadable {
 
         /**
          * Label that was added or removed in this event (if any).
+         *
          * @return Label that was added or removed
          * @throws IOException If there is any I/O problem
          * @since 0.24

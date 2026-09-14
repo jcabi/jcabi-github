@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPullRef}.
+ *
  * @since 0.24
  */
 final class MkPullRefTest {
@@ -35,6 +36,7 @@ final class MkPullRefTest {
 
     /**
      * MkPullRef can fetch its repo.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -51,6 +53,7 @@ final class MkPullRefTest {
 
     /**
      * MkPullRef can fetch its ref name.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -64,6 +67,7 @@ final class MkPullRefTest {
 
     /**
      * MkPullRef can fetch its commit sha.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test

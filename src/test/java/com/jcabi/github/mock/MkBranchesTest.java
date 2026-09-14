@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkBranches}.
+ *
  * @since 0.8
  */
 final class MkBranchesTest {
@@ -42,6 +43,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can name a new branch.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -55,6 +57,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can point a new branch to a commit.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -69,6 +72,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can put a new branch into the user of its repo.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -84,6 +88,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can put a new branch into its repo.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -99,6 +104,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can iterate over the repo's branches.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -112,6 +118,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can iterate over the name of the first branch.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -125,6 +132,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can iterate over the commit of the first branch.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -139,6 +147,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can iterate over the name of the second branch.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -155,6 +164,7 @@ final class MkBranchesTest {
 
     /**
      * MkBranches can iterate over the commit of the second branch.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test

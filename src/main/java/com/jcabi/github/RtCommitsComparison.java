@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Commits comparison.
+ *
  * @since 0.24
  */
 @Immutable
@@ -32,6 +33,7 @@ final class RtCommitsComparison implements CommitsComparison {
 
     /**
      * Ctor.
+     *
      * @param req Entry point of API
      * @param repo Repository
      * @param base SHA of a base commit

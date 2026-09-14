@@ -15,12 +15,14 @@ import org.xembly.Directives;
 
 /**
  * Unit tests for the MkUser class.
+ *
  * @since 0.1
  */
 final class MkUserTest {
 
     /**
      * Tests that MkUser.organizations() returns a value.
+     *
      * @throws IOException when there is an error creating the MkUser begin tested
      */
     @Test
@@ -39,7 +41,7 @@ final class MkUserTest {
      * MkUser returns notifications.
      *
      * <p>There is no requirement for us to return actual mock data because our
-     * API does not provide a way to create notifications.
+     * API does not provide a way to create notifications.</p>
      *
      * @throws IOException If there is an error creating the user.
      */
@@ -58,6 +60,7 @@ final class MkUserTest {
     /**
      * Must mark notifications as read only if their 'lastread' is equal or
      * older than the given date.
+     *
      * @throws IOException If any error occurs.
      */
     @Test
@@ -73,6 +76,7 @@ final class MkUserTest {
 
     /**
      * Must leave notifications newer than the given date alone.
+     *
      * @throws IOException If any error occurs.
      */
     @Test

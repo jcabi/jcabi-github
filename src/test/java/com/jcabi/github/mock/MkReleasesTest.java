@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkReleases}.
+ *
  * @since 0.8
  */
 final class MkReleasesTest {

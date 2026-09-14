@@ -18,6 +18,7 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub pull request.
+ *
  * @since 0.3
  */
 @Immutable
@@ -47,6 +48,7 @@ final class RtPull implements Pull {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param number Number of the get

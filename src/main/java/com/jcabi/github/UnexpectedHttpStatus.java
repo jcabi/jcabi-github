@@ -13,7 +13,7 @@ import java.io.IOException;
  * {@link AssertionError} produced by
  * {@code com.jcabi.http.response.RestResponse#assertStatus(int)}, so that
  * callers can recover from non-success HTTP responses (e.g. {@code 404}) using
- * a normal exception rather than an {@link Error}.
+ * a normal exception rather than an {@link Error}.</p>
  *
  * @since 2.0
  */
@@ -26,6 +26,7 @@ public final class UnexpectedHttpStatus extends IOException {
 
     /**
      * Ctor.
+     *
      * @param cause The original assertion error
      */
     UnexpectedHttpStatus(final AssertionError cause) {

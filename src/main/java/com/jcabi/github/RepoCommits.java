@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Commits of a GitHub repository.
+ *
  * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
  * @since 0.3
  */
@@ -18,6 +19,7 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Iterate all repository's commits.
+     *
      * @param params Url's parameters
      * @return All commits
      * @see <a href="https://developer.github.com/v3/repos/commits/#list-commits-on-a-repository">List commits on a repository</a>
@@ -26,6 +28,7 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Get single repository's commits.
+     *
      * @param sha SHA of a commit
      * @return RepoCommit
      * @see <a href="https://developer.github.com/v3/repos/commits/#get-a-single-commit">Get a single commit</a>
@@ -34,6 +37,7 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Compare two commits.
+     *
      * @param base SHA of the base repo commit
      * @param head SHA of the head repo commit
      * @return Commits comparison
@@ -42,6 +46,7 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Compare two commits and provide result in diff format.
+     *
      * @param base SHA of the base repo commit
      * @param head SHA of the head repo commit
      * @return Commits comparison
@@ -52,6 +57,7 @@ public interface RepoCommits extends JsonReadable {
 
     /**
      * Compare two commits and provide result in patch format.
+     *
      * @param base SHA of the base repo commit
      * @param head SHA of the head repo commit
      * @return Commits comparison

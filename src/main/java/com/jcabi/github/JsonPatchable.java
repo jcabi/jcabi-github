@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * JSON patchable.
+ *
  * @since 0.4
  */
 @Immutable
@@ -18,6 +19,7 @@ public interface JsonPatchable {
 
     /**
      * Patch using this JSON object.
+     *
      * @param json JSON object
      * @throws IOException If there is any I/O problem
      */

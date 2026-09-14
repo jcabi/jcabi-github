@@ -23,6 +23,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtBlobs}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)

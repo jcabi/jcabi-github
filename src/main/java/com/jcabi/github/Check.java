@@ -10,6 +10,7 @@ import java.util.Locale;
 
 /**
  * GitHub check.
+ *
  * @see <a href="https://docs.github.com/en/rest/checks/runs?apiVersion=2022-11-28">Check Runs API</a>
  * @since 1.5.0
  */
@@ -22,6 +23,7 @@ public interface Check {
 
     /**
      * Checks whether Check was successful.
+     *
      * @return True if Check was successful
      * @throws IOException If there is any I/O problem.
      */
@@ -29,6 +31,7 @@ public interface Check {
 
     /**
      * Checks whether Check was skipped.
+     *
      * @return True if Check was skipped
      * @throws IOException If there is any I/O problem.
      */
@@ -68,6 +71,7 @@ public interface Check {
 
         /**
          * Ctor.
+         *
          * @param stat Status
          */
         Status(final String stat) {
@@ -76,6 +80,7 @@ public interface Check {
 
         /**
          * Status.
+         *
          * @return Status
          */
         public String value() {
@@ -84,6 +89,7 @@ public interface Check {
 
         /**
          * Get status from string.
+         *
          * @param value String value
          * @return Status
          */
@@ -100,6 +106,7 @@ public interface Check {
 
         /**
          * Check if check is finished.
+         *
          * @return True if check is finished
          */
         boolean finished() {
@@ -108,6 +115,7 @@ public interface Check {
 
         /**
          * Check if status is the same as value.
+         *
          * @param value Value
          * @return True if status is the same as value
          */
@@ -175,6 +183,7 @@ public interface Check {
 
         /**
          * Ctor.
+         *
          * @param con Conclusion
          */
         Conclusion(final String con) {
@@ -183,6 +192,7 @@ public interface Check {
 
         /**
          * Get conclusion from string.
+         *
          * @param value String value
          * @return Conclusion
          */
@@ -199,6 +209,7 @@ public interface Check {
 
         /**
          * Conclusion.
+         *
          * @return Conclusion
          */
         public String value() {
@@ -207,6 +218,7 @@ public interface Check {
 
         /**
          * Check if check is successful.
+         *
          * @return True if check is successful
          */
         boolean successful() {
@@ -215,6 +227,7 @@ public interface Check {
 
         /**
          * Check if check is skipped.
+         *
          * @return True if check is skipped
          */
         boolean skipped() {
@@ -223,6 +236,7 @@ public interface Check {
 
         /**
          * Check if conclusion is the same as value.
+         *
          * @param value Value to compare
          * @return True if conclusion is the same as value
          */

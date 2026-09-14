@@ -12,12 +12,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkBranch}.
+ *
  * @since 0.1
  */
 final class MkBranchTest {
 
     /**
      * MkBranch can fetch its name.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -34,6 +36,7 @@ final class MkBranchTest {
 
     /**
      * MkBranch can fetch its commit.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -49,6 +52,7 @@ final class MkBranchTest {
 
     /**
      * MkBranch can fetch the user of its repo.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test
@@ -64,6 +68,7 @@ final class MkBranchTest {
 
     /**
      * MkBranch can fetch its repo.
+     *
      * @throws IOException If an I/O problem occurs
      */
     @Test

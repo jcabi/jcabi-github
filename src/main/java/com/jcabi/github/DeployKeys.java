@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub deploy keys.
+ *
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  * @since 0.8
  */
@@ -17,12 +18,14 @@ public interface DeployKeys {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Iterate them all.
+     *
      * @return Iterator of deploy keys
      * @see <a href="https://developer.github.com/v3/repos/keys/#list">List</a>
      */
@@ -30,6 +33,7 @@ public interface DeployKeys {
 
     /**
      * Get a single deploy key.
+     *
      * @param number Id of a deploy key
      * @return Deploy key
      * @see <a href="https://developer.github.com/v3/repos/keys/#get">Get a deploy key</a>
@@ -38,6 +42,7 @@ public interface DeployKeys {
 
     /**
      * Create a deploy key.
+     *
      * @param title Title
      * @param key Key
      * @return A new deploy key

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * GitHub issues.
+ *
  * @see <a href="https://developer.github.com/v3/issues/">Issues API</a>
  * @since 0.1
  */
@@ -18,12 +19,14 @@ public interface Issues {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get specific issue by number.
+     *
      * @param number Issue number
      * @return Issue
      * @see <a href="https://developer.github.com/v3/issues/#get-a-single-issue">Get a Single Issue</a>
@@ -32,6 +35,7 @@ public interface Issues {
 
     /**
      * Create new issue.
+     *
      * @param title Title
      * @param body Body of it
      * @return Issue just created
@@ -42,6 +46,7 @@ public interface Issues {
 
     /**
      * Iterate them all.
+     *
      * @param params Iterating parameters, as requested by API
      * @return Iterator of issues
      * @see <a href="https://developer.github.com/v3/issues/#list-issues">List Issues</a>
@@ -50,6 +55,7 @@ public interface Issues {
 
     /**
      * Search for issues within the given repository.
+     *
      * @param sort The sort field
      * @param direction The sort direction
      * @param qualifiers The search qualifier
@@ -63,6 +69,7 @@ public interface Issues {
 
     /**
      * Search qualifier.
+     *
      * @since 0.22
      */
     enum Qualifier implements StringEnum {
@@ -108,6 +115,7 @@ public interface Issues {
 
         /**
          * Ctor.
+         *
          * @param key Search qualifier
          */
         Qualifier(final String key) {
@@ -122,6 +130,7 @@ public interface Issues {
 
     /**
      * Sorting order of found issues.
+     *
      * @since 0.22
      */
     enum Sort implements StringEnum {
@@ -146,6 +155,7 @@ public interface Issues {
 
         /**
          * Ctor.
+         *
          * @param field Search results sort field
          */
         Sort(final String field) {

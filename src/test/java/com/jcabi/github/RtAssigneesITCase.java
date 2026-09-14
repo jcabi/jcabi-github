@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtAssignees}.
+ *
  * @since 0.7
  */
 @OAuthScope(OAuthScope.Scope.READ_ORG)

@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub gists.
+ *
  * @since 0.1
  */
 @Immutable
@@ -42,6 +43,7 @@ final class RtGists implements Gists {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      */

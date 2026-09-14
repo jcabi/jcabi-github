@@ -13,6 +13,7 @@ import lombok.ToString;
 
 /**
  * GitHub pull request ref.
+ *
  * @see <a href="https://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a single pull request API</a>
  * @since 0.24
  */
@@ -21,12 +22,14 @@ public interface PullRef extends JsonReadable {
 
     /**
      * Get the repository which its commit is in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its ref.
+     *
      * @return Ref
      * @throws IOException If there is any I/O problem
      */
@@ -34,6 +37,7 @@ public interface PullRef extends JsonReadable {
 
     /**
      * Get its commit SHA.
+     *
      * @return Commit SHA
      * @throws IOException If there is any I/O problem
      */
@@ -41,6 +45,7 @@ public interface PullRef extends JsonReadable {
 
     /**
      * Smart pull request ref with extra features.
+     *
      * @since 0.24
      */
     @Immutable
@@ -61,6 +66,7 @@ public interface PullRef extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param pref Pull request ref
          */
         public Smart(final PullRef pref) {
@@ -85,6 +91,7 @@ public interface PullRef extends JsonReadable {
 
         /**
          * Gets the user who owns the repository which its commit is in.
+         *
          * @return User
          * @throws IOException If there is any I/O problem
          */
@@ -96,6 +103,7 @@ public interface PullRef extends JsonReadable {
 
         /**
          * Get its label. Normally of the form "user:branch".
+         *
          * @return Label string
          * @throws IOException If there is any I/O problem
          */
@@ -105,6 +113,7 @@ public interface PullRef extends JsonReadable {
 
         /**
          * Get its commit.
+         *
          * @return Commit
          * @throws IOException If there is any I/O problem
          */

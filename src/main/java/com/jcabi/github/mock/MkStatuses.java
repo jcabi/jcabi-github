@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub commit statuses.
+ *
  * @since 0.24
  * @todo #1129:30min Finish implementing this class (MkStatuses), a mock of
  *  GitHub's commits statuses (the "Statuses" interface).
@@ -30,6 +31,7 @@ final class MkStatuses implements Statuses {
 
     /**
      * Ctor.
+     *
      * @param cmt Commit whose statuses this represents
      */
     MkStatuses(final Commit cmt) {

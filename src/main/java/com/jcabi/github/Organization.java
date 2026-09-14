@@ -20,7 +20,7 @@ import lombok.ToString;
  * GitHub organization.
  *
  * <p>Use a supplementary "smart" decorator to get other properties
- * from an organization, for example:
+ * from an organization, for example:</p>
  *
  * <pre> Organization.Smart org = new Organization.Smart(origin);
  * if (org.name() == null) {
@@ -37,24 +37,28 @@ public interface Organization extends Comparable<Organization>,
 
     /**
      * GitHub we're in.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Get this organization's login.
+     *
      * @return Login name
      */
     String login();
 
     /**
      * Get this organization's public members.
+     *
      * @return Public members
      */
     PublicMembers publicMembers();
 
     /**
      * Smart Organization with extra features.
+     *
      * @since 0.7
      */
     @Immutable
@@ -75,6 +79,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Public ctor.
+         *
          * @param orgn Organization
          */
         public Smart(final Organization orgn) {
@@ -84,6 +89,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get this organization's ID.
+         *
          * @return Unique organization ID
          * @throws IOException If it fails
          */
@@ -93,6 +99,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its company.
+         *
          * @return Company of organization
          * @throws IOException If there is any I/O problem
          */
@@ -102,6 +109,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Change its company.
+         *
          * @param company Company of organization
          * @throws IOException If there is any I/O problem
          */
@@ -113,6 +121,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its location.
+         *
          * @return Location of organization
          * @throws IOException If there is any I/O problem
          */
@@ -122,6 +131,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Change its location.
+         *
          * @param location Location of organization
          * @throws IOException If there is any I/O problem
          */
@@ -133,6 +143,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its name.
+         *
          * @return Name of organization
          * @throws IOException If there is any I/O problem
          */
@@ -142,6 +153,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Change its name.
+         *
          * @param name Company of organization
          * @throws IOException If there is any I/O problem
          */
@@ -153,6 +165,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its email.
+         *
          * @return Email of organization
          * @throws IOException If there is any I/O problem
          */
@@ -162,6 +175,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Change its email.
+         *
          * @param email Email of organization
          * @throws IOException If there is any I/O problem
          */
@@ -173,6 +187,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its billingEmail.
+         *
          * @return BillingEmail of organization
          * @throws IOException If there is any I/O problem
          */
@@ -182,6 +197,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Change its billingEmail.
+         *
          * @param billingemail BillingEmail of organization
          * @throws IOException If there is any I/O problem
          */
@@ -196,6 +212,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its blog.
+         *
          * @return Blog of organization
          * @throws IOException If there is any I/O problem
          */
@@ -205,6 +222,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its URL.
+         *
          * @return URL of organization
          * @throws IOException If there is any I/O problem
          */
@@ -218,6 +236,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its HTML URL.
+         *
          * @return HTML URL of organization
          * @throws IOException If there is any I/O problem
          */
@@ -231,6 +250,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its avatar URL.
+         *
          * @return Avatar URL of organization
          * @throws IOException If there is any I/O problem
          */
@@ -244,6 +264,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * When this organisation was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -255,6 +276,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its public repos count.
+         *
          * @return Count of public repos of organization
          * @throws IOException If there is any I/O problem
          */
@@ -264,6 +286,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its public gists count.
+         *
          * @return Count of public gists of organization
          * @throws IOException If there is any I/O problem
          */
@@ -273,6 +296,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its followers count.
+         *
          * @return Count of followers of organization
          * @throws IOException If there is any I/O problem
          */
@@ -282,6 +306,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its following count.
+         *
          * @return Count of following of organization
          * @throws IOException If there is any I/O problem
          */
@@ -291,6 +316,7 @@ public interface Organization extends Comparable<Organization>,
 
         /**
          * Get its type.
+         *
          * @return Type of organization
          * @throws IOException If there is any I/O problem
          */

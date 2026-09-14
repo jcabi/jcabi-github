@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * Commits comparison.
+ *
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
  * @since 0.5
  */
@@ -25,6 +26,7 @@ public interface CommitsComparison extends JsonReadable {
 
     /**
      * Get a parent repository of commits.
+     *
      * @return Repository
      */
     Repo repo();
@@ -32,6 +34,7 @@ public interface CommitsComparison extends JsonReadable {
     /**
      * Iterate over the file changes between the two commits being
      * compared.
+     *
      * @return Iterable of file changes
      * @throws IOException If there is any I/O problem
      */
@@ -39,6 +42,7 @@ public interface CommitsComparison extends JsonReadable {
 
     /**
      * Smart commits comparison with extra features.
+     *
      * @since 0.5
      */
     @Immutable
@@ -54,6 +58,7 @@ public interface CommitsComparison extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param cmprsn Commits comparison
          */
         public Smart(final CommitsComparison cmprsn) {
@@ -62,6 +67,7 @@ public interface CommitsComparison extends JsonReadable {
 
         /**
          * Get commits.
+         *
          * @return Commits
          * @throws IOException If there is any I/O problem
          */

@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * GitHub contents.
+ *
  * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
  * @since 0.8
  */
@@ -18,12 +19,14 @@ public interface Contents {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get the Readme file of the default branch (usually master).
+     *
      * @return The Content of the readme file
      * @throws IOException If an IO Exception occurs.
      * @see <a href="http://https://developer.github.com/v3/repos/contents/#get-the-readme">Get the README</a>
@@ -32,6 +35,7 @@ public interface Contents {
 
     /**
      * Get the Readme file of the specified branch.
+     *
      * @param branch The branch name
      * @return The Content of the readme file
      * @throws IOException If an IO Exception occurs.
@@ -41,6 +45,7 @@ public interface Contents {
 
     /**
      * Create new file.
+     *
      * @param content Parameters to create new content
      * @return Content just created
      * @throws IOException If there is any I/O problem
@@ -50,6 +55,7 @@ public interface Contents {
 
     /**
      * Get the contents of a single file or symbolic link in a repository.
+     *
      * @param path The content path
      * @param ref The name of the commit/branch/tag
      * @return Content fetched
@@ -61,6 +67,7 @@ public interface Contents {
     /**
      * Get the contents of a single file or symbolic link.
      * in a repository's default branch (usually master).
+     *
      * @param path The content path
      * @return Content fetched
      * @throws IOException If there is any I/O problem
@@ -70,6 +77,7 @@ public interface Contents {
 
     /**
      * Get the contents of a directory in a repository.
+     *
      * @param path The content path
      * @param ref Commit/branch/tag name
      * @return Contents fetched
@@ -80,6 +88,7 @@ public interface Contents {
 
     /**
      * Removes a file.
+     *
      * @param content Parameters to remove a file
      * @return RepoCommit referring to this operation
      * @throws IOException If there is any I/O problem
@@ -89,6 +98,7 @@ public interface Contents {
 
     /**
      * Updates a file.
+     *
      * @param path The content path
      * @param json JSON object containing updates to the content
      * @return Commit referring to this operation
@@ -99,6 +109,7 @@ public interface Contents {
 
     /**
      * Check whether content exists or not.
+     *
      * @param path The content path
      * @param ref The name of the commit/branch/tag
      * @return True if content exists, false otherwise

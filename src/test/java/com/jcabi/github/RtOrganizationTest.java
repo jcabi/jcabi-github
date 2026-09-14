@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtOrganization}.
+ *
  * @since 0.24
  */
 @ExtendWith(RandomPort.class)

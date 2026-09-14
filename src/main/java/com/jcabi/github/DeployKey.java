@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * GitHub deploy key.
+ *
  * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
  * @since 0.8
  */
@@ -25,12 +26,14 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
     /**
      * Get id of a deploy key.
+     *
      * @return Id
      */
     int number();
 
     /**
      * Delete a deploy key.
+     *
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/keys/#delete">Remove a deploy key</a>
      */
@@ -38,6 +41,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
     /**
      * Smart DeployKey with extra features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -58,6 +62,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param dkey Deploy key
          */
         public Smart(final DeployKey dkey) {
@@ -67,6 +72,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
         /**
          * Get its key value.
+         *
          * @return Value of deploy key
          * @throws IOException If there is any I/O problem
          */
@@ -76,6 +82,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
         /**
          * Change its value.
+         *
          * @param value Title of deploy key
          * @throws IOException If there is any I/O problem
          */
@@ -87,6 +94,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
         /**
          * Get its URL.
+         *
          * @return URL of deploy key
          * @throws IOException If there is any I/O problem
          */
@@ -100,6 +108,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
         /**
          * Get its title.
+         *
          * @return Title of deploy key
          * @throws IOException If there is any I/O problem
          */
@@ -109,6 +118,7 @@ public interface DeployKey extends JsonReadable, JsonPatchable {
 
         /**
          * Change its title.
+         *
          * @param text Title of deploy key
          * @throws IOException If there is any I/O problem
          */

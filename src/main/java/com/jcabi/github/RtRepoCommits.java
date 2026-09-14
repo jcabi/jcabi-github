@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Commits of a GitHub repository.
+ *
  * @since 0.1
  */
 @Immutable
@@ -47,6 +48,7 @@ final class RtRepoCommits implements RepoCommits {
 
     /**
      * Public ctor.
+     *
      * @param req Entry point of API
      * @param repo Repository
      */

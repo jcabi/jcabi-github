@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub issue events.
+ *
  * @since 0.23
  */
 @Immutable
@@ -35,6 +36,7 @@ final class RtIssueEvents implements IssueEvents {
 
     /**
      * Public constructor.
+     *
      * @param req Request
      * @param repo Repository
      */

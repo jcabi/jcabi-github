@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * Markdown API.
+ *
  * @see <a href="https://developer.github.com/v3/markdown/">Markdown API</a>
  * @since 0.6
  */
@@ -18,12 +19,14 @@ public interface Markdown {
 
     /**
      * Get its owner.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Render.
+     *
      * @param json JSON parameters
      * @return HTML
      * @throws IOException If it fails due to I/O problem
@@ -32,6 +35,7 @@ public interface Markdown {
 
     /**
      * Raw rendering.
+     *
      * @param text Text in Markdown format
      * @return HTML
      * @throws IOException If it fails due to I/O problem

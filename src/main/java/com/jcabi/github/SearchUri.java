@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Wrapper of RequestURI that returns {@link SearchRequest}.
+ *
  * @since 0.4
  */
 @Immutable
@@ -26,6 +27,7 @@ final class SearchUri implements RequestURI {
 
     /**
      * Ctor.
+     *
      * @param uri The URI
      */
     SearchUri(final RequestURI uri) {

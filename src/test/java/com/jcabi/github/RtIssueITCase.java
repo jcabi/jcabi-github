@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Issue}.
+ *
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)
@@ -56,6 +57,7 @@ final class RtIssueITCase {
     /**
      * RtIssue can talk in github. This test is ignored because of bug
      * https://github.com/jcabi/jcabi-github/issues/1178.
+     *
      * @throws Exception If some problem inside
      */
     @Disabled
@@ -159,7 +161,7 @@ final class RtIssueITCase {
      * ignored it means that something happened with account that you try to
      * edit with Issue.assign(). We had this problem when our account was
      * flagged as suspicious by GitHub. In this case you should contact GitHub
-     * support and ask them to unblock account you use.
+     * support and ask them to unblock account you use.</p>
      *
      * @throws Exception if any problem inside.
      * @see <a href="https://github.com/jcabi/jcabi-github/issues/810">Why test is ignored?</a>
@@ -186,6 +188,7 @@ final class RtIssueITCase {
 
     /**
      * RtIssue can check whether it is a pull request.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -199,6 +202,7 @@ final class RtIssueITCase {
 
     /**
      * GhIssue can list issue events.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -214,6 +218,7 @@ final class RtIssueITCase {
 
     /**
      * Issue.Smart can find the latest event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -231,6 +236,7 @@ final class RtIssueITCase {
 
     /**
      * RtIssue always exists in GitHub.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -243,6 +249,7 @@ final class RtIssueITCase {
 
     /**
      * RtIssue can lock conversation.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -258,6 +265,7 @@ final class RtIssueITCase {
 
     /**
      * RtIssue can unlock conversation.
+     *
      * @throws Exception If some problem inside
      */
     @Test

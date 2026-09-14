@@ -29,10 +29,11 @@ import lombok.ToString;
  * specified in the {@code X-RateLimit-Reset} header. For further information
  * about the GitHub rate limiting see
  * <a href="https://developer.github.com/v3/#rate-limiting">API
- * documentation</a>.
+ * documentation</a>.</p>
  *
  * <p>You can use {@code CarefulWire} with a {@link com.jcabi.github.GitHub}
- * object:
+ * object:</p>
+ *
  * <pre>
  * {@code
  * GitHub github = new RtGitHub(
@@ -61,6 +62,7 @@ public final class CarefulWire implements Wire {
 
     /**
      * Public ctor.
+     *
      * @param wire Original wire
      * @param thrshld Threshold of number of remaining requests, below which
      *  requests are blocked until reset

@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Blob.
+ *
  * @since 0.5
  */
 @Immutable
@@ -32,6 +33,7 @@ final class RtBlob implements Blob {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param sha Number of the get

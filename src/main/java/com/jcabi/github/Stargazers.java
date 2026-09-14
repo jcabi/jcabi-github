@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * List of stargazers.
+ *
  * @see <a href="https://docs.github.com/en/rest/activity/starring?apiVersion=2022-11-28#list-stargazers">List Stargazers</a>
  * @since 1.7.1
  */
@@ -17,6 +18,7 @@ public interface Stargazers {
 
     /**
      * Iterate over stargazers.
+     *
      * @return Iterator of stargazers
      * @throws IOException If there is any I/O problem
      */

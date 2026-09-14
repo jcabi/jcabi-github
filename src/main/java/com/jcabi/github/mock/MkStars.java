@@ -17,6 +17,7 @@ import org.xembly.Directives;
 
 /**
  * GitHub starring API.
+ *
  * @since 0.15
  */
 @Immutable
@@ -42,6 +43,7 @@ final class MkStars implements Stars {
 
     /**
      * Public ctor.
+     *
      * @param stg The storage
      * @param login The login name
      * @param rep The Repository

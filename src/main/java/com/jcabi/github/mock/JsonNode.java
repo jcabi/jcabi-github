@@ -13,6 +13,7 @@ import org.w3c.dom.Node;
 
 /**
  * Json node in XML.
+ *
  * @since 0.5
  */
 final class JsonNode {
@@ -24,6 +25,7 @@ final class JsonNode {
 
     /**
      * Public ctor.
+     *
      * @param src Source
      */
     JsonNode(final XML src) {
@@ -32,6 +34,7 @@ final class JsonNode {
 
     /**
      * Fetch JSON object.
+     *
      * @return JSON
      */
     JsonObject json() {

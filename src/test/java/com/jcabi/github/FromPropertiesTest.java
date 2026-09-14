@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for {@link FromProperties}.
+ *
  * @since 0.37
  */
 final class FromPropertiesTest {

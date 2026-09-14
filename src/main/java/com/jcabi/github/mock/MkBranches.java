@@ -17,6 +17,7 @@ import org.xembly.Directives;
 
 /**
  * Mock Git branches.
+ *
  * @since 0.24
  */
 @Immutable
@@ -47,6 +48,7 @@ public final class MkBranches implements Branches {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login Username
      * @param rep Repo
@@ -93,6 +95,7 @@ public final class MkBranches implements Branches {
 
     /**
      * Creates a new branch.
+     *
      * @param name Name of branch
      * @param sha Commit SHA
      * @return New branch
@@ -113,6 +116,7 @@ public final class MkBranches implements Branches {
 
     /**
      * Gets a branch by name.
+     *
      * @param name Name of branch
      * @return The branch with the given name
      * @throws IOException If there is an I/O problem

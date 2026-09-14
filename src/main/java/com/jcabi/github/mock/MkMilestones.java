@@ -15,15 +15,11 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub milestones.
+ *
  * @since 0.7
  */
 @Immutable
 final class MkMilestones implements Milestones {
-
-    /**
-     * XPath suffix for milestone number text.
-     */
-    private static final String NUM_XPATH = "/milestone/number/text()";
 
     /**
      * Storage.
@@ -42,6 +38,7 @@ final class MkMilestones implements Milestones {
 
     /**
      * MkMilestones ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -69,7 +66,7 @@ final class MkMilestones implements Milestones {
     @Override
     public Milestone create(final String title) throws IOException {
         final int number = 1 + this.storage.xml().xpath(
-            this.xpath().concat(MkMilestones.NUM_XPATH)
+            this.xpath().concat("/milestone/number/text()")
         ).size();
         this.storage.apply(
             new Directives().xpath(this.xpath()).add("milestone")

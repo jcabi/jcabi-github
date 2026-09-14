@@ -38,6 +38,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub repo.
+ *
  * @since 0.5
  * @todo #1061 Fix code to avoid CouplingBetweenObjects
  * @checkstyle ClassFanOutComplexity (500 lines)
@@ -65,6 +66,7 @@ final class MkRepo implements Repo {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param repo Repo name

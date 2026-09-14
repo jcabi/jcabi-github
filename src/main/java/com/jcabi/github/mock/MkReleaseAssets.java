@@ -19,6 +19,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub Release Assets.
+ *
  * @since 0.8
  */
 @Immutable
@@ -26,11 +27,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "coords", "rel" })
 final class MkReleaseAssets implements ReleaseAssets {
-
-    /**
-     * XPath suffix for asset ID text.
-     */
-    private static final String ASSET_ID_XPATH = "/asset/id/text()";
 
     /**
      * Storage.
@@ -54,6 +50,7 @@ final class MkReleaseAssets implements ReleaseAssets {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -112,7 +109,7 @@ final class MkReleaseAssets implements ReleaseAssets {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkReleaseAssets.ASSET_ID_XPATH)
+                this.xpath().concat("/asset/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("asset")

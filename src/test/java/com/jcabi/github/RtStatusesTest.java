@@ -14,6 +14,7 @@ import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Testcase for {@link RtStatuses}.
+ *
  * @since 0.24
  * @todo #1130:30min Write RtStatusesITCase, an integration test case for
  *  RtStatuses/RtStatus against real GitHub commit status data.
@@ -51,6 +53,7 @@ final class RtStatusesTest {
 
     /**
      * RtStatuses can fetch its commit.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -163,9 +166,13 @@ final class RtStatusesTest {
 
     private static JsonObject sent(final MkContainer container)
         throws IOException {
-        return Json.createReader(
-            new StringReader(container.take().body())
-        ).readObject();
+        try (
+            JsonReader reader = Json.createReader(
+                new StringReader(container.take().body())
+            )
+        ) {
+            return reader.readObject();
+        }
     }
 
     private static MkAnswer answer() {

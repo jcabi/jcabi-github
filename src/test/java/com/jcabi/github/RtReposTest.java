@@ -22,6 +22,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Repos}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)

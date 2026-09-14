@@ -19,6 +19,7 @@ import lombok.ToString;
 
 /**
  * GitHub release.
+ *
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  * @since 0.8
  */
@@ -28,24 +29,28 @@ public interface Release extends JsonReadable, JsonPatchable {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Release id.
+     *
      * @return Id
      */
     int number();
 
     /**
      * Deletes a release.
+     *
      * @throws IOException If any I/O problems occur.
      */
     void delete() throws IOException;
 
     /**
      * Get all release assets of this release.
+     *
      * @return Release assets
      * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
      */
@@ -53,6 +58,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
     /**
      * Smart release.
+     *
      * @since 0.8
      */
     @Immutable
@@ -73,6 +79,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Public CTOR.
+         *
          * @param original Original release
          */
         public Smart(final Release original) {
@@ -107,6 +114,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release url.
+         *
          * @return Release url
          * @throws IOException If there is any I/O problem
          */
@@ -120,6 +128,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release html url.
+         *
          * @return Release html url
          * @throws IOException If there is any I/O problem
          */
@@ -133,6 +142,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release assets url.
+         *
          * @return Release assets url
          * @throws IOException If there is any I/O problem
          */
@@ -146,6 +156,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release upload url.
+         *
          * @return Release upload url
          * @throws IOException If there is any I/O problem
          */
@@ -159,6 +170,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release tag name.
+         *
          * @return The release tag name
          * @throws IOException If there is any I/O problem
          */
@@ -168,6 +180,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Has release tag?
+         *
          * @return TRUE if tag exists
          * @throws IOException If there is any I/O problem
          * @since 0.21
@@ -178,6 +191,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its tag name.
+         *
          * @param text Tag name
          * @throws IOException If there is any I/O problem
          */
@@ -189,6 +203,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release target commitish.
+         *
          * @return Release target commitish value
          * @throws IOException If there is any I/O problem
          */
@@ -198,6 +213,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its target commitish.
+         *
          * @param text Target commitish
          * @throws IOException If there is any I/O problem
          */
@@ -211,6 +227,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Does this release have a name?
+         *
          * @return Whether this release has a name
          * @throws IOException If there is any I/O problem
          */
@@ -221,6 +238,7 @@ public interface Release extends JsonReadable, JsonPatchable {
         /**
          * Get release name. Note that there may not be one, so make sure to
          * check with {@link Release.Smart#hasName()} first.
+         *
          * @return Release name
          * @throws IOException If there is any I/O problem
          */
@@ -230,6 +248,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its name.
+         *
          * @param text Name of release
          * @throws IOException If there is any I/O problem
          */
@@ -241,6 +260,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Has release body.
+         *
          * @return TRUE if release body exists
          * @throws IOException If there is any I/O problem
          */
@@ -250,6 +270,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release body.
+         *
          * @return Release body
          * @throws IOException If there is any I/O problem
          */
@@ -265,6 +286,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its body.
+         *
          * @param text Text describing the contents of the tag
          * @throws IOException If there is any I/O problem
          */
@@ -276,6 +298,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release creation date.
+         *
          * @return Release creation date
          * @throws IOException If there is any I/O problem
          */
@@ -286,6 +309,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Get release publication date.
+         *
          * @return Release publication date
          * @throws IOException If there is any I/O problem
          */
@@ -296,6 +320,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Is release draft.
+         *
          * @return Returns true if it's draft
          * @throws IOException If there is any I/O problem
          */
@@ -305,6 +330,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its status.
+         *
          * @param draft True makes the release a draft
          * @throws IOException If there is any I/O problem
          */
@@ -316,6 +342,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Is it prerelease.
+         *
          * @return Returns true if it's prerelease
          * @throws IOException If there is any I/O problem
          */
@@ -329,6 +356,7 @@ public interface Release extends JsonReadable, JsonPatchable {
 
         /**
          * Change its prerelease.
+         *
          * @param pre True to identify the release as a prerelease
          * @throws IOException If there is any I/O problem
          */

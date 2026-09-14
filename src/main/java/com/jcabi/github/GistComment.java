@@ -22,14 +22,14 @@ import lombok.ToString;
  * <p>Gist Comment implements {@link JsonReadable}, that's how you can get
  * its full details in JSON format.
  * For example, to get its author's GitHub login
- * you get the entire JSON and then gets its element:
+ * you get the entire JSON and then gets its element:</p>
  *
  * <pre>String login = comment.json()
  *   .getJsonObject("user")
  *   .getString("login");</pre>
  *
  * <p>However, it's better to use a supplementary "smart" decorator, which
- * automates most of these operations:
+ * automates most of these operations:</p>
  *
  * <pre>String login = new GistComment.Smart(comment).author().login();</pre>
  *
@@ -42,24 +42,28 @@ public interface GistComment
 
     /**
      * The gist it's in.
+     *
      * @return Owner of the comment
      */
     Gist gist();
 
     /**
      * Number.
+     *
      * @return Comment id
      */
     int number();
 
     /**
      * Delete the comment.
+     *
      * @throws IOException If there is any I/O problem
      */
     void remove() throws IOException;
 
     /**
      * Smart comment with additional features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -80,6 +84,7 @@ public interface GistComment
 
         /**
          * Public ctor.
+         *
          * @param cmt Comment
          */
         public Smart(final GistComment cmt) {
@@ -89,6 +94,7 @@ public interface GistComment
 
         /**
          * Get its author.
+         *
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
@@ -100,6 +106,7 @@ public interface GistComment
 
         /**
          * Get its body.
+         *
          * @return Body of comment
          * @throws IOException If there is any I/O problem
          */
@@ -109,6 +116,7 @@ public interface GistComment
 
         /**
          * Change comment body.
+         *
          * @param text Body of comment
          * @throws IOException If there is any I/O problem
          */
@@ -120,6 +128,7 @@ public interface GistComment
 
         /**
          * Get its URL.
+         *
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
@@ -133,6 +142,7 @@ public interface GistComment
 
         /**
          * When this comment was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -144,6 +154,7 @@ public interface GistComment
 
         /**
          * When this comment was updated last time.
+         *
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */

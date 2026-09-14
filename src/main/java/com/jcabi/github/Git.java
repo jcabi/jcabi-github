@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git.
+ *
  * @since 0.8
  */
 @Immutable
@@ -16,12 +17,14 @@ public interface Git {
 
     /**
      * Owner of it.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its blobs.
+     *
      * @return Blobs
      * @throws IOException If some io problem occurs
      * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
@@ -30,6 +33,7 @@ public interface Git {
 
     /**
      * Get its commits.
+     *
      * @return Commits
      * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
      */
@@ -37,6 +41,7 @@ public interface Git {
 
     /**
      * Get its references.
+     *
      * @return References
      * @see <a href="https://developer.github.com/v3/git/references/">References API</a>
      */
@@ -44,6 +49,7 @@ public interface Git {
 
     /**
      * Get its tags.
+     *
      * @return Tags
      * @see <a href="https://developer.github.com/v3/git/tags/">Tags API</a>
      */
@@ -51,6 +57,7 @@ public interface Git {
 
     /**
      * Get its trees.
+     *
      * @return Trees
      * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
      */

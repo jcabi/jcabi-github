@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub pull comment.
+ *
  * @since 0.8
  */
 @Immutable
@@ -46,6 +47,7 @@ final class MkPullComment implements PullComment {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param rep Repo
      * @param pull Pull

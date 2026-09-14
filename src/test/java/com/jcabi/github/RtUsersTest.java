@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtUsers}.
+ *
  * @since 0.4
  */
 @ExtendWith(RandomPort.class)

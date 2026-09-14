@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub content.
+ *
  * @since 0.12
  */
 @Immutable
@@ -42,6 +43,7 @@ final class RtContent implements Content {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param path Path of the content

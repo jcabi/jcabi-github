@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtGistComments}.
+ *
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */
@@ -20,6 +21,7 @@ final class RtGistCommentsITCase {
 
     /**
      * RtGistComments can create a comment.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -38,6 +40,7 @@ final class RtGistCommentsITCase {
 
     /**
      * RtGistComments can get a comment.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -56,6 +59,7 @@ final class RtGistCommentsITCase {
 
     /**
      * RtGistComments can iterate all gist comments.
+     *
      * @throws Exception if some problem inside
      */
     @Test

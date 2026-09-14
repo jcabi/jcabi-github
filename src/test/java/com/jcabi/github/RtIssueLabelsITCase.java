@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link IssueLabels}.
+ *
  * @since 0.6
  */
 @OAuthScope(OAuthScope.Scope.REPO)
@@ -50,6 +51,7 @@ final class RtIssueLabelsITCase {
 
     /**
      * RtIssueLabels can list all labels in an issue.
+     *
      * @throws Exception If some problem inside
      */
     @Test

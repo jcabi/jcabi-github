@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * GitHub Rate Limit API, one resource limit.
+ *
  * @see <a href="https://developer.github.com/v3/rate_limit/">Rate Limit API</a>
  * @since 0.6
  */
@@ -24,12 +25,14 @@ public interface Limit extends JsonReadable {
 
     /**
      * GitHub we're in.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Smart limits with extra features.
+     *
      * @since 0.6
      */
     @Immutable
@@ -45,6 +48,7 @@ public interface Limit extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param limit Limit
          */
         public Smart(final Limit limit) {
@@ -53,6 +57,7 @@ public interface Limit extends JsonReadable {
 
         /**
          * Limit of number of requests.
+         *
          * @return Number of requests you can make in total
          * @throws IOException If it fails
          */
@@ -62,6 +67,7 @@ public interface Limit extends JsonReadable {
 
         /**
          * Remaining number of requests.
+         *
          * @return Number of requests you can still make
          * @throws IOException If it fails
          */
@@ -71,6 +77,7 @@ public interface Limit extends JsonReadable {
 
         /**
          * When will the limit be reset.
+         *
          * @return Date when this will happen
          * @throws IOException If it fails
          */
@@ -96,6 +103,7 @@ public interface Limit extends JsonReadable {
 
     /**
      * Throttled Limit.
+     *
      * @since 0.6
      */
     @Immutable
@@ -116,6 +124,7 @@ public interface Limit extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param limit Original limit
          * @param allowed Maximum allowed
          */

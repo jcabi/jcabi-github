@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 /**
  * Runtime Reaction.
+ *
  * @since 1.0
  */
 public final class RtReaction implements Reaction {
@@ -19,6 +20,7 @@ public final class RtReaction implements Reaction {
 
     /**
      * Constructor.
+     *
      * @param reaction Decorated reaction
      */
     public RtReaction(final Reaction reaction) {

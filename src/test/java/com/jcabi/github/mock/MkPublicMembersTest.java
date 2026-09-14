@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPublicMembers}.
+ *
  * @since 0.1
  */
 final class MkPublicMembersTest {
@@ -31,6 +32,7 @@ final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers keeps a new member private.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -45,6 +47,7 @@ final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers can publicize a member's membership.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -62,6 +65,7 @@ final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers can conceal a member's membership.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test
@@ -80,6 +84,7 @@ final class MkPublicMembersTest {
 
     /**
      * MkPublicMembers can publicize a concealed member again.
+     *
      * @throws IOException If there is an I/O problem
      */
     @Test

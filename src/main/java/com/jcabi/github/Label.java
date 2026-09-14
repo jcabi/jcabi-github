@@ -8,6 +8,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import java.io.IOException;
 import java.io.StringReader;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * GitHub label.
+ *
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1
  */
@@ -24,6 +26,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * The repo we're in.
+     *
      * @return Issue
      * @since 0.6
      */
@@ -31,12 +34,14 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * Name of it.
+     *
      * @return Name
      */
     String name();
 
     /**
      * Smart Label with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -57,6 +62,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param lbl Label
          */
         public Smart(final Label lbl) {
@@ -66,6 +72,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
         /**
          * Get its color.
+         *
          * @return Color of it
          * @throws IOException If there is any I/O problem
          */
@@ -75,6 +82,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
         /**
          * Set its color.
+         *
          * @param color Color to set
          * @throws IOException If there is any I/O problem
          */
@@ -112,6 +120,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
     /**
      * Unmodified Label with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -132,6 +141,7 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param rep Repo
          * @param object String
          */
@@ -165,7 +175,13 @@ public interface Label extends Comparable<Label>, JsonReadable, JsonPatchable {
 
         @Override
         public JsonObject json() {
-            return Json.createReader(new StringReader(this.obj)).readObject();
+            try (
+                JsonReader reader = Json.createReader(
+                    new StringReader(this.obj)
+                )
+            ) {
+                return reader.readObject();
+            }
         }
     }
 }

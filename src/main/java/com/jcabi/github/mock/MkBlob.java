@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub Blob.
+ *
  * @since 0.5
  */
 @Immutable
@@ -38,6 +39,7 @@ final class MkBlob implements Blob {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param sha Blob sha
      * @param repo Repo name

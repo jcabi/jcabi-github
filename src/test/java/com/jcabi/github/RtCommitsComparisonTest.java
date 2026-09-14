@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCommitsComparison}.
+ *
  * @since 0.8
  */
 final class RtCommitsComparisonTest {
@@ -51,6 +52,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the base commit.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -65,6 +67,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the commits.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -79,6 +82,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the file changes.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -92,6 +96,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the SHA of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -105,6 +110,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the name of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -118,6 +124,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the additions of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -131,6 +138,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the deletions of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -144,6 +152,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the changes of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -157,6 +166,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the status of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -170,6 +180,7 @@ final class RtCommitsComparisonTest {
 
     /**
      * RtCommitsComparison can fetch the patch of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test

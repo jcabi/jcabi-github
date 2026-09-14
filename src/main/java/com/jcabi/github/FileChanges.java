@@ -15,6 +15,7 @@ import lombok.ToString;
 /**
  * Trivial iterable that returns FileChangesIterators using
  * the given JSON list.
+ *
  * @since 0.24
  */
 @EqualsAndHashCode(of = "list")
@@ -30,6 +31,7 @@ final class FileChanges
 
     /**
      * Ctor.
+     *
      * @param files JsonArray of file change objects
      */
     FileChanges(final JsonArray files) {

@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub JSON item.
+ *
  * @since 0.6
  */
 @Immutable
@@ -32,6 +33,7 @@ final class RtJson {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      */
     RtJson(final Request req) {
@@ -40,6 +42,7 @@ final class RtJson {
 
     /**
      * Fetch JSON object.
+     *
      * @return JSON object
      * @throws IOException If fails
      */
@@ -56,6 +59,7 @@ final class RtJson {
 
     /**
      * Patch it.
+     *
      * @param json JSON to use for patching
      * @throws IOException If fails
      */

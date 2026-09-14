@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkReleaseAsset}.
+ *
  * @since 0.8
  */
 final class MkReleaseAssetTest {
@@ -34,6 +35,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own Release.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -48,6 +50,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can fetch its own number.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -61,6 +64,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -76,6 +80,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -91,6 +96,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be uploaded several times.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -108,6 +114,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be removed several times.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -130,6 +137,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can be represented in JSON format.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -145,6 +153,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can show its own name in JSON format.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -160,6 +169,7 @@ final class MkReleaseAssetTest {
 
     /**
      * MkReleaseAsset can patch its JSON representation.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test

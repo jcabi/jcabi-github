@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkComments}.
+ *
  * @since 0.7
  */
 final class MkCommentsTest {
 
     /**
      * MkComments can iterate comments.
+     *
      * @throws Exception If some problem inside
      */
     @Test

@@ -15,6 +15,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub repository collaborators.
+ *
  * @since 0.1
  */
 @Immutable
@@ -37,6 +38,7 @@ final class MkCollaborators implements Collaborators {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param crds Coordinates
@@ -115,6 +117,7 @@ final class MkCollaborators implements Collaborators {
 
     /**
      * Gets a mocked User.
+     *
      * @param login User login
      * @return Mocked User
      */

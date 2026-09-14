@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * JSON readable.
+ *
  * @since 0.4
  */
 @Immutable
@@ -18,6 +19,7 @@ public interface JsonReadable {
 
     /**
      * Describe it in a JSON object.
+     *
      * @return JSON object
      * @throws IOException If there is any I/O problem
      */

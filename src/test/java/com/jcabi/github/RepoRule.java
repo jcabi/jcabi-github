@@ -10,12 +10,21 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  * Utility class which provides convenient methods for repo managing.
+ *
  * @since 0.1
  */
 public final class RepoRule {
 
     /**
+     * Ctor.
+     */
+    public RepoRule() {
+        // ctor
+    }
+
+    /**
      * Create new repo for tests.
+     *
      * @param repos Repos
      * @return Repo
      * @throws IOException If error occurred.

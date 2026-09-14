@@ -7,6 +7,7 @@ package com.jcabi.github;
 import com.jcabi.aspects.RetryOnFailure;
 import com.jcabi.log.Logger;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.BindException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -17,14 +18,22 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 
 /**
  * Test resource for skipping tests when random port is busy.
+ *
  * @since 0.8
  */
 public class RandomPort implements InvocationInterceptor {
 
+    /**
+     * Ctor.
+     */
+    public RandomPort() {
+        // ctor
+    }
+
     @Override
     public final void interceptTestMethod(
         final Invocation<Void> invocation,
-        final ReflectiveInvocationContext<java.lang.reflect.Method> context,
+        final ReflectiveInvocationContext<Method> context,
         final ExtensionContext extension
     ) throws Throwable {
         try {
@@ -41,6 +50,7 @@ public class RandomPort implements InvocationInterceptor {
 
     /**
      * Returns available port number.
+     *
      * @return Available port number
      * @throws IOException in case of IO error.
      */

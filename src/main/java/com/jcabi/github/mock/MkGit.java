@@ -21,6 +21,7 @@ import org.xembly.Directives;
 
 /**
  * GitHub Mock Git.
+ *
  * @since 0.8
  */
 @Immutable
@@ -46,6 +47,7 @@ final class MkGit implements Git {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

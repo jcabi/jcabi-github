@@ -14,12 +14,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkRepos}.
+ *
  * @since 0.5
  */
 final class MkReposTest {
 
     /**
      * MkRepos can create a repo.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -35,6 +37,7 @@ final class MkReposTest {
 
     /**
      * MkRepos can create a repo with organization.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -50,6 +53,7 @@ final class MkReposTest {
 
     /**
      * MkRepos can create a repo with details.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -69,6 +73,7 @@ final class MkReposTest {
 
     /**
      * MkRepos can remove an existing repo.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -83,6 +88,7 @@ final class MkReposTest {
 
     /**
      * MkRepos can iterate repos.
+     *
      * @throws Exception if there is any error
      */
     @Test
@@ -115,6 +121,7 @@ final class MkReposTest {
     /**
      * MkRepo's JSON contains an "owner" object with the login,
      * matching the format of the real GitHub API.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -128,6 +135,7 @@ final class MkReposTest {
 
     /**
      * MkRepo's JSON contains the login of its owner.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -141,6 +149,7 @@ final class MkReposTest {
 
     /**
      * MkRepos can check for existing repos.
+     *
      * @throws Exception If some problem inside
      */
     @Test

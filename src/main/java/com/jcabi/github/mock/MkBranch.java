@@ -11,6 +11,7 @@ import com.jcabi.github.Repo;
 
 /**
  * Mock Git branch.
+ *
  * @since 0.24
  */
 public final class MkBranch implements Branch {
@@ -42,6 +43,7 @@ public final class MkBranch implements Branch {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

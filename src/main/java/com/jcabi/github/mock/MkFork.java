@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * GitHub Fork.
+ *
  * @since 0.8
  */
 @Immutable
@@ -38,6 +39,7 @@ final class MkFork implements Fork {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param number Fork id
      * @param repo Repo name

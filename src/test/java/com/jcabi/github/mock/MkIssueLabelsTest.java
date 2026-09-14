@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkIssueLabels}.
+ *
  * @since 0.6
  */
 final class MkIssueLabelsTest {
@@ -59,6 +60,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels creates a "labeled" event when a label is added.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -72,6 +74,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels types the event of adding a label.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -87,6 +90,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels signs the event of adding a label.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -102,6 +106,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels puts the event of adding a label into its repo.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -116,6 +121,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels names the label in the event of adding it.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -131,6 +137,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels creates an "unlabeled" event when a label is removed.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -144,6 +151,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels types the event of removing a label.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -159,6 +167,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels signs the event of removing a label.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -174,6 +183,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels puts the event of removing a label into its repo.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -188,6 +198,7 @@ final class MkIssueLabelsTest {
 
     /**
      * MkIssueLabels names the label in the event of removing it.
+     *
      * @throws IOException If some problem inside
      */
     @Test

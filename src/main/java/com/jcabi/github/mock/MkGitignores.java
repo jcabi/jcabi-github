@@ -15,6 +15,7 @@ import lombok.ToString;
 
 /**
  * Mock Gitignore.
+ *
  * @since 0.8
  */
 @Immutable
@@ -42,6 +43,7 @@ final class MkGitignores implements Gitignores {
 
     /**
      * Public ctor.
+     *
      * @param github The github
      */
     MkGitignores(final MkGitHub github) {

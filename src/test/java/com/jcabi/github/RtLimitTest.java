@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLimit}.
+ *
  * @since 0.6
  */
 final class RtLimitTest {

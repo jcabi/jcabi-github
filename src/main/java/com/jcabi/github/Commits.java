@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Commits.
+ *
  * @see <a href="https://developer.github.com/v3/git/commits/">Commits API</a>
  * @since 0.8
  */
@@ -18,12 +19,14 @@ public interface Commits {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Create a Commit object.
+     *
      * @param params The input for creating the Tag
      * @return Commit
      * @throws IOException - If anything goes wrong.
@@ -32,6 +35,7 @@ public interface Commits {
 
     /**
      * Return a Commit by its SHA.
+     *
      * @param sha The sha of the Commit
      * @return Commit
      */
@@ -39,6 +43,7 @@ public interface Commits {
 
     /**
      * Return a Statuses object for a given ref (sha, branch name, etc).
+     *
      * @param ref The ref of the Commit
      * @return Status
      * @since 0.23

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtContents}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)
@@ -264,6 +265,7 @@ final class RtContentsITCase {
 
     /**
      * RtContents can iterate content.
+     *
      * @todo #863 unignore after Contents#get is implemented for
      *  directories (#968 and #903)
      */

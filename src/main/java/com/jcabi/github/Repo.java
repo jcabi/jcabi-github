@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * GitHub repository.
+ *
  * @since 0.1
  * @checkstyle ClassFanOutComplexityCheck (500 lines)
  */
@@ -23,24 +24,28 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get its owner.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Get its coordinates.
+     *
      * @return Coordinates
      */
     Coordinates coordinates();
 
     /**
      * Iterate issues.
+     *
      * @return Issues
      */
     Issues issues();
 
     /**
      * Iterate milestones.
+     *
      * @return Milestones
      * @since 0.7
      */
@@ -48,12 +53,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Pull requests.
+     *
      * @return Pulls
      */
     Pulls pulls();
 
     /**
      * Hooks.
+     *
      * @return Hooks
      * @since 0.8
      */
@@ -61,6 +68,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all issue events for the repository.
+     *
      * @return Issue events
      * @see <a href="https://developer.github.com/v3/issues/events/#list-events-for-a-repository">List Events for a Repository</a>
      */
@@ -68,6 +76,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all labels of the repo.
+     *
      * @return Labels
      * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
      */
@@ -75,6 +84,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all available assignees to which issues may be assigned.
+     *
      * @return Assignees
      * @see <a href="https://developer.github.com/v3/issues/assignees/">Assignees API</a>
      */
@@ -82,6 +92,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all releases of the repo.
+     *
      * @return Releases
      * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
      */
@@ -89,6 +100,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all deploy keys of the repo.
+     *
      * @return DeployKeys
      * @see <a href="https://developer.github.com/v3/repos/keys/">Deploy Keys API</a>
      */
@@ -96,6 +108,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all forks of the repo.
+     *
      * @return Forks
      * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
      */
@@ -103,6 +116,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get repository's commits.
+     *
      * @return Commits
      * @see <a href="https://developer.github.com/v3/repos/commits/">Commits API</a>
      */
@@ -110,6 +124,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get repository's branches.
+     *
      * @return Branches
      * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
      */
@@ -117,6 +132,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get all contents of the repo.
+     *
      * @return Contents
      * @see <a href="https://developer.github.com/v3/repos/contents/">Contents API</a>
      */
@@ -124,6 +140,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Gel all collaborators.
+     *
      * @return Collaborators
      * @see <a href="https://developer.github.com/v3/repos/collaborators/">Collaborators API</a>
      */
@@ -131,6 +148,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get the Git API entry point.
+     *
      * @return Collaborators
      * @see <a href="https://developer.github.com/v3/git/">Git Data API</a>
      */
@@ -138,6 +156,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get Starring API.
+     *
      * @return Stars
      * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
      * @since 0.15
@@ -146,6 +165,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get Notifications API.
+     *
      * @return Stars
      * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
      * @since 0.15
@@ -154,6 +174,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get languages for the specified repository.
+     *
      * @return Languages
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/#list-languages">List languages</a>
@@ -163,6 +184,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Get default branch.
+     *
      * @return Default branch
      * @throws IOException If there is any I/O problem.
      */
@@ -170,12 +192,14 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
     /**
      * Lists the people that have starred the repository.
+     *
      * @return Lists the people that have starred the repository
      */
     Stargazers stargazers();
 
     /**
      * Smart Repo with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -196,6 +220,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
         /**
          * Public ctor.
+         *
          * @param rep Repo
          */
         public Smart(final Repo rep) {
@@ -205,6 +230,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
         /**
          * Does this Repo actually exist in GitHub?
+         *
          * @return True if it exists, false otherwise
          * @throws IOException If there is any I/O problem.
          */
@@ -214,6 +240,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
         /**
          * Does it have a description.
+         *
          * @return TRUE if description is present
          * @throws IOException If there is any I/O problem
          */
@@ -223,6 +250,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
         /**
          * Get its description.
+         *
          * @return Description
          * @throws IOException If there is any I/O problem
          */
@@ -232,6 +260,7 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
 
         /**
          * Is it private?.
+         *
          * @return TRUE if it's private
          * @throws IOException If there is any I/O problem
          */

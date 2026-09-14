@@ -19,6 +19,7 @@ import lombok.ToString;
 
 /**
  * GitHub Repo API.
+ *
  * @see <a href="https://developer.github.com/v3/repos/">Repos API</a>
  * @since 0.5
  */
@@ -27,6 +28,7 @@ public interface Repos {
 
     /**
      * Get its owner.
+     *
      * @return GitHub
      */
     GitHub github();
@@ -34,6 +36,7 @@ public interface Repos {
 
     /**
      * Create repository.
+     *
      * @param settings Settings to use for creating the new repository
      * @return Repository
      * @throws IOException If there is any I/O problem
@@ -44,6 +47,7 @@ public interface Repos {
 
     /**
      * Get repository by name.
+     *
      * @param coords Repository name in "user/repo" format
      * @return Repository
      * @see <a href="https://developer.github.com/v3/repos/#get">Get Repository</a>
@@ -54,7 +58,7 @@ public interface Repos {
      * Remove repository by name.
      *
      * <p>Note: Deleting a repository requires admin access.
-     * If OAuth is used, the delete_repo scope is required.
+     * If OAuth is used, the delete_repo scope is required.</p>
      *
      * @param coords Repository name in "user/repo" format
      * @throws IOException If there is any I/O problem
@@ -64,6 +68,7 @@ public interface Repos {
 
     /**
      * Iterate all public repos, starting with the one you've seen already.
+     *
      * @param identifier The integer ID of the last Repo that you’ve seen
      * @return Iterator of repo
      * @see <a href="https://developer.github.com/v3/repos/#list-all-public-repositories">List all public repositories</a>
@@ -72,6 +77,7 @@ public interface Repos {
 
     /**
      * Check if a repository exists on GitHub.
+     *
      * @param coords Coordinates of the repo
      * @return True if it exists, false otherwise
      * @throws IOException If something goes wrong.
@@ -80,6 +86,7 @@ public interface Repos {
 
     /**
      * Settings to use when creating a new GitHub repository.
+     *
      * @see <a href="https://developer.github.com/v3/repos/#create">Create Repo API</a>
      * @since 0.24
      * @todo #1095:30m Add the ability to set the other parameters of
@@ -129,6 +136,7 @@ public interface Repos {
 
         /**
          * Public ctor.
+         *
          * @param nme Name of the new repository. Cannot be empty
          * @param prvt Will the new repo be private?
          *  If not, then it will be public
@@ -139,6 +147,7 @@ public interface Repos {
 
         /**
          * Private ctor.
+         *
          * @param nme Name of the new repo. Cannot be empty
          * @param prvt Will the new repo be private?
          *  If not, then it will be public
@@ -188,6 +197,7 @@ public interface Repos {
 
         /**
          * Name of the new repo.
+         *
          * @return Name
          */
         public String name() {
@@ -196,6 +206,7 @@ public interface Repos {
 
         /**
          * Will the new repo be private? If not, then it will be public.
+         *
          * @return Is this repo private?
          */
         public boolean isPrivate() {
@@ -205,6 +216,7 @@ public interface Repos {
         /**
          * Description of the new repo.
          * If it has no description, this is an empty string.
+         *
          * @return Description
          */
         public String description() {
@@ -214,6 +226,7 @@ public interface Repos {
         /**
          * Homepage of the new repo.
          * If it has no homepage, this is an empty string.
+         *
          * @return Homepage
          */
         public String homepage() {
@@ -223,6 +236,7 @@ public interface Repos {
         /**
          * Auto-init the new repo?
          * If absent, the GitHub default will be used.
+         *
          * @return Optional boolean
          */
         public Optional<Boolean> autoInit() {
@@ -231,6 +245,7 @@ public interface Repos {
 
         /**
          * Name of the organization to which this repo belongs.
+         *
          * @return String org name
          */
         public String organization() {
@@ -240,6 +255,7 @@ public interface Repos {
         /**
          * Returns a RepoCreate with the given name.
          * The name cannot be empty.
+         *
          * @param nme Name of the new repo
          * @return RepoCreate
          */
@@ -256,6 +272,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given privacy.
+         *
          * @param privacy Privateness of the new repo
          * @return RepoCreate
          */
@@ -272,6 +289,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given description.
+         *
          * @param desc Description
          * @return RepoCreate
          */
@@ -288,6 +306,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given homepage.
+         *
          * @param page Homepage URL
          * @return RepoCreate
          */
@@ -304,6 +323,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given auto-init enabledness.
+         *
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
@@ -320,6 +340,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given auto-init enabledness.
+         *
          * @param auto Auto-init the new repo?
          * @return RepoCreate
          */
@@ -336,6 +357,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given organization.
+         *
          * @param org Organization to which this repo belongs
          * @return RepoCreate
          */
@@ -352,6 +374,7 @@ public interface Repos {
 
         /**
          * Returns a RepoCreate with the given json fields.
+         *
          * @param key Json key
          * @param value Json value
          * @return The same RepoCreate

@@ -20,7 +20,8 @@ import lombok.ToString;
  * <p>The status exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
  * "smart" decorator, which helps you to get access to all JSON properties,
- * for example:
+ * for example:</p>
+ *
  * <pre> URL url = new Status.Smart(status).url();</pre>
  *
  * @see <a href="https://developer.github.com/v3/repos/statuses/">Repo statuses</a>
@@ -31,12 +32,14 @@ public interface Statuses extends JsonReadable {
 
     /**
      * Associated commit.
+     *
      * @return Commit
      */
     Commit commit();
 
     /**
      * Create new status.
+     *
      * @param status Add this status
      * @return The added status
      * @throws IOException If there is any I/O problem
@@ -46,6 +49,7 @@ public interface Statuses extends JsonReadable {
 
     /**
      * List all statuses for a given ref.
+     *
      * @param ref It can be a SHA, a branch name, or a tag name
      * @return Iterable of statuses
      * @see <a href="https://developer.github.com/v3/repos/statuses/#list-statuses-for-a-specific-ref">List Statuses for a specific Ref</a>
@@ -54,6 +58,7 @@ public interface Statuses extends JsonReadable {
 
     /**
      * Data to use when creating a new GitHub commit status.
+     *
      * @see <a href="https://developer.github.com/v3/repos/statuses/#create-a-status">Create a Status</a>
      * @since 0.24
      */
@@ -91,6 +96,7 @@ public interface Statuses extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param stat State
          */
         public StatusCreate(final Status.State stat) {
@@ -104,6 +110,7 @@ public interface Statuses extends JsonReadable {
 
         /**
          * Private ctor.
+         *
          * @param stat State
          * @param desc Description
          * @param cntxt Context
@@ -123,6 +130,7 @@ public interface Statuses extends JsonReadable {
 
         /**
          * Returns a StatusCreate with the given state.
+         *
          * @param stat State
          * @return StatusCreate
          */
@@ -137,6 +145,7 @@ public interface Statuses extends JsonReadable {
 
         /**
          * Returns a StatusCreate with the given description.
+         *
          * @param desc Description
          * @return StatusCreate
          */
@@ -151,6 +160,7 @@ public interface Statuses extends JsonReadable {
 
         /**
          * Returns a StatusCreate with the given context.
+         *
          * @param cntxt Context
          * @return StatusCreate
          */
@@ -165,6 +175,7 @@ public interface Statuses extends JsonReadable {
 
         /**
          * Returns a StatusCreate with the given target URL.
+         *
          * @param target Target URL
          * @return StatusCreate
          */

@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull requests.
+ *
  * @since 0.3
  */
 @Immutable
@@ -41,6 +42,7 @@ final class RtPulls implements Pulls {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtHooks}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_REPO_HOOK)

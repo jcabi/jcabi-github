@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * Mock iterable.
+ *
  * @param <T> Type of iterable
  * @since 0.5
  */
@@ -40,6 +41,7 @@ final class MkIterable<T> implements Iterable<T> {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param path Path to search
      * @param map Mapping
@@ -81,6 +83,7 @@ final class MkIterable<T> implements Iterable<T> {
 
     /**
      * Mapping.
+     *
      * @param <X> Type of item
      * @since 0.5
      */
@@ -90,6 +93,7 @@ final class MkIterable<T> implements Iterable<T> {
 
         /**
          * Map from XML to X.
+         *
          * @param xml The XML to get it from
          * @return X
          */

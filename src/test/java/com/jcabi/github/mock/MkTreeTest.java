@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTree.
+ *
  * @since 0.8
  */
 final class MkTreeTest {
 
     /**
      * MkTree should return its json.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test

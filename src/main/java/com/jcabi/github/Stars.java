@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub starring API.
+ *
  * @see <a href="https://developer.github.com/v3/activity/starring/">Starring API</a>
  * @since 0.15
  */
@@ -17,12 +18,14 @@ public interface Stars {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Check if repo is starred.
+     *
      * @return True if repo is starred
      * @throws IOException - If anything goes wrong.
      */
@@ -30,12 +33,14 @@ public interface Stars {
 
     /**
      * Star repository.
+     *
      * @throws IOException - If anything goes wrong.
      */
     void star() throws IOException;
 
     /**
      * Unstar repository.
+     *
      * @throws IOException - If anything goes wrong.
      */
     void unstar() throws IOException;

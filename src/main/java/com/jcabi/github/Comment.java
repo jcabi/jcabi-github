@@ -22,14 +22,14 @@ import lombok.ToString;
  *
  * <p>Comment implements {@link JsonReadable}, that's how you can get its full
  * details in JSON format. For example, to get its author's GitHub login
- * you get the entire JSON and then gets its element:
+ * you get the entire JSON and then gets its element:</p>
  *
  * <pre>String login = comment.json()
  *   .getJsonObject("user")
  *   .getString("login");</pre>
  *
  * <p>However, it's better to use a supplementary "smart" decorator, which
- * automates most of these operations:
+ * automates most of these operations:</p>
  *
  * <pre>String login = new Comment.Smart(comment).author().login();</pre>
  *
@@ -42,18 +42,21 @@ public interface Comment
 
     /**
      * The issue it's in.
+     *
      * @return Owner of the comment
      */
     Issue issue();
 
     /**
      * Number.
+     *
      * @return Comment number
      */
     long number();
 
     /**
      * Delete the comment.
+     *
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/comments/#delete-a-comment">Delete a Comment</a>
      */
@@ -61,6 +64,7 @@ public interface Comment
 
     /**
      * Adds the reaction to the comment.
+     *
      * @param reaction Reaction to be added
      * @throws IOException In case something goes wrong.
      */
@@ -68,12 +72,14 @@ public interface Comment
 
     /**
      * List the reactions of the comment.
+     *
      * @return Comment reactions
      */
     Iterable<Reaction> reactions();
 
     /**
      * Smart comment with additional features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -94,6 +100,7 @@ public interface Comment
 
         /**
          * Public ctor.
+         *
          * @param cmt Comment
          */
         public Smart(final Comment cmt) {
@@ -103,6 +110,7 @@ public interface Comment
 
         /**
          * Get its author.
+         *
          * @return Author of comment
          * @throws IOException If there is any I/O problem
          */
@@ -114,6 +122,7 @@ public interface Comment
 
         /**
          * Get its body.
+         *
          * @return Body of comment
          * @throws IOException If there is any I/O problem
          */
@@ -123,6 +132,7 @@ public interface Comment
 
         /**
          * Change comment body.
+         *
          * @param text Body of comment
          * @throws IOException If there is any I/O problem
          */
@@ -134,6 +144,7 @@ public interface Comment
 
         /**
          * Get its URL.
+         *
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */
@@ -147,6 +158,7 @@ public interface Comment
 
         /**
          * When this comment was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -158,6 +170,7 @@ public interface Comment
 
         /**
          * When this comment was updated last time.
+         *
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearchPagination}.
+ *
  * @since 0.9
  */
 final class RtSearchPaginationTest {

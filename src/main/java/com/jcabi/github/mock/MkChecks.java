@@ -16,6 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub Checks.
+ *
  * @since 1.6.0
  */
 public final class MkChecks implements Checks {
@@ -37,6 +38,7 @@ public final class MkChecks implements Checks {
 
     /**
      * Ctor.
+     *
      * @param strg Storage
      * @param coord Coordinates of repo
      * @param pll Pull
@@ -65,6 +67,7 @@ public final class MkChecks implements Checks {
 
     /**
      * Create check.
+     *
      * @param status Status
      * @param conclusion Conclusion
      * @return Check

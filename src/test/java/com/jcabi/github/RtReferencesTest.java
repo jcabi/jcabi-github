@@ -19,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtReferences}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)

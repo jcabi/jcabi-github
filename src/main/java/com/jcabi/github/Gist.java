@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * GitHub gist.
+ *
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  * @since 0.1
  */
@@ -24,18 +25,21 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * GitHub we're in.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Get gist identifier.
+     *
      * @return Gist identifier
      */
     String identifier();
 
     /**
      * Read file content.
+     *
      * @param name Name of it
      * @return File content
      * @throws IOException If there is any I/O problem
@@ -45,6 +49,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Write file content.
+     *
      * @param name Name of it
      * @param content Content to write
      * @throws IOException If there is any I/O problem
@@ -54,18 +59,21 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Star a gist.
+     *
      * @throws IOException If there is any I/O problem
      */
     void star() throws IOException;
 
     /**
      * Unstar a gist.
+     *
      * @throws IOException If there is any I/O problem
      */
     void unstar() throws IOException;
 
     /**
      * Checks if Gist is starred.
+     *
      * @return True if gist is starred
      * @throws IOException If there is any I/O problem
      */
@@ -73,6 +81,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Fork the gist.
+     *
      * @return Forked gist
      * @throws IOException If there is any I/O problem
      */
@@ -80,6 +89,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Get all comments of the gist.
+     *
      * @return GistComments
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
@@ -88,6 +98,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
     /**
      * Smart Gist with extra features.
+     *
      * @since 0.5
      */
     @Immutable
@@ -103,6 +114,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param gst Gist
          */
         public Smart(final Gist gst) {
@@ -116,6 +128,7 @@ public interface Gist extends JsonReadable, JsonPatchable {
 
         /**
          * Get a list of all file names in the gist.
+         *
          * @return File names
          * @throws IOException If there is any I/O problem
          */

@@ -13,6 +13,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtPagination}.
+ *
  * @since 0.4
  */
 @ExtendWith(RandomPort.class)
@@ -74,7 +76,7 @@ final class RtPaginationTest {
             final Iterator<JsonObject> iterator = page.iterator();
             iterator.next();
             Assertions.assertThrows(
-                java.util.NoSuchElementException.class,
+                NoSuchElementException.class,
                 iterator::next,
                 "Should throw when no more elements"
             );

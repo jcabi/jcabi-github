@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 /**
  * State of a pull request merge attempt.
+ *
  * @since 0.24
  */
 public enum MergeState {

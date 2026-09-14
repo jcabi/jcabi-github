@@ -22,7 +22,7 @@ import lombok.ToString;
 /**
  * GitHub client, starting point to the entire library.
  *
- * <p>This is how you start communicating with GitHub API:
+ * <p>This is how you start communicating with GitHub API:</p>
  *
  * <pre> GitHub github = new RtGitHub(oauthKey);
  * Repo repo = github.repos().get(
@@ -34,7 +34,7 @@ import lombok.ToString;
  *
  * <p>It is strongly recommended to use
  * {@link com.jcabi.http.wire.RetryWire} to avoid
- * accidental I/O exceptions:
+ * accidental I/O exceptions:</p>
  *
  * <pre> GitHub github = new RtGitHub(
  *   new RtGitHub(oauthKey).entry().through(RetryWire.class)
@@ -66,6 +66,7 @@ public final class RtGitHub implements GitHub {
 
     /**
      * Public ctor, for anonymous access to GitHub.
+     *
      * @since 0.4
      */
     public RtGitHub() {
@@ -76,10 +77,10 @@ public final class RtGitHub implements GitHub {
      * Public ctor, for anonymous access to GitHub.<br><br>
      *
      * <p>Use this ctor when you want to access GitHub's API over a
-     * custom domain, other than https//api.github.com.<br><br>
+     * custom domain, other than https//api.github.com.<br><br></p>
      *
      * <p>For instance, if you have your own instance of GitHub deployed
-     * somewhere.
+     * somewhere.</p>
      *
      * <pre>
      *     final GitHub myGitHub = new RtGitHub(
@@ -95,6 +96,7 @@ public final class RtGitHub implements GitHub {
 
     /**
      * Public ctor, for HTTP Basic Authentication.
+     *
      * @param user User name
      * @param pwd Password
      * @since 0.4
@@ -118,10 +120,10 @@ public final class RtGitHub implements GitHub {
      * Public ctor, for HTTP Basic Authentication.
      *
      * <p>Use this ctor when you want to access GitHub's API over a
-     * custom domain, other than https//api.github.com.<br><br>
+     * custom domain, other than https//api.github.com.<br><br></p>
      *
      * <p>For instance, if you have your own instance of GitHub deployed
-     * somewhere.
+     * somewhere.</p>
      *
      * <pre>
      *     final GitHub myGitHub = new RtGitHub(
@@ -153,10 +155,10 @@ public final class RtGitHub implements GitHub {
      * Public ctor, for authentication with OAuth2 token.
      *
      * <p>Use this ctor when you want to access GitHub's API over a
-     * custom domain, other than https//api.github.com.<br><br>
+     * custom domain, other than https//api.github.com.<br><br></p>
      *
      * <p>For instance, if you have your own instance of GitHub deployed
-     * somewhere.
+     * somewhere.</p>
      *
      * <pre>
      *     final GitHub myGitHub = new RtGitHub(
@@ -179,6 +181,7 @@ public final class RtGitHub implements GitHub {
 
     /**
      * Public ctor, for authentication with OAuth2 token.
+     *
      * @param token OAuth token
      */
     public RtGitHub(final String token) {
@@ -192,6 +195,7 @@ public final class RtGitHub implements GitHub {
 
     /**
      * Public ctor, with a custom request.
+     *
      * @param req Request to start from
      * @since 0.4
      */

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Testcase for RtTags.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)

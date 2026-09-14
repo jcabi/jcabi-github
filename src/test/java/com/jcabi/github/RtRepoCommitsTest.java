@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtRepoCommits}.
+ *
  * @since 0.1
  */
 final class RtRepoCommitsTest {

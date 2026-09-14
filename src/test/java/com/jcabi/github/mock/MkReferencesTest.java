@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link MkReferences}.
+ *
  * @since 0.1
  */
 final class MkReferencesTest {
@@ -60,6 +61,7 @@ final class MkReferencesTest {
 
     /**
      * MkReferences can iterate over references in tags sub-namespace.
+     *
      * @throws IOException If some problem inside
      */
     @Test

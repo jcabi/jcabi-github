@@ -18,17 +18,13 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub gist.
+ *
  * @since 0.5
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
 @ToString
 final class MkGist implements Gist {
-
-    /**
-     * XPath for gist IDs.
-     */
-    private static final String GIST_ID_XPATH = "/github/gists/gist/id/text()";
 
     /**
      * Storage.
@@ -47,6 +43,7 @@ final class MkGist implements Gist {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param name Gist name
@@ -143,7 +140,7 @@ final class MkGist implements Gist {
         try {
             final XML xml = this.storage.xml();
             number = Integer.toString(
-                1 + xml.xpath(MkGist.GIST_ID_XPATH).size()
+                1 + xml.xpath("/github/gists/gist/id/text()").size()
             );
             final Directives dirs = new Directives().xpath("/github/gists")
                 .add("gist")

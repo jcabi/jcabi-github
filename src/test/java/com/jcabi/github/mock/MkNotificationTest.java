@@ -13,6 +13,7 @@ import org.xembly.Xembler;
 
 /**
  * Unit tests for {@link MkNotification}.
+ *
  * @since 0.40
  */
 final class MkNotificationTest {

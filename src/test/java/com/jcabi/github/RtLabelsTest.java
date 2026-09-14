@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtLabels}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)

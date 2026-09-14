@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
  *
  * <p>This class should be used as a decorator for object obtained
  * from GitHub, when you want to keep their JSON values in memory. For
- * example:
+ * example:</p>
  *
  * <pre> Iterable&lt;Issue&gt; issues = repo.issues().iterate(
  *   new HashMap&lt;String, String&gt;()
@@ -29,9 +29,9 @@ import lombok.EqualsAndHashCode;
  * 30 issues in JSON array. Then, for every one of them, in order
  * to retrieve issue title a separate HTTP request will be made. Then,
  * one more page will be fetched, with 20 issues. And again, 20 new
- * HTTP requests to get their titles.
+ * HTTP requests to get their titles.</p>
  *
- * <p>Class {@code Bulk} helps us to reduce the amount of this extra work:
+ * <p>Class {@code Bulk} helps us to reduce the amount of this extra work:</p>
  *
  * <pre> Iterable&lt;Issue&gt; issues = new Bulk&lt;Issue&gt;(
  *   repo.issues().iterate(
@@ -39,7 +39,7 @@ import lombok.EqualsAndHashCode;
  *   )
  * );</pre>
  *
- * <p>Now, there will be just two HTTP requests.
+ * <p>Now, there will be just two HTTP requests.</p>
  *
  * @param <T> Type of iterable objects
  * @see <a href="https://developer.github.com/v3/#pagination">Pagination</a>
@@ -55,6 +55,7 @@ public final class Bulk<T extends JsonReadable> implements Iterable<T> {
 
     /**
      * Public ctor.
+     *
      * @param list Items original
      */
     public Bulk(final Iterable<T> list) {

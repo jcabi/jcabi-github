@@ -8,6 +8,7 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.http.Request;
 import com.jcabi.http.Response;
 import jakarta.json.Json;
+import jakarta.json.JsonReader;
 import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 /**
  * Response to return.
+ *
  * @since 0.4
  */
 @Immutable
@@ -28,6 +30,7 @@ final class Hidden implements Response {
 
     /**
      * Ctor.
+     *
      * @param resp Response
      */
     Hidden(final Response resp) {
@@ -56,8 +59,13 @@ final class Hidden implements Response {
 
     @Override
     public String body() {
-        return Json.createReader(new StringReader(this.response.body()))
-            .readObject().getJsonArray("items").toString();
+        try (
+            JsonReader reader = Json.createReader(
+                new StringReader(this.response.body())
+            )
+        ) {
+            return reader.readObject().getJsonArray("items").toString();
+        }
     }
 
     @Override

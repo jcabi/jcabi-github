@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub hook.
+ *
  * @since 0.8
  */
 @Immutable
@@ -46,6 +47,7 @@ final class MkHook implements Hook {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

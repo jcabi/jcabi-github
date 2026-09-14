@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtValuePagination}.
+ *
  * @since 0.4
  */
 @ExtendWith(RandomPort.class)

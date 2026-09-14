@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub event.
+ *
  * @since 0.1
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtEvent implements Event {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param number Number of the get

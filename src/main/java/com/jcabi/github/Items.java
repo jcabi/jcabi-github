@@ -21,19 +21,20 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Iterator.
+ *
  * @param <X> Type of custom object
- * @param <P> Type of source object
+ * @param <S> Type of source object
  * @since 0.8
  */
 @EqualsAndHashCode(of = { "mapping", "request", "objects", "more" })
 @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
-final class Items<X, P extends JsonValue> implements
+final class Items<X, S extends JsonValue> implements
     Iterator<X> {
 
     /**
      * Mapping to use.
      */
-    private final transient RtValuePagination.Mapping<X, P> mapping;
+    private final transient RtValuePagination.Mapping<X, S> mapping;
 
     /**
      * Lock object.
@@ -48,7 +49,7 @@ final class Items<X, P extends JsonValue> implements
     /**
      * Available objects.
      */
-    private transient Queue<P> objects;
+    private transient Queue<S> objects;
 
     /**
      * Current entry can be used to fetch objects.
@@ -57,10 +58,11 @@ final class Items<X, P extends JsonValue> implements
 
     /**
      * Ctor.
+     *
      * @param entry Entry
      * @param mpp Mapping
      */
-    Items(final Request entry, final RtValuePagination.Mapping<X, P> mpp) {
+    Items(final Request entry, final RtValuePagination.Mapping<X, S> mpp) {
         this.request = entry;
         this.mapping = mpp;
         this.objects = new ArrayDeque<>();
@@ -121,9 +123,9 @@ final class Items<X, P extends JsonValue> implements
         }
         final JsonArray arr = response.as(JsonResponse.class).json()
             .readArray();
-        final Queue<P> list = new ArrayDeque<>();
+        final Queue<S> list = new ArrayDeque<>();
         for (final JsonValue value : arr) {
-            list.add((P) value);
+            list.add((S) value);
         }
         this.objects = list;
     }

@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Git.
+ *
  * @since 0.8
  */
 @Immutable
@@ -30,6 +31,7 @@ final class RtGit implements Git {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

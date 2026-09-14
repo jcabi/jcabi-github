@@ -14,6 +14,7 @@ import org.xembly.Directives;
 
 /**
  * Test case for {@link MkRepoCommit}.
+ *
  * @since 0.8
  */
 final class MkRepoCommitTest {
@@ -32,6 +33,7 @@ final class MkRepoCommitTest {
 
     /**
      * MkRepoCommit can return repository.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -48,6 +50,7 @@ final class MkRepoCommitTest {
 
     /**
      * MkRepoCommit can return sha.
+     *
      * @throws IOException If some problem inside
      */
     @Test

@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 
 /**
  * Smart RepositoryStatistics.
+ *
  * @since 1.8.0
  */
 public final class Smart {
@@ -20,6 +21,7 @@ public final class Smart {
 
     /**
      * Public ctor.
+     *
      * @param repo Repository
      */
     public Smart(final Repo repo) {
@@ -28,6 +30,7 @@ public final class Smart {
 
     /**
      * Public ctor.
+     *
      * @param statistics Repository statistics
      */
     public Smart(final RepositoryStatistics statistics) {
@@ -36,6 +39,7 @@ public final class Smart {
 
     /**
      * Number of forks of this repository.
+     *
      * @return Number of forks
      * @throws IOException If there is any I/O problem
      */
@@ -45,6 +49,7 @@ public final class Smart {
 
     /**
      * Number of users who have starred this repository.
+     *
      * @return Number of stargazers
      * @throws IOException If there is any I/O problem
      */
@@ -54,6 +59,7 @@ public final class Smart {
 
     /**
      * Number of users watching the repository.
+     *
      * @return Number of watchers
      * @throws IOException If there is any I/O problem
      */
@@ -63,6 +69,7 @@ public final class Smart {
 
     /**
      * The size of the repository.
+     *
      * @return Size of the repository
      * @throws IOException If there is any I/O problem
      */
@@ -72,6 +79,7 @@ public final class Smart {
 
     /**
      * The number of open issues in this repository.
+     *
      * @return Number of open issues
      * @throws IOException If there is any I/O problem
      */
@@ -81,6 +89,7 @@ public final class Smart {
 
     /**
      * The time the repository was created.
+     *
      * @return Time the repository was created
      * @throws IOException If there is any I/O problem
      */

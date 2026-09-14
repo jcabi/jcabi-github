@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Commits.
+ *
  * @since 0.3
  */
 @Immutable
@@ -40,6 +41,7 @@ public final class RtCommits implements Commits {
 
     /**
      * Public constructor.
+     *
      * @param req The entry request
      * @param repo The owner repo
      */

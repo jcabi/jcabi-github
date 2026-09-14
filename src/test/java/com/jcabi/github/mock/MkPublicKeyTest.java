@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkPublicKey}.
+ *
  * @since 0.1
  */
 final class MkPublicKeyTest {

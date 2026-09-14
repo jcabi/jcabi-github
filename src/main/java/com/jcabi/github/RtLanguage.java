@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repository language.
+ *
  * @since 0.15
  */
 @Loggable(Loggable.DEBUG)
@@ -27,6 +28,7 @@ public final class RtLanguage implements Language {
 
     /**
      * Public ctor.
+     *
      * @param lang Language name
      * @param size Language bytes
      */

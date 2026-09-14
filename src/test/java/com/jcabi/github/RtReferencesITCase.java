@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtReferences}.
+ *
  * @since 0.6
  */
 @OAuthScope(OAuthScope.Scope.REPO)

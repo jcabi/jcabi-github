@@ -16,6 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub References.
+ *
  * @since 0.24
  */
 @Immutable
@@ -40,6 +41,7 @@ final class MkReferences implements References {
 
     /**
      * Public constructor.
+     *
      * @param stg Storage
      * @param login Login name
      * @param rep Repo coordinates

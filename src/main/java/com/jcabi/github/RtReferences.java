@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub references.
+ *
  * @since 0.24
  */
 @Immutable
@@ -45,6 +46,7 @@ final class RtReferences implements References {
 
     /**
      * Public constructor.
+     *
      * @param req RESTful request
      * @param repo The owner repo
      */

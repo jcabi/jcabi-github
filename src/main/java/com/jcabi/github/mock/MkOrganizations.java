@@ -15,6 +15,7 @@ import org.xembly.Directives;
 
 /**
  * GitHub organizations.
+ *
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
@@ -31,6 +32,7 @@ final class MkOrganizations implements Organizations {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @throws IOException If there is any I/O problem
      */

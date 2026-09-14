@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkContents}.
+ *
  * @since 0.8
  */
 final class MkContentsTest {
@@ -79,6 +80,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should give a path to a new file.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -92,6 +94,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should give a name to a new file.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -105,6 +108,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should give a SHA to a new file.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -154,6 +158,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should be able to remove files.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -167,6 +172,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should commit the removal of a file with a message.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -181,6 +187,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should be able to remove files from non-default branches.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -196,6 +203,7 @@ final class MkContentsTest {
 
     /**
      * MkContents should commit the removal from a branch with a message.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -391,6 +399,7 @@ final class MkContentsTest {
 
     /**
      * Tests if MkContents is iterable by path.
+     *
      * @throws IOException if any error occurs.
      */
     @Test

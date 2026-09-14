@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Gists}.
+ *
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.GIST)

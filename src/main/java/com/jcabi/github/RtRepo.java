@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repository.
+ *
  * @since 0.1
  * @checkstyle ClassFanOutComplexity (10 lines)
  */
@@ -48,6 +49,7 @@ final class RtRepo implements Repo {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      * @param crd Coordinate of the repo

@@ -21,6 +21,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtGistComments}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)

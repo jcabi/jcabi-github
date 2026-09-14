@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link PullRef}.
+ *
  * @since 0.24
  */
 final class PullRefTest {
@@ -35,6 +36,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch its repo.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -49,6 +51,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch its ref name.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -62,6 +65,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch its commit sha.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -75,6 +79,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch its label.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -88,6 +93,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch the repo of its commit.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -102,6 +108,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch the SHA of its commit.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -115,6 +122,7 @@ final class PullRefTest {
 
     /**
      * PullRef.Smart can fetch its user.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test

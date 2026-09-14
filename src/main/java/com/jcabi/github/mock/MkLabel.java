@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub label.
+ *
  * @since 0.6
  */
 @Immutable
@@ -46,6 +47,7 @@ final class MkLabel implements Label {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

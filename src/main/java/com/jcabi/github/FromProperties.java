@@ -9,25 +9,11 @@ import java.util.Properties;
 
 /**
  * User agent data read from the jcabigithub.properties file.
+ *
  * @since 0.37
  */
 @SuppressWarnings("PMD.ConstructorShouldDoInitialization")
 public final class FromProperties implements UserAgent {
-
-    /**
-     * Build timestamp.
-     */
-    private static final String JCABI_DATE = "JCabi-Date";
-
-    /**
-     * Project version.
-     */
-    private static final String JCABI_VERSION = "JCabi-Version";
-
-    /**
-     * Build number.
-     */
-    private static final String JCABI_BUILD = "JCabi-Build";
 
     /**
      * Properties.
@@ -41,6 +27,7 @@ public final class FromProperties implements UserAgent {
 
     /**
      * Ctor.
+     *
      * @param filename Name of the properties file to look for
      */
     public FromProperties(final String filename) {
@@ -62,9 +49,9 @@ public final class FromProperties implements UserAgent {
         }
         return String.format(
             "jcabi-github %s %s %s",
-            this.props.getProperty(FromProperties.JCABI_VERSION),
-            this.props.getProperty(FromProperties.JCABI_BUILD),
-            this.props.getProperty(FromProperties.JCABI_DATE)
+            this.props.getProperty("JCabi-Version"),
+            this.props.getProperty("JCabi-Build"),
+            this.props.getProperty("JCabi-Date")
         );
     }
 }

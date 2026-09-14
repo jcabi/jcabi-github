@@ -19,12 +19,12 @@ import lombok.ToString;
  * <p>PullComment implements {@link JsonReadable},
  * that's how you can get its full details in JSON format.
  * For example, to get its id, you get the entire JSON and
- * then gets its element:
+ * then gets its element:</p>
  *
  * <pre>String id = comment.jsn().getString("id");</pre>
  *
  * <p>However, it's better to use a supplementary "smart" decorator, which
- * automates most of these operations:
+ * automates most of these operations:</p>
  *
  * <pre>String id = new PullComment.Smart(comment).identifier();</pre>
  *
@@ -37,30 +37,35 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
     /**
      * Pull we're in.
+     *
      * @return Pull
      */
     Pull pull();
 
     /**
      * Get its number.
+     *
      * @return Pull comment number
      */
     int number();
 
     /**
      * Adds the reaction to the pull comment.
+     *
      * @param reaction Reaction to be added
      */
     void react(Reaction reaction);
 
     /**
      * List the reactions of the pull comment.
+     *
      * @return Comment reactions
      */
     Collection<Reaction> reactions();
 
     /**
      * Smart PullComment with extra features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -101,6 +106,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Public ctor.
+         *
          * @param pcomment Pull comment
          */
         public Smart(final PullComment pcomment) {
@@ -110,6 +116,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its id value.
+         *
          * @return Id of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -119,6 +126,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Change its id value.
+         *
          * @param value Id of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -130,6 +138,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its commit id value.
+         *
          * @return Commit id of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -139,6 +148,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Change its commit id value.
+         *
          * @param value Commit id of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -150,6 +160,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its url value.
+         *
          * @return Url of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -159,6 +170,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its reply id value.
+         *
          * @return Reply id of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -168,6 +180,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Change its url value.
+         *
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -179,6 +192,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its body value.
+         *
          * @return Url of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -188,6 +202,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Change its body value.
+         *
          * @param value Url of pull comment
          * @throws IOException If there is any I/O problem
          */
@@ -236,6 +251,7 @@ public interface PullComment extends JsonReadable, JsonPatchable,
 
         /**
          * Get its author.
+         *
          * @return Pull comment author
          * @throws IOException If there is any I/O problem
          */

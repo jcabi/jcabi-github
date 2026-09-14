@@ -9,6 +9,7 @@ import com.jcabi.xml.XML;
 
 /**
  * Mapping for MkIssueEvents.
+ *
  * @since 0.5
  */
 class MkIssueEventMapping
@@ -21,6 +22,7 @@ class MkIssueEventMapping
 
     /**
      * Constructor.
+     *
      * @param events Mock events of the issue
      */
     MkIssueEventMapping(final MkIssueEvents events) {

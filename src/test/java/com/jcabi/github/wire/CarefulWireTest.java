@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link CarefulWire}.
+ *
  * @since 0.1
  */
 final class CarefulWireTest {
@@ -30,6 +31,7 @@ final class CarefulWireTest {
 
     /**
      * CarefulWire can wait until the limit reset.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -53,6 +55,7 @@ final class CarefulWireTest {
 
     /**
      * CarefulWire can tolerate the lack the X-RateLimit-Remaining header.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -71,6 +74,7 @@ final class CarefulWireTest {
 
     /**
      * CarefulWire can tolerate the lack the X-RateLimit-Reset header.
+     *
      * @throws IOException If some problem inside
      */
     @Test

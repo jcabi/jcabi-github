@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Immutable ReentrantLock.
+ *
  * @since 0.18
  */
 @Immutable

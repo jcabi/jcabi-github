@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPullRef}.
+ *
  * @since 0.24
  */
 final class RtPullRefTest {
@@ -31,6 +32,7 @@ final class RtPullRefTest {
 
     /**
      * RtPullRef can fetch its repo.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -45,6 +47,7 @@ final class RtPullRefTest {
 
     /**
      * RtPullRef can fetch its ref.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -58,6 +61,7 @@ final class RtPullRefTest {
 
     /**
      * RtPullRef can fetch its commit SHA.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test

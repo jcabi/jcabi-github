@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtNotifications}.
+ *
  * @since 0.1
  * @todo #920 Create a test fetchSingleNotification and implement
  *  get() operation in RtNotifications.

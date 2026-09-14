@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub deploy keys.
+ *
  * @since 0.8
  */
 @Immutable
@@ -40,6 +41,7 @@ final class RtDeployKeys implements DeployKeys {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful API entry point
      * @param repo Repository
      */

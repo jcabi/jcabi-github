@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link SmartJsonTest}.
+ *
  * @since 0.5
  */
 final class SmartJsonTest {

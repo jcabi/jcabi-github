@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub issues.
+ *
  * @since 0.1
  */
 @Immutable
@@ -42,6 +43,7 @@ final class RtIssues implements Issues {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

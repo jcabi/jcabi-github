@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtSearch}.
+ *
  * @since 0.1
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
@@ -77,6 +78,7 @@ final class RtSearchITCase {
 
     /**
      * RtSearch can search for contents.
+     *
      * @see <a href="https://developer.github.com/v3/search/#search-code">Search API</a> for details
      */
     @Test

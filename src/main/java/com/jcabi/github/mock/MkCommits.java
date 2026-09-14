@@ -21,6 +21,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub Commits.
+ *
  * @since 0.3
  */
 @Immutable
@@ -45,6 +46,7 @@ public final class MkCommits implements Commits {
 
     /**
      * Public constructor.
+     *
      * @param stg The storage
      * @param login The login name
      * @param rep Repo's coordinates

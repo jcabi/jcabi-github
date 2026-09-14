@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleaseAsset}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
@@ -32,6 +33,7 @@ final class RtReleaseAssetTest {
 
     /**
      * RtReleaseAsset can be described in JSON form.
+     *
      * @throws Exception if a problem occurs.
      */
     @Test
@@ -49,6 +51,7 @@ final class RtReleaseAssetTest {
 
     /**
      * RtReleaseAsset can obtain its own release.
+     *
      * @throws Exception if a problem occurs.
      */
     @Test
@@ -115,6 +118,7 @@ final class RtReleaseAssetTest {
 
     /**
      * RtReleaseAsset can remove itself.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test

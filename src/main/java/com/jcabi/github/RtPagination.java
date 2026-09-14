@@ -41,6 +41,7 @@ public final class RtPagination<T> implements Iterable<T> {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param mpp Mapping
      */
@@ -58,6 +59,7 @@ public final class RtPagination<T> implements Iterable<T> {
 
     /**
      * Entry.
+     *
      * @return Entry point
      */
     public Request request() {
@@ -66,6 +68,7 @@ public final class RtPagination<T> implements Iterable<T> {
 
     /**
      * Mapping.
+     *
      * @return Mapping
      */
     public RtValuePagination.Mapping<T, JsonObject> mapping() {

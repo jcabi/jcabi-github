@@ -23,6 +23,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub contents.
+ *
  * @since 0.8
  */
 @Immutable
@@ -48,6 +49,7 @@ final class MkContents implements Contents {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

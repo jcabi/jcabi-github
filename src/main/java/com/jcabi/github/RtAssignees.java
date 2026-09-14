@@ -15,6 +15,7 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub Assignees.
+ *
  * @since 0.7
  */
 @Immutable
@@ -39,6 +40,7 @@ final class RtAssignees implements Assignees {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repo
      */

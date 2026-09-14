@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link JsonNode}.
+ *
  * @since 0.5
  */
 final class JsonNodeTest {

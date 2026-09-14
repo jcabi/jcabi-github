@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtGitignores}.
+ *
  * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
  * @since 0.8
  */

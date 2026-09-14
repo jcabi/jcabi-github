@@ -13,6 +13,7 @@ import lombok.ToString;
 
 /**
  * GitHub Git blob.
+ *
  * @see <a href="https://developer.github.com/v3/git/blobs/">Blobs API</a>
  * @since 0.5
  */
@@ -21,12 +22,14 @@ public interface Blob extends JsonReadable {
 
     /**
      * SHA of it.
+     *
      * @return SHA
      */
     String sha();
 
     /**
      * Smart Blob with extra features.
+     *
      * @since 0.5
      */
     @Immutable
@@ -47,6 +50,7 @@ public interface Blob extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param blb Blob
          */
         public Smart(final Blob blb) {
@@ -66,6 +70,7 @@ public interface Blob extends JsonReadable {
 
         /**
          * Get its url.
+         *
          * @return Url of blob request
          * @throws IOException If there is any I/O problem
          */

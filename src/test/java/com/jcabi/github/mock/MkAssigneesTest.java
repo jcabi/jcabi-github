@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkAssignees}.
+ *
  * @since 0.7
  */
 final class MkAssigneesTest {
 
     /**
      * MkAssignees can iterate over assignees.
+     *
      * @throws Exception Exception If some problem inside
      */
     @Test
@@ -32,6 +34,7 @@ final class MkAssigneesTest {
 
     /**
      * MkAssignees can check if a collaborator is an assignee for this repo.
+     *
      * @throws Exception Exception If some problem inside
      */
     @Test
@@ -47,6 +50,7 @@ final class MkAssigneesTest {
 
     /**
      * MkAssignees can check if the owner is an assignee for this repo.
+     *
      * @throws Exception Exception If some problem inside
      */
     @Test

@@ -19,6 +19,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub search.
+ *
  * @since 0.8
  */
 @Immutable
@@ -39,6 +40,7 @@ final class MkSearch implements Search {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      */

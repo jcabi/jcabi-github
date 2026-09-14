@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Release}.
+ *
  * @since 0.1
  */
 final class ReleaseTest {

@@ -17,6 +17,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub pull request ref.
+ *
  * @since 0.24
  */
 @Immutable
@@ -37,6 +38,7 @@ final class MkPullRef implements PullRef {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param brnch Branch
      */

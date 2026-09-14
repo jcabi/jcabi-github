@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub Rate Limit API.
+ *
  * @since 0.6
  */
 @Immutable
@@ -36,6 +37,7 @@ final class MkLimits implements Limits {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      */

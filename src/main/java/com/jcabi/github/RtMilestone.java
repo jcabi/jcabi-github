@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub milestone.
+ *
  * @since 0.7
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtMilestone implements Milestone {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param number Number of the get

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkEvent}.
+ *
  * @since 0.1
  */
 final class MkEventTest {

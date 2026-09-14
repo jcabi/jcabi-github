@@ -20,7 +20,7 @@ import lombok.ToString;
  * GitHub Milestone.
  *
  * <p>Use a supplementary "smart" decorator to get other properties
- * from an milestone, for example:
+ * from an milestone, for example:</p>
  *
  * <pre> Milestone.Smart milestone = new Milestone.Smart(origin);
  * if (milestone.isOpen()) {
@@ -48,18 +48,21 @@ public interface Milestone extends Comparable<Milestone>,
 
     /**
      * Repository we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its number.
+     *
      * @return Milestone number
      */
     int number();
 
     /**
      * Smart Milestone with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -100,6 +103,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Public ctor.
+         *
          * @param mls Issue
          */
         public Smart(final Milestone mls) {
@@ -109,6 +113,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get its creator.
+         *
          * @return Creator of milestone (who submitted it)
          * @throws IOException If there is any I/O problem
          */
@@ -122,6 +127,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Is it open?
+         *
          * @return TRUE if it's open
          * @throws IOException If there is any I/O problem
          */
@@ -131,6 +137,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Open it (make sure it's open).
+         *
          * @throws IOException If there is any I/O problem
          */
         public void open() throws IOException {
@@ -139,6 +146,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Close it (make sure it's closed).
+         *
          * @throws IOException If there is any I/O problem
          */
         public void close() throws IOException {
@@ -147,6 +155,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get its state.
+         *
          * @return State of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -156,6 +165,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Change its state.
+         *
          * @param state State of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -167,6 +177,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get its title.
+         *
          * @return Title of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -176,6 +187,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Change its title.
+         *
          * @param title Title of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -187,6 +199,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get its description.
+         *
          * @return Title of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -196,6 +209,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Change its description.
+         *
          * @param description Description of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -208,6 +222,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get its URL.
+         *
          * @return URL of milestone
          * @throws IOException If there is any I/O problem
          */
@@ -221,6 +236,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * When this milestone was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -232,6 +248,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * The milestone due date.
+         *
          * @return The milestone due date
          * @throws IOException If there is any I/O problem
          */
@@ -243,6 +260,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * When this milestone was last updated.
+         *
          * @return Date of last update
          * @throws IOException If there is any I/O problem
          */
@@ -254,6 +272,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * When this milestone was closed.
+         *
          * @return Date of closure
          * @throws IOException If there is any I/O problem
          */
@@ -265,6 +284,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Change milestone due date.
+         *
          * @param dueon New milestone due date
          * @throws IOException If there is any I/O problem
          */
@@ -277,6 +297,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get number of open issues.
+         *
          * @return Number of open issues
          * @throws IOException If there is any I/O problem
          */
@@ -286,6 +307,7 @@ public interface Milestone extends Comparable<Milestone>,
 
         /**
          * Get number of closed issues.
+         *
          * @return Number of closed issues
          * @throws IOException If there is any I/O problem
          */

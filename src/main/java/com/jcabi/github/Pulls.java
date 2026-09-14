@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * GitHub pull requests.
+ *
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @since 0.3
  */
@@ -18,12 +19,14 @@ public interface Pulls {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get specific get by number.
+     *
      * @param number Pull request number
      * @return Pull request
      * @see <a href="https://developer.github.com/v3/pulls/#get-a-single-pull-request">Get a Single Pull Request</a>
@@ -32,6 +35,7 @@ public interface Pulls {
 
     /**
      * Create new get.
+     *
      * @param title Title
      * @param head Head
      * @param base Base
@@ -43,6 +47,7 @@ public interface Pulls {
 
     /**
      * Iterate them all.
+     *
      * @param params Params
      * @return Iterator of issues
      * @see <a href="https://developer.github.com/v3/pulls/#list-pull-requests">List Pull Requests</a>

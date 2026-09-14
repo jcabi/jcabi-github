@@ -7,7 +7,7 @@
  * Object-Oriented GitHub API.
  *
  * <p>The only dependency you need is (check our latest version available
- * at <a href="http://github.jcabi.com">github.jcabi.com</a>):
+ * at <a href="http://github.jcabi.com">github.jcabi.com</a>):</p>
  *
  * <pre>&lt;dependency&gt;
  *   &lt;groupId&gt;com.jcabi&lt;/groupId&gt;
@@ -15,7 +15,7 @@
  * &lt;/dependency&gt;</pre>
  *
  * <p>There are some design conventions in this library, which is important
- * to keep in mind.
+ * to keep in mind.</p>
  *
  * <p>Sometimes we use {@link javax.json.JsonObject}
  * as an input argument for a method
@@ -32,7 +32,7 @@
  * expecting a JSON object as HTTP request body.
  * {@link java.util.Map} is used when GitHub API expects HTTP query parameters,
  * and some of them are optional, and there are more than two of them.
- * In all other situations we're using plain Java types.
+ * In all other situations we're using plain Java types.</p>
  *
  * @since 0.1
  * @see <a href="http://github.jcabi.com/">project website</a>

@@ -15,6 +15,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub deploy key.
+ *
  * @since 0.7
  */
 @Immutable
@@ -39,6 +40,7 @@ final class MkDeployKey implements DeployKey {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param number Id
      * @param repo Repository

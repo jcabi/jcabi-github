@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link PullComment}.
+ *
  * @since 0.8
  */
 final class PullCommentTest {

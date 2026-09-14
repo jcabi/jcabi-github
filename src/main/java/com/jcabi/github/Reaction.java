@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 /**
  * Reaction for issue / comment.
+ *
  * @see <a href="https://developer.github.com/v3/reactions">Reactions API</a>
  * @since 1.0
  * @todo #1469:30min Add support to team discussion and team discussion comments
@@ -48,12 +49,14 @@ public interface Reaction {
 
     /**
      * The reaction type.
+     *
      * @return The type of the reaction
      */
     String type();
 
     /**
      * Simple reaction.
+     *
      * @since 1.0
      */
     final class Simple implements Reaction {
@@ -65,6 +68,7 @@ public interface Reaction {
 
         /**
          * Constructor.
+         *
          * @param reaction Reaction type
          */
         Simple(final String reaction) {

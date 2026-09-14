@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repo commit.
+ *
  * @since 0.8
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtRepoCommit implements RepoCommit {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful request
      * @param repo Owner of this commit
      * @param sha Number of the get

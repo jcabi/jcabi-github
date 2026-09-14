@@ -20,12 +20,12 @@ import lombok.ToString;
  *
  * <p>PublicKey implements {@link JsonReadable}, that's how you can get its full
  * details in JSON format. For example, to get its title,
- * you get the entire JSON and then gets its element:
+ * you get the entire JSON and then gets its element:</p>
  *
  * <pre>String title = key.json().getString("title");</pre>
  *
  * <p>However, it's better to use a supplementary "smart" decorator, which
- * automates most of these operations:
+ * automates most of these operations:</p>
  *
  * <pre>String title = new PublicKey.Smart(comment).title();</pre>
  *
@@ -37,18 +37,21 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
     /**
      * User we're in.
+     *
      * @return User
      */
     User user();
 
     /**
      * ID Number of this public key.
+     *
      * @return Public key ID number
      */
     int number();
 
     /**
      * Smart PublicKey with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -69,6 +72,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param pkey Public key
          */
         public Smart(final PublicKey pkey) {
@@ -78,6 +82,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
         /**
          * Get its key value.
+         *
          * @return Value of public key
          * @throws IOException If there is any I/O problem
          */
@@ -87,6 +92,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
         /**
          * Change its value.
+         *
          * @param value Title of public key
          * @throws IOException If there is any I/O problem
          */
@@ -98,6 +104,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
         /**
          * Get its URL.
+         *
          * @return URL of public key
          * @throws IOException If there is any I/O problem
          */
@@ -111,6 +118,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
         /**
          * Get its title.
+         *
          * @return Title of public key
          * @throws IOException If there is any I/O problem
          */
@@ -120,6 +128,7 @@ public interface PublicKey extends JsonReadable, JsonPatchable {
 
         /**
          * Change its title.
+         *
          * @param text Title of public key
          * @throws IOException If there is any I/O problem
          */

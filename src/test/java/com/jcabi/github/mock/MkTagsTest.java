@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTags.
+ *
  * @since 0.6
  */
 final class MkTagsTest {

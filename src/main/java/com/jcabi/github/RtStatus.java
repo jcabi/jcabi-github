@@ -8,11 +8,13 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import java.io.StringReader;
 import lombok.EqualsAndHashCode;
 
 /**
  * GitHub commit status.
+ *
  * @since 0.23
  */
 @Immutable
@@ -32,6 +34,7 @@ public final class RtStatus implements Status {
 
     /**
      * Public ctor.
+     *
      * @param cmt Associated commit
      * @param obj Status JSON object
      */
@@ -46,7 +49,13 @@ public final class RtStatus implements Status {
 
     @Override
     public JsonObject json() {
-        return Json.createReader(new StringReader(this.jsn)).readObject();
+        try (
+            JsonReader reader = Json.createReader(
+                new StringReader(this.jsn)
+            )
+        ) {
+            return reader.readObject();
+        }
     }
 
     @Override

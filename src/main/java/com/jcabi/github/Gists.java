@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * GitHub gists.
+ *
  * @see <a href="https://developer.github.com/v3/gists/">Gists API</a>
  * @since 0.1
  */
@@ -18,12 +19,14 @@ public interface Gists {
 
     /**
      * GitHub we're in.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Create a new gist.
+     *
      * @param files Names and content of files
      * @param visible Indicates whether the gist is public
      * @return Gist
@@ -36,6 +39,7 @@ public interface Gists {
 
     /**
      * Get gist by name.
+     *
      * @param name Name of it
      * @return Gist
      * @see <a href="https://developer.github.com/v3/gists/#get-a-single-gist">Get a Single Gist</a>
@@ -44,6 +48,7 @@ public interface Gists {
 
     /**
      * Iterate all gists.
+     *
      * @return Iterator of gists
      * @see <a href="https://developer.github.com/v3/gists/#list-gists">List Gists</a>
      */
@@ -51,6 +56,7 @@ public interface Gists {
 
     /**
      * Removes a gist by id.
+     *
      * @param identifier Identifier of the gist to be removed
      * @throws IOException If there is any I/O problem
      */

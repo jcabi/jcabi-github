@@ -18,6 +18,7 @@ import lombok.ToString;
 
 /**
  * GitHub pull request.
+ *
  * @see <a href="https://developer.github.com/v3/pulls/">Pull Request API</a>
  * @since 0.3
  */
@@ -27,18 +28,21 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Repo we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its number.
+     *
      * @return Pull request number
      */
     int number();
 
     /**
      * Get its base ref.
+     *
      * @return Base ref
      * @throws IOException If there is any I/O problem
      */
@@ -46,6 +50,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Get its head ref.
+     *
      * @return Head ref
      * @throws IOException If there is any I/O problem
      */
@@ -53,6 +58,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Get all commits of the pull request.
+     *
      * @return Commits
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#list-commits-on-a-pull-request">List Commits on a Pull Request</a>
@@ -61,6 +67,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * List all files of the pull request.
+     *
      * @return Files
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#list-pull-requests-files">List Pull Request Files</a>
@@ -69,6 +76,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Merge it.
+     *
      * @param msg Commit message
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#merge-a-pull-request-merge-buttontrade">Merge a Pull Request</a>
@@ -77,6 +85,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Merge it.
+     *
      * @param msg Commit message
      * @param sha Optional SHA hash for head comparison
      * @return State of the Merge
@@ -86,6 +95,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Get Pull Comments.
+     *
      * @return Comments
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/pulls/#link-relations">Link Relations - Review Comments</a>
@@ -94,6 +104,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Get Pull Checks.
+     *
      * @return Checks
      * @throws IOException If there is any I/O problem.
      * @see <a href="https://developer.github.com/v3/checks/runs/">Checks API</a>
@@ -103,6 +114,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
     /**
      * Smart pull request with extra features.
+     *
      * @since 0.3
      */
     @Immutable
@@ -123,6 +135,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param pll Pull request
          */
         public Smart(final Pull pll) {
@@ -132,6 +145,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Is it open?
+         *
          * @return TRUE if it's open
          * @throws IOException If there is any I/O problem
          */
@@ -141,6 +155,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get its state.
+         *
          * @return State of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -150,6 +165,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Change its state.
+         *
          * @param state State of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -161,6 +177,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get its title.
+         *
          * @return Title of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -170,6 +187,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Change its title.
+         *
          * @param text Title of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -181,6 +199,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get its body.
+         *
          * @return Body of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -190,6 +209,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Change its body.
+         *
          * @param text Body of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -201,6 +221,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get its URL.
+         *
          * @return URL of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -214,6 +235,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get its HTML URL.
+         *
          * @return URL of pull request
          * @throws IOException If there is any I/O problem
          */
@@ -227,6 +249,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * When this pull request was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -238,6 +261,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * When this pull request was updated.
+         *
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
@@ -249,6 +273,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * When this pull request was closed.
+         *
          * @return Date of closing
          * @throws IOException If there is any I/O problem
          */
@@ -260,6 +285,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * When this pull request was merged.
+         *
          * @return Date of merging
          * @throws IOException If there is any I/O problem
          */
@@ -271,6 +297,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get its author.
+         *
          * @return Author of pull request (who submitted it)
          * @throws IOException If there is any I/O problem
          */
@@ -284,6 +311,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get an issue where the pull request is submitted.
+         *
          * @return Issue
          */
         public Issue issue() {
@@ -292,6 +320,7 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
 
         /**
          * Get comments count.
+         *
          * @return Count of comments
          * @throws IOException If there is any I/O problem
          * @since 0.8

@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub organization.
+ *
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.7
  */
@@ -43,6 +44,7 @@ final class RtOrganization implements Organization {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      * @param login Organization login name

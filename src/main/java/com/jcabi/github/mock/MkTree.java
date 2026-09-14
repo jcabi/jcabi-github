@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub Tree.
+ *
  * @since 0.24
  */
 @Immutable
@@ -44,6 +45,7 @@ final class MkTree implements Tree {
 
     /**
      * Public constructor.
+     *
      * @param strg The storage
      * @param login The login name
      * @param crds Credential

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtUserEmails}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.USER_EMAIL)

@@ -17,6 +17,7 @@ import org.xembly.Directives;
 
 /**
  * GitHub user organizations.
+ *
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
@@ -38,6 +39,7 @@ final class MkUserOrganizations implements UserOrganizations {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @throws IOException If there is any I/O problem

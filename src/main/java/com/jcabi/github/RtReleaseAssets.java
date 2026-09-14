@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub release assets.
+ *
  * @since 0.8
  */
 @Immutable
@@ -41,6 +42,7 @@ final class RtReleaseAssets implements ReleaseAssets {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param release Issue
      */

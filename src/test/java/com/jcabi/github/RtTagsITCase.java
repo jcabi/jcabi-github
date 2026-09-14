@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration testcase for RtTags.
+ *
  * @since 0.15
  */
 @OAuthScope(OAuthScope.Scope.REPO)

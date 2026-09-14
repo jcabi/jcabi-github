@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Safe comment.
+ *
  * @since 0.34
  */
 @Immutable
@@ -32,6 +33,7 @@ public final class SfComment implements Comment {
 
     /**
      * Public ctor.
+     *
      * @param cmt The original comment
      */
     public SfComment(final Comment cmt) {

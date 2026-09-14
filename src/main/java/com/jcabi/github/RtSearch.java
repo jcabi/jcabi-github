@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Search.
+ *
  * @since 0.8
  */
 @Immutable
@@ -45,6 +46,7 @@ final class RtSearch implements Search {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req RESTful API entry point
      */

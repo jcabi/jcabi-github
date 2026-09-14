@@ -16,6 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub users.
+ *
  * @since 0.5
  */
 @Immutable
@@ -36,6 +37,7 @@ final class MkUsers implements Users {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @throws IOException If there is any I/O problem

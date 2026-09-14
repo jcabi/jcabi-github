@@ -12,6 +12,7 @@ import java.io.IOException;
 
 /**
  * GitHub tree.
+ *
  * @since 0.24
  */
 @Immutable
@@ -35,6 +36,7 @@ final class RtTree implements Tree {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful request
      * @param repo Owner of this commit
      * @param sha Number of the get

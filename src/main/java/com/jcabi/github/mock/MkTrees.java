@@ -20,6 +20,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub Trees.
+ *
  * @since 0.24
  */
 @Immutable
@@ -44,6 +45,7 @@ final class MkTrees implements Trees {
 
     /**
      * Public constructor.
+     *
      * @param stg The storage
      * @param login The login name
      * @param rep Repo's coordinates

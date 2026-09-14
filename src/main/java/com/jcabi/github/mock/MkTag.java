@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub Tag.
+ *
  * @since 0.15
  */
 @Immutable
@@ -44,6 +45,7 @@ final class MkTag implements Tag {
 
     /**
      * Public constructor.
+     *
      * @param strg The storage
      * @param login The login name
      * @param crds Credential

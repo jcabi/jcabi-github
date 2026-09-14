@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for {@link MkReference}.
+ *
  * @since 0.1
  */
 final class MkReferenceTest {
 
     /**
      * MkReference can return its name.
+     *
      * @throws Exception - If something goes wrong.
      */
     @Test
@@ -32,6 +34,7 @@ final class MkReferenceTest {
 
     /**
      * MkReference can return its owner.
+     *
      * @throws Exception - If something goes wrong.
      */
     @Test
@@ -45,6 +48,7 @@ final class MkReferenceTest {
 
     /**
      * MkReference can fetch json.
+     *
      * @throws Exception - If something goes wrong.
      */
     @Test
@@ -58,6 +62,7 @@ final class MkReferenceTest {
 
     /**
      * MkReference can fetch its own SHA.
+     *
      * @throws Exception - If something goes wrong.
      */
     @Test
@@ -71,6 +76,7 @@ final class MkReferenceTest {
 
     /**
      * MkReference should be able to patch itself.
+     *
      * @throws Exception - If something goes wrong.
      */
     @Test

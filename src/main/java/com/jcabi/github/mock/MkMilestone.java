@@ -13,6 +13,7 @@ import java.io.IOException;
 
 /**
  * Mock GitHub milestone.
+ *
  * @since 0.7
  */
 @Immutable
@@ -40,6 +41,7 @@ final class MkMilestone implements Milestone {
 
     /**
      * MkMilestone constructor.
+     *
      * @param strg The storage
      * @param login The user to login with
      * @param crds The repo

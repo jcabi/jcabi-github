@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * GitHub fork.
+ *
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
  * @since 0.8
  */
@@ -25,12 +26,14 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
     /**
      * Fork id.
+     *
      * @return Id
      */
     int number();
 
     /**
      * Smart Fork with extra features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -51,6 +54,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param frk Fork
          */
         public Smart(final Fork frk) {
@@ -60,6 +64,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its name.
+         *
          * @return Name of fork
          * @throws IOException If there is any I/O problem
          */
@@ -69,6 +74,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its organization.
+         *
          * @return Organization
          * @throws IOException If there is any I/O problem
          */
@@ -78,6 +84,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its URL.
+         *
          * @return URL of fork
          * @throws IOException If there is any I/O problem
          */
@@ -91,6 +98,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its full name.
+         *
          * @return Full name of fork
          * @throws IOException If there is any I/O problem
          */
@@ -100,6 +108,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its description.
+         *
          * @return Description of fork
          * @throws IOException If there is any I/O problem
          */
@@ -109,6 +118,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its html url.
+         *
          * @return Html url of fork
          * @throws IOException If there is any I/O problem
          */
@@ -122,6 +132,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its clone url.
+         *
          * @return Clone url of fork
          * @throws IOException If there is any I/O problem
          */
@@ -135,6 +146,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its git url.
+         *
          * @return Git url of fork
          * @throws IOException If there is any I/O problem
          */
@@ -144,6 +156,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its ssh url.
+         *
          * @return Ssh url of fork
          * @throws IOException If there is any I/O problem
          */
@@ -153,6 +166,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its svn url.
+         *
          * @return Svn url of fork
          * @throws IOException If there is any I/O problem
          */
@@ -166,6 +180,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its mirror url.
+         *
          * @return Mirror url of fork
          * @throws IOException If there is any I/O problem
          */
@@ -175,6 +190,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its home page.
+         *
          * @return Url of home page of fork
          * @throws IOException If there is any I/O problem
          */
@@ -188,6 +204,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its forks count.
+         *
          * @return Forks count of fork
          * @throws IOException If there is any I/O problem
          */
@@ -197,6 +214,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its stargazers count.
+         *
          * @return Stargazers count of fork
          * @throws IOException If there is any I/O problem
          */
@@ -206,6 +224,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its watchers count.
+         *
          * @return Watchers count of fork
          * @throws IOException If there is any I/O problem
          */
@@ -215,6 +234,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its size.
+         *
          * @return Size of fork
          * @throws IOException If there is any I/O problem
          */
@@ -224,6 +244,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its default branch.
+         *
          * @return Default branch
          * @throws IOException If there is any I/O problem
          */
@@ -233,6 +254,7 @@ public interface Fork extends JsonReadable, JsonPatchable {
 
         /**
          * Get its open issues count.
+         *
          * @return Size of fork
          * @throws IOException If there is any I/O problem
          */

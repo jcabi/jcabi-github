@@ -19,6 +19,7 @@ import org.xembly.Directives;
 
 /**
  * Mock of GitHub Tags.
+ *
  * @since 0.15
  */
 @Immutable
@@ -43,6 +44,7 @@ final class MkTags implements Tags {
 
     /**
      * Public constructor.
+     *
      * @param stg The storage
      * @param login The login name
      * @param rep Repo's coordinates

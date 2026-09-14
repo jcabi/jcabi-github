@@ -21,6 +21,7 @@ import org.hamcrest.Matchers;
 
 /**
  * GitHub markdown.
+ *
  * @since 0.6
  */
 @Immutable
@@ -40,6 +41,7 @@ final class RtMarkdown implements Markdown {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      */

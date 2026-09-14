@@ -16,6 +16,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock GitHub commit.
+ *
  * @since 0.3
  */
 @Immutable
@@ -41,6 +42,7 @@ final class MkRepoCommit implements RepoCommit {
 
     /**
      * Public ctor.
+     *
      * @param stg The storage
      * @param repo The repository
      * @param sha Commit SHA

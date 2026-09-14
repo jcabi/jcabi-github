@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Limit}.
+ *
  * @since 0.1
  */
 final class LimitTest {

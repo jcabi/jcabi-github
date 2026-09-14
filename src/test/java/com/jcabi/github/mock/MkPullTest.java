@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkPull}.
+ *
  * @since 0.7
  */
 final class MkPullTest {
@@ -58,6 +59,7 @@ final class MkPullTest {
 
     /**
      * MkPull can get comments number if no comments.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -71,6 +73,7 @@ final class MkPullTest {
 
     /**
      * MkPull can get comments number if some comments exist.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -87,6 +90,7 @@ final class MkPullTest {
 
     /**
      * MkPull can get comments.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -100,6 +104,7 @@ final class MkPullTest {
 
     /**
      * MkPull can get its base ref.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -113,6 +118,7 @@ final class MkPullTest {
 
     /**
      * MkPull can name its base ref.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -126,6 +132,7 @@ final class MkPullTest {
 
     /**
      * MkPull can get its head ref.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -139,6 +146,7 @@ final class MkPullTest {
 
     /**
      * MkPull can name its head ref.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -152,6 +160,7 @@ final class MkPullTest {
 
     /**
      * MkPull can be represented as JSON.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -165,6 +174,7 @@ final class MkPullTest {
 
     /**
      * MkPull can show its head in JSON.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -180,6 +190,7 @@ final class MkPullTest {
 
     /**
      * MkPull can show its base in JSON.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -195,6 +206,7 @@ final class MkPullTest {
 
     /**
      * MkPull can show its author in JSON.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -208,6 +220,7 @@ final class MkPullTest {
 
     /**
      * MkPull can perform JSON patch operation.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -227,6 +240,7 @@ final class MkPullTest {
 
     /**
      * MkPull can patch a numeric attribute.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test

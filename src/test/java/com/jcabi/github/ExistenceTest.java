@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Unit tests for {@link Existence}.
+ *
  * @since 0.38
  */
 final class ExistenceTest {

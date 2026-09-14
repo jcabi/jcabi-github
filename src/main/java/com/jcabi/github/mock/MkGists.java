@@ -17,6 +17,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub gists.
+ *
  * @since 0.5
  */
 @Immutable
@@ -24,11 +25,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
 final class MkGists implements Gists {
-
-    /**
-     * XPath suffix for gist ID text.
-     */
-    private static final String GIST_ID_TEXT_PATH = "/gist/id/text()";
 
     /**
      * Storage.
@@ -42,6 +38,7 @@ final class MkGists implements Gists {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @throws IOException If there is any I/O problem
@@ -69,7 +66,7 @@ final class MkGists implements Gists {
         try {
             number = Integer.toString(
                 1 + this.storage.xml().xpath(
-                    MkGists.xpath().concat(MkGists.GIST_ID_TEXT_PATH)
+                    MkGists.xpath().concat("/gist/id/text()")
                 ).size()
             );
             final Directives dirs = new Directives().xpath(MkGists.xpath())

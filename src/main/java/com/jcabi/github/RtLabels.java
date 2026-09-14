@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub labels of a repo.
+ *
  * @since 0.6
  */
 @Immutable
@@ -40,6 +41,7 @@ final class RtLabels implements Labels {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repo we're in
      */

@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub get labels.
+ *
  * @since 0.1
  */
 @Immutable
@@ -41,6 +42,7 @@ final class RtIssueLabels implements IssueLabels {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param issue Issue we're in
      */

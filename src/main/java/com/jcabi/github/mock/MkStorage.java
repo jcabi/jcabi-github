@@ -18,6 +18,7 @@ import org.xembly.Xembler;
 
 /**
  * Storage of GitHub data.
+ *
  * @since 0.5
  */
 @Immutable
@@ -25,6 +26,7 @@ public interface MkStorage {
 
     /**
      * Get full XML.
+     *
      * @return XML
      * @throws IOException If there is any I/O problem, or if the current
      *  storage is locked by another thread.
@@ -33,6 +35,7 @@ public interface MkStorage {
 
     /**
      * Update XML with this directives.
+     *
      * @param dirs Directives
      * @throws IOException If there is any I/O problem, or if the current
      *  storage is locked by another thread.
@@ -45,10 +48,10 @@ public interface MkStorage {
      * <p>If the lock is available, grant it
      * to the calling thread and block all operations from other threads.
      * If not available, wait for the holder of the lock to release it with
-     * {@link #unlock()} before any other operations can be performed.
+     * {@link #unlock()} before any other operations can be performed.</p>
      *
      * <p>Locking behavior is reentrant, which means a thread can invoke
-     * {@link #lock()} multiple times, where a hold count is maintained.
+     * {@link #lock()} multiple times, where a hold count is maintained.</p>
      */
     void lock();
 
@@ -57,15 +60,16 @@ public interface MkStorage {
      *
      * <p>Locking behavior is reentrant, thus if the thread invoked
      * {@link #lock()} multiple times, the hold count is decremented. If the
-     * hold count reaches 0, the lock is released.
+     * hold count reaches 0, the lock is released.</p>
      *
      * <p>If the current thread does not hold the lock, an
-     * {@link IllegalMonitorStateException} will be thrown.
+     * {@link IllegalMonitorStateException} will be thrown.</p>
      */
     void unlock();
 
     /**
      * In file.
+     *
      * @since 0.5
      */
     @Immutable
@@ -85,6 +89,7 @@ public interface MkStorage {
 
         /**
          * Public ctor.
+         *
          * @throws IOException If there is any I/O problem
          */
         public InFile() throws IOException {
@@ -93,6 +98,7 @@ public interface MkStorage {
 
         /**
          * Public ctor.
+         *
          * @param file File to use
          * @throws IOException If there is any I/O problem
          */
@@ -168,6 +174,7 @@ public interface MkStorage {
 
     /**
      * Synchronized.
+     *
      * @since 0.5
      */
     @Immutable
@@ -189,6 +196,7 @@ public interface MkStorage {
 
         /**
          * Public ctor.
+         *
          * @param storage Original
          */
         public Synced(final MkStorage storage) {

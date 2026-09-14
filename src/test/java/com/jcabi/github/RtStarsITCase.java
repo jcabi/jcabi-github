@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration test case for {@link RtStars}.
+ *
  * @since 0.8
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.USER })
@@ -30,6 +31,7 @@ final class RtStarsITCase {
 
     /**
      * Set up tests.
+     *
      * @throws IOException If some errors occurred.
      */
     @BeforeAll
@@ -41,6 +43,7 @@ final class RtStarsITCase {
 
     /**
      * Set up tests.
+     *
      * @throws IOException If some errors occurred.
      */
     @AfterAll

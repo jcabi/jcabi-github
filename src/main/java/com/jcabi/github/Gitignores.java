@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * GitHub Gitignore.
  *
- * <p>Defines storage of .gitignore templates
+ * <p>Defines storage of .gitignore templates</p>
  *
  * @see <a href="https://developer.github.com/v3/gitignore/#gitignore">Gitignore</a>
  * @since 0.8
@@ -20,12 +20,14 @@ public interface Gitignores {
 
     /**
      * Get its owner.
+     *
      * @return GitHub
      */
     GitHub github();
 
     /**
      * Iterate them all.
+     *
      * @return Iterator of Gitignote template names
      * @throws IOException If it fails due to I/O problem
      * @see <a href="https://developer.github.com/v3/gitignore/#listing-available-templates">Listing available templates</a>
@@ -34,6 +36,7 @@ public interface Gitignores {
 
     /**
      * Gets raw gitignore template.
+     *
      * @param name Name of the template
      * @return Raw template
      * @throws IOException If it fails due to I/O problem

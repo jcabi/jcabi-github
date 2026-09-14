@@ -15,6 +15,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub User Emails.
+ *
  * @since 0.8
  */
 @Immutable
@@ -41,6 +42,7 @@ final class MkUserEmails implements UserEmails {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @throws IOException If there is any I/O problem

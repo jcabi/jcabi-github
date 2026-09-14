@@ -12,6 +12,7 @@ import lombok.ToString;
 
 /**
  * Mock file change.
+ *
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)
@@ -26,6 +27,7 @@ public final class MkFileChange implements FileChange {
 
     /**
      * Public ctor.
+     *
      * @param obj File change JSON object
      */
     public MkFileChange(final JsonObject obj) {

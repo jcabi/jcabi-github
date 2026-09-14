@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub public keys.
+ *
  * @see <a href="https://developer.github.com/v3/users/keys/">Public Keys API</a>
  * @since 0.8
  */
@@ -41,6 +42,7 @@ final class RtPublicKeys implements PublicKeys {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param user User
      */

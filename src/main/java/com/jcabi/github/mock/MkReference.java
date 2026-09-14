@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock of GitHub Reference.
+ *
  * @since 0.24
  */
 @Immutable
@@ -44,6 +45,7 @@ final class MkReference implements Reference {
 
     /**
      * Public constructor.
+     *
      * @param strg Storage
      * @param login Login name
      * @param crds Repo coordinates

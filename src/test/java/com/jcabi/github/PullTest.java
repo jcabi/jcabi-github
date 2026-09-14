@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Pull}.
+ *
  * @since 0.7
  */
 final class PullTest {
@@ -55,6 +56,7 @@ final class PullTest {
 
     /**
      * Pull.Smart can get pull comments.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -71,6 +73,7 @@ final class PullTest {
 
     /**
      * Pull.Smart can get the author.
+     *
      * @throws IOException If some problem inside
      */
     @Test

@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkGist}.
+ *
  * @since 0.1
  */
 final class MkGistTest {
 
     /**
      * MkGist can read empty file.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -35,6 +37,7 @@ final class MkGistTest {
 
     /**
      * MkGist can fork itself.
+     *
      * @throws IOException If some problem inside
      */
     @Test

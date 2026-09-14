@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkCollaborators}.
+ *
  * @since 0.7
  */
 final class MkCollaboratorsTest {
@@ -23,6 +24,7 @@ final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can add a collaborator.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -36,6 +38,7 @@ final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can remember the login of a collaborator.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -49,6 +52,7 @@ final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can remove a collaborator.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -64,6 +68,7 @@ final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can recognize a collaborator.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -78,6 +83,7 @@ final class MkCollaboratorsTest {
 
     /**
      * MkCollaborators can recognize a stranger.
+     *
      * @throws Exception If some problem inside
      */
     @Test

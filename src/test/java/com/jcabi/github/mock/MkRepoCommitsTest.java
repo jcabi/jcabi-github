@@ -14,12 +14,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkRepoCommits}.
+ *
  * @since 0.8
  */
 final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can return commits' iterator.
+     *
      * @throws IOException If some problem inside
      */
     @Test
@@ -38,6 +40,7 @@ final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can get a commit.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -56,6 +59,7 @@ final class MkRepoCommitsTest {
 
     /**
      * MkRepoCommits can compare commits.
+     *
      * @throws IOException if some problem inside
      */
     @Test

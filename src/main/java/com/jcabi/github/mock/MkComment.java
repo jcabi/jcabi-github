@@ -19,6 +19,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub comment.
+ *
  * @since 0.5
  */
 @Immutable
@@ -54,6 +55,7 @@ final class MkComment implements Comment {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

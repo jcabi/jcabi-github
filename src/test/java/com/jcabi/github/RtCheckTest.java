@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCheck}.
+ *
  * @since 1.5.0
  */
 final class RtCheckTest {

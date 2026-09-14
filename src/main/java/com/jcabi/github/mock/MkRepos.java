@@ -18,6 +18,7 @@ import org.xembly.Directives;
 
 /**
  * GitHub repos.
+ *
  * @since 0.5
  */
 @Immutable
@@ -38,6 +39,7 @@ final class MkRepos implements Repos {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @throws IOException If there is any I/O problem

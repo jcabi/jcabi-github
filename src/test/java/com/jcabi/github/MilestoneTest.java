@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Milestone}.
+ *
  * @since 0.7
  */
 final class MilestoneTest {

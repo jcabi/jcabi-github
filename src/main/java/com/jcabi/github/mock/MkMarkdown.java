@@ -13,6 +13,7 @@ import lombok.ToString;
 
 /**
  * Mock markdown API.
+ *
  * @since  0.10
  */
 @Immutable
@@ -27,6 +28,7 @@ public final class MkMarkdown implements Markdown {
 
     /**
      * Creates new instance.
+     *
      * @param github Owner github
      */
     public MkMarkdown(final GitHub github) {

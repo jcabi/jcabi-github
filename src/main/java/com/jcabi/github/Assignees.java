@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub Assignees.
+ *
  * @since 0.7
  */
 @Immutable
@@ -16,6 +17,7 @@ public interface Assignees {
 
     /**
      * Iterate all available assignees.
+     *
      * @return Iterator of available assignees to which issues may be assigned
      * @see <a href="https://developer.github.com/v3/issues/assignees/#list-assignees">List assignees</a>
      */
@@ -23,6 +25,7 @@ public interface Assignees {
 
     /**
      * Check if a particular user is an assignee for a repository.
+     *
      * @param login Login of user to be checked
      * @return True if given assignee login belongs to an assignee for the repository
      * @throws IOException If there is any I/O problem

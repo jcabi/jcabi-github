@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub check.
+ *
  * @since 1.6.1
  */
 @Immutable
@@ -43,6 +44,7 @@ public final class MkCheck implements Check {
 
     /**
      * Main ctor.
+     *
      * @param stg Storage
      * @param coord Coordinates
      * @param pll Pull

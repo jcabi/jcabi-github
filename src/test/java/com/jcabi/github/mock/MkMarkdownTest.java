@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkMarkdown}.
+ *
  * @since 0.1
  */
 final class MkMarkdownTest {

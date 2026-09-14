@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub forks.
+ *
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
  * @since 0.8
  */
@@ -17,12 +18,14 @@ public interface Forks {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Iterate all forks.
+     *
      * @param sort The sort order
      * @return All forks
      * @see <a href="https://developer.github.com/v3/repos/forks/#list-forks">List forks</a>
@@ -31,6 +34,7 @@ public interface Forks {
 
     /**
      * Create a fork for the authenticated user.
+     *
      * @param organization The organization the repository will be forked into
      * @return The new fork
      * @throws IOException  If there is any I/O problem

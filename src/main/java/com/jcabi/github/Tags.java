@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Tags.
+ *
  * @see <a href="https://developer.github.com/v3/git/tags/">Tags API</a>
  * @since 0.8
  */
@@ -18,12 +19,14 @@ public interface Tags {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Create a Tag object.
+     *
      * @param params The input for creating the Tag
      * @return Tag
      * @throws IOException - If anything goes wrong.
@@ -32,6 +35,7 @@ public interface Tags {
 
     /**
      * Return a Tag by its SHA.
+     *
      * @param sha The sha of the Tag
      * @return Tag
      */

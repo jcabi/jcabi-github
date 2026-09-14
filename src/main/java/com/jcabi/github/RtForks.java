@@ -16,6 +16,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub forks.
+ *
  * @see <a href="https://developer.github.com/v3/repos/forks/">Forks API</a>
  * @since 0.8
  */
@@ -41,6 +42,7 @@ final class RtForks implements Forks {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

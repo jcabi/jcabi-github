@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTag.
+ *
  * @since 0.1
  */
 final class MkTagTest {
 
     /**
      * MkTag should return its json.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test

@@ -23,7 +23,7 @@ import lombok.ToString;
  * GitHub issue.
  *
  * <p>Use a supplementary "smart" decorator to get other properties
- * from an issue, for example:
+ * from an issue, for example:</p>
  *
  * <pre> Issue.Smart issue = new Issue.Smart(origin);
  * if (issue.isOpen()) {
@@ -49,18 +49,21 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Repository we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its number.
+     *
      * @return Issue number
      */
     int number();
 
     /**
      * Get all comments of the issue.
+     *
      * @return Comments
      * @see <a href="https://developer.github.com/v3/issues/comments/">Issue Comments API</a>
      */
@@ -68,6 +71,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Get all labels of the issue.
+     *
      * @return Labels
      * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
      */
@@ -75,6 +79,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Get all events of the issue.
+     *
      * @return Events
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/events/#list-events-for-an-issue">List Events for an Issue</a>
@@ -83,6 +88,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Does this issue exist in GitHub?
+     *
      * @return TRUE if this issue exists
      * @throws IOException If there is any I/O problem
      */
@@ -90,6 +96,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * Adds the reaction to the issue.
+     *
      * @param reaction Reaction to be added
      * @throws IOException If there is any I/O problem
      */
@@ -97,12 +104,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * List the reactions of the issue.
+     *
      * @return Issue reactions
      */
     Iterable<Reaction> reactions();
 
     /**
      * Locks the issue.
+     *
      * @param reason Lock reason
      */
     void lock(String reason);
@@ -114,12 +123,14 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
     /**
      * The issue conversation is locked?
+     *
      * @return If the issue is locked
      */
     boolean isLocked();
 
     /**
      * Smart Issue with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -140,6 +151,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Public ctor.
+         *
          * @param iss Issue
          */
         public Smart(final Issue iss) {
@@ -149,6 +161,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its author.
+         *
          * @return Author of issue (who submitted it)
          * @throws IOException If there is any I/O problem
          */
@@ -162,6 +175,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Is it open?
+         *
          * @return TRUE if it's open
          * @throws IOException If there is any I/O problem
          */
@@ -171,6 +185,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Open it (make sure it's open).
+         *
          * @throws IOException If there is any I/O problem
          */
         public void open() throws IOException {
@@ -179,6 +194,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Close it (make sure it's closed).
+         *
          * @throws IOException If there is any I/O problem
          */
         public void close() throws IOException {
@@ -187,6 +203,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its state.
+         *
          * @return State of issue
          * @throws IOException If there is any I/O problem
          */
@@ -196,6 +213,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Change its state.
+         *
          * @param state State of issue
          * @throws IOException If there is any I/O problem
          */
@@ -207,6 +225,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its title.
+         *
          * @return Title of issue
          * @throws IOException If there is any I/O problem
          */
@@ -216,6 +235,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Change its title.
+         *
          * @param text Title of issue
          * @throws IOException If there is any I/O problem
          */
@@ -227,6 +247,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its body.
+         *
          * @return Body of issue
          * @throws IOException If there is any I/O problem
          */
@@ -236,6 +257,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Change its body.
+         *
          * @param text Body of issue
          * @throws IOException If there is any I/O problem
          */
@@ -247,6 +269,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Has body?
+         *
          * @return TRUE if body exists
          * @throws IOException If there is any I/O problem
          * @since 0.22
@@ -257,6 +280,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Has assignee?
+         *
          * @return TRUE if assignee exists
          * @throws IOException If there is any I/O problem
          */
@@ -266,6 +290,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its assignee.
+         *
          * @return User Assignee of issue
          * @throws IOException If there is any I/O problem
          */
@@ -287,6 +312,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Assign this issue to another user.
+         *
          * @param login Login of the user to assign to
          * @throws IOException If there is any I/O problem
          */
@@ -298,6 +324,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its URL.
+         *
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
@@ -311,6 +338,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get its HTML URL.
+         *
          * @return URL of issue
          * @throws IOException If there is any I/O problem
          */
@@ -324,6 +352,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * When this issue was created.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          */
@@ -335,6 +364,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * When this issue was closed.
+         *
          * @return Date of creation
          * @throws IOException If there is any I/O problem
          * @since 0.34
@@ -347,6 +377,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * When this issue was updated.
+         *
          * @return Date of update
          * @throws IOException If there is any I/O problem
          */
@@ -358,6 +389,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Is it a pull request?
+         *
          * @return TRUE if it is a pull request
          * @throws IOException If there is any I/O problem
          */
@@ -369,6 +401,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get pull request.
+         *
          * @return Pull request
          * @throws IOException If there is any I/O problem
          */
@@ -385,6 +418,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
          * Get the latest event of a given type.
          * Throws {@link IllegalStateException} if the issue has no events of
          * the given type.
+         *
          * @param type Type of event
          * @return Latest event of the given type
          * @throws IOException If there is any I/O problem
@@ -413,6 +447,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get read-only labels.
+         *
          * @return Collection of labels
          * @throws IOException If there is any I/O problem
          * @since 0.6.2
@@ -474,6 +509,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Does issue have milestone?
+         *
          * @return True if has
          * @throws IOException If fails
          */
@@ -483,6 +519,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Get milestone for this issue.
+         *
          * @return Milestone
          * @throws IOException If fails
          */
@@ -495,6 +532,7 @@ public interface Issue extends Comparable<Issue>, JsonReadable, JsonPatchable {
 
         /**
          * Add issueto milestone.
+         *
          * @param milestone Milestone
          * @throws IOException If fails
          */

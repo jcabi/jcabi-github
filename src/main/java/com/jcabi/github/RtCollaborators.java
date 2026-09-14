@@ -18,6 +18,7 @@ import org.hamcrest.Matchers;
 
 /**
  * Implementation of Collaborators.
+ *
  * @since 0.8
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtCollaborators implements Collaborators {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repo
      */

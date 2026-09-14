@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data References.
+ *
  * @see <a href="https://developer.github.com/v3/git/references/">References API</a>
  * @since 0.8
  */
@@ -17,12 +18,14 @@ public interface References {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Creates a reference.
+     *
      * @param ref The name of the fully qualified reference (ie: refs/heads/master)
      * @param sha The SHA1 value to set this reference to
      * @return Reference - The newly created Reference
@@ -32,6 +35,7 @@ public interface References {
 
     /**
      * Get Reference by identifier.
+     *
      * @param identifier Reference's name
      * @return Reference The reference with the given name
      */
@@ -39,12 +43,14 @@ public interface References {
 
     /**
      * Iterates all references.
+     *
      * @return Iterator of references
      */
     Iterable<Reference> iterate();
 
     /**
      * Iterates references in sub-namespace.
+     *
      * @param subnamespace Sub-namespace
      * @return Iterator of references
      */
@@ -52,18 +58,21 @@ public interface References {
 
     /**
      * Iterate references under "tags" sub-namespace.
+     *
      * @return Iterator of references
      */
     Iterable<Reference> tags();
 
     /**
      * Iterate references under "heads" sub-namespace.
+     *
      * @return Iterator of references
      */
     Iterable<Reference> heads();
 
     /**
      * Removes a reference by its identifier.
+     *
      * @param identifier Reference's identifier
      * @throws IOException If there is any I/O problem.
      */

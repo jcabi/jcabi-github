@@ -13,6 +13,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * Mock for GitHub Notifications.
+ *
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  * @since 0.15
  * @todo #913:30min Implement markAsRead() and thread() operations in
@@ -33,6 +34,7 @@ final class MkNotifications implements Notifications {
 
     /**
      * Public ctor.
+     *
      * @param strge The mock storage of github data
      * @param entry The xpath to the notifications in the storage
      */

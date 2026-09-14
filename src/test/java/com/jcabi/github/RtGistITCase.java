@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Gist}.
+ *
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.GIST)
@@ -43,6 +44,7 @@ final class RtGistITCase {
 
     /**
      * RtGist can fork a gist.
+     *
      * @checkstyle LocalFinalVariableName (11 lines)
      */
     @Test

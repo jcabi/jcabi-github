@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub Tag.
+ *
  * @since 0.15
  */
 @Immutable
@@ -37,6 +38,7 @@ final class RtTag implements Tag {
 
     /**
      * Public constructor.
+     *
      * @param req The request
      * @param repo The owner repo
      * @param key The sha

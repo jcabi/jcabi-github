@@ -10,6 +10,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 /**
  * GitHub Notifications.
+ *
  * @see <a href="https://developer.github.com/v3/activity/notifications/">Notifications API</a>
  * @since 0.15
  * @todo #913:30min Implement markAsRead(), thread(final int number) operations
@@ -25,6 +26,7 @@ final class RtNotifications implements Notifications {
 
     /**
      * Ctor.
+     *
      * @param req The request for this notifications
      */
     RtNotifications(final Request req) {

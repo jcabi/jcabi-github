@@ -19,6 +19,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Mock GitHub content.
+ *
  * @since 0.8
  */
 @Immutable
@@ -53,6 +54,7 @@ final class MkContent implements Content {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

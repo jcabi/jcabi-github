@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkGitignores}.
+ *
  * @since 0.8
  */
 final class MkGitignoresTest {

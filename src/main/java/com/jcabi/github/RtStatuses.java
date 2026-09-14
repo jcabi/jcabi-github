@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 
 /**
  * GitHub statuses for a given commit.
+ *
  * @since 0.23
  */
 public class RtStatuses implements Statuses {
@@ -29,6 +30,7 @@ public class RtStatuses implements Statuses {
 
     /**
      * Create a new status-aware object based on given commit.
+     *
      * @param req Http request
      * @param commit Specific commit
      */

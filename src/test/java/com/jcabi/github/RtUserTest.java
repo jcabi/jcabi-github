@@ -24,6 +24,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtUser}.
+ *
  * @since 0.1
  * @checkstyle MethodNameCheck (500 lines)
  */

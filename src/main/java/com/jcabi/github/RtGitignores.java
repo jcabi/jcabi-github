@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub Gitignore.
  *
- * <p>Defines storage of .gitignore templates
+ * <p>Defines storage of .gitignore templates</p>
  *
  * @since 0.8
  */
@@ -39,6 +39,7 @@ final class RtGitignores implements Gitignores {
 
     /**
      * Public CTOR.
+     *
      * @param github GitHub
      */
     RtGitignores(final GitHub github) {

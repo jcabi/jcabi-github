@@ -25,6 +25,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtChecks}.
+ *
  * @since 1.5.0
  */
 @ExtendWith(RandomPort.class)
@@ -42,6 +43,7 @@ final class RtChecksTest {
 
     /**
      * Checks whether RtChecks can get all checks.
+     *
      * @throws IOException If some problem happens.
      */
     @Test
@@ -67,6 +69,7 @@ final class RtChecksTest {
 
     /**
      * Checks whether RtChecks can return empty checks if they are absent.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -93,6 +96,7 @@ final class RtChecksTest {
     /**
      * Checks whether RtChecks can throw an exception
      * if response code is not 200.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -115,6 +119,7 @@ final class RtChecksTest {
 
     /**
      * Checks that library can retrieve a check without conclusion.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -142,6 +147,7 @@ final class RtChecksTest {
 
     /**
      * Checks that a check without conclusion is not successful.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -170,6 +176,7 @@ final class RtChecksTest {
 
     /**
      * Checks that library can retrieve a check with nullable conclusion.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -192,6 +199,7 @@ final class RtChecksTest {
 
     /**
      * Checks that a check with nullable conclusion is not successful.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -215,6 +223,7 @@ final class RtChecksTest {
 
     /**
      * Checks that library can retrieve a check without status.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test
@@ -237,6 +246,7 @@ final class RtChecksTest {
 
     /**
      * Checks that a check without status is not successful.
+     *
      * @throws IOException If some I/O problem happens.
      */
     @Test

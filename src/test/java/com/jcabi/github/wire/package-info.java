@@ -5,6 +5,7 @@
 
 /**
  * Tests for the HTTP wires for GitHub API client.
+ *
  * @since 0.1
  */
 package com.jcabi.github.wire;

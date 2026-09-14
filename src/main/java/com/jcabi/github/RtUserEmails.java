@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub user's emails.
+ *
  * @since 0.8
  */
 @Immutable
@@ -35,6 +36,7 @@ final class RtUserEmails implements UserEmails {
 
     /**
      * Ctor.
+     *
      * @param req RESTful API entry point
      */
     RtUserEmails(final Request req) {

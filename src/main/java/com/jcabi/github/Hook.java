@@ -13,6 +13,7 @@ import lombok.ToString;
 
 /**
  * GitHub hook.
+ *
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
  * @since 0.8
  */
@@ -21,18 +22,21 @@ public interface Hook extends JsonReadable {
 
     /**
      * Repository we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get its number.
+     *
      * @return Hook number
      */
     int number();
 
     /**
      * Smart Hook with extra features.
+     *
      * @since 0.8
      */
     @Immutable
@@ -53,6 +57,7 @@ public interface Hook extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param hoo Hook
          */
         public Smart(final Hook hoo) {
@@ -62,6 +67,7 @@ public interface Hook extends JsonReadable {
 
         /**
          * Get its name.
+         *
          * @return Name of hook
          * @throws IOException If there is any I/O problem
          */

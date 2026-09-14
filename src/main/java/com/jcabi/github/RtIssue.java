@@ -20,6 +20,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub issue.
+ *
  * @since 0.1
  */
 @Immutable
@@ -34,6 +35,7 @@ final class RtIssue implements Issue {
 
     /**
      * Allowed lock reasons, per GitHub Issues API.
+     *
      * @see <a href="https://docs.github.com/en/rest/issues/issues#lock-an-issue">Lock an issue</a>
      */
     private static final Set<String> LOCK_REASONS = Collections.unmodifiableSet(
@@ -62,6 +64,7 @@ final class RtIssue implements Issue {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      * @param number Number of the get

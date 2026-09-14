@@ -16,12 +16,14 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtReleaseAssets}.
+ *
  * @since 0.8
  */
 final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can list assets for a release.
+     *
      * @throws Exception If something goes wrong.
      */
     @Test
@@ -38,6 +40,7 @@ final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can upload a release asset.
+     *
      * @throws Exception If something goes wrong
      */
     @Test
@@ -57,6 +60,7 @@ final class RtReleaseAssetsTest {
 
     /**
      * RtRelease can get a single release asset.
+     *
      * @throws Exception if something goes wrong.
      */
     @Test

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtBlobs}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)

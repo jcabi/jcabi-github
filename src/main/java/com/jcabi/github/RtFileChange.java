@@ -11,6 +11,7 @@ import lombok.ToString;
 
 /**
  * File change.
+ *
  * @since 0.24
  */
 @Loggable(Loggable.DEBUG)
@@ -25,6 +26,7 @@ final class RtFileChange implements FileChange {
 
     /**
      * Public ctor.
+     *
      * @param obj File change JSON object
      */
     RtFileChange(final JsonObject obj) {

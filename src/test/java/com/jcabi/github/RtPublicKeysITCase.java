@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicKeys}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.ADMIN_PUBLIC_KEY)
@@ -23,6 +24,7 @@ final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve its keys.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test
@@ -39,6 +41,7 @@ final class RtPublicKeysITCase {
 
     /**
      * RtPublicKeys should be able to retrieve a single key.
+     *
      * @throws Exception If a problem occurs.
      */
     @Test

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtBranches}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
@@ -164,6 +165,7 @@ final class RtBranchesTest {
 
     /**
      * RtBranches can fetch its repository.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test

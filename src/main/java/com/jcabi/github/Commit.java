@@ -20,7 +20,7 @@ import lombok.ToString;
  * <p>The commit exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
  * "smart" decorator, which helps you to get access to all JSON properties,
- * for example:
+ * for example:</p>
  *
  * <pre> URL url = new Commit.Smart(commit).url();</pre>
  *
@@ -33,18 +33,21 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
 
     /**
      * The repo we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * SHA of it.
+     *
      * @return SHA
      */
     String sha();
 
     /**
      * Smart commit.
+     *
      * @since 0.3
      */
     @Immutable
@@ -65,6 +68,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param cmt Commit
          */
         public Smart(final Commit cmt) {
@@ -74,6 +78,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
 
         /**
          * Get its message.
+         *
          * @return Message of commit
          * @throws IOException If there is any I/O problem
          */
@@ -83,6 +88,7 @@ public interface Commit extends Comparable<Commit>, JsonReadable {
 
         /**
          * Get its URL.
+         *
          * @return URL of comment
          * @throws IOException If there is any I/O problem
          */

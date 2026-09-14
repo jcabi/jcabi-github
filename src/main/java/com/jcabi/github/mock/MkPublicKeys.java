@@ -16,6 +16,7 @@ import org.xembly.Directives;
 
 /**
  * Mock github public keys.
+ *
  * @since 0.8
  */
 @Immutable
@@ -23,11 +24,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self" })
 final class MkPublicKeys implements PublicKeys {
-
-    /**
-     * XPath suffix for key ID text.
-     */
-    private static final String KEY_ID_TEXT_PATH = "/key/id/text()";
 
     /**
      * Storage.
@@ -41,6 +37,7 @@ final class MkPublicKeys implements PublicKeys {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @throws IOException If there is any I/O problem
@@ -84,7 +81,7 @@ final class MkPublicKeys implements PublicKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkPublicKeys.KEY_ID_TEXT_PATH)
+                this.xpath().concat("/key/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

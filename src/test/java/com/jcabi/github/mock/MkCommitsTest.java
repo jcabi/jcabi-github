@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkTags.
+ *
  * @since 0.8
  */
 final class MkCommitsTest {
@@ -39,6 +40,7 @@ final class MkCommitsTest {
     /**
      * MkCommits.create() must persist the new commit's sha in storage so
      * that subsequent calls (e.g. json(), get()) can find the commit.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test
@@ -71,6 +73,7 @@ final class MkCommitsTest {
 
     /**
      * MkCommits.create() must persist the commit message in storage.
+     *
      * @throws IOException if there is any I/O problem
      */
     @Test

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link RtRepos}.
+ *
  * @since 0.5
  */
 @OAuthScope({ OAuthScope.Scope.REPO, OAuthScope.Scope.DELETE_REPO })

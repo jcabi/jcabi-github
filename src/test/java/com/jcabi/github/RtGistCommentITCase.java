@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtGistComment}.
+ *
  * @see <a href="https://developer.github.com/v3/gists/comments/">Gist Comments API</a>
  * @since 0.8
  */

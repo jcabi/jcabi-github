@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the MkUser class.
+ *
  * @since 0.7
  */
 final class MkMilestoneTest {

@@ -7,6 +7,7 @@ package com.jcabi.github;
 /**
  * Encapsulates data from the response for get/set subscription calls to
  * GitHub Notification API.
+ *
  * @see <a href="https://developer.github.com/v3/activity/notifications/#get-a-thread-subscription">Get a Thread Subscription</a>
  * @see <a href="https://developer.github.com/v3/activity/notifications/#set-a-thread-subscription">Set a Thread Subscription</a>
  * @since 1.0

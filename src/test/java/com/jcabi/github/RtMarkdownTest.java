@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtMarkdown}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)

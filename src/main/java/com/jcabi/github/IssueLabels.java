@@ -15,6 +15,7 @@ import lombok.ToString;
 
 /**
  * GitHub labels of an issue.
+ *
  * @see <a href="https://developer.github.com/v3/issues/labels/">Labels API</a>
  * @since 0.1
  */
@@ -23,12 +24,14 @@ public interface IssueLabels {
 
     /**
      * The issue we're in.
+     *
      * @return Issue
      */
     Issue issue();
 
     /**
      * Add new labels.
+     *
      * @param labels The labels to add
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue">Add labels to an issue</a>
@@ -37,6 +40,7 @@ public interface IssueLabels {
 
     /**
      * Replace all labels.
+     *
      * @param labels The labels to save
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue">Replace all labels for an issue</a>
@@ -45,6 +49,7 @@ public interface IssueLabels {
 
     /**
      * Iterate them all.
+     *
      * @return Iterator of labels
      * @see <a href="https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue">List Labels on an Issue</a>
      */
@@ -52,6 +57,7 @@ public interface IssueLabels {
 
     /**
      * Remove label by name.
+     *
      * @param name Name of the label to remove
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue">Remove a Label from an Issue</a>
@@ -60,6 +66,7 @@ public interface IssueLabels {
 
     /**
      * Remove all labels.
+     *
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue">Remove all labels from an issue</a>
      */
@@ -67,6 +74,7 @@ public interface IssueLabels {
 
     /**
      * Smart IssueLabels with extra features.
+     *
      * @since 0.1
      */
     @Immutable
@@ -82,6 +90,7 @@ public interface IssueLabels {
 
         /**
          * Public ctor.
+         *
          * @param lbl Labels
          */
         public Smart(final IssueLabels lbl) {
@@ -90,6 +99,7 @@ public interface IssueLabels {
 
         /**
          * Label exists?
+         *
          * @param name Name of the label
          * @return TRUE if it exists
          */
@@ -106,6 +116,7 @@ public interface IssueLabels {
 
         /**
          * Get label by name (runtime exception if absent).
+         *
          * @param name Name of the label
          * @return Label found (exception if not found)
          * @since 0.7
@@ -133,6 +144,7 @@ public interface IssueLabels {
 
         /**
          * Add label if it is absent, don't touch its color if exists.
+         *
          * @param name Name of the label
          * @return TRUE if it was added
          * @throws IOException If there is any I/O problem
@@ -152,6 +164,7 @@ public interface IssueLabels {
 
         /**
          * Add label if it is absent, and set its color in any case.
+         *
          * @param name Name of the label
          * @param color Color to set
          * @return TRUE if it was added
@@ -184,6 +197,7 @@ public interface IssueLabels {
 
         /**
          * Select all labels with the given color.
+         *
          * @param color Color
          * @return Collection of labels with the provided color
          * @throws IOException If there is any I/O problem
@@ -202,6 +216,7 @@ public interface IssueLabels {
 
         /**
          * Remove label if it exists (do nothing otherwise).
+         *
          * @param name Label to remove
          * @return TRUE if it was removed, FALSE otherwise
          * @throws IOException If there is any I/O problem

@@ -13,12 +13,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtStatus}.
+ *
  * @since 0.24
  */
 final class RtStatusTest {
 
     /**
      * RtStatus can fetch its ID number.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -36,6 +38,7 @@ final class RtStatusTest {
 
     /**
      * RtStatus can fetch its URL.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test
@@ -53,6 +56,7 @@ final class RtStatusTest {
 
     /**
      * RtStatus can fetch its associated commit.
+     *
      * @throws IOException If there is an I/O problem.
      */
     @Test

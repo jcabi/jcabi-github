@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub user's emails.
+ *
  * @since 0.8
  */
 @Immutable
@@ -16,6 +17,7 @@ public interface UserEmails extends JsonReadable {
 
     /**
      * Iterate all user's emails.
+     *
      * @return Emails
      * @throws IOException If there is any I/O problem
      */
@@ -23,6 +25,7 @@ public interface UserEmails extends JsonReadable {
 
     /**
      * Add emails.
+     *
      * @param emails Emails
      * @return Emails
      * @throws IOException If there is any I/O problem
@@ -31,6 +34,7 @@ public interface UserEmails extends JsonReadable {
 
     /**
      * Remove emails.
+     *
      * @param emails Emails
      * @throws IOException If there is any I/O problem
      */

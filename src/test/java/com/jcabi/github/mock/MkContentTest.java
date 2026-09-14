@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkContent}.
+ *
  * @since 0.8
  */
 final class MkContentTest {

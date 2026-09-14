@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtPublicKey}.
+ *
  * @since 0.1
  */
 final class RtPublicKeyTest {

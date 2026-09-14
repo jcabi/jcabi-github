@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Gist Comments.
  *
- * <p>Use this class to get access to all comments in a gist, for example:
+ * <p>Use this class to get access to all comments in a gist, for example:</p>
  *
  * <pre> gist = // ... get it somewhere
  * GistComments comments = gist.comments();
@@ -24,12 +24,14 @@ public interface GistComments {
 
     /**
      * The gist we're in.
+     *
      * @return Issue
      */
     Gist gist();
 
     /**
      * Get comment by number.
+     *
      * @param number Comment number
      * @return Comment
      * @see <a href="https://developer.github.com/v3/gists/comments/#get-a-single-comment">Get a Single Comment</a>
@@ -38,6 +40,7 @@ public interface GistComments {
 
     /**
      * Iterate them all.
+     *
      * @return All comments
      * @see <a href="https://developer.github.com/v3/gists/comments/#list-comments-on-a-gist">List Comments on an Gist</a>
      */
@@ -45,6 +48,7 @@ public interface GistComments {
 
     /**
      * Post new comment.
+     *
      * @param text Text of comment to post in Markdown format
      * @return Comment
      * @throws IOException If there is any I/O problem

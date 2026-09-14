@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub pull comment.
+ *
  * @since 0.8
  */
 @Immutable
@@ -38,6 +39,7 @@ final class RtPullComment implements PullComment {
 
     /**
      * Public ctor.
+     *
      * @param req RESTful request
      * @param pull Owner of this comment
      * @param number Number of the get

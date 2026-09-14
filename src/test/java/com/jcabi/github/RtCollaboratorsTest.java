@@ -23,6 +23,7 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link RtCollaborators}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
@@ -30,6 +31,7 @@ final class RtCollaboratorsTest {
 
     /**
      * RtCollaborators can iterate over a list of collaborators.
+     *
      * @throws Exception if any error occurs.
      */
     @Test
@@ -58,6 +60,7 @@ final class RtCollaboratorsTest {
 
     /**
      * User can be added to a repo as a collaborator.
+     *
      * @throws Exception if any error occurs.
      */
     @Test
@@ -89,6 +92,7 @@ final class RtCollaboratorsTest {
 
     /**
      * User can be checked for being a collaborator.
+     *
      * @throws Exception if any error occurs.
      */
     @Test
@@ -118,6 +122,7 @@ final class RtCollaboratorsTest {
 
     /**
      * User can be removed from a list of collaborators.
+     *
      * @throws Exception if any error occurs.
      */
     @Test

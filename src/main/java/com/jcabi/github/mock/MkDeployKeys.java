@@ -18,6 +18,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub deploy keys.
+ *
  * @since 0.8
  */
 @Immutable
@@ -25,11 +26,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkDeployKeys implements DeployKeys {
-
-    /**
-     * XPath suffix for deploykey ID text.
-     */
-    private static final String KEY_ID_XPATH = "/deploykey/id/text()";
 
     /**
      * Storage.
@@ -48,6 +44,7 @@ final class MkDeployKeys implements DeployKeys {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -91,7 +88,7 @@ final class MkDeployKeys implements DeployKeys {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkDeployKeys.KEY_ID_XPATH)
+                this.xpath().concat("/deploykey/id/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath())

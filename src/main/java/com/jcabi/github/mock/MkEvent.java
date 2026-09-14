@@ -18,6 +18,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub event.
+ *
  * @since 0.6.1
  */
 @Immutable
@@ -62,6 +63,7 @@ final class MkEvent implements Event {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

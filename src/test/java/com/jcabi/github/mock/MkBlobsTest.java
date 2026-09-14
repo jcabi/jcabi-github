@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkBlobs}.
+ *
  * @since 0.8
  */
 final class MkBlobsTest {

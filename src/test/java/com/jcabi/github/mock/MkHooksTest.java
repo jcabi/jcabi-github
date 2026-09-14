@@ -14,17 +14,14 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkHooks}.
+ *
  * @since 0.8
  */
 final class MkHooksTest {
 
     /**
-     * Type of hook to create and use for tests.
-     */
-    private static final String HOOK_TYPE = "web";
-
-    /**
      * MkHooks can fetch empty list of hooks.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -38,6 +35,7 @@ final class MkHooksTest {
 
     /**
      * MkHooks can delete a single hook by ID.
+     *
      * @throws Exception if something goes wrong.
      */
     @Test
@@ -53,6 +51,7 @@ final class MkHooksTest {
 
     /**
      * MkHooks can fetch a list with a single hook.
+     *
      * @throws Exception if something goes wrong.
      */
     @Test
@@ -68,6 +67,7 @@ final class MkHooksTest {
 
     /**
      * MkHooks can fetch single hook.
+     *
      * @throws Exception if some problem inside
      */
     @Test
@@ -82,6 +82,7 @@ final class MkHooksTest {
 
     /**
      * MkHooks can fetch non empty list of hooks.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -98,6 +99,7 @@ final class MkHooksTest {
 
     /**
      * MkHooks can create a hook.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -116,7 +118,7 @@ final class MkHooksTest {
 
     private static Hook hook(final Hooks hooks) throws IOException {
         return hooks.create(
-            MkHooksTest.HOOK_TYPE,
+            "web",
             Collections.emptyMap(),
             Collections.emptyList(),
             true

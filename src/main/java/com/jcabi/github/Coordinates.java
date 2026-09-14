@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
  * Repository coordinates.
+ *
  * @since 0.1
  */
 @Immutable
@@ -21,18 +22,21 @@ public interface Coordinates extends Comparable<Coordinates> {
 
     /**
      * Get usr name.
+     *
      * @return User name
      */
     String user();
 
     /**
      * Get rpo name.
+     *
      * @return Repo name
      */
     String repo();
 
     /**
      * Jcabi.http implementation.
+     *
      * @since 0.1
      */
     @Immutable
@@ -50,6 +54,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
         /**
          * Public ctor.
+         *
          * @param mnemo Mnemo name
          */
         public Simple(final String mnemo) {
@@ -61,6 +66,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
         /**
          * Public ctor.
+         *
          * @param user User name
          * @param repo Repository name
          */
@@ -127,6 +133,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
     /**
      * Implementation of HTTPs coordinates.
+     *
      * @since 0.23
      */
     @Immutable
@@ -144,6 +151,7 @@ public interface Coordinates extends Comparable<Coordinates> {
 
         /**
          * Public ctor.
+         *
          * @param https URL
          */
         public Https(final String https) {

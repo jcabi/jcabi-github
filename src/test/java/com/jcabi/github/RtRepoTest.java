@@ -24,6 +24,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtRepo}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
@@ -239,6 +240,7 @@ final class RtRepoTest {
 
     /**
      * RtRepo can fetch its default branch.
+     *
      * @throws IOException If some problem occurs.
      */
     @Test

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Labels}.
+ *
  * @since 0.6
  */
 @OAuthScope(OAuthScope.Scope.REPO)

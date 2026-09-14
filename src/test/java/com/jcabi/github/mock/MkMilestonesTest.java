@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test class for MkMilestones.
+ *
  * @since 0.1
  */
 final class MkMilestonesTest {

@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtRelease}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkIssueEvents}.
+ *
  * @since 0.23
  */
 final class MkIssueEventsTest {
@@ -31,6 +32,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can create issue events.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -44,6 +46,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can remember the author of an issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -58,6 +61,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can give a URL to an issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -77,6 +81,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can remember the moment of creation of an issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -96,6 +101,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can create an issue event with a label attribute.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -118,6 +124,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can get a single issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -133,6 +140,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can get the type of a single issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -149,6 +157,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can get the author of a single issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -165,6 +174,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can iterate over issue events in correct order.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -181,6 +191,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can iterate over the first issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -197,6 +208,7 @@ final class MkIssueEventsTest {
 
     /**
      * MkIssueEvents can iterate over the second issue event.
+     *
      * @throws Exception If some problem inside
      */
     @Test

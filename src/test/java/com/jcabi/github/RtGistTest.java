@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtGist}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)
@@ -78,6 +79,7 @@ final class RtGistTest {
 
     /**
      * RtGist can fork itself.
+     *
      * @throws IOException If there is a problem.
      */
     @Test

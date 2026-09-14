@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Event.Smart}.
+ *
  * @since 1.7.0
  */
 final class EventTest {

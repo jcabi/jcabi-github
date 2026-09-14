@@ -14,6 +14,7 @@ import org.xembly.Directives;
 
 /**
  * Json patch.
+ *
  * @since 0.5
  */
 @Immutable
@@ -26,6 +27,7 @@ final class JsonPatch {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage to use
      */
     JsonPatch(final MkStorage stg) {
@@ -34,6 +36,7 @@ final class JsonPatch {
 
     /**
      * Patch an XML object/element.
+     *
      * @param xpath XPath to locate the node to patch
      * @param obj Object to apply
      * @throws IOException If there is any I/O problem

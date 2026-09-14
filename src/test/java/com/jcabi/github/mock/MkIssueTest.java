@@ -21,12 +21,14 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkIssue}.
+ *
  * @since 0.1
  */
 final class MkIssueTest {
 
     /**
      * MkIssue can open.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -40,6 +42,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can close.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -55,6 +58,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can point to an absent pull request.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -68,6 +72,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can show an issue author.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -81,6 +86,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can change title.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -96,6 +102,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can change body.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -111,6 +118,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can expose the moment of its own creation.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -124,6 +132,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can expose the moment of its own update.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -137,6 +146,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can expose its own HTML URL.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -150,6 +160,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can list its labels.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -217,6 +228,7 @@ final class MkIssueTest {
 
     /**
      * Can check if issue exists.
+     *
      * @throws Exception if any error occurs.
      */
     @Test
@@ -245,6 +257,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can assign a user.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -260,6 +273,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can create a closed event when closing an issue.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -273,6 +287,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can type the event of closing an issue.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -288,6 +303,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can create a reopened event when reopening an issue.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -301,6 +317,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can keep the event of closing after reopening.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -316,6 +333,7 @@ final class MkIssueTest {
 
     /**
      * MkIssue can type the event of reopening an issue.
+     *
      * @throws Exception If some problem inside
      */
     @Test

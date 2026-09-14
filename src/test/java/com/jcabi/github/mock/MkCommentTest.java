@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link MkComment}.
+ *
  * @since 0.1
  */
 final class MkCommentTest {
@@ -29,6 +30,7 @@ final class MkCommentTest {
 
     /**
      * MkComment can change body.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -62,6 +64,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores its own number.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -75,6 +78,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores the issue it belongs to.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -88,6 +92,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores its own author.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -101,6 +106,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores its own body.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -114,6 +120,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores its own URL.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -131,6 +138,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores the moment of its own creation.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test
@@ -149,6 +157,7 @@ final class MkCommentTest {
 
     /**
      * MkComment stores the moment of its own update.
+     *
      * @throws Exception when a problem occurs.
      */
     @Test

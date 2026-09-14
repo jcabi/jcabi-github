@@ -14,6 +14,7 @@ import java.io.InputStream;
 
 /**
  * Request which hides everything but items.
+ *
  * @since 0.4
  */
 final class SearchRequest implements Request {
@@ -25,6 +26,7 @@ final class SearchRequest implements Request {
 
     /**
      * Ctor.
+     *
      * @param req Request to wrap
      */
     SearchRequest(final Request req) {

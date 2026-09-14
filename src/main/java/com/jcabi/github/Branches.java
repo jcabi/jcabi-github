@@ -8,6 +8,7 @@ import com.jcabi.aspects.Immutable;
 
 /**
  * Git branches.
+ *
  * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
  * @since 0.24
  */
@@ -16,12 +17,14 @@ public interface Branches {
 
     /**
      * Repo which the branches are in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Iterate over all branches in the repo.
+     *
      * @return Iterator of branches
      * @see <a href="https://developer.github.com/v3/repos/#list-branches">List Branches API</a>
      */
@@ -29,6 +32,7 @@ public interface Branches {
 
     /**
      * Find branches by name.
+     *
      * @param name The name of the branch
      * @return Branch found by name
      * @see <a href="https://developer.github.com/v3/repos/branches/#get-branch">Get Branch API</a>

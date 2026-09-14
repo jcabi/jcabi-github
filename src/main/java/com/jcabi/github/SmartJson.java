@@ -16,6 +16,7 @@ import lombok.ToString;
 
 /**
  * Smart JSON (supplementary help class).
+ *
  * @since 0.5
  */
 @Immutable
@@ -31,6 +32,7 @@ final class SmartJson {
 
     /**
      * Public ctor.
+     *
      * @param obj Readable object
      */
     SmartJson(final JsonReadable obj) {
@@ -39,6 +41,7 @@ final class SmartJson {
 
     /**
      * Get its property as string.
+     *
      * @param name Name of the property
      * @return Value
      * @throws IOException If there is any I/O problem
@@ -49,6 +52,7 @@ final class SmartJson {
 
     /**
      * Get its property as number.
+     *
      * @param name Name of the property
      * @return Value
      * @throws IOException If there is any I/O problem
@@ -59,6 +63,7 @@ final class SmartJson {
 
     /**
      * Get JSON.
+     *
      * @return JSON
      * @throws IOException If there is any I/O problem
      * @since 0.14
@@ -69,6 +74,7 @@ final class SmartJson {
 
     /**
      * Get its property as custom type.
+     *
      * @param name Name of the property
      * @param type Type of result expected
      * @param <T> Type expected
@@ -105,6 +111,7 @@ final class SmartJson {
     /**
      * Checks if a certain key is present
      * AND its ValueType isn't ValueType.NULL.
+     *
      * @param name Name of the key which ValueType should be checked
      * @return Returns <code>true</code> if key <code>name</code> is present
      *  and its ValueType isn't ValueType.NULL, <code>false</code> otherwise

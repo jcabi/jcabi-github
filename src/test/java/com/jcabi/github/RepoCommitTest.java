@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RepoCommit}.
+ *
  * @since 0.1
  */
 final class RepoCommitTest {
@@ -54,6 +55,7 @@ final class RepoCommitTest {
 
     /**
      * RtRepoCommit can verify status.
+     *
      * @throws IOException If fails
      */
     @Test
@@ -77,6 +79,7 @@ final class RepoCommitTest {
 
     /**
      * RtRepoCommit can read author's login.
+     *
      * @throws IOException If fails
      */
     @Test

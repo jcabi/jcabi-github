@@ -12,14 +12,10 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtPublicMembers}.
+ *
  * @since 0.4
  */
 final class RtPublicMembersITCase {
-
-    /**
-     * Test organization name.
-     */
-    private static final String ORG_NAME = "teamed";
 
     /**
      * Test organization.
@@ -43,7 +39,7 @@ final class RtPublicMembersITCase {
     static void setUp() {
         final GitHub github = GitHubIT.connect();
         final Users users = github.users();
-        RtPublicMembersITCase.org = github.organizations().get(RtPublicMembersITCase.ORG_NAME);
+        RtPublicMembersITCase.org = github.organizations().get("teamed");
         RtPublicMembersITCase.member = users.get("yegor256");
         RtPublicMembersITCase.nonMember = users.get("charset");
     }

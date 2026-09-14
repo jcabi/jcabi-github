@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RtCommitsComparison}.
+ *
  * @since 0.24
  */
 final class RtCommitsComparisonITCase {
@@ -24,6 +25,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can count the files in the comparison.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -37,6 +39,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the additions of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -50,6 +53,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the blob URL of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -68,6 +72,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the changes of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -81,6 +86,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the contents URL of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -101,6 +107,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the deletions of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -114,6 +121,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the name of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -127,6 +135,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the patch of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -162,6 +171,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the raw URL of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -180,6 +190,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the SHA of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test
@@ -193,6 +204,7 @@ final class RtCommitsComparisonITCase {
 
     /**
      * RtCommitsComparison can read the status of the changed file.
+     *
      * @throws IOException If there is any I/O problem
      */
     @Test

@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * GitHub hooks.
+ *
  * @see <a href="https://developer.github.com/v3/repos/hooks/">Hooks API</a>
  * @since 0.8
  */
@@ -18,12 +19,14 @@ public interface Hooks {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Iterate them all.
+     *
      * @return Iterator of hooks
      * @see <a href="https://developer.github.com/v3/repos/hooks/#list">List</a>
      */
@@ -31,6 +34,7 @@ public interface Hooks {
 
     /**
      * Remove hook by ID.
+     *
      * @param number ID of the label to remove
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/repos/hooks/#delete-a-hook">List</a>
@@ -39,6 +43,7 @@ public interface Hooks {
 
     /**
      * Get specific hook by number.
+     *
      * @param number Hook number
      * @return Hook
      * @see <a href="https://developer.github.com/v3/repos/hooks/#get-single-hook">Get single hook</a>
@@ -47,6 +52,7 @@ public interface Hooks {
 
     /**
      * Create new hook.
+     *
      * @param name Hook name
      * @param config Configuration for the hook
      * @param events Events that trigger the hook

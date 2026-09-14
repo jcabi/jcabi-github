@@ -19,6 +19,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub release asset.
+ *
  * @since 0.8
  */
 @Immutable
@@ -53,6 +54,7 @@ final class MkReleaseAsset implements ReleaseAsset {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

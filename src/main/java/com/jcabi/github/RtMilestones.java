@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub milestones.
+ *
  * @since 0.7
  */
 @Immutable
@@ -41,6 +42,7 @@ final class RtMilestones implements Milestones {
 
     /**
      * Public ctor.
+     *
      * @param req Request
      * @param repo Repository
      */

@@ -21,6 +21,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub organization.
+ *
  * @see <a href="https://developer.github.com/v3/orgs/">Organizations API</a>
  * @since 0.24
  */
@@ -52,6 +53,7 @@ public final class MkOrganization implements Organization {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login Username of organization
      */
@@ -113,6 +115,7 @@ public final class MkOrganization implements Organization {
 
     /**
      * Add the given user to this organization.
+     *
      * @param user User to add to the organization
      * @todo #1107:30min Implement the "Add team membership" API (see
      *  https://developer.github.com/v3/orgs/teams/#add-team-membership )

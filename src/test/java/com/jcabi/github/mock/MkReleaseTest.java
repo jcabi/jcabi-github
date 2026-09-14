@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MkRelease}.
+ *
  * @since 0.1
  */
 final class MkReleaseTest {
@@ -35,6 +36,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns url.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -49,6 +51,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns assets url.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -63,6 +66,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns html url.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -77,6 +81,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns upload url.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -91,6 +96,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns tag name.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -105,6 +111,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns target commitish.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -119,6 +126,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns name.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -133,6 +141,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns body.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -147,6 +156,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns created date.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -164,6 +174,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns prerelease.
+     *
      * @throws Exception If some problem inside
      */
     @Test
@@ -181,6 +192,7 @@ final class MkReleaseTest {
 
     /**
      * Smart decorator returns published date.
+     *
      * @throws Exception If some problem inside
      */
     @Test

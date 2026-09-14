@@ -15,6 +15,7 @@ import lombok.ToString;
 
 /**
  * File change.
+ *
  * @see <a href="https://developer.github.com/v3/repos/commits/#compare-two-commits">Compare two commits</a>
  * @since 0.24
  */
@@ -23,6 +24,7 @@ public interface FileChange extends JsonReadable {
 
     /**
      * Status of the file in the commit.
+     *
      * @since 0.24
      */
     enum Status implements StringEnum {
@@ -51,6 +53,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Ctor.
+         *
          * @param stat File status string
          */
         Status(final String stat) {
@@ -64,6 +67,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Get file change status corresponding to the given status string.
+         *
          * @param name Status string
          * @return Status enum value
          */
@@ -75,6 +79,7 @@ public interface FileChange extends JsonReadable {
 
     /**
      * Smart file change with extra features.
+     *
      * @since 0.24
      */
     @Immutable
@@ -95,6 +100,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param chng File change
          */
         public Smart(final FileChange chng) {
@@ -104,6 +110,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * File's commit SHA.
+         *
          * @return SHA
          * @throws IOException If there is any I/O problem
          */
@@ -115,6 +122,7 @@ public interface FileChange extends JsonReadable {
          * File's name. Includes the path to the file from the
          * root directory of the repository. Does not start with a
          * forward slash. Example: "foo/bar/baz.txt"
+         *
          * @return Filename
          * @throws IOException If there is any I/O problem
          */
@@ -124,6 +132,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Status of the file in this change.
+         *
          * @return File status
          * @throws IOException If there is any I/O problem
          */
@@ -133,6 +142,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Number of lines added, or 0 if the file is binary.
+         *
          * @return Number of lines added
          * @throws IOException If there is any I/O problem
          */
@@ -142,6 +152,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Number of lines deleted, or 0 if the file is binary.
+         *
          * @return Number of lines deleted
          * @throws IOException If there is any I/O problem
          */
@@ -152,6 +163,7 @@ public interface FileChange extends JsonReadable {
         /**
          * Number of lines modified, which is equal to the sum of
          * {@link Smart#additions()} and {@link Smart#deletions()}.
+         *
          * @return Number of lines modified
          * @throws IOException If there is any I/O problem
          */
@@ -162,6 +174,7 @@ public interface FileChange extends JsonReadable {
         /**
          * Diff string of the changes to the file. Only available if
          * the file is text (as opposed to binary).
+         *
          * @return Diff string
          * @throws IOException If there is any I/O problem
          */
@@ -171,6 +184,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * URL for the raw contents of the file.
+         *
          * @return URL
          * @throws IOException If there is any I/O problem
          */
@@ -180,6 +194,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * URL for the file's git blob.
+         *
          * @return URL
          * @throws IOException If there is any I/O problem
          */
@@ -189,6 +204,7 @@ public interface FileChange extends JsonReadable {
 
         /**
          * Repo contents URL for the file.
+         *
          * @return URL
          * @throws IOException If there is any I/O problem
          */

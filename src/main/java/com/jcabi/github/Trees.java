@@ -10,6 +10,7 @@ import java.io.IOException;
 
 /**
  * GitHub Git Data Trees.
+ *
  * @see <a href="https://developer.github.com/v3/git/trees/">Trees API</a>
  * @since 0.8
  */
@@ -18,12 +19,14 @@ public interface Trees {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Get specific tree by sha.
+     *
      * @param sha Tree sha
      * @return Tree
      * @see <a href="https://developer.github.com/v3/git/trees">Get a tree</a>
@@ -32,6 +35,7 @@ public interface Trees {
 
     /**
      * Get specific tree recursively by sha.
+     *
      * @param sha Tree sha
      * @return Tree
      * @see <a href="https://developer.github.com/v3/git/trees">Get a tree</a>
@@ -40,6 +44,7 @@ public interface Trees {
 
     /**
      * Create new tree.
+     *
      * @param params Parameters to create new tree
      * @return Tree
      * @throws IOException If there is any I/O problem

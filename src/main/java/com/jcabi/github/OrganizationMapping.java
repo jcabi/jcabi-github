@@ -8,6 +8,7 @@ import jakarta.json.JsonObject;
 
 /**
  * Maps organization JSON objects to Organization instances.
+ *
  * @since 0.24
  */
 final class OrganizationMapping
@@ -20,6 +21,7 @@ final class OrganizationMapping
 
     /**
      * Ctor.
+     *
      * @param organizations Organizations
      */
     OrganizationMapping(final Organizations organizations) {

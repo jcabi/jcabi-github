@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
  * Smart items.
  *
  * <p>This class should be used as a decorator for an iterable of objects, for
- * example:
+ * example:</p>
  *
  * <pre> Iterable&lt;Issue.Smart&gt; issues = new Smarts&lt;Issue.Smart&gt;(
  *   repo.issues().iterate(
@@ -38,6 +38,7 @@ public final class Smarts<T> implements Iterable<T> {
 
     /**
      * Public ctor.
+     *
      * @param items Items original
      */
     public Smarts(final Iterable<?> items) {

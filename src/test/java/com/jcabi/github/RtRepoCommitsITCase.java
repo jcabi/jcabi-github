@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
  *
  * <p>WARNING: As there is no way to create Commit directly it was decided to
  * use real commits from jcabi-github repository for integration testing of
- * RtRepoCommits
+ * RtRepoCommits</p>
  *
  * @since 0.1
  */

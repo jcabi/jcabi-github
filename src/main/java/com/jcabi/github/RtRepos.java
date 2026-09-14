@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub repositories.
+ *
  * @since 0.8
  */
 @Immutable
@@ -34,6 +35,7 @@ final class RtRepos implements Repos {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      */

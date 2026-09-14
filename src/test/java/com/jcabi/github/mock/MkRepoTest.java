@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Repo}.
+ *
  * @since 0.5
  */
 final class MkRepoTest {
@@ -47,6 +48,7 @@ final class MkRepoTest {
 
     /**
      * Repo can fetch its commits.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -63,6 +65,7 @@ final class MkRepoTest {
 
     /**
      * Repo can fetch its branches.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -97,6 +100,7 @@ final class MkRepoTest {
 
     /**
      * Repo can return Stars API.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -113,6 +117,7 @@ final class MkRepoTest {
 
     /**
      * Repo can return Notifications API.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -129,6 +134,7 @@ final class MkRepoTest {
 
     /**
      * Repo can return Languages iterable.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -142,6 +148,7 @@ final class MkRepoTest {
 
     /**
      * Repo can count its own languages.
+     *
      * @throws IOException if some problem inside
      */
     @Test
@@ -155,6 +162,7 @@ final class MkRepoTest {
 
     /**
      * MkRepo can return its default branch.
+     *
      * @throws IOException if some problem inside.
      */
     @Test

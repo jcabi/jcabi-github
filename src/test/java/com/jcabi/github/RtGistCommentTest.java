@@ -21,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtGistComment}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)
@@ -38,6 +39,7 @@ final class RtGistCommentTest {
 
     /**
      * RtGistComment can patch comment and return new json.
+     *
      * @throws IOException if has some problems with json parsing.
      */
     @Test
@@ -77,6 +79,7 @@ final class RtGistCommentTest {
 
     /**
      * RtGistComment can remove comment.
+     *
      * @throws IOException if has some problems with json parsing.
      */
     @Test

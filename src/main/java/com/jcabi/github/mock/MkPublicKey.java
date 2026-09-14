@@ -14,6 +14,7 @@ import lombok.ToString;
 
 /**
  * Mock GitHub public key.
+ *
  * @since 0.8
  */
 @Immutable
@@ -38,6 +39,7 @@ final class MkPublicKey implements PublicKey {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param number Key number

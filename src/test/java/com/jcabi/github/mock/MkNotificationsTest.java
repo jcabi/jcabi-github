@@ -13,6 +13,7 @@ import org.xembly.Directives;
 
 /**
  * Test case for {@link MkNotifications}.
+ *
  * @since 0.1
  */
 final class MkNotificationsTest {

@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link Issue}.
+ *
  * @since 0.1
  */
 final class IssueTest {
@@ -101,6 +102,7 @@ final class IssueTest {
 
     /**
      * Issue.Smart can fetch issue's labels in read-only mode.
+     *
      * @throws IOException If some problem inside.
      */
     @Test
@@ -114,6 +116,7 @@ final class IssueTest {
 
     /**
      * Issue.Smart read-only labels cannot add labels.
+     *
      * @throws IOException If some problem inside.
      */
     @Test
@@ -128,6 +131,7 @@ final class IssueTest {
 
     /**
      * Issue.Smart read-only labels cannot replace labels.
+     *
      * @throws IOException If some problem inside.
      */
     @Test
@@ -142,6 +146,7 @@ final class IssueTest {
 
     /**
      * Issue.Smart read-only labels cannot remove labels.
+     *
      * @throws IOException If some problem inside.
      */
     @Test
@@ -156,6 +161,7 @@ final class IssueTest {
 
     /**
      * Issue.Smart read-only labels cannot clear labels.
+     *
      * @throws IOException If some problem inside.
      */
     @Test
@@ -170,6 +176,7 @@ final class IssueTest {
 
     /**
      * Issue.Smart read-only label cannot be patched.
+     *
      * @throws IOException If some problem inside.
      */
     @Test

@@ -12,6 +12,7 @@ import lombok.ToString;
 /**
  * Iterator that yields FileChange objects converted
  * from JSON objects in a JSON list.
+ *
  * @since 0.24
  */
 @EqualsAndHashCode(of = "iterator")
@@ -26,6 +27,7 @@ final class FileChangesIterator
 
     /**
      * Ctor.
+     *
      * @param iter Iterator of file change JSON objects
      */
     FileChangesIterator(final Iterator<JsonObject> iter) {

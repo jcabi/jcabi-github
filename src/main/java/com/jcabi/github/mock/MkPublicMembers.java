@@ -12,6 +12,7 @@ import org.xembly.Directives;
 
 /**
  * Mock for public members of a GitHub organization.
+ *
  * @see <a href="https://developer.github.com/v3/orgs/members/">Organization Members API</a>
  * @since 0.24
  */
@@ -29,6 +30,7 @@ public final class MkPublicMembers implements PublicMembers {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param organ Organization
      */

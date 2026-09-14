@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Safe issue.
+ *
  * @since 0.36
  */
 @Immutable
@@ -35,6 +36,7 @@ public final class SfIssue implements Issue {
 
     /**
      * Public ctor.
+     *
      * @param issue The original issue
      */
     public SfIssue(final Issue issue) {

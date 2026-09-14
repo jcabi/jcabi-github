@@ -19,6 +19,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtEvent}.
+ *
  * @since 0.6.1
  */
 @ExtendWith(RandomPort.class)

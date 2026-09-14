@@ -17,6 +17,7 @@ import org.xembly.Directives;
 
 /**
  * Tests for {@link MkHook}.
+ *
  * @since 0.42
  */
 final class MkHookTest {

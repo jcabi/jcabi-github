@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Statuses}.
+ *
  * @since 0.24
  */
 final class StatusesTest {

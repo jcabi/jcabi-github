@@ -28,6 +28,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * Mock GitHub issue.
+ *
  * @since 0.5
  */
 @Immutable
@@ -57,6 +58,7 @@ final class MkIssue implements Issue {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

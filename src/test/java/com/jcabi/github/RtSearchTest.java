@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test case for {@link RtSearch}.
+ *
  * @since 0.1
  */
 @ExtendWith(RandomPort.class)

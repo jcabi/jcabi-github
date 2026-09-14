@@ -20,6 +20,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub pull comments.
+ *
  * @see <a href="https://developer.github.com/v3/pulls/comments/">Review Comments API</a>
  * @since 0.8
  */
@@ -27,11 +28,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "repo", "owner" })
 final class MkPullComments implements PullComments {
-
-    /**
-     * XPath suffix for comment ID text.
-     */
-    private static final String COMMENT_ID_XPATH = "/comment/id/text()";
 
     /**
      * Storage.
@@ -55,6 +51,7 @@ final class MkPullComments implements PullComments {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -130,7 +127,7 @@ final class MkPullComments implements PullComments {
         final int number;
         try {
             number = 1 + this.storage.xml()
-                .nodes(this.xpath().concat(MkPullComments.COMMENT_ID_XPATH))
+                .nodes(this.xpath().concat("/comment/id/text()"))
                 .size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("comment")

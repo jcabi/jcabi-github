@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtGit}.
+ *
  * @since 0.8
  */
 final class RtGitTest {

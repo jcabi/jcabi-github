@@ -12,6 +12,7 @@ import lombok.ToString;
 
 /**
  * GitHub Releases.
+ *
  * @since 0.8
  */
 @Immutable
@@ -19,12 +20,14 @@ public interface Releases {
 
     /**
      * Owner of them.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * Iterate them all.
+     *
      * @return Iterator of releases
      * @see <a href="https://developer.github.com/v3/repos/releases/#list">List</a>
      */
@@ -32,6 +35,7 @@ public interface Releases {
 
     /**
      * Get a single release.
+     *
      * @param number Release id
      * @return Release
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release">Get a single release</a>
@@ -40,6 +44,7 @@ public interface Releases {
 
     /**
      * Create new release.
+     *
      * @param tag The name of the tag
      * @return Release just created
      * @throws IOException If there is any I/O problem
@@ -49,6 +54,7 @@ public interface Releases {
 
     /**
      * Remove a release.
+     *
      * @param number ID of the release to remove
      * @throws IOException If an IO problem occurs.
      * @see <a href="https://developer.github.com/v3/repos/releases/#delete-a-release">Delete a release.</a>
@@ -57,6 +63,7 @@ public interface Releases {
 
     /**
      * Smart releases.
+     *
      * @since 0.17
      */
     @Immutable
@@ -72,6 +79,7 @@ public interface Releases {
 
         /**
          * Public CTOR.
+         *
          * @param original Original releases
          */
         public Smart(final Releases original) {
@@ -105,6 +113,7 @@ public interface Releases {
 
         /**
          * This release exists by the tag.
+         *
          * @param tag The tag
          * @return TRUE if it already exists
          * @throws IOException If fails
@@ -125,6 +134,7 @@ public interface Releases {
 
         /**
          * Find release by the tag (runtime exception if not found).
+         *
          * @param tag The tag
          * @return Release found
          * @throws IOException If fails

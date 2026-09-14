@@ -22,6 +22,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub issues.
+ *
  * @since 0.5
  */
 @Immutable
@@ -29,11 +30,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkIssues implements Issues {
-
-    /**
-     * XPath suffix for issue number text.
-     */
-    private static final String ISSUE_NUM_XPATH = "/issue/number/text()";
 
     /**
      * Storage.
@@ -52,6 +48,7 @@ final class MkIssues implements Issues {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -89,7 +86,7 @@ final class MkIssues implements Issues {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkIssues.ISSUE_NUM_XPATH)
+                this.xpath().concat("/issue/number/text()")
             ).size();
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("issue")

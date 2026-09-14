@@ -5,6 +5,7 @@
 
 /**
  * Tests for the GitHub API client.
+ *
  * @since 0.1
  */
 package com.jcabi.github;

@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 /**
  * GitHub client, starting point to the entire library.
  *
- * <p>This is how you start communicating with GitHub API:
+ * <p>This is how you start communicating with GitHub API:</p>
  *
  * <pre> GitHub github = new RtGitHub(oauthKey);
  * Repo repo = github.repos().get(
@@ -28,7 +28,7 @@ import lombok.EqualsAndHashCode;
  *
  * <p>It is strongly recommended to use
  * {@link com.jcabi.http.wire.RetryWire} to avoid
- * accidental I/O exceptions:
+ * accidental I/O exceptions:</p>
  *
  * <pre> GitHub github = new RtGitHub(
  *   new RtGitHub(oauthKey)
@@ -43,7 +43,7 @@ import lombok.EqualsAndHashCode;
  * which returns an entry point to the RESTful API. For example, you
  * want to use
  * <a href="https://developer.github.com/v3/search/#search-repositories">"Search
- * Repositories"</a> feature of GitHub:
+ * Repositories"</a> feature of GitHub:</p>
  *
  * <pre> GitHub github = new RtGitHub(oauthKey);
  * int found = github.entry()
@@ -63,24 +63,28 @@ public interface GitHub {
 
     /**
      * RESTful request, an entry point to the GitHub API.
+     *
      * @return Request
      */
     Request entry();
 
     /**
      * Get repositories.
+     *
      * @return Repositories
      */
     Repos repos();
 
     /**
      * Get Gists API entry point.
+     *
      * @return Gists API entry point
      */
     Gists gists();
 
     /**
      * Get Users API entry point.
+     *
      * @return Users API entry point
      * @since 0.4
      */
@@ -88,6 +92,7 @@ public interface GitHub {
 
     /**
      * Get Organizations API entry point.
+     *
      * @return Organizations API entry point
      * @since 0.24
      */
@@ -95,6 +100,7 @@ public interface GitHub {
 
     /**
      * Get Markdown API entry point.
+     *
      * @return Markdown API entry point
      * @since 0.6
      */
@@ -102,6 +108,7 @@ public interface GitHub {
 
     /**
      * Rate limit API entry point.
+     *
      * @return Rate limit API
      * @since 0.6
      */
@@ -109,6 +116,7 @@ public interface GitHub {
 
     /**
      * Search API entry point.
+     *
      * @return Search API
      * @since 0.8
      */
@@ -116,6 +124,7 @@ public interface GitHub {
 
     /**
      * Get gitignores.
+     *
      * @return Gitignotes API
      * @see <a href="https://developer.github.com/v3/gitignore/">Gitignore API</a>
      * @since 0.8
@@ -124,6 +133,7 @@ public interface GitHub {
 
     /**
      * Get meta information.
+     *
      * @return JSON with meta
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/meta/">Meta API</a>
@@ -133,6 +143,7 @@ public interface GitHub {
 
     /**
      * Get emojis.
+     *
      * @return JSON with emojis
      * @throws IOException If there is any I/O problem
      * @see <a href="https://developer.github.com/v3/emojis/">Emojis API</a>
@@ -142,6 +153,7 @@ public interface GitHub {
 
     /**
      * Time in GitHub JSON.
+     *
      * @see <a href="https://developer.github.com/v3/#schema">Schema</a>
      * @since 0.2
      */
@@ -173,6 +185,7 @@ public interface GitHub {
 
         /**
          * Ctor.
+         *
          * @param text ISO date/time
          */
         public Time(final String text) {
@@ -181,6 +194,7 @@ public interface GitHub {
 
         /**
          * Ctor.
+         *
          * @param instant Moment to encapsulate
          */
         public Time(final Instant instant) {
@@ -189,6 +203,7 @@ public interface GitHub {
 
         /**
          * Ctor.
+         *
          * @param millis Milliseconds
          */
         public Time(final long millis) {
@@ -202,6 +217,7 @@ public interface GitHub {
 
         /**
          * Get date.
+         *
          * @return Moment in time
          */
         public Instant date() {

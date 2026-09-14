@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtStars}.
+ *
  * @since 0.8
  */
 @ExtendWith(RandomPort.class)

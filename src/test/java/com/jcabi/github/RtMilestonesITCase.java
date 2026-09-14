@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration case for {@link Milestones}.
+ *
  * @since 0.1
  */
 @OAuthScope(OAuthScope.Scope.REPO)

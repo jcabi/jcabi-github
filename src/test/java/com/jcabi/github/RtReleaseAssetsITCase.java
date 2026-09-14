@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Integration test for {@link RtReleaseAssets}.
+ *
  * @since 0.8
  */
 @OAuthScope(OAuthScope.Scope.REPO)

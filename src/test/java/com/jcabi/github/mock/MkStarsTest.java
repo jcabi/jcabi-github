@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Testcase for MkStars.
+ *
  * @since 0.1
  */
 final class MkStarsTest {

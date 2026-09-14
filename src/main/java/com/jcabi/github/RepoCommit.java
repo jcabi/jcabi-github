@@ -20,7 +20,7 @@ import lombok.ToString;
  * <p>The repo commit exposes all available properties through its
  * {@code json()} method. However, it is recommended to use its
  * "smart" decorator, which helps you to get access to all JSON properties,
- * for example:
+ * for example:</p>
  *
  * <pre> URL url = new RepoCommit.Smart(commit).url();</pre>
  *
@@ -32,18 +32,21 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
     /**
      * The repo we're in.
+     *
      * @return Repo
      */
     Repo repo();
 
     /**
      * SHA of it.
+     *
      * @return SHA
      */
     String sha();
 
     /**
      * Smart commit.
+     *
      * @since 0.8
      */
     @Immutable
@@ -64,6 +67,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
         /**
          * Public ctor.
+         *
          * @param cmt RepoCommit
          */
         public Smart(final RepoCommit cmt) {
@@ -73,6 +77,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
         /**
          * Get its message.
+         *
          * @return Message of repo commit
          * @throws IOException If there is any I/O problem
          */
@@ -84,6 +89,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
         /**
          * Get its URL.
+         *
          * @return URL of repo commit
          * @throws IOException If there is any I/O problem
          */
@@ -97,6 +103,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
         /**
          * Returns the login of the author.
+         *
          * @return The login
          * @throws IOException If there is any I/O problem
          * @since 1.1
@@ -110,6 +117,7 @@ public interface RepoCommit extends Comparable<RepoCommit>, JsonReadable {
 
         /**
          * Returns TRUE if the commit is verified.
+         *
          * @return TRUE if verified
          * @throws IOException If there is any I/O problem
          * @since 1.1

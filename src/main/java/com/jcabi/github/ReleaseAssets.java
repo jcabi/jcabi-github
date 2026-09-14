@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * GitHub release assets.
+ *
  * @see <a href="https://developer.github.com/v3/repos/releases/">Releases API</a>
  * @since 0.8
  */
@@ -17,12 +18,14 @@ public interface ReleaseAssets {
 
     /**
      * The release we're in.
+     *
      * @return Issue
      */
     Release release();
 
     /**
      * Iterate them all.
+     *
      * @return All comments
      * @see <a href="https://developer.github.com/v3/repos/releases/#list-assets-for-a-release">List Assets for a Release</a>
      */
@@ -30,6 +33,7 @@ public interface ReleaseAssets {
 
     /**
      * Upload a release asset.
+     *
      * @param content The raw content bytes
      * @param type Content-Type of the release asset
      * @param name Name of the release asset
@@ -45,6 +49,7 @@ public interface ReleaseAssets {
 
     /**
      * Get a single release asset.
+     *
      * @param number The release asset ID
      * @return The release asset
      * @see <a href="https://developer.github.com/v3/repos/releases/#get-a-single-release-asset">Get a Single Release Asset</a>

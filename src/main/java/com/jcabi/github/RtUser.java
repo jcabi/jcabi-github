@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * GitHub user.
+ *
  * @since 0.1
  */
 @Immutable
@@ -46,6 +47,7 @@ final class RtUser implements User {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      */
@@ -55,6 +57,7 @@ final class RtUser implements User {
 
     /**
      * Public ctor.
+     *
      * @param github GitHub
      * @param req Request
      * @param login User identity/identity

@@ -26,6 +26,7 @@ import org.mockito.Mockito;
 
 /**
  * Test case for {@link RtHooks}.
+ *
  * @since 0.8
  */
 @Immutable

@@ -15,6 +15,7 @@ import java.util.Set;
 
 /**
  * Mock for GitHub Assignees.
+ *
  * @since 0.7
  */
 @Immutable
@@ -37,6 +38,7 @@ final class MkAssignees implements Assignees {
 
     /**
      * Public ctor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo

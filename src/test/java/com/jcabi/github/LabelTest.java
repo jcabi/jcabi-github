@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 
 /**
  * Tests for {@link Label}.
+ *
  * @since 0.1
  */
 final class LabelTest {

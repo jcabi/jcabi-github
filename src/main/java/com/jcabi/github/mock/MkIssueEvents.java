@@ -20,6 +20,7 @@ import org.xembly.Directives;
 
 /**
  * Mock GitHub issue events.
+ *
  * @since 0.23
  */
 @Immutable
@@ -27,11 +28,6 @@ import org.xembly.Directives;
 @ToString
 @EqualsAndHashCode(of = { "storage", "self", "coords" })
 final class MkIssueEvents implements IssueEvents {
-
-    /**
-     * XPath suffix for issue event number text.
-     */
-    private static final String EVENT_NUM_XPATH = "/issue-event/number/text()";
 
     /**
      * Storage.
@@ -50,6 +46,7 @@ final class MkIssueEvents implements IssueEvents {
 
     /**
      * Public constructor.
+     *
      * @param stg Storage
      * @param login User to login
      * @param rep Repo
@@ -94,6 +91,7 @@ final class MkIssueEvents implements IssueEvents {
      * Creates a new issue event.
      * This has no equivalent in GitHub's public API, since GitHub generates
      * events automatically in response to some other API calls.
+     *
      * @param type Type of event
      * @param issue ID number of issue the event is regarding
      * @param login Username of actor who caused the event
@@ -117,7 +115,7 @@ final class MkIssueEvents implements IssueEvents {
         final int number;
         try {
             number = 1 + this.storage.xml().xpath(
-                this.xpath().concat(MkIssueEvents.EVENT_NUM_XPATH)
+                this.xpath().concat("/issue-event/number/text()")
             ).size();
             Directives directives = new Directives()
                 .xpath(this.xpath())
