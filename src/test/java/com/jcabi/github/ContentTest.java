@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import jakarta.json.Json;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -204,5 +205,16 @@ final class ContentTest {
             new Content.Smart(content).repo(),
             Matchers.is(repo)
         );
+    }
+
+    @Test
+    void decodesWithoutJavaxXmlBindForAndroid() throws IOException {
+        try (InputStream bytes = Content.Smart.class.getResourceAsStream("Content$Smart.class")) {
+            MatcherAssert.assertThat(
+                "Class depends on javax.xml.bind, which Android lacks",
+                new String(bytes.readAllBytes(), StandardCharsets.ISO_8859_1),
+                Matchers.not(Matchers.containsString("javax/xml/bind"))
+            );
+        }
     }
 }
