@@ -9,6 +9,7 @@ import com.jcabi.aspects.Loggable;
 import com.jcabi.github.Commit;
 import com.jcabi.github.Commits;
 import com.jcabi.github.Coordinates;
+import com.jcabi.github.GitHub;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Statuses;
 import jakarta.json.JsonObject;
@@ -93,6 +94,8 @@ public final class MkCommits implements Commits {
                 dirs.add(entry.getKey()).set(MkCommits.asText(value)).up();
             }
         }
+        final String time = new GitHub.Time().toString();
+        dirs.add("created_at").set(time).up().add("updated_at").set(time);
         this.storage.apply(dirs);
         return this.get(params.getString("sha"));
     }
