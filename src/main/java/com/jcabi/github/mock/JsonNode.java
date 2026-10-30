@@ -9,6 +9,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
+import java.math.BigDecimal;
 import org.w3c.dom.Node;
 
 /**
@@ -42,7 +43,14 @@ final class JsonNode {
         for (final XML child : this.xml.nodes("* ")) {
             final Node node = child.inner();
             if (child.nodes("*").isEmpty()) {
-                builder.add(node.getNodeName(), node.getTextContent());
+                if (JsonNode.numeric(node)) {
+                    builder.add(
+                        node.getNodeName(),
+                        new BigDecimal(node.getTextContent())
+                    );
+                } else {
+                    builder.add(node.getNodeName(), node.getTextContent());
+                }
             } else if (
                 !child.xpath("//@array").isEmpty()
                     && "true".equals(child.xpath("//@array").get(0))
@@ -57,5 +65,10 @@ final class JsonNode {
             }
         }
         return builder.build();
+    }
+
+    private static boolean numeric(final Node node) {
+        final Node type = node.getAttributes().getNamedItem("type");
+        return type != null && "number".equals(type.getNodeValue());
     }
 }

@@ -44,8 +44,11 @@ final class JsonPatch {
     void patch(final String xpath, final JsonObject obj) throws IOException {
         final Directives dirs = new Directives().xpath(xpath);
         for (final Map.Entry<String, JsonValue> entry : obj.entrySet()) {
-            dirs.addIf(entry.getKey())
-                .set(StringUtils.strip(entry.getValue().toString(), "\""))
+            dirs.addIf(entry.getKey());
+            if (entry.getValue().getValueType() == JsonValue.ValueType.NUMBER) {
+                dirs.attr("type", "number");
+            }
+            dirs.set(StringUtils.strip(entry.getValue().toString(), "\""))
                 .up();
         }
         this.storage.apply(dirs);

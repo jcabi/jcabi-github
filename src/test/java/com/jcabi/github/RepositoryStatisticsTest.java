@@ -17,12 +17,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link RepositoryStatistics}.
  *
  * @since 1.8.0
- * @todo #1660:90min MkRepo returns only string values from json.
- *  MkRepo returns only strings values, it is why in all tests
- *  below we expect string values, which is wrong, of course.
- *  MkRepo should return different types like integer, double, long,
- *  etc. When it is implemented, we can replace strings with concrete
- *  types and remove that puzzle.
  * @todo #1663:90min Refactor RepositoryStatisticsTest.
  *  RepositoryStatisticsTest has too many boilerplate code. Also it
  *  has repeated variables and constants. Refactor it to make it more
@@ -129,33 +123,23 @@ final class RepositoryStatisticsTest {
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.FORKS_KEY,
-                    String.valueOf(
-                        RepositoryStatisticsTest.FORKS_VALUE
-                    )
+                    RepositoryStatisticsTest.FORKS_VALUE
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.stargazersKey,
-                    String.valueOf(
-                        RepositoryStatisticsTest.stargazersValue
-                    )
+                    RepositoryStatisticsTest.stargazersValue
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.watchersKey,
-                    String.valueOf(
-                        RepositoryStatisticsTest.watchersValue
-                    )
+                    RepositoryStatisticsTest.watchersValue
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.sizeKey,
-                    String.valueOf(
-                        RepositoryStatisticsTest.sizeValue
-                    )
+                    RepositoryStatisticsTest.sizeValue
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.issuesKey,
-                    String.valueOf(
-                        RepositoryStatisticsTest.issuesValue
-                    )
+                    RepositoryStatisticsTest.issuesValue
                 ),
                 Matchers.hasEntry(
                     RepositoryStatisticsTest.createdKey,
