@@ -85,4 +85,9 @@ final class Hidden implements Response {
             throw new IllegalStateException(ex);
         }
     }
+
+    @Override
+    public String toString() {
+        return this.response.toString();
+    }
 }
