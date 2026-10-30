@@ -16,7 +16,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 import lombok.ToString;
 
 /**
@@ -107,7 +107,7 @@ public final class RtGitHub implements GitHub {
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
-                    DatatypeConverter.printBase64Binary(
+                    Base64.getEncoder().encodeToString(
                         String.format("%s:%s", user, pwd)
                             .getBytes(StandardCharsets.UTF_8)
                     )
@@ -142,7 +142,7 @@ public final class RtGitHub implements GitHub {
                 HttpHeaders.AUTHORIZATION,
                 String.format(
                     "Basic %s",
-                    DatatypeConverter.printBase64Binary(
+                    Base64.getEncoder().encodeToString(
                         String.format("%s:%s", user, pwd)
                             .getBytes(StandardCharsets.UTF_8)
                     )
