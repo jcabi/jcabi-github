@@ -126,7 +126,7 @@ final class RtReferences implements References {
     @Override
     public void remove(final String identifier) throws IOException {
         this.request.method(Request.DELETE)
-            .uri().path(identifier).back().fetch()
+            .uri().path(identifier.replaceFirst("^/?refs/", "")).back().fetch()
             .as(RestResponse.class)
             .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
     }
