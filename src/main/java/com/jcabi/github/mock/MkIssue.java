@@ -144,8 +144,12 @@ final class MkIssue implements Issue {
     public void patch(final JsonObject json) throws IOException {
         final Issue.Smart smart = new Issue.Smart(this);
         final boolean was = smart.isOpen();
+        final String before = this.assignee();
         new JsonPatch(this.storage).patch(this.xpath(), json);
         final boolean now = smart.isOpen();
+        final MkIssueEvents events = new MkIssueEvents(
+            this.storage, this.self, this.coords
+        );
         if (now != was) {
             final String type;
             if (now) {
@@ -153,8 +157,17 @@ final class MkIssue implements Issue {
             } else {
                 type = Event.CLOSED;
             }
-            new MkIssueEvents(this.storage, this.self, this.coords)
-                .create(type, this.num, this.self, Optional.absent());
+            events.create(type, this.num, this.self, Optional.absent());
+        }
+        final String after = this.assignee();
+        if (!after.equals(before)) {
+            final String type;
+            if (after.isEmpty()) {
+                type = Event.UNASSIGNED;
+            } else {
+                type = Event.ASSIGNED;
+            }
+            events.create(type, this.num, this.self, Optional.absent());
         }
     }
 
@@ -227,6 +240,12 @@ final class MkIssue implements Issue {
     @Override
     public boolean isLocked() {
         throw new UnsupportedOperationException("isLocked not implemented");
+    }
+
+    private String assignee() throws IOException {
+        return this.storage.xml().xpath(
+            this.xpath().concat("/assignee/text()")
+        ).stream().findFirst().orElse("");
     }
 
     private String xpath() {
