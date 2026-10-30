@@ -130,11 +130,11 @@ final class RtSearch implements Search {
             object -> {
                 try {
                     final URI uri = new URI(object.getString("url"));
-                    final String[] parts = RtSearch.SLASH.split(
-                        uri.getPath(), -1
-                    );
                     return this.ghub.repos().get(
-                        new Coordinates.Simple(parts[2], parts[3])
+                        new Coordinates.Simple(
+                            object.getJsonObject("repository")
+                                .getString("full_name")
+                        )
                     ).contents().get(
                         object.getString("path"),
                         RtSearch.QUERY.split(uri.getQuery(), -1)[1]
