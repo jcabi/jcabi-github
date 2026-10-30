@@ -144,8 +144,20 @@ final class MkIssue implements Issue {
     public void patch(final JsonObject json) throws IOException {
         final Issue.Smart smart = new Issue.Smart(this);
         final boolean was = smart.isOpen();
+        final boolean milestoned = this.milestoned();
         new JsonPatch(this.storage).patch(this.xpath(), json);
         final boolean now = smart.isOpen();
+        final boolean milestone = this.milestoned();
+        if (milestone != milestoned) {
+            final String kind;
+            if (milestone) {
+                kind = Event.MILESTONED;
+            } else {
+                kind = Event.DEMILESTONED;
+            }
+            new MkIssueEvents(this.storage, this.self, this.coords)
+                .create(kind, this.num, this.self, Optional.absent());
+        }
         if (now != was) {
             final String type;
             if (now) {
@@ -227,6 +239,12 @@ final class MkIssue implements Issue {
     @Override
     public boolean isLocked() {
         throw new UnsupportedOperationException("isLocked not implemented");
+    }
+
+    private boolean milestoned() throws IOException {
+        return !this.storage.xml().xpath(
+            this.xpath().concat("/milestone[text() != 'null']/text()")
+        ).isEmpty();
     }
 
     private String xpath() {

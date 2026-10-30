@@ -10,6 +10,7 @@ import com.jcabi.github.GitHub;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Label;
 import com.jcabi.github.Repo;
+import jakarta.json.Json;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
@@ -360,6 +361,53 @@ final class MkIssueTest {
             Mockito.mock(Coordinates.class),
             number
         );
+    }
+
+    /**
+     * MkIssue can type the event of setting a milestone.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void typesMilestonedEvent() throws Exception {
+        MatcherAssert.assertThat(
+            "Event of setting a milestone has a wrong type",
+            new Event.Smart(
+                MkIssueTest.milestoned().events().iterator().next()
+            ).type(),
+            Matchers.equalTo(Event.MILESTONED)
+        );
+    }
+
+    /**
+     * MkIssue can type the event of unsetting a milestone.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void typesDemilestonedEvent() throws Exception {
+        final Iterator<Event> events =
+            MkIssueTest.demilestoned().events().iterator();
+        events.next();
+        MatcherAssert.assertThat(
+            "Event of unsetting a milestone has a wrong type",
+            new Event.Smart(events.next()).type(),
+            Matchers.equalTo(Event.DEMILESTONED)
+        );
+    }
+
+    private static Issue.Smart milestoned() throws IOException {
+        final Issue.Smart issue = new Issue.Smart(MkIssueTest.issue());
+        issue.milestone(issue.repo().milestones().create("v1"));
+        return issue;
+    }
+
+    private static Issue.Smart demilestoned() throws IOException {
+        final Issue.Smart issue = MkIssueTest.milestoned();
+        issue.patch(
+            Json.createObjectBuilder().addNull("milestone").build()
+        );
+        return issue;
     }
 
     private static Issue.Smart closed() throws IOException {
