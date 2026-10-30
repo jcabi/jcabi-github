@@ -21,9 +21,18 @@ import lombok.ToString;
 public interface PullRef extends JsonReadable {
 
     /**
+     * Check whether the repository of its commit still exists.
+     * It is gone when the pull requester has deleted it.
+     *
+     * @return TRUE if {@link #repo()} can be called
+     */
+    boolean hasRepo();
+
+    /**
      * Get the repository which its commit is in.
      *
      * @return Repo
+     * @throws IllegalStateException If the repository has been deleted
      */
     Repo repo();
 
@@ -72,6 +81,11 @@ public interface PullRef extends JsonReadable {
         public Smart(final PullRef pref) {
             this.pullref = pref;
             this.jsn = new SmartJson(pref);
+        }
+
+        @Override
+        public boolean hasRepo() {
+            return this.pullref.hasRepo();
         }
 
         @Override
