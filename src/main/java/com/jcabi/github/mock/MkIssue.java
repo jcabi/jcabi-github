@@ -144,6 +144,7 @@ final class MkIssue implements Issue {
     public void patch(final JsonObject json) throws IOException {
         final Issue.Smart smart = new Issue.Smart(this);
         final boolean was = smart.isOpen();
+        final String before = smart.title();
         new JsonPatch(this.storage).patch(this.xpath(), json);
         final boolean now = smart.isOpen();
         if (now != was) {
@@ -155,6 +156,10 @@ final class MkIssue implements Issue {
             }
             new MkIssueEvents(this.storage, this.self, this.coords)
                 .create(type, this.num, this.self, Optional.absent());
+        }
+        if (!before.equals(smart.title())) {
+            new MkIssueEvents(this.storage, this.self, this.coords)
+                .create(Event.RENAMED, this.num, this.self, Optional.absent());
         }
     }
 

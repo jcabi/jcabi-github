@@ -348,6 +348,22 @@ final class MkIssueTest {
         );
     }
 
+    /**
+     * MkIssue can create a renamed event when changing the title.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void createsRenamedEventOnTitleChange() throws Exception {
+        final Issue issue = MkIssueTest.issue();
+        new Issue.Smart(issue).title("renamed title");
+        MatcherAssert.assertThat(
+            "Event of renaming has a wrong type",
+            new Event.Smart(issue.events().iterator().next()).type(),
+            Matchers.equalTo(Event.RENAMED)
+        );
+    }
+
     private static Issue issue() throws IOException {
         return new MkGitHub().randomRepo()
             .issues().create("hey", "how are you?");
