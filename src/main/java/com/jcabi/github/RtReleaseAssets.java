@@ -90,11 +90,8 @@ final class RtReleaseAssets implements ReleaseAssets {
         final String name
     ) throws IOException {
         return this.get(
-            this.request.uri().set(
-                URI.create(
-                    this.owner.json().getString("upload_url").replaceAll("\\{.*$", "")
-                )
-            )
+            this.request.uri()
+                .set(this.uploads())
                 .queryParam("name", name)
                 .back()
                 .method(Request.POST)
@@ -111,5 +108,11 @@ final class RtReleaseAssets implements ReleaseAssets {
     @Override
     public ReleaseAsset get(final int number) {
         return new RtReleaseAsset(this.entry, this.owner, number);
+    }
+
+    private URI uploads() throws IOException {
+        return URI.create(
+            this.owner.json().getString("upload_url").replaceAll("\\{.*$", "")
+        );
     }
 }
