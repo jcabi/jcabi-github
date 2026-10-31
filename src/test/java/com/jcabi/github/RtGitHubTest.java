@@ -6,6 +6,8 @@ package com.jcabi.github;
 
 import com.jcabi.http.request.FakeRequest;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsEqual;
@@ -130,5 +132,16 @@ final class RtGitHubTest {
             new RtGitHub(new FakeRequest()),
             Matchers.equalTo(new RtGitHub(new FakeRequest()))
         );
+    }
+
+    @Test
+    void avoidsJavaxXmlBindForAndroid() throws IOException {
+        try (InputStream bytes = RtGitHub.class.getResourceAsStream("RtGitHub.class")) {
+            MatcherAssert.assertThat(
+                "Class depends on javax.xml.bind, which Android lacks",
+                new String(bytes.readAllBytes(), StandardCharsets.ISO_8859_1),
+                Matchers.not(Matchers.containsString("javax/xml/bind"))
+            );
+        }
     }
 }

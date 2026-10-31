@@ -49,6 +49,19 @@ final class JsonNodeTest {
         );
     }
 
+    @Test
+    void convertsTypedXmlToJsonNumber() {
+        MatcherAssert.assertThat(
+            "Number element is not converted to a JSON number",
+            new JsonNode(
+                new XMLDocument(
+                    "<user><age type=\"number\">30</age></user>"
+                ).nodes("user").get(0)
+            ).json().getInt("age"),
+            Matchers.equalTo(30)
+        );
+    }
+
     private static JsonObject user() {
         return new JsonNode(
             new XMLDocument(
