@@ -33,6 +33,17 @@ final class SmartJsonTest {
     }
 
     @Test
+    void fetchesEmptyStringFromNullJsonValue() throws IOException {
+        MatcherAssert.assertThat(
+            "Null value is not an empty string",
+            new SmartJson(
+                SmartJsonTest.json("{\"email\": null}")
+            ).text("email"),
+            Matchers.equalTo("")
+        );
+    }
+
+    @Test
     void fetchesNumberFromJson() throws IOException {
         MatcherAssert.assertThat(
             "Values are not equal",

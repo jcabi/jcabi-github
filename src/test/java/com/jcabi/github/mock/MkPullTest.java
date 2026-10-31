@@ -251,8 +251,8 @@ final class MkPullTest {
         pull.patch(Json.createObjectBuilder().add("additions", lines).build());
         MatcherAssert.assertThat(
             "Assertion failed",
-            pull.json().getString("additions"),
-            new IsEqual<>(Integer.toString(lines))
+            pull.json().getInt("additions"),
+            new IsEqual<>(lines)
         );
     }
 

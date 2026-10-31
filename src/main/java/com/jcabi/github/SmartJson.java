@@ -47,7 +47,14 @@ final class SmartJson {
      * @throws IOException If there is any I/O problem
      */
     String text(final String name) throws IOException {
-        return this.value(name, JsonString.class).getString();
+        final JsonValue value = this.value(name, JsonValue.class);
+        final String result;
+        if (JsonValue.ValueType.NULL.equals(value.getValueType())) {
+            result = "";
+        } else {
+            result = JsonString.class.cast(value).getString();
+        }
+        return result;
     }
 
     /**
