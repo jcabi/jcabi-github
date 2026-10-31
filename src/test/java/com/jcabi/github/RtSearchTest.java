@@ -170,8 +170,7 @@ final class RtSearchTest {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("name", name)
-            .add("url", url)
-            .add(
+            .add("url", url).add(
                 "repository",
                 Json.createObjectBuilder().add("full_name", "user/repo")
             );

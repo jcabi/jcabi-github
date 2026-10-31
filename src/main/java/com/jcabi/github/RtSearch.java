@@ -129,7 +129,6 @@ final class RtSearch implements Search {
             this.request, "code", keywords, sort, order.identifier(),
             object -> {
                 try {
-                    final URI uri = new URI(object.getString("url"));
                     return this.ghub.repos().get(
                         new Coordinates.Simple(
                             object.getJsonObject("repository")
@@ -137,7 +136,9 @@ final class RtSearch implements Search {
                         )
                     ).contents().get(
                         object.getString("path"),
-                        RtSearch.QUERY.split(uri.getQuery(), -1)[1]
+                        RtSearch.QUERY.split(
+                            new URI(object.getString("url")).getQuery(), -1
+                        )[1]
                     );
                 } catch (final URISyntaxException | IOException ex) {
                     throw new IllegalStateException(ex);
