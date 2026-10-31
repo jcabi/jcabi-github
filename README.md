@@ -36,14 +36,19 @@ package is the object-oriented API. Use it like this:
 By default, the library works with [GitHub RESTful API]:
 
 ```java
-import com.jcabi.github.*;
+import com.jcabi.github.Coordinates;
+import com.jcabi.github.GitHub;
+import com.jcabi.github.Issue;
+import com.jcabi.github.Repo;
+import com.jcabi.github.RtGitHub;
+import java.io.IOException;
 public class Main {
   public static void main(String[] args) throws IOException {
     GitHub github = new RtGitHub(".. your OAuth token ..");
     Repo repo = github.repos().get(
         new Coordinates.Simple("octocat/Hello-World")
     );
-    final Issue issue = repo.issues().create("Test title", "Test description");
+    Issue issue = repo.issues().create("Test title", "Test description");
     issue.comments().post("My first comment!");
   }
 }
