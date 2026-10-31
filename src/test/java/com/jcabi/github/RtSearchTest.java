@@ -125,6 +125,31 @@ final class RtSearchTest {
         }
     }
 
+    @Test
+    void findsContentsOfRepositoryNamedInResponse() throws IOException {
+        final JsonObject item = RtSearchTest.content(
+            "src/main.js",
+            "main.js",
+            "https://ghe.example.com/api/v3/repositories/42/contents/src/main.js?ref=abc"
+        ).build();
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(RtSearchTest.search(item).toString())
+            ).next(new MkAnswer.Simple(item.toString()))
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Repository is not the one named in the response",
+                new RtGitHub(
+                    new ApacheRequest(container.home())
+                ).search().codes("test5", "joined", Search.Order.DESC)
+                    .iterator().next().repo().coordinates().toString(),
+                Matchers.equalTo("user/repo")
+            );
+            container.stop();
+        }
+    }
+
     /**
      * RtSearch can read non-unicode.
      */
@@ -145,7 +170,10 @@ final class RtSearchTest {
         return Json.createObjectBuilder()
             .add("path", path)
             .add("name", name)
-            .add("url", url);
+            .add("url", url).add(
+                "repository",
+                Json.createObjectBuilder().add("full_name", "user/repo")
+            );
     }
 
     private static JsonObject search(final JsonObject... contents) {

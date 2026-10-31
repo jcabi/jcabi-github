@@ -129,15 +129,16 @@ final class RtSearch implements Search {
             this.request, "code", keywords, sort, order.identifier(),
             object -> {
                 try {
-                    final URI uri = new URI(object.getString("url"));
-                    final String[] parts = RtSearch.SLASH.split(
-                        uri.getPath(), -1
-                    );
                     return this.ghub.repos().get(
-                        new Coordinates.Simple(parts[2], parts[3])
+                        new Coordinates.Simple(
+                            object.getJsonObject("repository")
+                                .getString("full_name")
+                        )
                     ).contents().get(
                         object.getString("path"),
-                        RtSearch.QUERY.split(uri.getQuery(), -1)[1]
+                        RtSearch.QUERY.split(
+                            new URI(object.getString("url")).getQuery(), -1
+                        )[1]
                     );
                 } catch (final URISyntaxException | IOException ex) {
                     throw new IllegalStateException(ex);
