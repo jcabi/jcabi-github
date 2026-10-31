@@ -8,6 +8,7 @@ import com.jcabi.aspects.Immutable;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.xembly.Directives;
@@ -44,12 +45,11 @@ final class JsonPatch {
     void patch(final String xpath, final JsonObject obj) throws IOException {
         final Directives dirs = new Directives().xpath(xpath);
         for (final Map.Entry<String, JsonValue> entry : obj.entrySet()) {
-            dirs.addIf(entry.getKey());
-            if (entry.getValue().getValueType() == JsonValue.ValueType.NUMBER) {
-                dirs.attr("type", "number");
-            }
-            dirs.set(StringUtils.strip(entry.getValue().toString(), "\""))
-                .up();
+            dirs.addIf(entry.getKey()).attr(
+                "type",
+                entry.getValue().getValueType().name()
+                    .toLowerCase(Locale.ENGLISH)
+            ).set(StringUtils.strip(entry.getValue().toString(), "\"")).up();
         }
         this.storage.apply(dirs);
     }

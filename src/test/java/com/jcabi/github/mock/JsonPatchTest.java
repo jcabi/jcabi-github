@@ -49,4 +49,24 @@ final class JsonPatchTest {
             Matchers.equalTo("number")
         );
     }
+
+    @Test
+    void unmarksNumberReplacedWithNull() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        final JsonPatch patch = new JsonPatch(storage);
+        patch.patch(
+            "/github",
+            Json.createObjectBuilder().add("milestone", 7).build()
+        );
+        patch.patch(
+            "/github",
+            Json.createObjectBuilder().addNull("milestone").build()
+        );
+        MatcherAssert.assertThat(
+            "Null value is still marked as a number",
+            new JsonNode(storage.xml().nodes("/github").get(0)).json()
+                .getString("milestone"),
+            Matchers.equalTo("null")
+        );
+    }
 }
