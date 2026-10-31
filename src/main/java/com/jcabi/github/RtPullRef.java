@@ -54,7 +54,18 @@ final class RtPullRef implements PullRef {
     }
 
     @Override
+    public boolean hasRepo() {
+        return this.jsn.containsKey("repo")
+            && !this.jsn.isNull("repo");
+    }
+
+    @Override
     public Repo repo() {
+        if (!this.hasRepo()) {
+            throw new IllegalStateException(
+                "The repository of the pull request ref is deleted"
+            );
+        }
         return this.github.repos().get(
             new Coordinates.Simple(
                 this.jsn.getJsonObject("repo").getString("full_name")

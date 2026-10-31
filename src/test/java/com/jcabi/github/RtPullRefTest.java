@@ -10,6 +10,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -70,6 +71,47 @@ final class RtPullRefTest {
             "Values are not equal",
             RtPullRefTest.pullRef().sha(),
             Matchers.equalTo(RtPullRefTest.SHA)
+        );
+    }
+
+    /**
+     * RtPullRef can report a missing repo.
+     *
+     * @throws IOException If there is an I/O problem.
+     */
+    @Test
+    void reportsMissingRepo() throws IOException {
+        MatcherAssert.assertThat(
+            "Repo is reported present",
+            new RtPullRef(
+                new MkGitHub(),
+                Json.createObjectBuilder()
+                    .add("ref", RtPullRefTest.REF)
+                    .add("sha", RtPullRefTest.SHA)
+                    .addNull("repo")
+                    .build()
+            ).hasRepo(),
+            Matchers.is(false)
+        );
+    }
+
+    /**
+     * RtPullRef can refuse to give a deleted repo.
+     *
+     * @throws IOException If there is an I/O problem.
+     */
+    @Test
+    void refusesMissingRepo() throws IOException {
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            new RtPullRef(
+                new MkGitHub(),
+                Json.createObjectBuilder()
+                    .add("ref", RtPullRefTest.REF)
+                    .addNull("repo")
+                    .build()
+            )::repo,
+            "Deleted repo is not refused"
         );
     }
 

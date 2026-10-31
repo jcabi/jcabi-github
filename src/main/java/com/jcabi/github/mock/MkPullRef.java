@@ -48,6 +48,11 @@ final class MkPullRef implements PullRef {
     }
 
     @Override
+    public boolean hasRepo() {
+        return true;
+    }
+
+    @Override
     public Repo repo() {
         return this.branch.repo();
     }
