@@ -30,9 +30,10 @@ public interface PullRef extends JsonReadable {
 
     /**
      * Get the repository which its commit is in.
+     * It fails with {@link IllegalStateException} when the repository
+     * has been deleted, so check {@link #hasRepo()} first.
      *
      * @return Repo
-     * @throws IllegalStateException If the repository has been deleted
      */
     Repo repo();
 
