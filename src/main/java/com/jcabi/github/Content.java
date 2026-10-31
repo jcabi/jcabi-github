@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javax.xml.bind.DatatypeConverter;
+import java.util.Base64;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -178,7 +178,7 @@ public interface Content extends Comparable<Content>,
          * @throws IOException If there is any I/O problem
          */
         public byte[] decoded() throws IOException {
-            return DatatypeConverter.parseBase64Binary(this.content());
+            return Base64.getMimeDecoder().decode(this.content());
         }
 
         @Override
