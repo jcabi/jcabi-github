@@ -108,6 +108,26 @@ final class RtReferencesTest {
     }
 
     @Test
+    void removesReferenceWithFullName() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT, "")
+            ).start(RandomPort.port())
+        ) {
+            new RtReferences(
+                new ApacheRequest(container.home()),
+                new MkGitHub().randomRepo()
+            ).remove("refs/heads/feature-b");
+            MatcherAssert.assertThat(
+                "Path still repeats the refs prefix",
+                container.take().uri().getPath(),
+                Matchers.endsWith("/git/refs/heads/feature-b")
+            );
+            container.stop();
+        }
+    }
+
+    @Test
     void iteratesTags() throws IOException {
         try (
             MkContainer container = new MkGrizzlyContainer().next(
