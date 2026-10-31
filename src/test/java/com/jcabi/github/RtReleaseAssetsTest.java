@@ -71,13 +71,11 @@ final class RtReleaseAssetsTest {
     @Test
     void uploadsToUrlOfRelease() throws Exception {
         try (
-            MkContainer container = new MkGrizzlyContainer()
-                .next(
-                    new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_CREATED, "{\"id\":7}"
-                    )
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(
+                    HttpURLConnection.HTTP_CREATED, "{\"id\":7}"
                 )
-                .start(RandomPort.port())
+            ).start(RandomPort.port())
         ) {
             final Release release = RtReleaseAssetsTest.release();
             Mockito.doReturn(

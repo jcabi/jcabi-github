@@ -90,12 +90,11 @@ final class RtReleaseAssets implements ReleaseAssets {
         final String name
     ) throws IOException {
         return this.get(
-            this.request.uri()
-                .set(
-                    URI.create(
-                        this.owner.json().getString("upload_url").replaceAll("\\{.*$", "")
-                    )
+            this.request.uri().set(
+                URI.create(
+                    this.owner.json().getString("upload_url").replaceAll("\\{.*$", "")
                 )
+            )
                 .queryParam("name", name)
                 .back()
                 .method(Request.POST)
