@@ -91,13 +91,7 @@ final class RtReleaseAssets implements ReleaseAssets {
     ) throws IOException {
         return this.get(
             this.request.uri()
-                .set(URI.create("https://uploads.github.com"))
-                .path("/repos")
-                .path(this.owner.repo().coordinates().user())
-                .path(this.owner.repo().coordinates().repo())
-                .path("/releases")
-                .path(String.valueOf(this.owner.number()))
-                .path("/assets")
+                .set(this.uploads())
                 .queryParam("name", name)
                 .back()
                 .method(Request.POST)
@@ -114,5 +108,11 @@ final class RtReleaseAssets implements ReleaseAssets {
     @Override
     public ReleaseAsset get(final int number) {
         return new RtReleaseAsset(this.entry, this.owner, number);
+    }
+
+    private URI uploads() throws IOException {
+        return URI.create(
+            this.owner.json().getString("upload_url").replaceAll("\\{.*$", "")
+        );
     }
 }
