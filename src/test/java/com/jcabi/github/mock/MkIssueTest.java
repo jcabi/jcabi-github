@@ -273,6 +273,42 @@ final class MkIssueTest {
     }
 
     /**
+     * MkIssue can create an assigned event when assigning a user.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void createsAssignedEvent() throws Exception {
+        final Issue issue = MkIssueTest.issue();
+        new Issue.Smart(issue).assign("walter");
+        MatcherAssert.assertThat(
+            "Event of assigning has a wrong type",
+            new Event.Smart(issue.events().iterator().next()).type(),
+            Matchers.equalTo(Event.ASSIGNED)
+        );
+    }
+
+    /**
+     * MkIssue can create an unassigned event when unassigning a user.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void createsUnassignedEvent() throws Exception {
+        final Issue issue = MkIssueTest.issue();
+        final Issue.Smart smart = new Issue.Smart(issue);
+        smart.assign("walter");
+        smart.assign("");
+        final Iterator<Event> events = issue.events().iterator();
+        events.next();
+        MatcherAssert.assertThat(
+            "Event of unassigning has a wrong type",
+            new Event.Smart(events.next()).type(),
+            Matchers.equalTo(Event.UNASSIGNED)
+        );
+    }
+
+    /**
      * MkIssue can create a closed event when closing an issue.
      *
      * @throws Exception If some problem inside
@@ -349,17 +385,19 @@ final class MkIssueTest {
         );
     }
 
-    private static Issue issue() throws IOException {
-        return new MkGitHub().randomRepo()
-            .issues().create("hey", "how are you?");
-    }
-
-    private static MkIssue issue(final int number) throws IOException {
-        return new MkIssue(
-            new MkStorage.InFile(),
-            String.format("login-%d", number),
-            Mockito.mock(Coordinates.class),
-            number
+    /**
+     * MkIssue can create a renamed event when changing the title.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void createsRenamedEventOnTitleChange() throws Exception {
+        final Issue issue = MkIssueTest.issue();
+        new Issue.Smart(issue).title("renamed title");
+        MatcherAssert.assertThat(
+            "Event of renaming has a wrong type",
+            new Event.Smart(issue.events().iterator().next()).type(),
+            Matchers.equalTo(Event.RENAMED)
         );
     }
 
@@ -393,6 +431,20 @@ final class MkIssueTest {
             "Event of unsetting a milestone has a wrong type",
             new Event.Smart(events.next()).type(),
             Matchers.equalTo(Event.DEMILESTONED)
+        );
+    }
+
+    private static Issue issue() throws IOException {
+        return new MkGitHub().randomRepo()
+            .issues().create("hey", "how are you?");
+    }
+
+    private static MkIssue issue(final int number) throws IOException {
+        return new MkIssue(
+            new MkStorage.InFile(),
+            String.format("login-%d", number),
+            Mockito.mock(Coordinates.class),
+            number
         );
     }
 
