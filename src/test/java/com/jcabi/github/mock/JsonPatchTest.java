@@ -35,4 +35,18 @@ final class JsonPatchTest {
             Matchers.describedAs(xml.toString(), Matchers.endsWith("you!"))
         );
     }
+
+    @Test
+    void marksNumbersInXml() throws IOException {
+        final MkStorage storage = new MkStorage.InFile();
+        new JsonPatch(storage).patch(
+            "/github",
+            Json.createObjectBuilder().add("number", 1).build()
+        );
+        MatcherAssert.assertThat(
+            "Number is not marked with a type",
+            storage.xml().xpath("/github/number/@type").get(0),
+            Matchers.equalTo("number")
+        );
+    }
 }
