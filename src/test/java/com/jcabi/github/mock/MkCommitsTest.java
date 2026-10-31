@@ -95,6 +95,24 @@ final class MkCommitsTest {
         );
     }
 
+    @Test
+    void storesCreationTimeOfCommit() throws IOException {
+        MatcherAssert.assertThat(
+            "Created commit has no created_at",
+            MkCommitsTest.created().json().containsKey("created_at"),
+            Matchers.is(true)
+        );
+    }
+
+    @Test
+    void storesUpdateTimeOfCommit() throws IOException {
+        MatcherAssert.assertThat(
+            "Created commit has no updated_at",
+            MkCommitsTest.created().json().containsKey("updated_at"),
+            Matchers.is(true)
+        );
+    }
+
     private static Commit created() throws IOException {
         return new MkGitHub().randomRepo()
             .git().commits().create(
