@@ -272,6 +272,42 @@ final class MkIssueTest {
     }
 
     /**
+     * MkIssue can create an assigned event when assigning a user.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void createsAssignedEvent() throws Exception {
+        final Issue issue = MkIssueTest.issue();
+        new Issue.Smart(issue).assign("walter");
+        MatcherAssert.assertThat(
+            "Event of assigning has a wrong type",
+            new Event.Smart(issue.events().iterator().next()).type(),
+            Matchers.equalTo(Event.ASSIGNED)
+        );
+    }
+
+    /**
+     * MkIssue can create an unassigned event when unassigning a user.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void createsUnassignedEvent() throws Exception {
+        final Issue issue = MkIssueTest.issue();
+        final Issue.Smart smart = new Issue.Smart(issue);
+        smart.assign("walter");
+        smart.assign("");
+        final Iterator<Event> events = issue.events().iterator();
+        events.next();
+        MatcherAssert.assertThat(
+            "Event of unassigning has a wrong type",
+            new Event.Smart(events.next()).type(),
+            Matchers.equalTo(Event.UNASSIGNED)
+        );
+    }
+
+    /**
      * MkIssue can create a closed event when closing an issue.
      *
      * @throws Exception If some problem inside
