@@ -79,9 +79,7 @@ final class RtUsers implements Users {
     public Iterable<User> iterate(final String identifier) {
         return new RtPagination<>(
             this.request.uri().queryParam("since", identifier).back(),
-            object -> this.get(
-                String.valueOf(object.getInt("id"))
-            )
+            object -> this.get(object.getString("login"))
         );
     }
 }

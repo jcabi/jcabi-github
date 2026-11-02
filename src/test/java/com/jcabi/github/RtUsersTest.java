@@ -53,6 +53,28 @@ final class RtUsersTest {
     }
 
     @Test
+    void iteratesUsersByLogin() throws IOException {
+        final String login = "jeff-7Qz";
+        final MkContainer container = new MkGrizzlyContainer().next(
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                Json.createArrayBuilder()
+                    .add(RtUsersTest.json(login, "8317"))
+                    .build().toString()
+            )
+        ).start(RandomPort.port());
+        MatcherAssert.assertThat(
+            "Iterated user does not carry the login",
+            new RtUsers(
+                Mockito.mock(GitHub.class),
+                new ApacheRequest(container.home())
+            ).iterate("8316").iterator().next().login(),
+            Matchers.equalTo(login)
+        );
+        container.stop();
+    }
+
+    @Test
     void fetchesSingleUser() throws IOException {
         final String login = "mark";
         final MkContainer container = new MkGrizzlyContainer().next(
