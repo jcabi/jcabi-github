@@ -24,7 +24,7 @@
     </breadcrumbs>
     <menu name="Overview">
       <item name="Introduction" href="index.html"/>
-      <item name="JavaDoc ${project.version}" href="./apidocs-${project.version}/index.html"/>
+      <item name="JavaDoc ${project.version}" href="./apidocs/index.html"/>
       <item name="Test coverage" href="./cobertura/index.html"/>
       <item name="Release History" href="https://github.com/jcabi/jcabi-github/releases"/>
     </menu>
