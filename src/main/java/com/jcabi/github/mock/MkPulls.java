@@ -88,6 +88,16 @@ final class MkPulls implements Pulls {
         final String head,
         final String base
     ) throws IOException {
+        return this.create(title, head, base, false);
+    }
+
+    @Override
+    public Pull create(
+        final String title,
+        final String head,
+        final String base,
+        final boolean draft
+    ) throws IOException {
         if (head.isEmpty()) {
             throw new IllegalArgumentException("head cannot be empty!");
         }
@@ -115,6 +125,7 @@ final class MkPulls implements Pulls {
                     .add("number").set(Integer.toString(number)).up()
                     .add("head").set(canonical).up()
                     .add("base").set(base).up()
+                    .add("draft").set(Boolean.toString(draft)).up()
                     .add("checks").up()
                     .add("user")
                     .add("login").set(this.self)

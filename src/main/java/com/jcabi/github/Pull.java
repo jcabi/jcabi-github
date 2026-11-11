@@ -296,6 +296,17 @@ public interface Pull extends Comparable<Pull>, JsonReadable, JsonPatchable {
         }
 
         /**
+         * Is it a draft?
+         *
+         * @return TRUE if it is a draft pull request
+         * @throws IOException If there is any I/O problem
+         * @since 2.0
+         */
+        public boolean draft() throws IOException {
+            return this.jsn.json().getBoolean("draft", false);
+        }
+
+        /**
          * Get its author.
          *
          * @return Author of pull request (who submitted it)

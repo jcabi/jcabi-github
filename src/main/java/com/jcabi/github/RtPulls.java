@@ -85,6 +85,15 @@ final class RtPulls implements Pulls {
         final String title,
         final String head,
         final String base) throws IOException {
+        return this.create(title, head, base, false);
+    }
+
+    @Override
+    public Pull create(
+        final String title,
+        final String head,
+        final String base,
+        final boolean draft) throws IOException {
         return this.get(
             this.request.method(Request.POST)
                 .body().set(
@@ -92,6 +101,7 @@ final class RtPulls implements Pulls {
                         .add("title", title)
                         .add("head", head)
                         .add("base", base)
+                        .add("draft", draft)
                         .build()
                 ).back()
                 .fetch().as(RestResponse.class)
