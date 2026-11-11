@@ -73,11 +73,6 @@ final class MkPull implements Pull {
     private static final String BASE_PROP = "base";
 
     /**
-     * Property name for the pull request link in issue JSON object.
-     */
-    private static final String PULL_REQUEST_PROP = "pull_request";
-
-    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -231,7 +226,7 @@ final class MkPull implements Pull {
         final JsonObjectBuilder json = Json.createObjectBuilder();
         for (final Map.Entry<String, JsonValue> val
             : this.repo().issues().get(this.num).json().entrySet()) {
-            if (!MkPull.PULL_REQUEST_PROP.equals(val.getKey())) {
+            if (!"pull_request".equals(val.getKey())) {
                 json.add(val.getKey(), val.getValue());
             }
         }
@@ -280,15 +275,8 @@ final class MkPull implements Pull {
         return json.build();
     }
 
-    /**
-     * Is this property shared with the issue of the pull request?
-     *
-     * <p>GitHub keeps the title, the body and the state of a pull request
-     * in the issue with the same number, so they are not stored twice.
-     *
-     * @param name Name of the property
-     * @return TRUE if the property belongs to the issue
-     */
+    // GitHub keeps the title, the body and the state of a pull request
+    // in the issue with the same number, so they are not stored twice.
     private static boolean shared(final String name) {
         return "title".equals(name) || "body".equals(name)
             || "state".equals(name);
