@@ -56,6 +56,7 @@ public interface Pulls {
      * @throws IOException If there is any I/O problem
      * @see <a href="https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request">Create a Pull Request</a>
      * @since 2.0
+     * @checkstyle ParameterNumberCheck (2 lines)
      */
     Pull create(String title, String head, String base, boolean draft)
         throws IOException;
