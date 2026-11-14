@@ -40,6 +40,17 @@ import org.apache.commons.lang3.RandomStringUtils;
  *
  * <pre> GitHub github = new MkGitHub("jeff");</pre>
  *
+ * <p>It can also start from a predefined state, for example an XML
+ * document prepared in a file, which stays intact, since the storage
+ * works with a temporary copy of it:</p>
+ *
+ * <pre> GitHub github = new MkGitHub(
+ *   new MkStorage.Synced(
+ *     new MkStorage.InFile(new XMLDocument(new File("github.xml")))
+ *   ),
+ *   "jeff"
+ * );</pre>
+ *
  * @since 0.5
  */
 @Immutable
