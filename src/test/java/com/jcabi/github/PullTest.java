@@ -60,6 +60,30 @@ final class PullTest {
      * @throws IOException If some problem inside
      */
     @Test
+    void detectsDraftPull() throws IOException {
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(
+            Json.createObjectBuilder().add("draft", true).build()
+        ).when(pull).json();
+        MatcherAssert.assertThat(
+            "Draft pull request is not detected",
+            new Pull.Smart(pull).draft(),
+            Matchers.is(true)
+        );
+    }
+
+    @Test
+    void treatsPullWithoutDraftFlagAsReady() throws IOException {
+        final Pull pull = Mockito.mock(Pull.class);
+        Mockito.doReturn(Json.createObjectBuilder().build()).when(pull).json();
+        MatcherAssert.assertThat(
+            "Pull request without the flag is a draft",
+            new Pull.Smart(pull).draft(),
+            Matchers.is(false)
+        );
+    }
+
+    @Test
     void getsPullComments() throws IOException {
         final PullComments comments = Mockito.mock(PullComments.class);
         final Pull pull = Mockito.mock(Pull.class);

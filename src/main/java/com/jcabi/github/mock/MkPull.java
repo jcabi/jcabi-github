@@ -73,6 +73,11 @@ final class MkPull implements Pull {
     private static final String BASE_PROP = "base";
 
     /**
+     * Property name for draft flag in pull request JSON object.
+     */
+    private static final String DRAFT_PROP = "draft";
+
+    /**
      * Storage.
      */
     private final transient MkStorage storage;
@@ -235,6 +240,11 @@ final class MkPull implements Pull {
                 json.add(
                     MkPull.NUMBER_PROP,
                     Integer.parseInt(xml.xpath("number/text()").get(0))
+                );
+            } else if (MkPull.DRAFT_PROP.equals(val.getKey())) {
+                json.add(
+                    MkPull.DRAFT_PROP,
+                    Boolean.parseBoolean(xml.xpath("draft/text()").get(0))
                 );
             } else if (MkPull.USER_PROP.equals(val.getKey())) {
                 json.add(

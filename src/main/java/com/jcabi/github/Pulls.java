@@ -46,6 +46,20 @@ public interface Pulls {
     Pull create(String title, String head, String base) throws IOException;
 
     /**
+     * Create new pull request as a draft.
+     *
+     * @param title Title
+     * @param head Head
+     * @param base Base
+     * @return Pull request just created
+     * @throws IOException If there is any I/O problem
+     * @see <a href="https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request">Create a Pull Request</a>
+     * @since 2.0
+     */
+    Pull createDraft(String title, String head, String base)
+        throws IOException;
+
+    /**
      * Iterate them all.
      *
      * @param params Params
