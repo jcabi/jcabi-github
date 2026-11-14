@@ -147,6 +147,91 @@ final class RtStatusesTest {
         }
     }
 
+    @Test
+    void listsStatusesOfRef() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.listed())
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Wrong amount of statuses is listed",
+                RtStatusesTest.statuses(container).list("feature-a"),
+                Matchers.iterableWithSize(2)
+            );
+        }
+    }
+
+    @Test
+    void listsStatusesWithGet() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.listed())
+                .start(RandomPort.port())
+        ) {
+            RtStatusesTest.statuses(container).list("feature-a")
+                .iterator().next();
+            MatcherAssert.assertThat(
+                "Statuses are not listed with GET",
+                container.take().method(),
+                Matchers.equalTo(Request.GET)
+            );
+        }
+    }
+
+    @Test
+    void listsStatusesFromRefUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.listed())
+                .start(RandomPort.port())
+        ) {
+            final Statuses statuses = RtStatusesTest.statuses(container);
+            statuses.list("feature-a").iterator().next();
+            MatcherAssert.assertThat(
+                "Statuses are listed from a wrong URI",
+                container.take().uri().getPath(),
+                Matchers.equalTo(
+                    String.format(
+                        "/repos/%s/commits/feature-a/statuses",
+                        statuses.commit().repo().coordinates()
+                    )
+                )
+            );
+        }
+    }
+
+    @Test
+    void listsStatusesWithState() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.listed())
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Listed status has a wrong state",
+                new Status.Smart(
+                    RtStatusesTest.statuses(container).list("feature-a")
+                        .iterator().next()
+                ).state(),
+                Matchers.equalTo(Status.State.SUCCESS)
+            );
+        }
+    }
+
+    private static Statuses statuses(final MkContainer container)
+        throws IOException {
+        final Request entry = new ApacheRequest(container.home());
+        return new RtStatuses(
+            entry,
+            new RtCommit(
+                entry,
+                new MkGitHub().randomRepo(),
+                "0abcd89jcabitest"
+            )
+        );
+    }
+
     private static void create(final MkContainer container) throws IOException {
         final Request entry = new ApacheRequest(container.home());
         new RtStatuses(
@@ -173,6 +258,27 @@ final class RtStatusesTest {
         ) {
             return reader.readObject();
         }
+    }
+
+    private static MkAnswer listed() {
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            Json.createArrayBuilder()
+                .add(RtStatusesTest.status(1, Status.State.SUCCESS))
+                .add(RtStatusesTest.status(2, Status.State.PENDING))
+                .build().toString()
+        );
+    }
+
+    private static JsonObject status(final int number,
+        final Status.State state) {
+        return Json.createObjectBuilder()
+            .add("id", number)
+            .add("url", RtStatusesTest.URL)
+            .add("state", state.identifier())
+            .add("description", RtStatusesTest.DESCRIPTION)
+            .add("context", RtStatusesTest.CONTEXT)
+            .build();
     }
 
     private static MkAnswer answer() {

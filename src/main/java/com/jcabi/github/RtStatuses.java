@@ -19,6 +19,11 @@ import java.net.HttpURLConnection;
 public class RtStatuses implements Statuses {
 
     /**
+     * RESTful API entry point.
+     */
+    private final transient Request entry;
+
+    /**
      * RESTful request.
      */
     private final transient Request request;
@@ -36,6 +41,7 @@ public class RtStatuses implements Statuses {
      */
     RtStatuses(final Request req, final Commit commit) {
         this(
+            req,
             commit,
             req.uri()
                 .path("/repos")
@@ -47,7 +53,8 @@ public class RtStatuses implements Statuses {
         );
     }
 
-    private RtStatuses(final Commit cmmt, final Request request) {
+    private RtStatuses(final Request entry, final Commit cmmt, final Request request) {
+        this.entry = entry;
         this.cmmt = cmmt;
         this.request = request;
     }
@@ -78,11 +85,19 @@ public class RtStatuses implements Statuses {
         );
     }
 
-    // @todo #1126:30min Implement this method which gets all status
-    //  messages for a given commit.
     @Override
     public final Iterable<Status> list(final String ref) {
-        throw new UnsupportedOperationException("Not implemented");
+        return new RtPagination<>(
+            this.entry.uri()
+                .path("/repos")
+                .path(this.cmmt.repo().coordinates().user())
+                .path(this.cmmt.repo().coordinates().repo())
+                .path("/commits")
+                .path(ref)
+                .path("/statuses")
+                .back(),
+            object -> new RtStatus(this.cmmt, object)
+        );
     }
 
     @Override
