@@ -257,6 +257,70 @@ final class MkPullTest {
     }
 
     @Test
+    void readsTitleOfPullThroughSmart() throws Exception {
+        MatcherAssert.assertThat(
+            "Pull request has a wrong title",
+            new Pull.Smart(
+                new MkGitHub().randomRepo().pulls()
+                    .create("testing", "testing", "master")
+            ).title(),
+            Matchers.equalTo("testing")
+        );
+    }
+
+    @Test
+    void readsBodyOfPullThroughSmart() throws Exception {
+        MatcherAssert.assertThat(
+            "Pull request has a wrong body",
+            new Pull.Smart(MkPullTest.pullRequest()).body(),
+            Matchers.equalTo("some body")
+        );
+    }
+
+    @Test
+    void readsStateOfPullThroughSmart() throws Exception {
+        MatcherAssert.assertThat(
+            "Pull request is not open",
+            new Pull.Smart(MkPullTest.pullRequest()).isOpen(),
+            Matchers.is(true)
+        );
+    }
+
+    @Test
+    void changesTitleOfIssueWhenPullIsPatched() throws Exception {
+        final Pull pull = MkPullTest.pullRequest();
+        new Pull.Smart(pull).title("renamed");
+        MatcherAssert.assertThat(
+            "Issue of the pull request has a wrong title",
+            new Issue.Smart(pull.repo().issues().get(pull.number())).title(),
+            Matchers.equalTo("renamed")
+        );
+    }
+
+    @Test
+    void showsTitleOfPullAfterIssueIsPatched() throws Exception {
+        final Pull pull = MkPullTest.pullRequest();
+        new Issue.Smart(pull.repo().issues().get(pull.number()))
+            .title("retitled");
+        MatcherAssert.assertThat(
+            "Pull request has a wrong title",
+            new Pull.Smart(pull).title(),
+            Matchers.equalTo("retitled")
+        );
+    }
+
+    @Test
+    void closesPullThroughSmart() throws Exception {
+        final Pull pull = MkPullTest.pullRequest();
+        new Pull.Smart(pull).state(Issue.CLOSED_STATE);
+        MatcherAssert.assertThat(
+            "Issue of the pull request is not closed",
+            new Issue.Smart(pull.repo().issues().get(pull.number())).isOpen(),
+            Matchers.is(false)
+        );
+    }
+
+    @Test
     void issueIsPull() throws Exception {
         final Pull pull = MkPullTest.pullRequest();
         MatcherAssert.assertThat(

@@ -197,7 +197,23 @@ final class MkPull implements Pull {
 
     @Override
     public void patch(final JsonObject json) throws IOException {
-        new JsonPatch(this.storage).patch(this.xpath(), json);
+        final JsonObjectBuilder common = Json.createObjectBuilder();
+        final JsonObjectBuilder own = Json.createObjectBuilder();
+        for (final Map.Entry<String, JsonValue> val : json.entrySet()) {
+            if (MkPull.shared(val.getKey())) {
+                common.add(val.getKey(), val.getValue());
+            } else {
+                own.add(val.getKey(), val.getValue());
+            }
+        }
+        final JsonObject issue = common.build();
+        if (!issue.isEmpty()) {
+            this.repo().issues().get(this.num).patch(issue);
+        }
+        final JsonObject pull = own.build();
+        if (!pull.isEmpty()) {
+            new JsonPatch(this.storage).patch(this.xpath(), pull);
+        }
     }
 
     @Override
@@ -208,6 +224,12 @@ final class MkPull implements Pull {
         final String[] parts = head.split(MkPull.USER_BRANCH_SEP, 2);
         final JsonObject obj = new JsonNode(xml).json();
         final JsonObjectBuilder json = Json.createObjectBuilder();
+        for (final Map.Entry<String, JsonValue> val
+            : this.repo().issues().get(this.num).json().entrySet()) {
+            if (!"pull_request".equals(val.getKey())) {
+                json.add(val.getKey(), val.getValue());
+            }
+        }
         for (final Map.Entry<String, JsonValue> val : obj.entrySet()) {
             if (MkPull.NUMBER_PROP.equals(val.getKey())) {
                 json.add(
@@ -251,6 +273,13 @@ final class MkPull implements Pull {
             this.storage.xml().nodes(this.comment()).size()
         );
         return json.build();
+    }
+
+    // GitHub keeps the title, the body and the state of a pull request
+    // in the issue with the same number, so they are not stored twice.
+    private static boolean shared(final String name) {
+        return "title".equals(name) || "body".equals(name)
+            || "state".equals(name);
     }
 
     private String xpath() {
