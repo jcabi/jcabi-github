@@ -49,7 +49,7 @@ final class MkPullsTest {
             "Pull request is not a draft",
             new Pull.Smart(
                 new MkGitHub().randomRepo().pulls()
-                    .create("draft", "head-branch", "base-branch", true)
+                    .createDraft("draft", "head-branch", "base-branch")
             ).draft(),
             Matchers.is(true)
         );
@@ -72,7 +72,7 @@ final class MkPullsTest {
         MatcherAssert.assertThat(
             "Draft flag is not a JSON boolean",
             new MkGitHub().randomRepo().pulls()
-                .create("draft", "head-branch", "base-branch", true)
+                .createDraft("draft", "head-branch", "base-branch")
                 .json().getBoolean("draft"),
             Matchers.is(true)
         );

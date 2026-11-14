@@ -10,6 +10,7 @@ import com.jcabi.http.Request;
 import com.jcabi.http.response.JsonResponse;
 import com.jcabi.http.response.RestResponse;
 import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
@@ -85,29 +86,18 @@ final class RtPulls implements Pulls {
         final String title,
         final String head,
         final String base) throws IOException {
-        return this.create(title, head, base, false);
+        return this.post(
+            RtPulls.fields(title, head, base).add("draft", false)
+        );
     }
 
     @Override
-    public Pull create(
+    public Pull createDraft(
         final String title,
         final String head,
-        final String base,
-        final boolean draft) throws IOException {
-        return this.get(
-            this.request.method(Request.POST)
-                .body().set(
-                    Json.createObjectBuilder()
-                        .add("title", title)
-                        .add("head", head)
-                        .add("base", base)
-                        .add("draft", draft)
-                        .build()
-                ).back()
-                .fetch().as(RestResponse.class)
-                .assertStatus(HttpURLConnection.HTTP_CREATED)
-                .as(JsonResponse.class)
-                .json().readObject().getInt("number")
+        final String base) throws IOException {
+        return this.post(
+            RtPulls.fields(title, head, base).add("draft", true)
         );
     }
 
@@ -116,6 +106,27 @@ final class RtPulls implements Pulls {
         return new RtPagination<>(
             this.request.uri().queryParams(params).back(),
             object -> this.get(object.getInt("number"))
+        );
+    }
+
+    private static JsonObjectBuilder fields(
+        final String title,
+        final String head,
+        final String base) {
+        return Json.createObjectBuilder()
+            .add("title", title)
+            .add("head", head)
+            .add("base", base);
+    }
+
+    private Pull post(final JsonObjectBuilder json) throws IOException {
+        return this.get(
+            this.request.method(Request.POST)
+                .body().set(json.build()).back()
+                .fetch().as(RestResponse.class)
+                .assertStatus(HttpURLConnection.HTTP_CREATED)
+                .as(JsonResponse.class)
+                .json().readObject().getInt("number")
         );
     }
 }

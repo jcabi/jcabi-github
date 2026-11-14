@@ -73,7 +73,7 @@ final class RtPullsTest {
             new RtPulls(
                 new ApacheRequest(container.home()),
                 RtPullsTest.repo()
-            ).create(title, "octocat", "master", true);
+            ).createDraft(title, "octocat", "master");
             MatcherAssert.assertThat(
                 "Draft flag is not sent",
                 container.take().body(),
