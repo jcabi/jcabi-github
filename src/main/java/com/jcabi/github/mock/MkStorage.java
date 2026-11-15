@@ -103,7 +103,26 @@ public interface MkStorage {
          * @throws IOException If there is any I/O problem
          */
         public InFile(final File file) throws IOException {
-            this(MkStorage.InFile.blank(file));
+            this(MkStorage.InFile.write(file, "<github/>"));
+        }
+
+        /**
+         * Public ctor, with a predefined content.
+         *
+         * <p>The content is copied into a new temporary file, which is
+         * where all further changes go, so the source of the content,
+         * for example a file with a prepared XML document, stays
+         * intact.</p>
+         *
+         * @param content XML document with the root {@code github} element
+         * @throws IOException If there is any I/O problem
+         */
+        public InFile(final XML content) throws IOException {
+            this(
+                MkStorage.InFile.write(
+                    MkStorage.InFile.temp(), content.toString()
+                )
+            );
         }
 
         private InFile(final String path) {
@@ -166,8 +185,9 @@ public interface MkStorage {
             return file;
         }
 
-        private static String blank(final File file) throws IOException {
-            FileUtils.write(file, "<github/>", StandardCharsets.UTF_8);
+        private static String write(final File file, final String content)
+            throws IOException {
+            FileUtils.write(file, content, StandardCharsets.UTF_8);
             return file.getAbsolutePath();
         }
     }

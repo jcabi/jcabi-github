@@ -114,6 +114,26 @@ public class FooTest {
 }
 ```
 
+The mock keeps its state in an XML document,
+  so a test may also start from a prepared state,
+  for example repositories and issues saved in a file:
+
+```java
+final GitHub github = new MkGitHub(
+  new MkStorage.Synced(
+    new MkStorage.InFile(new XMLDocument(new File("github.xml")))
+  ),
+  "jeff"
+);
+```
+
+The document must have the root `github` element
+  and follow the layout the mock uses.
+To see that layout, build the state through the API
+  and print the `MkGitHub` object, which renders its XML.
+The file stays intact: `MkStorage.InFile` copies the document
+  into a temporary file and makes all changes there.
+
 ## Architecture
 
 The library maps every GitHub API concept to a Java interface

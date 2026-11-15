@@ -5,12 +5,14 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Comment;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.Issue;
 import com.jcabi.github.Repo;
 import com.jcabi.github.Repos;
 import com.jcabi.github.User;
 import com.jcabi.immutable.ArrayMap;
 import com.jcabi.log.VerboseCallable;
+import com.jcabi.xml.XMLDocument;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -52,6 +54,36 @@ final class MkGitHubTest {
                 MkGitHubTest.comment(new MkGitHub())
             ).body(),
             Matchers.startsWith("hey, ")
+        );
+    }
+
+    @Test
+    void worksWithPredefinedData() throws IOException {
+        MatcherAssert.assertThat(
+            "Issue title is not read from predefined data",
+            new Issue.Smart(
+                new MkGitHub(
+                    new MkStorage.Synced(
+                        new MkStorage.InFile(
+                            new XMLDocument(
+                                String.join(
+                                    "",
+                                    "<github><repos><repo coords='jeff/test'>",
+                                    "<name>test</name><issues><issue>",
+                                    "<number>1</number><state>open</state>",
+                                    "<title>Bug in parser</title>",
+                                    "<body>It fails</body>",
+                                    "<user><login>jeff</login></user>",
+                                    "</issue></issues></repo></repos></github>"
+                                )
+                            )
+                        )
+                    ),
+                    "jeff"
+                ).repos().get(new Coordinates.Simple("jeff/test"))
+                    .issues().get(1)
+            ).title(),
+            Matchers.equalTo("Bug in parser")
         );
     }
 
