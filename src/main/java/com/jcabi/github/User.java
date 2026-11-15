@@ -85,6 +85,50 @@ public interface User extends JsonReadable, JsonPatchable {
     void markAsRead(Instant lastread) throws IOException;
 
     /**
+     * Users who follow this user.
+     *
+     * @return Followers of this user
+     * @see <a href="https://docs.github.com/en/rest/users/followers#list-followers-of-a-user">List followers of a user</a>
+     * @since 2.0
+     */
+    Iterable<User> followers();
+
+    /**
+     * Users this user follows.
+     *
+     * @return Users followed by this user
+     * @see <a href="https://docs.github.com/en/rest/users/followers#list-the-people-a-user-follows">List the people a user follows</a>
+     * @since 2.0
+     */
+    Iterable<User> following();
+
+    /**
+     * Follow a user.
+     *
+     * <p>GitHub lets only the authenticated user follow others,
+     * so call it on the user returned by {@link Users#self()}.</p>
+     *
+     * @param user User to follow
+     * @throws IOException If it fails
+     * @see <a href="https://docs.github.com/en/rest/users/followers#follow-a-user">Follow a user</a>
+     * @since 2.0
+     */
+    void follow(User user) throws IOException;
+
+    /**
+     * Unfollow a user.
+     *
+     * <p>GitHub lets only the authenticated user unfollow others,
+     * so call it on the user returned by {@link Users#self()}.</p>
+     *
+     * @param user User to unfollow
+     * @throws IOException If it fails
+     * @see <a href="https://docs.github.com/en/rest/users/followers#unfollow-a-user">Unfollow a user</a>
+     * @since 2.0
+     */
+    void unfollow(User user) throws IOException;
+
+    /**
      * Smart user with extra features.
      *
      * @see <a href="https://developer.github.com/v3/users/#get-a-single-user">Get a Single User</a>
@@ -260,6 +304,26 @@ public interface User extends JsonReadable, JsonPatchable {
         @Override
         public void markAsRead(final Instant lastread) throws IOException {
             this.user.markAsRead(lastread);
+        }
+
+        @Override
+        public Iterable<User> followers() {
+            return this.user.followers();
+        }
+
+        @Override
+        public Iterable<User> following() {
+            return this.user.following();
+        }
+
+        @Override
+        public void follow(final User usr) throws IOException {
+            this.user.follow(usr);
+        }
+
+        @Override
+        public void unfollow(final User usr) throws IOException {
+            this.user.unfollow(usr);
         }
 
         @Override
