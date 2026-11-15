@@ -96,7 +96,10 @@ public class RtStatuses implements Statuses {
                 .path(ref)
                 .path("/statuses")
                 .back(),
-            object -> new RtStatus(this.cmmt, object)
+            object -> new RtStatus(
+                new RtCommit(this.entry, this.cmmt.repo(), ref),
+                object
+            )
         );
     }
 

@@ -219,6 +219,22 @@ final class RtStatusesTest {
         }
     }
 
+    @Test
+    void listsStatusesWithCommitOfRef() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtStatusesTest.listed())
+                .start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Listed status is bound to a wrong commit",
+                RtStatusesTest.statuses(container).list("feature-a")
+                    .iterator().next().commit().sha(),
+                Matchers.equalTo("feature-a")
+            );
+        }
+    }
+
     private static Statuses statuses(final MkContainer container)
         throws IOException {
         final Request entry = new ApacheRequest(container.home());
