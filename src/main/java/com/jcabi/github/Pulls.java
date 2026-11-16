@@ -56,8 +56,7 @@ public interface Pulls {
      * @see <a href="https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request">Create a Pull Request</a>
      * @since 2.0
      */
-    Pull createDraft(String title, String head, String base)
-        throws IOException;
+    Pull createDraft(String title, String head, String base) throws IOException;
 
     /**
      * Iterate them all.
