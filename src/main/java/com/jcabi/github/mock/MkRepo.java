@@ -26,6 +26,7 @@ import com.jcabi.github.Notifications;
 import com.jcabi.github.Pulls;
 import com.jcabi.github.Releases;
 import com.jcabi.github.Repo;
+import com.jcabi.github.RepoComments;
 import com.jcabi.github.RepoCommits;
 import com.jcabi.github.RtLanguage;
 import com.jcabi.github.Stargazers;
@@ -200,6 +201,17 @@ final class MkRepo implements Repo {
     public RepoCommits commits() {
         try {
             return new MkRepoCommits(
+                this.storage, this.self, this.coordinates()
+            );
+        } catch (final IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    @Override
+    public RepoComments comments() {
+        try {
+            return new MkRepoComments(
                 this.storage, this.self, this.coordinates()
             );
         } catch (final IOException ex) {

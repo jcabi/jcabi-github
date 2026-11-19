@@ -409,6 +409,28 @@ final class RtRepoTest {
         }
     }
 
+    @Test
+    void iteratesCommitCommentsOfRepo() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_OK, "[{\"id\":5}]")
+            ).start(RandomPort.port())
+        ) {
+            RtRepoTest.repo(new ApacheRequest(container.home()))
+                .comments().iterate().iterator().next();
+            MatcherAssert.assertThat(
+                "Commit comments are retrieved from a wrong URI",
+                container.take().uri().getPath(),
+                Matchers.equalTo(
+                    String.format(
+                        "/repos/%s/%s/comments",
+                        RtRepoTest.TEST_USER, RtRepoTest.TEST_REPO
+                    )
+                )
+            );
+        }
+    }
+
     private static MkAnswer languages() {
         return new MkAnswer.Simple(
             HttpURLConnection.HTTP_OK,

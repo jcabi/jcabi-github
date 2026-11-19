@@ -123,6 +123,15 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
     RepoCommits commits();
 
     /**
+     * Get all commit comments of the repository.
+     *
+     * @return Commit comments
+     * @see <a href="https://docs.github.com/en/rest/commits/comments">Commit Comments API</a>
+     * @since 2.0
+     */
+    RepoComments comments();
+
+    /**
      * Get repository's branches.
      *
      * @return Branches
@@ -382,6 +391,11 @@ public interface Repo extends JsonReadable, JsonPatchable, Comparable<Repo> {
         @Override
         public RepoCommits commits() {
             return this.repo.commits();
+        }
+
+        @Override
+        public RepoComments comments() {
+            return this.repo.comments();
         }
 
         @Override
