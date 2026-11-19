@@ -63,6 +63,43 @@ final class RtPullsTest {
     }
 
     @Test
+    void createsDraftPull() throws IOException {
+        final String title = "work in progress";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullsTest.answer(title))
+                .start(RandomPort.port())
+        ) {
+            new RtPulls(
+                new ApacheRequest(container.home()),
+                RtPullsTest.repo()
+            ).createDraft(title, "octocat", "master");
+            MatcherAssert.assertThat(
+                "Draft flag is not sent",
+                container.take().body(),
+                Matchers.containsString("\"draft\":true")
+            );
+        }
+    }
+
+    @Test
+    void createsPullAsReadyForReviewByDefault() throws IOException {
+        final String title = "ready for review";
+        try (
+            MkContainer container = new MkGrizzlyContainer()
+                .next(RtPullsTest.answer(title))
+                .start(RandomPort.port())
+        ) {
+            RtPullsTest.create(container, title);
+            MatcherAssert.assertThat(
+                "Pull is created as a draft",
+                container.take().body(),
+                Matchers.containsString("\"draft\":false")
+            );
+        }
+    }
+
+    @Test
     void fetchesSinglePull() throws IOException {
         final String title = "new-feature";
         try (
