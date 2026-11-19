@@ -9,12 +9,16 @@ import com.jcabi.http.Request;
 import com.jcabi.http.mock.MkAnswer;
 import com.jcabi.http.mock.MkContainer;
 import com.jcabi.http.mock.MkGrizzlyContainer;
+import com.jcabi.http.mock.MkQuery;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
@@ -433,6 +437,153 @@ final class RtUserTest {
         } finally {
             container.close();
         }
+    }
+
+    @Test
+    void iteratesFollowersOfUser() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                RtUserTest.users("alice", "bob")
+            ).start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Followers are not iterated",
+                RtUserTest.logins(
+                    RtUserTest.user(container, "octoc").followers()
+                ),
+                Matchers.contains("alice", "bob")
+            );
+        }
+    }
+
+    @Test
+    void iteratesFollowersFromUserUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                RtUserTest.users("carol")
+            ).start(RandomPort.port())
+        ) {
+            RtUserTest.user(container, "octoc").followers().iterator().next();
+            MatcherAssert.assertThat(
+                "Followers are iterated from a wrong URI",
+                container.take().uri().getPath(),
+                Matchers.equalTo("/users/octoc/followers")
+            );
+        }
+    }
+
+    @Test
+    void iteratesFollowedUsersFromUserUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                RtUserTest.users("dave")
+            ).start(RandomPort.port())
+        ) {
+            RtUserTest.user(container, "octoc").following().iterator().next();
+            MatcherAssert.assertThat(
+                "Followed users are iterated from a wrong URI",
+                container.take().uri().getPath(),
+                Matchers.equalTo("/users/octoc/following")
+            );
+        }
+    }
+
+    @Test
+    void iteratesFollowersOfAuthenticatedUser() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                RtUserTest.users("erin")
+            ).start(RandomPort.port())
+        ) {
+            RtUserTest.user(container, "").followers().iterator().next();
+            MatcherAssert.assertThat(
+                "Followers of the authenticated user are iterated from a wrong URI",
+                container.take().uri().getPath(),
+                Matchers.equalTo("/user/followers")
+            );
+        }
+    }
+
+    @Test
+    void followsUser() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+            ).start(RandomPort.port())
+        ) {
+            RtUserTest.user(container, "").follow(
+                RtUserTest.user(container, "erin")
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                "User is followed with a wrong request",
+                String.format("%s %s", query.method(), query.uri().getPath()),
+                Matchers.equalTo("PUT /user/following/erin")
+            );
+        }
+    }
+
+    @Test
+    void unfollowsUser() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NO_CONTENT)
+            ).start(RandomPort.port())
+        ) {
+            RtUserTest.user(container, "").unfollow(
+                RtUserTest.user(container, "frank")
+            );
+            final MkQuery query = container.take();
+            MatcherAssert.assertThat(
+                "User is unfollowed with a wrong request",
+                String.format("%s %s", query.method(), query.uri().getPath()),
+                Matchers.equalTo("DELETE /user/following/frank")
+            );
+        }
+    }
+
+    @Test
+    void failsToFollowUserOnUnexpectedStatus() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                new MkAnswer.Simple(HttpURLConnection.HTTP_NOT_FOUND)
+            ).start(RandomPort.port())
+        ) {
+            final RtUser user = RtUserTest.user(container, "");
+            final User target = RtUserTest.user(container, "grace");
+            Assertions.assertThrows(
+                AssertionError.class,
+                () -> user.follow(target),
+                "Should throw when response status is not 204"
+            );
+        }
+    }
+
+    private static RtUser user(final MkContainer container, final String login) {
+        final Request req = new ApacheRequest(container.home());
+        final GitHub github = Mockito.mock(GitHub.class);
+        Mockito.when(github.entry()).thenReturn(req);
+        return new RtUser(github, req, login);
+    }
+
+    private static MkAnswer users(final String... logins) {
+        final JsonArrayBuilder array = Json.createArrayBuilder();
+        for (final String login : logins) {
+            array.add(Json.createObjectBuilder().add("login", login));
+        }
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            array.build().toString()
+        );
+    }
+
+    private static List<String> logins(final Iterable<User> users)
+        throws IOException {
+        final List<String> logins = new ArrayList<>(0);
+        for (final User user : users) {
+            logins.add(user.login());
+        }
+        return logins;
     }
 
     private static User.Smart userWithNullName() {

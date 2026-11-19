@@ -5,6 +5,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.User;
+import com.jcabi.github.Users;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -87,6 +88,79 @@ final class MkUserTest {
             "Newer notification is marked as read",
             storage.xml().xpath("//notification[id = 2]/read/text()").get(0),
             Matchers.is("false")
+        );
+    }
+
+    @Test
+    void listsFollowedUsers() throws IOException {
+        final Users users = new MkGitHub("alice").users();
+        final User alice = users.self();
+        alice.follow(users.add("bob"));
+        alice.follow(users.add("carol"));
+        MatcherAssert.assertThat(
+            "Followed users are not listed",
+            alice.following(),
+            Matchers.contains(users.get("bob"), users.get("carol"))
+        );
+    }
+
+    @Test
+    void listsFollowers() throws IOException {
+        final MkGitHub github = new MkGitHub("alice");
+        final User alice = github.users().self();
+        final User bob = github.relogin("bob").users().self();
+        final User carol = github.relogin("carol").users().self();
+        bob.follow(alice);
+        carol.follow(alice);
+        github.relogin("dave").users().self().follow(bob);
+        MatcherAssert.assertThat(
+            "Followers are not listed",
+            alice.followers(),
+            Matchers.contains(bob, carol)
+        );
+    }
+
+    @Test
+    void followsUserOnlyOnce() throws IOException {
+        final Users users = new MkGitHub("alice").users();
+        final User alice = users.self();
+        final User bob = users.add("bob");
+        alice.follow(bob);
+        alice.follow(bob);
+        MatcherAssert.assertThat(
+            "User is followed more than once",
+            alice.following(),
+            Matchers.contains(bob)
+        );
+    }
+
+    @Test
+    void unfollowsUser() throws IOException {
+        final Users users = new MkGitHub("alice").users();
+        final User alice = users.self();
+        final User bob = users.add("bob");
+        final User carol = users.add("carol");
+        alice.follow(bob);
+        alice.follow(carol);
+        alice.unfollow(bob);
+        MatcherAssert.assertThat(
+            "Unfollowed user is still listed",
+            alice.following(),
+            Matchers.contains(carol)
+        );
+    }
+
+    @Test
+    void dropsFollowerOfUnfollowedUser() throws IOException {
+        final Users users = new MkGitHub("alice").users();
+        final User alice = users.self();
+        final User bob = users.add("bob");
+        alice.follow(bob);
+        alice.unfollow(bob);
+        MatcherAssert.assertThat(
+            "Unfollowed user still has the follower",
+            bob.followers(),
+            Matchers.emptyIterable()
         );
     }
 
