@@ -88,6 +88,30 @@ final class MkPulls implements Pulls {
         final String head,
         final String base
     ) throws IOException {
+        return this.open(title, this.refs(head, base), false);
+    }
+
+    @Override
+    public Pull createDraft(
+        final String title,
+        final String head,
+        final String base
+    ) throws IOException {
+        return this.open(title, this.refs(head, base), true);
+    }
+
+    @Override
+    public Iterable<Pull> iterate(final Map<String, String> params) {
+        return new MkIterable<>(
+            this.storage,
+            this.xpath().concat("/pull"),
+            xml -> this.get(
+                Integer.parseInt(xml.xpath("number/text()").get(0))
+            )
+        );
+    }
+
+    private Directives refs(final String head, final String base) {
         if (head.isEmpty()) {
             throw new IllegalArgumentException("head cannot be empty!");
         }
@@ -105,6 +129,16 @@ final class MkPulls implements Pulls {
                 head
             );
         }
+        return new Directives()
+            .add("head").set(canonical).up()
+            .add("base").set(base).up();
+    }
+
+    private Pull open(
+        final String title,
+        final Directives refs,
+        final boolean draft
+    ) throws IOException {
         this.storage.lock();
         final int number;
         try {
@@ -113,8 +147,8 @@ final class MkPulls implements Pulls {
             this.storage.apply(
                 new Directives().xpath(this.xpath()).add("pull")
                     .add("number").set(Integer.toString(number)).up()
-                    .add("head").set(canonical).up()
-                    .add("base").set(base).up()
+                    .append(refs)
+                    .add("draft").set(Boolean.toString(draft)).up()
                     .add("checks").up()
                     .add("user")
                     .add("login").set(this.self)
@@ -124,17 +158,6 @@ final class MkPulls implements Pulls {
             this.storage.unlock();
         }
         return this.get(number);
-    }
-
-    @Override
-    public Iterable<Pull> iterate(final Map<String, String> params) {
-        return new MkIterable<>(
-            this.storage,
-            this.xpath().concat("/pull"),
-            xml -> this.get(
-                Integer.parseInt(xml.xpath("number/text()").get(0))
-            )
-        );
     }
 
     private String xpath() {

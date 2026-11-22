@@ -5,6 +5,7 @@
 package com.jcabi.github.mock;
 
 import com.jcabi.github.Issue;
+import com.jcabi.github.Pull;
 import com.jcabi.github.Repo;
 import java.io.IOException;
 import org.hamcrest.MatcherAssert;
@@ -39,6 +40,41 @@ final class MkPullsTest {
                 )
             ).title(),
             Matchers.is("hello")
+        );
+    }
+
+    @Test
+    void createsDraftPull() throws IOException {
+        MatcherAssert.assertThat(
+            "Pull request is not a draft",
+            new Pull.Smart(
+                new MkGitHub().randomRepo().pulls()
+                    .createDraft("draft", "head-branch", "base-branch")
+            ).draft(),
+            Matchers.is(true)
+        );
+    }
+
+    @Test
+    void createsPullWhichIsNotDraftByDefault() throws IOException {
+        MatcherAssert.assertThat(
+            "Pull request is a draft",
+            new Pull.Smart(
+                new MkGitHub().randomRepo().pulls()
+                    .create("ready", "head-branch", "base-branch")
+            ).draft(),
+            Matchers.is(false)
+        );
+    }
+
+    @Test
+    void showsDraftFlagAsBooleanInJson() throws IOException {
+        MatcherAssert.assertThat(
+            "Draft flag is not a JSON boolean",
+            new MkGitHub().randomRepo().pulls()
+                .createDraft("draft", "head-branch", "base-branch")
+                .json().getBoolean("draft"),
+            Matchers.is(true)
         );
     }
 
