@@ -129,6 +129,34 @@ final class RtUser implements User {
     }
 
     @Override
+    public Iterable<User> followers() {
+        return this.users(this.request.uri().path("followers").back());
+    }
+
+    @Override
+    public Iterable<User> following() {
+        return this.users(this.request.uri().path("following").back());
+    }
+
+    @Override
+    public void follow(final User user) throws IOException {
+        this.followed(user)
+            .method(Request.PUT)
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
+    public void unfollow(final User user) throws IOException {
+        this.followed(user)
+            .method(Request.DELETE)
+            .fetch()
+            .as(RestResponse.class)
+            .assertStatus(HttpURLConnection.HTTP_NO_CONTENT);
+    }
+
+    @Override
     public JsonObject json() throws IOException {
         return new RtJson(this.request).fetch();
     }
@@ -136,6 +164,24 @@ final class RtUser implements User {
     @Override
     public void patch(final JsonObject json) throws IOException {
         new RtJson(this.request).patch(json);
+    }
+
+    private Iterable<User> users(final Request req) {
+        return new RtPagination<>(
+            req,
+            object -> new RtUser(
+                this.ghub,
+                this.ghub.entry(),
+                object.getString("login")
+            )
+        );
+    }
+
+    private Request followed(final User user) throws IOException {
+        return this.ghub.entry().uri()
+            .path("/user/following")
+            .path(user.login())
+            .back();
     }
 
     private static Request path(final Request req, final String login) {

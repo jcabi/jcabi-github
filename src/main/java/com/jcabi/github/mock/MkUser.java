@@ -18,6 +18,7 @@ import jakarta.json.JsonObject;
 import java.io.IOException;
 import java.time.Instant;
 import lombok.ToString;
+import org.xembly.Directives;
 
 /**
  * GitHub user.
@@ -122,6 +123,46 @@ final class MkUser implements User {
     }
 
     @Override
+    public Iterable<User> followers() {
+        return this.users(
+            String.format(
+                "/github/users/user[following/login='%s']/login", this.self
+            )
+        );
+    }
+
+    @Override
+    public Iterable<User> following() {
+        return this.users(this.xpath().concat("/following/login"));
+    }
+
+    @Override
+    public void follow(final User user) throws IOException {
+        final String login = user.login();
+        this.storage.apply(
+            new Directives()
+                .xpath(this.xpath())
+                .addIf("following").xpath(
+                    String.format(
+                        "%s/following[not(login='%s')]", this.xpath(), login
+                    )
+                )
+                .add("login").set(login)
+        );
+    }
+
+    @Override
+    public void unfollow(final User user) throws IOException {
+        this.storage.apply(
+            new Directives().xpath(
+                this.xpath().concat(
+                    String.format("/following/login[.='%s']", user.login())
+                )
+            ).remove()
+        );
+    }
+
+    @Override
     public void patch(final JsonObject json) throws IOException {
         new JsonPatch(this.storage).patch(this.xpath(), json);
     }
@@ -153,6 +194,14 @@ final class MkUser implements User {
         int result = this.storage.hashCode();
         result = 31 * result + this.self.hashCode();
         return result;
+    }
+
+    private Iterable<User> users(final String path) {
+        return new MkIterable<>(
+            this.storage,
+            path,
+            xml -> new MkUser(this.storage, xml.xpath("text()").get(0))
+        );
     }
 
     private String xpath() {
