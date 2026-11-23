@@ -219,6 +219,11 @@ final class RtRepo implements Repo {
     }
 
     @Override
+    public RepoComments comments() {
+        return new RtRepoComments(this.entry, this);
+    }
+
+    @Override
     public Branches branches() {
         return new RtBranches(this.entry, this);
     }

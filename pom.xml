@@ -248,6 +248,16 @@
         <artifactId>byte-buddy-agent</artifactId>
         <version>1.18.17-jdk5</version>
       </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.1.0-alpha1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.33.0-GA</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
