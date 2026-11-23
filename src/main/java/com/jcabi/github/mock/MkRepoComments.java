@@ -126,13 +126,15 @@ final class MkRepoComments implements RepoComments {
         try {
             final String timestamp = new GitHub.Time().toString();
             number = 1L + this.storage.xml()
-                .xpath(this.xpath().concat("/comment/id/text()"))
+                .xpath(this.xpath().concat("/last/text()"))
                 .stream()
                 .mapToLong(Long::parseLong)
                 .max()
                 .orElse(0L);
             this.storage.apply(
-                new Directives().xpath(this.xpath()).add("comment")
+                new Directives().xpath(this.xpath())
+                    .addIf("last").set(Long.toString(number)).up()
+                    .add("comment")
                     .add("id").attr("type", "number")
                     .set(Long.toString(number)).up()
                     .add("url").set(

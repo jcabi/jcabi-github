@@ -158,6 +158,33 @@ final class MkRepoCommentsTest {
     }
 
     @Test
+    void doesNotReuseNumberOfRemovedLastComment() throws IOException {
+        final RepoComments comments = MkRepoCommentsTest.comments();
+        final RepoComment first = comments.post(MkRepoCommentsTest.FIRST, "A");
+        final long removed = first.number();
+        first.remove();
+        MatcherAssert.assertThat(
+            "Number of the removed comment is reused",
+            comments.post(MkRepoCommentsTest.FIRST, "B").number(),
+            Matchers.not(Matchers.equalTo(removed))
+        );
+    }
+
+    @Test
+    void doesNotReuseNumbersAfterRemovingAllComments() throws IOException {
+        final RepoComments comments = MkRepoCommentsTest.comments();
+        final RepoComment first = comments.post(MkRepoCommentsTest.FIRST, "1");
+        final RepoComment second = comments.post(MkRepoCommentsTest.FIRST, "2");
+        first.remove();
+        second.remove();
+        MatcherAssert.assertThat(
+            "Numbers are reused after all comments are removed",
+            comments.post(MkRepoCommentsTest.FIRST, "3").number(),
+            Matchers.greaterThan(second.number())
+        );
+    }
+
+    @Test
     void updatesBody() throws IOException {
         final RepoComments comments = MkRepoCommentsTest.comments();
         final RepoComment.Smart comment = new RepoComment.Smart(
