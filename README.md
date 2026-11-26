@@ -88,8 +88,23 @@ For more complex configurations, you can instantiate
 `RtGitHub` with your own custom `Request`,
 by using the [RtGitHub(Request)][RtGitHub] constructor.
 Be sure to configure the `Request` properly.
-See how the [default Request][Request]
-is created -- you basically have to do the same thing.
+The [default Request][Request] already follows redirects when a repository
+is renamed or transferred. If you supply your own request, attach the
+redirecting wire to it before constructing the client:
+
+```java
+import com.jcabi.github.GitHub;
+import com.jcabi.github.RtGitHub;
+import com.jcabi.http.Request;
+import com.jcabi.http.request.ApacheRequest;
+import com.jcabi.http.wire.AutoRedirectingWire;
+
+Request request = new ApacheRequest("https://api.github.com")
+    .header("User-Agent", "my-github-client")
+    .header("Accept", "application/vnd.github+json")
+    .through(AutoRedirectingWire.class);
+GitHub github = new RtGitHub(request);
+```
 
 ## Mock Implementation Of The API
 
