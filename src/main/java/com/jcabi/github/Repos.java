@@ -12,6 +12,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonValue;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
@@ -167,13 +168,13 @@ public interface Repos {
             final String org
         ) {
             this(
-                Repos.RepoCreate.checked(nme),
+                nme,
                 prvt,
                 desc,
                 page,
                 auto,
                 org,
-                new HashMap<>(0)
+                Collections.emptyMap()
             );
         }
 
@@ -186,7 +187,7 @@ public interface Repos {
             final String org,
             final Map<String, JsonValue> extra
         ) {
-            this.repo = nme;
+            this.repo = Repos.RepoCreate.checked(nme);
             this.priv = prvt;
             this.descr = desc;
             this.home = page;
@@ -266,7 +267,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -283,7 +285,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -300,7 +303,8 @@ public interface Repos {
                 desc,
                 this.home,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -317,7 +321,8 @@ public interface Repos {
                 this.descr,
                 page,
                 this.init,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -334,7 +339,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 auto,
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -351,7 +357,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 Optional.of(auto),
-                this.organization
+                this.organization,
+                this.other
             );
         }
 
@@ -368,7 +375,8 @@ public interface Repos {
                 this.descr,
                 this.home,
                 this.init,
-                org
+                org,
+                this.other
             );
         }
 
@@ -377,16 +385,15 @@ public interface Repos {
          *
          * @param key Json key
          * @param value Json value
-         * @return The same RepoCreate
-         * @todo #1660:30min Make 'with' method immutable.
-         *  Currently, the 'with' method mutates the 'other' field.
-         *  This is not ideal, as it makes the class mutable.
-         *  Make the 'with' method immutable and return a new
-         *  RepoCreate object with the new field.
+         * @return A RepoCreate including the new field
          */
         public Repos.RepoCreate with(final String key, final JsonValue value) {
-            this.other.put(key, value);
-            return this;
+            final Map<String, JsonValue> extra = new HashMap<>(this.other);
+            extra.put(key, value);
+            return new Repos.RepoCreate(
+                this.repo, this.priv, this.descr, this.home, this.init,
+                this.organization, extra
+            );
         }
 
         @Override
