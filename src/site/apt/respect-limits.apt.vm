@@ -61,3 +61,30 @@ GitHub github = new RtGitHub(
     new RtGitHub().entry().through(CarefulWire.class, 50)
 );
 +--
+
+* Conditional GET requests
+
+  When polling the same representation, store its body and the ETag from
+  a successful GET. On the next GET, send the ETag unchanged in
+  <<<If-None-Match>>>. On a 304, reuse the stored body. If the server
+  returns a fresh 200, replace the cached body and ETag before polling again.
+  An authenticated 304 does not consume the primary GitHub rate limit.
+  This example uses an authenticated <<<GitHub github>>> and
+  <<<com.jcabi.http.response.RestResponse>>> to check HTTP statuses:
+
++--
+Request request = github.entry().uri().path("/repos/octocat/Hello-World").back();
+Response first = request.fetch().as(RestResponse.class).assertStatus(200);
+String body = first.body();
+Map<String, List<String>> headers = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+headers.putAll(first.headers());
+List<String> tags = headers.get("ETag");
+if (tags != null && !tags.isEmpty()) {
+    Response next = request.header("If-None-Match", tags.get(0)).fetch();
+    if (next.status() != 304) {
+        body = next.as(RestResponse.class).assertStatus(200).body();
+    }
+}
++--
+
+  See the {{{https://docs.github.com/en/rest/using-the-rest-api/best-practices-for-using-the-rest-api#use-conditional-requests}GitHub REST API guidance}}.
