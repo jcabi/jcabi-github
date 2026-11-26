@@ -37,11 +37,11 @@ final class RtCommit implements Commit {
     private final transient String hash;
 
     /**
-     * Public ctor.
+     * Constructor.
      *
      * @param req RESTful request
-     * @param repo Owner of this comment
-     * @param sha Number of the get
+     * @param repo Repository containing this commit
+     * @param sha SHA identifying the commit
      */
     RtCommit(final Request req, final Repo repo, final String sha) {
         this(
