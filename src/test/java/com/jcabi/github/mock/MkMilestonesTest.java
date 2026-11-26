@@ -93,4 +93,23 @@ final class MkMilestonesTest {
             Matchers.iterableWithSize(1)
         );
     }
+
+    @Test
+    void createsDistinctMilestoneAfterDeletingEarlierOne() throws IOException {
+        final Milestones milestones = new MkGitHub().randomRepo().milestones();
+        final int first = milestones.create("first").number();
+        final int second = milestones.create("second").number();
+        milestones.remove(first);
+        final int third = milestones.create("third").number();
+        MatcherAssert.assertThat(third, Matchers.greaterThan(second));
+        milestones.remove(third);
+        MatcherAssert.assertThat(
+            milestones.iterate(new ArrayMap<>()),
+            Matchers.iterableWithSize(1)
+        );
+        MatcherAssert.assertThat(
+            milestones.iterate(new ArrayMap<>()).iterator().next().number(),
+            Matchers.is(second)
+        );
+    }
 }

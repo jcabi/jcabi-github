@@ -65,16 +65,22 @@ final class MkMilestones implements Milestones {
 
     @Override
     public Milestone create(final String title) throws IOException {
-        final int number = 1 + this.storage.xml().xpath(
-            this.xpath().concat("/milestone/number/text()")
-        ).size();
-        this.storage.apply(
-            new Directives().xpath(this.xpath()).add("milestone")
-                .add("number").set(Integer.toString(number)).up()
-                .add("title").set(title).up()
-                .add("state").set(Milestone.OPEN_STATE).up()
-                .add("description").set("mock milestone").up()
-        );
+        final int number;
+        this.storage.lock();
+        try {
+            number = 1 + this.storage.xml().xpath(
+                this.xpath().concat("/milestone/number/text()")
+            ).stream().mapToInt(Integer::parseInt).max().orElse(0);
+            this.storage.apply(
+                new Directives().xpath(this.xpath()).add("milestone")
+                    .add("number").set(Integer.toString(number)).up()
+                    .add("title").set(title).up()
+                    .add("state").set(Milestone.OPEN_STATE).up()
+                    .add("description").set("mock milestone").up()
+            );
+        } finally {
+            this.storage.unlock();
+        }
         return this.get(number);
     }
 
