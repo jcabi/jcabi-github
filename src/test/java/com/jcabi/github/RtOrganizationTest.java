@@ -12,8 +12,11 @@ import com.jcabi.http.mock.MkGrizzlyContainer;
 import com.jcabi.http.request.ApacheRequest;
 import com.jcabi.http.request.FakeRequest;
 import jakarta.json.Json;
+import jakarta.json.JsonArrayBuilder;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -128,6 +131,40 @@ final class RtOrganizationTest {
         }
     }
 
+    @Test
+    void iteratesRepos() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                RtOrganizationTest.repos("cats/alpha", "cats/beta")
+            ).start(RandomPort.port())
+        ) {
+            MatcherAssert.assertThat(
+                "Repositories of the organization are not iterated",
+                RtOrganizationTest.coordinates(
+                    RtOrganizationTest.organization(container).repos()
+                ),
+                Matchers.contains("cats/alpha", "cats/beta")
+            );
+        }
+    }
+
+    @Test
+    void iteratesReposFromOrganizationUri() throws IOException {
+        try (
+            MkContainer container = new MkGrizzlyContainer().next(
+                RtOrganizationTest.repos("cats/gamma")
+            ).start(RandomPort.port())
+        ) {
+            RtOrganizationTest.organization(container)
+                .repos().iterator().next();
+            MatcherAssert.assertThat(
+                "Repositories are iterated from a wrong URI",
+                container.take().uri().getPath(),
+                Matchers.equalTo("/orgs/cats/repos")
+            );
+        }
+    }
+
     private static void patch(final MkContainer container) throws IOException {
         new RtOrganization(
             new MkGitHub(),
@@ -143,5 +180,33 @@ final class RtOrganizationTest {
             new FakeRequest(),
             login
         );
+    }
+
+    private static RtOrganization organization(final MkContainer container)
+        throws IOException {
+        return new RtOrganization(
+            new MkGitHub(),
+            new ApacheRequest(container.home()),
+            "cats"
+        );
+    }
+
+    private static MkAnswer repos(final String... names) {
+        final JsonArrayBuilder array = Json.createArrayBuilder();
+        for (final String name : names) {
+            array.add(Json.createObjectBuilder().add("full_name", name));
+        }
+        return new MkAnswer.Simple(
+            HttpURLConnection.HTTP_OK,
+            array.build().toString()
+        );
+    }
+
+    private static List<String> coordinates(final Iterable<Repo> repos) {
+        final List<String> coords = new ArrayList<>(0);
+        for (final Repo repo : repos) {
+            coords.add(repo.coordinates().toString());
+        }
+        return coords;
     }
 }

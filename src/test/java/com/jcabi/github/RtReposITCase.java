@@ -73,7 +73,7 @@ final class RtReposITCase {
             MatcherAssert.assertThat(
                 "Assertion failed",
                 repo.coordinates(),
-                Matchers.hasToString("/orgs/myorg/repos/test")
+                Matchers.hasToString("myorg/test")
             );
         } finally {
             repos.remove(repo.coordinates());

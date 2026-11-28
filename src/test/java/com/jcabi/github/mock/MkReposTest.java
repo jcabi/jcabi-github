@@ -47,7 +47,7 @@ final class MkReposTest {
             MkReposTest.repoWithOrg(
                 new MkRepos(new MkStorage.InFile(), "john"), "test", "myorg"
             ).coordinates(),
-            Matchers.hasToString("/orgs/myorg/repos/test")
+            Matchers.hasToString("myorg/test")
         );
     }
 
@@ -144,6 +144,23 @@ final class MkReposTest {
             "owner.login should match the user that created the repo",
             MkReposTest.owned().getJsonObject("owner").getString("login"),
             Matchers.is("amihaiemil")
+        );
+    }
+
+    /**
+     * MkRepo's JSON names the organization as the owner of a repo
+     * created in it.
+     *
+     * @throws Exception If some problem inside
+     */
+    @Test
+    void jsonContainsOrganizationAsOwner() throws Exception {
+        MatcherAssert.assertThat(
+            "owner.login should match the organization of the repo",
+            MkReposTest.repoWithOrg(
+                new MkRepos(new MkStorage.InFile(), "john"), "test", "myorg"
+            ).json().getJsonObject("owner").getString("login"),
+            Matchers.is("myorg")
         );
     }
 

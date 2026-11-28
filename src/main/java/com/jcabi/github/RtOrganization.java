@@ -98,6 +98,18 @@ final class RtOrganization implements Organization {
     }
 
     @Override
+    public Iterable<Repo> repos() {
+        return new RtPagination<>(
+            this.request.uri().path("repos").back(),
+            object -> new RtRepo(
+                this.ghub,
+                this.entry,
+                new Coordinates.Simple(object.getString("full_name"))
+            )
+        );
+    }
+
+    @Override
     public int compareTo(final Organization other) {
         return this.login().compareTo(other.login());
     }

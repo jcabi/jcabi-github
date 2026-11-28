@@ -57,6 +57,19 @@ public interface Organization extends Comparable<Organization>,
     PublicMembers publicMembers();
 
     /**
+     * Get this organization's repositories.
+     *
+     * <p>GitHub lists only the repositories the authenticated user
+     * can see, so private ones show up only for those who have
+     * access to them.</p>
+     *
+     * @return Repositories of the organization
+     * @see <a href="https://docs.github.com/en/rest/repos/repos#list-organization-repositories">List organization repositories</a>
+     * @since 2.0
+     */
+    Iterable<Repo> repos();
+
+    /**
      * Smart Organization with extra features.
      *
      * @since 0.7
@@ -337,6 +350,11 @@ public interface Organization extends Comparable<Organization>,
         @Override
         public PublicMembers publicMembers() {
             return this.org.publicMembers();
+        }
+
+        @Override
+        public Iterable<Repo> repos() {
+            return this.org.repos();
         }
 
         @Override
