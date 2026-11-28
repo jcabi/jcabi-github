@@ -63,7 +63,7 @@ final class MkRepos implements Repos {
         String owner = this.self;
         final String org = settings.organization();
         if (org != null && !org.isEmpty()) {
-            owner = "/orgs/".concat(org).concat("/repos");
+            owner = org;
         }
         final Coordinates coords = new Coordinates.Simple(
             owner,
@@ -75,13 +75,13 @@ final class MkRepos implements Repos {
                 .add("name").set(settings.name()).up()
                 .add("description").set("test repository").up()
                 .add("private").set(settings.isPrivate()).up()
-                .add("owner").add("login").set(this.self).up().up()
+                .add("owner").add("login").set(owner).up().up()
         );
         final Repo repo = this.get(coords);
         repo.patch(settings.json());
         Logger.info(
             this, "repository %s created by %s",
-            coords, owner
+            coords, this.self
         );
         return repo;
     }

@@ -6,9 +6,11 @@ package com.jcabi.github.mock;
 
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
+import com.jcabi.github.Coordinates;
 import com.jcabi.github.GitHub;
 import com.jcabi.github.Organization;
 import com.jcabi.github.PublicMembers;
+import com.jcabi.github.Repo;
 import com.jcabi.github.User;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -111,6 +113,21 @@ public final class MkOrganization implements Organization {
     @Override
     public PublicMembers publicMembers() {
         return new MkPublicMembers(this.storage, this);
+    }
+
+    @Override
+    public Iterable<Repo> repos() {
+        return new MkIterable<>(
+            this.storage,
+            String.format(
+                "/github/repos/repo[starts-with(@coords, '%s/')]",
+                this.self
+            ),
+            xml -> new MkRepo(
+                this.storage, this.self,
+                new Coordinates.Simple(xml.xpath("@coords").get(0))
+            )
+        );
     }
 
     /**

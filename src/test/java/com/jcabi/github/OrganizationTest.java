@@ -6,6 +6,7 @@ package com.jcabi.github;
 
 import jakarta.json.Json;
 import java.io.IOException;
+import java.util.Collections;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -240,6 +241,18 @@ final class OrganizationTest {
             "Value is null",
             new Organization.Smart(orgn).type(),
             Matchers.notNullValue()
+        );
+    }
+
+    @Test
+    void fetchesRepos() {
+        final Organization orgn = Mockito.mock(Organization.class);
+        final Iterable<Repo> repos = Collections.emptyList();
+        Mockito.doReturn(repos).when(orgn).repos();
+        MatcherAssert.assertThat(
+            "Repositories are not fetched from the organization",
+            new Organization.Smart(orgn).repos(),
+            Matchers.sameInstance(repos)
         );
     }
 }
